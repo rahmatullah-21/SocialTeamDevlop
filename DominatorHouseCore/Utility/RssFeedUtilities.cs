@@ -134,12 +134,12 @@ namespace DominatorHouseCore.Utility
                     postlists = (from node in postItems
                                  let innerHtml = node.InnerHtml
                                  let title = RemoveCdata(node.Element("title").InnerHtml)
-                                 let description = RemoveCdata(node.Element("description").InnerText)
-                                 let link = RemoveCdata(node.Element("link").NextSibling.InnerText)
-                                 let pubDate = RemoveCdata(node.Element("pubdate").InnerHtml)
-                                 let descriptionUrl = RemoveCdata(node.Element("description").InnerHtml)
-                                 let Imageurl = !descriptionUrl.Contains("src") ? "" : Utilities.GetBetween(descriptionUrl, "src=\"", "\"")
-                                 let url = RemoveCdata(node.Element("url")?.InnerHtml)
+                                 let description = RemoveCdata(node?.Element("description")?.InnerText??"")
+                                 let link = RemoveCdata(node?.Element("link")?.NextSibling?.InnerText??"")
+                                 let pubDate = RemoveCdata(node?.Element("pubdate")?.InnerHtml ?? "")
+                                 let descriptionUrl = RemoveCdata(node?.Element("description")?.InnerHtml ?? "")
+                                 let Imageurl = (!descriptionUrl?.Contains("src") ??false) ? "" : Utilities.GetBetween(descriptionUrl, "src=\"", "\"")
+                                 let url = RemoveCdata(node?.Element("url")?.InnerHtml ?? "")
                                  where !postdetails.Contains(link)
                                  select new PublisherPostlistModel
                                  {
@@ -181,8 +181,8 @@ namespace DominatorHouseCore.Utility
                                  }).ToList();
 
                     #endregion
+                    
                 }
-
 
 
                 // If Readd Checked, then readd the same posts in selected/given times
