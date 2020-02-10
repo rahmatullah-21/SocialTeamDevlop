@@ -1519,13 +1519,15 @@ namespace DominatorUIUtility.CustomControl
                 }
                 #region Template Id present case
 
-                // need to check whether its running or not, if its running then need to stop process
-                _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
-                    moduleConfiguration.TemplateId, moduleConfiguration.IsEnabled);
+                var previousSettings = moduleConfiguration.DeepCloneObject();
 
                 // update the template
                 UpdateTemplate(accountModel, moduleConfiguration.TemplateId,
                     moduleConfiguration.IsTemplateMadeByCampaignMode);
+
+                // need to check whether its running or not, if its running then need to stop process
+                _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
+                    previousSettings.TemplateId, previousSettings.IsEnabled);
 
                 // update the running time
                 UpdateRunningTime(Model.JobConfiguration, accountModel);
