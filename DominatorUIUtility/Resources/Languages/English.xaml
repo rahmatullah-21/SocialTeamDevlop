@@ -729,7 +729,7 @@
     <system:String x:Key="LangKeyFailures">Failures</system:String>
     <system:String x:Key="LangKeyFanPageLiker">Fan Page Liker</system:String>
     <system:String x:Key="LangKeyFanpageFilters">Fanpage Filters</system:String>
-    <system:String x:Key="LangKeyFanpageLikers">Fanpage Likers (Fanpage URL)</system:String>
+    <system:String x:Key="LangKeyFanpageLikers">Fanpage Likers (URL)</system:String>
     <system:String x:Key="LangKeyFanpagePostLikers">Fanpage Post Likers</system:String>
     <system:String x:Key="LangKeyFanpageScraper">Fanpage Scraper</system:String>
     <system:String x:Key="LangKeyFavorites">Favorites</system:String>
@@ -861,7 +861,7 @@
     <system:String x:Key="LangKeyGroupFilters">Group Filters</system:String>
     <system:String x:Key="LangKeyGroupInviter">Group Inviter</system:String>
     <system:String x:Key="LangKeyGroupJoiner">Group Joiner</system:String>
-    <system:String x:Key="LangKeyGroupMembers">Group Members (Group URL)</system:String>
+    <system:String x:Key="LangKeyGroupMembers">Group Members (URL)</system:String>
     <system:String x:Key="LangKeyGroupName">Group Name</system:String>
     <system:String x:Key="LangKeyGroupPostLikers">Group Post Likers</system:String>
     <system:String x:Key="LangKeyGroupScraper">Group Scraper</system:String>
@@ -3059,7 +3059,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfConnectionsToExportPerWeek">Number Of Connections To Export Per Week</system:String>
     <system:String x:Key="LangKeyMaxConnectionsToExportPerDay">Max Connections To Export Per Day</system:String>
 
-    <system:String x:Key="LangKeyPagePostLikers">Fanpage Post Likers (Fanpage URL)</system:String>
+    <system:String x:Key="LangKeyPagePostLikers">Fanpage Post Likers (URL)</system:String>
     <system:String x:Key="LangKeyCustomProfileUrl">Profile (URL)</system:String>
 
     <system:String x:Key="LangKeyFilenameFormat">Custom Html Filename Format</system:String>
@@ -4523,8 +4523,8 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyLegionAlreadyRunning">Legion is already running.</system:String>
 
     <system:String x:Key="LangKeyUnLikeSource">Unlike Source</system:String>
-    <system:String x:Key="LangKeyPagePostCommenters">Fanpage Post Commenters (Fanpage Url)</system:String>
-    <system:String x:Key="LangKeyGroupPostCommenters">Group Post Commenters (Group Url)</system:String>
+    <system:String x:Key="LangKeyPagePostCommenters">Fanpage Post Commenters (Url)</system:String>
+    <system:String x:Key="LangKeyGroupPostCommenters">Group Post Commenters (Url)</system:String>
     <system:String x:Key="LagKeyNoMoreCommetersForPost">"No More Commenters Available For Post Url {0}"</system:String>
     <system:String x:Key="LangKeyScrapePostsFromReddit">Scrape Posts From Reddit</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeKeywordUserSubreddit">Add Posts Source! Like ([K] Keyword, [U] User Post Url, [S] Subreddit Post Url)</system:String>
