@@ -91,13 +91,13 @@ namespace EmbeddedBrowser
             WindowBrowsers.DataContext = this;
             SearchCommand = new DelegateCommand(() => GoToUrl());
         }
-
-
+        
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false, bool isNeedResourceData = false,
             bool browserLoginMessageToDisplay = true)
               : this()
         {
             DominatorAccountModel = dominatorAccountModel;
+            _token = DominatorAccountModel.Token;
             TargetUrl = targetUrl;
             CustomUse = customUse;
             _isNeedResourceData = isNeedResourceData;
@@ -127,6 +127,13 @@ namespace EmbeddedBrowser
             var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksLoginUrl();
             UrlBar.Text = Browser.Address = url;
             Browser.IsBrowserInitializedChanged += LoadSettings;
+        }
+
+        CancellationToken _token = new CancellationToken();
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken, string targetUrl = "", bool customUse = false, bool skipAd = false, bool isNeedResourceData = false,
+            bool browserLoginMessageToDisplay = true) : this(dominatorAccountModel, targetUrl, customUse, skipAd , isNeedResourceData, browserLoginMessageToDisplay)
+        {
+            _token = cancellationToken;
         }
 
         #region CefSharp Utilities
@@ -201,8 +208,7 @@ namespace EmbeddedBrowser
 
             Browser.LoadingStateChanged += BrowserOnLoaded;
         }
-
-
+        
         private void BrowserOnLoaded(object sender, LoadingStateChangedEventArgs loadingStateChangedEventArgs)
         {
             try
@@ -378,7 +384,7 @@ namespace EmbeddedBrowser
 
                 Refresh();
 
-                await Task.Delay(500, DominatorAccountModel.Token);
+                await Task.Delay(500, _token);
 
             }
             catch (Exception ex)
@@ -393,7 +399,7 @@ namespace EmbeddedBrowser
 
             try
             {
-                await Task.Delay(1000);
+                await Task.Delay(1000,_token);
 
                 _isLoggedIn = true;
                 _loginFailed = false;
@@ -424,7 +430,7 @@ namespace EmbeddedBrowser
 
             try
             {
-                await Task.Delay(1000);
+                await Task.Delay(1000,_token);
 
                 _isLoggedIn = true;
                 _loginFailed = false;
@@ -517,7 +523,7 @@ namespace EmbeddedBrowser
                 Browser.GetBrowser().GoBack();
                 nTimes--;
                 if (nTimes != 0)
-                    Task.Delay(TimeSpan.FromSeconds(0.5)).Wait(DominatorAccountModel.Token);
+                    Sleep(0.5);
             }
         }
 
@@ -530,7 +536,7 @@ namespace EmbeddedBrowser
                 Browser.Forward();
                 nTimes--;
                 if (nTimes != 0)
-                    Task.Delay(TimeSpan.FromSeconds(0.5)).Wait(DominatorAccountModel.Token);
+                    Sleep(0.5);
             }
         }
 
@@ -556,7 +562,7 @@ namespace EmbeddedBrowser
         public string GetElementValue(ActType actType, string element, double delayBefore = 0, int clickIndex = 0)
         {
             if (delayBefore > 0)
-                Task.Delay(TimeSpan.FromSeconds(delayBefore)).Wait(DominatorAccountModel.Token);
+                Sleep(delayBefore);
 
             if (Browser.IsDisposed) return "";
             switch (actType)
@@ -587,11 +593,11 @@ namespace EmbeddedBrowser
 
             for (var i = 0; i < n; i++)
             {
-                Task.Delay(TimeSpan.FromSeconds(delay)).Wait(DominatorAccountModel.Token);
+                Sleep(delay);
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
             }
             if (delayAtLast > 0)
-                Task.Delay(TimeSpan.FromSeconds(delayAtLast)).Wait(DominatorAccountModel.Token);
+                Sleep(delayAtLast);
         }
 
         /// <summary>
@@ -605,18 +611,18 @@ namespace EmbeddedBrowser
         public void MouseClick(int xLoc, int yLoc, MouseButtonType mouseButton = MouseButtonType.Left, double delayBefore = 0, double delayAfter = 0)
         {
             if (delayBefore > 0)
-                Task.Delay(TimeSpan.FromSeconds(delayBefore)).Wait(DominatorAccountModel.Token);
+                Sleep(delayBefore);
 
             if (Browser.IsDisposed) return;
 
             // mouseUp(4th parameter) = false , MouseButton to be pressed
             Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, false, 1, CefEventFlags.None);
-            Task.Delay(TimeSpan.FromSeconds(0.1)).Wait(DominatorAccountModel.Token);
+            Sleep(0.1);
             // mouseUp(4th parameter) = true , MouseButton to be released
             Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.None);
 
             if (delayAfter > 0)
-                Task.Delay(TimeSpan.FromSeconds(delayAfter)).Wait(DominatorAccountModel.Token);
+                Sleep(delayAfter);
         }
 
         /// <summary>
@@ -632,7 +638,7 @@ namespace EmbeddedBrowser
             if (string.IsNullOrEmpty(charString)) return;
 
             if (delayBefore > 0)
-                Task.Delay(TimeSpan.FromSeconds(delayBefore)).Wait(DominatorAccountModel.Token);
+                Sleep(delayBefore);
 
             var ke = new KeyEvent { FocusOnEditableField = true, IsSystemKey = false, Type = KeyEventType.Char };
 
@@ -642,17 +648,17 @@ namespace EmbeddedBrowser
             {
                 ke.WindowsKeyCode = x;
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
-                Task.Delay(TimeSpan.FromSeconds(typingDelay)).Wait(DominatorAccountModel.Token);
+                Sleep(typingDelay);
             });
             if (delayAtLast > 0)
-                Task.Delay(TimeSpan.FromSeconds(delayAtLast)).Wait(DominatorAccountModel.Token);
+                Sleep(delayAtLast);
         }
 
         public async Task<string> GetPageSourceAsync(double delay)
         {
             try
             {
-                await Task.Delay(TimeSpan.FromSeconds(delay), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delay), _token);
                 return await Browser.GetSourceAsync();
             }
             catch (ArgumentException e)
@@ -671,7 +677,7 @@ namespace EmbeddedBrowser
         {
             try
             {
-                await Task.Delay(TimeSpan.FromSeconds(1), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(1), _token);
                 return await Browser.GetSourceAsync();
             }
             catch (ArgumentException e)
@@ -689,7 +695,7 @@ namespace EmbeddedBrowser
         public async Task<string> GoToCustomUrl(string url, int delayAfter = 0)
         {
             Browser.Load(url);
-            await Task.Delay(TimeSpan.FromSeconds(delayAfter), DominatorAccountModel.Token);
+            await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
             return await Browser.GetSourceAsync();
         }
 
@@ -709,11 +715,11 @@ namespace EmbeddedBrowser
 
             for (var i = 0; i < n; i++)
             {
-                await Task.Delay(delay, DominatorAccountModel.Token);
+                await Task.Delay(delay, _token);
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
             }
             if (delayAtLast > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayAtLast), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayAtLast), _token);
         }
 
         public async Task PressCombinedKey(int winFirstKeyCode, int winSecondKeyCode,
@@ -733,14 +739,14 @@ namespace EmbeddedBrowser
             };
 
             Browser.GetBrowser().GetHost().SendKeyEvent(ke);
-            await Task.Delay(100, DominatorAccountModel.Token);
+            await Task.Delay(100, _token);
             Browser.GetBrowser().GetHost().SendKeyEvent(ke2);
-            await Task.Delay(90, DominatorAccountModel.Token);
+            await Task.Delay(90, _token);
             //ke.Type = KeyEventType.KeyUp;
             // Browser.GetBrowser().GetHost().SendKeyEvent(ke);
 
             if (delayAtLast > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayAtLast), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayAtLast), _token);
         }
 
         public async Task EnterCharsAsync(string charString, double typingDelay = 0.09, double delayBefore = 0,
@@ -749,7 +755,7 @@ namespace EmbeddedBrowser
             if (string.IsNullOrEmpty(charString)) return;
 
             if (delayBefore > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayBefore), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
             var ke = new KeyEvent { FocusOnEditableField = true, IsSystemKey = false, Type = KeyEventType.Char };
 
@@ -759,17 +765,17 @@ namespace EmbeddedBrowser
             {
                 ke.WindowsKeyCode = caharacter;
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
-                await Task.Delay(TimeSpan.FromSeconds(typingDelay), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(typingDelay), _token);
             }
             if (delayAtLast > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayAtLast), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayAtLast), _token);
         }
 
         public async Task BrowserActAsync(ActType actType, AttributeType attributeType, string attributeValue,
            string value = "", double delayBefore = 0, double delayAfter = 0, int index = 0, int scrollByPixel = 100)
         {
             if (delayBefore > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayBefore), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
             if (Browser.IsDisposed)
                 return;
@@ -825,7 +831,7 @@ namespace EmbeddedBrowser
                     break;
             }
             if (delayAfter > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayAfter), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
 
 
         }
@@ -843,7 +849,7 @@ namespace EmbeddedBrowser
             AttributeType attributeType = AttributeType.Null, string attributeValue = "", int scrollByPixel = 100)
         {
             if (delayBefore > 0)
-                Task.Delay(TimeSpan.FromSeconds(delayBefore)).Wait(DominatorAccountModel.Token);
+                Sleep(delayBefore);
 
             if (Browser.IsDisposed) return;
 
@@ -913,7 +919,7 @@ namespace EmbeddedBrowser
                     break;
             }
             if (delayAfter > 0)
-                Task.Delay(TimeSpan.FromSeconds(delayAfter)).Wait(DominatorAccountModel.Token);
+                Sleep(delayAfter);
         }
 
 
@@ -922,7 +928,7 @@ namespace EmbeddedBrowser
         {
 
             if (delayBefore > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayBefore), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
             MouseButtonType mouseButton = mouseClickType == MouseClickType.Left ? MouseButtonType.Left
                 : (mouseClickType == MouseClickType.Right ? MouseButtonType.Right : MouseButtonType.Middle);
@@ -931,12 +937,12 @@ namespace EmbeddedBrowser
 
             // mouseUp(4th parameter) = false , MouseButton to be pressed
             Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, false, 1, CefEventFlags.None);
-            await Task.Delay(100, DominatorAccountModel.Token);
+            await Task.Delay(100, _token);
             // mouseUp(4th parameter) = true , MouseButton to be released
             Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.None);
 
             if (delayAfter > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayAfter), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
         }
 
 
@@ -948,7 +954,7 @@ namespace EmbeddedBrowser
             MouseButtonType mouseButton = MouseButtonType.Right;
 
             if (delayBefore > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayBefore), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
             if (Browser.IsDisposed) return;
 
@@ -956,12 +962,12 @@ namespace EmbeddedBrowser
 
             // mouseUp(4th parameter) = false , MouseButton to be pressed
             Browser.GetBrowser().GetHost().SendMouseMoveEvent(new MouseEvent(xLoc, yLoc, CefEventFlags.None), false);
-            await Task.Delay(100, DominatorAccountModel.Token);
+            await Task.Delay(100, _token);
 
             Browser.GetBrowser().GetHost().SendMouseWheelEvent(new MouseEvent(xLoc, yLoc, CefEventFlags.None), scrollByXLoc, scrollByYLoc);
 
             if (delayAfter > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayAfter), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
         }
 
         public async Task MouseHoverAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
@@ -971,7 +977,7 @@ namespace EmbeddedBrowser
             MouseButtonType mouseButton = MouseButtonType.Right;
 
             if (delayBefore > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayBefore), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
             if (Browser.IsDisposed) return;
 
@@ -979,12 +985,12 @@ namespace EmbeddedBrowser
 
             // mouseUp(4th parameter) = false , MouseButton to be pressed
             Browser.GetBrowser().GetHost().SendMouseMoveEvent(new MouseEvent(xLoc, yLoc, CefEventFlags.None), false);
-            await Task.Delay(100, DominatorAccountModel.Token);
+            await Task.Delay(100, _token);
             // mouseUp(4th parameter) = true , MouseButton to be released
             //Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.RightMouseButton);
 
             if (delayAfter > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayAfter), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
         }
 
 
@@ -1078,12 +1084,12 @@ namespace EmbeddedBrowser
                     , string value = "")
         {
             JavascriptResponse jsResponse = null;
+
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
             try
             {
-                if (delayBefore > 0)
-                    await Task.Delay(TimeSpan.FromSeconds(delayBefore), DominatorAccountModel.Token);
-
-                var z = $"document.getElementsBy{attributeType}('{attributeValue}').length";
+                var z = $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}";
 
                 if (Browser.IsDisposed) return "";
 
@@ -1135,7 +1141,7 @@ namespace EmbeddedBrowser
             ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
         {
             if (delayBefore > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayBefore), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
             var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
@@ -1194,7 +1200,7 @@ namespace EmbeddedBrowser
 
             var dictAdViewerDetails = new Dictionary<int, string>();
 
-            await Task.Delay(5000, DominatorAccountModel.Token);
+            await Task.Delay(5000, _token);
 
             while (lastCurrentCount++ <= postCount * (lastCount + 1))
             {
@@ -1203,15 +1209,15 @@ namespace EmbeddedBrowser
                 var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueTypes.OuterHtml, clickIndex: lastCurrentCount);
                 if (!(fullAdDetails).Contains("sponsored_ad"))
                 {
-                    await Task.Delay(3000, DominatorAccountModel.Token);
+                    await Task.Delay(3000, _token);
                     continue;
                 }
 
-                await Task.Delay(2000, DominatorAccountModel.Token);
+                await Task.Delay(2000, _token);
                 await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
-                await Task.Delay(2000, DominatorAccountModel.Token);
+                await Task.Delay(2000, _token);
                 MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
-                await Task.Delay(2000, DominatorAccountModel.Token);
+                await Task.Delay(2000, _token);
                 MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
                 adViewerDetails = await GetElementValueAsync(ActType.ActByQuery, AttributeType.DataFeedOptionName, "FeedAdSeenReasonOption", clickIndex: adCount);
                 if (string.IsNullOrEmpty(adViewerDetails))
@@ -1222,7 +1228,7 @@ namespace EmbeddedBrowser
                     Regex.Matches(adViewerDetails, "id=(.*?)&")[0].Groups[1].ToString();
                 dictAdViewerDetails.Add(lastCurrentCount, adViewerDetails);
                 adCount += 2;
-                await Task.Delay(2000, DominatorAccountModel.Token);
+                await Task.Delay(2000, _token);
             }
 
             lastCurrentAdCount = lastCurrentCount;
@@ -1234,14 +1240,14 @@ namespace EmbeddedBrowser
         public JavascriptResponse ExecuteScript(string script, int delayInSec = 2)
         {
             var resp = Browser.EvaluateScriptAsync(script).Result;
-            Task.Delay(TimeSpan.FromSeconds(delayInSec)).Wait(DominatorAccountModel.Token);
+            Task.Delay(TimeSpan.FromSeconds(delayInSec)).Wait(_token);
             return resp;
         }
 
         public async Task<JavascriptResponse> ExecuteScriptAsync(string script, int delayInSec = 2)
         {
             var resp = await Browser.EvaluateScriptAsync(script);
-            await Task.Delay(TimeSpan.FromSeconds(delayInSec), DominatorAccountModel.Token);
+            await Task.Delay(TimeSpan.FromSeconds(delayInSec), _token);
             return resp;
         }
 
@@ -1346,7 +1352,7 @@ namespace EmbeddedBrowser
                 if (!string.IsNullOrEmpty(url))
                     Browser.Load(url);
 
-                await Task.Delay(TimeSpan.FromSeconds(delayAfter), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
                 var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
                     : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
@@ -1359,6 +1365,7 @@ namespace EmbeddedBrowser
             {
 
             }
+            _token.ThrowIfCancellationRequested();
             return response;
         }
 
@@ -1380,11 +1387,16 @@ namespace EmbeddedBrowser
                 var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
                     : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
+                _token.ThrowIfCancellationRequested();
                 var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
 
                 if (responseStream != null)
                     response = Encoding.UTF8.GetString(responseStream.Data);
                 return response;
+            }
+            catch (OperationCanceledException)
+            {
+                throw new OperationCanceledException();
             }
             catch (Exception ex)
             {
@@ -1418,7 +1430,7 @@ namespace EmbeddedBrowser
             var response = string.Empty;
             try
             {
-                await Task.Delay(10, DominatorAccountModel.Token);
+                await Task.Delay(10, _token);
                 var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject() :
                     _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
@@ -1431,6 +1443,7 @@ namespace EmbeddedBrowser
             {
 
             }
+            _token.ThrowIfCancellationRequested();
             return response;
         }
 
@@ -1441,13 +1454,14 @@ namespace EmbeddedBrowser
             var responseList = new List<string>();
             try
             {
-                await Task.Delay(10, DominatorAccountModel.Token);
+                await Task.Delay(10, _token);
                 var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
                     : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStreamList = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
                 foreach (var responseStream in responseStreamList)
                 {
+                    _token.ThrowIfCancellationRequested();
                     try
                     {
                         responseList.Add(Encoding.UTF8.GetString(responseStream.Data));
@@ -1460,10 +1474,15 @@ namespace EmbeddedBrowser
 
                 return responseList;
             }
+            catch (OperationCanceledException)
+            {
+                throw new OperationCanceledException();
+            }
             catch (Exception ex)
             {
 
             }
+            _token.ThrowIfCancellationRequested();
             return responseList;
         }
 
@@ -1502,13 +1521,14 @@ namespace EmbeddedBrowser
             List<string> lstJsonData = new List<string>();
             try
             {
-                await Task.Delay(10, DominatorAccountModel.Token);
+                await Task.Delay(10, _token);
                 var lstResponseStream = new List<MemoryStreamResponseFilter>();
 
                 bool isSuccess = false;
 
                 while (!isSuccess)
                 {
+                    _token.ThrowIfCancellationRequested();
                     try
                     {
                         lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject() :
@@ -1526,6 +1546,7 @@ namespace EmbeddedBrowser
                 {
                     foreach (var v in responseStream)
                     {
+                        _token.ThrowIfCancellationRequested();
                         if (v != null)
                             lstJsonData.Add(response = Encoding.UTF8.GetString(v.Data));
                     }
@@ -1535,6 +1556,7 @@ namespace EmbeddedBrowser
             {
 
             }
+            _token.ThrowIfCancellationRequested();
             return lstJsonData;
         }
 
@@ -1587,13 +1609,13 @@ namespace EmbeddedBrowser
 
         public async Task<string> GetElementValueAsyncFromFrame(IFrame frame, string script)
         {
-            await Task.Delay(1000, DominatorAccountModel.Token);
+            await Task.Delay(1000, _token);
             var jsResponse = await frame.EvaluateScriptAsync(script);
             return jsResponse.Success ? jsResponse.Result?.ToString() : jsResponse.Message?.ToString();
         }
         public async Task ExecuteJSAsyncFromFrame(IFrame frame, string script)
         {
-            await Task.Delay(10000, DominatorAccountModel.Token);
+            await Task.Delay(10000, _token);
 
             frame.ExecuteJavaScriptAsync(script);
         }
@@ -1605,24 +1627,24 @@ namespace EmbeddedBrowser
             MouseButtonType mouseButton = MouseButtonType.Left;
 
             if (delayBefore > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayBefore), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
             if (Browser.IsDisposed) return;
 
             await MouseClickAsync(stratXlocation, startYLocation);
-            await Task.Delay(1000, DominatorAccountModel.Token);
+            await Task.Delay(1000, _token);
 
             //Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, true, 0, CefEventFlags.ShiftDown);
             Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, false, 1, CefEventFlags.ShiftDown);
             Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, true, 1, CefEventFlags.ShiftDown);
 
             if (delayAfter > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayAfter), DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
         }
         public JavascriptResponse EvaluateScript(string script, int delayInSec = 2)
         {
             var resp = Browser.EvaluateScriptAsync(script).Result;
-            Task.Delay(TimeSpan.FromSeconds(delayInSec)).Wait(DominatorAccountModel.Token);
+            Task.Delay(TimeSpan.FromSeconds(delayInSec)).Wait(_token);
             return resp;
         }
 
@@ -1663,8 +1685,10 @@ namespace EmbeddedBrowser
         //public void ExecuteScript(string script, int delayInSec = 2)
         //{
         //    Browser.ExecuteScriptAsync(script);
-        //   Task.Delay(TimeSpan.FromSeconds(delayInSec)).Wait(DominatorAccountModel.Token);
+        //   Task.Delay(TimeSpan.FromSeconds(delayInSec)).Wait(_token);
         //}
+
+        void Sleep(double seconds = 1) => Task.Delay(TimeSpan.FromSeconds(seconds)).Wait(_token);
 
     }
 }

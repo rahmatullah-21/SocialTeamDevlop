@@ -4576,6 +4576,8 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeySelectCountriesFilter">Select Countries For Location Filter</system:String>
     <system:String x:Key="LangKeySaveLocations">Save Locations</system:String>
     <system:String x:Key="LangKeySelectCountry">Select Country</system:String>
-        <system:String x:Key="LangKeySelectLocationByMultipleCities">Select Location By Multiple Cities</system:String>
+    <system:String x:Key="LangKeySelectLocationByMultipleCities">Select Location By Multiple Cities</system:String>
+    <system:String x:Key="LangKeySkipUserWhoHasEverReceivedMessage">Skip User Who Has Ever Received Message</system:String>
+    <system:String x:Key="LangKeySkippingThisUserMessageAlreadySent">Skipping this user, Message already sent</system:String>
 </ResourceDictionary>
 

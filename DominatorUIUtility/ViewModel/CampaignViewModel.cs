@@ -619,29 +619,29 @@ namespace LegionUIUtility.ViewModel
                     var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     Task.Factory.StartNew(() =>
                     {
-                        //Application.Current.Dispatcher.InvokeAsync(() =>
-                        // {
-                        try
-                        {
-                            campaign.ForEach(camp =>
-                            {
-                                var selectedAccount = camp.SelectedAccountList;
-                                campaignFileManager.Delete(camp);
+                        Application.Current.Dispatcher.InvokeAsync(() =>
+                         {
+                             try
+                             {
+                                 campaign.ForEach(camp =>
+                                 {
+                                     var selectedAccount = camp.SelectedAccountList;
+                                     campaignFileManager.Delete(camp);
 
-                                DeleteDuplicateCampaign(camp, campaignFileManager);
-                                UpdateAccount(allAccounts, camp, selectedAccount);
-                                LstCampaignDetails.Remove(
-                                    LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
-                            });
-                            _dataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
-                            Uncheck();
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                            ToasterNotification.ShowError("LangKeyErrorOnDeletingCampaigns".FromResourceDictionary());
-                        }
-                        //});
+                                     DeleteDuplicateCampaign(camp, campaignFileManager);
+                                     UpdateAccount(allAccounts, camp, selectedAccount);
+                                     LstCampaignDetails.Remove(
+                                         LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
+                                 });
+                                 _dataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
+                                 Uncheck();
+                             }
+                             catch (Exception ex)
+                             {
+                                 ex.DebugLog();
+                                 ToasterNotification.ShowError("LangKeyErrorOnDeletingCampaigns".FromResourceDictionary());
+                             }
+                         });
                         GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, $"[ {campaign.Count} ] {"LangKeyCampaigns".FromResourceDictionary()}");
                     });
                 }

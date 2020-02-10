@@ -70,9 +70,19 @@ namespace LegionUIUtility.ViewModel.OtherConfigurations
         {
             SoftwareSettingsModel.ExportPath = FileUtilities.GetExportPath(true);
         }
-
+        private bool _progressRing = false;
+        public bool ProgressRing
+        {
+            get { return _progressRing; }
+            set
+            {
+                if (_progressRing == value) return;
+                SetProperty(ref _progressRing, value);
+            }
+        }
         private void Save()
         {
+            ProgressRing = true;
 
             if (SoftwareSettingsModel.IsSelectCountriesFilter)
             {
@@ -90,50 +100,45 @@ namespace LegionUIUtility.ViewModel.OtherConfigurations
                         if (ListCountry.Any(x => x.CountryName.Equals(locationModel.CountryName)))
                             continue;
 
-                        try
+                        var request = (HttpWebRequest)WebRequest.Create($"http://209.250.252.53/DownloadForSocinator/CityListByCountries/{locationModel.CountryName}.txt");
+                        var response = request.GetResponse();
+                        string cityResponse = string.Empty;
+                        using (var responseStream = response.GetResponseStream())
                         {
-                            var request = (HttpWebRequest)WebRequest.Create($"http://209.250.252.53/DownloadForSocinator/CityListByCountries/{locationModel.CountryName}.txt");
-                            var response = request.GetResponse();
-                            string cityResponse = string.Empty;
-                            using (var responseStream = response.GetResponseStream())
+                            if (responseStream != null)
                             {
-                                if (responseStream != null)
-                                {
-                                    var reader = new StreamReader(responseStream, Encoding.UTF8);
-                                    cityResponse = reader.ReadToEnd();
-                                }
+                                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                                cityResponse = reader.ReadToEnd();
                             }
+                        }
 
-                            List<string> cityList = System.Text.RegularExpressions.Regex.Split(cityResponse, "\r\n").ToList();
-                            cityList.ForEach(x =>
+                        List<string> cityList = System.Text.RegularExpressions.Regex.Split(cityResponse, "\r\n").ToList();
+                        cityList.ForEach(x =>
+                        {
+                            var lst = new DominatorHouseCore.DatabaseHandler.DHTables.LocationList()
                             {
-                                var lst = new DominatorHouseCore.DatabaseHandler.DHTables.LocationList()
-                                {
-                                    CountryName = locationModel.CountryName,
-                                    CityName = x,
-                                    IsSelected = false
-                                };
-                                dt.Add(lst);
-                            });
-                        }
-                        catch (WebException)
-                        {
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
+                                CountryName = locationModel.CountryName,
+                                CityName = x,
+                                IsSelected = false
+                            };
+                            dt.Add(lst);
+                        });
                     }
                     _dbGlobalListOperations.AddRange(dt);
+                    ToasterNotification.ShowSuccess("Location Details Downloaded Successfully");
+                }
+                catch (WebException)
+                {
+                    ToasterNotification.ShowError("failed To Downloaded Location Details");
                 }
                 catch (Exception)
                 {
-
+                    ToasterNotification.ShowError("failed To Downloaded Location Details");
                 }
 
             }
 
-
+            ProgressRing = false;
 
             if (SoftwareSettingsModel.IsDefaultExportPathSelected)
             {

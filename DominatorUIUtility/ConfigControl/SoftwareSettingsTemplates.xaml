@@ -29,6 +29,7 @@
             </GroupBox.Header>
             <ScrollViewer   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <StackPanel>
+                    <mah:ProgressRing IsActive="{Binding ProgressRing}" Visibility="{Binding ProgressRing,Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <StackPanel Margin="10" DataContext="{Binding SoftwareSettingsModel}">
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyRunLegionAtSystemStartup}"
                              Visibility="Collapsed" IsChecked="{Binding IsRunDHAtStartUpChecked}"/>

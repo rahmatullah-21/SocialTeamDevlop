@@ -63,17 +63,16 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public void StartNextRound(DominatorAccountModel accountModel)
         {
             var campaignsFileManager =
-                ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                    ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
             var jobActivityConfigurationManager =
                 ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-
             var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId].
-                Where(x => x.IsEnabled && x.NextRun != new DateTime() && (!x.IsTemplateMadeByCampaignMode ||
-                (x.IsTemplateMadeByCampaignMode && campaignsFileManager.
-                Any(y => y.TemplateId == x.TemplateId && y.Status == "Active")))).
-                OrderByDescending(PickNextActivity)
-                .FirstOrDefault();
+                    Where(x => x.IsEnabled && x.NextRun != new DateTime() && (!x.IsTemplateMadeByCampaignMode ||
+                    (x.IsTemplateMadeByCampaignMode && campaignsFileManager.
+                    Any(y => y.TemplateId == x.TemplateId && y.Status == "Active")))).
+                    OrderByDescending(PickNextActivity)
+                    .FirstOrDefault();
             if (moduleConfiguration == null) return;
             //Check if any job process is already scheduled before to run after this activity.
             var schedules = JobManager.AllSchedules;
