@@ -68,6 +68,15 @@ namespace Legion.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
+
+        public string ApplicationVersion
+        {
+            get
+            {
+                return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            }
+        }
+
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             SocinatorKeyHelper.InitilizeKey();

@@ -730,7 +730,7 @@
     <system:String x:Key="LangKeyFanPageLiker">Fan Page Liker</system:String>
     <system:String x:Key="LangKeyFanpageFilters">Fanpage Filters</system:String>
     <system:String x:Key="LangKeyFanpageLikers">Fanpage Likers (URL)</system:String>
-    <system:String x:Key="LangKeyFanpagePostLikers">Fanpage Post Likers</system:String>
+    <system:String x:Key="LangKeyFanpagePostLikers">Fanpage Posts Likers (URL)</system:String>
     <system:String x:Key="LangKeyFanpageScraper">Fanpage Scraper</system:String>
     <system:String x:Key="LangKeyFavorites">Favorites</system:String>
     <system:String x:Key="LangKeyFBPoster">FB Poster</system:String>
@@ -821,7 +821,7 @@
     <system:String x:Key="LangKeyForceKillEmbeddedBrowsersExperimentalUseWhenEmbeddedBrowserProcessesAreNotCorrectlyKilled">Force Kill Embedded Browsers (Experimental - Use When Embedded Browser Processes Are Not Correctly Killed)</system:String>
     <system:String x:Key="LangKeyForward">Forward</system:String>
     <system:String x:Key="LangKeyFriday">Friday</system:String>
-    <system:String x:Key="LangKeyFriendOfFriend">Friends of this Profile (Friend Profile URL)</system:String>
+    <system:String x:Key="LangKeyFriendOfFriend">Friends of this Profile (URL)</system:String>
     <system:String x:Key="LangKeyFriendRequestsPerOperation">Friend Requests Per Operation</system:String>
     <system:String x:Key="LangKeyFriendTimeline">Friend Timeline</system:String>
     <system:String x:Key="LangKeyFriends">Friends</system:String>
@@ -863,7 +863,7 @@
     <system:String x:Key="LangKeyGroupJoiner">Group Joiner</system:String>
     <system:String x:Key="LangKeyGroupMembers">Group Members (URL)</system:String>
     <system:String x:Key="LangKeyGroupName">Group Name</system:String>
-    <system:String x:Key="LangKeyGroupPostLikers">Group Post Likers</system:String>
+    <system:String x:Key="LangKeyGroupPostLikers">Group Posts Likers (URL)</system:String>
     <system:String x:Key="LangKeyGroupScraper">Group Scraper</system:String>
     <system:String x:Key="LangKeyGroupSources">Group Sources :</system:String>
     <system:String x:Key="LangKeyGroupType">Group Type</system:String>
@@ -1675,13 +1675,13 @@
     <system:String x:Key="LangKeyPostAsPartOfYourStoryInsteadOfOnWall">Post As Part Of Your Story Instead Of On Wall</system:String>
     <system:String x:Key="LangKeyPostBetween">Post Between</system:String>
     <system:String x:Key="LangKeyPostCaption">Post Caption</system:String>
-    <system:String x:Key="LangKeyPostCommentors">Post Commenters</system:String>
+    <system:String x:Key="LangKeyPostCommentors">Post Commenters (Wall, Group, Fanpage)</system:String>
     <system:String x:Key="LangKeyPostConfiguration">Post Configuration</system:String>
     <system:String x:Key="LangKeyPostDescription">Post Description</system:String>
     <system:String x:Key="LangKeyPostFilters">Post Filters</system:String>
     <system:String x:Key="LangKeyPostInThePostsList0ToDisable">Post In The Posts List (0 To Disable)</system:String>
     <system:String x:Key="LangKeyPostLikeAndComment">Post Like And Comment</system:String>
-    <system:String x:Key="LangKeyPostLikers">Post Likers</system:String>
+    <system:String x:Key="LangKeyPostLikers">Post Likers (Wall, Group, Fanpage)</system:String>
     <system:String x:Key="LangKeyPostManager">Post Manager</system:String>
     <system:String x:Key="LangKeyPostMultipleImagesVideoPostsAsAlbum">Post Multiple Images/Video Posts As Album</system:String>
     <system:String x:Key="LangKeyPostOnWallAndInStory">Post On Wall And In Story</system:String>
@@ -1689,7 +1689,7 @@
     <system:String x:Key="LangKeyPostPreview">Post Preview</system:String>
     <system:String x:Key="LangKeyPostReactionFilter">Post Reaction Filter</system:String>
     <system:String x:Key="LangKeyPostScraper">Post Scraper</system:String>
-    <system:String x:Key="LangKeyPostSharer">Post Sharer</system:String>
+    <system:String x:Key="LangKeyPostSharer">Post Sharer (Wall, Group, Fanpage)</system:String>
     <system:String x:Key="LangKeyPostStatus">Post Status</system:String>
     <system:String x:Key="LangKeyPostTemplate">Post Template</system:String>
     <system:String x:Key="LangKeyPostType">Post Type</system:String>
@@ -3059,7 +3059,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfConnectionsToExportPerWeek">Number Of Connections To Export Per Week</system:String>
     <system:String x:Key="LangKeyMaxConnectionsToExportPerDay">Max Connections To Export Per Day</system:String>
 
-    <system:String x:Key="LangKeyPagePostLikers">Fanpage Post Likers (URL)</system:String>
+    <system:String x:Key="LangKeyPagePostLikers">Fanpage Posts Likers (URL)</system:String>
     <system:String x:Key="LangKeyCustomProfileUrl">Profile (URL)</system:String>
 
     <system:String x:Key="LangKeyFilenameFormat">Custom Html Filename Format</system:String>
@@ -3150,7 +3150,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyScrapTheProfileWhichContainLikersBetween">Scrape the profile which contains Likers Between</system:String>
     <system:String x:Key="LangKeyCommentFilter">Comment Filter</system:String>
     <system:String x:Key="LangKeySalesnavigatorCompanyscraper">Salesnavigator Companyscraper</system:String>
-    <system:String x:Key="LangKeyEventUrl">Event Url</system:String>
+    <system:String x:Key="LangKeyEventUrl">Event (URL)</system:String>
     <system:String x:Key="LangKeyMutualFriend">Mutual Friend</system:String>
     <system:String x:Key="LangKeyScrapThePagesWhichContainLikersBetween">Scrape the pages which contains Likers Between</system:String>
     <system:String x:Key="LangKeyScrapUsersWhoMessagedUs">Scrape The User Who Messaged Us</system:String>
@@ -4523,8 +4523,8 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyLegionAlreadyRunning">Legion is already running.</system:String>
 
     <system:String x:Key="LangKeyUnLikeSource">Unlike Source</system:String>
-    <system:String x:Key="LangKeyPagePostCommenters">Fanpage Post Commenters (Url)</system:String>
-    <system:String x:Key="LangKeyGroupPostCommenters">Group Post Commenters (Url)</system:String>
+    <system:String x:Key="LangKeyPagePostCommenters">Fanpage Posts Commenters (Url)</system:String>
+    <system:String x:Key="LangKeyGroupPostCommenters">Group Posts Commenters (Url)</system:String>
     <system:String x:Key="LagKeyNoMoreCommetersForPost">"No More Commenters Available For Post Url {0}"</system:String>
     <system:String x:Key="LangKeyScrapePostsFromReddit">Scrape Posts From Reddit</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeKeywordUserSubreddit">Add Posts Source! Like ([K] Keyword, [U] User Post Url, [S] Subreddit Post Url)</system:String>

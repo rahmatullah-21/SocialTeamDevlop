@@ -98,10 +98,10 @@ namespace DominatorHouseCore.Enums.FdQuery
         //GraphSearchUrl = 9,      
         //[Description("LangKeySuggestedFriends")]
         //SuggestedFriends = 13,                      
-        [Description("LangKeyFriendsBasicDetails")]
-        FriendsBasicDetails = 17,
-        [Description("LangKeyGroupMemberBasicDetails")]
-        GroupMemberBasicDetails = 18,
+        //[Description("LangKeyFriendsBasicDetails")]
+        //FriendsBasicDetails = 17,
+        //[Description("LangKeyGroupMemberBasicDetails")]
+        //GroupMemberBasicDetails = 18,
        
         
         //[Description("LangKeyPeopleConnectedInMessenger")]
@@ -175,35 +175,38 @@ namespace DominatorHouseCore.Enums.FdQuery
         Keywords = 1,
         [Description("LangKeyLocation")]
         Location = 2,
-        [Description("LangKeyGroupMembers")]
-        GroupMembers = 3,
-        [Description("LangKeyFanpageLikers")]
-        FanpageLikers = 4,
         [Description("LangKeyFriendOfFriend")]
-        FriendofFriend = 5,
+        FriendofFriend = 3,
+        [Description("LangKeyCustomProfileUrl")]
+        CustomProfileUrl = 4,
+        [Description("LangKeyUserFollower")]
+        UserFollowers = 5,
         [Description("LangKeyPostLikers")]
         PostLikers = 6,
         [Description("LangKeyPostSharer")]
         PostSharer = 7,
         [Description("LangKeyPostCommentors")]
         PostCommentor = 8,
+        [Description("LangKeyFanpageLikers")]
+        FanpageLikers = 9,
+        [Description("LangKeyPagePostLikers")]
+        PagePostLikers = 10,
+        [Description("LangKeyPagePostCommenters")]
+        PagePostCommenters = 11,
+        [Description("LangKeyGroupMembers")]
+        GroupMembers = 12,
+        [Description("LangKeyGroupPostLikers")]
+        GroupPostLikers = 13,
+        [Description("LangKeyGroupPostCommenters")]
+        GroupPostCommenters = 14,
+        [Description("LangKeyEventUrl")]
+        EventUrl = 15
         //[Description("LangKeyGraphSearchUrl")]
         //GraphSearchUrl = 9,
-        [Description("LangKeyPagePostLikers")]
-        PagePostLikers = 9,
-        [Description("LangKeyGroupPostLikers")]
-        GroupPostLikers = 10,
-        [Description("LangKeyPagePostCommenters")]
-        PagePostPostCommenters = 11,
-        [Description("LangKeyGroupPostCommenters")]
-        GroupPostCommenters = 12,
-        [Description("LangKeyCustomProfileUrl")]
-        CustomProfileUrl = 13,
+        
         //[Description("LangKeySuggestedFriends")]
         //SuggestedFriends = 15,
-        [Description("LangKeyEventUrl")]
-        EventUrl = 14,
-        [Description("LangKeyUserFollower")]
-        UserFollowers = 15
+
+
     }
 }

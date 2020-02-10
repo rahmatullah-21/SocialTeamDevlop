@@ -35,14 +35,23 @@
     <controls:MetroWindow.TitleTemplate>
         <DataTemplate>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                
+
                 <TextBlock
                     Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MetroWindow}},Path=Title}"
                     VerticalAlignment="Center"
                     FontSize="18"
-                    Margin="3,0,4,2"
+                    Margin="3,0,2,2"
                     Padding="5,0"
                     FontWeight="SemiBold"/>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    Margin="0,4,0,7"
+                    FontWeight="SemiBold">
+                    <Run Text="["/>
+                    <Run Text="{Binding DataContext.ApplicationVersion,Mode=OneWay,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroWindow}}}"/>
+                    <Run Text="]  "/>
+                </TextBlock>
                 <StatusBar Height="25" Margin="0,0,0,2" VerticalAlignment="Center" >
                     <StatusBar.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -64,6 +73,7 @@
                         </StackPanel>
                     </StatusBarItem>
                 </StatusBar>
+               
             </StackPanel>
         </DataTemplate>
     </controls:MetroWindow.TitleTemplate>
@@ -85,7 +95,9 @@
             <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
                       ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
             <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
-            --><!--<ComboBox x:Name="ThemeCombo" DataContext="{Binding Themes}" Visibility="Collapsed" SelectionChanged="ThemeCombo_SelectionChanged"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}" />--><!--
+            -->
+    <!--<ComboBox x:Name="ThemeCombo" DataContext="{Binding Themes}" Visibility="Collapsed" SelectionChanged="ThemeCombo_SelectionChanged"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}" />-->
+    <!--
 
         </controls:WindowCommands>
     </controls:MetroWindow.LeftWindowCommands>-->
