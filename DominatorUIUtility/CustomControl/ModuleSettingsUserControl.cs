@@ -472,10 +472,11 @@ namespace LegionUIUtility.CustomControl
                 //var schedulePending = ImmutableQueue<Action>.Empty;
                 if (IsNeedToSaveTemplate())
                 {
+                    var originalTemplateId = TemplateId.DeepCloneObject();
                     TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork,
                         CampaignName);
                     SaveTemplateToAccounts(TemplateId);
-                    SaveTemplateToCampaigns();
+                    SaveTemplateToCampaigns(originalTemplateId);
                     var accountDetails =
                         _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
                     try
@@ -540,7 +541,7 @@ namespace LegionUIUtility.CustomControl
 
         }
 
-        public void SaveTemplateToCampaigns()
+        public void SaveTemplateToCampaigns(string originalTemplateId)
         {
             var campaignDetails = new CampaignDetails
             {
@@ -555,12 +556,23 @@ namespace LegionUIUtility.CustomControl
                 LastEditedDate = DateTimeUtilities.GetEpochTime(),
             };
 
+
             var dbOperations =
-                new DbOperations(campaignDetails.CampaignId, SocialNetwork, ConstantVariable.GetCampaignDb);
+                    new DbOperations(campaignDetails.CampaignId, SocialNetwork, ConstantVariable.GetCampaignDb);
 
             _dataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
 
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+
+            if (_cancelEditVisibility == Visibility.Visible)
+            {
+                var mainCampaignDetails = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == originalTemplateId);
+                
+                if (mainCampaignDetails.SelectedAccountList.Count == 0)
+                    mainCampaignDetails.Status = "Pause";
+
+            }
+
             if (!campaignFileManager.Any(x => x.CampaignId == campaignDetails.CampaignId))
             {
                 campaignFileManager.Add(campaignDetails);
@@ -1809,7 +1821,7 @@ namespace LegionUIUtility.CustomControl
                 var queryNameIndex = this.Model.ListQueryType.IndexOf(currentQuery.QueryType);
                 currentQuery.QueryTypeEnum = enumsList[queryNameIndex];
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ex.DebugLog();
             }

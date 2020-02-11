@@ -4,6 +4,7 @@ using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace DominatorHouseCore.Models
 {
@@ -727,6 +728,35 @@ namespace DominatorHouseCore.Models
             set
             {
                 SetProperty(ref _listlocationModel, value);
+            }
+        }
+
+        private bool _isTestMode;
+        [ProtoIgnore]
+        public bool IsTestMode
+        {
+            get
+            {
+                return _isTestMode;
+            }
+            set
+            {
+                SetProperty(ref _isTestMode, value);
+            }
+        }
+
+        private Visibility _debugVisibility;
+        [ProtoIgnore]
+        public Visibility DebugVisibility
+        {
+            get
+            {
+                return _debugVisibility;
+            }
+            set
+            {
+            
+                SetProperty(ref _debugVisibility, value);
             }
         }
 

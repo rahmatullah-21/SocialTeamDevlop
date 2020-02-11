@@ -40,6 +40,11 @@ namespace LegionUIUtility.ViewModel.OtherConfigurations
             //Assign LocationDetails
             SoftwareSettingsModel.ListLocationModelTemp = SoftwareSettingsModel.ListLocationModel = softwareSettings.AssignLocationList();
 
+            SoftwareSettingsModel.DebugVisibility = Visibility.Collapsed;
+
+            #if DEBUG
+                SoftwareSettingsModel.DebugVisibility = Visibility.Visible;
+            #endif
         }
 
         private string _searchText;
