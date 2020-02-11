@@ -67,33 +67,33 @@ namespace DominatorHouseCore.Enums.FdQuery
         [Description("LangKeyLocation")]
         Location = 2,
         [Description("LangKeyOwnFriends")]
-        OwnFriends = 3,
-        [Description("LangKeyFriendOfFriend")]
-        FriendofFriend = 4,
+        OwnFriends = 3,        
         [Description("LangKeyCustomProfileUrl")]
-        CustomProfileUrl = 5,
+        CustomProfileUrl = 4,
         [Description("LangKeyUserFollower")]
-        UserFollowers = 6,        
+        UserFollowers = 5,        
         [Description("LangKeyPostLikers")]
-        PostLikers = 7,
+        PostLikers = 6,
         [Description("LangKeyPostSharer")]
-        PostSharer = 8,
+        PostSharer = 7,
         [Description("LangKeyPostCommentors")]
-        PostCommentor = 9,        
+        PostCommentor = 8,        
         [Description("LangKeyFanpageLikers")]
-        FanpageLikers = 10,
+        FanpageLikers = 9,
         [Description("LangKeyPagePostLikers")]
-        PagePostLikers = 11,
+        PagePostLikers = 10,
         [Description("LangKeyPagePostCommenters")]
-        PagePostPostCommenters = 12,
+        PagePostPostCommenters = 11,
         [Description("LangKeyGroupMembers")]
-        GroupMembers = 13,
+        GroupMembers = 12,
         [Description("LangKeyGroupPostLikers")]
-        GroupPostLikers = 14,
+        GroupPostLikers = 13,
         [Description("LangKeyGroupPostCommenters")]
-        GroupPostCommenters = 15,
+        GroupPostCommenters = 14,
         [Description("LangKeyEventUrl")]
-        EventUrl = 16,
+        EventUrl = 15,
+        [Description("LangKeyFriendOfFriend")]
+        FriendofFriend = 16
         //[Description("LangKeyGraphSearchUrl")]
         //GraphSearchUrl = 9,      
         //[Description("LangKeySuggestedFriends")]
@@ -101,9 +101,7 @@ namespace DominatorHouseCore.Enums.FdQuery
         //[Description("LangKeyFriendsBasicDetails")]
         //FriendsBasicDetails = 17,
         //[Description("LangKeyGroupMemberBasicDetails")]
-        //GroupMemberBasicDetails = 18,
-       
-        
+        //GroupMemberBasicDetails = 18,        
         //[Description("LangKeyPeopleConnectedInMessenger")]
         //ConnectedPeopleInMessenger = 21,
     }
@@ -175,35 +173,35 @@ namespace DominatorHouseCore.Enums.FdQuery
         Keywords = 1,
         [Description("LangKeyLocation")]
         Location = 2,
-        [Description("LangKeyFriendOfFriend")]
-        FriendofFriend = 3,
         [Description("LangKeyCustomProfileUrl")]
-        CustomProfileUrl = 4,
+        CustomProfileUrl = 3,
         [Description("LangKeyUserFollower")]
-        UserFollowers = 5,
+        UserFollowers = 4,
         [Description("LangKeyPostLikers")]
-        PostLikers = 6,
+        PostLikers = 5,
         [Description("LangKeyPostSharer")]
-        PostSharer = 7,
+        PostSharer = 6,
         [Description("LangKeyPostCommentors")]
-        PostCommentor = 8,
+        PostCommentor = 7,
         [Description("LangKeyFanpageLikers")]
-        FanpageLikers = 9,
+        FanpageLikers = 8,
         [Description("LangKeyPagePostLikers")]
-        PagePostLikers = 10,
+        PagePostLikers = 9,
         [Description("LangKeyPagePostCommenters")]
-        PagePostCommenters = 11,
+        PagePostCommenters = 10,
         [Description("LangKeyGroupMembers")]
-        GroupMembers = 12,
+        GroupMembers = 11,
         [Description("LangKeyGroupPostLikers")]
-        GroupPostLikers = 13,
+        GroupPostLikers = 12,
         [Description("LangKeyGroupPostCommenters")]
-        GroupPostCommenters = 14,
+        GroupPostCommenters = 13,
         [Description("LangKeyEventUrl")]
-        EventUrl = 15
+        EventUrl = 14,
+        [Description("LangKeyFriendOfFriend")]
+        FriendofFriend = 15
         //[Description("LangKeyGraphSearchUrl")]
         //GraphSearchUrl = 9,
-        
+
         //[Description("LangKeySuggestedFriends")]
         //SuggestedFriends = 15,
 
