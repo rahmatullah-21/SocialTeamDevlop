@@ -4560,4 +4560,6 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeySelectLocationByMultipleCities">Select Location By Multiple Cities</system:String>
     <system:String x:Key="LangKeySkipUserWhoHasEverReceivedMessage">Skip User Who Has Ever Received Message</system:String>
     <system:String x:Key="LangKeySkippingThisUserMessageAlreadySent">Skipping this user, Message already sent</system:String>
+    <system:String x:Key="LangKeyMustHaveEmailId">User Must Have Email-Id</system:String>
+    <system:String x:Key="LangKeyMustHavePhoneNO">User Must Have Phone-No</system:String>
 </ResourceDictionary>

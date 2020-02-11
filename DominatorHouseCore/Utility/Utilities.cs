@@ -460,6 +460,148 @@ namespace DominatorHouseCore.Utility
             }
             return returnIt;
         }
-        
+
+        public static void UpdateResponseHandlerTest(string hitResponse, object hitResponseHandler, string respDataFileLoc, string respHandTestFileLoc, Models.SoftwareSettingsModel softwareSettings = null)
+        {
+            try
+            {
+                if (softwareSettings == null)
+                {
+                    var softwareSettingsFileManager = CommonServiceLocator.ServiceLocator.Current.GetInstance<FileManagers.ISoftwareSettingsFileManager>();
+                    softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+                }
+                if (softwareSettings.IsTestMode)
+                {
+                    // Update data in TestResponseFile(json, html etc.)
+                    FileUtilities.ReWriteDataIntoFile(hitResponse, respDataFileLoc);
+                    
+                    // get text content from the ResponseHandler class file to update the content in it 
+                    var classData = FileUtilities.ReadFile(respHandTestFileLoc).Result;
+
+                    // New checking data
+                    var dateToReplace = GetClassPropertyValueForTests(hitResponseHandler, "sut");
+
+                    // old checking data
+                    var oldData = GetBetween(classData, "#region DataChecking", "#endregion");
+
+                    // renew the class content
+                    classData = classData.Replace(oldData, $"\n{dateToReplace}\n");
+
+                    // updating the class content
+                    FileUtilities.ReWriteDataIntoFile(classData, respHandTestFileLoc);
+                }
+            }
+            catch(Exception ex)
+            { }
+        }
+
+        public static string GetClassPropertyValueForTests(object obj, string startingObjStringName = "sut",
+            string additionalAdd = "")
+        {
+            try
+            {
+                startingObjStringName = startingObjStringName +
+                                        (!string.IsNullOrEmpty(additionalAdd) ? $".{additionalAdd}" : "");
+                var sb = new StringBuilder();
+                GoInsideListMakeString(ref sb, obj, startingObjStringName);
+                var gotString = sb.ToString();
+                return gotString;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            return "";
+        }
+
+        public static void GoInsideListMakeString(ref StringBuilder sb, object obj, string startingObjName)
+        {
+            var listProperties = obj.GetType().GetProperties();
+
+            foreach (var element in listProperties)
+            {
+                var startingObjStringName = startingObjName;
+                try
+                {
+                    var elemName = element.PropertyType.Name;
+                    if (elemName == "int" || elemName == "Boolean")
+                    {
+                        var value = elemName == "Boolean"
+                            ? element.GetValue(obj, null).ToString().ToLower()
+                            : element.GetValue(obj, null).ToString();
+                        if (value != null)
+                            sb.AppendLine(GetString(element.Name, value, startingObjStringName, true));
+                    }
+                    else if (elemName == "String")
+                    {
+                        var value = element.GetValue(obj, null);
+                        if (value != null)
+                        {
+                            var stringValue = value.ToString();
+                            if (stringValue.Contains("\""))
+                                stringValue = stringValue.Replace("\"", "\\\"");
+                            if (stringValue.Contains("\n"))
+                                stringValue = stringValue.Replace("\n", "\\n");
+                            if (stringValue.Contains("\r\n"))
+                                stringValue = stringValue.Replace("\r\n", "\\r\\n");
+
+                            sb.AppendLine(GetString(element.Name, stringValue, startingObjStringName));
+                        }
+                    }
+                    else if (elemName.Contains("List"))
+                    {
+                        var value = element.GetValue(obj, new object[0]);
+                        startingObjStringName = startingObjName + $".{element.Name}";
+                        if (value != null)
+                            sb.AppendLine(GetStringFromListObj(value, startingObjStringName, 1));
+                    }
+                    else
+                    {
+                        var value = element.GetValue(obj, new object[0]);
+                        startingObjStringName = startingObjName + $".{element.Name}"; //value.GetType().Name
+                        if (value != null)
+                            GoInsideListMakeString(ref sb, value, startingObjStringName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+        }
+
+        public static string GetStringFromListObj(object obj, string startingObjStringName, int numberOfDataFromList = 0)
+        {
+            try
+            {
+                var sb = new StringBuilder();
+                var value = (System.Collections.IList)obj;
+                var iteration = 0;
+                if (numberOfDataFromList == 0)
+                    numberOfDataFromList = value.Count;
+
+                foreach (var each in value)
+                {
+                    GoInsideListMakeString(ref sb, each, $"{startingObjStringName}[{iteration++}]");
+                    if (iteration >= numberOfDataFromList) break;
+                }
+
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return "";
+            }
+        }
+
+        public static string GetString(string name, string value, string startingObjStringName, bool isInt = false)
+        {
+            value = isInt ? value : $"\"{value}\"";
+            return $"\n{startingObjStringName}.{name}.Should().Be({value});";
+        }
+
+
     }
 }
