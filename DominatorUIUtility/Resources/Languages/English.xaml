@@ -2139,7 +2139,7 @@
     <system:String x:Key="LangKeySleepBetween">Sleep Between</system:String>
     <system:String x:Key="LangKeySocialNetwork">Social Network</system:String>
     <system:String x:Key="LangKeySocialProfiles">Social Profiles</system:String>
-    <system:String x:Key="LangKeySocinator">Socinator</system:String>
+    <system:String x:Key="LangKeySocinator">Legion</system:String>
     <system:String x:Key="LangKeySociopublisher">Sociopublisher</system:String>
     <system:String x:Key="LangKeySoftwareSettings">Software Settings</system:String>
     <system:String x:Key="LangKeySomeonesFollowers">Someone's Followers</system:String>
