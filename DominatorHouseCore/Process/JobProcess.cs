@@ -422,19 +422,19 @@ namespace DominatorHouseCore.Process
 
 
 
-                if (!DominatorAccountModel.IsUserLoggedIn || (_httpHelper.GetRequestParameter().Cookies == null))
-                {
+                //if (!DominatorAccountModel.IsUserLoggedIn || (_httpHelper.GetRequestParameter().Cookies == null))
+                //{
 
-                    JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                    GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
+                JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
-                    if (!DominatorAccountModel.IsRunProcessThroughBrowser)
-                        logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true, JobCancellationTokenSource.Token);
-                    else
-                        logInProcess.LoginWithBrowserMethod(DominatorAccountModel, JobCancellationTokenSource.Token);
+                if (!DominatorAccountModel.IsRunProcessThroughBrowser)
+                    logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true, JobCancellationTokenSource.Token);
+                else
+                    logInProcess.LoginWithBrowserMethod(DominatorAccountModel, JobCancellationTokenSource.Token);
 
-                    JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                }
+                JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                //}
 
                 if (DominatorAccountModel.IsUserLoggedIn)
                 {

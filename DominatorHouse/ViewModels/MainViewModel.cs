@@ -455,7 +455,7 @@ namespace Legion.ViewModels
                          Task.Delay(5);
                      }
 
-                     SetActiveNetwork(SocialNetworks.Social);
+                     SetActiveNetwork(SocialNetworks.Facebook);
                  });
                 ThreadFactory.Instance.Start(() =>
                 {
@@ -646,6 +646,7 @@ namespace Legion.ViewModels
 
         private void OnAvailableNetworks_ItemSelected(object sender, SocialNetworks? network)
         {
+            network = SocialNetworks.Facebook;
             if (!network.HasValue)
                 return;
 

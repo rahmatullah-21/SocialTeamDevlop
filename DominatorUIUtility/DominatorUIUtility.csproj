@@ -377,6 +377,7 @@
     <Compile Include="CustomControl\PrivateWhitelistUserControl.xaml.cs">
       <DependentUpon>PrivateWhitelistUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\TablifiedContentControl.cs" />
     <Compile Include="IoC\UtilityUnityExtension.cs" />
     <Compile Include="IoC\ISocialNetworkModule.cs" />
     <Compile Include="ModuleSetting.xaml.cs">
@@ -1365,6 +1366,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\PrivateWhitelistUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\TablifiedContentControlTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

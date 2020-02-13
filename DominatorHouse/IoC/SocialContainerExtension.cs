@@ -12,6 +12,7 @@ using LegionUIUtility.ViewModel.OtherTools;
 using Socinator.Factories;
 using Unity;
 using Unity.Extension;
+using LegionUIUtility.CustomControl;
 
 namespace Legion.IoC
 {
@@ -30,8 +31,8 @@ namespace Legion.IoC
             // TODO: reg rid of it later
             Container.RegisterSingleton<TablifiedContentControl, TablifiedContentControl<IDashboardViewModel>>(
                 "Dashboard");
-            Container.RegisterSingleton<TablifiedContentControl, TablifiedContentControl<IThridPartyServicesViewModel>>(
-                "ThirdPartyServices");
+            //Container.RegisterSingleton<TablifiedContentControl, TablifiedContentControl<IThridPartyServicesViewModel>>(
+            //    "ThirdPartyServices");
             Container.RegisterSingleton<TablifiedContentControl, TablifiedContentControl<IOtherConfigurationViewModel>>(
                 "OtherConfiguration");
             Container.RegisterSingleton<TablifiedContentControl, TablifiedContentControl<IOtherToolsViewModel>>(
@@ -39,7 +40,7 @@ namespace Legion.IoC
 
             // viewmodels
             Container.RegisterSingleton<ITablifiedContentControlViewModel<IDashboardViewModel>, TablifiedContentControlViewModel<IDashboardViewModel>>();
-            Container.RegisterSingleton<ITablifiedContentControlViewModel<IThridPartyServicesViewModel>, TablifiedContentControlViewModel<IThridPartyServicesViewModel>>();
+            //Container.RegisterSingleton<ITablifiedContentControlViewModel<IThridPartyServicesViewModel>, TablifiedContentControlViewModel<IThridPartyServicesViewModel>>();
             Container.RegisterSingleton<ITablifiedContentControlViewModel<IOtherConfigurationViewModel>, TablifiedContentControlViewModel<IOtherConfigurationViewModel>>();
             Container.RegisterSingleton<ITablifiedContentControlViewModel<IOtherToolsViewModel>, TablifiedContentControlViewModel<IOtherToolsViewModel>>();
         }
