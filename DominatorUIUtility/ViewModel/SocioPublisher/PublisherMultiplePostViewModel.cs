@@ -124,7 +124,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                //LstPostDetailsModel.Add(postDetailsModel);
+                PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels.Add(postDetailsModel);
                 PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                     .PublisherCreateCampaignModel.LstPostDetailsModels/*LstPostDetailsModel*/);
                 //PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
