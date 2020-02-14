@@ -247,7 +247,7 @@
                         <GridViewColumn Width="80">
                             <GridViewColumn.Header>
                                 <Border  BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <CheckBox x:Name="AllAccountsDestination" Margin="6,2,6,2"  IsChecked="{Binding IsAllDestinationSelected}"  Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllDestinationSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
+                                    <CheckBox x:Name="AllAccountsDestination" Margin="6,2,6,2"  IsChecked="{Binding IsAllDestinationSelected}"  Content=" #" />
                                 </Border>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
@@ -258,7 +258,7 @@
                                           Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},
                                             Converter={StaticResource ListViewItemIndexConverter}}"
                                                   Command="{Binding DataContext.SelectionCommand,
-                                      RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="SelectManually"/>
+                                      RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding}"/>
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -333,7 +333,6 @@
                                                             <MultiDataTrigger.Conditions>
                                                                 <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
                                                                 <Condition Binding="{Binding IsGroupsAvailable}" Value="true"/>
-                                                                <Condition Binding="{Binding IsForScrapingOnly}" Value="false"/>
                                                             </MultiDataTrigger.Conditions>
                                                             <Setter Property="IsEnabled" Value="True"/>
                                                         </MultiDataTrigger>
@@ -368,7 +367,6 @@
                                                             <MultiDataTrigger.Conditions>
                                                                 <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
                                                                 <Condition Binding="{Binding IsPagesOrBoardsAvailable}" Value="true"/>
-                                                                <Condition Binding="{Binding IsForScrapingOnly}" Value="false"/>
                                                             </MultiDataTrigger.Conditions>
                                                             <Setter Property="IsEnabled" Value="True"/>
                                                         </MultiDataTrigger>
@@ -403,7 +401,6 @@
                                                             <MultiDataTrigger.Conditions>
                                                                 <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
                                                                 <Condition Binding="{Binding IsCustomDestinationInNetworks}" Value="true"/>
-                                                                <Condition Binding="{Binding IsForScrapingOnly}" Value="false"/>
                                                             </MultiDataTrigger.Conditions>
                                                             <Setter Property="IsEnabled" Value="True"/>
                                                         </MultiDataTrigger>
@@ -437,7 +434,6 @@
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
                                                                     <Condition Binding="{Binding IsOwnWallAvailable}" Value="true"/>
-                                                                    <Condition Binding="{Binding IsForScrapingOnly}" Value="false"/>
                                                                 </MultiDataTrigger.Conditions>
                                                                 <Setter Property="IsEnabled" Value="True"/>
                                                             </MultiDataTrigger>
@@ -452,17 +448,17 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <!--<GridViewColumn Width="120">
+                        <GridViewColumn Width="150">
                             <GridViewColumn.Header>
                                 <Border BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <CheckBox Margin="6,2,6,2" Content="{DynamicResource LangKeyForScrapingOnly}" IsChecked="{Binding IsAllScrapingOnlyChckd}" />
+                                    <CheckBox Margin="6,2,6,2" Content="{DynamicResource LangKeyScrapeFromAccount}" IsChecked="{Binding IsAllScrapeFromAccount}" />
                                 </Border>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                         <StackPanel Margin="6,2,6,2" HorizontalAlignment="Center">
-                                            <CheckBox  IsChecked="{Binding IsForScrapingOnly}" CommandParameter="{Binding}" Command="{Binding DataContext.ScrapingOnlySelectedCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <CheckBox  IsChecked="{Binding IsScrapeFromAccount}"  >
                                                 <CheckBox.Style>
                                                     <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
                                                         <Setter Property="IsEnabled" Value="false"/>
@@ -471,9 +467,11 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
+                                                                    <Condition Binding="{Binding IsScrapingAvailableInNetworks}" Value="true"/>
                                                                 </MultiDataTrigger.Conditions>
                                                                 <Setter Property="IsEnabled" Value="True"/>
                                                             </MultiDataTrigger>
+                                                            
                                                         </Style.Triggers>
                                                     </Style>
                                                 </CheckBox.Style>
@@ -482,7 +480,7 @@
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
-                        </GridViewColumn>-->
+                        </GridViewColumn>
 
 
                         <GridViewColumn Width="150">

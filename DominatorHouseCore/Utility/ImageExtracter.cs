@@ -21,27 +21,7 @@ namespace DominatorHouseCore.Utility
         public static IEnumerable<string> ExtractImageUrls(string url, ref string title, bool isBackgroundImageNeed = false)
         {
             var imageUrl = new List<string>();
-
-            // check whether url contains comma (",") then split with comma and check whether its proper image or not 
-            //if (url.Contains(",") || IsImageUrl(url))
-            //{
-            //    imageUrl.Add(url);
-            //    if (!url.Contains(","))
-            //    {
-            //        // Add a image
-            //        imageUrl.Add(url);
-            //    }
-            //    else
-            //    {
-            //        // split all images url  with comma
-            //        var imageUrls = Regex.Split(url, ",").ToList();
-
-            //        // Add to list
-            //        imageUrl.AddRange(imageUrls);
-            //    }
-            //}
-            //else
-            //{
+           
             var scrapeUrl = new Uri(url);
             var host = scrapeUrl.Host;
 
@@ -60,11 +40,13 @@ namespace DominatorHouseCore.Utility
 
                 var googlePageResult = objwebclient.DownloadString(scrapeUrl);
 
+                googlePageResult = WebUtility.HtmlDecode(googlePageResult);
+
                 title = Utilities.GetBetween(googlePageResult, "<title>", "- Google Search</title>");
 
                 var images = Regex.Split(googlePageResult, "ou\":\"").Skip(1).ToArray();
                 if (images.Length == 0)
-                    images = Regex.Split(googlePageResult, "src").Skip(1).ToArray();
+                    images = Regex.Split(googlePageResult, "data-iurl=\"").Skip(1).ToArray();
 
                 imageUrl = new List<string>();
                 images.ForEach(x =>
@@ -80,6 +62,8 @@ namespace DominatorHouseCore.Utility
                 // Create a request to getting response of given url
                 var webClient = new WebClient();
                 var pageResult = webClient.DownloadString(scrapeUrl);
+
+                pageResult = WebUtility.HtmlDecode(pageResult);
 
                 title = Utilities.GetBetween(pageResult, "<title>", "- Google Search</title>");
 

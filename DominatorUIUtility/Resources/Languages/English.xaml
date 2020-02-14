@@ -4541,7 +4541,7 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeGoogleSearch">Add Posts Source! Like ([G]Google images, [U]Any other url)</system:String>
     <system:String x:Key="LangKeyScrapeImagesFromGoogle">Scrape Images/Preview/Product Details From Google/Any Link Url</system:String>
     <system:String x:Key="LangKeyImagesForEachUrl">Images for each Url.</system:String>
-    <system:String x:Key="LangKeyForScrapingOnly">For Scraping Only.</system:String>
+    <system:String x:Key="LangKeyScrapeFromAccount">Scrape From Account</system:String>
     <system:String x:Key="LangKeyRemoveAllDestinations">Remove All Destinations</system:String>
     <system:String x:Key="LangKeyDestinationDetailsWillBeRemoved" xml:space="preserve">All selected destinations must be removed to proceed for option "Scraping only"!
 Do you want to continue?</system:String>
