@@ -4012,7 +4012,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyLicenseError">License Error</system:String>
     <system:String x:Key="LangKeyNote">Note</system:String>
     <system:String x:Key="LangIGWontRunWithBrowserAutoTryWithHttp">Instagram accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
-    <system:String x:Key="LangKeyPostPerAccountWithSpecificQuery">post per account with specific query</system:String>
     <system:String x:Key="LangKeyFriendsBasicDetails">Friends Basic Details</system:String>
     <system:String x:Key="LangKeyFacebookConfigurationSaved">Facebook Configuration successfully saved !!</system:String>
     <system:String x:Key="LangKeyValidate">Validate</system:String>
@@ -4562,4 +4561,16 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeySkippingThisUserMessageAlreadySent">Skipping this user, Message already sent</system:String>
     <system:String x:Key="LangKeyMustHaveEmailId">User Must Have Email-Id</system:String>
     <system:String x:Key="LangKeyMustHavePhoneNO">User Must Have Phone-No</system:String>
+    <system:String x:Key="LangKeyPerAccountsActivitiesOn">Per accounts activities on</system:String>
+    <system:String x:Key="LangKeyResultsFromQueryOnEachRun">results fetched from each query On each Run</system:String>
+    <system:String x:Key="LangKeyPostPerAccountWithSpecificQuery">post per account with specific query</system:String>
+    <system:String x:Key="LangKeyMultipleActivitiesOnPostFromAccount">activities in multiple on same post from each account</system:String>
+    <system:String x:Key="LangKeyButUniquely">but uniquely</system:String>
+    <system:String x:Key="LangKeyFollowPages">Follow Pages</system:String>
+    <system:String x:Key="LangKeyLinkedinPageUrl">Page Url</system:String>
+    <system:String x:Key="LangKeyNumberOfFollowPagesPerJob">Number Of Follow Pages Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfFollowPagesPerHour">Number Of Follow Pages Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfFollowPagesPerDay">Number Of Follow Pages Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfFollowPagesPerWeek">Number Of Follow Pages Per Week</system:String>
+    <system:String x:Key="LangKeyMaxFollowPagesPerDay">Max Follow Pages Per Day</system:String>
 </ResourceDictionary>

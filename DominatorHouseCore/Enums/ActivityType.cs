@@ -338,6 +338,8 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         CommentRepliesScraper = 120,
         [Description("LinkedIn")]
-        MessageConversationScraper =121
+        MessageConversationScraper =121,
+        [Description("LinkedIn")]
+        FollowPages = 122
     }
 }

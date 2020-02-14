@@ -17,6 +17,8 @@ namespace DominatorHouseCore.Enums.LdQuery
         [Description("LangKeySalesNavUserScraperCampaign")]
         SalesNavUserScraperCampaign,
         [Description("LangKeySalesNavigatorSearchUrl")]
-        SalesNavigatorSearchUrl
+        SalesNavigatorSearchUrl,
+        [Description("LangKeyLinkedinPageUrl")]
+        PageUrl,
     }
 }
