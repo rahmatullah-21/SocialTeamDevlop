@@ -4561,7 +4561,7 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeySkippingThisUserMessageAlreadySent">Skipping this user, Message already sent</system:String>
     <system:String x:Key="LangKeyMustHaveEmailId">User Must Have Email-Id</system:String>
     <system:String x:Key="LangKeyMustHavePhoneNO">User Must Have Phone-No</system:String>
-    <system:String x:Key="LangKeyPerAccountsActivitiesOn">Per accounts activities on</system:String>
+    <system:String x:Key="LangKeyPerAccountsActivitiesOn">Per account activities on</system:String>
     <system:String x:Key="LangKeyResultsFromQueryOnEachRun">results fetched from each query On each Run</system:String>
     <system:String x:Key="LangKeyPostPerAccountWithSpecificQuery">post per account with specific query</system:String>
     <system:String x:Key="LangKeyMultipleActivitiesOnPostFromAccount">activities in multiple on same post from each account</system:String>

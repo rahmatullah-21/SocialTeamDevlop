@@ -79,5 +79,20 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _timeoutToSolveCaptchaManually, value);
             }
         }
+
+        private bool _isCheckActivitiesOnNPost;
+        [ProtoMember(6)]
+        public bool IsCheckActivitiesOnNPost
+        {
+            get { return _isCheckActivitiesOnNPost; }
+            set { SetProperty(ref _isCheckActivitiesOnNPost, value); }
+        }
+        private RangeUtilities _activitiesOnNPost = new RangeUtilities(5, 10);
+        [ProtoMember(7)]
+        public RangeUtilities ActivitiesOnNPost
+        {
+            get { return _activitiesOnNPost; }
+            set { SetProperty(ref _activitiesOnNPost, value); }
+        }
     }
 }
