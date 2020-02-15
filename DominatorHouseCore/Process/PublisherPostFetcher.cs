@@ -368,9 +368,7 @@ namespace DominatorHouseCore.Process
                             {
                                 destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
                                 {
-                                    if (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key)
-                                                && destinationDetails.ListSelectDestination.FirstOrDefault(
-                                                    x => x.AccountId == networkWithAccount.Value).IsScrapeFromAccount)
+                                    if (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
 
                                     {
                                     // Get the proper library for publisher
