@@ -1,3 +1,44 @@
+Version[1.0.0.77],[17th February 2020]
+New Features:-
+	Social:-
+		sociopublisher ==> Added feature to scraper images from Google/any Other Links
+		Social ==> Other Configuration ==> Youtube Tab ==> Added setting to do activity on some specified amount of results fetched from any search query (this setting will be executed on each campaign/account run).
+
+	Pinterest:
+		Pin message ==> Broadcast message ==> Now you can skip those users who already received Message
+
+	Instagram:
+ 		Instachat ==> Now  you can send Messages with videos
+
+	Linkedin:
+		Grow connection ==> FollowPages ==> Added feature to follow pages 
+	
+	Youtube:
+		Like Comment ==> Other Configuration ==>  Added setting to like comments in a specified amount in each video post (this setting will be executed on each campaign/account run).
+
+Fixed:-
+	Social:
+		social ==> Tumblr ==> Account Manager ==> Go to tools ==> Account activity ==> Fixed issue with Report.
+
+	Facebook:
+		Broadcast message ==> Send greetings to friends ==> Fixed issue with showing the message as successfully completed the process.
+		Scraper ==> Profile Scraper ==> filters ==> Gender & location ==> Fixed issue with profile Doesn't Match With Gender Filter Condition.
+		Scraper ==> Comment scraper ==> Fixed issue with pagination in comments.
+
+	Linkedin:
+ 		Scraper ==> Message conversatio scraper ==> Query Type==> 1st connection ==> Fixed issue with message scraper.
+             	Engage ==> Like ==> Query Type ==> Someones post ==> Fixed issue with Like.
+		Messenger ==> Broadcast Messages ==> Fixed issue with broadcast message.
+
+	Youtube:
+		Engage[http mode] ==> Like ==> Fixed issue in other configuration
+		Engage[http mode] ==> Like ==> Fixed issue in export report
+
+ 	Twitter:
+		Poster ==> Retweet ==> keywords ==> Fixed issue with no more data.
+		Poster ==> Reposter ==> keywords ==> Fixed issue with no more data.
+		Grow Follower ==> Follow ==> Fixed issue with 'user has profile image' filte.	
+
 Version[1.0.0.76],[8th February 2020]
 Fixed:- 
 	Social:
