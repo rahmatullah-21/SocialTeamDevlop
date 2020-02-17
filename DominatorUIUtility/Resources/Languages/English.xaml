@@ -4573,4 +4573,5 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeyNumberOfFollowPagesPerDay">Number Of Follow Pages Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfFollowPagesPerWeek">Number Of Follow Pages Per Week</system:String>
     <system:String x:Key="LangKeyMaxFollowPagesPerDay">Max Follow Pages Per Day</system:String>
+    <system:String x:Key="LangKeyCommentsInEachVideo">comments in each video post in each run.</system:String>
 </ResourceDictionary>

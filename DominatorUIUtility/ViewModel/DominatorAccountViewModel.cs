@@ -1550,16 +1550,16 @@ namespace DominatorUIUtility.ViewModel
                               .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn4Value;
 
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader}";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},SocialUser";
 
             else if (!string.IsNullOrEmpty(FourthCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader}";            
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader},SocialUser";            
 
             else if (!string.IsNullOrEmpty(ThirdCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader}";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},SocialUser";
 
             else if (!string.IsNullOrEmpty(SecondCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader}";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},SocialUser";
 
 
             var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_Accounts {ConstantVariable.DateasFileName}.csv";
@@ -1594,7 +1594,8 @@ namespace DominatorUIUtility.ViewModel
                      + account.DisplayColumnValue1
                      + (string.IsNullOrEmpty(SecondCountHeader) ? "" : $",{account.DisplayColumnValue2}")
                      + (string.IsNullOrEmpty(ThirdCountHeader) ? "" : $",{account.DisplayColumnValue3}")
-                     + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}");
+                     + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}")
+                     + $",{account.AccountBaseModel.ProfileId}";
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
