@@ -4574,4 +4574,17 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeyNumberOfFollowPagesPerWeek">Number Of Follow Pages Per Week</system:String>
     <system:String x:Key="LangKeyMaxFollowPagesPerDay">Max Follow Pages Per Day</system:String>
     <system:String x:Key="LangKeyCommentsInEachVideo">comments in each video post in each run.</system:String>
+    <system:String x:Key="LangKeyLastHour">Last hour</system:String>
+    <system:String x:Key="LangKeyThisWeek">This week</system:String>
+    <system:String x:Key="LangKeyThisMonth">This month</system:String>
+    <system:String x:Key="LangKeyThisYear">This year</system:String>
+    <system:String x:Key="LangKeyShortDurationYT">Short (less than 4 minutes)</system:String>
+    <system:String x:Key="LangKeyLongDurationYT">Long (more than 20 minutes)</system:String>
+    <system:String x:Key="LangKeyRelevance">Relevance</system:String>
+    <system:String x:Key="LangKeyUploadDate">Upload date</system:String>
+    <system:String x:Key="LangKeyRating">Rating</system:String>
+    <system:String x:Key="LangKeyFilterSearchingVideos">Filter searching videos</system:String>
+    <system:String x:Key="LangKeyNone">None</system:String>
+    <system:String x:Key="LangKeySortByNoCollon">Sort by</system:String>
+    <system:String x:Key="LangKeyApplicableOnKeywordQueries">Applicable only on keywords queries</system:String>
 </ResourceDictionary>

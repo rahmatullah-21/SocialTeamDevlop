@@ -24,7 +24,7 @@
             <Grid Grid.Column="0">
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <StackPanel Orientation="Horizontal"    Margin="0,10">
+                    <StackPanel Orientation="Horizontal"  Margin="0,10">
                         <Label   VerticalAlignment="Top"  Content="{DynamicResource LangKeyQueryType}" HorizontalAlignment="Right" Height="25"/>
                         <ComboBox  ItemsSource="{Binding ListQueryType}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
                                       SelectedIndex="{Binding SelectedIndex}" SelectionChanged="ComboBox_SelectionChanged"
