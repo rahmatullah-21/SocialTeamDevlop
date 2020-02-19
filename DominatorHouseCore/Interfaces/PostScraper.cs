@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Threading;
 using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
@@ -11,7 +10,6 @@ namespace DominatorHouseCore.Interfaces
 {
     public abstract class PostScraper
     {
-
         private readonly string _CampaignId;
         private readonly PublisherPostFetchModel _CurrentPostFetcher;
         private readonly CancellationTokenSource _PostFetcherCancellationToken;
@@ -20,6 +18,8 @@ namespace DominatorHouseCore.Interfaces
         private static ConcurrentDictionary<string, int> _campaignPostCount { get; set; } = new ConcurrentDictionary<string, int>();
 
         private static ConcurrentDictionary<string, string> _lstCampaignPostId { get; set; } = new ConcurrentDictionary<string, string>();
+
+        protected PublisherInitialize _publisherInitialize = PublisherInitialize.GetInstance;
 
         public PostScraper(string CampaignId, CancellationTokenSource campaignCancellationToken,
             PublisherPostFetchModel postFetcherModel)
