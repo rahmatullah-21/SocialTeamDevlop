@@ -33,7 +33,6 @@
     <ProductName>Legion</ProductName>
     <PublisherName>Legion</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-
     <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.0.0.8</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
@@ -373,9 +372,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="SociNator.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <EmbeddedResource Include="RevisionHistory\revisionhistory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -398,9 +394,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="LegionIcon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SocinatorIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SQLite.Interop.dll">

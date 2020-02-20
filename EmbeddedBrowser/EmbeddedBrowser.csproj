@@ -273,11 +273,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\SociNator.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="CefSharpFiles\Libs\CefSharp.BrowserSubprocess.Core.dll" />
     <Content Include="CefSharpFiles\Libs\CefSharp.BrowserSubprocess.exe" />
     <Content Include="CefSharpFiles\Libs\CefSharp.dll" />
@@ -287,7 +282,9 @@
     <Content Include="CefSharpFiles\Libs\libEGL.dll" />
     <Content Include="CefSharpFiles\Libs\libGLESv2.dll" />
     <Content Include="CefSharpFiles\Libs\widevinecdmadapter.dll" />
-    <Resource Include="Resources\Legion.ico" />
+    <Resource Include="Resources\Legion.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>

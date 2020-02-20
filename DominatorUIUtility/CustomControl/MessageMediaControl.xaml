@@ -3,12 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-<<<<<<< HEAD
              xmlns:local="clr-namespace:LegionUIUtility.CustomControl"
-=======
-             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
->>>>>>> bc3dba9e410215ce42e290dda4e7f4bc8a9bd929
              mc:Ignorable="d" >
     <StackPanel  x:Name="MainGrid">
         <Grid >
@@ -48,7 +44,7 @@
 
                             </StackPanel>
                         </Button.Content>
-                        <Button.Style>
+                        <!--<Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}" >
                                 <Setter Property="Visibility" Value="Collapsed" />
                                 <Style.Triggers>
@@ -57,7 +53,7 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </Button.Style>
+                        </Button.Style>-->
 
                     </Button>
                     <Image Source="{Binding Messages.MediaPath}"  Height="Auto" MaxHeight="60" Margin="5" VerticalAlignment="Center">
