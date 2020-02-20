@@ -4588,4 +4588,5 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeySortByNoCollon">Sort by</system:String>
     <system:String x:Key="LangKeyApplicableOnKeywordQueries">Applicable only on keywords queries</system:String>
     <system:String x:Key="LangKeyStopAll">Stop all</system:String>
+    <system:String x:Key="LangKeySelectLocationAndSave">Please Select Location And Save</system:String>
 </ResourceDictionary>
