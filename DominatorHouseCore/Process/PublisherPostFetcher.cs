@@ -368,23 +368,42 @@ namespace DominatorHouseCore.Process
                             {
                                 destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
                                 {
-                                    if (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
+                                    if (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key)
+                                            && destinationDetails.ListSelectDestination
+                                            .FirstOrDefault(x => x.AccountId == networkWithAccount.Value).IsScrapeFromAccount)
 
                                     {
-                                    // Get the proper library for publisher
+                                        // Get the proper library for publisher
 
 
-                                    try
+                                        try
                                         {
                                             var networkPostScraper = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
                                                     .PostScraper.GetPostScraperLibrary(publisherPostFetchModel.CampaignId, cancellationTokenSource, publisherPostFetchModel);
 
                                             if (publisherPostFetchModel.PostSource == PostSource.SharePost)
                                             {
-                                            // Call Share post from facebook
-                                            if (networkWithAccount.Key == SocialNetworks.Facebook)
+                                                // Call Share post from facebook
+                                                if (networkWithAccount.Key == SocialNetworks.Facebook)
                                                 {
                                                     var scrapeJobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.SharePost.ToString()}";
+
+                                                    // Register to sorted set
+                                                    JobFetcherId.Add(scrapeJobName);
+
+                                                    // Add the Job for scrape 
+                                                    JobManager.AddJob(() =>
+                                                                               {
+                                                                                   networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource, publisherPostFetchModel.ScrapeCount);
+
+                                                                               }, s => s.WithName(scrapeJobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
+                                                }
+                                            }
+                                            // Scarpe the posts from Facebook, Twitter, Pinterest
+                                            else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
+                                            {
+                                                // Get the proper name for scrape job process
+                                                var scrapeJobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.ScrapedPost.ToString()}";
 
                                                 // Register to sorted set
                                                 JobFetcherId.Add(scrapeJobName);
@@ -392,27 +411,10 @@ namespace DominatorHouseCore.Process
                                                 // Add the Job for scrape 
                                                 JobManager.AddJob(() =>
                                                                            {
-                                                                               networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource, publisherPostFetchModel.ScrapeCount);
-
+                                                                               networkPostScraper.ScrapePosts(networkWithAccount.Value,
+                                                                                        publisherPostFetchModel.CampaignId, postFetchDetails,
+                                                                                        cancellationTokenSource, publisherPostFetchModel.ScrapeCount);
                                                                            }, s => s.WithName(scrapeJobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
-                                                }
-                                            }
-                                        // Scarpe the posts from Facebook, Twitter, Pinterest
-                                        else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
-                                            {
-                                            // Get the proper name for scrape job process
-                                            var scrapeJobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.ScrapedPost.ToString()}";
-
-                                            // Register to sorted set
-                                            JobFetcherId.Add(scrapeJobName);
-
-                                            // Add the Job for scrape 
-                                            JobManager.AddJob(() =>
-                                                                       {
-                                                                           networkPostScraper.ScrapePosts(networkWithAccount.Value,
-                                                                                    publisherPostFetchModel.CampaignId, postFetchDetails,
-                                                                                    cancellationTokenSource, publisherPostFetchModel.ScrapeCount);
-                                                                       }, s => s.WithName(scrapeJobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
                                             }
 
                                         }

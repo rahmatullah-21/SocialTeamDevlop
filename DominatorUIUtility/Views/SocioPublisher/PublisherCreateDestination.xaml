@@ -448,7 +448,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <!--<GridViewColumn Width="150">
+                        <GridViewColumn Width="150">
                             <GridViewColumn.Header>
                                 <Border BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                     <CheckBox Margin="6,2,6,2" Content="{DynamicResource LangKeyScrapeFromAccount}" IsChecked="{Binding IsAllScrapeFromAccount}" />
@@ -480,7 +480,7 @@
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
-                        </GridViewColumn>-->
+                        </GridViewColumn>
 
 
                         <GridViewColumn Width="150">
