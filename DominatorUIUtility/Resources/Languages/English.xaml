@@ -2210,7 +2210,7 @@
     <system:String x:Key="LangKeyStopFollowToolWhenReaching">Stop Follow Tool When Reaching</system:String>
     <system:String x:Key="LangKeyStopJoinTool">Stop Join Tool</system:String>
     <system:String x:Key="LangKeyStopProcess">Stop Process</system:String>
-    <system:String x:Key="LangKeyStopAllActivity">Stop All Activity</system:String>
+    <system:String x:Key="LangKeyStopAllActivity">Stop All Activities</system:String>
     <system:String x:Key="LangKeyStopRandomisingDestinationsOrderForPosts">Stop Randomising Destinations Order For Posts</system:String>
     <system:String x:Key="LangKeyStopSavingEmbeddedBrowserScreenshotsWhenErrorOccurToSaveDiskSpace">Stop Saving Embedded Browser Screenshots When Error Occur (To Save Disk Space)</system:String>
     <system:String x:Key="LangKeyStopTheCampaignForSpecificErrorCodes">Stop The Campaign For Specific Error Codes</system:String>
@@ -4587,4 +4587,5 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeyNone">None</system:String>
     <system:String x:Key="LangKeySortByNoCollon">Sort by</system:String>
     <system:String x:Key="LangKeyApplicableOnKeywordQueries">Applicable only on keywords queries</system:String>
+    <system:String x:Key="LangKeyStopAll">Stop all</system:String>
 </ResourceDictionary>

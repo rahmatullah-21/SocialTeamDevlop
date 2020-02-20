@@ -340,6 +340,8 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         MessageConversationScraper =121,
         [Description("LinkedIn")]
-        FollowPages = 122
+        FollowPages = 122,
+        [Description("LangKeyStopAll")]
+        StopAll = 123
     }
 }
