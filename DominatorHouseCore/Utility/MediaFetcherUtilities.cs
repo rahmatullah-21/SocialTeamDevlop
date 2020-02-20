@@ -21,6 +21,8 @@ namespace DominatorHouseCore.Utility
             {
                 var imageUrlList = Regex.Split(postDetailsModel.AddGooglePostSource, ",").ToList();
 
+                imageUrlList.Shuffle();
+
                 foreach (var imageUrl in imageUrlList)
                 {
                     if (imageUrl.Contains("[G]"))
@@ -46,7 +48,7 @@ namespace DominatorHouseCore.Utility
                 var pageTitle = string.Empty;
                 DateTime? expireDate = DateTime.Now.AddYears(2);
                 List<PublisherPostlistModel> postCollection = new List<PublisherPostlistModel>();
-                var imageUrlList = Regex.Split(googleImageLink, "\\[G\\]").ToList();
+                var imageUrl = Regex.Split(googleImageLink, "\\[G\\]").LastOrDefault();
 
                 var campaignDetails = PostlistFileManager.GetAll(campaignId);
 
@@ -54,86 +56,87 @@ namespace DominatorHouseCore.Utility
                     int.TryParse(campaignDetails.LastOrDefault(x => x.PostSource == PostSource.ScrapeImages
                             && x.PostDescription.Contains("_")).PostDescription.Split('_').LastOrDefault(), out descriptionCount);
 
+                totalCount = campaignDetails.Count;
+
                 var postCount = maximumPostLimitToStore - campaignDetails.Count;
 
-                imageUrlList.RemoveAll(x => string.IsNullOrEmpty(x));
 
-                foreach (var imageUrl in imageUrlList)
+                try
                 {
-                    try
+                    failedCount = 0;
+
+                    var imagelist = ImageExtracter.ExtractImageUrls(imageUrl, ref pageTitle).ToList();
+
+                    while (imagelist.Any(x => !x.Contains("https://") && !x.Contains("http://")) && failedCount++ < 5)
                     {
-                        failedCount = 0;
-
-                        var imagelist = ImageExtracter.ExtractImageUrls(imageUrl, ref pageTitle).ToList();
-
-                        while (imagelist.Any(x => !x.Contains("https://") && !x.Contains("http://")) && failedCount++ < 5)
-                        {
-                            Thread.Sleep(1000);
-                            imagelist = ImageExtracter.ExtractImageUrls(imageUrl, ref pageTitle).ToList();
-                        }
-
-                        imagelist.RemoveAll(x => !x.Contains("https://") && !x.Contains("http://"));
-
-                        imagelist.RemoveAll(x => campaignDetails.Any(y => y.MediaList.Contains(x)));
-
-                        foreach (var image in imagelist)
-                        {
-                            var postFetcherList = new PublisherPostlistModel
-                            {
-                                MediaList = new ObservableCollection<string>() { image },
-                                CampaignId = campaignId,
-                                CreatedTime = DateTime.Now,
-                                ExpiredTime = expireDate,
-                                PostId = Utilities.GetGuid(),
-                                PostCategory = PostCategory.OrdinaryPost,
-                                PostQueuedStatus = PostQueuedStatus.Pending,
-                                PostRunningStatus = PostRunningStatus.Active,
-                                PostSource = PostSource.ScrapeImages,
-                                PostDescription = postDetailsModel.IsUseFileNameAsDescription ||
-                                    postDetailsModel.LstUploadPostDescription.Count < descriptionCount ? $"{pageTitle}_{descriptionCount}" :
-                                    postDetailsModel.LstUploadPostDescription[descriptionCount]
-                                //PdSourceUrl = postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", newLink),
-                                //PublisherInstagramTitle = 
-                            };
-
-                            if (postCollection.Count < postDetailsModel.ScrapeCountPerUrl)
-                                postCollection.Add(postFetcherList);
-                            else
-                                break;
-
-                            totalCount++;
-                            descriptionCount++;
-                        }
-
                         Thread.Sleep(1000);
-
-                        if (postCount > 0)
-                        {
-                            postCollection = postCollection.Take(postCount).ToList();
-                            PostlistFileManager.AddRange(campaignId, postCollection);
-                            var publisherInitialize = PublisherInitialize.GetInstance;
-                            publisherInitialize.UpdatePostCounts(campaignId);
-                        }
-                        else
-                        {
-                            // Inform the maximum post has reached via Toaster notification
-                            ToasterNotification.ShowInfomation(String.Format("LangKeyPostlistReachedToMax".FromResourceDictionary(), campaignName, maximumPostLimitToStore));
-                            break;
-                        }
-
-                        postCount -= postCollection.Count;
-
-                        postCollection.Clear();
-
-                        if (totalCount >= postDetailsModel.ScrapeCount)
-                            break;
+                        imagelist = ImageExtracter.ExtractImageUrls(imageUrl, ref pageTitle).ToList();
                     }
-                    catch (Exception ex)
+
+                    imagelist.RemoveAll(x => !x.Contains("https://") && !x.Contains("http://"));
+
+                    imagelist.RemoveAll(x => campaignDetails.Any(y => y.MediaList.Contains(x)));
+
+                    foreach (var image in imagelist)
                     {
-                        ex.DebugLog();
+                        var postFetcherList = new PublisherPostlistModel
+                        {
+                            MediaList = new ObservableCollection<string>() { image },
+                            CampaignId = campaignId,
+                            CreatedTime = DateTime.Now,
+                            ExpiredTime = expireDate,
+                            PostId = Utilities.GetGuid(),
+                            PostCategory = PostCategory.OrdinaryPost,
+                            PostQueuedStatus = PostQueuedStatus.Pending,
+                            PostRunningStatus = PostRunningStatus.Active,
+                            PostSource = PostSource.ScrapeImages,
+                            PostDescription = postDetailsModel.IsUseFileNameAsDescription ||
+                                postDetailsModel.LstUploadPostDescription.Count < descriptionCount ? $"{pageTitle}_{descriptionCount}" :
+                                postDetailsModel.LstUploadPostDescription[descriptionCount]
+                            //PdSourceUrl = postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", newLink),
+                            //PublisherInstagramTitle = 
+                        };
+
+                        if (postCollection.Count < postDetailsModel.ScrapeCountPerUrl)
+                            postCollection.Add(postFetcherList);
+                        else
+                            break;
+
+                        totalCount++;
+                        descriptionCount++;
                     }
 
+                    Thread.Sleep(1000);
+
+                    if (postCount > 0)
+                    {
+                        postCollection = (postDetailsModel.ScrapeCount- campaignDetails.Count) < postCount ?
+                            postCollection.Take(postDetailsModel.ScrapeCount - campaignDetails.Count).ToList() :
+                            postCollection.Take(postCount).ToList();
+                        PostlistFileManager.AddRange(campaignId, postCollection);
+                        var publisherInitialize = PublisherInitialize.GetInstance;
+                        publisherInitialize.UpdatePostCounts(campaignId);
+                    }
+                    else
+                    {
+                        // Inform the maximum post has reached via Toaster notification
+                        ToasterNotification.ShowInfomation(String.Format("LangKeyPostlistReachedToMax".FromResourceDictionary(), campaignName, maximumPostLimitToStore));
+                        return;
+                    }
+
+                    postCount -= postCollection.Count;
+
+                    postCollection.Clear();
+
+                    if (totalCount >= postDetailsModel.ScrapeCount)
+                        return;
                 }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
+
 
             }
             catch (Exception ex)

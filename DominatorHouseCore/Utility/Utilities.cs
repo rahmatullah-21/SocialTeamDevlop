@@ -461,6 +461,25 @@ namespace DominatorHouseCore.Utility
             return returnIt;
         }
 
+        public static void UpdateTestResponseDataFile(string hitResponse, string respDataFileLoc, Models.SoftwareSettingsModel softwareSettings = null)
+        {
+            try
+            {
+                if (softwareSettings == null)
+                {
+                    var softwareSettingsFileManager = CommonServiceLocator.ServiceLocator.Current.GetInstance<FileManagers.ISoftwareSettingsFileManager>();
+                    softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+                }
+                if (softwareSettings.IsTestMode)
+                {
+                    // Update data in TestResponseFile(json, html etc.)
+                    FileUtilities.ReWriteDataIntoFile(hitResponse, respDataFileLoc);
+                }
+            }
+            catch (Exception ex)
+            { }
+        }
+
         public static void UpdateResponseHandlerTest(string hitResponse, object hitResponseHandler, string respDataFileLoc, string respHandTestFileLoc, Models.SoftwareSettingsModel softwareSettings = null)
         {
             try

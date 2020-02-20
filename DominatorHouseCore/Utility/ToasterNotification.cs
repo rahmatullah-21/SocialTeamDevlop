@@ -65,12 +65,12 @@ namespace DominatorHouseCore.Utility
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    Notifier.ShowError(message);
+                    Notifier.ShowError(message, new ToastNotifications.Core.MessageOptions() { FontSize = 14 });
                 });
             }
             else
             {
-                Notifier.ShowError(message);
+                Notifier.ShowError(message, new ToastNotifications.Core.MessageOptions() { FontSize = 14 });
             }
         }
 

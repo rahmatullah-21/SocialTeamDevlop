@@ -190,6 +190,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                             moduleConfiguration.NextRun = DateTimeUtilities.GetNextStartTime(moduleConfiguration);
                         }
                         moduleConfiguration.IsEnabled = needRestart;
+                        if (moduleConfiguration.Status == null || moduleConfiguration.Status == "Active" && !moduleConfiguration.IsEnabled || moduleConfiguration.Status == "Paused" && moduleConfiguration.IsEnabled)
+                            moduleConfiguration.Status = moduleConfiguration.IsEnabled ? "Active" : "Paused";
                         _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
                         _accountsCacheService.UpsertAccounts(account);
                     }

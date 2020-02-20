@@ -910,8 +910,8 @@ namespace LegionUIUtility.ViewModel
                                     {
                                         if (checkSucceeded.Result)
                                         {
-                                           //asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
-                                           //     dominatorAccountModel.Token);
+                                            //asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
+                                            //     dominatorAccountModel.Token);
                                         }
 
                                         return new Task(() => { });
@@ -1500,6 +1500,7 @@ namespace LegionUIUtility.ViewModel
 
 
 
+
             var filename = $"{exportPath}\\Legion_Accounts {ConstantVariable.DateasFileName}.csv";
 
             if (!File.Exists(filename))
@@ -1528,7 +1529,8 @@ namespace LegionUIUtility.ViewModel
                      + account.DisplayColumnValue1
                      + (string.IsNullOrEmpty(SecondCountHeader) ? "" : $",{account.DisplayColumnValue2}")
                      + (string.IsNullOrEmpty(ThirdCountHeader) ? "" : $",{account.DisplayColumnValue3}")
-                     + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}");
+                     + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}")
+                     + $",{account.AccountBaseModel.ProfileId}";
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1770,7 +1772,7 @@ namespace LegionUIUtility.ViewModel
 
                             var browserManager = accountScopeFactory[$"{account.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(account.AccountBaseModel.AccountNetwork.ToString());
 
-                            browserManager.BrowserLogin(account,account.Token, LoginType.InitialiseBrowser);
+                            browserManager.BrowserLogin(account, account.Token, LoginType.InitialiseBrowser);
                         }
                     }
                     catch (Exception ex)
@@ -1972,7 +1974,7 @@ namespace LegionUIUtility.ViewModel
 
                                 var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
                                 var accounts = globalDbOperation.UpdateAccountDetails(account);
-                                
+
                                 try
                                 {
                                     lock (AccountUpdateLock)
@@ -2259,7 +2261,7 @@ namespace LegionUIUtility.ViewModel
                     var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
 
                     var browserManager = accountScopeFactory[$"{dominatorAccountModel.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
-                   
+
                     // don't pass account's cancellationToken here. Otherwise "stopping account activity" could close the browser opened by BrowserLogin click 
                     browserManager.BrowserLogin(dominatorAccountModel, new CancellationToken(), LoginType.BrowserLogin);
                 });

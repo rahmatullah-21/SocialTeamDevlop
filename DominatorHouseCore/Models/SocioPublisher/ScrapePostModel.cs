@@ -383,6 +383,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+
+        private bool _isScrapeHighQualityImages;
+        [ProtoMember(23)]
+        public bool IsScrapeHighQualityImages
+        {
+            get
+            {
+                return _isScrapeHighQualityImages;
+            }
+            set
+            {
+                if (_isScrapeHighQualityImages == value)
+                    return;
+                SetProperty(ref _isScrapeHighQualityImages, value);
+            }
+        }
+
         #endregion
 
     }

@@ -363,6 +363,7 @@
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedCompanies.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedGroups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedJobs.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Account\InteractedPage.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InvitationsSent.cs" />
@@ -373,6 +374,7 @@
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedCompanies.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedGroups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedJobs.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedPage.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\DailyStatitics.cs" />

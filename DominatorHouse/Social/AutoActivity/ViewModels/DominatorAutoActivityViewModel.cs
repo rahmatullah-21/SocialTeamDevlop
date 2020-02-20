@@ -9,6 +9,7 @@ using DominatorHouseCore.Utility;
 using LegionUIUtility.ViewModel;
 using Prism.Commands;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -125,16 +126,76 @@ namespace Legion.Social.AutoActivity.ViewModels
 
         private void ChangeActivityStatus(ActivityDetailsModel currentDataContext)
         {
+            if (currentDataContext.Title == ActivityType.StopAll && currentDataContext.Status)
+            {
+                currentDataContext.Status = false;
+                return;
+            }
 
             var account = _accountsFileManager.GetAccountById(currentDataContext.AccountId);
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-            var currentAccountActivity =
-                jobActivityConfigurationManager[account.AccountId, currentDataContext.Title];
+
+            var userControl = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                               .GetNetworkCoreFactory()
+                                               .AccountUserControlTools;
+            var otherActivity = userControl.GetOtherActivityTypes();
+            
+            if (currentDataContext.Title == ActivityType.StopAll)
+            {
+                AccountsCollection.FirstOrDefault(x => x.AccountId == currentDataContext.AccountId)?.ActivityDetailsCollections?.ForEach(y =>
+                {
+                    if (y.Title != ActivityType.StopAll && y.Status)
+                    {
+                        y.Status = currentDataContext.Status;
+                        ChangeActivity(y, account, true);
+                    }
+                });
+
+                foreach (var act in otherActivity)
+                {
+                    if (jobActivityConfigurationManager[account.AccountId, act]?.IsEnabled ?? false)
+                        ChangeActivity(new ActivityDetailsModel() { AccountId = currentDataContext.AccountId, Title = act, Status = false }, account, true);
+                }
+            }
+            else
+            {
+                ChangeActivity(currentDataContext, account);
+
+                var getOne = AccountsCollection.FirstOrDefault(x => x.AccountId == currentDataContext.AccountId)?
+                    .ActivityDetailsCollections;
+                if (getOne == null)
+                    return;
+
+                List<ActivityType> allActivity = new List<ActivityType>();
+                allActivity.AddRange(otherActivity.ToList());
+                userControl.GetImportantActivityTypes().ToList().ForEach(x =>
+                {
+                    allActivity.Add(x);
+                });
+
+                foreach (var act in allActivity)
+                {
+                    if (jobActivityConfigurationManager[account.AccountId, act]?.IsEnabled ?? false)
+                    {
+                        getOne[0].Status = true;
+                        return;
+                    }
+                }
+                getOne[0].Status = false;
+            }
+        }
+
+        void ChangeActivity(ActivityDetailsModel currentDataContext, DominatorAccountModel account, bool IsStopping = false)
+        {
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            var currentAccountActivity = jobActivityConfigurationManager[account.AccountId, currentDataContext.Title];
             var campaignStatus = campaignFileManager.FirstOrDefault(x => x.TemplateId == currentAccountActivity?.TemplateId)?.Status;
             if (campaignStatus == "Paused" && currentDataContext.Status)
             {
-                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
+                if (!IsStopping)
+                    ToasterNotification.ShowError("LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
                 currentDataContext.Status = false;
                 return;
             }
@@ -147,12 +208,12 @@ namespace Legion.Social.AutoActivity.ViewModels
             {
                 try
                 {
-                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
+                    if (!IsStopping)
+                        ToasterNotification.ShowError(String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
                     currentDataContext.Status = false;
                 }
                 catch (Exception ex)
                 {
-
                     ex.DebugLog();
                 }
             }
@@ -187,6 +248,9 @@ namespace Legion.Social.AutoActivity.ViewModels
             {
                 var accountCollection = _accountCollectionViewModel.GetCopySync()
                     .Where(x => x.AccountBaseModel.Status == AccountStatus.Success || x.AccountBaseModel.Status == AccountStatus.UpdatingDetails);
+
+                var activitiesList = new Dictionary<SocialNetworks, IEnumerable<ActivityType>>();
+
                 foreach (var account in accountCollection)
                 {
                     try
@@ -200,17 +264,32 @@ namespace Legion.Social.AutoActivity.ViewModels
                             ActivityDetailsCollections = new ObservableCollection<ActivityDetailsModel>()
                         };
 
-                        // get the respective network details
-                        var activities = SocinatorInitialize
-                            .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                            .GetNetworkCoreFactory()
-                            .AccountUserControlTools
-                            .GetImportantActivityTypes();
+                        // Add the respective network details
+                        if (!activitiesList.ContainsKey(account.AccountBaseModel.AccountNetwork))
+                        {
+                            activitiesList.Add(account.AccountBaseModel.AccountNetwork,
+                                               SocinatorInitialize
+                                               .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                               .GetNetworkCoreFactory()
+                                               .AccountUserControlTools
+                                               .GetImportantActivityTypes());
+                        }
+                        
                         try
                         {
+                            accountsActivityDetailModel.ActivityDetailsCollections
+                                            .Add(new ActivityDetailsModel
+                                            {
+                                                Status = true,
+                                                Title = ActivityType.StopAll,
+                                                ActivityTitle = "LangKeyStopAllActivity".FromResourceDictionary(),
+                                                AccountId = account.AccountId
+                                            });
+
                             var jobActivityConfigurationManager = ServiceLocator.Current
                                 .GetInstance<IJobActivityConfigurationManager>();
-                            foreach (var x in activities)
+                            
+                            foreach (var x in activitiesList[account.AccountBaseModel.AccountNetwork])
                             {
                                 try
                                 {
@@ -253,6 +332,31 @@ namespace Legion.Social.AutoActivity.ViewModels
                                     ex.DebugLog();
                                 }
                             }
+
+                            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+
+                            var userControl = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                              .GetNetworkCoreFactory()
+                                              .AccountUserControlTools;
+                            var otherActivity = userControl.GetOtherActivityTypes();
+                            List<ActivityType> allActivity = new List<ActivityType>();
+                            allActivity.AddRange(otherActivity.ToList());
+                            userControl.GetImportantActivityTypes().ToList().ForEach(x =>
+                            {
+                                allActivity.Add(x);
+                            });
+
+                            var allStatus = false;
+                            foreach (var act in allActivity)
+                            {
+                                if (jobActivityConfigurationManager[account.AccountId, act]?.IsEnabled ?? false)
+                                {
+                                    allStatus = true;
+                                    break;
+                                }
+                            }
+
+                            accountsActivityDetailModel.ActivityDetailsCollections[0].Status = allStatus;
                         }
                         catch (Exception ex)
                         {

@@ -10,6 +10,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums;
 
 namespace LegionUIUtility.CustomControl
 {
@@ -66,6 +67,16 @@ namespace LegionUIUtility.CustomControl
         public static readonly DependencyProperty LstManageMessagesModelProperty =
             DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(MessageMediaControl), new PropertyMetadata(new ObservableCollection<ManageMessagesModel>()));
 
+        public SocialNetworks Network
+        {
+            get { return (SocialNetworks)GetValue(NetworkProperty); }
+            set { SetValue(NetworkProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Network.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty NetworkProperty =
+            DependencyProperty.Register("Network", typeof(SocialNetworks), typeof(MessageMediaControl), new PropertyMetadata(SocialNetworks.Social));
+        
         private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
@@ -212,5 +223,23 @@ namespace LegionUIUtility.CustomControl
             DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessageMediaControl), new PropertyMetadata(OnAvailableItemsChanged));
 
 
+
+        private void btnVideos_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog opf = new OpenFileDialog();
+                opf.Filter = "Video Files |*.mp4;";//"Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
+                if (opf.ShowDialog().Value)
+                {
+                    Messages.MediaPath = opf.FileName;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
     }
 }

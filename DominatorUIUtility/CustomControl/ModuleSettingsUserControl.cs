@@ -1876,6 +1876,11 @@ namespace LegionUIUtility.CustomControl
                 {
                     var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
                     var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
+
+                    if (moduleConfiguration.Status == null || moduleConfiguration.Status == "Active" && !moduleConfiguration.IsEnabled || moduleConfiguration.Status == "Paused" && moduleConfiguration.IsEnabled)
+                        jobActivityConfigurationManager[accountDetails.AccountId, _activityType].Status =
+                            moduleConfiguration.IsEnabled ? "Active" : "Paused";
+
                     SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
                 }
                 else

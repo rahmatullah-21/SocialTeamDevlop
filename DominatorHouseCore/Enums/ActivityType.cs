@@ -353,6 +353,11 @@ namespace DominatorHouseCore.Enums
         PageInviter = 8,
         EventInviter = 9,
         WatchPartyInviter = 10,
-        MessageToFanpages = 11
+        MessageToFanpages = 11,
+        MessageConversationScraper =121,
+        [Description("LinkedIn")]
+        FollowPages = 122,
+        [Description("LangKeyStopAll")]
+        StopAll = 123
     }
 }

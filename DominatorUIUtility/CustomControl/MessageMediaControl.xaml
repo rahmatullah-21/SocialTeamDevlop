@@ -3,7 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+<<<<<<< HEAD
              xmlns:local="clr-namespace:LegionUIUtility.CustomControl"
+=======
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+>>>>>>> bc3dba9e410215ce42e290dda4e7f4bc8a9bd929
              mc:Ignorable="d" >
     <StackPanel  x:Name="MainGrid">
         <Grid >
@@ -15,7 +20,7 @@
                 <TextBlock FontWeight="Bold" Margin="0,10" FontSize="16" Text="{DynamicResource LangKeyMessageText}" VerticalAlignment="Center"/>
                 <local:InputBoxControl  InputText="{Binding Messages.MessagesText}" SaveVisiblity="Collapsed"/>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
                     <Button  x:Name="btnPhotos"  Background="{DynamicResource AccentBaseColorBrush}" Height="30"
                       HorizontalAlignment="Left"   Foreground="White" Width="100" Click="btnPhotos_Click" Margin="5" >
                         <Button.Content>
@@ -30,7 +35,31 @@
                             </StackPanel>
                         </Button.Content>
                     </Button>
+                    <Button  x:Name="btnVideos"  Background="{DynamicResource AccentBaseColorBrush}" Height="30"
+                      HorizontalAlignment="Left"   Foreground="White" Width="100" Click="btnVideos_Click" Margin="5" >
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="15" Height="15" Fill="White">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_video}" Stretch="Fill"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Text="{DynamicResource LangKeyVideo}" Margin="6,0"/>
 
+                            </StackPanel>
+                        </Button.Content>
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}" >
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Network}" Value="{x:Static enums:SocialNetworks.Instagram}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
                     <Image Source="{Binding Messages.MediaPath}"  Height="Auto" MaxHeight="60" Margin="5" VerticalAlignment="Center">
                         <Image.ContextMenu>
                             <ContextMenu>
