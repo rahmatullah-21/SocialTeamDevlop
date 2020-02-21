@@ -19,14 +19,21 @@ namespace DominatorHouseCore.Command
             this.ExecuteMethod = ExecuteMethod;
         }
 
+        public BaseCommand(Action<object,bool> ExecuteMethod)
+        {
+            this.ExecuteMethod2 = ExecuteMethod;
+        }
+
         #endregion
 
         //Variables
         #region Variables
 
         Func<object, bool> CanExecuteMethod { get; set; }
+        Func<object,bool, bool> CanExecuteMethod2 { get; set; }
 
         Action<object> ExecuteMethod { get; set; }
+        Action<object,bool> ExecuteMethod2 { get; set; }
 
         #endregion
 
@@ -39,7 +46,10 @@ namespace DominatorHouseCore.Command
         {
             return CanExecuteMethod != null && CanExecuteMethod(parameter);
         }
-
+        public bool CanExecute(object parameter1, bool parameter2)
+        {
+            return CanExecuteMethod2 != null && CanExecuteMethod2(parameter1,parameter2);
+        }
         public void NotifyCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
@@ -48,6 +58,10 @@ namespace DominatorHouseCore.Command
         public void Execute(object parameter)
         {
             ExecuteMethod(parameter);
+        }
+        public void Execute(object parameter1,bool parameter2)
+        {
+            ExecuteMethod2(parameter1,parameter2);
         }
 
         #endregion

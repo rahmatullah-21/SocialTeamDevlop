@@ -2821,7 +2821,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyLogIn">Log In</system:String>
     <system:String x:Key="LangKeyApiKey">Api Key</system:String>
     <system:String x:Key="LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware">Do not auto login accounts while adding to the software.</system:String>
-    <system:String x:Key="LangKeyAssignRandomProxyToUnassignedAccounts">Assign Random proxy to unassigned accounts</system:String>
+    <system:String x:Key="LangKeyAssignRandomProxyToUnassignedAccounts">Assign random working proxies to unassigned accounts</system:String>
 
     <system:String x:Key="LangKeySuccess">Success</system:String>
     <system:String x:Key="LangKeyFailed">Failed</system:String>
@@ -4589,4 +4589,12 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeyApplicableOnKeywordQueries">Applicable only on keywords queries</system:String>
     <system:String x:Key="LangKeyStopAll">Stop all</system:String>
     <system:String x:Key="LangKeySelectLocationAndSave">Please Select Location And Save</system:String>
+    <system:String x:Key="LangKeyDontLoginAccountAfterProxyManagement">Don't let the account login after assigning/unassigning account to proxy.</system:String>
+    <system:String x:Key="LangKeyCantaddAccountToProxyAddingLimitReached">Can't add more accounts to this proxy as you have checked setting 'Add {0} accounts per proxy'</system:String>
+    <system:String x:Key="LangKeyAccountHasWorkingProxyStillWannaReplace"  xml:space="preserve">This account already has a working proxy.
+Do you still want to replace it's proxy with new one?</system:String>
+    <system:String x:Key="LangKeyConfirmToAssignRandProxies">Confirm to assign random proxies</system:String>
+    <system:String x:Key="LangKeyNoWorkingProxiesAvailableToAssign">No more working proxies available to assign</system:String>
+    <system:String x:Key="LangKeyConditionAddNAccPerProxy"> [with condition \"assigning {0} accounts per proxy\"].</system:String>
+    <system:String x:Key="LangKeyNoProxyToAssign">No proxy found to assign.</system:String>
 </ResourceDictionary>
