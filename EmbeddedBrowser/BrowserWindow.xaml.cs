@@ -91,7 +91,7 @@ namespace EmbeddedBrowser
             WindowBrowsers.DataContext = this;
             SearchCommand = new DelegateCommand(() => GoToUrl());
         }
-        
+
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false, bool isNeedResourceData = false,
             bool browserLoginMessageToDisplay = true)
               : this()
@@ -131,7 +131,7 @@ namespace EmbeddedBrowser
 
         CancellationToken _token = new CancellationToken();
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken, string targetUrl = "", bool customUse = false, bool skipAd = false, bool isNeedResourceData = false,
-            bool browserLoginMessageToDisplay = true) : this(dominatorAccountModel, targetUrl, customUse, skipAd , isNeedResourceData, browserLoginMessageToDisplay)
+            bool browserLoginMessageToDisplay = true) : this(dominatorAccountModel, targetUrl, customUse, skipAd, isNeedResourceData, browserLoginMessageToDisplay)
         {
             _token = cancellationToken;
         }
@@ -208,7 +208,7 @@ namespace EmbeddedBrowser
 
             Browser.LoadingStateChanged += BrowserOnLoaded;
         }
-        
+
         private void BrowserOnLoaded(object sender, LoadingStateChangedEventArgs loadingStateChangedEventArgs)
         {
             try
@@ -399,7 +399,7 @@ namespace EmbeddedBrowser
 
             try
             {
-                await Task.Delay(1000,_token);
+                await Task.Delay(1000, _token);
 
                 _isLoggedIn = true;
                 _loginFailed = false;
@@ -430,7 +430,7 @@ namespace EmbeddedBrowser
 
             try
             {
-                await Task.Delay(1000,_token);
+                await Task.Delay(1000, _token);
 
                 _isLoggedIn = true;
                 _loginFailed = false;
@@ -1084,7 +1084,7 @@ namespace EmbeddedBrowser
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
             try
             {
-                var z = $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}";
+                var z = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}";
 
                 if (Browser.IsDisposed) return "";
 
@@ -1673,6 +1673,63 @@ namespace EmbeddedBrowser
             {
                 return null;
             }
+        }
+
+        public async Task<bool> CopyPasteContentAsync(string message = "", int winKeyCode = 13, int delay = 90, double delayAtLast = 0,
+            CefEventFlags flags = CefEventFlags.ControlDown)
+        {
+            try
+            {
+                var ke = new KeyEvent();
+                if (winKeyCode != 0)
+                    ke.WindowsKeyCode = winKeyCode;
+
+                ke.Modifiers = flags;
+
+
+                if (Browser.IsDisposed) return false;
+
+                await Task.Delay(delay, _token);
+
+                bool isRunning = true;
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    try
+                    {
+                        Clipboard.SetText(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+
+                    isRunning = false;
+                });
+
+                while (isRunning)
+                    await Task.Delay(200);
+
+                Browser.GetBrowser().GetHost().SendKeyEvent(ke);
+
+                if (delayAtLast > 0)
+                    await Task.Delay(TimeSpan.FromSeconds(delayAtLast), _token);
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            return false;
+        }
+
+        public void CopyPasteContent(string message = "", int winKeyCode = 13, int delay = 90, double delayAtLast = 0,
+            CefEventFlags flags = CefEventFlags.ControlDown)
+        {
+            CopyPasteContentAsync(message, winKeyCode, delay, delayAtLast,
+            CefEventFlags.ControlDown).Wait();
         }
 
         #endregion

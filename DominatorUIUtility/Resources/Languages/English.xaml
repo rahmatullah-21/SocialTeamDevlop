@@ -4528,6 +4528,7 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeLikePerGroup">Maximum Number of post to be like per Group</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeCommentPerGroup">Maximum Number of post to be comment per Group</system:String>
     <system:String x:Key="LangKeyCannotPostOnPage">Cannot Post On page {0} from account {1}!</system:String>
+    <system:String x:Key="LangKeyCannotPostOnGroup">Cannot Post On group {0} from account {1}!</system:String>
     <system:String x:Key="LangKeyStopActivityAfter">Stop Activity After</system:String>
     <system:String x:Key="LangKeyFailedAttemptFor">Failed Attempt For</system:String>
     <system:String x:Key="LangKeyPostOwner">Post Owner</system:String>
