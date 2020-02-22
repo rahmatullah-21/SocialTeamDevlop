@@ -1,6 +1,6 @@
-using Legion.Social.AutoActivity.ViewModels;
+using LegionUIUtility.ViewModel;
 
-namespace Socinator.Social.AutoActivity.Views
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for DominatorAutoActivity.xaml

@@ -59,6 +59,7 @@ namespace Legion.ViewModels
             LoadedMemory = _perfCounterService.LoadedMemoryDescrption;
             LogViewHeight = new GridLength(3, GridUnitType.Star);
             ShowHideLogCmd = new DelegateCommand(ShowHideLog);
+            LogViewHeight = new GridLength(200); 
             _timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(1000) };
             _timer.Tick += OnElapsed;
             _timer.Start();

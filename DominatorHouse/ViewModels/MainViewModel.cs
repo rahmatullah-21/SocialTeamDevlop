@@ -1,5 +1,4 @@
 ﻿using CommonServiceLocator;
-using Legion.Social.AutoActivity.ViewModels;
 using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.Scheduler;

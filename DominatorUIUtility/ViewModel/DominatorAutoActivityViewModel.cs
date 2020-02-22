@@ -6,7 +6,6 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using LegionUIUtility.ViewModel;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
 
-namespace Legion.Social.AutoActivity.ViewModels
+namespace LegionUIUtility.ViewModel
 {
     public interface IDominatorAutoActivityViewModel
     {

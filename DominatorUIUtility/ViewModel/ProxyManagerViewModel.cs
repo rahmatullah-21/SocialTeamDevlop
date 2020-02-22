@@ -111,7 +111,20 @@ namespace LegionUIUtility.ViewModel
         public bool IsNumOfAccountPerProxy
         {
             get { return _isNumOfAccountPerProxy; }
-            set { SetProperty(ref _isNumOfAccountPerProxy, value); }
+            set
+            {
+                SetProperty(ref _isNumOfAccountPerProxy, value);
+            }
+        }
+
+        private bool _dontLogin;
+        public bool DontLogin
+        {
+            get { return _dontLogin; }
+            set
+            {
+                SetProperty(ref _dontLogin, value);
+            }
         }
 
         private bool _isRandomSelected;
@@ -119,7 +132,10 @@ namespace LegionUIUtility.ViewModel
         public bool IsRandomSelected
         {
             get { return _isRandomSelected; }
-            set { SetProperty(ref _isRandomSelected, value); }
+            set
+            {
+                SetProperty(ref _isRandomSelected, value);
+            }
         }
         private bool _isShowByGroup;
 
@@ -157,7 +173,6 @@ namespace LegionUIUtility.ViewModel
         public ICommand AccountToAddToProxyCommand { get; }
         public ICommand DropDownCommand { get; }
         public ICommand AssignRandomProxyCommand { get; }
-        public ICommand AssignXAccountPerProxyCommand { get; }
         #endregion
 
         public ProxyManagerViewModel(IMainViewModel mainViewModel, IVerifyProxiesViewModel verifyProxiesViewModel, IProxyServerParserService proxyServerParserService, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel, IProxyFileManager proxyFileManager) : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
@@ -182,7 +197,6 @@ namespace LegionUIUtility.ViewModel
             AccountToAddToProxyCommand = new DelegateCommand<object>(AccountToAddToProxyExecute);
             DropDownCommand = new BaseCommand<object>(DropDownCanExecute, DropDownExecute);
             AssignRandomProxyCommand = new DelegateCommand<object>(AssignRandomProxyExecute);
-            AssignXAccountPerProxyCommand = new DelegateCommand<object>(AssignRandomProxyExecute);
             LstProxyManagerModel = new ObservableCollection<ProxyManagerModel>();
             AccountsAlreadyAssigned = new ObservableCollection<AccountAssign>();
             Groups = new ObservableCollection<string>();
@@ -656,8 +670,8 @@ namespace LegionUIUtility.ViewModel
                 var accountToUpdate = _accountsFileManager.GetAccount(acc.UserName, acc.AccountBaseModel.AccountNetwork);
                 UpdateAccountsProxy(accountToUpdate);
             });
-            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeySuccess".FromResourceDictionary(),
-                String.Format("LangKeyIpPortUpdated".FromResourceDictionary(), oldProxy.AccountProxy.ProxyIp, oldProxy.AccountProxy.ProxyPort));
+
+            ToasterNotification.ShowSuccess(String.Format("LangKeyIpPortUpdated".FromResourceDictionary(), oldProxy.AccountProxy.ProxyIp, oldProxy.AccountProxy.ProxyPort));
 
         }
 
@@ -820,12 +834,15 @@ namespace LegionUIUtility.ViewModel
 
                 // AccountsFileManager.Edit(accountToDeleteProxy);
 
+                if(accountToDeleteProxy.AccountBaseModel.Status == AccountStatus.ProxyNotWorking)
+                    accountToDeleteProxy.AccountBaseModel.Status = AccountStatus.NotChecked;
                 var socinatorAccountBuilder = new SocinatorAccountBuilder(accountToDeleteProxy.AccountBaseModel.AccountId);
                 socinatorAccountBuilder.AddOrUpdateDominatorAccountBase(accountToDeleteProxy.AccountBaseModel)
                     .SaveToBinFile();
 
                 UpdateAccountsProxy(accountToDeleteProxy);
-                StartLogin(accountToDeleteProxy, socinatorAccountBuilder);
+                if(!DontLogin)
+                 StartLogin(accountToDeleteProxy, socinatorAccountBuilder);
                 LstProxyManagerModel.ForEach(oldProxy =>
                  AccountsAlreadyAssigned.Remove(AccountsAlreadyAssigned.FirstOrDefault(x => x.UserName == accountToDelete.UserName && x.AccountNetwork == accountToDelete.AccountNetwork))
                );
@@ -844,7 +861,27 @@ namespace LegionUIUtility.ViewModel
 
             try
             {
-                var accountToAdd = ProxyManagerModel.AccountsToBeAssign.FirstOrDefault(x => x.UserName == account.UserName);
+                var methodCallBy = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod().Name;
+                if (methodCallBy == "Execute")
+                {
+                    if (IsNumOfAccountPerProxy && ProxyManagerModel.AccountsAssignedto.Count >= NumOfAccountPerProxy)
+                    {
+                        ToasterNotification.ShowInfomation(string.Format("LangKeyCantaddAccountToProxyAddingLimitReached".FromResourceDictionary(), NumOfAccountPerProxy));
+                        return;
+                    }
+                }
+
+                var accountToUpdateProxy = _accountsFileManager.GetAccount(account.UserName, account.AccountNetwork);
+                
+                if (methodCallBy == "Execute" && !string.IsNullOrWhiteSpace(accountToUpdateProxy.AccountBaseModel.AccountProxy.ProxyIp)
+                   && MatchedProxyWithFromList(accountToUpdateProxy.AccountBaseModel.AccountProxy)?.Status == "Working")
+                {
+                    var proceed = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyAccountHasWorkingProxyStillWannaReplace".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
+                    if (!proceed)
+                        return;
+                }
+
+                var accountToAdd = ProxyManagerModel.AccountsToBeAssign.FirstOrDefault(x => x.UserName == account.UserName && x.AccountNetwork == account.AccountNetwork);
                 LstProxyManagerModel.ForEach(proxy =>
                 {
                     proxy.AccountsToBeAssign.Remove(proxy.AccountsToBeAssign.FirstOrDefault(x => x.UserName == accountToAdd.UserName
@@ -858,7 +895,7 @@ namespace LegionUIUtility.ViewModel
                 }
 
                 _proxyFileManager.EditProxy(ProxyManagerModel);
-                var accountToUpdateProxy = _accountsFileManager.GetAccount(account.UserName, account.AccountNetwork);
+               
                 var proxyToAdd = new Proxy()
                 {
                     ProxyId = ProxyManagerModel.AccountProxy.ProxyId,
@@ -869,11 +906,14 @@ namespace LegionUIUtility.ViewModel
                 };
                 accountToUpdateProxy.AccountBaseModel.AccountProxy = proxyToAdd;
 
+                if (accountToUpdateProxy.AccountBaseModel.Status == AccountStatus.ProxyNotWorking)
+                    accountToUpdateProxy.AccountBaseModel.Status = AccountStatus.NotChecked;
                 var socinatorAccountBuilder = new SocinatorAccountBuilder(accountToUpdateProxy.AccountBaseModel.AccountId);
                 socinatorAccountBuilder.AddOrUpdateDominatorAccountBase(accountToUpdateProxy.AccountBaseModel)
                     .SaveToBinFile();
                 UpdateAccountsProxy(accountToUpdateProxy);
-                StartLogin(accountToUpdateProxy, socinatorAccountBuilder);
+                if(!DontLogin)
+                    StartLogin(accountToUpdateProxy, socinatorAccountBuilder);
 
                 var item = LstProxyManagerModel.FirstOrDefault(proxy => proxy.AccountProxy.ProxyName == ProxyManagerModel.AccountProxy.ProxyName);
                 int indexToUpdate = LstProxyManagerModel.IndexOf(item);
@@ -971,8 +1011,15 @@ namespace LegionUIUtility.ViewModel
             try
             {
                 proxyManagerModel.AccountsToBeAssign.Clear();
+                
+                    //if (IsNumOfAccountPerProxy && ProxyManagerModel.AccountsAssignedto.Count >= NumOfAccountPerProxy)
+                    //{
+                    //    ToasterNotification.ShowInfomation($"Can't add more accounts to this proxy as you have checked setting 'Add {NumOfAccountPerProxy} accounts per proxy'");
+                    //    return;
+                    //}
+                
                 _accountsFileManager.GetAll()?.ForEach(account =>
-                   {
+                 {
 
                        if (!AccountsAlreadyAssigned.Any(acc =>
                            acc.AccountNetwork == account.AccountBaseModel.AccountNetwork && acc.UserName == account.UserName))
@@ -1003,38 +1050,62 @@ namespace LegionUIUtility.ViewModel
 
                 if (LstProxyManagerModel.Count != 0)
                 {
+                    var conditionalString = IsNumOfAccountPerProxy ? string.Format("LangKeyConditionAddNAccPerProxy".FromResourceDictionary(), NumOfAccountPerProxy) : ".";
+                    var proceed = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), $"{"LangKeyConfirmToAssignRandProxies".FromResourceDictionary()}{conditionalString}", "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
+                    if (!proceed)
+                        return;
+
                     Random random = new Random();
                     int randomIndex = 0;
-                    accounts.ForEach(acc =>
-                      {
-                          if (IsNumOfAccountPerProxy && !IsRandomSelected)
-                              randomIndex = LstProxyManagerModel.IndexOf(LstProxyManagerModel.FirstOrDefault(x => x.AccountsAssignedto.Count < NumOfAccountPerProxy));
-                          else
-                              randomIndex = random.Next(LstProxyManagerModel.Count);
-                          new SocinatorAccountBuilder(acc.AccountBaseModel.AccountId)
-                              .AddOrUpdateProxy(LstProxyManagerModel[randomIndex].AccountProxy)
-                              .SaveToBinFile();
-                          var accountAssignTo = new AccountAssign
-                          {
-                              UserName = acc.UserName,
-                              AccountNetwork = acc.AccountBaseModel.AccountNetwork
-                          };
+                    foreach (var acc in accounts)
+                    {
 
-                          ProxyManagerModel = LstProxyManagerModel[randomIndex];
-                          ProxyManagerModel.AccountsAssignedto.Add(accountAssignTo);
-                          AccountsAlreadyAssigned.Add(accountAssignTo);
-                          AccountToAddToProxyExecute(accountAssignTo);
+                       var workingOne = (IsNumOfAccountPerProxy
+                                            ? LstProxyManagerModel.Where(x => x.Status == "Working" && x.AccountsAssignedto.Count < NumOfAccountPerProxy)
+                                             : LstProxyManagerModel.Where(x => x.Status == "Working"))?.ToList()
+                            ?? new List<ProxyManagerModel>();
+                           
+                        if (workingOne.Count == 0)
+                        {
+                            ToasterNotification.ShowInfomation($"{"LangKeyNoWorkingProxiesAvailableToAssign".FromResourceDictionary()}{conditionalString}");
+                            return;
+                        }
 
+                        randomIndex = random.Next(workingOne.Count);
+                        
+                        if (!string.IsNullOrWhiteSpace(acc.AccountBaseModel.AccountProxy.ProxyIp)
+                                && MatchedProxyWithFromList(acc.AccountBaseModel.AccountProxy)?.Status == "Working")
+                            continue;
 
-                      });
+                        new SocinatorAccountBuilder(acc.AccountBaseModel.AccountId)
+                            .AddOrUpdateProxy(workingOne[randomIndex].AccountProxy)
+                            .SaveToBinFile();
+                        var accountAssignTo = new AccountAssign
+                        {
+                            UserName = acc.UserName,
+                            AccountNetwork = acc.AccountBaseModel.AccountNetwork
+                        };
 
+                        ProxyManagerModel = workingOne[randomIndex];
+                        ProxyManagerModel.AccountsAssignedto.Add(accountAssignTo);
+                        AccountsAlreadyAssigned.Add(accountAssignTo);
+                        AccountToAddToProxyExecute(accountAssignTo);
+                    }
                 }
+                else
+                    ToasterNotification.ShowInfomation("LangKeyNoProxyToAssign".FromResourceDictionary());
             }
             catch (Exception ex)
             {
                 GlobusLogHelper.log.Error(ex.Message);
             }
 
+        }
+
+        ProxyManagerModel MatchedProxyWithFromList(Proxy proxy)
+        {
+            return LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == proxy.ProxyIp && x.AccountProxy.ProxyPort == proxy.ProxyPort
+            && (x.AccountProxy.ProxyUsername??"") == (proxy.ProxyUsername??"") && (x.AccountProxy.ProxyPassword??"") == (proxy.ProxyPassword??""));
         }
 
         #region Methods for account proxy updation

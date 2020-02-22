@@ -624,17 +624,14 @@ namespace LegionUIUtility.ViewModel
                             case 16:
                             case 17:
                             case 18:
-                                proxyaddress = splitAccount[4];
-                                proxyport = splitAccount[5];
-                                proxyusername = splitAccount[6];
-                                proxypassword = splitAccount[7];
-                                status = splitAccount[8];
-                                cookies = splitAccount[9].Replace("<>", ",");
-                                alternetEmail = splitAccount[10];
-                                banned = splitAccount[11];
-                                browserCookies = splitAccount[12].Replace("<>", ",");
-                                isBrowserAutomationActive = splitAccount[13];
-                                proxyGroup = splitAccount[14];
+                                proxyaddress = splitAccount[3];
+                                proxyport = splitAccount[4];
+                                proxyusername = splitAccount[5];
+                                proxypassword = splitAccount[6];
+                                status = splitAccount[7];
+                                browserCookies = splitAccount[8].Replace("<>", ",");
+                                banned = splitAccount[9];
+                                proxyGroup = splitAccount[10];                               
                                 break;
                         }
 
@@ -690,7 +687,7 @@ namespace LegionUIUtility.ViewModel
 
                             if (SocinatorInitialize.ActiveSocialNetwork == objDominatorAccountBaseModel.AccountNetwork || SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
                             {
-                                _pendingActions = _pendingActions.Enqueue(() => AddAccount(objDominatorAccountBaseModel, cookies,
+                                _pendingActions = _pendingActions.Enqueue(() => AddAccount(objDominatorAccountBaseModel, browserCookies,
                                                                               (action) =>
                                                                               {
                                                                                   _pendingActions = _pendingActions.Enqueue(action);

@@ -1,10 +1,10 @@
-﻿using Legion.Social.AutoActivity.ViewModels;
-using Legion.ViewModels;
+﻿using Legion.ViewModels;
 using LegionUIUtility.ViewModel.Startup;
 using LegionUIUtility.ViewModel.Startup.ModuleConfig;
 using DominatorHouseCore.ViewModel;
 using Unity;
 using Unity.Extension;
+using LegionUIUtility.ViewModel;
 
 namespace Legion.IoC
 {

@@ -1,5 +1,4 @@
 ﻿using CommonServiceLocator;
-using Legion.Social;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
@@ -7,7 +6,6 @@ using DominatorHouseCore.Utility;
 using LegionUIUtility.CustomControl;
 using LegionUIUtility.Views;
 using LegionUIUtility.Views.SocioPublisher;
-using Socinator.Social.AutoActivity.Views;
 using System;
 using System.Collections.Generic;
 using System.Windows;

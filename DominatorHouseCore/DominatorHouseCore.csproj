@@ -269,6 +269,7 @@
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\TwoListSynchronizer.cs" />
     <Compile Include="Converters\VisibleIfEqualConverter.cs" />
+    <Compile Include="Converters\WorkingStringToVisibilityConverter.cs" />
     <Compile Include="CoreUnityExtension.cs" />
     <Compile Include="Dal\DbConnection.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseBlackListMigrations.cs" />

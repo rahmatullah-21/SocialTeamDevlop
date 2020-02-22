@@ -35,7 +35,7 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0">
                     <Button Height="30" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Command="{Binding DeleteCommand}"
-                        VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource LangKeyDeleteSelected}">
+                        VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource LangKeyDeleteSelectedCampaigns}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal" >
                                 <Rectangle Width="15" Height="20" Fill="IndianRed">
@@ -43,7 +43,7 @@
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock Text="{DynamicResource LangKeyDeleteSelected}" Margin="5,0" VerticalAlignment="Center" Foreground="White" FontSize="13" FontWeight="SemiBold" />
+                                <TextBlock Text="{DynamicResource LangKeyDeleteSelectedCampaigns}" Margin="5,0" VerticalAlignment="Center" Foreground="White" FontSize="13" FontWeight="SemiBold" />
                             </StackPanel>
                         </Button.Content>
                     </Button>
