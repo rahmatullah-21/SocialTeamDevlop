@@ -71,6 +71,8 @@ namespace LegionUIUtility.ViewModel
             BindingOperations.EnableCollectionSynchronization(AccountsCollection, _syncObject);
             GoToToolsCmd = new DelegateCommand<AccountsActivityDetailModel>(GoToTools);
             ChangeActivityStatusCmd = new DelegateCommand<ActivityDetailsModel>(ChangeActivityStatus);
+            var accountList = _accountsFileManager.GetAll(SocialNetworks.Facebook);
+            NewAutoActivityObject(SocialNetworks.Facebook, accountList.FirstOrDefault().AccountBaseModel.UserName);
         }
 
         public bool NewAutoActivityObject(SocialNetworks soicalNetworks, string selectedAccounts)
@@ -139,7 +141,7 @@ namespace LegionUIUtility.ViewModel
                                                .GetNetworkCoreFactory()
                                                .AccountUserControlTools;
             var otherActivity = userControl.GetOtherActivityTypes();
-            
+
             if (currentDataContext.Title == ActivityType.StopAll)
             {
                 AccountsCollection.FirstOrDefault(x => x.AccountId == currentDataContext.AccountId)?.ActivityDetailsCollections?.ForEach(y =>
@@ -273,7 +275,7 @@ namespace LegionUIUtility.ViewModel
                                                .AccountUserControlTools
                                                .GetImportantActivityTypes());
                         }
-                        
+
                         try
                         {
                             accountsActivityDetailModel.ActivityDetailsCollections
@@ -287,7 +289,7 @@ namespace LegionUIUtility.ViewModel
 
                             var jobActivityConfigurationManager = ServiceLocator.Current
                                 .GetInstance<IJobActivityConfigurationManager>();
-                            
+
                             foreach (var x in activitiesList[account.AccountBaseModel.AccountNetwork])
                             {
                                 try
@@ -296,7 +298,7 @@ namespace LegionUIUtility.ViewModel
 
                                     var activityTitle = titleData.LastOrDefault().Contains("LangKey") ?
                                            titleData.LastOrDefault().FromResourceDictionary() : x.ToString();
-                                    
+
                                     // get the activity details                    
                                     var activityData =
                                         jobActivityConfigurationManager[account.AccountId, x];

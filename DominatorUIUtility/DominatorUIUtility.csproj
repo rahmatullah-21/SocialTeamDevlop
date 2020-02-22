@@ -2254,9 +2254,6 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SociNator.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\angry.png" />
     <Resource Include="Images\haha.png" />
     <Resource Include="Images\sad.png" />
@@ -2268,6 +2265,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Love.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Legion.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
