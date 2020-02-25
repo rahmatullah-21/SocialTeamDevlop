@@ -30,10 +30,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://209.250.252.53/GramBoardOnline/</InstallUrl>
     <UpdateUrl>http://209.250.252.53/GramBoardOnline/</UpdateUrl>
-    <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
-    <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
-    <ProductName>Socinator</ProductName>
-    <PublisherName>Socinator</PublisherName>
+    <ProductName>GramBoard</ProductName>
+    <PublisherName>GramBoard</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
     <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.1</ApplicationVersion>
