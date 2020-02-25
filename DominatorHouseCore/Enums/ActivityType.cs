@@ -60,6 +60,8 @@ namespace DominatorHouseCore.Enums
         [Description("Instagram")]
         StoryViewer = 21,
 
+        [Description("Instagram")]
+        DownloadScraper =22,
         
         [Description("LangKeyStopAll")]
         StopAll = 123
