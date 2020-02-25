@@ -46,6 +46,8 @@ namespace DominatorHouse.ViewModels
 
         public SelectableViewModel<string> Languages { get; }
 
+        public SelectableViewModel<string> Themes { get; }
+
         public ISelectedNetworkViewModel AvailableNetworks { get; }
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
@@ -76,6 +78,7 @@ namespace DominatorHouse.ViewModels
             AvailableNetworks = availableNetworks;
             _schedulerProxy = schedulerProxy;
             Languages = new SelectableViewModel<string>(new[] { "English" });
+            Themes = new SelectableViewModel<string>(ServiceLocator.Current.GetInstance<IBinFileHelper>().ThemesList());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
             TabItems.ItemSelected += OnTabItems_ItemSelected;
@@ -106,7 +109,8 @@ namespace DominatorHouse.ViewModels
             };
 
             var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-            AccountList = new ObservableCollection<DominatorAccountModel>(accountFileManager.GetAll());
+            AccountList = new ObservableCollection<DominatorAccountModel>(accountFileManager.GetAll()
+                .OrderBy(s => s.AccountBaseModel.UserName).ToList());
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
         }
@@ -147,7 +151,7 @@ namespace DominatorHouse.ViewModels
             try
             {
                 e.Cancel = true;
-                bool isClose = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmationToCloseSocinator".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
+                bool isClose = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), String.Format("LangKeyConfirmationToCloseApplication".FromResourceDictionary(), ConstantVariable.ApplicationName), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
                 if (isClose)
                 {
                     DominatorHouseCore.Utility.Utilities.KillGecko();

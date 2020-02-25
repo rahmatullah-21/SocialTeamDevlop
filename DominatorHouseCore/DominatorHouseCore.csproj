@@ -268,6 +268,7 @@
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\TwoListSynchronizer.cs" />
     <Compile Include="Converters\VisibleIfEqualConverter.cs" />
+    <Compile Include="Converters\WorkingStringToVisibilityConverter.cs" />
     <Compile Include="CoreUnityExtension.cs" />
     <Compile Include="Dal\DbConnection.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseBlackListMigrations.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackListUser.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
+    <Compile Include="DatabaseHandler\DHTables\LocationList.cs" />
     <Compile Include="DatabaseHandler\DHTables\WhiteListUser.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateWhitelist.cs" />
@@ -301,6 +303,7 @@
     <Compile Include="DatabaseHandler\GdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\UnfollowedUsers.cs" />
+
     <Compile Include="Dal\DbMigrations\BaseDbMigrations.cs" />
     <Compile Include="DatabaseHandler\Utility\DbAccountServiceBase.cs" />
     <Compile Include="DatabaseHandler\Utility\DbOperations.cs" />
@@ -326,6 +329,7 @@
     <Compile Include="Enums\DHEnum\GrowthPeriod.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
     <Compile Include="Enums\EmbeddedBrowser\BrowserEnums.cs" />
+
     <Compile Include="Enums\GdQuery\GdPostQuery.cs" />
     <Compile Include="Enums\GdQuery\GdUserQuery.cs" />
     <Compile Include="Enums\KeyboardKeys.cs" />
@@ -421,6 +425,7 @@
     <Compile Include="Models\EditProfileModel.cs" />
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
+    <Compile Include="Models\LocationModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\MenuHandlerModel.cs" />
     <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
@@ -481,6 +486,7 @@
     <Compile Include="Utility\LockFileConfigProvider.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MapperProvider.cs" />
+    <Compile Include="Utility\MediaFetcherUtilities.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMonitorFolderModel.cs" />
@@ -497,12 +503,14 @@
     <Compile Include="Process\PublishScheduler.cs" />
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
+    <Compile Include="Utility\NonStaticUtilities.cs" />
     <Compile Include="Utility\ObjectComparer.cs" />
     <Compile Include="Utility\PerfCounterService.cs" />
     <Compile Include="Utility\PublisherHelper.cs" />
     <Compile Include="Utility\ReachedLimitType.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
+    <Compile Include="Utility\TiktokDeviceGenerator.cs" />
     <Compile Include="Utility\ToasterNotification.cs" />
     <Compile Include="Utility\WebService.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />

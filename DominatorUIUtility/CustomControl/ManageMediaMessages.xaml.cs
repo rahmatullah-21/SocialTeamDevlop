@@ -56,6 +56,7 @@ namespace DominatorUIUtility.CustomControl
 
                 var editMessage = new MessageMediaControl
                 {
+                    Network = DominatorHouseCore.Diagnostics.SocinatorInitialize.ActiveSocialNetwork,
                     btnAddMessagesToList = { Content = "Update Message" },
                     Messages = new ManageMessagesModel
                     {

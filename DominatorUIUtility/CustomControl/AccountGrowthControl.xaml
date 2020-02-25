@@ -108,7 +108,7 @@
                     </Grid>
                     <!--Account List View-->
                     <Grid Grid.Row="1">
-                        <ListView x:Name="AccountListView" VirtualizingPanel.IsContainerVirtualizable="True"
+                        <ListView x:Name="AccountListView" VirtualizingPanel.IsContainerVirtualizable="True"  ItemContainerStyle="{StaticResource ListViewItems}"
                                   VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                                   AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
                             <ListView.ItemsSource>
@@ -353,7 +353,7 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                                 <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin = "5">
                                     <ItemsControl x:Name="list" ItemsSource="{Binding GrowthProperties,IsAsync=True}"
-                                                  Focusable="False" Foreground="Black"
+                                                  Focusable="False" Foreground="{DynamicResource TextColorBrushAccordingTheme}"
                                                   VirtualizingPanel.IsContainerVirtualizable="True"
                                                   VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
                                         <ItemsControl.ItemsPanel>

@@ -24,7 +24,7 @@
             <Grid Grid.Column="0">
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <StackPanel Orientation="Horizontal"    Margin="0,10">
+                    <StackPanel Orientation="Horizontal"  Margin="0,10">
                         <Label   VerticalAlignment="Top"  Content="{DynamicResource LangKeyQueryType}" HorizontalAlignment="Right" Height="25"/>
                         <ComboBox  ItemsSource="{Binding ListQueryType}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
                                       SelectedIndex="{Binding SelectedIndex}" SelectionChanged="ComboBox_SelectionChanged"
@@ -106,7 +106,7 @@
                                 <Button Background="Transparent" Command="{Binding DeleteMulipleCommand}">
                                     <Button.Content>
                                         <StackPanel Orientation="Horizontal">
-                                            <Rectangle Fill="White" Height="20" Width="15" ToolTip="{DynamicResource LangKeyDeleteSelected}" >
+                                            <Rectangle Fill="IndianRed" Height="20" Width="15" ToolTip="{DynamicResource LangKeyDeleteSelected}" >
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -131,7 +131,7 @@
                         </Grid>
                     </GroupBox.Header>
 
-                    <DataGrid x:Name="SearchQueries" Width="auto" Background="White" AutoGenerateColumns="False"  CanUserAddRows="false"
+                    <DataGrid x:Name="SearchQueries" Width="auto" Background="{DynamicResource UserControlBackgroundBrush}" AutoGenerateColumns="False"  CanUserAddRows="false"
                                   ItemsSource="{Binding ListQueryInfo,IsAsync=True}" CanUserDeleteRows="False"  MaxHeight="150" MinHeight="150" HorizontalAlignment="Stretch"
                                   AlternationCount="{Binding ListQueryInfo.Count}" HorizontalScrollBarVisibility="Auto" VirtualizingPanel.IsVirtualizing="True"
                                   EnableColumnVirtualization="False" EnableRowVirtualization="True" VirtualizingPanel.VirtualizationMode="Recycling">
@@ -184,7 +184,7 @@
                                                     RelativeSource= {RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}"
                                                     CommandParameter="{Binding}">
                                             <Button.Content>
-                                                <Rectangle Width="15" Height="20" Fill="Black" Name="DeleteSingle" >
+                                                <Rectangle Width="15" Height="20" Fill="IndianRed" Name="DeleteSingle" >
                                                     <Rectangle.OpacityMask>
                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                     </Rectangle.OpacityMask>

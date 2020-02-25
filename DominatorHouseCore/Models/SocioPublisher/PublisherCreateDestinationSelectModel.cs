@@ -23,6 +23,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsAccountSelected));
                 if (!IsAccountSelected)
                     PublishonOwnWall = IsAccountSelected;
+                  
+                
             }
         }
 
@@ -211,7 +213,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                if (_publishonOwnWall == value)
+                if (_publishonOwnWall == value || !IsOwnWallAvailable)
                     return;
                 _publishonOwnWall = value;
                 OnPropertyChanged(nameof(PublishonOwnWall));
@@ -269,6 +271,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsOwnWallAvailable));
             }
         }
+
+       
 
         public void UpdateGroupText() =>
             GroupSelectorText = IsGroupsAvailable ? SelectedGroups + "/" + TotalGroups : "LangKeyNA".FromResourceDictionary();
@@ -358,5 +362,41 @@ namespace DominatorHouseCore.Models.SocioPublisher
             set { SetProperty(ref _accountGroupName, value); }
         }
 
+        
+
+
+        private bool _isScrapingAvailableInNetworks;
+        [ProtoMember(23)]
+        public bool IsScrapingAvailableInNetworks
+        {
+            get
+            {
+                return _isScrapingAvailableInNetworks;
+            }
+            set
+            {
+                if (_isScrapingAvailableInNetworks == value)
+                    return;
+                _isScrapingAvailableInNetworks = value;
+                OnPropertyChanged(nameof(IsScrapingAvailableInNetworks));
+            }
+        }
+
+        private bool _isForScrapingOnly;
+        [ProtoMember(24)]
+        public bool IsScrapeFromAccount
+        {
+            get
+            {
+                return _isForScrapingOnly;
+            }
+            set
+            {
+                if (_isForScrapingOnly == value || !IsScrapingAvailableInNetworks)
+                    return;
+                _isForScrapingOnly = value;
+                OnPropertyChanged(nameof(IsScrapeFromAccount));
+            }
+        }
     }
 }

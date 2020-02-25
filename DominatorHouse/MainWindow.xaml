@@ -40,6 +40,7 @@
             <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
                       ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
             <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+            <ComboBox x:Name="ThemeCombo" DataContext="{Binding Themes}" Visibility="Visible" SelectionChanged="ThemeCombo_SelectionChanged"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}" />
 
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
@@ -54,12 +55,12 @@
         <!--Account Growth Mode Tabs-->
         <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
-                    ItemContainerStyle="{StaticResource TabItemStyle}" BorderThickness="0">
+                    ItemContainerStyle="{DynamicResource TabItemStyle}" BorderThickness="0">
             <TabControl.Style>
                 <Style TargetType="TabControl">
                     <Style.Triggers>
                         <Trigger Property="TabStripPlacement" Value="Left">
-                            <Setter Property="Template" Value="{StaticResource LeftTabstyle}"></Setter>
+                            <Setter Property="Template" Value="{DynamicResource LeftTabstyle}"></Setter>
                         </Trigger>
                     </Style.Triggers>
                 </Style>

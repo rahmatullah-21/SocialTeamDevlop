@@ -261,6 +261,63 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register("CommandParameter", typeof(object), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
 
+        private void OnClick(object sender, RoutedEventArgs e)
+        {
+            return;
+            if (!mainRTB.IsFocused)
+                return;
+            
+            var start = mainRTB.CaretPosition;  // this is the variable we will advance to the left until a non-letter character is found
+            var end = mainRTB.CaretPosition;    // this is the variable we will advance to the right until a non-letter character is found
+           
+            String stringBeforeCaret = start.GetTextInRun(System.Windows.Documents.LogicalDirection.Backward);   // extract the text in the current run from the caret to the left
+            String stringAfterCaret = start.GetTextInRun(System.Windows.Documents.LogicalDirection.Forward);     // extract the text in the current run from the caret to the left
 
+            if (((sender as Button).Background as System.Windows.Media.SolidColorBrush).Color == System.Windows.Media.Colors.LightGreen)
+            {
+                ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Transparent);
+            }
+            else if (((sender as Button).Background as System.Windows.Media.SolidColorBrush).Color == System.Windows.Media.Colors.Transparent)
+            {
+                ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.LightGreen);
+            }
+
+            InputText = StringFromRichTextBox(mainRTB);
+        }
+
+        string StringFromRichTextBox(RichTextBox rtb)
+        {
+
+            //var tr = new System.Windows.Documents.TextRange(mainRTB.Document.ContentStart,
+            //                     mainRTB.Document.ContentEnd);
+            //var ms = new System.IO.MemoryStream();
+            //tr.Save(ms, DataFormats.Xaml);
+            //string xamlText = System.Text.ASCIIEncoding.Default.GetString(ms.ToArray());
+
+            var textRange = new System.Windows.Documents.TextRange(
+                // TextPointer to the start of content in the RichTextBox.
+                rtb.Document.ContentStart,
+                // TextPointer to the end of content in the RichTextBox.
+                rtb.Document.ContentEnd
+            );
+
+
+            //string strRegex = @"<b>(?<X>.*?)</b>";
+            //var myRegexOptions = System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.Multiline;
+            //var myRegex = new System.Text.RegularExpressions.Regex(strRegex, myRegexOptions);
+            //string strTargetString = "Hellow world is my <b>first</b> application in <b>computer</b> world.";
+            //string NewString = strTargetString;
+            //foreach (System.Text.RegularExpressions.Match myMatch in myRegex.Matches(strTargetString))
+            //{
+            //    if (myMatch.Success)
+            //    {
+            //        NewString = NewString.Replace(myMatch.ToString(), myMatch.ToString().ToUpper());
+            //    }
+            //}
+            //InputText = NewString;
+            // The Text property on a TextRange object returns a string
+            // representing the plain text content of the TextRange.
+            return textRange.Text;
+        }
     }
 }

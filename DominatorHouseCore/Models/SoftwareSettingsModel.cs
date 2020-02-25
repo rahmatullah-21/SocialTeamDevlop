@@ -4,6 +4,7 @@ using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace DominatorHouseCore.Models
 {
@@ -714,5 +715,74 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _stopIfNoMoreData, value);
             }
         }
+
+        private ObservableCollection<LocationModel> _listlocationModel = new ObservableCollection<LocationModel>();
+        [ProtoMember(51)]
+        public ObservableCollection<LocationModel> ListLocationModel
+        {
+            get
+            {
+                return _listlocationModel;
+
+            }
+            set
+            {
+                SetProperty(ref _listlocationModel, value);
+            }
+        }
+
+        private bool _isTestMode;
+        [ProtoIgnore]
+        public bool IsTestMode
+        {
+            get
+            {
+                return _isTestMode;
+            }
+            set
+            {
+                SetProperty(ref _isTestMode, value);
+            }
+        }
+
+        private Visibility _debugVisibility;
+        [ProtoIgnore]
+        public Visibility DebugVisibility
+        {
+            get
+            {
+                return _debugVisibility;
+            }
+            set
+            {
+            
+                SetProperty(ref _debugVisibility, value);
+            }
+        }
+
+        private bool _isSelectCountriesFilter;
+        public bool IsSelectCountriesFilter
+        {
+            get { return _isSelectCountriesFilter; }
+            set
+            { SetProperty(ref _isSelectCountriesFilter, value); }
+        }
+
+
+        private ObservableCollection<LocationModel> _listlocationModelTemp = new ObservableCollection<LocationModel>();
+        public ObservableCollection<LocationModel> ListLocationModelTemp
+        {
+            get
+            {
+                return _listlocationModelTemp;
+
+            }
+            set
+            {
+                SetProperty(ref _listlocationModelTemp, value);
+            }
+        }
+
+
     }
 }

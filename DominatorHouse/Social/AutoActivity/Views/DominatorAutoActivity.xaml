@@ -64,7 +64,10 @@
                         <Setter Property="Height" Value="35"></Setter>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                                <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="Transparent" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -109,6 +112,23 @@
 
                         <GridViewColumn>
                             <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource LangKeyActions}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Cursor="Hand" Content="{DynamicResource LangKeyMore}" x:Name="ButtonViewActivityStatus" 
+                                                    FontWeight="SemiBold" Command="{Binding DataContext.GoToToolsCmd, Source={x:Reference CampaignStatusList}}" CommandParameter="{Binding}"
+                                                    Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
+                        <GridViewColumn>
+                            <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyActivityStatus}" HorizontalAlignment="Left"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
@@ -120,6 +140,20 @@
                                                     <Style TargetType="ListBoxItem">
                                                         <Setter Property="Focusable" Value="False"/>
                                                         <Setter Property="Background" Value="Transparent"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseOver" Value="False">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                            </Trigger>
+                                                            <DataTrigger Binding="{Binding IsMouseOver,RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
+                                                                <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
+                                                                <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
                                                     </Style>
 
                                                 </ListBox.ItemContainerStyle>
@@ -155,22 +189,6 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn>
-                            <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource LangKeyActions}"/>
-                            </GridViewColumn.Header>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Cursor="Hand" Content="{DynamicResource LangKeyMore}" x:Name="ButtonViewActivityStatus" 
-                                                    FontWeight="SemiBold" Command="{Binding DataContext.GoToToolsCmd, Source={x:Reference CampaignStatusList}}" CommandParameter="{Binding}"
-                                                    Background="Transparent" />
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

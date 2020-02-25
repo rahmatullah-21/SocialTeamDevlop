@@ -116,7 +116,7 @@
                 </StackPanel.Resources>
 
                 <StackPanel Orientation="Horizontal" >
-                    <TextBlock Name="TxtblockSelectNetWork" Text="{DynamicResource LangKeySocialNetwork}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Name="TxtblockSelectNetWork" Text="{DynamicResource LangKeySocialNetwork}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
                         <ContentControl>
                             <ContentControl.Style>
@@ -140,24 +140,24 @@
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource LangKeyGroupName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource LangKeyGroupName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                     <TextBox Text="{Binding DominatorAccountModel.AccountBaseModel.AccountGroup.Content}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterGroupName}" Width="230"
-                             FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"
+                             FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30"
                              KeyDown="OnKeyDown"/>
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                     <TextBox Name="TxtAccountName" Text="{Binding DominatorAccountModel.AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterAccountName}" Width="230"
-                     FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"
+                     FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30"
                              KeyDown="OnKeyDown"/>
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource LangKeyEmailIdUsername}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource LangKeyEmailIdUsername}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                     <TextBox Name="txtUserName"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                      controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterUserName}" Width="230" FontSize="13" KeyDown="OnKeyDown"
-                     FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
+                     FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="{DynamicResource TextColorBrushAccordingTheme}"
                      VerticalAlignment="Center"  Height="30" >
                         <TextBox.Text>
                             <Binding Path="DominatorAccountModel.AccountBaseModel.UserName" UpdateSourceTrigger="PropertyChanged">
@@ -170,11 +170,11 @@
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Name="txtblockPassword" Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Name="txtblockPassword" Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                     <PasswordBox Name="txtPassword"  passwordHelper:PasswordBoxHelper.Attach="True" KeyDown="OnKeyDown"
                          Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                          controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterPassword}" 
-                         Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30" >
+                         Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" >
                         <passwordHelper:PasswordBoxHelper.Password>
                             <Binding Path="DominatorAccountModel.AccountBaseModel.Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                                 <Binding.ValidationRules>
@@ -187,15 +187,15 @@
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource LangKeyWebsite}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource LangKeyWebsite}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                     <TextBox Name="TxtBrowser" Text="{Binding DominatorAccountModel.UserAgentWeb}" KeyDown="OnKeyDown"
                      controls:TextBoxHelper.Watermark="{DynamicResource LangKeyWebsite}" Width="230"
-                     FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" />
+                     FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" />
                 </StackPanel>
-              
-         
+
+                
                 <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource LangKeyStatus}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource LangKeyStatus}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                     <Label Name="TxtStatus" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStatus}" Width="230"
                        FontSize="13" FontWeight="Bold"  Margin="5,0,5,0" >
                         <Label.Style>
@@ -538,10 +538,10 @@
 
                     <StackPanel Visibility="{Binding DominatorAccountModel.IsAutoVerifyByEmail,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel  Orientation="Horizontal" >
-                            <TextBlock Text="{DynamicResource LangKeyEmailID}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource LangKeyEmailID}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                             <TextBox controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterEmailId}" Width="230" Name="TxtEmailUsername"
                                      Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                                     FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center" 
+                                     FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" 
                                      Height="30" KeyDown="OnKeyDown">
                                 <TextBox.Text>
                                     <Binding Path="DominatorAccountModel.MailCredentials.Username" UpdateSourceTrigger="PropertyChanged">
@@ -554,11 +554,11 @@
                         </StackPanel>
 
                         <StackPanel  Orientation="Horizontal" >
-                            <TextBlock  Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBlock  Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                             <PasswordBox Name="TxtEmailPassword" passwordHelper:PasswordBoxHelper.Attach="True" KeyDown="OnKeyDown"
                                          Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                                          controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterPassword}" Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" 
-                                         Foreground="Black" VerticalAlignment="Center"  Height="30" >
+                                         Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" >
                                 <passwordHelper:PasswordBoxHelper.Password>
                                     <Binding Path="DominatorAccountModel.MailCredentials.Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                                         <Binding.ValidationRules>
@@ -571,9 +571,9 @@
                         </StackPanel>
 
                         <StackPanel  Orientation="Horizontal" >
-                            <TextBlock Text="{DynamicResource LangKeyHostName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource LangKeyHostName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                             <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterHostName}" Width="230" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                                      FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
+                                      FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="{DynamicResource TextColorBrushAccordingTheme}"
                                       VerticalAlignment="Center"  Height="30" KeyDown="OnKeyDown" Name="TxtHostKey">
                                 <TextBox.Text>
                                     <Binding Path="DominatorAccountModel.MailCredentials.Hostname" UpdateSourceTrigger="PropertyChanged">
@@ -586,10 +586,10 @@
                         </StackPanel>
 
                         <StackPanel  Orientation="Horizontal" >
-                            <TextBlock Text="{DynamicResource LangKeyPort}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource LangKeyPort}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                             <TextBox  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                                       controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterPort}" Width="230" FontSize="13"
-                                      KeyDown="OnKeyDown" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
+                                      KeyDown="OnKeyDown" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="{DynamicResource TextColorBrushAccordingTheme}"
                                       VerticalAlignment="Center"  Height="30" Name="TxtEmailPort">
                                 <TextBox.Text>
                                     <Binding Path="DominatorAccountModel.MailCredentials.Port" UpdateSourceTrigger="PropertyChanged">
@@ -608,7 +608,7 @@
                 <!--End of Auto verify Section-->
 
                 <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource LangLastSynchronizedAt}" Width="130" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource LangLastSynchronizedAt}" Width="130" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                     <TextBlock Text="{Binding DominatorAccountModel.LastUpdateTime, Converter={StaticResource IntToDateTimeConverter}}" Margin="5" Width="220" />
                 </StackPanel>
 
@@ -627,10 +627,10 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="2.5*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource LangKeyProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource LangKeyProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                             <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" 
                                      KeyDown="OnKeyDown" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterIpFormat}" Width="230" 
-                                     FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" 
+                                     FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" 
                                      Height="30" Grid.Column="1" Text="{Binding DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp}"/>
                         </Grid>
                         <Grid Grid.Row="1">
@@ -638,10 +638,10 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="2.5*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Name="txtblockProxyPort" Text="{DynamicResource LangKeyProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBlock Name="txtblockProxyPort" Text="{DynamicResource LangKeyProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                             <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
                                      controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeProxyPort}" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" 
-                                     Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
+                                     Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                                 <TextBox.Text>
                                     <Binding Path="DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
@@ -656,10 +656,10 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="2.5*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource LangKeyProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource LangKeyProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                             <TextBox Name="txtProxyUserName" Text="{Binding DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername}"
                          controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeProxyUsername}" Width="230"
-                         FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black"
+                         FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}"
                          VerticalAlignment="Center"  Height="30" Grid.Column="1"  KeyDown="OnKeyDown">
                                 <TextBox.Style>
                                     <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
@@ -686,11 +686,11 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="2.5*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource LangKeyProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource LangKeyProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                             <PasswordBox Name="txtProxyPassword"  passwordHelper:PasswordBoxHelper.Attach="True"
                              controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeProxyPassword}"  KeyDown="OnKeyDown"
                              Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5"
-                             Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
+                             Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" Grid.Column="1"
                              Grid.ColumnSpan="2">
                                 <PasswordBox.Style>
                                     <Style BasedOn="{StaticResource MetroButtonRevealedPasswordBox}" TargetType="PasswordBox">
@@ -720,12 +720,7 @@
                     <StackPanel Margin="15,0,0,0" Orientation="Vertical" HorizontalAlignment="Left">
                         <StackPanel.Style>
                             <Style TargetType="StackPanel"  >
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <!--<Style.Triggers>
-                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}" >
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>-->
+
                             </Style>
                         </StackPanel.Style>
                         <StackPanel Orientation="Horizontal">
@@ -740,7 +735,7 @@
                             <TextBox Margin="0,5,0,15" TextWrapping="Wrap" Text="{Binding JsonCookies}" AcceptsReturn="True" Name="CopiedJsonCookies" controls:TextBoxHelper.Watermark="{Binding WaterMarkText}"
                                VerticalScrollBarVisibility="Auto" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300" MaxHeight="200"  BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="1.5" >
                             </TextBox>
-                            <Button VerticalAlignment="Top" Margin="7" x:Name="SaveCopiedCookies" HorizontalAlignment="Left" Height="24" Background="DarkGreen"  Command="{Binding SaveJsonCookiesCommand}" ToolTip="{DynamicResource LangKeyCopyAccountDetailToClipBoard}" ToolTipService.Placement="Right">
+                            <Button VerticalAlignment="Top" Margin="7" x:Name="SaveCopiedCookies" HorizontalAlignment="Left" Height="24" Background="DarkGreen"  Command="{Binding SaveJsonCookiesCommand}" ToolTipService.Placement="Right">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal" >
                                         <Rectangle Margin="1,1,4,1" Width="12" Height="12" Fill="White">
@@ -756,7 +751,7 @@
                     </StackPanel>
                     
                     <StackPanel  Orientation="Horizontal" >
-                        <TextBlock Text="{DynamicResource LangKeyCookies}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource LangKeyCookies}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Button Content="{DynamicResource LangKeyAddNewCookies}" Name="BtnAddNewCookies" Command="{Binding AddNewCookiesCommand}"

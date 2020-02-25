@@ -3,6 +3,7 @@ using DominatorHouseCore.Utility;
 using Prism.Commands;
 using System.Windows.Input;
 using System;
+using DominatorHouseCore;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -12,9 +13,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             ScrapePostModel = tabItemsControl.ScrapePostModel;
             UploadPostDetailsCommand = new DelegateCommand(UploadPostDetails);
+            UploadPostDescriptionCommand = new DelegateCommand(UploadPostDescriptionExecute);
         }
 
+        private void UploadPostDescriptionExecute()
+        {
+            try
+            {
+                ScrapePostModel.LstUploadPostDescription = FileUtilities.FileBrowseAndReader();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        
         public ICommand UploadPostDetailsCommand { get; }
+        public ICommand UploadPostDescriptionCommand { get; }
         private ScrapePostModel _scrapePostModel = new ScrapePostModel();
 
         public ScrapePostModel ScrapePostModel

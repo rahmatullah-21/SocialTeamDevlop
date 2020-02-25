@@ -3,12 +3,101 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-            >
+             mc:Ignorable="d" xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
     <Grid x:Name="MainGrid">
+        <!-- Set the styles for the tool bar. -->
+        <Grid.Resources>
+            <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
+                <Setter Property="FontFamily" Value="Palatino Linotype"></Setter>
+                <Setter Property="Width" Value="30"></Setter>
+                <Setter Property="FontSize" Value ="14"></Setter>
+                <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
+            </Style>
+
+            <Style TargetType="{x:Type Button}" x:Key="formatImageStyle">
+                <Setter Property="Width" Value="30"></Setter>
+                <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
+            </Style>
+        </Grid.Resources>
+        
         <StackPanel Orientation="Horizontal"  >
-            <TextBox  TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding InputText}" Controls:TextBoxHelper.Watermark="{Binding WaterMarkText}"
+
+            <StackPanel Orientation="Vertical">
+                
+                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                    <!-- This tool bar contains all the editing buttons. -->
+                    <ToolBar ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" ToolBarTray.IsLocked="True"   Name="mainToolBar" Width="Auto" Height="Auto" DockPanel.Dock="Left">
+                        <ToolBar.Resources>
+                            <Style TargetType="{x:Type ToolBarPanel}">
+                                <Setter Property="Orientation" Value="Vertical"/>
+                            </Style>
+                        </ToolBar.Resources>
+                        <!--<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png" ></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>-->
+
+                        <Button Style="{StaticResource formatTextStyle}" Click="OnClick"  Command="EditingCommands.ToggleBold" ToolTip="Bold">
+                            <TextBlock Foreground="{DynamicResource TextColorBrushAccordingTheme1}" FontWeight="Bold">B</TextBlock>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
+                            <TextBlock Foreground="{DynamicResource TextColorBrushAccordingTheme1}" FontStyle="Italic" FontWeight="Bold">I</TextBlock>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
+                            <TextBlock Foreground="{DynamicResource TextColorBrushAccordingTheme1}" TextDecorations="Underline" FontWeight="Bold">U</TextBlock>
+                        </Button>
+                        <!--<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
+                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Edit.png"></Image>
+                    </Button>-->
+
+                    </ToolBar>
+                    <!-- By default pressing tab moves focus to the next control. Setting AcceptsTab to true allows the 
+           RichTextBox to accept tab characters. -->
+                    <RichTextBox Name="mainRTB" AcceptsReturn="True" Width="300" Height="80" Controls:TextBoxHelper.Watermark="{Binding WaterMarkText}" VerticalScrollBarVisibility="Auto" VerticalAlignment="Bottom" HorizontalAlignment="Center" AcceptsTab="True" BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"></RichTextBox>
+                </StackPanel>
+
+                <TextBox Visibility="Visible" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding InputText}" Controls:TextBoxHelper.Watermark="{Binding WaterMarkText}"
                               Name="TxtInvalidWord"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300" Height="{Binding Height}"  BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
+            </StackPanel>
             <StackPanel VerticalAlignment="Center">
                 <Button Name="BtnImportBlacklistsText" Visibility="{Binding ImportVisiblity}" Foreground="White"  Background="{DynamicResource AccentBaseColorBrush}" Click="BtnImportBlacklistsText_OnClick"
                                 HorizontalAlignment="Right"  Height="25" Width="35" VerticalAlignment="Center" >

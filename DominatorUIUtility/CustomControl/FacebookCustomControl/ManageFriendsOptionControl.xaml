@@ -8,10 +8,10 @@
     <Grid Name="MainGrid">
      
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{DynamicResource LangKeyEngagementType}" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                <TextBlock Text="{DynamicResource LangKeyEngagementType}" Margin="4" FontWeight="Bold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  FontSize="13"/>
                 <StackPanel Orientation="Vertical" >
-                <CheckBox Margin="30,5" Content="{DynamicResource LangKeyAcceptRequest}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding ManageFriendsModel.IsAcceptRequest}" Checked="Postoptions_Checked" Unchecked="Postoptions_Unchecked"/>
-                <CheckBox Margin="30,5" Content="{DynamicResource LangKeyCancelReceivedRequest}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding ManageFriendsModel.IsCancelReceivedRequest}" Checked="Postoptions_Checked" Unchecked="Postoptions_Unchecked"/>
+                <CheckBox Margin="30,5" Content="{DynamicResource LangKeyAcceptRequest}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding ManageFriendsModel.IsAcceptRequest}" Checked="Postoptions_Checked" Unchecked="Postoptions_Unchecked"/>
+                <CheckBox Margin="30,5" Content="{DynamicResource LangKeyCancelReceivedRequest}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding ManageFriendsModel.IsCancelReceivedRequest}" Checked="Postoptions_Checked" Unchecked="Postoptions_Unchecked"/>
                    
                 </StackPanel>
             </StackPanel>

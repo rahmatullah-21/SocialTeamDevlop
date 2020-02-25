@@ -6,7 +6,7 @@ namespace DominatorHouseCore.BusinessLogic.ActivitiesWorkflow
 {
     public interface ILoginProcessAsync : ILoginProcess
     {
-        Task<bool> CheckLoginAsync(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken);
+        Task<bool> CheckLoginAsync(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken, bool displayLoginMsg = false);
 
         Task LoginWithDataBaseCookiesAsync(DominatorAccountModel dominatorAccountModel, bool isMobileRequired, CancellationToken cancellationToken);
 

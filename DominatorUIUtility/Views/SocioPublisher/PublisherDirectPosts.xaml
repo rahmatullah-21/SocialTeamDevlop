@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
-             xmlns:customControl2="clr-namespace:DominatorUIUtility.CustomControl"
              mc:Ignorable="d"  xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
              xmlns:control="http://metro.mahapps.com/winfx/xaml/controls">
     <UserControl.Resources>
@@ -88,7 +87,7 @@
                              Content="{DynamicResource LangKeyCreateAMultipleImagePost}"  IsChecked="{Binding PostDetailsModel.IsMultipleImagePost}"/>
 
             <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding PostDetailsModel.IsMultipleImagePost,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <StackPanel>
+                <StackPanel Margin="0,10">
                     <RadioButton Name="CheckBoxUseFileNameAsDescription" Margin="2" GroupName="Description"
                                   Content="{DynamicResource LangKeyUseFileNameAsPostDescription}"
                                   IsChecked="{Binding PostDetailsModel.IsUseFileNameAsDescription}"/>
@@ -124,17 +123,16 @@
                     <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource LangKeyAddOnlyUniquePost}"
                                   IsChecked="{Binding PostDetailsModel.IsUniquePost}"/>
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                        <RadioButton GroupName="MultipleImage" Name="UploadGoogleImageUrl" Margin="2" Content="{DynamicResource LangKeyUploadGoogleImageFromUrl}"
-                                  IsChecked="{Binding PostDetailsModel.IsUploadSingleImage}"/>
+                        <TextBlock  Name="UploadGoogleImageUrl" Margin="2" Text="{DynamicResource LangKeyUploadGoogleImageFromUrl}"/>
                         <TextBox Name="TextBoxGetImages" Margin="5,0" Width="180" Height="25" Text="{Binding PostDetailsModel.ImagesUrl, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                      Style="{StaticResource SearchMetroTextBox}" control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}" control:TextBoxHelper.ButtonCommandParameter="{Binding ElementName=ImageMediaViewer}"/>
                     </StackPanel>
 
-                    <StackPanel Orientation="Vertical" Margin="0,5">
+                    <!--<StackPanel Orientation="Vertical" Margin="0,5">
                         <RadioButton GroupName="MultipleImage" Name="UploadImageUrl" Margin="2" Content="{DynamicResource LangKeyUploadMutipleImageUrl}"
                                   IsChecked="{Binding PostDetailsModel.IsUploadMultipleImage}"/>
                         <customControl2:InputBoxControl Margin="25,5" InputText="{Binding PostDetailsModel.MultipleImageUrl}" SaveCommand="{Binding MultipleImageUrlCommand}" />
-                    </StackPanel>
+                    </StackPanel>-->
                 </StackPanel>
 
                 <StackPanel Margin="10,0,0,0">

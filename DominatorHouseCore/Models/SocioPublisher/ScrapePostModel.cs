@@ -230,5 +230,177 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        #region RedditPost Scaper 
+
+        //To specify reddit scrape post is checked
+        [ProtoMember(14)]
+        private bool _isScrapeRedditPost;
+
+        public bool IsScrapeRedditPost
+        {
+            get { return _isScrapeRedditPost; }
+            set
+            {
+                if (_isScrapeRedditPost == value)
+                    return;
+                _isScrapeRedditPost = value;
+                OnPropertyChanged(nameof(IsScrapeRedditPost));
+            }
+        }
+
+
+        //To specify scraping details of reddit
+        [ProtoMember(15)]
+        private string _addRdPostSource;
+
+        public string AddRdPostSource
+        {
+            get { return _addRdPostSource; }
+            set
+            {
+                if (_addRdPostSource == value)
+                    return;
+                _addRdPostSource = value;
+                OnPropertyChanged(nameof(AddRdPostSource));
+            }
+        }
+
+        #endregion
+
+        #region Google Image Scaper 
+
+        //To specify google scrape image is checked
+        [ProtoMember(16)]
+        private bool _isScrapeGoogleImgaes;
+
+        public bool IsScrapeGoogleImgaes
+        {
+            get { return _isScrapeGoogleImgaes; }
+            set
+            {
+                if (_isScrapeGoogleImgaes == value)
+                    return;
+                _isScrapeGoogleImgaes = value;
+                OnPropertyChanged(nameof(IsScrapeGoogleImgaes));
+            }
+        }
+
+
+        //To specify scraping details of reddit
+        [ProtoMember(17)]
+        private string _addGooglePostSource;
+
+        public string AddGooglePostSource
+        {
+            get { return _addGooglePostSource; }
+            set
+            {
+                if (_addGooglePostSource == value)
+                    return;
+                _addGooglePostSource = value;
+                OnPropertyChanged(nameof(AddGooglePostSource));
+            }
+        }
+
+
+        /// <summary>
+        /// Is need to use file name as a description for multiple image posts
+        /// </summary>
+        private bool _isUseFileNameAsDescription = true;
+        [ProtoMember(18)]
+        public bool IsUseFileNameAsDescription
+        {
+            get
+            {
+                return _isUseFileNameAsDescription;
+            }
+            set
+            {
+                if (value == _isUseFileNameAsDescription)
+                    return;
+                SetProperty(ref _isUseFileNameAsDescription, value);
+            }
+        }
+
+        private bool _isUploadPostDescription;
+        [ProtoMember(19)]
+        public bool IsUploadPostDescription
+        {
+            get
+            {
+                return _isUploadPostDescription;
+            }
+            set
+            {
+                if (value == _isUploadPostDescription)
+                    return;
+                SetProperty(ref _isUploadPostDescription, value);
+
+            }
+        }
+
+        private List<string> _lstUploadPostDescription = new List<string>();
+        [ProtoMember(20)]
+        public List<string> LstUploadPostDescription
+        {
+            get { return _lstUploadPostDescription; }
+            set
+            {
+                SetProperty(ref _lstUploadPostDescription, value);
+            }
+        }
+
+        private int _scrapeCountPerUrl = 1;
+        [ProtoMember(21)]
+        public int ScrapeCountPerUrl
+        {
+            get
+            {
+                return _scrapeCountPerUrl;
+            }
+            set
+            {
+                if (_scrapeCountPerUrl == value)
+                    return;
+                SetProperty(ref _scrapeCountPerUrl, value);
+            }
+        }
+
+
+        private bool _ignoreTextOnlyPosts;
+        [ProtoMember(22)]
+        public bool IgnoreTextOnlyPosts
+        {
+            get
+            {
+                return _ignoreTextOnlyPosts;
+            }
+            set
+            {
+                if (_ignoreTextOnlyPosts == value)
+                    return;
+                SetProperty(ref _ignoreTextOnlyPosts, value);
+            }
+        }
+
+
+        private bool _isScrapeHighQualityImages;
+        [ProtoMember(23)]
+        public bool IsScrapeHighQualityImages
+        {
+            get
+            {
+                return _isScrapeHighQualityImages;
+            }
+            set
+            {
+                if (_isScrapeHighQualityImages == value)
+                    return;
+                SetProperty(ref _isScrapeHighQualityImages, value);
+            }
+        }
+
+        #endregion
+
     }
 }

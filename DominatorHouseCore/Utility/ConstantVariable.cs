@@ -155,6 +155,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPublisherPostlistSettingsFile() => GetOtherDir() + @"\PostlistSettings.bin";
 
+        public static string GetThemesFile() => GetOtherDir() + @"\Themes.txt";
         public static string GetChatDir()
         {
             string dir = $"{GetPlatformBaseDirectory()}\\LiveChat";
@@ -210,7 +211,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPublisherPostFetchFile => GetOtherDir() + "\\PublisherPostFetcherDetails.bin";
 
-        public static string GetMacroDetails => GetOtherDir() + "\\SocinatorMacros.bin";
+        public static string GetMacroDetails => GetOtherDir() + $"\\{ApplicationName}Macros.bin";
 
         public static string GetPublishedSuccessDetails => GetOtherDir() + "\\PublishedSuccessDetails.bin";
 
@@ -260,11 +261,11 @@ namespace DominatorHouseCore.Utility
 
         public static string Separator = "<:>";
 
-        public static string VideoToImageConvertFileName { get; set; } = "_SOCINATORIMAGE.jpg";
+        public static string VideoToImageConvertFileName { get; set; } = $"_{ApplicationName.ToUpper()}IMAGE.jpg";
 
         public static List<string> SupportedVideoFormat = new List<string> { "3g2", "3gp", "3gpp", "asf", "avi", "dat", "divx", "dv", "f4v", "flv", "m2ts", "m4v", "mkv", "mod", "mov", "mp4", "mpe", "mpeg", "mpeg4", "mpg", "mts", "nsv", "ogm", "ogv", "qt", "tod", "ts", "vob", "wmv" };
 
-        public static string VideoToImageConvertPngFileName { get; set; } = "_SOCINATORIMAGE.png";
+        public static string VideoToImageConvertPngFileName { get; set; } = $"_{ApplicationName.ToUpper()}IMAGE.png";
         public static string ProcessingInput { get; set; } =
             "https://app.gramboard.ai/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 

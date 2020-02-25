@@ -70,8 +70,9 @@ namespace DominatorHouse.Support.Logs.Views
         {
             var selectedTab = (sender as TabablzControl)?.SelectedItem as TabItem;
             var header = selectedTab?.Header;
-            if (header != null && ViewModel != null)
+            if (header != null && ViewModel != null && ViewModel.LogType != header?.ToString())
                 ViewModel.LogType = header?.ToString();
         }
+
     }
 }

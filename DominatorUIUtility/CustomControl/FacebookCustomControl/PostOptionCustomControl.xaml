@@ -17,7 +17,7 @@
         <Expander Grid.Row="0"  Header="{DynamicResource LangKeySearchQuery}" Margin="5,5"
                                    IsExpanded="true">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{DynamicResource LangKeyEngageWithPostsFrom}" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                <TextBlock Text="{DynamicResource LangKeyEngageWithPostsFrom}" Margin="4" FontWeight="Bold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  FontSize="13"/>
 
                 <StackPanel Orientation="Vertical">
                     <!--Own wall-->

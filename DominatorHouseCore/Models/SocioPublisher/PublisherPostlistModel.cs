@@ -704,6 +704,34 @@ namespace DominatorHouseCore.Models.SocioPublisher
             get { return _isChangeHashOfMedia; }
             set { SetProperty(ref _isChangeHashOfMedia, value); }
         }
+
+        private string _redditScrapedMediaType;
+        [ProtoMember(36)]
+        public string RedditScrapedMediaType
+        {
+            get { return _redditScrapedMediaType; }
+            set
+            {
+                if (_redditScrapedMediaType == value)
+                    return;
+                _redditScrapedMediaType = value;
+                OnPropertyChanged(nameof(RedditScrapedMediaType));
+            }
+        }
+
+        private string _redditScrapedVideoUrl;
+        [ProtoMember(37)]
+        public string RedditScrapedVideoUrl
+        {
+            get { return _redditScrapedVideoUrl; }
+            set
+            {
+                if (_redditScrapedVideoUrl == value)
+                    return;
+                _redditScrapedVideoUrl = value;
+                OnPropertyChanged(nameof(RedditScrapedVideoUrl));
+            }
+        }
         #endregion
 
         #endregion

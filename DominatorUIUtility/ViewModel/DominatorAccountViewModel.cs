@@ -682,6 +682,9 @@ namespace DominatorUIUtility.ViewModel
                                 isBrowserAutomationActive = splitAccount[13];
                                 break;
                             case 15:
+                            case 16:
+                            case 17:
+                            case 18:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];
@@ -1531,7 +1534,32 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name";
+            string header = string.Empty;
+
+            string FirstCountHeader = SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
+                              .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn1Value;
+
+            string SecondCountHeader = SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
+                              .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn2Value;
+
+            string ThirdCountHeader = SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
+                              .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn3Value;
+
+            string FourthCountHeader = SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
+                              .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn4Value;
+
+            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},SocialUser";
+
+            else if (!string.IsNullOrEmpty(FourthCountHeader))
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader},SocialUser";            
+
+            else if (!string.IsNullOrEmpty(ThirdCountHeader))
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},SocialUser";
+
+            else if (!string.IsNullOrEmpty(SecondCountHeader))
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},SocialUser";
+
 
             var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_Accounts {ConstantVariable.DateasFileName}.csv";
 
@@ -1561,7 +1589,12 @@ namespace DominatorUIUtility.ViewModel
                      + account.AccountBaseModel.Banned + ","
                      + JsonConvert.SerializeObject(account.BrowserCookieHelperList).Replace(",", "<>") + ","
                      + account.IsRunProcessThroughBrowser.ToString() + ","
-                     + account.AccountBaseModel.AccountProxy.ProxyGroup;
+                     + account.AccountBaseModel.AccountProxy.ProxyGroup + ","
+                     + account.DisplayColumnValue1
+                     + (string.IsNullOrEmpty(SecondCountHeader) ? "" : $",{account.DisplayColumnValue2}")
+                     + (string.IsNullOrEmpty(ThirdCountHeader) ? "" : $",{account.DisplayColumnValue3}")
+                     + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}")
+                     + $",{account.AccountBaseModel.ProfileId}";
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1575,6 +1608,8 @@ namespace DominatorUIUtility.ViewModel
             });
             Dialog.ShowDialog("LangKeyExportAccounts".FromResourceDictionary(), String.Format("LangKeyAccountsSuccessfullyExportedTo".FromResourceDictionary(), filename));
         }
+
+
 
         #endregion
 
@@ -1772,25 +1807,7 @@ namespace DominatorUIUtility.ViewModel
                         Console.WriteLine(ex.StackTrace);
                     }
                 }
-
-
-                // Open extra window for facebook in advance and close to avoid hanging issue
-                Task.Factory.StartNew(() =>
-                {
-                    try
-                    {
-                        var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
-
-                        var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
-
-                       
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.StackTrace);
-                    }
-                    
-                });
+                
             }
             catch (Exception ex)
             {
@@ -1984,9 +2001,7 @@ namespace DominatorUIUtility.ViewModel
 
                                 var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
                                 var accounts = globalDbOperation.UpdateAccountDetails(account);
-
-                                _updateAccountList.Remove(account.UserName);
-
+                                
                                 try
                                 {
                                     lock (AccountUpdateLock)
@@ -2007,6 +2022,10 @@ namespace DominatorUIUtility.ViewModel
                         catch (Exception ex)
                         {
                             ex.DebugLog();
+                        }
+                        finally
+                        {
+                            _updateAccountList.Remove(account.UserName);
                         }
 
                     }, account.Token);
@@ -2269,8 +2288,9 @@ namespace DominatorUIUtility.ViewModel
                     var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
 
                     var browserManager = accountScopeFactory[$"{dominatorAccountModel.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
-
-                    browserManager.BrowserLogin(dominatorAccountModel, LoginType.BrowserLogin);
+                   
+                    // don't pass account's cancellationToken here. Otherwise "stopping account activity" could close the browser opened by BrowserLogin click 
+                    browserManager.BrowserLogin(dominatorAccountModel, new CancellationToken(), LoginType.BrowserLogin);
                 });
             }
             catch (Exception ex)

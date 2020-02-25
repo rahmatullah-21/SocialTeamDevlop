@@ -19,6 +19,8 @@ using FluentScheduler;
 using Microsoft.Win32;
 using Registry = Microsoft.Win32.Registry;
 using DominatorHouseCore.DatabaseHandler.Utility;
+using System.Collections.ObjectModel;
+
 
 namespace DominatorHouseCore.Settings
 {
@@ -27,11 +29,12 @@ namespace DominatorHouseCore.Settings
         void InitializeOnLoadConfigurations();
         void ActivityManagerInitializer();
         void ScheduleAutoUpdation();
-      //  Task ScheduleAdsScraping();
+        //  Task ScheduleAdsScraping();
         //Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer, DominatorAccountModel currentAccount = null
         //    , SocialNetworks currentNetwork = SocialNetworks.Facebook);
         SoftwareSettingsModel Settings { get; set; }
         bool Save();
+        ObservableCollection<LocationModel> AssignLocationList();
     }
 
     public class SoftwareSettings : BindableBase, ISoftwareSettings
@@ -320,33 +323,44 @@ namespace DominatorHouseCore.Settings
 
         #endregion
 
-        //public async Task ScheduleAdsScraping()
-        //{
-        //    var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-        //        async job =>
-        //        {
-        //            await job.StartAdScarperAsync();
-        //        },
-        //        new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-        //    await ScrapAdsProduceAsync(adScraperblock);
+        public async Task ScheduleAdsScraping()
+        {
+            //var adScraperblock = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-        //    var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
-        //        async job =>
-        //        {
-        //            await job.StartAdScarperAsync();
-        //        },
-        //        new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+            //await ScrapAdsProduceAsync(adScraperblock);
 
-        //    await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
-        //}
+            //var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+
+            //await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
+
+            //var adScraperblockTikTok = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+
+            //await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.TikTok);
+        }
+
 
 
         //public async Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer,
         //    DominatorAccountModel currentAccount = null, SocialNetworks currentNetwork = SocialNetworks.Facebook)
         //{
         //    var accounts = _accountsFileManager.GetAll(currentNetwork);
-            
+
         //    if (currentAccount != null)
         //        accounts = accounts.Where(x => x.AccountId == currentAccount.AccountId).ToList();
 
@@ -357,8 +371,29 @@ namespace DominatorHouseCore.Settings
         //        await adsActionBuffer.SendAsync(new ScrapAdsDetails(account, adsActionBuffer));
         //    }
 
+
         //    return true;
         //}
+
+        public ObservableCollection<LocationModel> AssignLocationList()
+        {
+            var countrySet = new ObservableCollection<LocationModel>();
+            try
+            {
+                new NonStaticUtilities().CountriesList().ForEach(x =>
+                {
+                    countrySet.Add(new LocationModel()
+                    {
+                        CountryName = x
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return countrySet;
+        }
     }
 
     public class ScrapAdsDetails
@@ -433,23 +468,6 @@ namespace DominatorHouseCore.Settings
         //                return;
         //            }
 
-
-
-
-        //        }
-        //        catch (OperationCanceledException ex)
-        //        {
-        //            ex.DebugLog("Cancellation Requested!");
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            ex.DebugLog();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
+        
     }
 }

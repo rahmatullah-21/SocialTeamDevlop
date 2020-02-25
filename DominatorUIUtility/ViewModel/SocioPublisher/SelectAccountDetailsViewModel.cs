@@ -380,6 +380,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn", "Reddit" };
         public List<string> WallAvailableInNetworks { get; set; } = new List<string> { "Pinterest", "Tumblr" };
 
+        public List<string> ScrapingAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Pinterest", "Twitter", "Reddit" };
+
         public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "LinkedIn", "Gplus", "Tumblr" };
 
         public List<string> FriendsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn" };
@@ -1209,7 +1211,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsFriendsAvailable =
                         FriendsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
-
+                    IsScrapingAvailableInNetworks = ScrapingAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     PublishonOwnWall = false,
                     SelectedGroups = 0,
                     TotalFriends = x.DisplayColumnValue1 ?? 0,
@@ -1491,6 +1493,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),// x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
                             IsGroupsAvailable =
                                 GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
+                            IsScrapingAvailableInNetworks = ScrapingAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             IsPagesOrBoardsAvailable =
                                 BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             PublishonOwnWall = false,

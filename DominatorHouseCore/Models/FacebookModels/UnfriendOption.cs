@@ -424,7 +424,7 @@ namespace DominatorHouseCore.Models.FacebookModels
 
         private bool _isMutualFriends;
 
-        [ProtoMember(6)]
+        [ProtoMember(20)]
         public bool IsMutualFriends
         {
             get
@@ -437,6 +437,43 @@ namespace DominatorHouseCore.Models.FacebookModels
                 if (value == _isMutualFriends)
                     return;
                 SetProperty(ref _isMutualFriends, value);
+
+            }
+        }
+
+
+
+        private bool _isNotPostOnWall;
+        [ProtoMember(21)]
+        public bool IsNotPostOnWall
+        {
+            get
+            {
+                return _isNotPostOnWall;
+            }
+
+            set
+            {
+                if (value == _isNotPostOnWall)
+                    return;
+                SetProperty(ref _isNotPostOnWall, value);
+            }
+        }
+
+
+        private int _daysNotPostOnWall;
+        [ProtoMember(22)]
+        public int DaysNotPostedOnWall
+        {
+            get
+            {
+                return _daysNotPostOnWall;
+            }
+            set
+            {
+                if (value == _daysNotPostOnWall)
+                    return;
+                SetProperty(ref _daysNotPostOnWall, value);
 
             }
         }

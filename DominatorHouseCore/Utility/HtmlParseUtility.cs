@@ -59,6 +59,16 @@ namespace DominatorHouseCore.Utility
 
         }
 
+        public static string GetAttributeValueFromTagName(string pageSource, string tagName, string attributeName,
+            string attributeValue, string searchByAttribute)
+        {
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(pageSource);
+            return htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']")
+                .GetAttributeValue(searchByAttribute, NotFound);
+
+        }
+
         public static string GetOuterHtmlFromTagName(string pageSource, string tagName, string attributeName,
             string attributeValue)
         {

@@ -8,6 +8,7 @@
              xmlns:uiExtensions="clr-namespace:DominatorHouseCore.UIExtensions;assembly=DominatorHouseCore"
              xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore">
     <UserControl.Resources>
+        <converter:WorkingStringToVisibilityConverter x:Key="WorkingStringToVisibilityConverter"/>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:BooleanToVisibilityConverter IsInversed="True" x:Key="BooleanToVisibilityConverterInversed"/>
         <converter:ProxyManagerSourceConverter x:Key="ProxyManagerSourceConverter"/>
@@ -154,12 +155,14 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <CheckBox Margin="5"  Content="{DynamicResource LangKeyAssignRandomProxyToUnassignedAccounts}" IsChecked="{Binding IsRandomSelected}" >
+                <CheckBox Margin="5" FontWeight="Bold" Content="{DynamicResource LangKeyAssignRandomProxyToUnassignedAccounts}" IsChecked="{Binding IsRandomSelected}" >
                     <CheckBox.Style>
                         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
                                     <Setter Property="Command" Value="{Binding AssignRandomProxyCommand}" />
+                                    <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource GreenColorAccordingTheme}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -175,19 +178,11 @@
                     <ComboBox  Width="150" ItemsSource="{Binding Groups}" x:Name="GroupCmb" Controls:TextBoxHelper.ClearTextButton="True"/>
 
                 </StackPanel>
-                <CheckBox Margin="5"  Content="{DynamicResource LangKeyAdd}" IsChecked="{Binding IsNumOfAccountPerProxy}">
-                    <CheckBox.Style>
-                        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
-                            <Style.Triggers>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Command" Value="{Binding AssignXAccountPerProxyCommand}" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </CheckBox.Style>
-                </CheckBox>
+                <CheckBox Margin="5"  Content="{DynamicResource LangKeyAdd}" IsChecked="{Binding IsNumOfAccountPerProxy}" />
                 <Controls:NumericUpDown Minimum="0" Value="{Binding NumOfAccountPerProxy}" />
                 <Label Content="{DynamicResource LangKeyAccountPerProxy}"/>
+
+                <CheckBox Margin="10,5" Content="{DynamicResource LangKeyDontLoginAccountAfterProxyManagement}" IsChecked="{Binding DontLogin}" />
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}">
@@ -270,7 +265,7 @@
                   CanUserAddRows="False" Foreground="White" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  GridLinesVisibility="All" 
+                  GridLinesVisibility="All"
                   x:Name="ProxyDataGrid" VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.IsDeferredScrollingEnabled="True"
@@ -293,8 +288,6 @@
                                 <ContentControl.Style>
                                     <Style TargetType="{x:Type ContentControl}"  >
                                         <Style.Triggers>
-
-
                                             <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
@@ -339,8 +332,9 @@
                     <Setter Property="Foreground" Value="{DynamicResource MetroDataGrid.InactiveSelectionHighlightBrush}"/>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme}"/>
+                            <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -489,11 +483,11 @@
 
                                 <Controls:DropDownButton x:Name="AddDropdown" Width="40" Height="20" Margin="10,0"
                                           ItemTemplate="{StaticResource AccountsToBeAssignTemplate}" 
-                                          ItemsSource="{Binding AccountsToBeAssign}" 
+                                          ItemsSource="{Binding AccountsToBeAssign}"
                                           Content="{DynamicResource LangKeyAdd}"
                                           Command="{Binding DataContext.DropDownCommand,
                                           RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                          CommandParameter="{Binding}" IsEnabled="True">
+                                          CommandParameter="{Binding}" IsEnabled="True" Visibility="{Binding Status,Converter={StaticResource WorkingStringToVisibilityConverter},Mode=TwoWay}" >
                                 </Controls:DropDownButton>
 
                             </VirtualizingStackPanel>

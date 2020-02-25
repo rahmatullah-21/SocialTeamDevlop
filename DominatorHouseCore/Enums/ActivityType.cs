@@ -18,18 +18,10 @@ namespace DominatorHouseCore.Enums
 
         [Description("Instagram")]
         Comment = 5,
-
-        //,Instagram,Reddit
-       // [Description("Twitter")]
-        DeleteComment = 6,
-    
-
-        //[Description("Instagram")]
-        Post = 7,
-
-
+        
         [Description("Instagram")]
         DeletePost = 8,
+
         [Description("Instagram")]
         UserScraper = 9,
 
@@ -68,7 +60,8 @@ namespace DominatorHouseCore.Enums
         [Description("Instagram")]
         StoryViewer = 21,
 
-        [Description("Instagram")]
-        DownloadScraper = 22,
+        
+        [Description("LangKeyStopAll")]
+        StopAll = 123
     }
 }

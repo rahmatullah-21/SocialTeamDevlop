@@ -330,7 +330,10 @@
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                            <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="Background" Value="Transparent" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
@@ -420,22 +423,22 @@
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                     <StackPanel Orientation="Horizontal" Margin="6,2,6,2">
                                         <Button Cursor="Hand" Content="{DynamicResource LangKeyEdit}" x:Name="ButtonEditCampaign" 
-                                                FontWeight="SemiBold"  Background="Transparent" 
+                                                FontWeight="SemiBold"  Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme1}"
                                                 Command="{Binding Path=DataContext.NavigationCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"/>
                                         <Button Cursor="Hand" 
                                                 Content="{DynamicResource LangKeyDuplicate}" 
                                                 x:Name="ButtonDuplicateCampaign" 
                                                     FontWeight="SemiBold"  
                                                 Command="{Binding Path=DataContext.CampaignCloneCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                     Background="Transparent"/>
+                                                     Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme1}" />
                                         <Button Cursor="Hand" Content="{DynamicResource LangKeyDelete}" 
                                                 x:Name="ButtonDeleteCampaign" 
                                                 FontWeight="SemiBold"
                                                 Command="{Binding Path=DataContext.DeleteCampaignCommand,  RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding}"  
-                                                Background="Transparent" />
+                                                Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme1}" />
                                         <Button Cursor="Hand" Content="{DynamicResource LangKeyCopyCampaignId}" x:Name="ButtonCopyCampaignId" 
-                                                FontWeight="SemiBold"  Background="Transparent" 
+                                                FontWeight="SemiBold"  Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme1}"
                                                 Command="{Binding Path=DataContext.CopyCampaignId,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"/>
                                     </StackPanel>
                                 </Border>

@@ -45,9 +45,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             AddFreshAccounts = new BaseCommand<object>(AddFreshAccountCanExecute, AddFreshAccountExecute);
             AddCustomDestinationCommand = new BaseCommand<object>(AddCustomDestinationCanExecute, AddCustomDestinationExecute);
             NetworkSelectionChangedCommand = new BaseCommand<object>((sender) => true, NetworkSelectionChangedExecute);
+            AccountSelectionCommand = new BaseCommand<object>((sender) => true, AccountSelectionChangedExecute);
             InitializeProperties();
             InitializeDestinationList();
             IsSavedDestination = false;
+        }
+
+        private void AccountSelectionChangedExecute(object sender)
+        {
+            try
+            {
+                var model = (PublisherCreateDestinationSelectModel)sender;
+                if (model.IsAccountSelected)
+                    model.IsScrapeFromAccount = model.IsAccountSelected;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void NetworkSelectionChangedExecute(object sender)
@@ -134,6 +149,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICommand AddCustomDestinationCommand { get; set; }
         public ICommand NetworkSelectionChangedCommand { get; set; }
+
+        public ICommand AccountSelectionCommand { get; set; }
+
         #endregion
 
         #region Properties
@@ -229,7 +247,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public HashSet<SocialNetworks> AvailableNetworks
         {
             get
-            {                
+            {
                 return _availableNetworks;
             }
             set
@@ -334,12 +352,31 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        private bool _isAllScrapeFromAccount;
+        public bool IsAllScrapeFromAccount
+        {
+            get
+            {
+                return _isAllScrapeFromAccount;
+            }
+            set
+            {
+                if (_isAllScrapeFromAccount == value)
+                    return;
+                SetProperty(ref _isAllScrapeFromAccount, value);
+                CheckAllScrapeFromAccount(_isAllScrapeFromAccount);
+            }
+        }
+
 
         private List<string> _needToUpdateAccounts = new List<string>();
 
 
         public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn", "Reddit" };
         public List<string> WallAvailableInNetworks { get; set; } = new List<string> { "Pinterest", "Tumblr" };
+
+        public List<string> ScrapingAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Pinterest", "Twitter", "Reddit" };
+
         public List<string> IsCustomDestinationInNetworks { get; set; } = new List<string> { "Facebook", "Reddit" };
 
         public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Pinterest", "Youtube", "Tumblr" };
@@ -665,7 +702,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SelectionExecute(object sender)
         {
-            var moduleName = sender.ToString();
+            var moduleName = string.Empty;
+            var model = new PublisherCreateDestinationSelectModel();
+
+            if (sender.GetType() == typeof(PublisherCreateDestinationSelectModel))
+                model = (PublisherCreateDestinationSelectModel)sender;
+            else
+                moduleName = sender.ToString();
+
+
             switch (moduleName)
             {
                 case "MenuSelectNone":
@@ -675,20 +720,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 case "MenuSelectAll":
                     IsAllDestinationSelected = true;
+                    break;                
+                default:
                     break;
-                case "SelectManually":
+            }
 
-                    if (DestinationCollectionView.Cast<PublisherCreateDestinationSelectModel>().All(x => x.IsAccountSelected))
-                        IsAllDestinationSelected = true;
-                    else
+            if(string.IsNullOrEmpty(moduleName))
+            {
+                if (DestinationCollectionView.Cast<PublisherCreateDestinationSelectModel>().All(x => x.IsAccountSelected))
+                    IsAllDestinationSelected = true;
+                else
+                {
+                    if (IsAllDestinationSelected)
                     {
-                        if (IsAllDestinationSelected)
-                        {
-                            _isUncheckedFromList = true;
-                            IsAllDestinationSelected = false;
-                        }
+                        _isUncheckedFromList = true;
+                        IsAllDestinationSelected = false;
                     }
-                    break;
+                }
+                model.IsScrapeFromAccount = model.IsAccountSelected;
             }
         }
 
@@ -708,6 +757,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             selectFromlist.Select(x =>
             {
                 x.IsAccountSelected = isChecked;
+                x.IsScrapeFromAccount = isChecked;
                 return x;
             }).ToList();
         }
@@ -730,6 +780,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                  x.PublishonOwnWall = isChecked;
                  return x;
              }).ToList();
+        }
+
+        public void CheckAllScrapeFromAccount(bool isChecked)
+        {
+            PublisherCreateDestinationModel.ListSelectDestination.Where(y => y.IsAccountSelected).Select(x =>
+            {
+                x.IsScrapeFromAccount = isChecked;
+                return x;
+            }).ToList();
         }
 
         private bool SelectAccountDetailsCanExecute(object sender) => true;
@@ -1042,6 +1101,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     SocialNetworks = x.AccountBaseModel.AccountNetwork,
                     AccountGroupName = x.AccountBaseModel.AccountGroup.Content,
                     IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
+                    IsScrapingAvailableInNetworks = ScrapingAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsCustomDestinationInNetworks = IsCustomDestinationInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsGroupsAvailable =
                         GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
@@ -1423,6 +1483,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             AccountName = x.AccountBaseModel.UserName,
                             SocialNetworks = x.AccountBaseModel.AccountNetwork,
                             IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),// x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
+                            IsScrapingAvailableInNetworks = ScrapingAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             IsCustomDestinationInNetworks = IsCustomDestinationInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             IsGroupsAvailable =
                                 GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),

@@ -113,6 +113,9 @@ namespace DominatorHouseCore.Models
         public DeviceGenerator DeviceDetails { get; set; } = new DeviceGenerator();
 
         [ProtoIgnore]
+        public TiktokDeviceGenerator TiktokDeviceDetails { get; set; } = new TiktokDeviceGenerator();
+
+        [ProtoIgnore]
         public int LastLogin { get; set; }
 
         [ProtoMember(21)]

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -343,6 +344,40 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             { }
+        }
+
+        public static bool ReWriteDataIntoFile(string data, string filePath)
+        {
+            try
+            {
+                using (StreamWriter reader = new StreamWriter(filePath))
+                {
+                    reader.Write(data);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static async Task<string> ReadFile(string fileName)
+        {
+            try
+            {
+                using (StreamReader file = new StreamReader(fileName))
+                {
+                    var data = await file.ReadToEndAsync();
+                    
+                    return data;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return "";
+            }
         }
     }
 }

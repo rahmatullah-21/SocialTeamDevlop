@@ -1,5 +1,5 @@
-﻿using DominatorHouseCore.StartupActivity;
-using FaceDominatorCore.FDEnums;
+﻿using DominatorHouseCore.Enums.FdQuery;
+using DominatorHouseCore.StartupActivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
