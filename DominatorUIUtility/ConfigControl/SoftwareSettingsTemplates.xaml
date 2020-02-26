@@ -165,8 +165,14 @@
                                 </ComboBox.Triggers>
                             </ComboBox>
                         </StackPanel>
+                        <StackPanel Orientation="Horizontal" >
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotSortAccountsByUserName}"
+                                  IsChecked="{Binding DoNotSortByUserNameChecked}"/>
+                        </StackPanel>
 
                     </StackPanel>
+
+                  
                     <GroupBox Background="{DynamicResource GreenColorAccordingTheme}" Header="Developer mode" Visibility="Collapsed" > <!--{Binding DebugVisibility}-->
                         <StackPanel>
                             <CheckBox Margin="5" Content="Modify response files in UnitTests as per respective http hit"
