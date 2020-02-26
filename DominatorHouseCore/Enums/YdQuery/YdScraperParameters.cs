@@ -10,5 +10,7 @@ namespace DominatorHouseCore.Enums.YdQuery
         CustomUrls = 2,
         [Description("LangKeyCustomChannel")]
         CustomChannel = 3,
+        [Description("LangKeyYTVideoCommenters")]
+        YTVideoCommenters = 4
     }
 }

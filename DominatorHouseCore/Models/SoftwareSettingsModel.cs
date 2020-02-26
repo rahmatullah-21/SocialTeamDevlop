@@ -784,17 +784,17 @@ namespace DominatorHouseCore.Models
         }
 
 
-        private bool _isSortByUserNameChecked = true;
-        [ProtoMember(52)]
-        public bool IsSortByUserNameChecked
+        private bool _doNotSortByUserNameChecked = false;
+        [ProtoMember(53)]
+        public bool DoNotSortByUserNameChecked
         {
             get
             {
-                return _isSortByUserNameChecked;
+                return _doNotSortByUserNameChecked;
             }
             set
             {
-                SetProperty(ref _isSortByUserNameChecked, value);
+                SetProperty(ref _doNotSortByUserNameChecked, value);
             }
         }
 

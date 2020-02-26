@@ -19,7 +19,7 @@ namespace DominatorHouseCore.Converters
             var collection = values[0] as IEnumerable<DominatorAccountModel>;
 
             var socialNetworks = values[1] as SocialNetworks?;
-            var isSortByUserName = (bool)values[3];
+            var doNotSortByUserName = values.Length == 4 ? (bool)values[3] : false;
             var isReturnwithoutAssign = parameter as bool?;
             if (collection != null)
             {
@@ -31,7 +31,7 @@ namespace DominatorHouseCore.Converters
                         collection = collection.Where(a => a.AccountBaseModel.AccountNetwork == socialNetworks.Value);
                 }
 
-                if (isSortByUserName)
+                if (!doNotSortByUserName)
                     collection = collection.OrderBy(x => x.AccountBaseModel.UserName).OrderBy(x => x.AccountBaseModel.AccountNetwork.ToString());
 
             }
