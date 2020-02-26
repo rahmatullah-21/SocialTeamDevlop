@@ -195,7 +195,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             if (campaignStatus == "Paused" && currentDataContext.Status)
             {
                 if (!IsStopping)
-                    ToasterNotification.ShowError("LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
+                    ToasterNotification.ShowInfomation("LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
                 currentDataContext.Status = false;
                 return;
             }
@@ -209,7 +209,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 try
                 {
                     if (!IsStopping)
-                        ToasterNotification.ShowError(String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
+                        ToasterNotification.ShowInfomation(String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
                     currentDataContext.Status = false;
                 }
                 catch (Exception ex)
