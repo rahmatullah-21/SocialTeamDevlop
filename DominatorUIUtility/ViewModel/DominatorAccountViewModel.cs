@@ -99,6 +99,10 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+
+        public bool IsSortByUserName { get; set; }
+            = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>().GetSoftwareSettings().IsSortByUserNameChecked;
+
         private MenuHandlerModel _menuHandlerModel;
 
         public MenuHandlerModel MenuHandlerModel

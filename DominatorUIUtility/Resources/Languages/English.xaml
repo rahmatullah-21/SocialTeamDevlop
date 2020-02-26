@@ -4598,4 +4598,5 @@ Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyNoWorkingProxiesAvailableToAssign">No more working proxies available to assign</system:String>
     <system:String x:Key="LangKeyConditionAddNAccPerProxy"> [with condition \"assigning {0} accounts per proxy\"].</system:String>
     <system:String x:Key="LangKeyNoProxyToAssign">No proxy found to assign.</system:String>
+    <system:String x:Key="LangKeySortAccountsByUserName">Sort Accounts By UserName.</system:String>
 </ResourceDictionary>

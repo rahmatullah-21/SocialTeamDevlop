@@ -702,6 +702,7 @@
                             <Binding Path="LstDominatorAccountModel" IsAsync="True"/>
                             <Binding Path="SelectedNetworkViewModel.Selected"/>
                             <Binding Path="LstDominatorAccountModel.Count"/>
+                            <Binding Path="IsSortByUserName"/>
                         </MultiBinding>
                     </ListView.ItemsSource>
 
