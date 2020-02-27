@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Windows;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
@@ -87,20 +88,71 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         }
         private void Save()
         {
-            ProgressRing = true;
-
             if (SoftwareSettingsModel.IsSelectCountriesFilter)
             {
-                try
+                ProgressRing = true;
+                ThreadFactory.Instance.Start(() =>
                 {
+                    DownloadLocations();
+                });
+            }
 
-                    IGlobalDatabaseConnection dataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-                    var dbGlobalContext = dataBaseConnectionGlb.GetSqlConnection();
-                    var _dbGlobalListOperations = new DbOperations(dbGlobalContext);
+            if (SoftwareSettingsModel.IsDefaultExportPathSelected)
+            {
+                if (!string.IsNullOrEmpty(SoftwareSettingsModel.ExportPath) && Directory.Exists(SoftwareSettingsModel.ExportPath))
+                    SaveSetting();
+                else
+                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyEnterValidFolderPath".FromResourceDictionary());
+            }
+            else
+            {
+                SoftwareSettingsModel.ExportPath = string.Empty;
+                SaveSetting();
+            }
 
-                    var ListCountry = _dbGlobalListOperations.Get<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
-                    var dt = new List<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
-                    foreach (var locationModel in SoftwareSettingsModel.ListLocationModel.Where(x => x.IsSelected))
+        }
+
+        private void SaveSetting()
+        {
+            ThreadFactory.Instance.Start(() =>
+            {
+                while (ProgressRing)
+                    Thread.Sleep(500);
+
+                if (_softwareSettings.Save())
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        var result = Dialog.ShowCustomDialog("LangKeySuccess".FromResourceDictionary(),
+                                     "LangKeyConfirmToRestartAfterSoftwareSettingSaved".FromResourceDictionary(),
+                                     "LangKeyRestartNow".FromResourceDictionary(), "LangKeyRestartLater".FromResourceDictionary());
+                        if (result == MessageDialogResult.Affirmative)
+                        {
+                            Application.Current.Shutdown();
+                            Process.Start(Application.ResourceAssembly.Location);
+                            Process.GetCurrentProcess().Kill();
+                            Environment.Exit(0);
+                        }
+                    });
+
+                }
+            });
+        }
+
+
+        private void DownloadLocations()
+        {
+            try
+            {
+                IGlobalDatabaseConnection dataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+                var dbGlobalContext = dataBaseConnectionGlb.GetSqlConnection();
+                var _dbGlobalListOperations = new DbOperations(dbGlobalContext);
+
+                var ListCountry = _dbGlobalListOperations.Get<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
+                var dt = new List<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
+                foreach (var locationModel in SoftwareSettingsModel.ListLocationModel.Where(x => x.IsSelected))
+                {
+                    try
                     {
                         if (ListCountry.Any(x => x.CountryName.Equals(locationModel.CountryName)))
                             continue;
@@ -129,52 +181,25 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                             dt.Add(lst);
                         });
                     }
-                    _dbGlobalListOperations.AddRange(dt);
-                    ToasterNotification.ShowSuccess("Location Details Downloaded Successfully");
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
                 }
-                catch (WebException)
-                {
-                    ToasterNotification.ShowError("failed To Downloaded Location Details");
-                }
-                catch (Exception)
-                {
-                    ToasterNotification.ShowError("failed To Downloaded Location Details");
-                }
-
+                _dbGlobalListOperations.AddRange(dt);
+                ToasterNotification.ShowSuccess("Location Details Downloaded Successfully");
+            }
+            catch (WebException)
+            {
+                ToasterNotification.ShowError("failed To Downloaded Location Details");
+            }
+            catch (Exception)
+            {
+                ToasterNotification.ShowError("failed To Downloaded Location Details");
             }
 
             ProgressRing = false;
-
-            if (SoftwareSettingsModel.IsDefaultExportPathSelected)
-            {
-                if (!string.IsNullOrEmpty(SoftwareSettingsModel.ExportPath) && Directory.Exists(SoftwareSettingsModel.ExportPath))
-                    SaveSetting();
-                else
-                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyEnterValidFolderPath".FromResourceDictionary());
-            }
-            else
-            {
-                SoftwareSettingsModel.ExportPath = string.Empty;
-                SaveSetting();
-            }
-
         }
 
-        private void SaveSetting()
-        {
-            if (_softwareSettings.Save())
-            {
-                var result = Dialog.ShowCustomDialog("LangKeySuccess".FromResourceDictionary(),
-                    "LangKeyConfirmToRestartAfterSoftwareSettingSaved".FromResourceDictionary(),
-                    "LangKeyRestartNow".FromResourceDictionary(), "LangKeyRestartLater".FromResourceDictionary());
-                if (result == MessageDialogResult.Affirmative)
-                {
-                    Application.Current.Shutdown();
-                    Process.Start(Application.ResourceAssembly.Location);
-                    Process.GetCurrentProcess().Kill();
-                    Environment.Exit(0);
-                }
-            }
-        }
     }
 }

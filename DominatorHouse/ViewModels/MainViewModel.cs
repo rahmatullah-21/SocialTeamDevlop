@@ -69,6 +69,7 @@ namespace DominatorHouse.ViewModels
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             SocinatorKeyHelper.InitilizeKey();
+            RemoveLocationDataFromTemplate();
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
@@ -113,6 +114,25 @@ namespace DominatorHouse.ViewModels
                 .OrderBy(s => s.AccountBaseModel.UserName).ToList());
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
+        }
+
+        public async Task RemoveLocationDataFromTemplate()
+        {
+            try
+            {
+                var newtemplateFileManger = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
+                var newtemplateDetails = newtemplateFileManger.Get();
+                newtemplateDetails.ForEach(x =>
+                {
+                    x.ActivitySettings = System.Text.RegularExpressions.Regex.Replace(x.ActivitySettings, ",\"ListLocationModel\":\\[(.*?)\\]", string.Empty)
+                    ;
+                });
+                newtemplateFileManger.Save(newtemplateDetails);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         void CheckMSVCPlusPlusInstalled()
@@ -304,7 +324,7 @@ namespace DominatorHouse.ViewModels
 
                     }
 
-                    
+
                 }
 
                 await controller.CloseAsync();
