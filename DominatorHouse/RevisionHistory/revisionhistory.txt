@@ -1,3 +1,57 @@
+Version:[1.0.0.78],[27th February 2020]
+New Features:-
+	Social:
+		Other Configurations ==> Added option 'Do not Sort Accounts By UserName'.
+		Accounts Activity ==> Now you can stop all campaigns at once on each account.
+		Proxy Manager ==> Now you can stop accountlogin after assigning/unassigning accounts to proxy.
+						  And you can save the setting now with Save setting button click.
+	
+	Pinterest:
+ 		Export file ==> Now you can see username of your own social accounts in export file.
+			
+	Linkedin: 
+		Message conversation scraper ==> All connections ==> It will scrape recent conversatios now.
+		
+	Youtube:
+		Engage ==> Like ==> Video Filter ==> Added checkbox 'Filters searching video', applicable on 'keyword' query only.
+		Subscriber ==> Subscribe ==> Now you can subscribe to video commenters(At other configurations, added some special filters for this feature) 
+		Scraper ==> channel scraper ==> Now you can subscribe to video commenters(At other configurations, added some special filters for this feature) 
+					 
+	Tumblr:
+		Engage ==> Unlike ==> Post liked by outside software.
+
+Fixed:- 
+	Social:
+		publisher ==> Scrape post from Twitter ==> Fixed issue with auto update.
+		publisher ==> Scrape from group ==> Posting into page ==> Fixed issue with failed to post in page.
+		publisher ==> Scrape from pinterest posts ==> Fixed issue with keywords.
+		publisher ==> Multiple post ==> issue solved for browser settings
+		
+	Facebook:
+		Grow group ==> Group joiner ==> Fixed issue with custom group url.
+		Fb inviter ==> Group inviter ==> Fixed issue with showing failed message.
+		Engage ==> post like & post comment ==> Fixed issue with custom post list query type.
+		Grow Friends ==> Unfriend ==> Fixed issue with added by software and outside software.
+		Grow friends ==> Accept friend request ==> Fixed issue with gender filter.
+			
+	Linkedin:
+		Scarper ==> User Scarper ==> Trying to scarpe using the profile URL ==> Fixed issue with phone number and details.
+		Messenger ==> Send greetings to connections ==> Greetings options ==> Fixed issue Work anniversary Greetings.
+		Grow connection ==> Follow pages ==> Fixed issue with export report. 
+		Scraper ==> Message conversation scraper ==> Fixed issue with report.
+			
+	Pinterest:	
+		Boards ==> Create Board ==> Issue fixed with posting Description in browser automation.
+		
+	Youtube:
+		Unsubscribe ==> Fixed issue on unsubscribing channel from custom channel list.
+		Engage ==> Comment ==> Fixed issue on comment using keyword query.
+		Engage ==> Like Comments ==> Fixed issue on liking comment using Custom Url query.
+		Watchvideo ==> View Increaser ==> Fixed issue on ViewIncreaser with filters inside account activity tool mode.
+		
+	Reddit:
+		Grow follower ==> Follower ==> Fixed issue with custom user list.
+
 Version[1.0.0.77],[17th February 2020]
 New Features:-
 	Social:-

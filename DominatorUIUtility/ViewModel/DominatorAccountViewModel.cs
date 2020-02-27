@@ -690,6 +690,8 @@ namespace DominatorUIUtility.ViewModel
                             case 16:
                             case 17:
                             case 18:
+                            case 19:
+                            case 20:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];

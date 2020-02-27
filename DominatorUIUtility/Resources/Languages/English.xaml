@@ -4602,4 +4602,11 @@ Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyYTVideoCommenters">Youtube Video Commenters</system:String>
     <system:String x:Key="LangKeyPostLikedOutsideSoftware">Post Liked Outside Software</system:String>
     <system:String x:Key="LangKeyCommentersFromEachVideo">commenters from each video in each run.</system:String>
+    <system:String x:Key="LangKeySkipSubscribingTheCommentersCommentHasLessThan">Skip those commenters to subscribe whose comment has less than</system:String>
+    <system:String x:Key="LangKeySkipScrapingTheCommentersCommentHasLessThan">Skip those commenters to scrape whose comment has less than</system:String>
+    <system:String x:Key="LangKeySaveSettings">Save settings</system:String>
+    <system:String x:Key="LangKeyProxySettingsSavedSuccessfully">Proxy settings saved successfully</system:String>
+    <system:String x:Key="LangKeyOopsAnErrorOccured">Oops! An error occured.</system:String>
+    <system:String x:Key="LangKeyIsNotSelecteedForThisAccount">is not selected for this account.</system:String>
+   
 </ResourceDictionary>
