@@ -56,6 +56,10 @@ namespace DominatorHouseCore.Utility
         string[] ThemesList();
 
         void SetTheme(string theme);
+
+        bool SaveProxyManagerSettings(ProxyManagerSettings setting);
+
+        ProxyManagerSettings GetProxyManagerSettings();
     }
 
     public class BinFileHelper : IBinFileHelper
@@ -675,6 +679,39 @@ namespace DominatorHouseCore.Utility
             }
             catch
             { }
+        }
+
+        public bool SaveProxyManagerSettings(ProxyManagerSettings setting)
+        {
+            try
+            {
+                using (var stream = File.Create(ConstantVariable.GetOtherProxyManagerSettingsFile()))
+                {
+                    ProtoBuf.Serializer.Serialize(stream, setting);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+
+        }
+        public ProxyManagerSettings GetProxyManagerSettings()
+        {
+            try
+            {
+                using (var stream = File.OpenRead(ConstantVariable.GetOtherProxyManagerSettingsFile()))
+                {
+                    return ProtoBuf.Serializer.Deserialize<ProxyManagerSettings>(stream);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return new ProxyManagerSettings();
         }
     }
 

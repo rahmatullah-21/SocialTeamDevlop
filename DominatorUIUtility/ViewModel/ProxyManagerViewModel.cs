@@ -100,32 +100,40 @@ namespace LegionUIUtility.ViewModel
 
             }
         }
-        private int _numOfAccountPerProxy = 1;
 
-        public int NumOfAccountPerProxy
+        ProxyManagerSettings _proxyManagerSettings;
+        public ProxyManagerSettings SettingsModel
         {
-            get { return _numOfAccountPerProxy; }
-            set { SetProperty(ref _numOfAccountPerProxy, value); }
-        }
-        private bool _isNumOfAccountPerProxy;
-        public bool IsNumOfAccountPerProxy
-        {
-            get { return _isNumOfAccountPerProxy; }
-            set
-            {
-                SetProperty(ref _isNumOfAccountPerProxy, value);
-            }
+            get { return _proxyManagerSettings; }
+            set { SetProperty(ref _proxyManagerSettings, value); }
         }
 
-        private bool _dontLogin;
-        public bool DontLogin
-        {
-            get { return _dontLogin; }
-            set
-            {
-                SetProperty(ref _dontLogin, value);
-            }
-        }
+        //private int _numOfAccountPerProxy = 1;
+
+        //public int NumOfAccountPerProxy
+        //{
+        //    get { return _numOfAccountPerProxy; }
+        //    set { SetProperty(ref _numOfAccountPerProxy, value); }
+        //}
+        //private bool _isNumOfAccountPerProxy;
+        //public bool IsNumOfAccountPerProxy
+        //{
+        //    get { return _isNumOfAccountPerProxy; }
+        //    set
+        //    {
+        //        SetProperty(ref _isNumOfAccountPerProxy, value);
+        //    }
+        //}
+
+        //private bool _dontLogin;
+        //public bool DontLogin
+        //{
+        //    get { return _dontLogin; }
+        //    set
+        //    {
+        //        SetProperty(ref _dontLogin, value);
+        //    }
+        //}
 
         private bool _isRandomSelected;
 
@@ -173,6 +181,7 @@ namespace LegionUIUtility.ViewModel
         public ICommand AccountToAddToProxyCommand { get; }
         public ICommand DropDownCommand { get; }
         public ICommand AssignRandomProxyCommand { get; }
+        public ICommand SaveSettingCommand { get; }
         #endregion
 
         public ProxyManagerViewModel(IMainViewModel mainViewModel, IVerifyProxiesViewModel verifyProxiesViewModel, IProxyServerParserService proxyServerParserService, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel, IProxyFileManager proxyFileManager) : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
@@ -184,6 +193,8 @@ namespace LegionUIUtility.ViewModel
             _accountCollectionViewModel = accountCollectionViewModel;
             _proxyFileManager = proxyFileManager;
 
+            SettingsModel = _proxyFileManager.GetProxyManagerSettings();
+
             AddProxyCommand = new DelegateCommand(AddProxyExecute);
             ImportProxyCommand = new DelegateCommand(ImportProxyExecute);
             ShowByGroupCommand = new DelegateCommand<object>(ShowByGroupExecute);
@@ -192,6 +203,7 @@ namespace LegionUIUtility.ViewModel
             SelectProxyCommand = new DelegateCommand(SelectProxyExecute);
             UpdateProxyCommand = new DelegateCommand<ProxyManagerModel>(UpdateProxyExecute);
             RefreshProxyCommand = new DelegateCommand(RefreshProxyExecute);
+            SaveSettingCommand = new DelegateCommand(SaveSettingsExecute);
             VerifyProxyCommand = new DelegateCommand<ProxyManagerModel>(VerifyProxyExecute);
             RemoveAccountFromProxyCommand = new DelegateCommand<AccountAssign>(RemoveAccountFromProxyExecute);
             AccountToAddToProxyCommand = new DelegateCommand<object>(AccountToAddToProxyExecute);
@@ -710,6 +722,14 @@ namespace LegionUIUtility.ViewModel
             });
         }
 
+        private void SaveSettingsExecute()
+        {
+            if (_proxyFileManager.SaveProxyManagerSettings(SettingsModel))
+                ToasterNotification.ShowSuccess("LangKeyProxySettingsSavedSuccessfully".FromResourceDictionary());
+            else
+                ToasterNotification.ShowError("LangKeyOopsAnErrorOccured".FromResourceDictionary());
+        }
+
         private void AddProxyFromsAccountsIfNotExist(DominatorAccountBaseModel objAccount, List<DominatorAccountModel> accounts)
         {
             var ProxyManagerModel = new ProxyManagerModel
@@ -841,7 +861,7 @@ namespace LegionUIUtility.ViewModel
                     .SaveToBinFile();
 
                 UpdateAccountsProxy(accountToDeleteProxy);
-                if(!DontLogin)
+                if(!SettingsModel.DontLogin)
                  StartLogin(accountToDeleteProxy, socinatorAccountBuilder);
                 LstProxyManagerModel.ForEach(oldProxy =>
                  AccountsAlreadyAssigned.Remove(AccountsAlreadyAssigned.FirstOrDefault(x => x.UserName == accountToDelete.UserName && x.AccountNetwork == accountToDelete.AccountNetwork))
@@ -864,9 +884,9 @@ namespace LegionUIUtility.ViewModel
                 var methodCallBy = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod().Name;
                 if (methodCallBy == "Execute")
                 {
-                    if (IsNumOfAccountPerProxy && ProxyManagerModel.AccountsAssignedto.Count >= NumOfAccountPerProxy)
+                    if (SettingsModel.IsNumOfAccountPerProxy && ProxyManagerModel.AccountsAssignedto.Count >= SettingsModel.NumOfAccountPerProxy)
                     {
-                        ToasterNotification.ShowInfomation(string.Format("LangKeyCantaddAccountToProxyAddingLimitReached".FromResourceDictionary(), NumOfAccountPerProxy));
+                        ToasterNotification.ShowInfomation(string.Format("LangKeyCantaddAccountToProxyAddingLimitReached".FromResourceDictionary(), SettingsModel.NumOfAccountPerProxy));
                         return;
                     }
                 }
@@ -912,7 +932,7 @@ namespace LegionUIUtility.ViewModel
                 socinatorAccountBuilder.AddOrUpdateDominatorAccountBase(accountToUpdateProxy.AccountBaseModel)
                     .SaveToBinFile();
                 UpdateAccountsProxy(accountToUpdateProxy);
-                if(!DontLogin)
+                if(!SettingsModel.DontLogin)
                     StartLogin(accountToUpdateProxy, socinatorAccountBuilder);
 
                 var item = LstProxyManagerModel.FirstOrDefault(proxy => proxy.AccountProxy.ProxyName == ProxyManagerModel.AccountProxy.ProxyName);
@@ -1050,7 +1070,7 @@ namespace LegionUIUtility.ViewModel
 
                 if (LstProxyManagerModel.Count != 0)
                 {
-                    var conditionalString = IsNumOfAccountPerProxy ? string.Format("LangKeyConditionAddNAccPerProxy".FromResourceDictionary(), NumOfAccountPerProxy) : ".";
+                    var conditionalString = SettingsModel.IsNumOfAccountPerProxy ? string.Format("LangKeyConditionAddNAccPerProxy".FromResourceDictionary(), SettingsModel.NumOfAccountPerProxy) : ".";
                     var proceed = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), $"{"LangKeyConfirmToAssignRandProxies".FromResourceDictionary()}{conditionalString}", "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
                     if (!proceed)
                         return;
@@ -1060,8 +1080,8 @@ namespace LegionUIUtility.ViewModel
                     foreach (var acc in accounts)
                     {
 
-                       var workingOne = (IsNumOfAccountPerProxy
-                                            ? LstProxyManagerModel.Where(x => x.Status == "Working" && x.AccountsAssignedto.Count < NumOfAccountPerProxy)
+                       var workingOne = (SettingsModel.IsNumOfAccountPerProxy
+                                            ? LstProxyManagerModel.Where(x => x.Status == "Working" && x.AccountsAssignedto.Count < SettingsModel.NumOfAccountPerProxy)
                                              : LstProxyManagerModel.Where(x => x.Status == "Working"))?.ToList()
                             ?? new List<ProxyManagerModel>();
                            

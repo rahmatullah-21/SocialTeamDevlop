@@ -4616,9 +4616,26 @@ Some of the custom urls don't have CommentId.</system:String>
 Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyConfirmToAssignRandProxies">Confirm to assign random proxies</system:String>
     <system:String x:Key="LangKeyNoWorkingProxiesAvailableToAssign">No more working proxies available to assign</system:String>
-    <system:String x:Key="LangKeyConditionAddNAccPerProxy"> [with condition \"assigning {0} accounts per proxy\"].</system:String>
+    <system:String x:Key="LangKeyConditionAddNAccPerProxy">[with condition "assigning {0} accounts per proxy"].</system:String>
     <system:String x:Key="LangKeyNoProxyToAssign">No proxy found to assign.</system:String>
+
     <system:String x:Key="LangKeyAccountToools">Account Tools.</system:String>
     <system:String x:Key="LangKeyDeleteSelectedCampaigns">Delete Selected Campaigns</system:String>
+
+    <system:String x:Key="LangKeyDoNotSortAccountsByUserName">Do Not Sort Accounts By UserName.</system:String>
+    <system:String x:Key="LangKeyYTVideoCommenters">Youtube Video Commenters</system:String>
+    <system:String x:Key="LangKeyPostLikedOutsideSoftware">Post Liked Outside Software</system:String>
+    <system:String x:Key="LangKeyCommentersFromEachVideo">commenters from each video in each run.</system:String>
+    <system:String x:Key="LangKeySkipSubscribingTheCommentersCommentHasLessThan">Skip those commenters to subscribe whose comment has less than</system:String>
+    <system:String x:Key="LangKeySkipScrapingTheCommentersCommentHasLessThan">Skip those commenters to scrape whose comment has less than</system:String>
+    <system:String x:Key="LangKeySaveSettings">Save settings</system:String>
+    <system:String x:Key="LangKeyProxySettingsSavedSuccessfully">Proxy settings saved successfully</system:String>
+    <system:String x:Key="LangKeyOopsAnErrorOccured">Oops! An error occured.</system:String>
+    <system:String x:Key="LangKeyIsNotSelecteedForThisAccount">is not selected for this account.</system:String>
+    <system:String x:Key="LangKeyInActiveAtWall">InActive At OwnWall[NumberOfDays]</system:String>
+    <system:String x:Key="LangKeyInActiveAtGroupFromDays">InActive At Group From</system:String>
+    <system:String x:Key="LangKeyInActiveAtGroup">InActive At Group[URL]</system:String>
+    <system:String x:Key="LangKeyInActiveAtBroadcast">InActive At Broadcast[NumberOfDays]</system:String>
+
 </ResourceDictionary>
 

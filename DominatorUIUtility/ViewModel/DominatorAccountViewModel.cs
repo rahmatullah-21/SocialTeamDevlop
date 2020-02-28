@@ -99,6 +99,10 @@ namespace LegionUIUtility.ViewModel
             }
         }
 
+
+        public bool IsSortByUserName { get; set; }
+            = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>().GetSoftwareSettings().DoNotSortByUserNameChecked;
+
         private MenuHandlerModel _menuHandlerModel;
 
         public MenuHandlerModel MenuHandlerModel
@@ -1526,8 +1530,8 @@ namespace LegionUIUtility.ViewModel
                      + account.DisplayColumnValue1
                      + (string.IsNullOrEmpty(SecondCountHeader) ? "" : $",{account.DisplayColumnValue2}")
                      + (string.IsNullOrEmpty(ThirdCountHeader) ? "" : $",{account.DisplayColumnValue3}")
-                     + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}")
-                     + $",{account.AccountBaseModel.ProfileId}";
+                     + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}");
+                     
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {

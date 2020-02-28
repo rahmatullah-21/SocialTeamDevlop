@@ -112,6 +112,8 @@ namespace LegionUIUtility.ViewModel.OtherConfigurations
             }
         }
 
+
+
         private void SaveSetting()
         {
             ThreadFactory.Instance.Start(() =>
@@ -199,7 +201,5 @@ namespace LegionUIUtility.ViewModel.OtherConfigurations
 
             ProgressRing = false;
         }
-
-
     }
 }

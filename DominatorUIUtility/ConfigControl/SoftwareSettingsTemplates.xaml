@@ -3,7 +3,7 @@
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
 
     <TextBlock x:Key="TextNameSave" Name="txt" Text="{DynamicResource LangKeySave}"/>
-    
+
     <ControlTemplate x:Key="SoftwareSettingsControlTemplate">
         <ControlTemplate.Resources>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -38,8 +38,10 @@
                               Visibility="Collapsed"   IsChecked="{Binding IsShowToolTipToSystemTrayChecked}"/>
                             <CheckBox Margin="5" Content="{DynamicResource LangKeyRecreateDesktopShortcutAtStartup}"
                               Visibility="Collapsed" IsChecked="{Binding IsRecreateDesktopshortcutAtStartupChecked}"/>
+
                             <!--<CheckBox Visibility="Collapsed"  Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
                               IsChecked="{Binding IsEnableParallelActivitiesChecked}"/>-->
+
                             <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyStopAutoSynchronizeAccount}"
                               IsChecked="{Binding IsStopAutoSynchronizeAccount}"/>-->
                             <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -75,7 +77,9 @@
                             <CheckBox Margin="5" Content="{DynamicResource LangKeyUseTabInsteadOfComma}"
                          Visibility="Collapsed"     IsChecked="{Binding IsUseTabInsteadOfCommaChecked}"/>
                             <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
+
                                 <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAutoRestartLegionAfterAMinimumOf}"
+
                                   IsChecked="{Binding IsEnableAutoRestartSocinatorChecked}"/>
                                 <mah:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsEnableAutoRestartSocinatorChecked}"
                                                 Value="{Binding MinHour}"/>
@@ -144,7 +148,9 @@
                             <StackPanel Orientation="Horizontal" >
                                 <CheckBox Margin="5" Content="{DynamicResource LangKeySelectCountriesFilter}"
                               IsChecked="{Binding IsSelectCountriesFilter}"/>
-                                <ComboBox VirtualizingPanel.IsContainerVirtualizable="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsEditable="True" Height="30" Width="200" Text="{Binding DataContext.SearchText,RelativeSource={RelativeSource AncestorType=GroupBox}}" ItemsSource="{Binding Path=ListLocationModelTemp}">
+
+                                <ComboBox VirtualizingPanel.IsContainerVirtualizable="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"  IsEditable="True" Height="30" Width="200" Text="{Binding DataContext.SearchText,RelativeSource={RelativeSource AncestorType=GroupBox}}" ItemsSource="{Binding Path=ListLocationModelTemp}">
+
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
@@ -166,7 +172,15 @@
                                     </ComboBox.Triggers>
                                 </ComboBox>
                             </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" >
+                                <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotSortAccountsByUserName}"
+                                  IsChecked="{Binding DoNotSortByUserNameChecked}"/>
+                            </StackPanel>
+
                         </StackPanel>
+
+             
                         <GroupBox Background="{DynamicResource GreenColorAccordingTheme}" Header="Developer mode" Visibility="Collapsed" >
                             <!--{Binding DebugVisibility}-->
                             <StackPanel>

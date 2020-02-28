@@ -23,6 +23,8 @@ using DominatorHouseCore.Enums.FdQuery;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
+using System.Net;
+using System.Text;
 
 namespace DominatorHouseCore.Settings
 {
@@ -54,7 +56,7 @@ namespace DominatorHouseCore.Settings
         private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
         private readonly IAccountsCacheService _accountsCacheService;
 
-        private  IDominatorScheduler _dominatorScheduler;
+        private IDominatorScheduler _dominatorScheduler;
         public SoftwareSettings(ISoftwareSettingsFileManager softwareSettingsFileManager,
             IFileSystemProvider fileSystemProvider, IGenericFileManager genericFileManager,
             IAccountsFileManager accountsFileManager, ICampaignsFileManager campaignFileManager,
@@ -342,32 +344,70 @@ namespace DominatorHouseCore.Settings
 
         public async Task ScheduleAdsScraping()
         {
-            //var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-            //    async job =>
-            //    {
-            //        await job.StartAdScarperAsync();
-            //    },
-            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+            try
+            {
+                IGlobalDatabaseConnection dataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+                var dbGlobalContext = dataBaseConnectionGlb.GetSqlConnection();
+                var _dbGlobalListOperations = new DbOperations(dbGlobalContext);
 
-            //await ScrapAdsProduceAsync(adScraperblock);
+                
+                await Task.Factory.StartNew( async() =>
+                {
+                    var ListCountry = _dbGlobalListOperations.Get<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
+                    var dt = new List<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
 
-            //var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
-            //    async job =>
-            //    {
-            //        await job.StartAdScarperAsync();
-            //    },
-            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+                    foreach (var country in new NonStaticUtilities().CountriesList())
+                    {
+                        try
+                        {
+                            if (country == "India" || country == "China")
+                                continue;
 
-            //await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
+                            if (ListCountry.Any(x => x.CountryName.Equals(country)))
+                                continue;
 
-            //var adScraperblockTikTok = new ActionBlock<ScrapAdsDetails>(
-            //    async job =>
-            //    {
-            //        await job.StartAdScarperAsync();
-            //    },
-            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+                            LogHelper.GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Download Location", $"Downloading cities for country {country}");
 
-            //await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.TikTok);
+
+                            var request = (HttpWebRequest)WebRequest.Create($"http://209.250.252.53/DownloadForSocinator/CityListByCountries/{country}.txt");
+                            var response = await request.GetResponseAsync();
+                            string cityResponse = string.Empty;
+                            using (var responseStream = response.GetResponseStream())
+                            {
+                                if (responseStream != null)
+                                {
+                                    var reader = new StreamReader(responseStream, Encoding.UTF8);
+                                    cityResponse = reader.ReadToEnd();
+                                }
+                            }
+                            dt = new List<DatabaseHandler.DHTables.LocationList>();
+                            List<string> cityList = System.Text.RegularExpressions.Regex.Split(cityResponse, "\r\n").ToList();
+                            cityList.ForEach(x =>
+                            {
+                                var lst = new DominatorHouseCore.DatabaseHandler.DHTables.LocationList()
+                                {
+                                    CountryName = country,
+                                    CityName = x,
+                                    IsSelected = false
+                                };
+                                dt.Add(lst);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+
+                        _dbGlobalListOperations.AddRange(dt);
+                    }
+                });
+
+               
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
 

@@ -72,6 +72,24 @@
         <StackPanel Grid.Row="0">
             <StackPanel Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}">
 
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <Button  Height="30"  x:Name="btnSaveSetting" Margin="10,5" 
+                             Command="{Binding SaveSettingCommand}" 
+                             Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"
+                             Visibility="{Binding RefreshEnable}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}"></VisualBrush>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Text="{DynamicResource LangKeySaveSettings}" Margin="5,0"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                
                 <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Command="{Binding ImportProxyCommand}"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" ToolTip="{DynamicResource LangKeyImportProxyDescription}">
                     <Button.Content>
@@ -175,19 +193,13 @@
                     <ComboBox  Width="150" ItemsSource="{Binding Groups}" x:Name="GroupCmb" Controls:TextBoxHelper.ClearTextButton="True"/>
 
                 </StackPanel>
-                <CheckBox Margin="5"  Content="{DynamicResource LangKeyAdd}" IsChecked="{Binding IsNumOfAccountPerProxy}">
-                    <CheckBox.Style>
-                        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
-                            <Style.Triggers>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Command" Value="{Binding AssignXAccountPerProxyCommand}" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </CheckBox.Style>
-                </CheckBox>
-                <Controls:NumericUpDown Minimum="0" Value="{Binding NumOfAccountPerProxy}" />
+
+                <CheckBox Margin="5"  Content="{DynamicResource LangKeyAdd}" IsChecked="{Binding SettingsModel.IsNumOfAccountPerProxy}" />
+                <Controls:NumericUpDown Minimum="1" Value="{Binding SettingsModel.NumOfAccountPerProxy}" />
                 <Label Content="{DynamicResource LangKeyAccountPerProxy}"/>
+
+                <CheckBox Margin="10,5" Content="{DynamicResource LangKeyDontLoginAccountAfterProxyManagement}" IsChecked="{Binding SettingsModel.DontLogin}" />
+
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}">

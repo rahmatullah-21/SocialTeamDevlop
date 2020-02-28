@@ -21,8 +21,10 @@ namespace DominatorHouseCore.FileManagers
         void Delete(Predicate<ProxyManagerModel> match);
         ProxyManagerModel GetProxyById(string ProxyId);
         Task UpdateProxyStatusAsync(ProxyManagerModel currentProxyManager, string url);
-
         bool VerifyProxy(Proxy currentProxy, string url);
+
+        bool SaveProxyManagerSettings(ProxyManagerSettings setting);
+        ProxyManagerSettings GetProxyManagerSettings();
     }
 
     public class ProxyFileManager : IProxyFileManager
@@ -165,6 +167,16 @@ namespace DominatorHouseCore.FileManagers
                 currentProxyManager.ResponseTime = $"{ts.Milliseconds} milli seconds";
             }
             EditProxy(currentProxyManager);
+        }
+
+        public bool SaveProxyManagerSettings(ProxyManagerSettings setting)
+        {
+            return _binFileHelper.SaveProxyManagerSettings(setting);
+        }
+
+        public ProxyManagerSettings GetProxyManagerSettings()
+        {
+            return _binFileHelper.GetProxyManagerSettings();
         }
     }
 }

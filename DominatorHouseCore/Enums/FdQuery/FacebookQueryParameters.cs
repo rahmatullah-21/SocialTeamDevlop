@@ -93,7 +93,7 @@ namespace DominatorHouseCore.Enums.FdQuery
         [Description("LangKeyEventUrl")]
         EventUrl = 15,
         [Description("LangKeyFriendOfFriend")]
-        FriendofFriend = 16
+        FriendofFriend = 16,
         //[Description("LangKeyGraphSearchUrl")]
         //GraphSearchUrl = 9,      
         //[Description("LangKeySuggestedFriends")]
@@ -104,6 +104,12 @@ namespace DominatorHouseCore.Enums.FdQuery
         //GroupMemberBasicDetails = 18,        
         //[Description("LangKeyPeopleConnectedInMessenger")]
         //ConnectedPeopleInMessenger = 21,
+        [Description("LangKeyInActiveAtWall")]
+        InActiveAtWall = 17,
+        [Description("LangKeyInActiveAtGroup")]
+        InActiveAtGroup = 18,
+        [Description("LangKeyInActiveAtBroadcast")]
+        InActiveAtBroadcast = 19
     }
 
     public enum FdProfileScraperQuery

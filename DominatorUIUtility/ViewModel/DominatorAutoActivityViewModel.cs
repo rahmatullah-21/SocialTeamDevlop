@@ -196,7 +196,7 @@ namespace LegionUIUtility.ViewModel
             if (campaignStatus == "Paused" && currentDataContext.Status)
             {
                 if (!IsStopping)
-                    ToasterNotification.ShowError("LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
+                    ToasterNotification.ShowInfomation("LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
                 currentDataContext.Status = false;
                 return;
             }
@@ -210,7 +210,7 @@ namespace LegionUIUtility.ViewModel
                 try
                 {
                     if (!IsStopping)
-                        ToasterNotification.ShowError(String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
+                        ToasterNotification.ShowInfomation(String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
                     currentDataContext.Status = false;
                 }
                 catch (Exception ex)
