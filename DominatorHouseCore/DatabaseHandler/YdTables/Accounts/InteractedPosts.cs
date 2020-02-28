@@ -82,6 +82,9 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string PostTitle { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
+        public string InteractedCommentUrl { get; set; }
+
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);

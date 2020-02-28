@@ -88,5 +88,8 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
         public string PostTitle { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 29)]
+        public string InteractedCommentUrl { get; set; }
     }
 }
