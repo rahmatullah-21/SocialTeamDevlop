@@ -393,7 +393,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<bool> SaveCookies()
+        public async Task<bool> SaveCookies(bool showLoginSuccessLog = true)
         {
             if (_isLoggedIn) return false;
 
@@ -413,8 +413,8 @@ namespace EmbeddedBrowser
                   .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
                   .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                    .SaveToBinFile();
-
-                CustomLog("Browser login successful.");
+                if (showLoginSuccessLog)
+                    CustomLog("Browser login successful.");
                 return true;
             }
             catch (Exception ex)
@@ -424,7 +424,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<bool> BrowserSaveCookies()
+        public async Task<bool> BrowserSaveCookies(bool showLoginSuccessLog = true)
         {
             if (_isLoggedIn) return false;
 
@@ -445,7 +445,8 @@ namespace EmbeddedBrowser
                   .AddOrUpdateBrowserCookies(DominatorAccountModel.BrowserCookies)
                    .SaveToBinFile();
                 DominatorAccountModel.IsUserLoggedIn = true;
-                CustomLog("Browser login successful.");
+                if(showLoginSuccessLog)
+                    CustomLog("Browser login successful.");
                 return true;
             }
             catch (Exception ex)
