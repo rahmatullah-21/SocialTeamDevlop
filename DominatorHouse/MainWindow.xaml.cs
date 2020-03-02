@@ -62,7 +62,7 @@ namespace Socinator
             if (IsClickedFromMainWindow)
             {
                 var dialog = new Dialog();
-
+                
                 var activityLogWindow = dialog.GetMetroWindow(Logger, "LangKeyActivityLog".FromResourceDictionary());
 
                 IsClickedFromMainWindow = false;

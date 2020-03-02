@@ -642,6 +642,7 @@
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\MenuHandlerModel.cs" />
     <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
+    <Compile Include="Models\NetworksActivityCustomizeModel.cs" />
     <Compile Include="Models\PinterestOtherConfigModel.cs" />
     <Compile Include="Models\PrivateBlacklistUserModel.cs" />
     <Compile Include="Models\PrivateWhitelistUserModel.cs" />

@@ -4608,5 +4608,8 @@ Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyProxySettingsSavedSuccessfully">Proxy settings saved successfully</system:String>
     <system:String x:Key="LangKeyOopsAnErrorOccured">Oops! An error occured.</system:String>
     <system:String x:Key="LangKeyIsNotSelecteedForThisAccount">is not selected for this account.</system:String>
-   
+    <system:String x:Key="LangKeyCustomize">Customize</system:String>
+    <system:String x:Key="LangKeyTakeMinimumConnectionConversation">Take minimum connection conversation</system:String>
+    <system:String x:Key="LangKeySucceededInSaving">Succeeded in saving</system:String>
+    
 </ResourceDictionary>

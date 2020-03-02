@@ -6,6 +6,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using Prism.Commands;
 using System;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace DominatorHouse.Social.AutoActivity.ViewModels
@@ -53,6 +55,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
         public DelegateCommand<AccountsActivityDetailModel> GoToToolsCmd { get; }
         public DelegateCommand<ActivityDetailsModel> ChangeActivityStatusCmd { get; }
+        public ICommand CustomizeCommand { get; }
 
         /// <summary>
         /// To hold all accounts important activities enable status
@@ -72,6 +75,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             BindingOperations.EnableCollectionSynchronization(AccountsCollection, _syncObject);
             GoToToolsCmd = new DelegateCommand<AccountsActivityDetailModel>(GoToTools);
             ChangeActivityStatusCmd = new DelegateCommand<ActivityDetailsModel>(ChangeActivityStatus);
+            CustomizeCommand = new DelegateCommand(CustomizeExecute);
         }
 
         public bool NewAutoActivityObject(SocialNetworks soicalNetworks, string selectedAccounts)
@@ -91,6 +95,74 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 return false;
             }
         }
+
+        private void CustomizeExecute()
+        {
+            try
+            {
+                var dialog = new Dialog();
+                var model = GetCustomUiModel();
+                var ui = new CustomizeAutoActivity(model);
+                
+                var custAuto = dialog.GetMetroWindow(ui, "Customize Auto Activity");
+                custAuto.ShowDialog();
+                if(ui.ViewModel.IsSaved)
+                {
+                    CallRespectiveView(SocialNetworks.Social);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        NetworksActivityCustomizeModel GetCustomUiModel()
+        {
+            var custModel = ServiceLocator.Current.GetInstance<IBinFileHelper>().GetCustomizedAutoActivity();
+            if (custModel != null && custModel.NetworksActListCollection != null)
+                return custModel;
+
+            custModel = new NetworksActivityCustomizeModel
+            {
+                NetworksActListCollection = new ObservableCollection<EachNetworkActivityCustomizeModel>()
+            };
+
+            var listNet = SocinatorInitialize.GetRegisterNetwork();
+
+            foreach (var x in listNet)
+            {
+                if (x == SocialNetworks.Social)
+                    continue;
+                var eachModel = new EachNetworkActivityCustomizeModel();
+                eachModel.SocialNetwork = x;
+                var init = SocinatorInitialize.GetSocialLibrary(x).GetNetworkCoreFactory().AccountUserControlTools;
+
+                init.GetImportantActivityTypes().ForEach(y =>
+                {
+                    eachModel.NetworkActivityTypeModelCollections.Add(new NetworkCustomizeActivityTypeModel
+                    {
+                        Network = x,
+                        Title = y,
+                        IsSelected = true
+                    });
+                });
+
+                init.GetOtherActivityTypes().ForEach(y =>
+                {
+                    eachModel.NetworkActivityTypeModelCollections.Add(new NetworkCustomizeActivityTypeModel
+                    {
+                        Network = x,
+                        Title = y
+                    });
+                });
+
+                custModel.NetworksActListCollection.Add(eachModel);
+            }
+
+            return custModel;
+        }
+
 
         /// <summary>
         /// To bind the respective network view for auto activity
@@ -136,10 +208,13 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
 
+            var customModel = ServiceLocator.Current.GetInstance<IBinFileHelper>().GetCustomizedAutoActivity();
+            
             var userControl = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
                                                .GetNetworkCoreFactory()
                                                .AccountUserControlTools;
-            var otherActivity = userControl.GetOtherActivityTypes();
+
+            var otherActivity = GetActivities(account.AccountBaseModel.AccountNetwork,model: customModel, initializer: userControl, GetImportant: false);
             
             if (currentDataContext.Title == ActivityType.StopAll)
             {
@@ -169,7 +244,8 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
                 List<ActivityType> allActivity = new List<ActivityType>();
                 allActivity.AddRange(otherActivity.ToList());
-                userControl.GetImportantActivityTypes().ToList().ForEach(x =>
+                
+                GetActivities(account.AccountBaseModel.AccountNetwork, model: customModel, initializer: userControl).ToList().ForEach(x =>
                 {
                     allActivity.Add(x);
                 });
@@ -232,6 +308,26 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             CallRespectiveView(accountsActivityDetailModel.AccountNetwork);
         }
 
+        IEnumerable<ActivityType> GetActivities(SocialNetworks network, NetworksActivityCustomizeModel model = null, DominatorHouseCore.Interfaces.IAccountToolsFactory initializer = null, bool GetImportant = true)
+        {
+            if (model == null)
+                model = ServiceLocator.Current.GetInstance<IBinFileHelper>().GetCustomizedAutoActivity();
+
+            var getNetworkModel = model.NetworksActListCollection?
+                                .FirstOrDefault(x => x.SocialNetwork == network)?
+                                .NetworkActivityTypeModelCollections;
+            if (getNetworkModel != null)
+            {
+                return GetImportant ? getNetworkModel.Where(y => y.IsSelected)?.Select(z => z.Title)
+                    : getNetworkModel.Where(y => !y.IsSelected)?.Select(z => z.Title);
+            }
+            if (initializer == null)
+                initializer = SocinatorInitialize.GetSocialLibrary(network)
+                                                    .GetNetworkCoreFactory()
+                                                    .AccountUserControlTools;
+
+            return GetImportant ? initializer.GetImportantActivityTypes() : initializer.GetOtherActivityTypes();
+        }
 
         /// <summary>
         /// To Initialize the account details with enable status 
@@ -250,7 +346,8 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     .Where(x => x.AccountBaseModel.Status == AccountStatus.Success || x.AccountBaseModel.Status == AccountStatus.UpdatingDetails);
 
                 var activitiesList = new Dictionary<SocialNetworks, IEnumerable<ActivityType>>();
-
+                var getCustomAuto = ServiceLocator.Current.GetInstance<IBinFileHelper>().GetCustomizedAutoActivity();
+                
                 foreach (var account in accountCollection)
                 {
                     try
@@ -264,15 +361,16 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                             ActivityDetailsCollections = new ObservableCollection<ActivityDetailsModel>()
                         };
 
+                        var initializer = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                                .GetNetworkCoreFactory()
+                                                .AccountUserControlTools;
+
                         // Add the respective network details
                         if (!activitiesList.ContainsKey(account.AccountBaseModel.AccountNetwork))
                         {
-                            activitiesList.Add(account.AccountBaseModel.AccountNetwork,
-                                               SocinatorInitialize
-                                               .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                                               .GetNetworkCoreFactory()
-                                               .AccountUserControlTools
-                                               .GetImportantActivityTypes());
+                            var list = GetActivities(account.AccountBaseModel.AccountNetwork, getCustomAuto, initializer);
+
+                            activitiesList.Add(account.AccountBaseModel.AccountNetwork, list);
                         }
                         
                         try
@@ -335,13 +433,10 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
                             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
 
-                            var userControl = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                                              .GetNetworkCoreFactory()
-                                              .AccountUserControlTools;
-                            var otherActivity = userControl.GetOtherActivityTypes();
+                            var otherActivity = GetActivities(account.AccountBaseModel.AccountNetwork, getCustomAuto, initializer, false);
                             List<ActivityType> allActivity = new List<ActivityType>();
                             allActivity.AddRange(otherActivity.ToList());
-                            userControl.GetImportantActivityTypes().ToList().ForEach(x =>
+                            activitiesList[account.AccountBaseModel.AccountNetwork].ToList().ForEach(x =>
                             {
                                 allActivity.Add(x);
                             });

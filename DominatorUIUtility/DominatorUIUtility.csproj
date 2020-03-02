@@ -274,6 +274,9 @@
     <Compile Include="CustomControl\ChatMediaContainer.xaml.cs">
       <DependentUpon>ChatMediaContainer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\CustomizeAutoActivity.xaml.cs">
+      <DependentUpon>CustomizeAutoActivity.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml.cs">
       <DependentUpon>AutoReplyOptionControl.xaml</DependentUpon>
     </Compile>
@@ -394,6 +397,7 @@
     <Compile Include="ViewModel\CampaignViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
+    <Compile Include="ViewModel\NetworksActivityCustomizeViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\EmbeddedBrowserViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\InstagramUserViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\IOtherConfigurationViewModel.cs" />
@@ -1196,6 +1200,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\ChatMediaContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CustomizeAutoActivity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
