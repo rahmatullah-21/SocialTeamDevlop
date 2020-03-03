@@ -624,6 +624,7 @@
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
     <Compile Include="Models\FacebookModels\EventCreaterManagerModel.cs" />
     <Compile Include="Models\FacebookModels\FbMultiMediaModel.cs" />
+    <Compile Include="Models\FacebookModels\InactiveUserFilterModel.cs" />
     <Compile Include="Models\FacebookModels\InviterDetails.cs" />
     <Compile Include="Models\FacebookModels\InviterOptions.cs" />
     <Compile Include="Models\FacebookModels\LikerCommentorConfigModel.cs" />
@@ -632,6 +633,7 @@
     <Compile Include="Models\FacebookModels\MultiMediaValueModel.cs" />
     <Compile Include="Models\FacebookModels\PostLikeCommentorModel.cs" />
     <Compile Include="Models\FacebookModels\UnfriendOption.cs" />
+    <Compile Include="Models\FacebookModels\UnfriendReportModel.cs" />
     <Compile Include="Models\IModuleSetting.cs" />
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />

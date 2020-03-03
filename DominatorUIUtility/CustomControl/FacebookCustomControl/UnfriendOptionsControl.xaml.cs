@@ -1,4 +1,6 @@
 ﻿using DominatorHouseCore.Models.FacebookModels;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl.FacebookCustomControl;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -99,6 +101,21 @@ namespace LegionUIUtility.CustomControl.FacebookCustomControl
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             UnfriendOptionModel.LstFilterText = Regex.Split(UnfriendOptionModel.FilterText, "\r\n").ToList();
+        }
+
+        private void openuser_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(campaignid.Text))
+                return;
+
+            CampaignIdReportCustomControl campaignIdReportCustomControl = new CampaignIdReportCustomControl(campaignid.Text);
+            Dialog objDialog = new Dialog();
+            Window win = objDialog.GetMetroWindow(campaignIdReportCustomControl, "LangKeyReport".FromResourceDictionary());
+            win.Owner = Application.Current.MainWindow;
+            win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            win.Top = 0;
+            win.Left = 0;
+            win.ShowDialog();
         }
     }
 }

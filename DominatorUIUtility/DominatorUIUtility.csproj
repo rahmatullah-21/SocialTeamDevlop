@@ -262,6 +262,9 @@
     <Compile Include="CustomControl\AutoReplyMessege.xaml.cs">
       <DependentUpon>AutoReplyMessege.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\CampaignIdReportCustomControl.xaml.cs">
+      <DependentUpon>CampaignIdReportCustomControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\ChatImageContainer.xaml.cs">
       <DependentUpon>ChatImageContainer.xaml</DependentUpon>
     </Compile>
@@ -1188,6 +1191,10 @@
     <Page Include="CustomControl\AutoReplyMessege.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\CampaignIdReportCustomControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\ChatImageContainer.xaml">
       <SubType>Designer</SubType>
