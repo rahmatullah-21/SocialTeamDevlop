@@ -1,6 +1,9 @@
-﻿using DominatorHouseCore.Diagnostics;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using System;
 using System.Collections.Generic;
@@ -15,6 +18,13 @@ namespace DominatorHouseCore.Utility
 {
     public class MediaFetcherUtilities
     {
+        ISocialBrowserManager BrowserManager { get; set; }
+
+        public MediaFetcherUtilities()
+        {
+            BrowserManager = ServiceLocator.Current.GetInstance<ISocialBrowserManager>();
+        }
+
         public void FetchDetailsFromLink(ScrapePostModel postDetailsModel, string campaignId, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
             try
@@ -43,7 +53,6 @@ namespace DominatorHouseCore.Utility
             try
             {
                 int totalCount = 1;
-                int failedCount = 0;
                 int descriptionCount = 1;
                 var pageTitle = string.Empty;
                 DateTime? expireDate = DateTime.Now.AddYears(2);
@@ -60,61 +69,86 @@ namespace DominatorHouseCore.Utility
 
                 var postCount = maximumPostLimitToStore - campaignDetails.Count;
 
-
                 try
                 {
-                    failedCount = 0;
-
-                    var imagelist = ImageExtracter.ExtractImageUrls(imageUrl, ref pageTitle).ToList();
-
-                    while (imagelist.Any(x => !x.Contains("https://") && !x.Contains("http://")) && failedCount++ < 5)
+                    
+                    var account = new DominatorAccountModel()
                     {
-                        Thread.Sleep(1000);
-                        imagelist = ImageExtracter.ExtractImageUrls(imageUrl, ref pageTitle).ToList();
-                    }
-
-                    imagelist.RemoveAll(x => !x.Contains("https://") && !x.Contains("http://"));
-
-                    imagelist.RemoveAll(x => campaignDetails.Any(y => y.MediaList.Contains(x)));
-
-                    foreach (var image in imagelist)
-                    {
-                        var postFetcherList = new PublisherPostlistModel
+                        AccountBaseModel = new DominatorAccountBaseModel()
                         {
-                            MediaList = new ObservableCollection<string>() { image },
-                            CampaignId = campaignId,
-                            CreatedTime = DateTime.Now,
-                            ExpiredTime = expireDate,
-                            PostId = Utilities.GetGuid(),
-                            PostCategory = PostCategory.OrdinaryPost,
-                            PostQueuedStatus = PostQueuedStatus.Pending,
-                            PostRunningStatus = PostRunningStatus.Active,
-                            PostSource = PostSource.ScrapeImages,
-                            PostDescription = postDetailsModel.IsUseFileNameAsDescription ||
-                                postDetailsModel.LstUploadPostDescription.Count < descriptionCount ? $"{pageTitle}_{descriptionCount}" :
-                                postDetailsModel.LstUploadPostDescription[descriptionCount]
-                            //PdSourceUrl = postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", newLink),
-                            //PublisherInstagramTitle = 
-                        };
+                            AccountNetwork = Enums.SocialNetworks.Social,
+                            AccountProxy = new Proxy()
+                            {
 
-                        if (postCollection.Count < postDetailsModel.ScrapeCountPerUrl)
+                            }
+                        }
+                    };
+
+                    BrowserManager.BrowserLogin(account, cancellationTokenSource.Token);
+
+                    BrowserManager.ExpandGoogleImagesFromLink(imageUrl, ref pageTitle);
+
+                    var publisherInitialize = PublisherInitialize.GetInstance;
+
+                    while (postCollection.Count < postDetailsModel.ScrapeCountPerUrl
+                        && totalCount < postCount)
+                    {
+                        try
+                        {
+                            Thread.Sleep(2000);
+
+                            var image = BrowserManager.GetGoogleImages();
+
+                            cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                            if (!BrowserManager.HasMoreResults())
+                                break;
+
+                            if (!image.Contains("http") || (!image.ToLower().Contains(".jpg") &&
+                                 !image.ToLower().Contains(".png") && !image.ToLower().Contains(".jpeg")
+                                 && !image.ToLower().Contains("format=jpeg") && !image.ToLower().Contains("googleusercontent.com"))
+                                 || campaignDetails.FirstOrDefault(x => x.MediaList.Contains(image)) != null)
+                                continue;
+
+                            var postFetcherList = new PublisherPostlistModel
+                            {
+                                MediaList = new ObservableCollection<string>() { image },
+                                CampaignId = campaignId,
+                                CreatedTime = DateTime.Now,
+                                ExpiredTime = expireDate,
+                                PostId = Utilities.GetGuid(),
+                                PostCategory = PostCategory.OrdinaryPost,
+                                PostQueuedStatus = PostQueuedStatus.Pending,
+                                PostRunningStatus = PostRunningStatus.Active,
+                                PostSource = PostSource.ScrapeImages,
+                                PostDescription = postDetailsModel.IsUseFileNameAsDescription ||
+                                    postDetailsModel.LstUploadPostDescription.Count < descriptionCount ? $"{pageTitle}_{descriptionCount}" :
+                                    postDetailsModel.LstUploadPostDescription[descriptionCount]
+                                //PdSourceUrl = postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", newLink),
+                                //PublisherInstagramTitle = 
+                            };
+
                             postCollection.Add(postFetcherList);
-                        else
-                            break;
+                            PostlistFileManager.Add(campaignId, postFetcherList);
+                            publisherInitialize.UpdatePostCounts(campaignId);
 
-                        totalCount++;
-                        descriptionCount++;
+                          
+                            totalCount++;
+                            descriptionCount++;
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+
                     }
+
+                    BrowserManager.CloseBrowser(account);
 
                     Thread.Sleep(1000);
 
                     if (postCount > 0)
                     {
-                        postCollection = (postDetailsModel.ScrapeCount- campaignDetails.Count) < postCount ?
-                            postCollection.Take(postDetailsModel.ScrapeCount - campaignDetails.Count).ToList() :
-                            postCollection.Take(postCount).ToList();
-                        PostlistFileManager.AddRange(campaignId, postCollection);
-                        var publisherInitialize = PublisherInitialize.GetInstance;
                         publisherInitialize.UpdatePostCounts(campaignId);
                     }
                     else

@@ -4,6 +4,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.ProxyServerManagment;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
@@ -50,6 +51,13 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                IProxyValidationService _proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
+                if (!_proxyValidationService.IsValidProxy(ProxyManagerModel.AccountProxy.ProxyIp, ProxyManagerModel.AccountProxy.ProxyPort))
+                {
+                    Dialog.ShowDialog("Proxy Warning", $"Invalid Proxy IP format :- \"{ProxyManagerModel.AccountProxy.ProxyIp}\". ");
+                    return;
+                }
+
                 foreach (var proxy in ProxyManagerViewModel.LstProxyManagerModel)
                 {
                     if (ProxyManagerModel.AccountProxy.ProxyName.Equals(proxy.AccountProxy.ProxyName, StringComparison.InvariantCultureIgnoreCase))

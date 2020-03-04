@@ -327,7 +327,10 @@ namespace DominatorUIUtility.ViewModel
                 {
                     try
                     {
-                        var existingProxy = LstProxyManagerModel.Where(x => x.AccountProxy.ProxyIp == givenProxy.AccountProxy.ProxyIp
+                        if (!Proxy.IsValidProxy(givenProxy.AccountProxy.ProxyIp, givenProxy.AccountProxy.ProxyPort))
+                            continue;
+
+                            var existingProxy = LstProxyManagerModel.Where(x => x.AccountProxy.ProxyIp == givenProxy.AccountProxy.ProxyIp
                                                 && x.AccountProxy.ProxyPort == givenProxy.AccountProxy.ProxyPort);
                         if (existingProxy != null && existingProxy.Count() != 0)
                         {

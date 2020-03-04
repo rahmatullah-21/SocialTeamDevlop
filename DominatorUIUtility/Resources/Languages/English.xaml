@@ -4610,11 +4610,17 @@ Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyIsNotSelecteedForThisAccount">is not selected for this account.</system:String>
     <system:String x:Key="LangKeyCustomize">Customize</system:String>
     <system:String x:Key="LangKeyTakeMinimumConnectionConversation">Take minimum connection conversation</system:String>
+
     <system:String x:Key="LangKeySucceededInSaving">Succeeded in saving</system:String>
+
     <system:String x:Key="LangKeyReplyConfiguration">Reply configuration (Optional)</system:String>
     <system:String x:Key="LangKeyReplyThoseCommentsContainingText">Reply to only those comments containing the specific text</system:String>
     <system:String x:Key="LangKeyCheckedReplyToCommentWithTextButNotGivenText" xml:space="preserve">You have checked option "Reply to only those comments containing the specific text" in other configuration,
 but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByNewLine">Automatically Hash All The Words In The List Below. Add Your Keywords Separated By New Line.</system:String>
-    
+
+    <system:String x:Key="LangKeyInvalidProxyIpFormat">Invalid Proxy IP format :- "{0}"</system:String>
+    <system:String x:Key="LangKeyInvalidProxyIpFormatBrowser">Failed to Open Browser! Invalid Proxy IP format :- "{0}"</system:String>
+    <system:String x:Key="LangKeySkipCommentsOfSameProfile">Skip Comments Of Same Profile</system:String>
+        <system:String x:Key="LangKeyQueryValueIsInInvalidFormat">Query Value {0} is in Invalid Format!</system:String>
 </ResourceDictionary>
