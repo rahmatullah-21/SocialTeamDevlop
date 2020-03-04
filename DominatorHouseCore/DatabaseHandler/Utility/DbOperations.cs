@@ -301,6 +301,13 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             lock (_syncObject)
                 return expression == null ? _context.Table<T>().Select(query).ToList() : _context.Table<T>().Where(expression).Select(query).ToList();
         }
+
+        public List<string> GetUniqueSingleColumn<T>(Func<T, string> query, Func<T, string> groupByQuery, Expression<Func<T, bool>> expression = null) where T : class, new()
+        {
+            lock (_syncObject)
+                return expression == null ? _context.Table<T>().GroupBy(groupByQuery).Select(x=> x.FirstOrDefault()).Select(query).ToList() : _context.Table<T>().Where(expression).GroupBy(groupByQuery).Select(x => x.FirstOrDefault()).Select(query).ToList();
+        }
+
         public bool UpdateRange<T>(List<T> data) where T : class, new()
         {
             lock (_syncObject)
