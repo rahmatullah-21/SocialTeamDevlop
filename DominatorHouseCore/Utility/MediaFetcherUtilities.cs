@@ -71,8 +71,7 @@ namespace DominatorHouseCore.Utility
 
                 try
                 {
-                    failedCount = 0;
-
+                    
                     var account = new DominatorAccountModel()
                     {
                         AccountBaseModel = new DominatorAccountBaseModel()
