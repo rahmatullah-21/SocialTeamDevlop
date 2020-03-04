@@ -706,10 +706,15 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherProxyManagerSettingsFile()))
+                if (File.Exists(ConstantVariable.GetOtherProxyManagerSettingsFile()))
                 {
-                    return ProtoBuf.Serializer.Deserialize<ProxyManagerSettings>(stream);
+                    using (var stream = File.OpenRead(ConstantVariable.GetOtherProxyManagerSettingsFile()))
+                    {
+                        return ProtoBuf.Serializer.Deserialize<ProxyManagerSettings>(stream);
+                    }
                 }
+
+                return new ProxyManagerSettings();
             }
             catch (Exception ex)
             {
@@ -739,10 +744,15 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherCustomizedAutoActivitySetFile()))
+                if (File.Exists(ConstantVariable.GetOtherCustomizedAutoActivitySetFile()))
                 {
-                    return ProtoBuf.Serializer.Deserialize<NetworksActivityCustomizeModel>(stream);
+                    using (var stream = File.OpenRead(ConstantVariable.GetOtherCustomizedAutoActivitySetFile()))
+                    {
+                        return ProtoBuf.Serializer.Deserialize<NetworksActivityCustomizeModel>(stream);
+                    }
                 }
+
+                return new NetworksActivityCustomizeModel();
             }
             catch (Exception ex)
             {

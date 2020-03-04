@@ -600,6 +600,7 @@
     <Compile Include="Interfaces\IPublisherPostScraper.cs" />
     <Compile Include="Interfaces\IQueryFollowedControl.cs" />
     <Compile Include="Interfaces\IReportFactory.cs" />
+    <Compile Include="Interfaces\ISocialBrowserManager.cs" />
     <Compile Include="Interfaces\ITabHandlerFactory.cs" />
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IUser.cs" />

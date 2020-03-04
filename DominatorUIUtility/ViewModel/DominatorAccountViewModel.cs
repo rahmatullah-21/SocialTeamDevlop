@@ -42,6 +42,7 @@ using DominatorUIUtility.ViewModel.Startup;
 using MahApps.Metro.Controls;
 using Unity;
 using System.Windows.Controls.Primitives;
+using DominatorHouseCore.ProxyServerManagment;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -466,6 +467,8 @@ namespace DominatorUIUtility.ViewModel
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
+            IProxyValidationService _proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
+            
             var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "LangKeyAddAccount".FromResourceDictionary(), "LangKeySave".FromResourceDictionary(), false, SocinatorInitialize.ActiveSocialNetwork);
 
             var customDialog = new CustomDialog()
@@ -484,6 +487,14 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
+                    if (!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
+                        !_proxyValidationService.IsValidProxy(objDominatorAccountBaseModel.AccountProxy.ProxyIp, objDominatorAccountBaseModel.AccountProxy.ProxyPort))
+                    {
+                        Dialog.ShowDialog("Proxy Warning", $"Invalid Proxy IP format :- \"{objDominatorAccountBaseModel.AccountProxy.ProxyIp}\". ");
+                        return;
+                    }
+
+
                     if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
                                string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
 

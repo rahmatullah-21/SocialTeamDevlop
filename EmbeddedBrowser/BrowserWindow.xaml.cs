@@ -22,6 +22,8 @@ using System.Text.RegularExpressions;
 using System.Text;
 using DominatorHouseCore.Enums.EmbeddedBrowser;
 using CefSharp.Wpf;
+using DominatorHouseCore.ProxyServerManagment;
+using CommonServiceLocator;
 
 namespace EmbeddedBrowser
 {
@@ -167,12 +169,28 @@ namespace EmbeddedBrowser
 
                         // get the proxyport from objDominatorAccountModel object
                         var proxyPort = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort;
-
+                        
                         // get the current browser request context
                         var requestContext = Browser.GetBrowser().GetHost().RequestContext;
 
                         if (!string.IsNullOrEmpty(proxyIp) && !string.IsNullOrEmpty(proxyPort))
                         {
+                            IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
+
+                            if (!proxyValidationService.IsValidProxy(proxyIp, proxyPort))
+                            {
+                                
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+
+                                    GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
+                                        "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormatBrowser".FromResourceDictionary(), proxyIp));
+                                    this.Close();
+                                    Dispose();
+                                });
+
+                            }
+
                             // declare the dictionary for passing proxy ip and proxy port
                             var dictProxyIpPort = new Dictionary<string, object>
                             {
@@ -445,7 +463,7 @@ namespace EmbeddedBrowser
                   .AddOrUpdateBrowserCookies(DominatorAccountModel.BrowserCookies)
                    .SaveToBinFile();
                 DominatorAccountModel.IsUserLoggedIn = true;
-                if(showLoginSuccessLog)
+                if (showLoginSuccessLog)
                     CustomLog("Browser login successful.");
                 return true;
             }
@@ -1317,6 +1335,8 @@ namespace EmbeddedBrowser
                     return "https://accounts.google.com/signin";
                 case SocialNetworks.Tumblr:
                     return "https://www.tumblr.com/login";
+                case SocialNetworks.Social:
+                    return "https://www.google.com";
                 default:
                     throw new ArgumentOutOfRangeException();
             }

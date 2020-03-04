@@ -313,7 +313,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             if (model == null)
                 model = ServiceLocator.Current.GetInstance<IBinFileHelper>().GetCustomizedAutoActivity();
 
-            var getNetworkModel = model.NetworksActListCollection?
+            var getNetworkModel = model?.NetworksActListCollection?
                                 .FirstOrDefault(x => x.SocialNetwork == network)?
                                 .NetworkActivityTypeModelCollections;
             if (getNetworkModel != null)

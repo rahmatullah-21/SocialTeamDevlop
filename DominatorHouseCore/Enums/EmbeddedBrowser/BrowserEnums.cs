@@ -138,7 +138,11 @@ namespace DominatorHouseCore.Enums.EmbeddedBrowser
         [Description("action_mousedown")]
         ActionMouseDown = 22,
         [Description("aria-relevant")]
-        AriaRelevant = 23
+        AriaRelevant = 23,
+        [Description("jsname")]
+        Jsname = 24,
+        [Description("data-errormessage")]
+        DataErrormessage = 25
     }
 
     public enum CoordinateDirection

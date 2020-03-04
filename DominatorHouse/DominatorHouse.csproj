@@ -294,6 +294,7 @@
     <Compile Include="Social\Settings\View\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Social\SocialBrowserManager.cs" />
     <Compile Include="Social\TablifiedContentControl.cs" />
     <Compile Include="Support\Logs\Views\LogList.xaml.cs">
       <DependentUpon>LogList.xaml</DependentUpon>
