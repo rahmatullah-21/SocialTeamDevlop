@@ -4511,7 +4511,7 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyAnUpdatedVersionAvailable">A new version of socinator is available</system:String>
     <system:String x:Key="LangKeyCheckingUpdates">Hang On! Checking for Updates</system:String>
     <system:String x:Key="LangKeyUpdatingSocinator">Hang On! Updating Socinator</system:String>
-    <system:String x:Key="LangKeyMessageConversationsScraper">MessageConversation Scraper</system:String>
+    <system:String x:Key="LangKeyMessageConversationsScraper">AttachmentMessage Scraper</system:String>
     <system:String x:Key="LangKeyUnLikeSource">Unlike Source</system:String>
     <system:String x:Key="LangKeyPagePostCommenters">Page Post Commenters</system:String>
     <system:String x:Key="LangKeyGroupPostCommenters">Group Post Commenters</system:String>
@@ -4611,5 +4611,10 @@ Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyCustomize">Customize</system:String>
     <system:String x:Key="LangKeyTakeMinimumConnectionConversation">Take minimum connection conversation</system:String>
     <system:String x:Key="LangKeySucceededInSaving">Succeeded in saving</system:String>
+    <system:String x:Key="LangKeyReplyConfiguration">Reply configuration (Optional)</system:String>
+    <system:String x:Key="LangKeyReplyThoseCommentsContainingText">Reply to only those comments containing the specific text</system:String>
+    <system:String x:Key="LangKeyCheckedReplyToCommentWithTextButNotGivenText" xml:space="preserve">You have checked option "Reply to only those comments containing the specific text" in other configuration,
+but you have not given any text inside the box. Please check.</system:String>
+    <system:String x:Key="LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByNewLine">Automatically Hash All The Words In The List Below. Add Your Keywords Separated By New Line.</system:String>
     
 </ResourceDictionary>

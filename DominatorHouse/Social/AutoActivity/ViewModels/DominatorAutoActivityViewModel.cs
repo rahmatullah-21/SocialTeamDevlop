@@ -105,6 +105,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 var ui = new CustomizeAutoActivity(model);
                 
                 var custAuto = dialog.GetMetroWindow(ui, "Customize Auto Activity");
+                custAuto.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 custAuto.ShowDialog();
                 if(ui.ViewModel.IsSaved)
                 {
@@ -313,7 +314,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             if (model == null)
                 model = ServiceLocator.Current.GetInstance<IBinFileHelper>().GetCustomizedAutoActivity();
 
-            var getNetworkModel = model.NetworksActListCollection?
+            var getNetworkModel = model?.NetworksActListCollection?
                                 .FirstOrDefault(x => x.SocialNetwork == network)?
                                 .NetworkActivityTypeModelCollections;
             if (getNetworkModel != null)
