@@ -140,7 +140,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="Auto">
+                        <GridViewColumn Width="5000">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyActivityStatus}" HorizontalAlignment="Left"/>
                             </GridViewColumn.Header>

@@ -1,3 +1,37 @@
+Version[1.0.0.79],[05th March 2020]
+New Features:-
+	Social:
+		Accounts Activity ==> Added an option to Customize Activity Actions
+			
+	Youtube:
+		Youtube ==> Engage ==> Reply to comments ==> Now we can reply to comments (Added options for this feature in other configurations)	
+        
+Fixed:-
+	Social:
+		SocioPublisher ==> Postconfiguration ==> Advancsed settings ==> Instagram ==> Fixed issue with Enable Automatic/Dynamic hashtags.
+		Sociopublisher ==> Facebook ==> Fixed issue with posting in wall.
+		Sociopublisher ==> Pinterest ==> Fixed issue in publisher
+
+	Linkedin:
+		Accounts ==> Account Manager ==> Fixed issue with account login
+		Scarper ==> User Scarper ==> scarping data in report issue is fixed.
+		Grow connection ==> Connection Request ==> Fixed issue with showing No more results found.
+		Grow Connection[Browser Mode] ==> Accept Connection ==> Fixed issue accept connection request.
+		
+	Tumblr:
+		Engage ==> Unlike ==> Liked by software ==> Fixed issues with unlike search result 0.
+
+	Instagram: 
+		Accounts ==> Account Manager ==> Fixed issue with account login
+	
+	Pinterest 
+		Accounts ==> Account Manager ==>  Fixed issue in account browser login
+		User scarper ==> Fixed issue in report 
+		Repin ==> Fixed issue in Repin
+
+	Twitter:
+		Engage ==> Fixed issues with language conversion.
+
 Version:[1.0.0.78],[27th February 2020]
 New Features:-
 	Social:
