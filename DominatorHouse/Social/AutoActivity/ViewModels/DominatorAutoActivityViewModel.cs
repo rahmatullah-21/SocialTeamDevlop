@@ -54,8 +54,37 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         }
 
         public DelegateCommand<AccountsActivityDetailModel> GoToToolsCmd { get; }
+
         public DelegateCommand<ActivityDetailsModel> ChangeActivityStatusCmd { get; }
+        public DelegateCommand<AccountsActivityDetailModel> ShowMoreCommand { get; }
         public ICommand CustomizeCommand { get; }
+        public ICommand StopAllCommand { get; }
+       
+        void StopAllActivities()
+        {
+            if (Dialog.ShowCustomDialog("LangKeyStopAllActivity".FromResourceDictionary(), "LangKeyWannaStopAllActivity".FromResourceDictionary(),
+                                                       "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
+                return;
+            foreach (var x in AccountsCollection)
+            {
+                try
+                {
+                    if (!x.ActivityDetailsCollections.Any(y => y.Status))
+                        continue;
+
+                    new TaskFactory().StartNew(() =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            var actDetail = x.ActivityDetailsCollections[0];
+                            actDetail.Status = false;
+                            ChangeActivityStatus(actDetail);
+                        });
+                    });
+                }
+                catch (Exception ex) { ex.DebugLog(); }
+            }
+        }
 
         /// <summary>
         /// To hold all accounts important activities enable status
@@ -75,9 +104,11 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             BindingOperations.EnableCollectionSynchronization(AccountsCollection, _syncObject);
             GoToToolsCmd = new DelegateCommand<AccountsActivityDetailModel>(GoToTools);
             ChangeActivityStatusCmd = new DelegateCommand<ActivityDetailsModel>(ChangeActivityStatus);
+            ShowMoreCommand = new DelegateCommand<AccountsActivityDetailModel>(ShowMore);
             CustomizeCommand = new DelegateCommand(CustomizeExecute);
+            StopAllCommand = new DelegateCommand(StopAllActivities);
         }
-
+        
         public bool NewAutoActivityObject(SocialNetworks soicalNetworks, string selectedAccounts)
         {
             try
@@ -164,6 +195,92 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             return custModel;
         }
 
+        private void ShowMore(AccountsActivityDetailModel accountsActivityDetailModel)
+        {
+            try
+            {
+                try
+                {
+                    var isMore = accountsActivityDetailModel.ShowMoreButtonText == "LangKeyMore".FromResourceDictionary();
+
+                    if(!isMore)
+                    {
+                        
+                        for (int i = accountsActivityDetailModel.ActivityDetailsCollections.Count-1; i > 6; --i)
+                        {
+                            accountsActivityDetailModel.ActivityDetailsCollections.RemoveAt(i);
+                        }
+
+                        accountsActivityDetailModel.ShowMoreButtonText = "LangKeyMore".FromResourceDictionary();
+                        return;
+                    }
+
+
+                    var initializer = SocinatorInitialize.GetSocialLibrary(accountsActivityDetailModel.AccountNetwork)
+                                            .GetNetworkCoreFactory()
+                                            .AccountUserControlTools;
+
+                    var getCustomAuto = ServiceLocator.Current.GetInstance<IBinFileHelper>().GetCustomizedAutoActivity();
+                    
+                    var list = GetActivities(accountsActivityDetailModel.AccountNetwork, getCustomAuto, initializer, false);
+
+                    var jobActivityConfigurationManager = ServiceLocator.Current
+                        .GetInstance<IJobActivityConfigurationManager>();
+
+                    foreach (var x in list)
+                    {
+                        try
+                        {
+                            var titleData = x.GetDescriptionAttr().Split(',');
+
+                            var activityTitle = titleData.LastOrDefault().Contains("LangKey") ?
+                                   titleData.LastOrDefault().FromResourceDictionary() : x.ToString();
+
+                            // get the activity details                    
+                            var activityData =
+                                jobActivityConfigurationManager[accountsActivityDetailModel.AccountId, x];
+
+                            // if activity present then add to list with status
+                            if (activityData != null)
+                            {
+                                accountsActivityDetailModel.ActivityDetailsCollections
+                                    .Add(new ActivityDetailsModel
+                                    {
+                                        Status = activityData.IsEnabled,
+                                        Title = x,
+                                        ActivityTitle = activityTitle,
+                                        AccountId = accountsActivityDetailModel.AccountId
+                                    });
+                            }
+                            // if activity not present then add to list with default status
+                            else
+                            {
+                                accountsActivityDetailModel.ActivityDetailsCollections
+                                    .Add(new ActivityDetailsModel
+                                    {
+                                        Status = false,
+                                        Title = x,
+                                        ActivityTitle = activityTitle,
+                                        AccountId = accountsActivityDetailModel.AccountId
+                                    });
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+                
+                accountsActivityDetailModel.ShowMoreButtonText = "LangKeyLess".FromResourceDictionary();
+            }
+            catch (Exception ex) { }
+        }
 
         /// <summary>
         /// To bind the respective network view for auto activity

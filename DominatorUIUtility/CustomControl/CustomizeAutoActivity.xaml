@@ -165,6 +165,6 @@
                 </ListView.View>
             </ListView>
         </Grid>
-        <ContentControl  Content="{Binding SelectedUserControl}" Visibility="{Binding ShowContent, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <ContentControl  Content="{Binding SelectedUserControl}" Width="Auto" Visibility="{Binding ShowContent, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </Grid>
 </UserControl>

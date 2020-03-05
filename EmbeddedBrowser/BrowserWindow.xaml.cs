@@ -175,21 +175,21 @@ namespace EmbeddedBrowser
 
                         if (!string.IsNullOrEmpty(proxyIp) && !string.IsNullOrEmpty(proxyPort))
                         {
-                            IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
+                            //IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
 
-                            if (!proxyValidationService.IsValidProxy(proxyIp, proxyPort))
-                            {
+                            //if (!proxyValidationService.IsValidProxy(proxyIp, proxyPort))
+                            //{
                                 
-                                Application.Current.Dispatcher.Invoke(() =>
-                                {
+                            //    Application.Current.Dispatcher.Invoke(() =>
+                            //    {
 
-                                    GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
-                                        "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormatBrowser".FromResourceDictionary(), proxyIp));
-                                    this.Close();
-                                    Dispose();
-                                });
+                            //        GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
+                            //            "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormatBrowser".FromResourceDictionary(), proxyIp));
+                            //        this.Close();
+                            //        Dispose();
+                            //    });
 
-                            }
+                            //}
 
                             // declare the dictionary for passing proxy ip and proxy port
                             var dictProxyIpPort = new Dictionary<string, object>

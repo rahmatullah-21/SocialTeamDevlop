@@ -4622,5 +4622,9 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyInvalidProxyIpFormat">Invalid Proxy IP format :- "{0}"</system:String>
     <system:String x:Key="LangKeyInvalidProxyIpFormatBrowser">Failed to Open Browser! Invalid Proxy IP format :- "{0}"</system:String>
     <system:String x:Key="LangKeySkipCommentsOfSameProfile">Skip Comments Of Same Profile</system:String>
-        <system:String x:Key="LangKeyQueryValueIsInInvalidFormat">Query Value {0} is in Invalid Format!</system:String>
+    <system:String x:Key="LangKeyQueryValueIsInInvalidFormat">Query Value {0} is in Invalid Format!</system:String>
+
+    <system:String x:Key="LangKeyWannaStopAllActivity">Do you really want to stop all the activities?</system:String>
+    <system:String x:Key="LangKeyLess">Less</system:String>
+
 </ResourceDictionary>

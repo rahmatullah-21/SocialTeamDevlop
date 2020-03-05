@@ -313,8 +313,7 @@ namespace DominatorUIUtility.ViewModel
             ChangeMenuHandlerStatus();
         }
 
-        private bool InfoButtonSizeChnagedCommandCanExecute(object arg)
-        => true;
+        private bool InfoButtonSizeChnagedCommandCanExecute(object arg) => true;
 
         private void BrowserButtonSizeChangedCommandExecute(object Sender)
         {
@@ -467,7 +466,7 @@ namespace DominatorUIUtility.ViewModel
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
-            IProxyValidationService _proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
+            //IProxyValidationService _proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
             
             var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "LangKeyAddAccount".FromResourceDictionary(), "LangKeySave".FromResourceDictionary(), false, SocinatorInitialize.ActiveSocialNetwork);
 
@@ -487,12 +486,12 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
-                        !_proxyValidationService.IsValidProxy(objDominatorAccountBaseModel.AccountProxy.ProxyIp, objDominatorAccountBaseModel.AccountProxy.ProxyPort))
-                    {
-                        Dialog.ShowDialog("Proxy Warning", $"Invalid Proxy IP format :- \"{objDominatorAccountBaseModel.AccountProxy.ProxyIp}\". ");
-                        return;
-                    }
+                    //if (!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
+                    //    !_proxyValidationService.IsValidProxy(objDominatorAccountBaseModel.AccountProxy.ProxyIp, objDominatorAccountBaseModel.AccountProxy.ProxyPort))
+                    //{
+                    //    Dialog.ShowDialog("Proxy Warning", $"Invalid Proxy IP format :- \"{objDominatorAccountBaseModel.AccountProxy.ProxyIp}\". ");
+                    //    return;
+                    //}
 
 
                     if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||

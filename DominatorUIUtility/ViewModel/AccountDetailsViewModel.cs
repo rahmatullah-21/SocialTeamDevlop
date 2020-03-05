@@ -303,7 +303,7 @@ namespace DominatorUIUtility.ViewModel
 
             var newAccountBaseModel = DominatorAccountModel.AccountBaseModel;
             IProxyManagerViewModel proxyManagerViewModel = null;
-            IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
+            //IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
             try
             {
                 if (string.IsNullOrEmpty(newAccountBaseModel.UserName) ||
@@ -314,13 +314,13 @@ namespace DominatorUIUtility.ViewModel
                     return false;
                 }
 
-                if (!proxyValidationService.IsValidProxy(newAccountBaseModel.AccountProxy.ProxyIp, newAccountBaseModel.AccountProxy.ProxyPort))
-                {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
-                        "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormat".FromResourceDictionary(), newAccountBaseModel.AccountProxy.ProxyIp));
+                //if (!proxyValidationService.IsValidProxy(newAccountBaseModel.AccountProxy.ProxyIp, newAccountBaseModel.AccountProxy.ProxyPort))
+                //{
+                //    GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
+                //        "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormat".FromResourceDictionary(), newAccountBaseModel.AccountProxy.ProxyIp));
                     
-                    return false;
-                }
+                //    return false;
+                //}
 
 
                 if ((!string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyIp) &&
