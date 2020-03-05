@@ -1,10 +1,6 @@
 ﻿using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DominatorHouseCore.Models
 {
@@ -54,7 +50,6 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _iSelected, value, nameof(IsSelected));
             }
         }
-
 
     }
 }

@@ -142,6 +142,12 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 return _context.Table<T>().Where(expression).FirstOrDefault();
         }
 
+        public T GetFirst<T>() where T : class, new()
+        {
+            lock (_syncObject)
+                return _context.Table<T>().FirstOrDefault();
+        }
+
 
         /// <summary>
         /// To get the records which matches the expression in async mode
@@ -301,6 +307,13 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             lock (_syncObject)
                 return expression == null ? _context.Table<T>().Select(query).ToList() : _context.Table<T>().Where(expression).Select(query).ToList();
         }
+
+        public string GetSingleRowColumn<T>(Func<T, string> query, Expression<Func<T, bool>> expression = null) where T : class, new()
+        {
+            lock (_syncObject)
+                return expression == null ? _context.Table<T>().Select(query).FirstOrDefault() : _context.Table<T>().Where(expression).Select(query).FirstOrDefault();
+        }
+
         public bool UpdateRange<T>(List<T> data) where T : class, new()
         {
             lock (_syncObject)

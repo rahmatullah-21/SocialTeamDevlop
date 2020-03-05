@@ -22,6 +22,8 @@ using System.Text.RegularExpressions;
 using System.Text;
 using DominatorHouseCore.Enums.EmbeddedBrowser;
 using CefSharp.Wpf;
+using DominatorHouseCore.ProxyServerManagment;
+using CommonServiceLocator;
 
 namespace EmbeddedBrowser
 {
@@ -167,12 +169,28 @@ namespace EmbeddedBrowser
 
                         // get the proxyport from objDominatorAccountModel object
                         var proxyPort = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort;
-
+                        
                         // get the current browser request context
                         var requestContext = Browser.GetBrowser().GetHost().RequestContext;
 
                         if (!string.IsNullOrEmpty(proxyIp) && !string.IsNullOrEmpty(proxyPort))
                         {
+                            IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
+
+                            if (!proxyValidationService.IsValidProxy(proxyIp, proxyPort))
+                            {
+                                
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+
+                                    GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
+                                        "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormatBrowser".FromResourceDictionary(), proxyIp));
+                                    this.Close();
+                                    Dispose();
+                                });
+
+                            }
+
                             // declare the dictionary for passing proxy ip and proxy port
                             var dictProxyIpPort = new Dictionary<string, object>
                             {
@@ -393,7 +411,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<bool> SaveCookies()
+        public async Task<bool> SaveCookies(bool showLoginSuccessLog = true)
         {
             if (_isLoggedIn) return false;
 
@@ -413,8 +431,8 @@ namespace EmbeddedBrowser
                   .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
                   .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                    .SaveToBinFile();
-
-                CustomLog("Browser login successful.");
+                if (showLoginSuccessLog)
+                    CustomLog("Browser login successful.");
                 return true;
             }
             catch (Exception ex)
@@ -424,7 +442,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<bool> BrowserSaveCookies()
+        public async Task<bool> BrowserSaveCookies(bool showLoginSuccessLog = true)
         {
             if (_isLoggedIn) return false;
 
@@ -445,7 +463,8 @@ namespace EmbeddedBrowser
                   .AddOrUpdateBrowserCookies(DominatorAccountModel.BrowserCookies)
                    .SaveToBinFile();
                 DominatorAccountModel.IsUserLoggedIn = true;
-                CustomLog("Browser login successful.");
+                if (showLoginSuccessLog)
+                    CustomLog("Browser login successful.");
                 return true;
             }
             catch (Exception ex)
@@ -783,7 +802,7 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
 
-            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}";
+            var dfg = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].{value}";
 
             switch (actType)
             {
@@ -1303,6 +1322,9 @@ namespace EmbeddedBrowser
             {
                 case SocialNetworks.Facebook:
                     return "https://www.facebook.com";
+                case SocialNetworks.Social:
+                    return "https://www.google.com";
+
                 //case SocialNetworks.Instagram:
                 //    return "https://www.instagram.com/accounts/login/";
                 //case SocialNetworks.Twitter:
@@ -1321,6 +1343,7 @@ namespace EmbeddedBrowser
                 //    return "https://accounts.google.com/signin";
                 //case SocialNetworks.Tumblr:
                 //    return "https://www.tumblr.com/login";
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }

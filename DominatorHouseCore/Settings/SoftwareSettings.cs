@@ -25,6 +25,7 @@ using System.Collections.ObjectModel;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using System.Net;
 using System.Text;
+using DominatorHouseCore.DatabaseHandler.DHTables;
 
 namespace DominatorHouseCore.Settings
 {
@@ -344,71 +345,34 @@ namespace DominatorHouseCore.Settings
 
         public async Task ScheduleAdsScraping()
         {
-            try
-            {
-                IGlobalDatabaseConnection dataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-                var dbGlobalContext = dataBaseConnectionGlb.GetSqlConnection();
-                var _dbGlobalListOperations = new DbOperations(dbGlobalContext);
+           
+            #region commented
+            //var adScraperblock = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-                
-                await Task.Factory.StartNew( async() =>
-                {
-                    var ListCountry = _dbGlobalListOperations.Get<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
-                    var dt = new List<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
+            //await ScrapAdsProduceAsync(adScraperblock);
 
-                    foreach (var country in new NonStaticUtilities().CountriesList())
-                    {
-                        try
-                        {
-                            if (country == "India" || country == "China")
-                                continue;
+            //var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-                            if (ListCountry.Any(x => x.CountryName.Equals(country)))
-                                continue;
-
-                            LogHelper.GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Download Location", $"Downloading cities for country {country}");
+            //await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
 
 
-                            var request = (HttpWebRequest)WebRequest.Create($"http://209.250.252.53/DownloadForSocinator/CityListByCountries/{country}.txt");
-                            var response = await request.GetResponseAsync();
-                            string cityResponse = string.Empty;
-                            using (var responseStream = response.GetResponseStream())
-                            {
-                                if (responseStream != null)
-                                {
-                                    var reader = new StreamReader(responseStream, Encoding.UTF8);
-                                    cityResponse = reader.ReadToEnd();
-                                }
-                            }
-                            dt = new List<DatabaseHandler.DHTables.LocationList>();
-                            List<string> cityList = System.Text.RegularExpressions.Regex.Split(cityResponse, "\r\n").ToList();
-                            cityList.ForEach(x =>
-                            {
-                                var lst = new DominatorHouseCore.DatabaseHandler.DHTables.LocationList()
-                                {
-                                    CountryName = country,
-                                    CityName = x,
-                                    IsSelected = false
-                                };
-                                dt.Add(lst);
-                            });
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ex.DebugLog();
+            //}
 
-                        _dbGlobalListOperations.AddRange(dt);
-                    }
-                });
-
-               
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-
+            #endregion
         }
 
 

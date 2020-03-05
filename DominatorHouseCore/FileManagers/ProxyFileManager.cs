@@ -178,5 +178,6 @@ namespace DominatorHouseCore.FileManagers
         {
             return _binFileHelper.GetProxyManagerSettings();
         }
+
     }
 }

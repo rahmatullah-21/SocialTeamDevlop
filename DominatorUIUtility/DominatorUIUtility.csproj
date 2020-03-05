@@ -399,6 +399,7 @@
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\DominatorAutoActivityViewModel.cs" />
+    <Compile Include="ViewModel\NetworksActivityCustomizeViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\EmbeddedBrowserViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\InstagramUserViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\IOtherConfigurationViewModel.cs" />
@@ -1211,6 +1212,10 @@
     <Page Include="CustomControl\DominatorAutoActivity.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\CustomizeAutoActivity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml">
       <Generator>MSBuild:Compile</Generator>

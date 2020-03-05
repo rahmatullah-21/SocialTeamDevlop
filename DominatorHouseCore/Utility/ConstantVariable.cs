@@ -189,6 +189,7 @@ namespace DominatorHouseCore.Utility
         public static string GetCaptchaServicesFile() => GetOtherDir() + @"\CaptchaServices.bin";
         public static string GetImageCaptchaServicesFile() => GetOtherDir() + @"\ImageCaptchaServices.bin";
         public static string GetOtherProxyManagerSettingsFile() => GetOtherDir() + @"\ProxyManagerSettings.bin";
+        public static string GetOtherCustomizedAutoActivitySetFile() => GetOtherDir() + @"\CustomAutoActSetSettings.bin";
         public static string SaveAction { get; set; } = "Save";
 
         public static string UpdateAction { get; set; } = "Update";

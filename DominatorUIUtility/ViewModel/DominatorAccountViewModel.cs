@@ -42,6 +42,7 @@ using LegionUIUtility.ViewModel.Startup;
 using MahApps.Metro.Controls;
 using Unity;
 using System.Windows.Controls.Primitives;
+using DominatorHouseCore.ProxyServerManagment;
 
 namespace LegionUIUtility.ViewModel
 {
@@ -466,6 +467,8 @@ namespace LegionUIUtility.ViewModel
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
+            IProxyValidationService _proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
+
             var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "LangKeyAddAccount".FromResourceDictionary(), "LangKeySave".FromResourceDictionary(), false, SocinatorInitialize.ActiveSocialNetwork);
 
             var customDialog = new CustomDialog()
@@ -483,6 +486,14 @@ namespace LegionUIUtility.ViewModel
             {
                 try
                 {
+                    if (!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
+                        !_proxyValidationService.IsValidProxy(objDominatorAccountBaseModel.AccountProxy.ProxyIp, objDominatorAccountBaseModel.AccountProxy.ProxyPort))
+                    {
+                        Dialog.ShowDialog("Proxy Warning", $"Invalid Proxy IP format :- \"{objDominatorAccountBaseModel.AccountProxy.ProxyIp}\". ");
+                        return;
+                    }
+
+
                     if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
                                string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
 
@@ -635,7 +646,7 @@ namespace LegionUIUtility.ViewModel
                                 status = splitAccount[7];
                                 browserCookies = splitAccount[8].Replace("<>", ",");
                                 banned = splitAccount[9];
-                                proxyGroup = splitAccount[10];                               
+                                proxyGroup = splitAccount[10];
                                 break;
                         }
 
@@ -1531,7 +1542,7 @@ namespace LegionUIUtility.ViewModel
                      + (string.IsNullOrEmpty(SecondCountHeader) ? "" : $",{account.DisplayColumnValue2}")
                      + (string.IsNullOrEmpty(ThirdCountHeader) ? "" : $",{account.DisplayColumnValue3}")
                      + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}");
-                     
+
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1747,6 +1758,13 @@ namespace LegionUIUtility.ViewModel
                     }
                 }
 
+
+                Task.Factory.StartNew(() =>
+                {
+                    var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+                    var data = globalDbOperation.GetSingle<AccountDetails>(x => x.Id == 1);
+                    var data2 = globalDbOperation.GetFirst<LocationList>();
+                });
 
                 // Open extra window for facebook in advance and close to avoid hanging issue
                 Task.Factory.StartNew(() =>

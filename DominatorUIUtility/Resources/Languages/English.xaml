@@ -51,7 +51,7 @@
     <system:String x:Key="LangKeyAccountUsername">Account Username</system:String>
     <system:String x:Key="LangKeyAccountWiseDetails">Account Wise Details</system:String>
     <system:String x:Key="LangKeyAccounts">Accounts</system:String>
-    <system:String x:Key="LangKeyAccountsActivity">Accounts Activity</system:String>
+    <system:String x:Key="LangKeyAccountsActivity">Account Activity</system:String>
     <system:String x:Key="LangKeyAccountsAssignedToThisProxy">Accounts Assigned To This Proxy</system:String>
     <system:String x:Key="LangKeyAccountsGetDisabledInADay">Accounts Get Disabled In A Day.</system:String>
     <system:String x:Key="LangKeyAccountsGetPhoneVerificationInADay">Accounts Get Phone Verification In A Day.</system:String>
@@ -215,7 +215,7 @@
     <system:String x:Key="LangKeyAutoPostsList">Auto Posts List</system:String>
     <system:String x:Key="LangKeyAutoReply">Auto Reply</system:String>
     <system:String x:Key="LangKeyAutoReplyToNewMessage">Auto Reply To New Message</system:String>
-    <system:String x:Key="LangKeyAutoReplyToMessage">Auto Reply To Message</system:String>
+    <system:String x:Key="LangKeyAutoReplyToMessage">Auto-Reply To Messages</system:String>
     <system:String x:Key="LangKeyAutoReplyToNewMessagesToSingleOrMultipleUsersAtOnce">Auto Reply To New Messages To Single Or Multiple Users At Once.</system:String>
     <system:String x:Key="LangKeyAutoSelectNewGroupsForTheChosenAccounts">Auto Select New Groups For The Chosen Accounts</system:String>
     <system:String x:Key="LangKeyAutoTagFriendsInPosts">Auto Tag Friends In Posts</system:String>
@@ -254,11 +254,11 @@
     <system:String x:Key="LangKeyBoardsList">Boards List</system:String>
     <system:String x:Key="LangKeyBoth">Both</system:String>
     <system:String x:Key="LangKeyBrandOrProduct">Brand Or Product</system:String>
-    <system:String x:Key="LangKeyBroadcastMessage">Broadcast Message</system:String>
-    <system:String x:Key="LangKeyBroadcastMessages">Broadcast Messages</system:String>
+    <system:String x:Key="LangKeyBroadcastMessage">Send Message</system:String>
+    <system:String x:Key="LangKeyBroadcastMessages">Messages</system:String>
     <system:String x:Key="LangKeyBroadcastMessagesToSingleOrMultipleUsersUsingThisFeature">Broadcast Messages To Single Or Multiple Users Using This Feature.</system:String>
     <system:String x:Key="LangKeyBroadcastMesseges">Broadcast Messeges</system:String>
-    <system:String x:Key="LangKeyBrodcastMessage">Broadcast Message</system:String>
+    <system:String x:Key="LangKeyBrodcastMessage">Send Message</system:String>
     <system:String x:Key="LangKeyBrowseEmbedded">Browse Embedded</system:String>
     <system:String x:Key="LangKeyBrowse">Browse...</system:String>
     <system:String x:Key="LangKeyBump">Bump</system:String>
@@ -644,7 +644,7 @@
     <system:String x:Key="LangKeyEnableCampaignSourceurlToAssignUrlsToPinterestPosts">Enable Campaign Sourceurl To Assign Urls To Pinterest Posts</system:String>
     <system:String x:Key="LangKeyEnableCommentDifferentUsersAcrossAllInstagramAccountsConfiguredInInstagram">Enable Comment Different Users Across All Instagram Accounts Configured In Instagram</system:String>
     <system:String x:Key="LangKeyEnableCommentDifferentUsersAcrossAllPinterestAccountsConfiguredInPinterest">Enable Comment Different Users Across All Pinterest Accounts Configured In Pinterest</system:String>
-    <system:String x:Key="LangKeyEnableContactDifferentUserAcrossAllAccountsConfiguredInSocinator">Enable Contact Different User Across All Accounts Configured In Socinator</system:String>
+    <system:String x:Key="LangKeyEnableContactDifferentUserAcrossAllAccountsConfiguredInSocinator">Enable Contact Different User Across All Accounts Configured In Legion.</system:String>
     <system:String x:Key="LangKeyEnableCustomTokens">Enable Custom Tokens</system:String>
     <system:String x:Key="LangKeyEnableDelayForBulkProfileEdit">Enable Delay For Bulk Profile Edit.</system:String>
     <system:String x:Key="LangKeyEnableDifferentUsersPostsAcrossAllInstagramAccountsWithSameTagName">Enable Different Users/Posts Across All Instagram Accounts With Same Tag Name</system:String>
@@ -662,7 +662,7 @@
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllPinterestAccounts">Enable Follow Different Users Across All Pinterest Accounts</system:String>
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllPinterestAccountsConfiguredInPinterest">Enable Follow Different Users Across All Pinterest Accounts Configured In Pinterest</system:String>
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllTumblrAccounts">Enable Follow Different Users Across All Tumblr Accounts</system:String>
-    <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllTwitterAccountsConfiguredInSocinator">Enable Follow Different Users Across All Twitter Accounts Configured In Socinator</system:String>
+    <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllTwitterAccountsConfiguredInSocinator">Enable Follow Different Users Across All Twitter Accounts Configured In Legion.</system:String>
     <system:String x:Key="LangKeyEnableGlobalFindAndReplaceForPostTextAppliesToAllCampaigns">Enable Global Find And Replace For Post Text (Applies To All Campaigns)</system:String>
     <system:String x:Key="LangKeyEnableGlobalNightMode">Enable Global Night Mode</system:String>
     <system:String x:Key="LangKeyEnableGoogleCommunityCategorySelection">Enable Google+ Community Category Selection</system:String>
@@ -731,7 +731,7 @@
     <system:String x:Key="LangKeyFanpageFilters">Fanpage Filters</system:String>
     <system:String x:Key="LangKeyFanpageLikers">Fanpage [URL] Likers</system:String>
     <system:String x:Key="LangKeyFanpagePostLikers">Fanpage [URL] Posts Likers</system:String>
-    <system:String x:Key="LangKeyFanpageScraper">Fanpage Scraper</system:String>
+    <system:String x:Key="LangKeyFanpageScraper">Fan Page Scraper</system:String>
     <system:String x:Key="LangKeyFavorites">Favorites</system:String>
     <system:String x:Key="LangKeyFBPoster">FB Poster</system:String>
     <system:String x:Key="LangKeyFeedTemplates">Feed Templates</system:String>
@@ -880,7 +880,7 @@
     <system:String x:Key="LangKeyGrowConnection">Grow Connection</system:String>
     <system:String x:Key="LangKeyGrowFollower">Grow Follower</system:String>
     <system:String x:Key="LangKeyGrowFollowers">Grow Followers</system:String>
-    <system:String x:Key="LangKeyGrowFriends">Grow Friends</system:String>
+    <system:String x:Key="LangKeyGrowFriends">Friends</system:String>
     <system:String x:Key="LangKeyGrowGroups">Grow Groups</system:String>
     <system:String x:Key="LangKeyGrowSubscribers">Grow Subscribers</system:String>
     <system:String x:Key="LangKeyHaha">Haha</system:String>
@@ -941,7 +941,7 @@
     <system:String x:Key="LangKeyImportMultipleAccounts">Import Multiple Accounts</system:String>
     <system:String x:Key="LangKeyImportPostFromCsv">Import Post From Csv</system:String>
     <system:String x:Key="LangKeyImportProxies">Import Proxies</system:String>
-    <system:String x:Key="LangKeyIncomingFriendRequest">Incoming Friend Request</system:String>
+    <system:String x:Key="LangKeyIncomingFriendRequest">Process Incoming Requests</system:String>
     <system:String x:Key="LangKeyIncreaseEachDayWith">Increase Each Day With</system:String>
     <system:String x:Key="LangKeyIndex">Index</system:String>
     <system:String x:Key="LangKeyInfo">Info</system:String>
@@ -1597,7 +1597,7 @@
     <system:String x:Key="LangKeyOptions">Options</system:String>
     <system:String x:Key="LangKeyOR">OR</system:String>
     <system:String x:Key="LangKeyOrder">Order</system:String>
-    <system:String x:Key="LangKeyOtherConfigurations">Other Configurations</system:String>
+    <system:String x:Key="LangKeyOtherConfigurations">Other Settings</system:String>
     <system:String x:Key="LangKeyOutsideSoftware">Outside Software</system:String>
     <system:String x:Key="LangKeyOverwritePostSourceURL">Overwrite Post Source URL</system:String>
     <system:String x:Key="LangKeyOwnAccount">Own Account</system:String>
@@ -1746,7 +1746,7 @@
     <system:String x:Key="LangKeyProxyDetails">Proxy Details</system:String>
     <system:String x:Key="LangKeyProxyGroup">Proxy Group</system:String>
     <system:String x:Key="LangKeyProxyIpPort">Proxy Ip Port</system:String>
-    <system:String x:Key="LangKeyProxyManager">Proxy Manager</system:String>
+    <system:String x:Key="LangKeyProxyManager">Proxy Settings</system:String>
     <system:String x:Key="LangKeyProxyModule">Proxy Module</system:String>
     <system:String x:Key="LangKeyProxyName">Proxy Name</system:String>
     <system:String x:Key="LangKeyProxyPassword">Proxy Password</system:String>
@@ -2039,7 +2039,7 @@
     <system:String x:Key="LangKeySendAllToTopOfPostList">Send All To Top Of Post List</system:String>
     <system:String x:Key="LangKeySendDirectMessage">Send Direct Message</system:String>
     <system:String x:Key="LangKeySendDirectMessagePercentage">Send Direct Message Percentage</system:String>
-    <system:String x:Key="LangKeySendFriendRequest">Send Friend Request</system:String>
+    <system:String x:Key="LangKeySendFriendRequest">Send Friend Requests</system:String>
     <system:String x:Key="LangKeySendGreetingsToConnections">Send Greetings To Connections</system:String>
     <system:String x:Key="LangKeySendMessageToGroupmembers">Send Message To Groupmembers</system:String>
     <system:String x:Key="LangKeySendMessageToNewConnection">Send Message To New Connection</system:String>
@@ -2140,7 +2140,7 @@
     <system:String x:Key="LangKeySocialNetwork">Social Network</system:String>
     <system:String x:Key="LangKeySocialProfiles">Social Profiles</system:String>
     <system:String x:Key="LangKeySocinator">Legion</system:String>
-    <system:String x:Key="LangKeySociopublisher">Sociopublisher</system:String>
+    <system:String x:Key="LangKeySociopublisher">Socio Publisher</system:String>
     <system:String x:Key="LangKeySoftwareSettings">Software Settings</system:String>
     <system:String x:Key="LangKeySomeonesFollowers">Someone's Followers</system:String>
     <system:String x:Key="LangKeySomeonesFollowersPostS">Someone's Followers Post(S)</system:String>
@@ -2648,7 +2648,7 @@
     <system:String x:Key="LangKeyWithdrawConnectionRequest">Withdraw Connection Request</system:String>
     <system:String x:Key="LangKeyWithdrawConnectionRequestSource">Withdraw Connection Request Source</system:String>
     <system:String x:Key="LangKeyWithdrawConnectionRequestsSentToTheUserBefore">Withdraw Connection Requests Sent To The User Before</system:String>
-    <system:String x:Key="LangKeyWithdrawSentRequest">Withdraw Sent Request</system:String>
+    <system:String x:Key="LangKeyWithdrawSentRequest">Cancel Outgoing Requests</system:String>
     <system:String x:Key="LangKeyWorkAnniversaryGreeting">Work Anniversary Greeting</system:String>
     <system:String x:Key="LangKeyWorkingAccounts">Working Accounts</system:String>
     <system:String x:Key="LangKeyWow">Wow</system:String>
@@ -2808,7 +2808,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySuccessfullyUploadedMediaFile">Successfully Uploaded Media File</system:String>
     <system:String x:Key="LangKeyErrorWhileUploadingMediaFile">Error While Uploading Media File</system:String>
     <system:String x:Key="LangKeyFailedDueTo">Failed Due To</system:String>
-    <system:String x:Key="LangKeyAccountCampaignName">Account Name/Campaign Name</system:String>
+    <system:String x:Key="LangKeyAccountCampaignName">Account/Campaign Name</system:String>
     <system:String x:Key="LangKeyPublish">Publish</system:String>
     <system:String x:Key="LangKeyMedia">Media</system:String>
     <system:String x:Key="LangKeyAccountSelection">Account Selection</system:String>
@@ -2848,7 +2848,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAutoEmailVerifications">Email Auto Verification</system:String>
     <system:String x:Key="LangKeyPhoneVerifications">Phone Verification</system:String>
     <system:String x:Key="LangKeyIgnoreNoMedia">Ignore Posts without media</system:String>
-    <system:String x:Key="LangKeyPostLike">Post Like</system:String>
+    <system:String x:Key="LangKeyPostLike">Like Posts</system:String>
     <system:String x:Key="LangKeyPostComment">Post Comment</system:String>
     <system:String x:Key="LangKeyVerification">Verification</system:String>
     <system:String x:Key="LangKeyVerificationCodeHasBeenSentToRregistered">Verification code has been sent to the registered</system:String>
@@ -3049,7 +3049,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEndWarning">Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LangKeyQuora">Quora</system:String>
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllQuoraAccountsConfiguredInQuora">Enable Follow Different Users Across All Quora Accounts Configured In Quora</system:String>
-    <system:String x:Key="LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator">Enable Exporting HTML of different connections across all LinkedIn accounts configured in Socinator</system:String>
+    <system:String x:Key="LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator">Enable Exporting HTML of different connections across all LinkedIn accounts configured in Legion</system:String>
 
     <!--End Added on 19-07-2018-->
     <system:String x:Key="LangKeyOnlyContactInfo">Only contact info</system:String>
@@ -3145,7 +3145,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyWhoAcceptedRequest">Who Accepted Request</system:String>
     <system:String x:Key="LangKeyWhoDidNotAcceptRequest">Who did not accept request</system:String>
 
-    <system:String x:Key="LangKeyCommentLiker">Comment Liker</system:String>
+    <system:String x:Key="LangKeyCommentLiker">Like Comments</system:String>
     <system:String x:Key="LangKeyCommentUrl">Comment Url</system:String>
     <system:String x:Key="LangKeyScrapTheProfileWhichContainLikersBetween">Scrape the profile which contains Likers Between</system:String>
     <system:String x:Key="LangKeyCommentFilter">Comment Filter</system:String>
@@ -3204,7 +3204,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMessageTextFormat" xml:space="preserve"> Format: &lt;FULLNAME&gt;, &lt;FIRSTNAME&gt;, &lt;LASTNAME&gt;, &lt;MYNAME&gt;, &lt;MYFIRSTNAME&gt;       
     Note: The following tokens are replaced with user info.</system:String>
     <system:String x:Key="LangKeyReinviteInMessanger" xml:space="preserve">Reinvite in messaenger who didn't liked the page in everey</system:String>
-    <system:String x:Key="LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator">Enable send connection request to different users across all LinkedIn accounts configured in Socinator</system:String>
+    <system:String x:Key="LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator">Enable send connection request to different users across all LinkedIn accounts configured in Legion</system:String>
     <system:String x:Key="LangKeyInviteForEventUrl">Invite For Event Url(s)</system:String>
     <system:String x:Key="LangKeyAfterSentRequestAction">After Sent Request Action</system:String>
     <system:String x:Key="LangKeyAutoVerifyByEmail">Auto verify by Email</system:String>
@@ -3236,7 +3236,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySendUniqueMessageFromEachAccount">Send Unique Message From Each Account</system:String>
     <system:String x:Key="LangKeySendUniqueCommentFromEachAccount">Send Unique Comment From Each Account</system:String>
     <system:String x:Key="LangKeySendUniqueCommentForEachPost">Send Unique Comment For Each Post</system:String>
-    <system:String x:Key="LangKeySendMessageToNewFriends">Message To New Friends</system:String>
+    <system:String x:Key="LangKeySendMessageToNewFriends">Send Message To New Friends</system:String>
     <system:String x:Key="LangKeySendUniqueMessageToEachUser">Send Unique Message To Each User</system:String>
     <system:String x:Key="LangKeyTagFriendsOption">Tag Friends Option</system:String>
     <system:String x:Key="LangKeyMutualFriends">Mutual Friends</system:String>
@@ -3294,8 +3294,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyLikeOnSpecificComment">Like On Specific Comment of Post</system:String>
     <system:String x:Key="LangKeyPostAsSamePage">Post As Same Page (For Ex:- Post on Legion Page with Legion account)</system:String>
 
-    
-    <system:String x:Key="LangKeySendGreetingsToFriends">Send Greetings To Friends</system:String>
+
+    <system:String x:Key="LangKeySendGreetingsToFriends">Send Birthday Messages</system:String>
     <system:String x:Key="LangKeyTodaysBirthdays">Today's Birthdays</system:String>
     <system:String x:Key="LangKeyUpcomingBirthdays">Upcoming Birthdays</system:String>
     <system:String x:Key="LangKeywebpagecomment">Webpost Comment</system:String>
@@ -4517,12 +4517,15 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyGroupMemberBasicDetails">Group Member Basic Details</system:String>
     <system:String x:Key="LangKeyAnUpdatedVersionAvailable">A new version of Legion is available. Do you want to update Legion?</system:String>
     <system:String x:Key="LangKeyCheckingUpdates">Hang On! Checking for Updates</system:String>
+
     <system:String x:Key="LangKeyUpdatingSocinator">Hang On! Updating Legion</system:String>
     <system:String x:Key="LangKeyMessageConversationsScraper">MessageConversation Scraper</system:String>
 
     <system:String x:Key="LangKeyLegion">Legion</system:String>
     <system:String x:Key="LangKeyLegionAlreadyRunning">Legion is already running.</system:String>
 
+
+   
     <system:String x:Key="LangKeyUnLikeSource">Unlike Source</system:String>
     <system:String x:Key="LangKeyPagePostCommenters">Fanpage [URL] All Posts Commenters</system:String>
     <system:String x:Key="LangKeyGroupPostCommenters">Group [URL] All Posts Commenters</system:String>
@@ -4566,12 +4569,12 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyScrapeFromAccount">Scrape From Account</system:String>
     <system:String x:Key="LangKeyRemoveAllDestinations">Remove All Destinations</system:String>
     <system:String x:Key="LangKeyDestinationDetailsWillBeRemoved" xml:space="preserve">All selected destinations must be removed to proceed for option "Scraping only"!
-Do you want to continue?</system:String>
+        Do you want to continue?</system:String>
 
     <system:String x:Key="LangKeySkipping">Skipping</system:String>
     <system:String x:Key="LangKeyAsInteractedforthisCampaignForUniqueUser">, As Interacted for this Campaign - Filter Checked with Unique</system:String>
     <system:String x:Key="LangKeyUrlsDontHaveCommentId" xml:space="preserve">As you have checked "Activity With Hightlighted comment only" in the Other Configuration Expander.
-Some of the custom urls don't have CommentId.</system:String>
+        Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeyErrorOnDeletingCampaigns">Oops! got error on deleting campaigns.</system:String>
     <system:String x:Key="LangKeyIgnoreTextOnlyPost">Ignore Text Only Post</system:String>
     <system:String x:Key="LangKeyVerifiedAccounts">Verified Accounts</system:String>
@@ -4613,7 +4616,7 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeyDontLoginAccountAfterProxyManagement">Don't let the account login after assigning/unassigning account to proxy.</system:String>
     <system:String x:Key="LangKeyCantaddAccountToProxyAddingLimitReached">Can't add more accounts to this proxy as you have checked setting 'Add {0} accounts per proxy'</system:String>
     <system:String x:Key="LangKeyAccountHasWorkingProxyStillWannaReplace"  xml:space="preserve">This account already has a working proxy.
-Do you still want to replace it's proxy with new one?</system:String>
+        Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyConfirmToAssignRandProxies">Confirm to assign random proxies</system:String>
     <system:String x:Key="LangKeyNoWorkingProxiesAvailableToAssign">No more working proxies available to assign</system:String>
     <system:String x:Key="LangKeyConditionAddNAccPerProxy">[with condition "assigning {0} accounts per proxy"].</system:String>
@@ -4632,10 +4635,27 @@ Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyProxySettingsSavedSuccessfully">Proxy settings saved successfully</system:String>
     <system:String x:Key="LangKeyOopsAnErrorOccured">Oops! An error occured.</system:String>
     <system:String x:Key="LangKeyIsNotSelecteedForThisAccount">is not selected for this account.</system:String>
+
     <system:String x:Key="LangKeyInActiveAtWall">InActive At OwnWall[NumberOfDays]</system:String>
     <system:String x:Key="LangKeyInActiveAtGroupFromDays">InActive At Group From</system:String>
     <system:String x:Key="LangKeyInActiveAtGroup">InActive At Group[URL]</system:String>
     <system:String x:Key="LangKeyInActiveAtBroadcast">InActive At Broadcast[NumberOfDays]</system:String>
 
+    <system:String x:Key="LangKeyCustomize">Customize</system:String>
+    <system:String x:Key="LangKeyTakeMinimumConnectionConversation">Take minimum connection conversation</system:String>
+
+    <system:String x:Key="LangKeySucceededInSaving">Succeeded in saving</system:String>
+
+    <system:String x:Key="LangKeyReplyConfiguration">Reply configuration (Optional)</system:String>
+    <system:String x:Key="LangKeyReplyThoseCommentsContainingText">Reply to only those comments containing the specific text</system:String>
+    <system:String x:Key="LangKeyCheckedReplyToCommentWithTextButNotGivenText" xml:space="preserve">You have checked option "Reply to only those comments containing the specific text" in other configuration,
+            but you have not given any text inside the box. Please check.</system:String>
+    <system:String x:Key="LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByNewLine">Automatically Hash All The Words In The List Below. Add Your Keywords Separated By New Line.</system:String>
+
+    <system:String x:Key="LangKeyInvalidProxyIpFormat">Invalid Proxy IP format :- "{0}"</system:String>
+    <system:String x:Key="LangKeyInvalidProxyIpFormatBrowser">Failed to Open Browser! Invalid Proxy IP format :- "{0}"</system:String>
+    <system:String x:Key="LangKeySkipCommentsOfSameProfile">Skip Comments Of Same Profile</system:String>
+    <system:String x:Key="LangKeyQueryValueIsInInvalidFormat">Query Value {0} is in Invalid Format!</system:String>
+    <system:String x:Key="LangKeyOverview">Overview</system:String>
 </ResourceDictionary>
 

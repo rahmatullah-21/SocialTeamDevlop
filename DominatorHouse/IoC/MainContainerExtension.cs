@@ -5,6 +5,9 @@ using DominatorHouseCore.ViewModel;
 using Unity;
 using Unity.Extension;
 using LegionUIUtility.ViewModel;
+using DominatorHouseCore.Interfaces;
+using DominatorHouse.Social;
+
 
 namespace Legion.IoC
 {
@@ -17,8 +20,8 @@ namespace Legion.IoC
             // view models
             Container.RegisterSingleton<IMainViewModel, MainViewModel>();
             Container.RegisterSingleton<IPerfCounterViewModel, PerfCounterViewModel>();
-            Container.RegisterSingleton<IDominatorAutoActivityViewModel, DominatorAutoActivityViewModel>();
-
+            //Container.RegisterSingleton<IDominatorAutoActivityViewModel, DominatorAutoActivityViewModel>();
+            Container.RegisterSingleton<ISocialBrowserManager, SocialBrowserManager>();
             #region Startup ViewModel
 
             Container.RegisterType<IFollowViewModel, FollowViewModel>();

@@ -22,6 +22,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Extensions;
 using Unity;
+using DominatorHouseCore.ProxyServerManagment;
 
 namespace LegionUIUtility.ViewModel
 {
@@ -302,6 +303,7 @@ namespace LegionUIUtility.ViewModel
 
             var newAccountBaseModel = DominatorAccountModel.AccountBaseModel;
             IProxyManagerViewModel proxyManagerViewModel = null;
+            IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
             try
             {
                 if (string.IsNullOrEmpty(newAccountBaseModel.UserName) ||
@@ -309,6 +311,14 @@ namespace LegionUIUtility.ViewModel
                 {
                     GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
                         "LangKeyAccount".FromResourceDictionary(), "LangKeySavingAccountFailedUserOrPasswordEmpty".FromResourceDictionary());
+                    return false;
+                }
+
+                if (!proxyValidationService.IsValidProxy(newAccountBaseModel.AccountProxy.ProxyIp, newAccountBaseModel.AccountProxy.ProxyPort))
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
+                        "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormat".FromResourceDictionary(), newAccountBaseModel.AccountProxy.ProxyIp));
+                    
                     return false;
                 }
 
