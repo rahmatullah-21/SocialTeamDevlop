@@ -1,14 +1,15 @@
-Version[1.0.0.79],[05th March 2020]
+Version[1.0.0.79],[06th March 2020]
 New Features:-
 	Social:
 		Accounts Activity ==> Added an option to Customize Activity Actions
 			
 	Youtube:
-		Youtube ==> Engage ==> Reply to comments ==> Now we can reply to comments (Added options for this feature in other configurations)	
+		Youtube ==> Engage ==> Comment => Reply to comments ==> Now, we can reply to comments (Added options for this feature in other configurations)
+		Youtube ==> Engage ==> Comment ==> Other configuration ==> Now we can auto-reply to comments by matching specific text in a post's comment list.
         
 Fixed:-
 	Social:
-		SocioPublisher ==> Postconfiguration ==> Advancsed settings ==> Instagram ==> Fixed issue with Enable Automatic/Dynamic hashtags.
+		SocioPublisher ==> PostConfiguration ==> Advanced settings ==> Instagram ==> Fixed issue with Enable Automatic/Dynamic hashtags.
 		Sociopublisher ==> Facebook ==> Fixed issue with posting in wall.
 		Sociopublisher ==> Pinterest ==> Fixed issue in publisher
 
