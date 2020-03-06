@@ -1083,11 +1083,11 @@ namespace DominatorUIUtility.ViewModel
                     foreach (var acc in accounts)
                     {
 
-                       var workingOne = (SettingsModel.IsNumOfAccountPerProxy
-                                            ? LstProxyManagerModel.Where(x => x.Status == "Working" && x.AccountsAssignedto.Count < SettingsModel.NumOfAccountPerProxy)
-                                             : LstProxyManagerModel.Where(x => x.Status == "Working"))?.ToList()
-                            ?? new List<ProxyManagerModel>();
-                           
+                        var workingOne = (SettingsModel.IsNumOfAccountPerProxy
+                                             ? LstProxyManagerModel.Where(x => x.Status == "Working" && x.AccountsAssignedto.Count < SettingsModel.NumOfAccountPerProxy)
+                                              : LstProxyManagerModel.Where(x => x.Status == "Working"))?.ToList()
+                             ?? new List<ProxyManagerModel>();
+
                         if (workingOne.Count == 0)
                         {
                             ToasterNotification.ShowInfomation($"{"LangKeyNoWorkingProxiesAvailableToAssign".FromResourceDictionary()}{conditionalString}");
@@ -1095,7 +1095,7 @@ namespace DominatorUIUtility.ViewModel
                         }
 
                         randomIndex = random.Next(workingOne.Count);
-                        
+
                         if (!string.IsNullOrWhiteSpace(acc.AccountBaseModel.AccountProxy.ProxyIp)
                                 && MatchedProxyWithFromList(acc.AccountBaseModel.AccountProxy)?.Status == "Working")
                             continue;
@@ -1122,7 +1122,10 @@ namespace DominatorUIUtility.ViewModel
             {
                 GlobusLogHelper.log.Error(ex.Message);
             }
-
+            finally
+            {
+                IsRandomSelected = false;
+            }
         }
 
         ProxyManagerModel MatchedProxyWithFromList(Proxy proxy)
