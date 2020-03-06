@@ -751,14 +751,12 @@ namespace DominatorHouseCore.Utility
                         return ProtoBuf.Serializer.Deserialize<NetworksActivityCustomizeModel>(stream);
                     }
                 }
-
-                return new NetworksActivityCustomizeModel();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-            return null;
+            return new NetworksActivityCustomizeModel();
         }
     }
 
