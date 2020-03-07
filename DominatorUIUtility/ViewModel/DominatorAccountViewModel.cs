@@ -1749,7 +1749,7 @@ namespace LegionUIUtility.ViewModel
                         softwareSetting.ScheduleAutoUpdation();
                         softwareSetting.DeleteUnnecessaryCampaigns();
                         if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
-                            softwareSetting.ScheduleAdsScraping();
+                            softwareSetting.DownloadAllLocations();
                     }
                     catch (Exception ex)
                     {
@@ -1761,9 +1761,8 @@ namespace LegionUIUtility.ViewModel
 
                 Task.Factory.StartNew(() =>
                 {
-                    var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
-                    var data = globalDbOperation.GetSingle<AccountDetails>(x => x.Id == 1);
-                    var data2 = globalDbOperation.GetFirst<LocationList>();
+                    var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalLocationDatabase().GetSqlConnection());
+                    var checkDb = globalDbOperation.GetFirst<LocationList>();
                 });
 
                 // Open extra window for facebook in advance and close to avoid hanging issue

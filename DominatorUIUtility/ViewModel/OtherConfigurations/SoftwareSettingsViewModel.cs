@@ -145,9 +145,7 @@ namespace LegionUIUtility.ViewModel.OtherConfigurations
         {
             try
             {
-                IGlobalDatabaseConnection dataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-                var dbGlobalContext = dataBaseConnectionGlb.GetSqlConnection();
-                var _dbGlobalListOperations = new DbOperations(dbGlobalContext);
+                var _dbGlobalListOperations = new DbOperations(SocinatorInitialize.GetGlobalLocationDatabase().GetSqlConnection());
 
                 var ListCountry = _dbGlobalListOperations.Get<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
                 var dt = new List<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();

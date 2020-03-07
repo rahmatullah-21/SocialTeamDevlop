@@ -24,4 +24,9 @@ namespace DominatorHouseCore.Interfaces
         SQLiteConnection GetSqlConnection(SocialNetworks networks, UserType userType);
 
     }
+
+    public interface IGlobalLocationDatabaseConnection
+    {
+        SQLiteConnection GetSqlConnection();
+    }
 }

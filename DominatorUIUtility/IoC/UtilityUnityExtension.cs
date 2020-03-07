@@ -35,7 +35,7 @@ namespace LegionUIUtility.IoC
             Container.RegisterSingleton<IVerifyProxiesViewModel, VerifyProxiesViewModel>();
 
             Container.RegisterSingleton<IDominatorAccountViewModel, DominatorAccountViewModel>();
-
+            Container.RegisterSingleton<IDominatorAutoActivityViewModel, DominatorAutoActivityViewModel>();
             Container.RegisterSingleton<IAccountGrowthControlViewModel, AccountGrowthControlViewModel>();
             Container.RegisterSingleton<IAccountCollectionViewModel, AccountCollectionViewModel>();
         }

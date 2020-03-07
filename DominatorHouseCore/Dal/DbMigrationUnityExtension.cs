@@ -11,6 +11,7 @@ namespace DominatorHouseCore.Dal
             Container.RegisterSingleton<IGlobalDatabaseMigrations, GlobalDatabaseMigrations>();
             Container.RegisterSingleton<IGlobalDatabaseBlackListMigrations, GlobalDatabaseBlackListMigrations>();
             Container.RegisterSingleton<IGlobalDatabaseWhiteListMigrations, GlobalDatabaseWhiteListMigrations>();
+            Container.RegisterSingleton<IGlobalLocationDatabaseMigrations, GlobalLocationDatabaseMigrations>();
         }
     }
 }

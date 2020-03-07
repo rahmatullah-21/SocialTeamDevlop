@@ -113,5 +113,10 @@ namespace DominatorHouseCore.Diagnostics
             return ServiceLocator.Current.GetInstance<IGlobalDatabaseConnection>();
         }
 
+        public static IGlobalLocationDatabaseConnection GetGlobalLocationDatabase()
+        {
+            return ServiceLocator.Current.GetInstance<IGlobalLocationDatabaseConnection>();
+        }
+
     }
 }

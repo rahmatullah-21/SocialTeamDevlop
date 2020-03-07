@@ -25,7 +25,7 @@ namespace DominatorHouseCore
         protected override void Initialize()
         {
             Container.RegisterSingleton<IGlobalDatabaseConnection, GlobalDatabaseConnection>();
-
+            Container.RegisterSingleton<IGlobalLocationDatabaseConnection, GlobalLocationDatabaseConnection>();
             Container.RegisterSingleton<IApplicationResourceProvider, ApplicationResourceProvider>();
             Container.RegisterSingleton<ILogViewModel, LogViewModel>();
 

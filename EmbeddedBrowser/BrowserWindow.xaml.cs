@@ -169,7 +169,7 @@ namespace EmbeddedBrowser
 
                         // get the proxyport from objDominatorAccountModel object
                         var proxyPort = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort;
-                        
+
                         // get the current browser request context
                         var requestContext = Browser.GetBrowser().GetHost().RequestContext;
 
@@ -179,7 +179,7 @@ namespace EmbeddedBrowser
 
                             if (!proxyValidationService.IsValidProxy(proxyIp, proxyPort))
                             {
-                                
+
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
 
@@ -1039,7 +1039,7 @@ namespace EmbeddedBrowser
         {
             if (Browser.IsDisposed)
                 return 0;
-                    
+
             List<string> listNodes = new List<string>();
 
             int itemCount = actType == ActType.ActByQuery ? int.Parse(await GetElementValueAsync(ActType.GetLengthByQuery, attributeType, attributeValue))
@@ -1076,7 +1076,7 @@ namespace EmbeddedBrowser
 
 
 
-      
+
 
 
         public async Task<int> GetCountInnerHtmlChildElement(ActType actType, AttributeType parentAttributeType,
@@ -1714,34 +1714,55 @@ namespace EmbeddedBrowser
 
                 ke.Modifiers = flags;
 
+                var copiedText = string.Empty;
 
                 if (Browser.IsDisposed) return false;
 
                 await Task.Delay(delay, _token);
 
-                bool isRunning = true;
+                bool isRunning = false;
 
-                Application.Current.Dispatcher.Invoke(() =>
+                if (!string.IsNullOrEmpty(message))
                 {
-                    try
+                    isRunning = true;
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        Clipboard.SetText(message);
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
+                        try
+                        {
+                            copiedText = Clipboard.GetText();
+                            Clipboard.SetText(message);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
 
-                    isRunning = false;
-                });
+                        isRunning = false;
+                    });
+                }
+                    
 
                 while (isRunning)
-                    await Task.Delay(200);
+                    await Task.Delay(25);
 
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
 
                 if (delayAtLast > 0)
                     await Task.Delay(TimeSpan.FromSeconds(delayAtLast), _token);
+
+                if (!string.IsNullOrEmpty(message))
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        try
+                        {
+                            Clipboard.Clear();
+                            Clipboard.SetText(copiedText);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    });
 
                 return false;
             }

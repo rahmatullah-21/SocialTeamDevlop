@@ -274,6 +274,7 @@
     <Compile Include="Dal\DbConnection.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseBlackListMigrations.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseMigrations.cs" />
+    <Compile Include="Dal\DbMigrations\GlobalLocationDatabaseMigrations.cs" />
     <Compile Include="Dal\DbMigrationUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\CounterKeyFactory.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunction.cs" />
@@ -467,6 +468,7 @@
     <Compile Include="DatabaseHandler\Utility\DbAccountServiceBase.cs" />
     <Compile Include="DatabaseHandler\Utility\DbOperations.cs" />
     <Compile Include="DatabaseHandler\Utility\GlobalDatabaseConnection.cs" />
+    <Compile Include="DatabaseHandler\Utility\GlobalLocationDatabaseConnection.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\FeedInfos.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\Friendships.cs" />

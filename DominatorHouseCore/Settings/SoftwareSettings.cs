@@ -26,6 +26,7 @@ using DominatorHouseCore.DatabaseHandler.CoreModels;
 using System.Net;
 using System.Text;
 using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Settings
 {
@@ -35,6 +36,8 @@ namespace DominatorHouseCore.Settings
         void ActivityManagerInitializer();
         void ScheduleAutoUpdation(List<string> lstAccountsForUpdate = null);
         Task ScheduleAdsScraping();
+
+        Task DownloadAllLocations();
 
         Task DeleteUnnecessaryCampaigns();
         Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer, DominatorAccountModel currentAccount = null
@@ -345,34 +348,72 @@ namespace DominatorHouseCore.Settings
 
         public async Task ScheduleAdsScraping()
         {
-           
-            #region commented
-            //var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-            //    async job =>
-            //    {
-            //        await job.StartAdScarperAsync();
-            //    },
-            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
-
-            //await ScrapAdsProduceAsync(adScraperblock);
-
-            //var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
-            //    async job =>
-            //    {
-            //        await job.StartAdScarperAsync();
-            //    },
-            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
-
-            //await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
 
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    ex.DebugLog();
-            //}
+        }
 
-            #endregion
+        public async Task DownloadAllLocations()
+        {
+            try
+            {
+                var _dbGlobalListOperations = new DbOperations(SocinatorInitialize.GetGlobalLocationDatabase().GetSqlConnection());
+                
+                await Task.Factory.StartNew(async () =>
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, "", "Download Location", $"Download Location Process started. Please wait!");
+                    var ListCountry = _dbGlobalListOperations.GetSingleColumn<LocationList>(x => x.CountryName);
+                    var countryLocations = new List<LocationList>();
+
+                    foreach (var country in new NonStaticUtilities().CountriesList())
+                    {
+                        try
+                        {
+                            if (country == "India" || country == "China")
+                                continue;
+
+                            if (ListCountry.Any(x => x.Equals(country)))
+                                continue;
+
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Download Location", $"Downloading cities for country {country}");
+
+
+                            var request = (HttpWebRequest)WebRequest.Create($"http://209.250.252.53/DownloadForSocinator/CityListByCountries/{country}.txt");
+                            var response = await request.GetResponseAsync();
+                            string cityResponse = string.Empty;
+                            using (var responseStream = response.GetResponseStream())
+                            {
+                                if (responseStream != null)
+                                {
+                                    var reader = new StreamReader(responseStream, Encoding.UTF8);
+                                    cityResponse = reader.ReadToEnd();
+                                }
+                            }
+                            countryLocations = new List<LocationList>();
+                            List<string> cityList = System.Text.RegularExpressions.Regex.Split(cityResponse, "\r\n").ToList();
+                            cityList.ForEach(x =>
+                            {
+                                var lst = new LocationList()
+                                {
+                                    CountryName = country,
+                                    CityName = x,
+                                    IsSelected = false
+                                };
+                                countryLocations.Add(lst);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+
+                        _dbGlobalListOperations.AddRange(countryLocations);
+                    }
+                });                
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
 
