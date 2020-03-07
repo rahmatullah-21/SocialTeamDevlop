@@ -367,6 +367,7 @@
     <Compile Include="DatabaseHandler\LdTables\Account\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\RemovedConnections.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Account\SkipInteractedAttachments.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\UnjoinedGroups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedCompanies.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedGroups.cs" />
