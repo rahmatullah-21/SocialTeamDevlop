@@ -4627,4 +4627,8 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyWannaStopAllActivity">Do you really want to stop all the activities?</system:String>
     <system:String x:Key="LangKeyLess">Less</system:String>
 
+    <system:String x:Key="LangKeyActivityTypesSelect1To6ForEachNet">Activity Types (Select any 1 to 6 activities for each network)</system:String>
+    <system:String x:Key="LangKeyBusinessCategory">Business Category</system:String>
+    <system:String x:Key="LangKeyBusinessAccounts">Business Accounts</system:String>
+    
 </ResourceDictionary>

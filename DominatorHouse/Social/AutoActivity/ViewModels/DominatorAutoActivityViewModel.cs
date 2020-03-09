@@ -66,6 +66,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                                        "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
                 return;
 
+            // If no activity is running then return.
             if (!AccountsCollection.Any(x => x.ActivityDetailsCollections.Any(y => y.Status)))
                 return;
             
@@ -135,7 +136,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             try
             {
                 var dialog = new Dialog();
-                var model = GetCustomUiModel();
+                var model = GetCustomizeUiModel();
                 var ui = new CustomizeAutoActivity(model);
 
                 var custAuto = dialog.GetMetroWindow(ui, "Customize Auto Activity");
@@ -424,14 +425,28 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         }
 
         #region Utils
-
+        /// <summary>
+        /// Get Important and other Activities(totally all activities) from all available network
+        /// </summary>
+        /// <param name="networks">Social Network</param>
+        /// <param name="getImportants">condition for getting Important activities</param>
+        /// <param name="getOthers">condition for getting other than important activities</param>
+        /// <returns></returns>
         Dictionary<SocialNetworks, Activities> AvailableNetworksActivity(IEnumerable<SocialNetworks> networks, bool getImportants = true, bool getOthers = true)
         {
             var returnDict = new Dictionary<SocialNetworks, Activities>();
-            var getCustomAuto = GetCustomUiModel();
+            var getCustomAuto = GetCustomizeUiModel();
             return AvailableNetworksActivity(getCustomAuto, networks, getImportants, getOthers);
         }
 
+        /// <summary>
+        /// Get Important and other Activities(totally all activities) from all available network
+        /// </summary>
+        /// <param name="getCustomAuto">NetworksActivityCustomizeModel model</param>
+        /// <param name="networks">Social Network</param>
+        /// <param name="getImportants">condition for getting Important activities</param>
+        /// <param name="getOthers">condition for getting other than important activities</param>
+        /// <returns></returns>
         Dictionary<SocialNetworks, Activities> AvailableNetworksActivity(NetworksActivityCustomizeModel getCustomAuto, IEnumerable<SocialNetworks> networks, bool getImportants = true, bool getOthers = true)
         {
             var returnDict = new Dictionary<SocialNetworks, Activities>();
@@ -467,7 +482,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             return returnDict;
         }
 
-        NetworksActivityCustomizeModel GetCustomUiModel()
+        NetworksActivityCustomizeModel GetCustomizeUiModel()
         {
             var custModel = ServiceLocator.Current.GetInstance<IBinFileHelper>().GetCustomizedAutoActivity();
             if (custModel.NetworksActListCollection != null && custModel.NetworksActListCollection.Count>0)

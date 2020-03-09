@@ -408,10 +408,9 @@ namespace DominatorUIUtility.ViewModel
         private void ExportProxyExecute()
         {
             var proxiesToExport = LstProxyManagerModel.Where(proxy => proxy.IsProxySelected).ToList();
+
             if (!proxiesToExport.Any())
-            {
                 proxiesToExport = _proxyFileManager.GetAllProxy();
-            }
 
             ExportProxies(proxiesToExport);
         }
@@ -440,13 +439,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     try
                     {
-                        var csvData = proxy.AccountProxy.ProxyGroup + ","
-                                                                    + proxy.AccountProxy.ProxyName + ","
-                                                                    + proxy.AccountProxy.ProxyIp + ","
-                                                                    + proxy.AccountProxy.ProxyPort + ","
-                                                                    + proxy.AccountProxy.ProxyUsername + ","
-                                                                    + proxy.AccountProxy.ProxyPassword + ","
-                                                                    + proxy.Status;
+                        var csvData = $"{proxy.AccountProxy.ProxyGroup},{proxy.AccountProxy.ProxyName},{proxy.AccountProxy.ProxyIp},{proxy.AccountProxy.ProxyPort},{proxy.AccountProxy.ProxyUsername},{proxy.AccountProxy.ProxyPassword},{proxy.Status}";
 
                         using (var streamWriter = new StreamWriter(filename, true))
                         {
@@ -455,7 +448,7 @@ namespace DominatorUIUtility.ViewModel
                         }
 
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         GlobusLogHelper.log.Error("LangKeyErrorInExportProxies".FromResourceDictionary());
                     }
@@ -465,11 +458,8 @@ namespace DominatorUIUtility.ViewModel
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
             }
-
-
         }
 
         public DataGrid ProxyDataGrid { get; set; }
@@ -498,11 +488,10 @@ namespace DominatorUIUtility.ViewModel
                 view.GroupDescriptions.Clear();
                 if (IsShowByGroup)
                     view.GroupDescriptions.Add(groupDescription);
-
             }
             catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
 
@@ -605,8 +594,6 @@ namespace DominatorUIUtility.ViewModel
                              .AddOrUpdateDominatorAccountBase(account.AccountBaseModel)
                              .SaveToBinFile();
                     });
-
-
             }
             catch (Exception ex)
             {
@@ -1034,12 +1021,6 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 proxyManagerModel.AccountsToBeAssign.Clear();
-                
-                    //if (IsNumOfAccountPerProxy && ProxyManagerModel.AccountsAssignedto.Count >= NumOfAccountPerProxy)
-                    //{
-                    //    ToasterNotification.ShowInfomation($"Can't add more accounts to this proxy as you have checked setting 'Add {NumOfAccountPerProxy} accounts per proxy'");
-                    //    return;
-                    //}
                 
                 _accountsFileManager.GetAll()?.ForEach(account =>
                  {
