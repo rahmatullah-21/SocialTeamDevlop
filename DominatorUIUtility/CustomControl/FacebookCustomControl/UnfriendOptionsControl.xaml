@@ -21,7 +21,7 @@
                     <CheckBox Visibility="Collapsed" Margin="30,5" Content="{DynamicResource LangKeyCustomUsersList}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding UnfriendOptionModel.CustomUserList}" Checked="Source_Checked" Unchecked="Source_UnChecked"/>
                     <StackPanel Orientation="Vertical" Visibility="{Binding IsCustomOptionsRequired,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <CheckBox Margin="30,5" Content="{DynamicResource LangKeyCustomUsersList}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding UnfriendOptionModel.IsCustomUserList}" Checked="Source_Checked" Unchecked="Source_UnChecked"/>
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding UnfriendOptionModel.IsCustomUserList,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Visibility="Collapsed" Orientation="Horizontal" >
                             <TextBox Margin="50,10" Height="30" Name="campaignid" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  FontSize="13" Width="250"/>
                             <Border CornerRadius="10" Width="150" Height="30"  Background="Green">
                                 <Button Content="Open User List" Name="openuser" Margin="2,2,2,2"  Background="Green" Foreground="{DynamicResource TextColorBrushAccordingTheme}" Click="openuser_Click" />

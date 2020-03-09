@@ -1209,16 +1209,15 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<Dictionary<int, string>> ExpandAllAdViewOptions(int postCount, int lastCount, int lastCurrentAdCount = 0)
+        public async Task<List<Tuple<int, string, string, string>>> ExpandAllAdViewOptions(int postCount, int lastCount, int lastCurrentAdCount = 0)
         {
             var xCoordinate = !string.IsNullOrEmpty(await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "fbChatSidebar fixed_always _5pr2 hidden_elem")) ?
                         844 : 740;
 
-
             var adCount = 0;
 
             var dictAdViewerDetails = new Dictionary<int, string>();
-
+            var tupleAdsDetals = new List<Tuple<int, string, string, string>>();
             await Task.Delay(5000, _token);
 
             while (lastCurrentCount++ <= postCount * (lastCount + 1))
@@ -1226,7 +1225,7 @@ namespace EmbeddedBrowser
                 var adViewerDetails = string.Empty;
                 Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
                 var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueTypes.OuterHtml, clickIndex: lastCurrentCount);
-                if (!(fullAdDetails).Contains("sponsored_ad"))
+                if (!(fullAdDetails).Contains("sponsored"))
                 {
                     await Task.Delay(3000, _token);
                     continue;
@@ -1234,25 +1233,20 @@ namespace EmbeddedBrowser
 
                 await Task.Delay(2000, _token);
                 await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
-                await Task.Delay(2000, _token);
-                MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
-                await Task.Delay(2000, _token);
-                MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
-                adViewerDetails = await GetElementValueAsync(ActType.ActByQuery, AttributeType.DataFeedOptionName, "FeedAdSeenReasonOption", clickIndex: adCount);
-                if (string.IsNullOrEmpty(adViewerDetails))
-                {
-                    continue;
-                }
-                adViewerDetails = string.IsNullOrEmpty(adViewerDetails) ? string.Empty :
-                    Regex.Matches(adViewerDetails, "id=(.*?)&")[0].Groups[1].ToString();
-                dictAdViewerDetails.Add(lastCurrentCount, adViewerDetails);
-                adCount += 2;
-                await Task.Delay(2000, _token);
+                var javascriptResponse = await ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].outerHTML");
+
+                var values = Utilities.GetBetween(javascriptResponse.Result.ToString(), "id=\"feed_subtitle", "\""); //_263;2085460778154235;0;3006433072723663;1583140012:8116025295315885125:5:0:32239
+                var splittedValues = Regex.Split(values.ToString(), ";");
+                var ownerId = splittedValues[1];
+                var postId = splittedValues[3];
+                splittedValues = Regex.Split(splittedValues[4], ":");
+                var AdId = splittedValues[1];
+
+                tupleAdsDetals.Add(new Tuple<int, string, string, string>(lastCurrentCount, postId, AdId, ownerId));
+
             }
-
             lastCurrentAdCount = lastCurrentCount;
-
-            return dictAdViewerDetails;
+            return tupleAdsDetals;
         }
 
 

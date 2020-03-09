@@ -28,13 +28,13 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://209.250.252.53/LegionOnlineTest/</InstallUrl>
-    <UpdateUrl>http://209.250.252.53/LegionOnlineTest/</UpdateUrl>
+    <InstallUrl>http://209.250.252.53/LegionOnline/</InstallUrl>
+    <UpdateUrl>http://209.250.252.53/LegionOnline/</UpdateUrl>
     <ProductName>Legion</ProductName>
     <PublisherName>Legion</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>17</ApplicationRevision>
-    <ApplicationVersion>1.0.0.17</ApplicationVersion>
+    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationVersion>1.0.0.9</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
