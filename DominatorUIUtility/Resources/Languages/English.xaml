@@ -334,7 +334,7 @@
     <system:String x:Key="LangKeyClear">Clear</system:String>
     <system:String x:Key="LangKeyClearAllSources">Clear All Sources</system:String>
     <system:String x:Key="LangKeyClearHistory">Clear History</system:String>
-    <system:String x:Key="LangKeyClickToAddFreshAccounts">Click To Add Fresh Accounts</system:String>
+    <system:String x:Key="LangKeyClickToAddFreshAccounts">Click to refresh accounts list</system:String>
     <system:String x:Key="LangKeyClickToBrowse">Click To Browse</system:String>
     <system:String x:Key="LangKeyClickToDeleteThePost">Click To Delete The Post</system:String>
     <system:String x:Key="LangKeyClickToPauseOrResume">Click To Pause Or Resume</system:String>
