@@ -147,8 +147,15 @@
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
+                    <TextBlock Text="{DynamicResource LangKeyUserFullName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
+                    <TextBox Name="TxtUserFullName" Text="{Binding DominatorAccountModel.AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterAccountName}" Width="230"
+                     FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30"
+                             KeyDown="OnKeyDown"/>
+                </StackPanel>
+
+                <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
-                    <TextBox Name="TxtAccountName" Text="{Binding DominatorAccountModel.AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterAccountName}" Width="230"
+                    <TextBox Name="TxtAccountName" Text="{Binding DominatorAccountModel.AccountBaseModel.AccountName}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterAccountNikeName}" Width="230"
                      FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30"
                              KeyDown="OnKeyDown"/>
                 </StackPanel>

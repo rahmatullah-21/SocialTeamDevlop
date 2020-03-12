@@ -66,6 +66,24 @@ namespace EmbeddedBrowser
                 OnPropertyChanged(nameof(DominatorAccountModel));
             }
         }
+
+        private string _searchUrl;
+
+        public string SearchUrl
+        {
+            get
+            {
+                return _searchUrl;
+            }
+            set
+            {
+                if (_searchUrl == value)
+                    return;
+                _searchUrl = value;
+                OnPropertyChanged(nameof(SearchUrl));
+            }
+        }
+
         public bool browserLoginMessage { get; set; } = true;
 
         public bool IsLoaded { get; set; }
@@ -91,7 +109,13 @@ namespace EmbeddedBrowser
 
             InitializeComponent();
             WindowBrowsers.DataContext = this;
-            SearchCommand = new DelegateCommand(() => GoToUrl());
+            SearchCommand = new DelegateCommand(() =>
+            {
+                if (string.IsNullOrEmpty(UrlBar.Text))
+                    return;
+                GoToUrl(UrlBar.Text);
+                UrlBar.Text = "";
+            });
         }
 
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false, bool isNeedResourceData = false,
@@ -127,7 +151,7 @@ namespace EmbeddedBrowser
                 Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
 
             var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksLoginUrl();
-            UrlBar.Text = Browser.Address = url;
+            SetUrl(url);
             Browser.IsBrowserInitializedChanged += LoadSettings;
         }
 
@@ -253,7 +277,7 @@ namespace EmbeddedBrowser
         }
 
         public void GoToUrl(string url = null)
-            => Browser.Load(url ?? UrlBar.Text);
+            => Browser.Load(url ?? SearchUrl);
 
         public void Dispose() => Browser.Dispose();
 
@@ -332,7 +356,7 @@ namespace EmbeddedBrowser
                 }
 
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && !CustomUse)
-                    Browser.Address = UrlBar.Text = SocialHomeUrls();
+                    SetUrl(SocialHomeUrls());
 
                 // Just to check that how many cookie was inserted
                 var cefInitialCookies = await BrowserCookies(callBack);
@@ -341,6 +365,13 @@ namespace EmbeddedBrowser
             {
                 ex.DebugLog();
             }
+        }
+
+        void SetUrl(string url)
+        {
+            if (SearchUrl == url)
+                return;
+            Browser.Address = SearchUrl = url;
         }
 
         public async Task BrowserSetCookie()
@@ -381,7 +412,7 @@ namespace EmbeddedBrowser
                 }
 
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && !CustomUse)
-                    Browser.Address = UrlBar.Text = SocialHomeUrls();
+                    SetUrl(SocialHomeUrls());
 
                 // Just to check that how many cookie was inserted
                 var cefInitialCookies = await BrowserCookies(callBack);
@@ -524,6 +555,20 @@ namespace EmbeddedBrowser
             var homePage = DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && DominatorAccountModel.IsUserLoggedIn ?
                 SocialHomeUrls() : GetNetworksLoginUrl();
             Browser.Load(homePage);
+        }
+
+        private void BtnCopyUrl_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(SearchUrl))
+                    return;
+                new AutoItTool().CopyToClip(SearchUrl);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void Window_Closing(object sender, CancelEventArgs e) => Dispose();
@@ -1762,7 +1807,7 @@ namespace EmbeddedBrowser
         //}
 
         void Sleep(double seconds = 1) => Task.Delay(TimeSpan.FromSeconds(seconds)).Wait(_token);
-
+        
     }
 }
 

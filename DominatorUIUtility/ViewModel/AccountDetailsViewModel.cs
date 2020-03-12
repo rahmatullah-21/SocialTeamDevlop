@@ -610,7 +610,8 @@ namespace DominatorUIUtility.ViewModel
                     ProxyPort = accountModel.AccountBaseModel.AccountProxy.ProxyPort,
                     ProxyUsername = accountModel.AccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = accountModel.AccountBaseModel.AccountProxy.ProxyPassword
-                }
+                },
+                AccountName = accountModel.AccountBaseModel.AccountName
             };
 
             OldDominatorAccountModel.MailCredentials = new MailCredentials
@@ -634,6 +635,7 @@ namespace DominatorUIUtility.ViewModel
             DominatorAccountModel.AccountBaseModel.AccountGroup.Content = OldDominatorAccountModel.AccountBaseModel.AccountGroup.Content;
             DominatorAccountModel.AccountBaseModel.AccountProxy = OldDominatorAccountModel.AccountBaseModel.AccountProxy;
             DominatorAccountModel.AccountBaseModel.UserFullName = OldDominatorAccountModel.AccountBaseModel.UserFullName;
+            DominatorAccountModel.AccountBaseModel.AccountName = OldDominatorAccountModel.AccountBaseModel.AccountName;
 
             DominatorAccountModel.MailCredentials = OldDominatorAccountModel.MailCredentials;
             DominatorAccountModel.UserAgentWeb = OldDominatorAccountModel.UserAgentWeb;

@@ -80,34 +80,34 @@ namespace EmbeddedBrowser.BrowserHelper
                 {
                     if (embedBrowser.Browser.Address == "https://www.youtube.com/oops")
                     {
-                        embedBrowser.Browser.Address = embedBrowser.UrlBar.Text;
+                        embedBrowser.Browser.Address = embedBrowser.SearchUrl;
                         return;
                     }
                     if (embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
                     {
-                        embedBrowser.Browser.Address = embedBrowser.UrlBar.Text = "https://myaccount.google.com/";
+                        embedBrowser.Browser.Address = embedBrowser.SearchUrl = "https://myaccount.google.com/";
                         return;
                     }
-                    if (embedBrowser.UrlBar.Text == embedBrowser.Browser.Address)
+                    if (embedBrowser.SearchUrl == embedBrowser.Browser.Address)
                         return;
 
-                    embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
+                    embedBrowser.SearchUrl = embedBrowser.Browser.Address;
                 }));
             else
             {
                 if (embedBrowser.Browser.Address == "https://www.youtube.com/oops")
                 {
-                    embedBrowser.Browser.Address = embedBrowser.UrlBar.Text;
+                    embedBrowser.Browser.Address = embedBrowser.SearchUrl;
                     return;
                 }
                 if (embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
                 {
-                    embedBrowser.Browser.Address = embedBrowser.UrlBar.Text = "https://myaccount.google.com/";
+                    embedBrowser.Browser.Address = embedBrowser.SearchUrl = "https://myaccount.google.com/";
                     return;
                 }
-                if (embedBrowser.UrlBar.Text == embedBrowser.Browser.Address)
+                if (embedBrowser.SearchUrl == embedBrowser.Browser.Address)
                     return;
-                embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
+                embedBrowser.SearchUrl = embedBrowser.Browser.Address;
             }
         }
 

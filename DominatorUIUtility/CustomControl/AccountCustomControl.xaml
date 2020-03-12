@@ -750,6 +750,8 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
+                            <GridViewColumn  Header="{DynamicResource LangKeyAccountName}" Width="Auto" DisplayMemberBinding="{Binding AccountBaseModel.AccountName}"/>
+                            
                             <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
                             <GridViewColumn  Header="{DynamicResource LangKeyStatus}">
