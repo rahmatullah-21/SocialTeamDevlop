@@ -4630,5 +4630,10 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyActivityTypesSelect1To6ForEachNet">Activity Types (Select any 1 to 6 activities for each network)</system:String>
     <system:String x:Key="LangKeyBusinessCategory">Business Category</system:String>
     <system:String x:Key="LangKeyBusinessAccounts">Business Accounts</system:String>
+    <system:String x:Key="LangKeyCopyCurrentPageUrl">Copy current page url</system:String>
+    <system:String x:Key="LangKeyCopiedCurrentPageUrl">Copied current page url successfully</system:String>
+    <system:String x:Key="LangKeyEnterUserFullName">Enter user's full name</system:String>
+    <system:String x:Key="LangKeyEnterAccountNikeName">Enter Account Nike Name (optional)</system:String>
+    <system:String x:Key="LangKeyAccountNikeName">Account's Nike Name</system:String>
     
 </ResourceDictionary>

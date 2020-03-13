@@ -465,9 +465,8 @@ namespace DominatorUIUtility.ViewModel
         private void AddSingleAccountExecute()
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
-
             //IProxyValidationService _proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
-            
+
             var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "LangKeyAddAccount".FromResourceDictionary(), "LangKeySave".FromResourceDictionary(), false, SocinatorInitialize.ActiveSocialNetwork);
 
             var customDialog = new CustomDialog()
@@ -478,6 +477,10 @@ namespace DominatorUIUtility.ViewModel
 
             objDominatorAccountBaseModel.AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks),
                     objAddUpdateAccountControl.ComboBoxSocialNetworks.Text);
+
+            Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
+            var nikeName = DefaultAccountNameFromModel(LstDominatorAccountModel.BySocialNetwork(objDominatorAccountBaseModel.AccountNetwork), ref dictNetLasNum, objDominatorAccountBaseModel.AccountNetwork);
+            objDominatorAccountBaseModel.AccountName = nikeName;
 
             var objDialog = new Dialog();
             var dialogWindow = objDialog.GetCustomDialog(customDialog, "LangKeyAddAccount".FromResourceDictionary());
@@ -559,6 +562,11 @@ namespace DominatorUIUtility.ViewModel
                 //if loaded text or csv contains no accounts then return
                 if (loadedAccountlist == null || loadedAccountlist.Count == 0) return;
 
+                var haveNikeName = loadedAccountlist[0].Contains("AccountName(Nike name)");
+
+                Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
+                var exitingAccounts =  haveNikeName ? null : LstDominatorAccountModel.GetCopySync();
+               
                 #region Add to bin files which are valid accounts
 
                 ////add the account to DominatorAccountModel list and bin file
@@ -623,6 +631,7 @@ namespace DominatorUIUtility.ViewModel
                         var proxyusername = string.Empty;
                         var proxypassword = string.Empty;
                         var proxyGroup = string.Empty;
+                        var nikeName = string.Empty;
                         var status = AccountStatus.NotChecked.ToString();
                         var cookies = string.Empty;
                         var browserCookies = string.Empty;
@@ -702,6 +711,7 @@ namespace DominatorUIUtility.ViewModel
                             case 18:
                             case 19:
                             case 20:
+                            case 21:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];
@@ -713,6 +723,7 @@ namespace DominatorUIUtility.ViewModel
                                 browserCookies = splitAccount[12].Replace("<>", ",");
                                 isBrowserAutomationActive = splitAccount[13];
                                 proxyGroup = splitAccount[14];
+                                nikeName = haveNikeName ? (splitAccount.Last() ?? "") : DefaultAccountNameFromModel(exitingAccounts, ref dictNetLasNum, (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork));
                                 break;
                         }
 
@@ -754,7 +765,8 @@ namespace DominatorUIUtility.ViewModel
                             AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork),
                             Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), status),
                             AlternateEmail = alternetEmail,
-                            Banned = banned
+                            Banned = banned,
+                            AccountName = nikeName
                         };
 
                         #endregion
@@ -868,7 +880,8 @@ namespace DominatorUIUtility.ViewModel
                 AccountNetwork = objDominatorAccountBaseModel.AccountNetwork,
                 AccountId = objDominatorAccountBaseModel.AccountId,
                 IsChkTwoFactorLogin = objDominatorAccountBaseModel.IsChkTwoFactorLogin,
-                AlternateEmail = objDominatorAccountBaseModel.AlternateEmail
+                AlternateEmail = objDominatorAccountBaseModel.AlternateEmail,
+                AccountName = objDominatorAccountBaseModel.AccountName
             };
 
             var dominatorAccountModel = new DominatorAccountModel
@@ -951,6 +964,7 @@ namespace DominatorUIUtility.ViewModel
                     ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort,
                     ProxyUserName = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword,
+                    AccountName = objDominatorAccountBaseModel.AccountName,
                     UserAgent = dominatorAccountModel.UserAgentWeb,
                     AddedDate = DateTime.Now,
                     Cookies = cookies
@@ -1566,16 +1580,16 @@ namespace DominatorUIUtility.ViewModel
                               .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn4Value;
 
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},SocialUser";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},SocialUser,AccountName(Nike name)";
 
             else if (!string.IsNullOrEmpty(FourthCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader},SocialUser";            
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader},SocialUser,AccountName(Nike name)";            
 
             else if (!string.IsNullOrEmpty(ThirdCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},SocialUser";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},SocialUser,AccountName(Nike name)";
 
             else if (!string.IsNullOrEmpty(SecondCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},SocialUser";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},SocialUser,AccountName(Nike name)";
 
 
             var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_Accounts {ConstantVariable.DateasFileName}.csv";
@@ -1611,7 +1625,8 @@ namespace DominatorUIUtility.ViewModel
                      + (string.IsNullOrEmpty(SecondCountHeader) ? "" : $",{account.DisplayColumnValue2}")
                      + (string.IsNullOrEmpty(ThirdCountHeader) ? "" : $",{account.DisplayColumnValue3}")
                      + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}")
-                     + $",{account.AccountBaseModel.ProfileId}";
+                     + $",{account.AccountBaseModel.ProfileId}"
+                     + $",{account.AccountBaseModel.AccountName}";
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1780,7 +1795,7 @@ namespace DominatorUIUtility.ViewModel
                         else
                         {
                             var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
-
+                            Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
                             foreach (var account in savedAccounts)
                             {
                                 if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
@@ -1798,6 +1813,11 @@ namespace DominatorUIUtility.ViewModel
                                             account.AccountBaseModel.Status = AccountStatus.NotChecked;
                                         else if (account.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
                                             account.AccountBaseModel.Status = AccountStatus.Success;
+
+                                        if (string.IsNullOrEmpty(account.AccountBaseModel.AccountName))
+                                            account.AccountBaseModel.AccountName = DefaultAccountNameFromModel(savedAccounts, ref dictNetLasNum, account.AccountBaseModel.AccountNetwork);
+
+
                                         LstDominatorAccountModel.AddSync(account);
                                     }
                                 }
@@ -1876,6 +1896,7 @@ namespace DominatorUIUtility.ViewModel
 
             var accounts = globalDbOperation.Get<AccountDetails>();
             List<ProxyManagerModel> oldproxies = _proxyFileManager.GetAllProxy();
+            Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
             foreach (var account in accounts)
             {
                 var network = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), account.AccountNetwork);
@@ -1909,6 +1930,10 @@ namespace DominatorUIUtility.ViewModel
                             DisplayColumnValue3 = account.DisplayColumnValue3,
                             DisplayColumnValue4 = account.DisplayColumnValue4
                         };
+
+                        if (string.IsNullOrEmpty(dominatorAccountModel.AccountBaseModel.AccountName))
+                            dominatorAccountModel.AccountBaseModel.AccountName = DefaultAccountNameFromDB(accounts, ref dictNetLasNum, network);
+                        
                         if (!string.IsNullOrEmpty(account.Cookies))
                             try
                             {
@@ -1945,7 +1970,70 @@ namespace DominatorUIUtility.ViewModel
 
                     }
                 }
+
             }
+        }
+
+        string DefaultAccountNameFromDB(List<AccountDetails> listAcc, ref Dictionary<SocialNetworks, int> dictNetLasNum, SocialNetworks net)
+        {
+            var preName = $"{net.ToString()} Account ";
+            try
+            {
+                if (!dictNetLasNum.ContainsKey(net))
+                {
+                    int lastNum = 0;
+
+                    var netNumbers = listAcc.Where(x => x.AccountNetwork == net.ToString() && (x.AccountName?.StartsWith($"{net.ToString()} Account ") ?? false)).Select(y => y.AccountName?.Replace(preName, "")?.Trim());
+                    if (netNumbers != null && netNumbers.Count() > 0)
+                    {
+                        var numList = new List<int>();
+                        foreach (var each in netNumbers)
+                        {
+                            Int32.TryParse(each, out int num);
+                            if (num != 0)
+                            {
+                                numList.Add(num);
+                            }
+                        }
+                        numList.Sort();
+                        lastNum = numList.Last();
+                    }
+                    dictNetLasNum.Add(net, lastNum);
+                }
+                return $"{preName}{++dictNetLasNum[net]}";
+            }
+            catch (Exception ex) { ex.DebugLog(); return preName; }
+        }
+
+        string DefaultAccountNameFromModel(IEnumerable<DominatorAccountModel> listAcc, ref Dictionary<SocialNetworks, int> dictNetLasNum, SocialNetworks net)
+        {
+            var preName = $"{net.ToString()} Account ";
+            try
+            {
+                if (!dictNetLasNum.ContainsKey(net))
+                {
+                    int lastNum = 0;
+
+                    var netNumbers = listAcc.Where(x => x.AccountBaseModel.AccountNetwork == net && (x.AccountBaseModel.AccountName?.StartsWith($"{net.ToString()} Account ") ?? false)).Select(y => y.AccountBaseModel.AccountName?.Replace(preName, "")?.Trim());
+                    if (netNumbers != null && netNumbers.Count() > 0)
+                    {
+                        var numList = new List<int>();
+                        foreach (var each in netNumbers)
+                        {
+                            Int32.TryParse(each, out int num);
+                            if (num != 0)
+                            {
+                                numList.Add(num);
+                            }
+                        }
+                        numList.Sort();
+                        lastNum = numList.Last();
+                    }
+                    dictNetLasNum.Add(net, lastNum);
+                }
+                return $"{preName}{++dictNetLasNum[net]}";
+            }
+            catch(Exception ex) { ex.DebugLog(); return preName; }
         }
 
         #endregion

@@ -34,6 +34,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="5*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -59,7 +60,19 @@
                      Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  
                      Height="30" Grid.Column="1"  KeyDown="OnKeyDown"/>
         </Grid>
+
         <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2.5*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="txtblockAccountName" Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
+            <TextBox Name="txtAccountName" Text="{Binding AccountName}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyAccountNikeName}" 
+                     Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  
+                     Height="30" Grid.Column="1"  KeyDown="OnKeyDown"/>
+        </Grid>
+
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
@@ -78,7 +91,7 @@
                 </TextBox.Text>
             </TextBox>
         </Grid>
-        <Grid Grid.Row="4">
+        <Grid Grid.Row="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
@@ -98,7 +111,7 @@
             </PasswordBox>
 
         </Grid>
-        <Grid Grid.Row="5">
+        <Grid Grid.Row="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
@@ -123,7 +136,7 @@
                      Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" Text="{Binding AlternateEmail}" Grid.Column="1"
                      KeyDown="OnKeyDown"/>-->
         </Grid>
-        <Grid Grid.Row="6">
+        <Grid Grid.Row="7">
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -136,8 +149,8 @@
             </Grid.Style>
             <CheckBox Content="{DynamicResource LangKeyTwoFactorLoginRequired}" IsChecked="{Binding IsChkTwoFactorLogin}" Width="180" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="6,0,0,5"></CheckBox>
         </Grid>
-        <CheckBox Name="CheckBoxShowAdvance" IsChecked="False" Grid.Row="7" Content="{DynamicResource LangKeyShowAdvance}" HorizontalAlignment="Left"  Width="120" FontWeight="SemiBold" Margin="6,0,0,5"/>
-        <Grid Grid.Row="8"  Name="GridAdvanceOption" Margin="0,0,0,10"  
+        <CheckBox Name="CheckBoxShowAdvance" IsChecked="False" Grid.Row="8" Content="{DynamicResource LangKeyShowAdvance}" HorizontalAlignment="Left"  Width="120" FontWeight="SemiBold" Margin="6,0,0,5"/>
+        <Grid Grid.Row="9"  Name="GridAdvanceOption" Margin="0,0,0,10"  
             Visibility="{Binding IsChecked,ElementName=CheckBoxShowAdvance,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -264,7 +277,7 @@
                 </PasswordBox>
             </Grid>
         </Grid>
-        <Grid Grid.Row="9">
+        <Grid Grid.Row="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

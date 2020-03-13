@@ -196,6 +196,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 dataToUpdate.ProxyPassword = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPassword;
                 dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
                 dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status.ToString();
+                dataToUpdate.AccountName = dominatorAccountModel.AccountBaseModel.AccountName;
                 dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
                 dataToUpdate.ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
                 dataToUpdate.DisplayColumnValue1 = dominatorAccountModel.DisplayColumnValue1;
@@ -224,6 +225,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 ProxyUserName = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyUsername,
                 ProxyPassword = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPassword,
                 ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl,
+                AccountName = dominatorAccountModel.AccountBaseModel.AccountName,
                 Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies),
                 UserAgent = dominatorAccountModel.UserAgentWeb,
                 AddedDate = DateTime.Now,
