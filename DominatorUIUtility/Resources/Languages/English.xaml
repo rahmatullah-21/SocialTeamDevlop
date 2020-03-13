@@ -4632,9 +4632,13 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyCopyCurrentPageUrl">Copy current page url</system:String>
     <system:String x:Key="LangKeyCopiedCurrentPageUrl">Copied current page url successfully</system:String>
     <system:String x:Key="LangKeyEnterUserFullName">Enter user's full name</system:String>
-    <system:String x:Key="LangKeyEnterAccountNikeName">Enter Account Nike Name (optional)</system:String>
-    <system:String x:Key="LangKeyAccountNikeName">Account's Nike Name</system:String>
+    <system:String x:Key="LangKeyEnterAccountNikeName">Enter Account Nick Name (optional)</system:String>
+    <system:String x:Key="LangKeyAccountNikeName">Account's Nick Name</system:String>
     <system:String x:Key="LangKeyMakeCommentAfterRepostAsSpinText">Make a comment after repost (as spin text)</system:String>
     <system:String x:Key="LangKeyReposterComment">Reposter Comment</system:String>
-    
+    <system:String x:Key="LangKeyByAccountNikeName">By Account's Nick name</system:String>
+    <system:String x:Key="LangKeyCreateBoardSpintaxFormat">Use Spintax : Format (a|b)(c|d)</system:String>
+    <system:String x:Key="LangKeySkipCommonCategory">Skip Common Category [Have to add one by one]</system:String>
+    <system:String x:Key="LangKeyUseRandomCategory">Use Random Category</system:String>
+
 </ResourceDictionary>
