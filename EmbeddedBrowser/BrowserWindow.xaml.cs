@@ -67,6 +67,23 @@ namespace EmbeddedBrowser
             }
         }
 
+        private string _browserName;
+
+        public string BrowserName
+        {
+            get
+            {
+                return _browserName;
+            }
+            set
+            {
+                if (value == _browserName)
+                    return;
+                _browserName = value;
+                OnPropertyChanged(nameof(BrowserName));
+            }
+        }
+
         private string _searchUrl;
 
         public string SearchUrl
@@ -124,6 +141,7 @@ namespace EmbeddedBrowser
         {
             DominatorAccountModel = dominatorAccountModel;
             _token = DominatorAccountModel.Token;
+            BrowserName = $"{DominatorAccountModel.AccountBaseModel.AccountNetwork} Browser{(!string.IsNullOrWhiteSpace(DominatorAccountModel.AccountBaseModel.AccountName) ? " - "+DominatorAccountModel.AccountBaseModel.AccountName : "")}";
             TargetUrl = targetUrl;
             CustomUse = customUse;
             _isNeedResourceData = isNeedResourceData;

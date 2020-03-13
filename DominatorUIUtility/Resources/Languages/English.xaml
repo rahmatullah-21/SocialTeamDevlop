@@ -4484,8 +4484,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyViewCount">View Count</system:String>
     <system:String x:Key="LangKeyUnfollowedUserId">Unfollowed User Id</system:String>
     <system:String x:Key="LangIGTikTokWontRunWithBrowserAutoTryWithHttp">Instagram and TikTok accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
-    <system:String x:Key="LangKeyBoardNameFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
-    <system:String x:Key="LangKeyBoardDescriptionFormatForMultiple">Format for multiple :- {abc}|{abc}|{abc}</system:String>
+    <system:String x:Key="LangKeyCreateBoardFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
     <system:String x:Key="LangKeyAccountNotRegisteredYet">Not Registered Yet</system:String>
     <system:String x:Key="LangKeyCopyAccountDetailToClipBoard" xml:space="preserve">Copy account's detail to clipboard.
 [Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
@@ -4635,5 +4634,7 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyEnterUserFullName">Enter user's full name</system:String>
     <system:String x:Key="LangKeyEnterAccountNikeName">Enter Account Nike Name (optional)</system:String>
     <system:String x:Key="LangKeyAccountNikeName">Account's Nike Name</system:String>
+    <system:String x:Key="LangKeyMakeCommentAfterRepostAsSpinText">Make a comment after repost (as spin text)</system:String>
+    <system:String x:Key="LangKeyReposterComment">Reposter Comment</system:String>
     
 </ResourceDictionary>
