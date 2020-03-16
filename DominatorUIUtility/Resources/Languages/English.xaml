@@ -4640,5 +4640,6 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyCreateBoardSpintaxFormat">Use Spintax : Format (a|b)(c|d)</system:String>
     <system:String x:Key="LangKeySkipCommonCategory">Skip Common Category [Have to add one by one]</system:String>
     <system:String x:Key="LangKeyUseRandomCategory">Use Random Category</system:String>
-
+    <system:String x:Key="LangKeyProxyIp">Proxy Ip</system:String>
+    <system:String x:Key="LangKeyOneFieldCantBeEmptyIfAnotherHasValue">{0} field can't be empty if {1} field has some value</system:String>
 </ResourceDictionary>

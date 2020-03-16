@@ -611,7 +611,15 @@ namespace DominatorUIUtility.ViewModel
                     ProxyUsername = accountModel.AccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = accountModel.AccountBaseModel.AccountProxy.ProxyPassword
                 },
-                AccountName = accountModel.AccountBaseModel.AccountName
+                AccountName = accountModel.AccountBaseModel.AccountName,
+                UserFullName = accountModel.AccountBaseModel.UserFullName,
+                UserId = accountModel.AccountBaseModel.UserId,
+                ProfileId = accountModel.AccountBaseModel.ProfileId,
+                AlternateEmail = accountModel.AccountBaseModel.AlternateEmail,
+                Banned = accountModel.AccountBaseModel.Banned,
+                IsChkTwoFactorLogin = accountModel.AccountBaseModel.IsChkTwoFactorLogin,
+                PhoneNumber = accountModel.AccountBaseModel.PhoneNumber,
+                ProfilePictureUrl = accountModel.AccountBaseModel.ProfilePictureUrl, 
             };
 
             OldDominatorAccountModel.MailCredentials = new MailCredentials
@@ -636,6 +644,12 @@ namespace DominatorUIUtility.ViewModel
             DominatorAccountModel.AccountBaseModel.AccountProxy = OldDominatorAccountModel.AccountBaseModel.AccountProxy;
             DominatorAccountModel.AccountBaseModel.UserFullName = OldDominatorAccountModel.AccountBaseModel.UserFullName;
             DominatorAccountModel.AccountBaseModel.AccountName = OldDominatorAccountModel.AccountBaseModel.AccountName;
+            DominatorAccountModel.AccountBaseModel.UserId = OldDominatorAccountModel.AccountBaseModel.UserId;
+            DominatorAccountModel.AccountBaseModel.ProfileId = OldDominatorAccountModel.AccountBaseModel.ProfileId;
+            DominatorAccountModel.AccountBaseModel.AlternateEmail = OldDominatorAccountModel.AccountBaseModel.AlternateEmail;
+            DominatorAccountModel.AccountBaseModel.Banned = OldDominatorAccountModel.AccountBaseModel.Banned;
+            DominatorAccountModel.AccountBaseModel.PhoneNumber = OldDominatorAccountModel.AccountBaseModel.PhoneNumber;
+            DominatorAccountModel.AccountBaseModel.ProfilePictureUrl = OldDominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
 
             DominatorAccountModel.MailCredentials = OldDominatorAccountModel.MailCredentials;
             DominatorAccountModel.UserAgentWeb = OldDominatorAccountModel.UserAgentWeb;

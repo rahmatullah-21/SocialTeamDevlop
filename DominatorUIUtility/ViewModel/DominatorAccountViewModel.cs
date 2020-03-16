@@ -503,12 +503,24 @@ namespace DominatorUIUtility.ViewModel
                     if ((!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
                         string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))
                         || (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
-                            !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))) return;
+                            !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort)))
+                    {
+                        var filledOne = (!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) ? "LangKeyProxyIp" : "LangKeyProxyPort").FromResourceDictionary();
+                        var emptyOne = (filledOne == "LangKeyProxyIp".FromResourceDictionary() ? "LangKeyProxyPort" : "LangKeyProxyIp").FromResourceDictionary();
+                        ToasterNotification.ShowError(String.Format("LangKeyOneFieldCantBeEmptyIfAnotherHasValue".FromResourceDictionary(),emptyOne,filledOne));
+                        return;
+                    }
 
                     if ((!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) &&
                          string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword))
                         || (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) &&
-                            !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword))) return;
+                            !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword)))
+                    {
+                        var filledOne = (!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) ? "LangKeyProxyUsername" : "LangKeyProxyPassword").FromResourceDictionary();
+                        var emptyOne = (filledOne == "LangKeyProxyUsername".FromResourceDictionary() ? "LangKeyProxyPassword" : "LangKeyProxyUsername").FromResourceDictionary();
+                        ToasterNotification.ShowError(String.Format("LangKeyOneFieldCantBeEmptyIfAnotherHasValue".FromResourceDictionary(), emptyOne, filledOne));
+                        return;
+                    }
 
 
                     objDominatorAccountBaseModel.Status = AccountStatus.NotChecked;
