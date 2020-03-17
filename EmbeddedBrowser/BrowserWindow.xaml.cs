@@ -121,6 +121,7 @@ namespace EmbeddedBrowser
                 settings.CommandLineArgsDisabled = false;
                 settings.CefCommandLineArgs.Add("--disable-webgl", "1");
                 settings.CefCommandLineArgs.Add("--disable-reading-from-canvas", "1");
+                //settings.CefCommandLineArgs.Add("--js-flags", "--max_old_space_size=16384");
                 Cef.Initialize(settings);
             }
 
@@ -582,6 +583,18 @@ namespace EmbeddedBrowser
                 if (string.IsNullOrEmpty(SearchUrl))
                     return;
                 new AutoItTool().CopyToClip(SearchUrl);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void BtnPasteUrl_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                UrlBar.Text = new AutoItTool().GetLastCopied();
             }
             catch (Exception ex)
             {
