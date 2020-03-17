@@ -140,61 +140,31 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
         private void Liketype_checked(object sender, RoutedEventArgs e)
         {
             var currentCheckBoxItem = sender as CheckBox;
-            if (currentCheckBoxItem != null && currentCheckBoxItem.IsChecked == true)
-            {
-                string content = currentCheckBoxItem.Name;
-                ReactionType objReactionType = (ReactionType)Enum.Parse(typeof(ReactionType), content);
-                LikerCommentorConfig.ListReactionType.Add(objReactionType);
-            }
-            RemoveUnCheckedItems();
+            AddRemoveCheckItems(currentCheckBoxItem);
         }
 
         private void Liketype_Unchecked(object sender, RoutedEventArgs e)
         {
             var currentCheckBoxItem = sender as CheckBox;
-            if (currentCheckBoxItem != null && currentCheckBoxItem.IsChecked == false)
-            {
-                string content = currentCheckBoxItem.Name;
-                ReactionType objReactionType = (ReactionType)Enum.Parse(typeof(ReactionType), content);
-                LikerCommentorConfig.ListReactionType.Remove(objReactionType);
-            }
-            RemoveUnCheckedItems();
+            AddRemoveCheckItems(currentCheckBoxItem);
         }
 
-        public void RemoveUnCheckedItems()
+        
+        public void AddRemoveCheckItems(CheckBox content)
         {
-            if (Like.IsChecked == false)
+            try
             {
-                ReactionType objReactionType = (ReactionType)Enum.Parse(typeof(ReactionType), "Like");
-                LikerCommentorConfig.ListReactionType.Remove(objReactionType);
-            }
-            if (Love.IsChecked == false)
-            {
-                ReactionType objReactionType = (ReactionType)Enum.Parse(typeof(ReactionType), "Love");
-                LikerCommentorConfig.ListReactionType.Remove(objReactionType);
-            }
-            if (Sad.IsChecked == false)
-            {
-                ReactionType objReactionType = (ReactionType)Enum.Parse(typeof(ReactionType), "Sad");
-                LikerCommentorConfig.ListReactionType.Remove(objReactionType);
-            }
-            if (Angry.IsChecked == false)
-            {
-                ReactionType objReactionType = (ReactionType)Enum.Parse(typeof(ReactionType), "Angry");
-                LikerCommentorConfig.ListReactionType.Remove(objReactionType);
-            }
-            if (Haha.IsChecked == false)
-            {
-                ReactionType objReactionType = (ReactionType)Enum.Parse(typeof(ReactionType), "Haha");
-                LikerCommentorConfig.ListReactionType.Remove(objReactionType);
-            }
-            if (Wow.IsChecked == false)
-            {
-                ReactionType objReactionType = (ReactionType)Enum.Parse(typeof(ReactionType), "Wow");
-                LikerCommentorConfig.ListReactionType.Remove(objReactionType);
-            }
+                ReactionType objReactionType = (ReactionType)Enum.Parse(typeof(ReactionType), content.Name.ToString());
 
-            LikerCommentorConfig.ListReactionType.Distinct().ToList();
+                if (content.IsChecked == true)
+                    LikerCommentorConfig.ListReactionType.Add(objReactionType);
+                else
+                    LikerCommentorConfig.ListReactionType.Remove(objReactionType);
+
+                LikerCommentorConfig.ListReactionType = LikerCommentorConfig.ListReactionType.Distinct().ToList();
+
+            }
+            catch (Exception) { }
         }
 
         private void CommentorConfigControl_Loaded(object sender, RoutedEventArgs e)
