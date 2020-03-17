@@ -74,5 +74,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         public string Status { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string ConnectedTime { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
+        public string AttachmentId { get; set; }
     }
 }

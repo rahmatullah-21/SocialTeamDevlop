@@ -4643,4 +4643,6 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyProxyIp">Proxy Ip</system:String>
     <system:String x:Key="LangKeyOneFieldCantBeEmptyIfAnotherHasValue">{0} field can't be empty if {1} field has some value</system:String>
     <system:String x:Key="LangKeyPasteFromClipboard">Paste from clipboard</system:String>
+    <system:String x:Key="LangKeyCreateUniqueBoardForCampaign">Create Unique Board From All Account For This Campaign</system:String>
+
 </ResourceDictionary>
