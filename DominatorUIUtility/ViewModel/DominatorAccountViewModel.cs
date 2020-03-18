@@ -101,8 +101,12 @@ namespace DominatorUIUtility.ViewModel
         }
 
 
-        public bool IsSortByUserName { get; set; }
+        public bool IsSortAccounts { get; set; }
             = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>().GetSoftwareSettings().DoNotSortByUserNameChecked;
+
+        public bool SortByUserNikeName { get; set; }
+            = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>().GetSoftwareSettings().SortByNikename;
+
 
         private MenuHandlerModel _menuHandlerModel;
 

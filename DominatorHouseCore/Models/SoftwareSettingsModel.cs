@@ -798,6 +798,22 @@ namespace DominatorHouseCore.Models
             }
         }
 
+        private bool _sortByUsername;
+        [ProtoMember(54)]
+        public bool SortByUsername
+        {
+            get { return _sortByUsername; }
+            set { SetProperty(ref _sortByUsername, value); }
+        }
+
+        private bool _sortByNikename;
+        [ProtoMember(55)]
+        public bool SortByNikename
+        {
+            get { return _sortByNikename; }
+            set { SetProperty(ref _sortByNikename, value); }
+        }
+
 
     }
 }
