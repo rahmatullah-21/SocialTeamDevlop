@@ -702,7 +702,7 @@ namespace DominatorHouseCore.Process
                 {
                     var fileName = $"{postDetails.CampaignId}_{postDetails.PostId}{MediaUtilites.GetExtensionList().FirstOrDefault(x => media.Contains(x))}";
 
-                    if ((!media.Contains("https://") && !media.Contains("http://") || DirectoryUtilities.CheckExistingFie(fileName))
+                    if ((!media.Contains("https://") && !media.Contains("http://")) || DirectoryUtilities.CheckExistingFie(fileName))
                         continue;
 
                     if (MediaUtilites.DownloadMediaFromUrl(media, fileName))
