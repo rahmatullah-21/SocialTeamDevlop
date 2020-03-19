@@ -37,10 +37,15 @@ namespace DominatorHouseCore.Utility
                 {
                     if (imageUrl.Contains("[G]"))
                         FetchMediaFromGoogle(imageUrl, postDetailsModel, campaignId, cancellationTokenSource, maximumPostLimitToStore, campaignName);
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     if (imageUrl.Contains("[U]"))
                         FetchMediaFromLink(imageUrl, postDetailsModel, campaignId, cancellationTokenSource, maximumPostLimitToStore, campaignName);
                 }
 
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw new OperationCanceledException();
             }
             catch (Exception ex)
             {
@@ -136,6 +141,10 @@ namespace DominatorHouseCore.Utility
                             totalCount++;
                             descriptionCount++;
                         }
+                        catch (OperationCanceledException ex)
+                        {
+                            throw new OperationCanceledException();
+                        }
                         catch (Exception ex)
                         {
                             ex.DebugLog();
@@ -165,13 +174,14 @@ namespace DominatorHouseCore.Utility
                     if (totalCount >= postDetailsModel.ScrapeCount)
                         return;
                 }
+                catch (OperationCanceledException ex)
+                {
+                    throw new OperationCanceledException();
+                }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
-                }
-
-
-
+                }                
             }
             catch (Exception ex)
             {
@@ -207,6 +217,8 @@ namespace DominatorHouseCore.Utility
                     try
                     {
                         failedCount = 0;
+
+                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                         var imagelist = ImageExtracter.ExtractLinkDetails(imageUrl, ref pageTitle, ref description).ToList();
 
@@ -272,11 +284,14 @@ namespace DominatorHouseCore.Utility
                         if (totalCount >= postDetailsModel.ScrapeCount)
                             break;
                     }
+                    catch (OperationCanceledException ex)
+                    {
+                        throw new OperationCanceledException();
+                    }
                     catch (Exception ex)
                     {
                         ex.DebugLog();
                     }
-
                 }
 
             }
