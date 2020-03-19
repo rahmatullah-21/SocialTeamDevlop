@@ -478,6 +478,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        public bool CanPostForNetwork { get; set; } = true;
+
         #endregion
 
         #region Settings

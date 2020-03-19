@@ -38,9 +38,9 @@ namespace DominatorHouseCore.Process
             List<string> pageDestinationList,
             List<PublisherCustomDestinationModel> customDestinationModels,
             bool isPublishOnOwnWall,
-            CancellationTokenSource campaignCancellationToken):this()
+            CancellationTokenSource campaignCancellationToken) : this()
         {
-            
+
             // assign campaign Id
             CampaignId = campaignId;
 
@@ -397,7 +397,7 @@ namespace DominatorHouseCore.Process
             }
         }
 
-     
+
         /// <summary>
         /// Update Post with specified success status
         /// </summary>
@@ -578,6 +578,8 @@ namespace DominatorHouseCore.Process
 
             postModelWithGeneralSettings.MediaList = removeVideoExtension;
 
+            DownloadMediaFiles(postModelWithGeneralSettings);
+
             #endregion
 
             #region Macro Substitution
@@ -634,6 +636,7 @@ namespace DominatorHouseCore.Process
 
             #endregion
 
+            
             return postModelWithGeneralSettings;
 
         }
@@ -680,6 +683,59 @@ namespace DominatorHouseCore.Process
 
             // Apply the delay to current campaign specifically for current account to next post in minutes
             Thread.Sleep(delay * 1000 * 60);
+        }
+
+        protected void DownloadMediaFiles(PublisherPostlistModel postDetails)
+        {
+            try
+            {
+                if (!postDetails.MediaList.Any(x => x.Contains("https://") || x.Contains("http://")))
+                    return;
+
+                RemovePreviousDirectory();
+
+                var folderPath = $@"{ConstantVariable.MediaTempFolder}\[{DateTime.Now.ToString("MM-dd-yyyy")}]";
+
+                DirectoryUtilities.CreateDirectory(folderPath);
+
+                foreach (var media in postDetails.MediaList.DeepCloneObject())
+                {
+                    var fileName = $"{postDetails.CampaignId}_{postDetails.PostId}{MediaUtilites.GetExtensionList().FirstOrDefault(x => media.Contains(x))}";
+
+                    if ((!media.Contains("https://") && !media.Contains("http://") || DirectoryUtilities.CheckExistingFie(fileName))
+                        continue;
+
+                    if (MediaUtilites.DownloadMediaFromUrl(media, fileName))
+                    {
+                        postDetails.MediaList.Remove(media);
+                        postDetails.MediaList.Add(fileName);
+                    }
+                    else
+                    {
+                        postDetails.CanPostForNetwork = false;
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void RemovePreviousDirectory()
+        {
+            try
+            {
+                var lstTemprorayFolderList = DirectoryUtilities.GetSubDirectories(ConstantVariable.MediaTempFolder);
+
+                lstTemprorayFolderList.RemoveAll(x => x.Contains($@"[{DateTime.Now.ToString("MM - dd - yyyy")}]") ||
+                                 x.Contains($@"[{ DateTime.Now.AddDays(-1).ToString("MM-dd-yyyy")}]"));
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         #endregion
