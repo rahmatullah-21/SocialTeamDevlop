@@ -43,6 +43,7 @@ using MahApps.Metro.Controls;
 using Unity;
 using System.Windows.Controls.Primitives;
 using DominatorHouseCore.ProxyServerManagment;
+using System.Windows.Interop;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -200,7 +201,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand DeleteButtonSizeChangedCommand { get; }
         public ICommand BrowserButtonSizeChangedCommand { get; }
         public ICommand InfoButtonSizeChnagedCommand { get; }
-        
+
         #endregion
 
 
@@ -275,7 +276,7 @@ namespace DominatorUIUtility.ViewModel
             BrowserButtonSizeChangedCommand = new BaseCommand<object>(BrowserButtonSizeChangedCommandCanExecute, BrowserButtonSizeChangedCommandExecute);
 
             InfoButtonSizeChnagedCommand = new BaseCommand<object>(InfoButtonSizeChnagedCommandCanExecute, InfoButtonSizeChnagedCommandExecute);
-            
+
             #region Context Menu Command
 
             ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
@@ -298,6 +299,9 @@ namespace DominatorUIUtility.ViewModel
             #endregion
 
             SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
+
+
+
         }
 
 
@@ -370,6 +374,13 @@ namespace DominatorUIUtility.ViewModel
 
         private void ExportButtonSizeChangedCommandExecute(object Sender)
         {
+            if (_mainViewModel.ScreenResolution.Key <= 1024)
+            {
+                MenuHandlerModel.IsDeleteAccountVisible = true;
+                MenuHandlerModel.IsBrowserAutomationVisible = true;
+                MenuHandlerModel.IsInfoVisible = true;
+            }
+
             if (((Button)Sender).ActualHeight == 40)
             {
                 MenuHandlerModel.IsExportAccountVisible = false;

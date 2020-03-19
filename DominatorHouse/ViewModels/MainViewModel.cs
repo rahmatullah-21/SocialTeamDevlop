@@ -66,6 +66,9 @@ namespace DominatorHouse.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
+
+        public KeyValuePair<int, int> ScreenResolution { get; set; } = new KeyValuePair<int, int>();
+
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             SocinatorKeyHelper.InitilizeKey();
