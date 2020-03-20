@@ -762,12 +762,16 @@ namespace DominatorHouseCore.Process
             {
                 if (postDetails.MediaList.Count == 0)
                 {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName
+                        , "", $"Post with Id {postDetails.PostId} dosen't contain any media! Failed to publish");
                     return false;
                 }
 
                 if(postDetails.MediaList.Any(x => x.StartsWith("https://") ||
                     postDetails.MediaList.Any(y => y.StartsWith("http://"))))
                 {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName
+                        , "", $"Post with Id {postDetails.PostId} has media in \"Incorrect Format\"! Failed to publish");
                     return false;
                 }
             }
