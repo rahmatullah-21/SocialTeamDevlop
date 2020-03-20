@@ -116,7 +116,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Interop.WindowsInstaller">
-      <HintPath>..\packages\WindowsInstaller\Interop.WindowsInstaller.dll</HintPath>
+      <HintPath>..\libs\WindowsInstaller\Interop.WindowsInstaller.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
