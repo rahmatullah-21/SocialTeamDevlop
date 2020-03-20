@@ -680,16 +680,10 @@ namespace EmbeddedBrowser
         /// <param name="ke">Browser KeyEvent</param>
         /// <param name="winKeyCode">WindowsKeycode of any key in keyboard</param>
         /// /// <param name="delayAtLast">Set delay at last (In seconds)</param>
-        public void PressAnyKey(int n = 1, double delay = 1, KeyEvent ke = new KeyEvent(),
-            int winKeyCode = 0, double delayAtLast = 0, bool isShiftDown = false)
+        public void PressAnyKey(int n = 1, double delay = 1, KeyEvent ke = new KeyEvent(), int winKeyCode = 0, double delayAtLast = 0)
         {
             if (winKeyCode != 0)
                 ke.WindowsKeyCode = winKeyCode;
-
-            if (isShiftDown)
-            {
-                ke.Modifiers = CefEventFlags.ShiftDown;
-            }
 
             if (Browser.IsDisposed) return;
 
