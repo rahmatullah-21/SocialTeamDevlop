@@ -130,7 +130,7 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static void DeleteFolder(List<string> lstFilePath)
+        public static void DeleteFolder(List<string> lstFilePath, bool isDeleteSubdirectory = false)
         {
             try
             {
@@ -138,9 +138,10 @@ namespace DominatorHouseCore.Utility
                 {
                     try
                     {
-                        Directory.Delete(x);
+                        if (Directory.Exists(x))
+                            Directory.Delete(x, isDeleteSubdirectory);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         ex.DebugLog();
                     }
@@ -158,7 +159,7 @@ namespace DominatorHouseCore.Utility
             {
                 return File.Exists(fileName);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }

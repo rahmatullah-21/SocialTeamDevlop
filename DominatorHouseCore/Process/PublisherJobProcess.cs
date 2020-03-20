@@ -16,6 +16,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.Extensions;
+using System.Collections.Concurrent;
 
 namespace DominatorHouseCore.Process
 {
@@ -23,6 +24,7 @@ namespace DominatorHouseCore.Process
     {
         protected readonly IGenericFileManager GenericFileManager;
         private readonly IAccountsFileManager _accountsFileManager;
+
 
         #region Constructor
 
@@ -636,7 +638,7 @@ namespace DominatorHouseCore.Process
 
             #endregion
 
-            
+
             return postModelWithGeneralSettings;
 
         }
@@ -685,35 +687,48 @@ namespace DominatorHouseCore.Process
             Thread.Sleep(delay * 1000 * 60);
         }
 
+
         protected void DownloadMediaFiles(PublisherPostlistModel postDetails)
         {
             try
             {
                 if (!postDetails.MediaList.Any(x => x.Contains("https://") || x.Contains("http://")))
                     return;
-
+                var downloadLock = PublishScheduler.DownloadLock.GetOrAdd(postDetails.PostId, _lock => new object());
                 RemovePreviousDirectory();
 
                 var folderPath = $@"{ConstantVariable.MediaTempFolder}\[{DateTime.Now.ToString("MM-dd-yyyy")}]";
 
                 DirectoryUtilities.CreateDirectory(folderPath);
 
+                var mediaCount = postDetails.MediaList.Count;
+
                 foreach (var media in postDetails.MediaList.DeepCloneObject())
                 {
-                    var fileName = $"{postDetails.CampaignId}_{postDetails.PostId}{MediaUtilites.GetExtensionList().FirstOrDefault(x => media.Contains(x))}";
-
-                    if ((!media.Contains("https://") && !media.Contains("http://")) || DirectoryUtilities.CheckExistingFie(fileName))
-                        continue;
-
-                    if (MediaUtilites.DownloadMediaFromUrl(media, fileName))
+                    lock (downloadLock)
                     {
-                        postDetails.MediaList.Remove(media);
-                        postDetails.MediaList.Add(fileName);
-                    }
-                    else
-                    {
-                        postDetails.CanPostForNetwork = false;
-                        return;
+
+                        var fileName = $"{folderPath}\\{postDetails.CampaignId}_{postDetails.PostId}_{mediaCount--}" +
+                            $"{MediaUtilites.GetExtensionList().FirstOrDefault(x => System.Text.RegularExpressions.Regex.IsMatch(media, $@"\b{x}\b"))}";
+
+                        if ((!media.Contains("https://") && !media.Contains("http://")))
+                            continue;
+
+                        if (DirectoryUtilities.CheckExistingFie(fileName))
+                        {
+                            postDetails.MediaList[postDetails.MediaList.IndexOf(media)] = fileName;
+                            continue;
+                        }
+
+                        if (MediaUtilites.DownloadMediaFromUrl(media, fileName))
+                        {
+                            postDetails.MediaList[postDetails.MediaList.IndexOf(media)] = fileName;
+                        }
+                        else
+                        {
+                            postDetails.CanPostForNetwork = false;
+                            return;
+                        }
                     }
                 }
             }
@@ -729,13 +744,39 @@ namespace DominatorHouseCore.Process
             {
                 var lstTemprorayFolderList = DirectoryUtilities.GetSubDirectories(ConstantVariable.MediaTempFolder);
 
-                lstTemprorayFolderList.RemoveAll(x => x.Contains($@"[{DateTime.Now.ToString("MM - dd - yyyy")}]") ||
+                lstTemprorayFolderList.RemoveAll(x => x.Contains($@"[{DateTime.Now.ToString("MM-dd-yyyy")}]") ||
                                  x.Contains($@"[{ DateTime.Now.AddDays(-1).ToString("MM-dd-yyyy")}]"));
+
+                DirectoryUtilities.DeleteFolder(lstTemprorayFolderList, true);
+
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+        }
+
+        protected bool ValidateInstagramPosts(PublisherPostlistModel postDetails)
+        {
+            try
+            {
+                if (postDetails.MediaList.Count == 0)
+                {
+                    return false;
+                }
+
+                if(postDetails.MediaList.Any(x => x.StartsWith("https://") ||
+                    postDetails.MediaList.Any(y => y.StartsWith("http://"))))
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            return true;
         }
 
         #endregion
