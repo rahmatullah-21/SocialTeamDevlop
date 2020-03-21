@@ -26,17 +26,17 @@
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://209.250.252.53/socinator/</InstallUrl>
-    <UpdateUrl>http://209.250.252.53/soctest/</UpdateUrl>
+    <UpdateUrl>http://209.250.252.53/socinator/</UpdateUrl>
     <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>80</ApplicationRevision>
-    <ApplicationVersion>1.0.0.80</ApplicationVersion>
+    <MinimumRequiredVersion>1.0.0.81</MinimumRequiredVersion>
+    <ApplicationRevision>81</ApplicationRevision>
+    <ApplicationVersion>1.0.0.81</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>

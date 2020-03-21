@@ -1,3 +1,8 @@
+Version[1.0.0.81],[20th March 2020]
+Fixed:-
+    Social:
+        publisher ==> Facebook ==> Fixed issue with tags in post.        
+
 Version[1.0.0.80],[20th March 2020]
 New Features:-
     Social:
