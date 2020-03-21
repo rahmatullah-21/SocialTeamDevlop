@@ -1,3 +1,57 @@
+Version[1.0.0.80],[20th March 2020]
+New Features:-
+    Social:
+        Account Manager ==> Browser login ==> Now you can copy current page URL(From Browser).
+        Account Manager ==> Added One more column 'Account Name' as Account's nick name. Now You can give a name to accounts by setting value in AccountName TextBox in AccountDetails.
+
+    Instagram:
+        Instascrapper ==> User Scrapper ==> Other configuration ==> Required data ==> Now you can scrape Business category.
+        Instaposter ==> Reposter ==> Manage Post Caption ==> Now you can comment after repost.
+
+    Pinterest: 
+        Board ==> Create Board ==> Now you can create board using spintax.
+        Board ==> Create Board ==> Other configuration ==> Now you can create unique board for each account.
+
+    Youtube:        
+        Engage ==> Comment ==> Now we can do auto-reply to comments by using specific word in a post.
+        
+Fixed:-
+    Social:
+        publisher ==> Pinterest ==> Fixed issue with post is getting failed with error invalid parameter. 
+        Account manager ==> Pinterest ==> Fixed issue with board count.
+        EmbeddedBrowser ==> Fixed issue on Searching url by entering in URL search TextBox.
+
+    Twitter:
+        Engage ==> Unlike ==> Fixed issue with unlike.
+        
+    Linkedin:
+        Browser mode ==> Scraper ==> Message attachment scraper ==> Fixed issue with downloaded file extension. 
+        Grow connection ==> Connection request ==> Query type ==> Keyword ==> Browser mode ==> Fixed issue with Grow connection module.
+        Accounts ==> Fixed issue with Proxies.
+
+    Pinterest:
+        pinposter ==> Repin ==> Fixed issue with edit of paused campaign accounts getting duplicate, when it's refreshed. 
+        Pinposter ==> Repin ==> Fixed issue with users not found issue. 
+
+    Quora:
+        Grow followers ==> Unfollow ==> People followed by outside the software ==>Fixed issue with unfollow.
+        Grow followers ==> Follow ==> Followers of someone followers ==> Fixed issue with question count filter.
+
+    Facebook:
+        Account  Manager ==> Fixed issue with update all details in browser automation mode.
+
+    Youtube:
+        Watch video ==> Fixed issues with channel filters and video filters.
+
+    Reddit:
+        Engage ==> Comment ==> Fixed issue with comments.
+        Upvote ==> Fixed issue with Sociopublisher Campaign ID.
+    
+Version[1.0.0.79],[06th March 2020]
+New Features:-
+    Social:
+
+
 Version[1.0.0.79],[06th March 2020]
 New Features:-
 	Social:
