@@ -54,11 +54,6 @@ Fixed:-
     
 Version[1.0.0.79],[06th March 2020]
 New Features:-
-    Social:
-
-
-Version[1.0.0.79],[06th March 2020]
-New Features:-
 	Social:
 		Accounts Activity ==> Added an option to Customize Activity Actions
 			
