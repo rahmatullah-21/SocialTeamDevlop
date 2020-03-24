@@ -33,6 +33,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         bool UpdateRange<T>(List<T> data) where T : class, new();
         SocialNetworks SocialNetworks { get; }
         string AccountId { get; }
+        bool UpdateAccountBackupDetails(DominatorAccountModel dominatorAccountModel, String deviceId, String userAgent);
     }
 
     public class DbOperations : IDbOperations
@@ -314,6 +315,37 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         {
             lock (_syncObject)
                 return _context.UpdateAll(data) > 0;
+        }
+
+        private void AddAccountBackupIfNotExist(DominatorAccountModel dominatorAccountModel, string deviceId, string UserAgent)
+        {
+            Add(new InstaAccountBackup
+            {
+                AccountName = dominatorAccountModel.UserName,
+                DeviceId = deviceId,
+                UserAgent = UserAgent,
+            });
+        }
+
+        public bool UpdateAccountBackupDetails(DominatorAccountModel dominatorAccountModel, String deviceId, String userAgent)
+        {
+            lock (_syncObject)
+            {
+                var dataToUpdate = _context.Table<InstaAccountBackup>().FirstOrDefault(x => x.AccountName == dominatorAccountModel.UserName);
+
+                if (dataToUpdate == null)
+                {
+                    AddAccountBackupIfNotExist(dominatorAccountModel, deviceId, userAgent);
+                    return false;
+                }
+
+                dataToUpdate.AccountName = dominatorAccountModel.AccountBaseModel.UserName;
+                dataToUpdate.DeviceId = deviceId;
+                dataToUpdate.UserAgent = userAgent;
+                if (dominatorAccountModel.ActivityManager != null)
+                    UpdateAccountActivityManager(dominatorAccountModel);
+                return Update(dataToUpdate);
+            }
         }
     }
 }

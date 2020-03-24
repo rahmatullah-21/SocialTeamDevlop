@@ -99,7 +99,7 @@ namespace DominatorHouseCore.Utility
 
                 var usedMonitorFolderTitle = monitorFolderFiles.Where(x => x.PublisherInstagramTitle != null).Select(x => x.PublisherInstagramTitle).ToList();
 
-                var postTitles = Regex.Split(postDetailsModel.PublisherInstagramTitle, "\r\n").ToList();
+                var postTitles = Regex.Split(postDetailsModel.PublisherInstagramTitle.Trim().Replace("\r\n","\n"), "\n").ToList();
 
                 var givenPostTitle = new List<string>();
 

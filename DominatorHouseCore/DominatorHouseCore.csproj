@@ -295,6 +295,7 @@
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackListUser.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
+    <Compile Include="DatabaseHandler\DHTables\InstaAccountBackup.cs" />
     <Compile Include="DatabaseHandler\DHTables\LocationList.cs" />
     <Compile Include="DatabaseHandler\DHTables\WhiteListUser.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\DailyStatitics.cs" />
