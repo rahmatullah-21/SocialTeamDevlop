@@ -2739,12 +2739,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_EC752D6931419E2D50CF17B839976429"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_EDB5F29BD79948E085E2ADACE6B1ED8F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -8292,32 +8286,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EC752D6931419E2D50CF17B839976429"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                }
-            "SourcePath" = "8:System.Net.Http.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_700B19654AF749FA895365FE0BFB2982"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EDB5F29BD79948E085E2ADACE6B1ED8F"
             {
             "AssemblyRegister" = "3:1"
@@ -8755,19 +8723,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
-        "ProductCode" = "8:{BF5EB11A-31F8-4CF8-8D89-C0DC5F7F35BB}"
-        "PackageCode" = "8:{21C626A2-7A32-4D6D-BEE2-E11084AD6B63}"
+        "ProductCode" = "8:{CE2B3920-AC58-4E01-9FB4-2B62504A9632}"
+        "PackageCode" = "8:{A256EC0E-6F60-426E-B8E8-67E967C942E7}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.214"
+        "ProductVersion" = "8:1.0.215"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://socinator.com/contact-us/"
-        "Title" = "8:Socinator 1.0.0.214"
+        "Title" = "8:Socinator 1.0.0.215"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Socinator"
         "Keywords" = "8:"
