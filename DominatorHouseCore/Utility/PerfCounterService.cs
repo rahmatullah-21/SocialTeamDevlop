@@ -68,8 +68,11 @@ namespace DominatorHouseCore.Utility
 
         private double GetCpuUsage()
         {
-
-            return Math.Round(_cpuCounter.NextValue() / Environment.ProcessorCount);
+            try
+            {
+                return Math.Round(_cpuCounter.NextValue() / Environment.ProcessorCount);
+            }
+            catch(Exception e) { e.DebugLog("Issue on Getting CpuUsage"); return 0; }
         }
         private string GetRamsize()
         {

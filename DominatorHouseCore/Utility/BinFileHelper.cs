@@ -56,6 +56,14 @@ namespace DominatorHouseCore.Utility
         string[] ThemesList();
 
         void SetTheme(string theme);
+
+        bool SaveProxyManagerSettings(ProxyManagerSettings setting);
+
+        ProxyManagerSettings GetProxyManagerSettings();
+
+        bool SaveAutoActivityCustomized(NetworksActivityCustomizeModel setting);
+
+        NetworksActivityCustomizeModel GetCustomizedAutoActivity();
     }
 
     public class BinFileHelper : IBinFileHelper
@@ -675,6 +683,80 @@ namespace DominatorHouseCore.Utility
             }
             catch
             { }
+        }
+
+        public bool SaveProxyManagerSettings(ProxyManagerSettings setting)
+        {
+            try
+            {
+                using (var stream = File.Create(ConstantVariable.GetOtherProxyManagerSettingsFile()))
+                {
+                    ProtoBuf.Serializer.Serialize(stream, setting);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+
+        }
+        public ProxyManagerSettings GetProxyManagerSettings()
+        {
+            try
+            {
+                if (File.Exists(ConstantVariable.GetOtherProxyManagerSettingsFile()))
+                {
+                    using (var stream = File.OpenRead(ConstantVariable.GetOtherProxyManagerSettingsFile()))
+                    {
+                        return ProtoBuf.Serializer.Deserialize<ProxyManagerSettings>(stream);
+                    }
+                }
+
+                return new ProxyManagerSettings();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return new ProxyManagerSettings();
+        }
+
+        public bool SaveAutoActivityCustomized(NetworksActivityCustomizeModel setting)
+        {
+            try
+            {
+                using (var stream = File.Create(ConstantVariable.GetOtherCustomizedAutoActivitySetFile()))
+                {
+                    ProtoBuf.Serializer.Serialize(stream, setting);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+        }
+
+        public NetworksActivityCustomizeModel GetCustomizedAutoActivity()
+        {
+            try
+            {
+                if (File.Exists(ConstantVariable.GetOtherCustomizedAutoActivitySetFile()))
+                {
+                    using (var stream = File.OpenRead(ConstantVariable.GetOtherCustomizedAutoActivitySetFile()))
+                    {
+                        return ProtoBuf.Serializer.Deserialize<NetworksActivityCustomizeModel>(stream);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return new NetworksActivityCustomizeModel();
         }
     }
 

@@ -9,11 +9,12 @@
     {
         public GlobalDatabaseMigrations()
         {
-            AddMigrations(3, conn =>
+            AddMigrations(6, conn =>
             {
                 conn.CreateTable<DatabaseHandler.DHTables.AccountDetails>();
                 conn.CreateTable<DatabaseHandler.DHTables.BlackWhiteListUser>();
                 conn.CreateTable<DatabaseHandler.DHTables.LocationList>();
+                conn.CreateTable<DatabaseHandler.DHTables.InstaAccountBackup>();
                 return "Initialization";
             });
         }

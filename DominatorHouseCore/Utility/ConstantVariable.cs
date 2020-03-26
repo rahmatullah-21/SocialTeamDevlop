@@ -78,13 +78,13 @@ namespace DominatorHouseCore.Utility
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        
+
         public static string CreateCampaign() => "LangKey_CreateCampaign".FromResourceDictionary();
 
         public static string UpdateCampaign() => "LangKey_UpdateCampaign".FromResourceDictionary();
 
         public static string NoAccountSelected() => "LangKeyNoAccountSelected".FromResourceDictionary();
-        
+
         public static string GetIndexAccountDir()
         {
             string dir = GetPlatformBaseDirectory() + @"\Index\AC";
@@ -136,7 +136,7 @@ namespace DominatorHouseCore.Utility
         {
             string dir = $"{GetPlatformBaseDirectory()}\\Other\\PublisherProcessedDestination";
             DirectoryUtilities.CreateDirectory(dir);
-            return dir; 
+            return dir;
         }
 
 
@@ -168,9 +168,11 @@ namespace DominatorHouseCore.Utility
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         public static string MyAppFolderPath => Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-        
+
         public static string GetNotFoundImage() => GetOtherDir() + @"\NotFoundImage.png";
+
         public static string GetSocinatorIcon() => GetOtherDir() + @"\"+$"{"LangKeyGramBoard".FromResourceDictionary()}Icon.png";
+
         public static string GetOtherEmailNotificationFile() => GetOtherDir() + @"\EmailNotification.bin";
         public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
         public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
@@ -180,6 +182,8 @@ namespace DominatorHouseCore.Utility
         public static string GetURLShortnerServicesFile() => GetOtherDir() + @"\URLShortnerServices.bin";
         public static string GetCaptchaServicesFile() => GetOtherDir() + @"\CaptchaServices.bin";
         public static string GetImageCaptchaServicesFile() => GetOtherDir() + @"\ImageCaptchaServices.bin";
+        public static string GetOtherProxyManagerSettingsFile() => GetOtherDir() + @"\ProxyManagerSettings.bin";
+        public static string GetOtherCustomizedAutoActivitySetFile() => GetOtherDir() + @"\CustomAutoActSetSettings.bin";
         public static string SaveAction { get; set; } = "Save";
 
         public static string UpdateAction { get; set; } = "Update";
@@ -343,6 +347,9 @@ namespace DominatorHouseCore.Utility
         public static string PdAccountManagerVideoLink => "https://www.youtube.com/watch?v=RK2nzfJRudc&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=8";
 
         public static string YtAccountManagerVideoLink => "https://www.youtube.com/watch?v=SWj2OdU_7Ts&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=9";
+
+        public static string MediaTempFolder => $@"{GetDownloadedMediaFolderPath}\{ApplicationName}\Temp";
+
 
     }
 

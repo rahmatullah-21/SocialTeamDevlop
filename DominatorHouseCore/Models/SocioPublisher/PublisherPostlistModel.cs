@@ -478,6 +478,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        public bool CanPostForNetwork { get; set; } = true;
+
         #endregion
 
         #region Settings
@@ -650,6 +652,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
         private string _publisherInstagramTitle;
+        /// <summary>
+        /// Get-Set Title for post (for all the networks)
+        /// </summary>
         [ProtoMember(19)]
         public string PublisherInstagramTitle
         {

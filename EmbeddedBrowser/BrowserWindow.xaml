@@ -62,13 +62,48 @@
 
                     <Label  FontWeight="SemiBold" Content="Url" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="13" Foreground="White" Background="{DynamicResource AccentColorBrush}" Height="34" Width="40"></Label>
 
-                    <TextBox  FontSize="13" FontWeight="SemiBold"  Width="900" Height="34" Style="{StaticResource SearchMetroTextBox}"
+                    <TextBox  FontSize="13" FontWeight="SemiBold"  Width="830" Height="34" Style="{StaticResource SearchMetroTextBox}"
                               control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}" control:TextBoxHelper.SelectAllOnFocus="True"
-                              BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource AccentColorBrush}" x:Name="UrlBar" VerticalContentAlignment="Center"  Text="">
+                              BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource AccentColorBrush}" x:Name="UrlBar" VerticalContentAlignment="Center" Text="" control:TextBoxHelper.Watermark="{Binding SearchUrl}" >
                         <TextBox.InputBindings>
                             <KeyBinding Command="{Binding SearchCommand}" Key="Enter"/>
                         </TextBox.InputBindings>
                     </TextBox>
+                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
+                        <Button x:Name="BtnCopyUrl" Background="Transparent" Width="30" Height="30" Margin="2" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Foreground="White" Click="BtnCopyUrl_Click" ToolTip="{DynamicResource LangKeyCopyCurrentPageUrl}" ToolTipService.ShowDuration="20000" ToolTipService.Placement="Right">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Rectangle Width="22" Height="22" Fill="LightGreen" Margin="2">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_copy}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
+                        <Button x:Name="BtnPasteUrl" Background="Transparent" Width="30" Height="30" Margin="2" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Foreground="White" Click="BtnPasteUrl_Click" ToolTip="{DynamicResource LangKeyPasteFromClipboard}" ToolTipService.ShowDuration="20000" ToolTipService.Placement="Right">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Rectangle Width="22" Height="22" Fill="LightGreen" Margin="2">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
 
                     <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
                         <Button Background="Transparent" Width="30" Height="30" Margin="2" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Foreground="White" Name="ButtonRefresh" Click="ButtonRefresh_OnClick">

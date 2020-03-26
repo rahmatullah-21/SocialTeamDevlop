@@ -33,6 +33,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         bool UpdateRange<T>(List<T> data) where T : class, new();
         SocialNetworks SocialNetworks { get; }
         string AccountId { get; }
+        bool UpdateAccountBackupDetails(DominatorAccountModel dominatorAccountModel, String deviceId, String userAgent);
     }
 
     public class DbOperations : IDbOperations
@@ -196,6 +197,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 dataToUpdate.ProxyPassword = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPassword;
                 dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
                 dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status.ToString();
+                dataToUpdate.AccountName = dominatorAccountModel.AccountBaseModel.AccountName;
                 dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
                 dataToUpdate.ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
                 dataToUpdate.DisplayColumnValue1 = dominatorAccountModel.DisplayColumnValue1;
@@ -224,6 +226,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 ProxyUserName = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyUsername,
                 ProxyPassword = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPassword,
                 ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl,
+                AccountName = dominatorAccountModel.AccountBaseModel.AccountName,
                 Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies),
                 UserAgent = dominatorAccountModel.UserAgentWeb,
                 AddedDate = DateTime.Now,
@@ -301,10 +304,48 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             lock (_syncObject)
                 return expression == null ? _context.Table<T>().Select(query).ToList() : _context.Table<T>().Where(expression).Select(query).ToList();
         }
+
+        public List<string> GetUniqueSingleColumn<T>(Func<T, string> query, Func<T, string> groupByQuery, Expression<Func<T, bool>> expression = null) where T : class, new()
+        {
+            lock (_syncObject)
+                return expression == null ? _context.Table<T>().GroupBy(groupByQuery).Select(x=> x.FirstOrDefault()).Select(query).ToList() : _context.Table<T>().Where(expression).GroupBy(groupByQuery).Select(x => x.FirstOrDefault()).Select(query).ToList();
+        }
+
         public bool UpdateRange<T>(List<T> data) where T : class, new()
         {
             lock (_syncObject)
                 return _context.UpdateAll(data) > 0;
+        }
+
+        private void AddAccountBackupIfNotExist(DominatorAccountModel dominatorAccountModel, string deviceId, string UserAgent)
+        {
+            Add(new InstaAccountBackup
+            {
+                AccountName = dominatorAccountModel.UserName,
+                DeviceId = deviceId,
+                UserAgent = UserAgent,
+            });
+        }
+
+        public bool UpdateAccountBackupDetails(DominatorAccountModel dominatorAccountModel, String deviceId, String userAgent)
+        {
+            lock (_syncObject)
+            {
+                var dataToUpdate = _context.Table<InstaAccountBackup>().FirstOrDefault(x => x.AccountName == dominatorAccountModel.UserName);
+
+                if (dataToUpdate == null)
+                {
+                    AddAccountBackupIfNotExist(dominatorAccountModel, deviceId, userAgent);
+                    return false;
+                }
+
+                dataToUpdate.AccountName = dominatorAccountModel.AccountBaseModel.UserName;
+                dataToUpdate.DeviceId = deviceId;
+                dataToUpdate.UserAgent = userAgent;
+                if (dominatorAccountModel.ActivityManager != null)
+                    UpdateAccountActivityManager(dominatorAccountModel);
+                return Update(dataToUpdate);
+            }
         }
     }
 }

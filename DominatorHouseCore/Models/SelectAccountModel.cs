@@ -88,5 +88,18 @@ namespace DominatorHouseCore.Models
             get { return _groupText; }
             set { SetProperty(ref _groupText, value); }
         }
+        
+        private string _accountNikeName;
+        public string AccountNikeName
+        {
+            get
+            {
+                return _accountNikeName;
+            }
+            set
+            {
+                SetProperty(ref _accountNikeName, value);
+            }
+        }
     }
 }

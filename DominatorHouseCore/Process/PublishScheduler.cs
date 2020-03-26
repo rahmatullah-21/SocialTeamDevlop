@@ -50,6 +50,7 @@ namespace DominatorHouseCore.Process
         /// </summary>
         public static ConcurrentDictionary<string, object> UpdatingLock { get; set; } = new ConcurrentDictionary<string, object>();
 
+        public static ConcurrentDictionary<string, object> DownloadLock { get; set; } = new ConcurrentDictionary<string, object>();
         /// <summary>
         /// To used in <see cref="PublisherJobProcess"/> getting post model
         /// </summary>

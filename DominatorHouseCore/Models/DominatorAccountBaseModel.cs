@@ -285,6 +285,15 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _banned, value); }
         }
 
+        private string _accountName = "";
+
+        [ProtoMember(16)]
+        public string AccountName
+        {
+            get { return _accountName; }
+            set { SetProperty(ref _accountName, value); }
+        }
+
         public override string ToString()
         {
             return string.Format("{0} on {1}", _userName, _accountNetwork);

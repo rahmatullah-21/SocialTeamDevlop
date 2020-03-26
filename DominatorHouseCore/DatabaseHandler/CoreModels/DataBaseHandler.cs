@@ -76,7 +76,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     dir.Delete();
                 }
             }
-            catch (IOException)
+            catch (IOException ex)
             {
             }
         }

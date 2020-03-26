@@ -30,6 +30,36 @@
                                    FontWeight="SemiBold" VerticalContentAlignment="Center"
                                    Foreground="White" Margin="5,0,0,0"
                                    Content="{DynamicResource LangKeyAccountsActivity}" />
+                
+                    <Button  Height="30" Margin="10,5" HorizontalAlignment="Right"
+                             Command="{Binding CustomizeCommand}" 
+                             Foreground="White" Background="{DynamicResource AccentBaseColorBrush}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit}"></VisualBrush>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Text="{DynamicResource LangKeyCustomize}" Margin="5,0"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+
+                <Button  Height="30"  Margin="10,5" HorizontalAlignment="Right"
+                             Command="{Binding StopAllCommand}" 
+                             Foreground="White" Background="{DynamicResource AccentBaseColorBrush}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_stop}"></VisualBrush>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Text="{DynamicResource LangKeyStopAllActivity}" Margin="5,0"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </StackPanel>
 
             <ListView Grid.Row="1" VirtualizingPanel.IsVirtualizing="True" 
@@ -110,24 +140,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn>
-                            <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource LangKeyActions}"/>
-                            </GridViewColumn.Header>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Cursor="Hand" Content="{DynamicResource LangKeyMore}" x:Name="ButtonViewActivityStatus" 
-                                                    FontWeight="SemiBold" Command="{Binding DataContext.GoToToolsCmd, Source={x:Reference CampaignStatusList}}" CommandParameter="{Binding}"
-                                                    Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        
-                        <GridViewColumn>
+                        <GridViewColumn Width="5000">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyActivityStatus}" HorizontalAlignment="Left"/>
                             </GridViewColumn.Header>
@@ -183,6 +196,11 @@
                                                     </DataTemplate>
                                                 </ListBox.ItemTemplate>
                                             </ListBox>
+
+                                            <Button  Height="Auto"  Margin="20,1" HorizontalAlignment="Right" Width="50" ToolTip="{Binding AccountName}"
+                                                     Command="{Binding DataContext.ShowMoreCommand, Source={x:Reference CampaignStatusList}}" CommandParameter="{Binding}"
+                                                     Content="{Binding ShowMoreButtonText}" FontSize="10"
+                                                     Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"/>
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>

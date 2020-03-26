@@ -15,10 +15,13 @@ namespace DominatorHouseCore.Converters
         {
             if (values.Length < 2)
                 return null;
-            
+
             var collection = values[0] as IEnumerable<DominatorAccountModel>;
-            
+
             var socialNetworks = values[1] as SocialNetworks?;
+            var doNotSort = values.Length == 4 ? (bool)values[3] : false;
+            var sortByNikeName = values.Length == 5 ? (bool)values[4] : false;
+
             var isReturnwithoutAssign = parameter as bool?;
             if (collection != null)
             {
@@ -30,8 +33,13 @@ namespace DominatorHouseCore.Converters
                         collection = collection.Where(a => a.AccountBaseModel.AccountNetwork == socialNetworks.Value);
                 }
 
-                collection = collection.OrderBy(x => x.AccountBaseModel.UserName).OrderBy(x => x.AccountBaseModel.AccountNetwork.ToString());
-
+                if (!doNotSort)
+                {
+                    if(sortByNikeName)
+                        collection = collection.OrderBy(x => x.AccountBaseModel.AccountName).OrderBy(x => x.AccountBaseModel.AccountNetwork.ToString());
+                    else
+                        collection = collection.OrderBy(x => x.AccountBaseModel.UserName).OrderBy(x => x.AccountBaseModel.AccountNetwork.ToString());
+                }
             }
 
             return collection;

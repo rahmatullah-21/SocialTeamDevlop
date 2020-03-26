@@ -116,7 +116,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Interop.WindowsInstaller">
-      <HintPath>..\packages\WindowsInstaller\Interop.WindowsInstaller.dll</HintPath>
+      <HintPath>..\libs\WindowsInstaller\Interop.WindowsInstaller.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
@@ -286,6 +286,7 @@
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackListUser.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
+    <Compile Include="DatabaseHandler\DHTables\InstaAccountBackup.cs" />
     <Compile Include="DatabaseHandler\DHTables\LocationList.cs" />
     <Compile Include="DatabaseHandler\DHTables\WhiteListUser.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateBlacklist.cs" />
@@ -400,6 +401,7 @@
     <Compile Include="Interfaces\IPublisherPostScraper.cs" />
     <Compile Include="Interfaces\IQueryFollowedControl.cs" />
     <Compile Include="Interfaces\IReportFactory.cs" />
+    <Compile Include="Interfaces\ISocialBrowserManager.cs" />
     <Compile Include="Interfaces\ITabHandlerFactory.cs" />
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IUser.cs" />
@@ -429,9 +431,13 @@
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\MenuHandlerModel.cs" />
     <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
+
     <Compile Include="Models\PrivateBlacklistUserModel.cs" />
     <Compile Include="Models\PrivateWhitelistUserModel.cs" />
     <Compile Include="Models\ProcessScopeModel.cs" />
+    <Compile Include="Models\NetworksActivityCustomizeModel.cs" />
+    <Compile Include="Models\ProxyManagerSettings.cs" />
+   
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\InstagramModel.cs" />
     <Compile Include="Models\QuoraModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />

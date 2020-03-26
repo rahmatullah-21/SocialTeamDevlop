@@ -676,7 +676,7 @@ namespace DominatorHouseCore.Models
             get { return _maxThreadCount; }
             set { SetProperty(ref _maxThreadCount, value); }
         }
-        
+
         private bool _runQueriesTopToBottom;
         [ProtoMember(47)]
         public bool RunQueriesTopToBottom
@@ -699,7 +699,7 @@ namespace DominatorHouseCore.Models
         {
             get { return _runQueriesRandomly; }
             set
-            {SetProperty(ref _runQueriesRandomly, value);}
+            { SetProperty(ref _runQueriesRandomly, value); }
         }
 
         private bool _stopIfNoMoreData;
@@ -755,7 +755,7 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-            
+
                 SetProperty(ref _debugVisibility, value);
             }
         }
@@ -781,6 +781,37 @@ namespace DominatorHouseCore.Models
             {
                 SetProperty(ref _listlocationModelTemp, value);
             }
+        }
+
+
+        private bool _doNotSortByUserNameChecked = false;
+        [ProtoMember(53)]
+        public bool DoNotSortByUserNameChecked
+        {
+            get
+            {
+                return _doNotSortByUserNameChecked;
+            }
+            set
+            {
+                SetProperty(ref _doNotSortByUserNameChecked, value);
+            }
+        }
+
+        private bool _sortByUsername;
+        [ProtoMember(54)]
+        public bool SortByUsername
+        {
+            get { return _sortByUsername; }
+            set { SetProperty(ref _sortByUsername, value); }
+        }
+
+        private bool _sortByNikename;
+        [ProtoMember(55)]
+        public bool SortByNikename
+        {
+            get { return _sortByNikename; }
+            set { SetProperty(ref _sortByNikename, value); }
         }
 
 

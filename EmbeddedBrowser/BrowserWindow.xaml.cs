@@ -22,6 +22,8 @@ using System.Text.RegularExpressions;
 using System.Text;
 using DominatorHouseCore.Enums.EmbeddedBrowser;
 using CefSharp.Wpf;
+using DominatorHouseCore.ProxyServerManagment;
+using CommonServiceLocator;
 
 namespace EmbeddedBrowser
 {
@@ -64,6 +66,41 @@ namespace EmbeddedBrowser
                 OnPropertyChanged(nameof(DominatorAccountModel));
             }
         }
+
+        private string _browserName;
+
+        public string BrowserName
+        {
+            get
+            {
+                return _browserName;
+            }
+            set
+            {
+                if (value == _browserName)
+                    return;
+                _browserName = value;
+                OnPropertyChanged(nameof(BrowserName));
+            }
+        }
+
+        private string _searchUrl;
+
+        public string SearchUrl
+        {
+            get
+            {
+                return _searchUrl;
+            }
+            set
+            {
+                if (_searchUrl == value)
+                    return;
+                _searchUrl = value;
+                OnPropertyChanged(nameof(SearchUrl));
+            }
+        }
+
         public bool browserLoginMessage { get; set; } = true;
 
         public bool IsLoaded { get; set; }
@@ -84,12 +121,19 @@ namespace EmbeddedBrowser
                 settings.CommandLineArgsDisabled = false;
                 settings.CefCommandLineArgs.Add("--disable-webgl", "1");
                 settings.CefCommandLineArgs.Add("--disable-reading-from-canvas", "1");
+                //settings.CefCommandLineArgs.Add("--js-flags", "--max_old_space_size=16384");
                 Cef.Initialize(settings);
             }
 
             InitializeComponent();
             WindowBrowsers.DataContext = this;
-            SearchCommand = new DelegateCommand(() => GoToUrl());
+            SearchCommand = new DelegateCommand(() =>
+            {
+                if (string.IsNullOrEmpty(UrlBar.Text))
+                    return;
+                GoToUrl(UrlBar.Text);
+                UrlBar.Text = "";
+            });
         }
 
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false, bool isNeedResourceData = false,
@@ -98,6 +142,7 @@ namespace EmbeddedBrowser
         {
             DominatorAccountModel = dominatorAccountModel;
             _token = DominatorAccountModel.Token;
+            BrowserName = $"{DominatorAccountModel.AccountBaseModel.AccountNetwork} Browser{(!string.IsNullOrWhiteSpace(DominatorAccountModel.AccountBaseModel.AccountName) ? " - "+DominatorAccountModel.AccountBaseModel.AccountName : "")}";
             TargetUrl = targetUrl;
             CustomUse = customUse;
             _isNeedResourceData = isNeedResourceData;
@@ -125,7 +170,7 @@ namespace EmbeddedBrowser
                 Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
 
             var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksLoginUrl();
-            UrlBar.Text = Browser.Address = url;
+            SetUrl(url);
             Browser.IsBrowserInitializedChanged += LoadSettings;
         }
 
@@ -167,12 +212,28 @@ namespace EmbeddedBrowser
 
                         // get the proxyport from objDominatorAccountModel object
                         var proxyPort = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort;
-
+                        
                         // get the current browser request context
                         var requestContext = Browser.GetBrowser().GetHost().RequestContext;
 
                         if (!string.IsNullOrEmpty(proxyIp) && !string.IsNullOrEmpty(proxyPort))
                         {
+                            //IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
+
+                            //if (!proxyValidationService.IsValidProxy(proxyIp, proxyPort))
+                            //{
+                                
+                            //    Application.Current.Dispatcher.Invoke(() =>
+                            //    {
+
+                            //        GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
+                            //            "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormatBrowser".FromResourceDictionary(), proxyIp));
+                            //        this.Close();
+                            //        Dispose();
+                            //    });
+
+                            //}
+
                             // declare the dictionary for passing proxy ip and proxy port
                             var dictProxyIpPort = new Dictionary<string, object>
                             {
@@ -235,7 +296,7 @@ namespace EmbeddedBrowser
         }
 
         public void GoToUrl(string url = null)
-            => Browser.Load(url ?? UrlBar.Text);
+            => Browser.Load(url ?? SearchUrl);
 
         public void Dispose() => Browser.Dispose();
 
@@ -310,6 +371,8 @@ namespace EmbeddedBrowser
 
                     //if (!set) { /*Is cookie set ?*/ }
                 }
+
+
                 // Just to check that how many cookie was inserted
                 var cefInitialCookies = await BrowserCookies(callBack);
             }
@@ -317,6 +380,13 @@ namespace EmbeddedBrowser
             {
                 ex.DebugLog();
             }
+        }
+
+        void SetUrl(string url)
+        {
+            if (SearchUrl == url)
+                return;
+            Browser.Address = SearchUrl = url;
         }
 
         public async Task BrowserSetCookie()
@@ -353,6 +423,7 @@ namespace EmbeddedBrowser
 
                     //if (!set) { /*Is cookie set ?*/ }
                 }
+
                 // Just to check that how many cookie was inserted
                 var cefInitialCookies = await BrowserCookies(callBack);
             }
@@ -381,7 +452,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<bool> SaveCookies()
+        public async Task<bool> SaveCookies(bool showLoginSuccessLog = true)
         {
             if (_isLoggedIn) return false;
 
@@ -401,8 +472,8 @@ namespace EmbeddedBrowser
                   .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
                   .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                    .SaveToBinFile();
-
-                CustomLog("Browser login successful.");
+                if (showLoginSuccessLog)
+                    CustomLog("Browser login successful.");
                 return true;
             }
             catch (Exception ex)
@@ -412,7 +483,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<bool> BrowserSaveCookies()
+        public async Task<bool> BrowserSaveCookies(bool showLoginSuccessLog = true)
         {
             if (_isLoggedIn) return false;
 
@@ -433,7 +504,8 @@ namespace EmbeddedBrowser
                   .AddOrUpdateBrowserCookies(DominatorAccountModel.BrowserCookies)
                    .SaveToBinFile();
                 DominatorAccountModel.IsUserLoggedIn = true;
-                CustomLog("Browser login successful.");
+                if (showLoginSuccessLog)
+                    CustomLog("Browser login successful.");
                 return true;
             }
             catch (Exception ex)
@@ -492,6 +564,32 @@ namespace EmbeddedBrowser
         {
             var homePage = GetNetworksLoginUrl();
             Browser.Load(homePage);
+        }
+
+        private void BtnCopyUrl_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(SearchUrl))
+                    return;
+                new AutoItTool().CopyToClip(SearchUrl);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void BtnPasteUrl_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                UrlBar.Text = new AutoItTool().GetLastCopied();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void Window_Closing(object sender, CancelEventArgs e) => Dispose();
@@ -572,10 +670,16 @@ namespace EmbeddedBrowser
         /// <param name="ke">Browser KeyEvent</param>
         /// <param name="winKeyCode">WindowsKeycode of any key in keyboard</param>
         /// /// <param name="delayAtLast">Set delay at last (In seconds)</param>
-        public void PressAnyKey(int n = 1, double delay = 1, KeyEvent ke = new KeyEvent(), int winKeyCode = 0, double delayAtLast = 0)
+        public void PressAnyKey(int n = 1, double delay = 1, KeyEvent ke = new KeyEvent(),
+            int winKeyCode = 0, double delayAtLast = 0, bool isShiftDown = false)
         {
             if (winKeyCode != 0)
                 ke.WindowsKeyCode = winKeyCode;
+
+            if (isShiftDown)
+            {
+                ke.Modifiers = CefEventFlags.ShiftDown;
+            }
 
             if (Browser.IsDisposed) return;
 
@@ -1172,16 +1276,15 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<Dictionary<int, string>> ExpandAllAdViewOptions(int postCount, int lastCount, int lastCurrentAdCount = 0)
+        public async Task<List<Tuple<int, string, string, string>>> ExpandAllAdViewOptions(int postCount, int lastCount, int lastCurrentAdCount = 0)
         {
             var xCoordinate = !string.IsNullOrEmpty(await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "fbChatSidebar fixed_always _5pr2 hidden_elem")) ?
                         844 : 740;
 
-
             var adCount = 0;
 
             var dictAdViewerDetails = new Dictionary<int, string>();
-
+            var tupleAdsDetals = new List<Tuple<int, string, string, string>>();
             await Task.Delay(5000, _token);
 
             while (lastCurrentCount++ <= postCount * (lastCount + 1))
@@ -1189,7 +1292,7 @@ namespace EmbeddedBrowser
                 var adViewerDetails = string.Empty;
                 Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
                 var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueTypes.OuterHtml, clickIndex: lastCurrentCount);
-                if (!(fullAdDetails).Contains("sponsored_ad"))
+                if (!(fullAdDetails).Contains("sponsored"))
                 {
                     await Task.Delay(3000, _token);
                     continue;
@@ -1197,25 +1300,20 @@ namespace EmbeddedBrowser
 
                 await Task.Delay(2000, _token);
                 await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
-                await Task.Delay(2000, _token);
-                MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
-                await Task.Delay(2000, _token);
-                MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
-                adViewerDetails = await GetElementValueAsync(ActType.ActByQuery, AttributeType.DataFeedOptionName, "FeedAdSeenReasonOption", clickIndex: adCount);
-                if (string.IsNullOrEmpty(adViewerDetails))
-                {
-                    continue;
-                }
-                adViewerDetails = string.IsNullOrEmpty(adViewerDetails) ? string.Empty :
-                    Regex.Matches(adViewerDetails, "id=(.*?)&")[0].Groups[1].ToString();
-                dictAdViewerDetails.Add(lastCurrentCount, adViewerDetails);
-                adCount += 2;
-                await Task.Delay(2000, _token);
+                var javascriptResponse = await ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].outerHTML");
+
+                var values = Utilities.GetBetween(javascriptResponse.Result.ToString(), "id=\"feed_subtitle", "\""); //_263;2085460778154235;0;3006433072723663;1583140012:8116025295315885125:5:0:32239
+                var splittedValues = Regex.Split(values.ToString(), ";");
+                var ownerId = splittedValues[1];
+                var postId = splittedValues[3];
+                splittedValues = Regex.Split(splittedValues[4], ":");
+                var AdId = splittedValues[1];
+
+                tupleAdsDetals.Add(new Tuple<int, string, string, string>(lastCurrentCount, postId, AdId, ownerId));
+
             }
-
             lastCurrentAdCount = lastCurrentCount;
-
-            return dictAdViewerDetails;
+            return tupleAdsDetals;
         }
 
 
@@ -1632,7 +1730,7 @@ namespace EmbeddedBrowser
         }
 
         public async Task<bool> CopyPasteContentAsync(string message = "", int winKeyCode = 13, int delay = 90, double delayAtLast = 0,
-            CefEventFlags flags = CefEventFlags.ControlDown)
+           CefEventFlags flags = CefEventFlags.ControlDown)
         {
             try
             {
@@ -1642,34 +1740,55 @@ namespace EmbeddedBrowser
 
                 ke.Modifiers = flags;
 
+                var copiedText = string.Empty;
 
                 if (Browser.IsDisposed) return false;
 
                 await Task.Delay(delay, _token);
 
-                bool isRunning = true;
+                bool isRunning = false;
 
-                Application.Current.Dispatcher.Invoke(() =>
+                if (!string.IsNullOrEmpty(message))
                 {
-                    try
+                    isRunning = true;
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        Clipboard.SetText(message);
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
+                        try
+                        {
+                            copiedText = Clipboard.GetText();
+                            Clipboard.SetText(message);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
 
-                    isRunning = false;
-                });
+                        isRunning = false;
+                    });
+                }
+
 
                 while (isRunning)
-                    await Task.Delay(200);
+                    await Task.Delay(25);
 
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
 
                 if (delayAtLast > 0)
                     await Task.Delay(TimeSpan.FromSeconds(delayAtLast), _token);
+
+                if (!string.IsNullOrEmpty(message))
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        try
+                        {
+                            Clipboard.Clear();
+                            Clipboard.SetText(copiedText);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    });
 
                 return false;
             }
@@ -1697,7 +1816,7 @@ namespace EmbeddedBrowser
         //}
 
         void Sleep(double seconds = 1) => Task.Delay(TimeSpan.FromSeconds(seconds)).Wait(_token);
-
+        
     }
 }
 

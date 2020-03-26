@@ -334,7 +334,7 @@
     <system:String x:Key="LangKeyClear">Clear</system:String>
     <system:String x:Key="LangKeyClearAllSources">Clear All Sources</system:String>
     <system:String x:Key="LangKeyClearHistory">Clear History</system:String>
-    <system:String x:Key="LangKeyClickToAddFreshAccounts">Click To Add Fresh Accounts</system:String>
+    <system:String x:Key="LangKeyClickToAddFreshAccounts">Click to refresh accounts list</system:String>
     <system:String x:Key="LangKeyClickToBrowse">Click To Browse</system:String>
     <system:String x:Key="LangKeyClickToDeleteThePost">Click To Delete The Post</system:String>
     <system:String x:Key="LangKeyClickToPauseOrResume">Click To Pause Or Resume</system:String>
@@ -4491,8 +4491,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyViewCount">View Count</system:String>
     <system:String x:Key="LangKeyUnfollowedUserId">Unfollowed User Id</system:String>
     <system:String x:Key="LangIGTikTokWontRunWithBrowserAutoTryWithHttp">Instagram and TikTok accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
-    <system:String x:Key="LangKeyBoardNameFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
-    <system:String x:Key="LangKeyBoardDescriptionFormatForMultiple">Format for multiple :- {abc}|{abc}|{abc}</system:String>
+    <system:String x:Key="LangKeyCreateBoardFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
     <system:String x:Key="LangKeyAccountNotRegisteredYet">Not Registered Yet</system:String>
     <system:String x:Key="LangKeyCopyAccountDetailToClipBoard" xml:space="preserve">Copy account's detail to clipboard.
 [Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
@@ -4522,6 +4521,7 @@ Note: Cookies should belong to the same gramborad account.</system:String>
     <system:String x:Key="LangKeyGramBoardAlreadyRunning">GramBoard is already running.</system:String>
 
    <system:String x:Key="LangKeyMessageConversationsScraper">MessageConversation Scraper</system:String>
+
     <system:String x:Key="LangKeyUnLikeSource">Unlike Source</system:String>
     <system:String x:Key="LangKeyPagePostCommenters">Page Post Commenters</system:String>
     <system:String x:Key="LangKeyGroupPostCommenters">Group Post Commenters</system:String>
@@ -4608,5 +4608,53 @@ Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyNoWorkingProxiesAvailableToAssign">No more working proxies available to assign</system:String>
     <system:String x:Key="LangKeyConditionAddNAccPerProxy">[with condition "assigning {0} accounts per proxy"].</system:String>
     <system:String x:Key="LangKeyNoProxyToAssign">No proxy found to assign.</system:String>
+    <system:String x:Key="LangKeyDoNotSortAccountsBy">Do Not Sort Accounts By</system:String>
+    <system:String x:Key="LangKeyYTVideoCommenters">Youtube Video Commenters</system:String>
+    <system:String x:Key="LangKeyPostLikedOutsideSoftware">Post Liked Outside Software</system:String>
+    <system:String x:Key="LangKeyCommentersFromEachVideo">commenters from each video in each run.</system:String>
+    <system:String x:Key="LangKeySkipSubscribingTheCommentersCommentHasLessThan">Skip those commenters to subscribe whose comment has less than</system:String>
+    <system:String x:Key="LangKeySkipScrapingTheCommentersCommentHasLessThan">Skip those commenters to scrape whose comment has less than</system:String>
+    <system:String x:Key="LangKeySaveSettings">Save settings</system:String>
+    <system:String x:Key="LangKeyProxySettingsSavedSuccessfully">Proxy settings saved successfully</system:String>
+    <system:String x:Key="LangKeyOopsAnErrorOccured">Oops! An error occured.</system:String>
+    <system:String x:Key="LangKeyIsNotSelecteedForThisAccount">is not selected for this account.</system:String>
+    <system:String x:Key="LangKeyCustomize">Customize</system:String>
+    <system:String x:Key="LangKeyTakeMinimumConnectionConversation">Take minimum connection conversation</system:String>
+
+    <system:String x:Key="LangKeySucceededInSaving">Succeeded in saving</system:String>
+
+    <system:String x:Key="LangKeyReplyConfiguration">Reply configuration (Optional)</system:String>
+    <system:String x:Key="LangKeyReplyThoseCommentsContainingText">Reply to only those comments containing the specific text</system:String>
+    <system:String x:Key="LangKeyCheckedReplyToCommentWithTextButNotGivenText" xml:space="preserve">You have checked option "Reply to only those comments containing the specific text" in other configuration,
+but you have not given any text inside the box. Please check.</system:String>
+    <system:String x:Key="LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByNewLine">Automatically Hash All The Words In The List Below. Add Your Keywords Separated By New Line.</system:String>
+
+    <system:String x:Key="LangKeyInvalidProxyIpFormat">Invalid Proxy IP format :- "{0}"</system:String>
+    <system:String x:Key="LangKeyInvalidProxyIpFormatBrowser">Failed to Open Browser! Invalid Proxy IP format :- "{0}"</system:String>
+    <system:String x:Key="LangKeySkipCommentsOfSameProfile">Skip Comments Of Same Profile</system:String>
+    <system:String x:Key="LangKeyQueryValueIsInInvalidFormat">Query Value {0} is in Invalid Format!</system:String>
+
+    <system:String x:Key="LangKeyWannaStopAllActivity">Do you really want to stop all the activities?</system:String>
+    <system:String x:Key="LangKeyLess">Less</system:String>
+
+    <system:String x:Key="LangKeyActivityTypesSelect1To6ForEachNet">Activity Types (Select any 1 to 6 activities for each network)</system:String>
+    <system:String x:Key="LangKeyBusinessCategory">Business Category</system:String>
+    <system:String x:Key="LangKeyBusinessAccounts">Business Accounts</system:String>
+    <system:String x:Key="LangKeyCopyCurrentPageUrl">Copy current page url</system:String>
+    <system:String x:Key="LangKeyCopiedCurrentPageUrl">Copied current page url successfully</system:String>
+    <system:String x:Key="LangKeyEnterUserFullName">Enter user's full name</system:String>
+    <system:String x:Key="LangKeyEnterAccountNikeName">Enter Account Nick Name (optional)</system:String>
+    <system:String x:Key="LangKeyAccountNikeName">Account's Nick Name</system:String>
+    <system:String x:Key="LangKeyMakeCommentAfterRepostAsSpinText">Make a comment after repost (as spin text)</system:String>
+    <system:String x:Key="LangKeyReposterComment">Reposter Comment</system:String>
+    <system:String x:Key="LangKeyByAccountNikeName">By Account's Nick name</system:String>
+    <system:String x:Key="LangKeyCreateBoardSpintaxFormat">Use Spintax : Format (a|b)(c|d)</system:String>
+    <system:String x:Key="LangKeySkipCommonCategory">Skip Common Category [Have to add one by one]</system:String>
+    <system:String x:Key="LangKeyUseRandomCategory">Use Random Category</system:String>
+    <system:String x:Key="LangKeyProxyIp">Proxy Ip</system:String>
+    <system:String x:Key="LangKeyOneFieldCantBeEmptyIfAnotherHasValue">{0} field can't be empty if {1} field has some value</system:String>
+    <system:String x:Key="LangKeyPasteFromClipboard">Paste from clipboard</system:String>
+    <system:String x:Key="LangKeyCreateUniqueBoardForCampaign">Create Unique Board From All Account For This Campaign</system:String>
+
 </ResourceDictionary>
 

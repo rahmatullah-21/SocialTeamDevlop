@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using DominatorHouseCore;
 using System;
 using System.Collections.Generic;
 
@@ -74,41 +75,49 @@ namespace EmbeddedBrowser.BrowserHelper
 
         public void OnResourceLoadComplete(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
         {
-            if (embedBrowser.Browser.IsDisposed) return;
-            if (!embedBrowser.Dispatcher.CheckAccess())
-                embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
+            try
+            {
+                if (embedBrowser.Browser.IsDisposed) return;
+                if (!embedBrowser.Dispatcher.CheckAccess())
+                    embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
+                    {
+                        if (embedBrowser.Browser.Address == "https://www.youtube.com/oops")
+                        {
+                            embedBrowser.Browser.Address = embedBrowser.SearchUrl;
+                            return;
+                        }
+                        if (embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
+                        {
+                            embedBrowser.Browser.Address = embedBrowser.SearchUrl = "https://myaccount.google.com/";
+                            return;
+                        }
+                        if (embedBrowser.SearchUrl == embedBrowser.Browser.Address)
+                            return;
+                        if (string.IsNullOrWhiteSpace(embedBrowser.UrlBar.Text))
+                            embedBrowser.UrlBar.Text = "";
+                        embedBrowser.SearchUrl = embedBrowser.Browser.Address;
+                    }));
+                else
                 {
                     if (embedBrowser.Browser.Address == "https://www.youtube.com/oops")
                     {
-                        embedBrowser.Browser.Address = embedBrowser.UrlBar.Text;
+                        embedBrowser.Browser.Address = embedBrowser.SearchUrl;
                         return;
                     }
                     if (embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
                     {
-                        embedBrowser.Browser.Address = embedBrowser.UrlBar.Text = "https://myaccount.google.com/";
+                        embedBrowser.Browser.Address = embedBrowser.SearchUrl = "https://myaccount.google.com/";
                         return;
                     }
-                    if (embedBrowser.UrlBar.Text == embedBrowser.Browser.Address)
+                    if (embedBrowser.SearchUrl == embedBrowser.Browser.Address)
                         return;
+                    if (string.IsNullOrWhiteSpace(embedBrowser.UrlBar.Text))
+                        embedBrowser.UrlBar.Text = "";
 
-                    embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
-                }));
-            else
-            {
-                if (embedBrowser.Browser.Address == "https://www.youtube.com/oops")
-                {
-                    embedBrowser.Browser.Address = embedBrowser.UrlBar.Text;
-                    return;
+                    embedBrowser.SearchUrl = embedBrowser.Browser.Address;
                 }
-                if (embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
-                {
-                    embedBrowser.Browser.Address = embedBrowser.UrlBar.Text = "https://myaccount.google.com/";
-                    return;
-                }
-                if (embedBrowser.UrlBar.Text == embedBrowser.Browser.Address)
-                    return;
-                embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
             }
+            catch(Exception ex) { ex.DebugLog(); }
         }
 
         public void OnResourceRedirect(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)

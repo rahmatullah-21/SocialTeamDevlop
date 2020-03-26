@@ -696,6 +696,8 @@
                             <Binding Path="LstDominatorAccountModel" IsAsync="True"/>
                             <Binding Path="SelectedNetworkViewModel.Selected"/>
                             <Binding Path="LstDominatorAccountModel.Count"/>
+                            <Binding Path="IsSortAccounts"/>
+                            <Binding Path="SortByUserNikeName"/>
                         </MultiBinding>
                     </ListView.ItemsSource>
 
@@ -743,6 +745,8 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
+                            <GridViewColumn  Header="{DynamicResource LangKeyAccountName}" Width="Auto" DisplayMemberBinding="{Binding AccountBaseModel.AccountName}"/>
+                            
                             <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
                             <GridViewColumn  Header="{DynamicResource LangKeyStatus}">

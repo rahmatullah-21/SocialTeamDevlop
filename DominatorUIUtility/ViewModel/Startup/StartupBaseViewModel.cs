@@ -124,7 +124,9 @@ namespace DominatorUIUtility.ViewModel.Startup
                 if (_isUseGlobalQuery && LstGlobalQuery.ContainsKey(CurrentType))
                 {
                     SavedQueries.Clear();
-                    LstGlobalQuery[CurrentType].ForEach(query =>
+                    var getDict = LstGlobalQuery[CurrentType];
+
+                    getDict.ForEach(query =>
                     {
                         var currentQuery = new QueryInfo
                         {
@@ -134,8 +136,6 @@ namespace DominatorUIUtility.ViewModel.Startup
                         };
                         SavedQueries.Add(currentQuery);
                     });
-
-
                 }
             }
         }

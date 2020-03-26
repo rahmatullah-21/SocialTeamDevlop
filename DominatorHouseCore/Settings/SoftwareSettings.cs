@@ -68,6 +68,8 @@ namespace DominatorHouseCore.Settings
                 Settings = _softwareSettingsFileManager.GetSoftwareSettings();
                 if (!(Settings.RunQueriesRandomly || Settings.RunQueriesBottomToTop || Settings.RunQueriesTopToBottom))
                     Settings.RunQueriesRandomly = true;
+                if (!Settings.SortByNikename && !Settings.SortByUsername)
+                    Settings.SortByUsername = true;
             }
 
             //OtherInitializers();
