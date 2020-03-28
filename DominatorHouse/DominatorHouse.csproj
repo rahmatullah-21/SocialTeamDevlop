@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DominatorHouse</RootNamespace>
-    <AssemblyName>GramBoard</AssemblyName>
+    <AssemblyName>InstaScraper</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -109,7 +109,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Gramboard.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -293,7 +294,6 @@
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
     <Compile Include="Social\SocialBrowserManager.cs" />
-    <Compile Include="Social\TablifiedContentControl.cs" />
     <Compile Include="Support\Logs\Views\LogList.xaml.cs">
       <DependentUpon>LogList.xaml</DependentUpon>
     </Compile>
@@ -336,10 +336,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Social\Settings\View\Home.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Social\TablifiedContentControlTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -388,10 +384,8 @@
     <Content Include="CefSharp.Wpf.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Gramboard.ico" />
-    <Content Include="GramBoardIcon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="InstaScraper.ico" />
+    <Resource Include="InstaScraperIcon.png" />
     <Content Include="SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

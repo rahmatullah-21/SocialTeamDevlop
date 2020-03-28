@@ -6,12 +6,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GramBoard")]
+[assembly: AssemblyTitle("InstaScraper")]
 
-[assembly: AssemblyDescription("Grow Your Instagram on AutoPilot!")]
+[assembly: AssemblyDescription("Scrape  Instagram data on AutoPilot!")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("GramBoard")]
-[assembly: AssemblyProduct("GramBoard")]
+[assembly: AssemblyCompany("InstaScraper")]
+[assembly: AssemblyProduct("InstaScraper")]
 [assembly: AssemblyCopyright("Copyright © GramBoard 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

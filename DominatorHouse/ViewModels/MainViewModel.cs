@@ -425,23 +425,7 @@ namespace DominatorHouse.ViewModels
                                  ex.DebugLog();
                              }
                          }
-                         //FeatureFlags.Check(module.Network.ToString(), () =>
-                         //{
-                         //    try
-                         //    {
-                         //        SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
-                         //        PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
-                         //        AddNetwork(socialNetworkModule.Network);
-                         //    }
-                         //    catch (AggregateException ex)
-                         //    {
-                         //        Console.WriteLine(ex.Message);
-                         //    }
-                         //    catch (Exception ex)
-                         //    {
-                         //        ex.DebugLog();
-                         //    }
-                         //});
+                         
                          Task.Delay(5);
                      }
 
@@ -661,7 +645,7 @@ namespace DominatorHouse.ViewModels
 
         public void SetActiveNetwork(SocialNetworks social)
         {
-            AvailableNetworks.Selected = social;
+            AvailableNetworks.Selected = SocialNetworks.Instagram;
         }
 
         public void TabInitialize(SocialNetworks network)

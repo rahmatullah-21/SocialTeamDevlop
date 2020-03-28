@@ -2139,8 +2139,8 @@
     <system:String x:Key="LangKeySleepBetween">Sleep Between</system:String>
     <system:String x:Key="LangKeySocialNetwork">Social Network</system:String>
     <system:String x:Key="LangKeySocialProfiles">Social Profiles</system:String>
-    <system:String x:Key="LangKeySocinator">GramBoard</system:String>
-    <system:String x:Key="LangKeyGramBoard">GramBoard</system:String>
+    <system:String x:Key="LangKeySocinator">InstaScraper</system:String>
+    <system:String x:Key="LangKeyGramBoard">InstaScraper</system:String>
     <system:String x:Key="LangKeySociopublisher">Sociopublisher</system:String>
     <system:String x:Key="LangKeySoftwareSettings">Software Settings</system:String>
     <system:String x:Key="LangKeySomeonesFollowers">Someone's Followers</system:String>
@@ -4518,7 +4518,7 @@ Note: Cookies should belong to the same gramborad account.</system:String>
     <system:String x:Key="LangKeyCheckingUpdates">Hang On! Checking for Updates</system:String>
 
     <system:String x:Key="LangKeyUpdatingSocinator">Hang On! Updating Gramboard</system:String>
-    <system:String x:Key="LangKeyGramBoardAlreadyRunning">GramBoard is already running.</system:String>
+    <system:String x:Key="LangKeyGramBoardAlreadyRunning">Insta Scraper is already running.</system:String>
 
    <system:String x:Key="LangKeyMessageConversationsScraper">MessageConversation Scraper</system:String>
 

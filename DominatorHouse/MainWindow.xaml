@@ -10,14 +10,14 @@
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="GramBoard"
+        Title="Insta Scraper"
         xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-        BorderThickness="1" Icon="Gramboard.ico"
+        BorderThickness="1" Icon="InstaScraper.ico"
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="True" 
-        Name="SocinatorWindow" MinWidth="500" MinHeight="500"
+        Name="InstaScraperWindow" MinWidth="500" MinHeight="500"
         WindowState="Maximized" >
 
     <Window.Resources>
@@ -37,7 +37,7 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
 
-            <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+            <ComboBox DataContext="{Binding AvailableNetworks}" Visibility="Collapsed"  Background="Transparent" 
                       ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
             <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
             <ComboBox x:Name="ThemeCombo" DataContext="{Binding Themes}" Visibility="Visible" SelectionChanged="ThemeCombo_SelectionChanged"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}" />

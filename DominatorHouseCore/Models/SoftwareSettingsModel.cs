@@ -555,7 +555,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private int _simultaneousAccountUpdate = 5;
+        private int _simultaneousAccountUpdate = 0;
         private bool _isEnableParallelActivitiesChecked;
 
         [ProtoMember(37)]

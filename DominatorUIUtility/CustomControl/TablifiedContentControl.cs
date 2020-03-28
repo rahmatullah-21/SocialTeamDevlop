@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Unity;
 
-namespace DominatorHouse.Social
+namespace DominatorUIUtility.CustomControl
 {
     public class TablifiedContentControl : UserControl
     {

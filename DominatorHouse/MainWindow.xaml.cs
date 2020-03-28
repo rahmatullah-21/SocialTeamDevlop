@@ -53,7 +53,7 @@ namespace Socinator
                 mainViewModel.ScreenResolution = new KeyValuePair<int, int>
                     (activeScreen.WorkingArea.Width, activeScreen.WorkingArea.Height);
 
-                SocinatorWindow.DataContext = mainViewModel;
+                InstaScraperWindow.DataContext = mainViewModel;
                 Loaded += (o, e) =>
                 {
                     GlobusLogHelper.log.Info(String.Format("LangKeyWelcomeToApplication".FromResourceDictionary(), ConstantVariable.ApplicationName));

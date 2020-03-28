@@ -5,6 +5,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.ViewModel;
 using DominatorHouseCore.ViewModel.DashboardVms;
+using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.IoC;
 using DominatorUIUtility.ViewModel.OtherConfigurations;
 using DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices;

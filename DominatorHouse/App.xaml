@@ -16,7 +16,7 @@
                 <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml" />
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
                 <ResourceDictionary Source="/Social/DashBoards/DashboardTemplates.xaml" />
-                <ResourceDictionary Source="/Social/TablifiedContentControlTemplates.xaml" />
+                <ResourceDictionary Source="/DominatorUIUtility;component/CustomControl/TablifiedContentControlTemplates.xaml" />
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/UtilityControls.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MetroExpander}">

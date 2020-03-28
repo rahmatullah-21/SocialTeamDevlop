@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DominatorHouse.Social"
+                    xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
                     xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
                     xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore">
     <ControlTemplate x:Key="TablifiedContentControlControlTemplate">
