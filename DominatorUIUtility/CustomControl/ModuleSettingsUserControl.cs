@@ -1807,11 +1807,18 @@ namespace DominatorUIUtility.CustomControl
                 }
                 _queryControl.IsEnabled = true;
 
+                ClearQueryCollection();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+        }
+
+        public void ClearQueryCollection()
+        {
+            if(_queryControl.QueryCollection != null && _queryControl.QueryCollection.Count() > 0)
+                _queryControl.QueryCollection.Clear();
         }
 
         public void SetQueryTypeEnumName(string[] enumsList, QueryInfo currentQuery)
