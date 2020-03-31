@@ -4644,8 +4644,14 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyOneFieldCantBeEmptyIfAnotherHasValue">{0} field can't be empty if {1} field has some value</system:String>
     <system:String x:Key="LangKeyPasteFromClipboard">Paste from clipboard</system:String>
     <system:String x:Key="LangKeyCreateUniqueBoardForCampaign">Create Unique Board From All Account For This Campaign</system:String>
+
     <system:String x:Key="LangKeySwithToBusinessAccount">Swith To Business Account (Pinterest)</system:String>
     <system:String x:Key="LangKeySwithToNormalAccount">Swith To Normal Account (Pinterest)</system:String>
     <system:String x:Key="LangKeyNotAvailable">Not Available</system:String>
     <system:String x:Key="LangKeyPinterestAccountType">Pinterest Account Type</system:String>
+
+    <system:String x:Key="LangKeyHashtagPostUrl">HashtagUrl Post(S)</system:String>
+    <system:String x:Key="LangKeyCompanyPostUrl">CompanyUrl Post(S)</system:String>
+    
+
 </ResourceDictionary>
