@@ -717,12 +717,13 @@ namespace DominatorUIUtility.ViewModel
 
                 //if loaded text or csv contains no accounts then return
                 if (loadedAccountlist == null || loadedAccountlist.Count == 0) return;
-
-                var haveNickName = loadedAccountlist[0].Contains("AccountName(Nick name)");
+                
+                var haveNickName = loadedAccountlist[0].StartsWith("Account Group\tAccountNetwork")
+                                    ? loadedAccountlist[0].Contains("AccountName(Nick name)")
+                                    : loadedAccountlist[0].Trim().Split('\t').Count() == 16;
 
                 Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
-                var exitingAccounts = haveNickName ? null : LstDominatorAccountModel.GetCopySync();
-
+                
                 #region Add to bin files which are valid accounts
 
                 ////add the account to DominatorAccountModel list and bin file
@@ -879,9 +880,15 @@ namespace DominatorUIUtility.ViewModel
                                 browserCookies = splitAccount[12].Replace("<>", ",");
                                 isBrowserAutomationActive = splitAccount[13];
                                 proxyGroup = splitAccount[14];
-                                nickName = haveNickName ? (splitAccount.Last() ?? "") : DefaultAccountNameFromModel(exitingAccounts, ref dictNetLasNum, (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork));
+                                nickName = haveNickName ? (splitAccount.Last() ?? "") : "";
                                 break;
                         }
+
+                        if (string.IsNullOrWhiteSpace(nickName))
+                            nickName = DefaultAccountNameFromModel(LstDominatorAccountModel.GetCopySync(), ref dictNetLasNum, (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork));
+
+                        if (string.IsNullOrWhiteSpace(status))
+                            status = "NotChecked";
 
                         if (splitAccount.Length > 4)
                         {
