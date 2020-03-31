@@ -24,6 +24,15 @@ namespace DominatorHouseCore.Interfaces
 
         Task UpdateDetailsAsync(DominatorAccountModel accountModel, CancellationToken token);
     }
+
+
+    public interface IAccountUpdateAccountTypeFactoryAsync : IAccountUpdateFactory
+    {
+        Task SwitchToBusinessAccountAsync(DominatorAccountModel account, CancellationToken token, bool isBusinessAccount = true);
+
+        void SwitchToBusinessAccount(DominatorAccountModel account, CancellationToken token, bool isBusinessAccount = true);
+    }
+
     public interface IAccountVerificationFactory
     {
         Task<bool> VerifyAccountAsync(DominatorAccountModel accountModel, VerificationType verificationType, CancellationToken token);

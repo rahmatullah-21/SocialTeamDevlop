@@ -33,9 +33,12 @@
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
         <converters:BooleanToAutomationStatusConverter x:Key="BooleanToAutomationStatusConverter" />
+        <converters:PinterestAccountTypeToStatusConverter x:Key="PinterestAccountTypeToStatusConverter" />
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:SocialNetworkToLinkConverter x:Key="SocialNetworkToLinkConverter" />
-
+        <converters:SelectedNetworkToVisibilityConverter x:Key="SelectedNetworkToVisibilityConverter"/>
+        <converters:PinterestAccountTypeToVisibilityConverter x:Key="PinterestAccountTypeToVisibilityConverterInverted" IsInverse="True"/>
+        <converters:PinterestAccountTypeToVisibilityConverter x:Key="PinterestAccountTypeToVisibilityConverter"/>
         <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}" x:Key="VisiblityStyle">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
@@ -45,7 +48,7 @@
             </Style.Triggers>
         </Style>
 
-
+        
 
 
         <Rectangle x:Key="DetailsIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
@@ -98,7 +101,11 @@
                 <VisualBrush Visual="{StaticResource appbar_settings}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-
+        <Rectangle x:Key="PinterestIcon" Fill="Red" Width="15" Height="15">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+            </Rectangle.OpacityMask>
+        </Rectangle>
 
     </UserControl.Resources>
 
@@ -278,6 +285,26 @@
                                             </Rectangle>
                                         </MenuItem.Icon>
                                     </MenuItem>
+
+                                    <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" Command="{Binding SwitchToSingleBusinessAccountCommandExecute}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}" CommandParameter="BusinessAccount">
+                                        <MenuItem.Icon>
+                                            <Rectangle Width="15" Height="15" Fill="Red">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}" Command="{Binding SwitchToNormalAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}" CommandParameter="NormalAccount">
+                                        <MenuItem.Icon>
+                                            <Rectangle Width="15" Height="15" Fill="Red">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
                                 </Controls:DropDownButton.Items>
                             </Controls:DropDownButton>
 
@@ -286,7 +313,7 @@
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Vertical">
-                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
+                                                <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
                                                 <Label Content="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                             </StackPanel>
                                         </Border>
@@ -525,6 +552,25 @@
                                         </Rectangle>
                                     </MenuItem.Icon>
                                 </MenuItem>
+                                <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}"  CommandParameter="BusinessAccount">
+                                    <MenuItem.Icon>
+                                        <Rectangle Width="15" Height="15" Fill="Red">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}" Command="{Binding SwitchToNormalAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}"  CommandParameter="NormalAccount">
+                                    <MenuItem.Icon>
+                                        <Rectangle Width="15" Height="15" Fill="Red">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </Controls:DropDownButton.Items>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SizeChanged" >
@@ -687,6 +733,31 @@
                             <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{DynamicResource CopyAccountIdIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
+
+                            <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" 
+                                  CommandParameter="{Binding}"  Visibility="{Binding AccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverterInverted}}"
+                                  Command="{Binding Data.SwitchToSingleBusinessAccountCommand, Source={StaticResource ContextMenuBinding}}">
+                                <MenuItem.Icon>
+                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}"
+                                  CommandParameter="{Binding}" Visibility="{Binding AccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverter}}"
+                                  Command="{Binding Data.SwitchToSingleNormalAccountCommand, Source={StaticResource ContextMenuBinding}}">
+                                <MenuItem.Icon>
+                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
 
                             <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
                                 <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
@@ -882,6 +953,8 @@
                             </GridViewColumn>
 
                             <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
+
+                            <GridViewColumn  Header="{DynamicResource LangKeyPinterestAccountType}" DisplayMemberBinding="{Binding AccountType, Converter={StaticResource PinterestAccountTypeToStatusConverter}}"/>
 
                             <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" Width="130">
                                 <GridViewColumn.CellTemplate>

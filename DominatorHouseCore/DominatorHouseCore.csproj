@@ -256,8 +256,11 @@
     <Compile Include="Converters\MessageTypeTovisibilityConverter.cs" />
     <Compile Include="Converters\MessegeTypeToHorizontalAlignmentConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />
+    <Compile Include="Converters\PinterestAccountTypeToStatusConverter.cs" />
+    <Compile Include="Converters\PinterestAccountTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\PositiveValueConvertor.cs" />
     <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
+    <Compile Include="Converters\SelectedNetworkToVisibilityConverter.cs" />
     <Compile Include="Converters\SocialNetworkToLinkConverter.cs" />
     <Compile Include="Converters\SocialNetworkToColorBrushConverter.cs" />
     <Compile Include="Converters\SocialNetworkToVisualBrushConverter.cs" />
@@ -518,6 +521,7 @@
     <Compile Include="Enums\MouseKeys.cs" />
     <Compile Include="Enums\PdQuery\PDPinQueries.cs" />
     <Compile Include="Enums\PdQuery\PDUsersQueries.cs" />
+    <Compile Include="Enums\PinterestAccountType.cs" />
     <Compile Include="Enums\QdQuery\BroadcastMessageQuery.cs" />
     <Compile Include="Enums\QdQuery\FollowerQuery.cs" />
     <Compile Include="Enums\QueryType.cs" />

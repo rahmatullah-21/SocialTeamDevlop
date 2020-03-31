@@ -201,6 +201,9 @@ namespace DominatorUIUtility.ViewModel
         public ICommand DeleteButtonSizeChangedCommand { get; }
         public ICommand BrowserButtonSizeChangedCommand { get; }
         public ICommand InfoButtonSizeChnagedCommand { get; }
+        public ICommand SwitchToBusinessAccountCommand { get; }
+        public ICommand SwitchToSingleBusinessAccountCommand { get; }
+        public ICommand SwitchToSingleNormalAccountCommand { get; }
 
         #endregion
 
@@ -277,6 +280,11 @@ namespace DominatorUIUtility.ViewModel
 
             InfoButtonSizeChnagedCommand = new BaseCommand<object>(InfoButtonSizeChnagedCommandCanExecute, InfoButtonSizeChnagedCommandExecute);
 
+            SwitchToBusinessAccountCommand = new BaseCommand<object>(SwitchAccountTypeCommandCanExecute, SwitchAccountTypeCommandExecute);
+
+
+
+
             #region Context Menu Command
 
             ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
@@ -287,6 +295,9 @@ namespace DominatorUIUtility.ViewModel
             UpdateFriendshipCommand = new DelegateCommand<DominatorAccountModel>(AccountUpdate);
             EditNetworkProfileCommand = new DelegateCommand<DominatorAccountModel>(EditProfile);
             CopyAccountIdCommand = new DelegateCommand<DominatorAccountModel>(CopyAccountId);
+            SwitchToSingleBusinessAccountCommand = new DelegateCommand<DominatorAccountModel>(SwitchToSingleBusinessAccountCommandExecute);
+            SwitchToSingleNormalAccountCommand = new DelegateCommand<DominatorAccountModel>(SwitchToSingleNormalAccountCommandExecute);
+
 
             #endregion
 
@@ -304,7 +315,111 @@ namespace DominatorUIUtility.ViewModel
 
         }
 
+        private void SwitchToSingleNormalAccountCommandExecute(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                ThreadFactory.Instance.Start(() =>
+                {
+                    var accountFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+                    if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
+                    {
+                        var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
+                        asyncAccount.SwitchToBusinessAccount(dominatorAccountModel, new CancellationToken(), false);
+                    }
 
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+
+        private void SwitchToSingleBusinessAccountCommandExecute(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                ThreadFactory.Instance.Start(() =>
+                {
+                    var accountFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+                    if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
+                    {
+                        var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
+                        asyncAccount.SwitchToBusinessAccount(dominatorAccountModel, new CancellationToken());
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private bool SwitchAccountTypeCommandCanExecute(object sender)
+         => true;
+
+        private void SwitchAccountTypeCommandExecute(object sender)
+        {
+            try
+            {
+                var accountType = sender as string;
+
+                var selectedAccount = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected &&
+                    x.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest).ToList();
+
+                SwitchAccountType(selectedAccount, accountType);
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+
+        public void SwitchAccountType(List<DominatorAccountModel> selectedAccount, string accountType)
+        {
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    selectedAccount.ForEach(account =>
+                    {
+                        var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                            .GetNetworkCoreFactory().AccountUpdateFactory;
+                        try
+                        {
+                            if (!_changeBusinessAccountList.Contains(account.AccountBaseModel.UserName))
+                                MultipleBusinessAccoutSwitch(account, accountType, accountFactory);
+                            else
+                                GlobusLogHelper.log.Info(Log.AlreadyUpdatingAccount,
+                                    account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
+
+                            Task.Delay(5);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private bool SwitchToBusinessAccountCommandCanExecute(object sender)
+         => true;
 
         private void InfoButtonSizeChnagedCommandExecute(object Sender)
         {
@@ -2103,6 +2218,8 @@ namespace DominatorUIUtility.ViewModel
 
         public List<string> _updateAccountList { get; set; } = new List<string>();
 
+        public List<string> _changeBusinessAccountList { get; set; } = new List<string>();
+
         public object AccountUpdateLock { get; set; } = new object();
 
         private void UpdateAccountDetailsExecute(object sender)
@@ -2166,6 +2283,66 @@ namespace DominatorUIUtility.ViewModel
             }
             #endregion
         }
+
+        public void MultipleBusinessAccoutSwitch(DominatorAccountModel account, string accountType, IAccountUpdateFactory accountFactory)
+        {
+            if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
+            {
+                // this account supports async modules
+                var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
+
+                var asyncBusinessAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
+
+                var businessAccountCancellationTRoken = new CancellationToken();
+
+
+                var updateAccount = new Task(async () =>
+                {
+                    try
+                    {
+                        _updateAccountList.Add(account.UserName);
+
+                        account.Token.ThrowIfCancellationRequested();
+
+                        account.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+                        var checkResult = await asyncAccount.CheckStatusAsync(account, businessAccountCancellationTRoken);
+
+                        if (checkResult)
+                        {
+                            await asyncBusinessAccount.SwitchToBusinessAccountAsync(account, businessAccountCancellationTRoken, accountType == "NormalAccount" ? false : true);
+
+                            //try
+                            //{
+                            //    lock (AccountUpdateLock)
+                            //    {
+                            //        Monitor.Pulse(AccountUpdateLock);
+                            //    }
+                            //}
+                            //catch (Exception ex)
+                            //{
+                            //    ex.DebugLog();
+                            //}
+                        }
+                    }
+                    catch (OperationCanceledException ex)
+                    {
+                        ex.DebugLog("Cancellation Requested!");
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                    finally
+                    {
+                        _updateAccountList.Remove(account.UserName);
+                    }
+
+                }, account.Token);
+                updateAccount.Start();
+            }
+
+        }
+
 
         public void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
         {

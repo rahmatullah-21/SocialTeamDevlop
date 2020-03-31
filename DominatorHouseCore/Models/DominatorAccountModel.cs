@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.EmailService;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json.Linq;
 using ProtoBuf;
@@ -498,6 +499,25 @@ namespace DominatorHouseCore.Models
                 if (_BrowserCookieHelperList != null && _BrowserCookieHelperList == value)
                     return;
                 SetProperty(ref _BrowserCookieHelperList, value);
+            }
+        }
+
+        private PinterestAccountType _accountType = PinterestAccountType.NotAvailable;
+
+        [ProtoMember(30)]
+        public PinterestAccountType AccountType
+        {
+            get
+            {
+                if (AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest && _accountType == PinterestAccountType.NotAvailable)
+                    return PinterestAccountType.Inactive;
+                return _accountType;
+            }
+            set
+            {
+                if (_accountType != null)
+                    return;
+                SetProperty(ref _accountType, value);
             }
         }
 
