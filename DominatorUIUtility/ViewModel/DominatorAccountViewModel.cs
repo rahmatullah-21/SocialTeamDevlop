@@ -717,7 +717,7 @@ namespace DominatorUIUtility.ViewModel
 
                 //if loaded text or csv contains no accounts then return
                 if (loadedAccountlist == null || loadedAccountlist.Count == 0) return;
-                
+                var split = loadedAccountlist[0].Trim().Split('\t');
                 var haveNickName = loadedAccountlist[0].StartsWith("Account Group\tAccountNetwork")
                                     ? loadedAccountlist[0].Contains("AccountName(Nick name)")
                                     : loadedAccountlist[0].Trim().Split('\t').Count() == 16;

@@ -515,8 +515,8 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_accountType != null)
-                    return;
+                //if (_accountType != null)
+                //    return;
                 SetProperty(ref _accountType, value);
             }
         }
@@ -547,7 +547,6 @@ namespace DominatorHouseCore.Models
                         {
                             cookieCollection.Add(new Cookie()
                             {
-
                                 Domain = cookieHelper.Domain,
                                 Name = cookieHelper.Name,
                                 Value = cookieHelper.Value,
@@ -555,7 +554,6 @@ namespace DominatorHouseCore.Models
                                 HttpOnly = false
                             });
                         }
-
                     }
 
                 }

@@ -9,9 +9,9 @@ namespace DominatorHouseCore.Enums
 {
     public enum PinterestAccountType
     {
-        [Description("LangKeyActive")]
+        [Description("LangKeyBusinessMode")]
         Active,
-        [Description("LangKeyInActive")]
+        [Description("LangKeyNormalMode")]
         Inactive,
         [Description("LangKeyNotAvailable")]
         NotAvailable

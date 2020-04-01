@@ -4652,6 +4652,12 @@ but you have not given any text inside the box. Please check.</system:String>
 
     <system:String x:Key="LangKeyHashtagPostUrl">HashtagUrl Post(S)</system:String>
     <system:String x:Key="LangKeyCompanyPostUrl">CompanyUrl Post(S)</system:String>
-    
+
+    <system:String x:Key="LangKeyBusinessMode">Business Mode</system:String>
+    <system:String x:Key="LangKeyNormalMode">Normal Mode</system:String>
+    <system:String x:Key="LangKeySwitchingProfile">Switching Profile</system:String>
+    <system:String x:Key="LangKeySuccessfullySwitchedToBusinessProfile">Successfully Switched To Business Profile</system:String>
+    <system:String x:Key="LangKeySuccessfullySwitchedToNormalProfile">Successfully Switched To Normal Profile</system:String>
+    <system:String x:Key="LangKeyWeDidNotFoundAnyBusinessProfile">We Did Not Found Any Business Profile</system:String>
 
 </ResourceDictionary>
