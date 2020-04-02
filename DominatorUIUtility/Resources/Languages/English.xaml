@@ -4659,5 +4659,5 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeySuccessfullySwitchedToBusinessProfile">Successfully Switched To Business Profile</system:String>
     <system:String x:Key="LangKeySuccessfullySwitchedToNormalProfile">Successfully Switched To Normal Profile</system:String>
     <system:String x:Key="LangKeyWeDidNotFoundAnyBusinessProfile">We Did Not Found Any Business Profile</system:String>
-
+    <system:String x:Key="LangKeyOwnPageCount">Own Page Count</system:String>
 </ResourceDictionary>

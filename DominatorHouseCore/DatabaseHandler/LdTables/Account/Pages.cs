@@ -14,7 +14,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Contains Name Of the Group
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        public string CompanyPageName
+        public string PageName
         { get; set; }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         //[Unique]
-        public string CompanyPageUrl
+        public string PageUrl
         { get; set; }
 
         /// <summary>
@@ -35,12 +35,16 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Describe Connection Type If FirstDegree,SecondDegree Or ThirdPlusDegree
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public string CompanyUniversalName
+        public string UniversalPageName
         { get; set; }
         /// <summary>
         /// Contains Interaction Time Stamp
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int InteractionTimeStamp { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
+        public string PageId
+        { get; set; }
     }
 }

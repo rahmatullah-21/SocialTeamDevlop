@@ -381,7 +381,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public List<string> IsCustomDestinationInNetworks { get; set; } = new List<string> { "Facebook", "Reddit" };
 
-        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Pinterest", "Youtube", "Tumblr" };
+        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Pinterest", "Youtube", "Tumblr", "LinkedIn" };
         private string _selectPageBoard = "LangKeySelectPagesBoardsAll".FromResourceDictionary();
 
         public string SelectPageBoard
@@ -722,12 +722,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 case "MenuSelectAll":
                     IsAllDestinationSelected = true;
-                    break;                
+                    break;
                 default:
                     break;
             }
 
-            if(string.IsNullOrEmpty(moduleName))
+            if (string.IsNullOrEmpty(moduleName))
             {
                 if (DestinationCollectionView.Cast<PublisherCreateDestinationSelectModel>().All(x => x.IsAccountSelected))
                     IsAllDestinationSelected = true;
@@ -1095,6 +1095,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             accounts.ForEach(x =>
             {
+                var pageCount = x.AccountBaseModel.AccountNetwork == SocialNetworks.LinkedIn
+                        ? x.DisplayColumnValue4 ?? 0 : x.DisplayColumnValue3 ?? 0;
 
                 var publisherCreateDestinationSelectModel = new PublisherCreateDestinationSelectModel
                 {
@@ -1112,7 +1114,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublishonOwnWall = false,
                     SelectedGroups = 0,
                     TotalGroups = x.DisplayColumnValue2 ?? 0,
-                    TotalPagesOrBoards = x.DisplayColumnValue3 ?? 0,
+                    TotalPagesOrBoards = pageCount,
                 };
 
                 publisherCreateDestinationSelectModel.GroupSelectorText =
@@ -1479,6 +1481,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     if (PublisherCreateDestinationModel.ListSelectDestination.All(y => y.AccountId != x.AccountId))
                     {
+                        var pageCount = x.AccountBaseModel.AccountNetwork == SocialNetworks.LinkedIn
+                                ? x.DisplayColumnValue4 ?? 0 : x.DisplayColumnValue3 ?? 0;
+
                         var publisherCreateDestinationSelectModel = new PublisherCreateDestinationSelectModel()
                         {
                             AccountId = x.AccountBaseModel.AccountId,
@@ -1494,7 +1499,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             PublishonOwnWall = false,
                             SelectedGroups = 0,
                             TotalGroups = x.DisplayColumnValue2 ?? 0,
-                            TotalPagesOrBoards = x.DisplayColumnValue3 ?? 0,
+                            TotalPagesOrBoards = pageCount,
                         };
                         publisherCreateDestinationSelectModel.GroupSelectorText =
                             GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
