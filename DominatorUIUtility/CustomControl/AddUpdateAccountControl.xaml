@@ -70,7 +70,7 @@
                      Height="30" Grid.Column="1"  KeyDown="OnKeyDown"/>
         </Grid>
 
-        <Grid Grid.Row="4">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
@@ -89,7 +89,7 @@
                 </TextBox.Text>
             </TextBox>
         </Grid>
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
