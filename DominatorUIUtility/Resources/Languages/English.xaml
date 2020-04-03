@@ -4659,11 +4659,20 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeySuccessfullySwitchedToBusinessProfile">Successfully Switched To Business Profile</system:String>
     <system:String x:Key="LangKeySuccessfullySwitchedToNormalProfile">Successfully Switched To Normal Profile</system:String>
     <system:String x:Key="LangKeyWeDidNotFoundAnyBusinessProfile">We Did Not Found Any Business Profile</system:String>
+
     <system:String x:Key="LangKeyOwnPageCount">Own Page Count</system:String>
     <system:String x:Key="LangKeyActivatingBusinessAccountforPinterest">Activating Business Account for Pinterest</system:String>
     <system:String x:Key="LangKeyStartActivityBusinessAccount" xml:space="preserve">This will result in stopping all activity from Normal Account and starting activity by Business Account.
 Do you want to continue?</system:String>
     <system:String x:Key="LangKeyDeActivatingBusinessAccountforPinterest">Deactivating Business Account for Pinterest</system:String>
-    <system:String x:Key="LangKeyStartActivityNormalAccount" xml:space="preserve">This will result in stopping all activity from Business Account and starting activity by Normal Account.
+        <system:String x:Key="LangKeyStartActivityNormalAccount" xml:space="preserve">This will result in stopping all activity from Business Account and starting activity by Normal Account.
 Do you want to continue?</system:String>
+
+        <system:String x:Key="LangKeyReportToVideosPerDay">Report To Videos Per Day</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerHour">Report To Videos Per Hour</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerJob">Report To Videos Per Job</system:String>
+    <system:String x:Key="LangKeyMaximumReportToVideosPerDay">Maximum Report To Videos Per Day</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerWeek">Report To Videos Per Week</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoReportVideo">This Socinator feature helps to automate report to videos on YouTube. It allows to filter videos and report to them on configured time.</system:String>
+    <system:String x:Key="LangKeyReportVideo">Report Video</system:String>
 </ResourceDictionary>
