@@ -708,6 +708,9 @@ namespace DominatorUIUtility.ViewModel
                         GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
                     }
 
+                    var pinterestAccountType = objDominatorAccountBaseModel.AccountNetwork == SocialNetworks.Pinterest
+                            ? PinterestAccountType.Inactive.ToString() : PinterestAccountType.NotAvailable.ToString();
+
                     ThreadFactory.Instance.Start(() =>
                     {
                         AddAccount(objDominatorAccountBaseModel, String.Empty, act =>
@@ -715,7 +718,7 @@ namespace DominatorUIUtility.ViewModel
                             var th = new Thread(() => act()) { IsBackground = true };
                             th.Start();
                             return () => th.Abort();
-                        }, string.Empty, false);
+                        }, string.Empty, false, pinterestAccountType);
                     });
                 }
                 catch (Exception ex)
@@ -841,6 +844,7 @@ namespace DominatorUIUtility.ViewModel
                         var alternetEmail = string.Empty;
                         var banned = string.Empty;
                         var isBrowserAutomationActive = string.Empty;
+                        var pinterestAccountType = PinterestAccountType.NotAvailable.ToString();
 
                         switch (splitAccount.Length)
                         {
@@ -915,6 +919,7 @@ namespace DominatorUIUtility.ViewModel
                             case 19:
                             case 20:
                             case 21:
+                            case 22:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];
@@ -926,7 +931,8 @@ namespace DominatorUIUtility.ViewModel
                                 browserCookies = splitAccount[12].Replace("<>", ",");
                                 isBrowserAutomationActive = splitAccount[13];
                                 proxyGroup = splitAccount[14];
-                                nickName = haveNickName ? (splitAccount.Last() ?? "") : "";
+                                nickName = haveNickName && splitAccount.Length >= 15 ? (splitAccount[splitAccount.Length - 2] ?? "") : "";
+                                pinterestAccountType = splitAccount.Length >= 16 ? splitAccount[splitAccount.Length - 1] : pinterestAccountType;
                                 break;
                         }
 
@@ -1001,7 +1007,7 @@ namespace DominatorUIUtility.ViewModel
                                                                                           .Except(new[] { action })
                                                                                           .ForEach(it => _pendingActions = _pendingActions.Enqueue(it));
                                                                                   };
-                                                                              }, browserCookies, browserAutomationStatus));
+                                                                              }, browserCookies, browserAutomationStatus, pinterestAccountType));
                             }
                         }
                         else
@@ -1035,7 +1041,8 @@ namespace DominatorUIUtility.ViewModel
 
 
         public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, string cookies,
-            Func<Action, Action> secondaryTaskStrategyReturningCancellation, string browserCookies, bool isBrowserAutomationActive = false)
+            Func<Action, Action> secondaryTaskStrategyReturningCancellation, string browserCookies
+            , bool isBrowserAutomationActive = false, string pinterestAccountType = "")
         {
             #region Check account limits
 
@@ -1097,7 +1104,8 @@ namespace DominatorUIUtility.ViewModel
             {
                 AccountBaseModel = dominatorAccountBaseModel,
                 RowNo = LstDominatorAccountModel.Count + 1,
-                AccountId = dominatorAccountBaseModel.AccountId
+                AccountId = dominatorAccountBaseModel.AccountId,
+                DisplayColumnValue11 = pinterestAccountType
             };
             if (!string.IsNullOrEmpty(cookies)/* && dominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube*/)
                 try
@@ -1789,16 +1797,16 @@ namespace DominatorUIUtility.ViewModel
                               .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn4Value;
 
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},SocialUser,AccountName(Nick name)";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
 
             else if (!string.IsNullOrEmpty(FourthCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader},SocialUser,AccountName(Nick name)";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
 
             else if (!string.IsNullOrEmpty(ThirdCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},SocialUser,AccountName(Nick name)";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
 
             else if (!string.IsNullOrEmpty(SecondCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},SocialUser,AccountName(Nick name)";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
 
 
             var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_Accounts {ConstantVariable.DateasFileName}.csv";
@@ -1814,6 +1822,8 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
+                    var pinterestAccountType = string.IsNullOrEmpty(account.DisplayColumnValue11) ? PinterestAccountType.NotAvailable.ToString() : account.DisplayColumnValue11;
+
                     var csvData =
                      account.AccountBaseModel.AccountGroup.Content + ","
                      + account.AccountBaseModel.AccountNetwork + ","
@@ -1835,7 +1845,8 @@ namespace DominatorUIUtility.ViewModel
                      + (string.IsNullOrEmpty(ThirdCountHeader) ? "" : $",{account.DisplayColumnValue3}")
                      + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}")
                      + $",{account.AccountBaseModel.ProfileId}"
-                     + $",{account.AccountBaseModel.AccountName}";
+                     + $",{account.AccountBaseModel.AccountName}"
+                     + $",{pinterestAccountType}";
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
