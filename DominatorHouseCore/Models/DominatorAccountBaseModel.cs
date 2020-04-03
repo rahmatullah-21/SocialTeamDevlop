@@ -285,6 +285,31 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _banned, value); }
         }
 
+        private string _accountName = "";
+
+        [ProtoMember(16)]
+        public string AccountName
+        {
+            get { return _accountName; }
+            set { SetProperty(ref _accountName, value); }
+        }
+
+        private PinterestAccountType _pinterestAccountType;
+
+        [ProtoMember(17)]
+        public PinterestAccountType PinterestAccountType
+        {
+            get
+            {
+                return PinterestAccountType.NotAvailable;
+            }
+            set
+            {
+                SetProperty(ref _pinterestAccountType, value);
+            }
+        }
+
+
         public override string ToString()
         {
             return string.Format("{0} on {1}", _userName, _accountNetwork);

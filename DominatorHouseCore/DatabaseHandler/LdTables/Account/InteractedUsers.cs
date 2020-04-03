@@ -62,5 +62,8 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         public string Status { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string ConnectedTime { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
+        public string AttachmentId { get; set; }
     }
 }

@@ -31,9 +31,9 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical"  Visibility="{Binding IsCustomOptionsRequired,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <CheckBox Margin="30,5" Content="{DynamicResource LangKeyMutualFriends}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding UnfriendOptionModel.IsMutualFriends}" Checked="Source_Checked" Unchecked="Source_UnChecked"/>
-                       
+
                     </StackPanel>
-                    
+
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Vertical" Visibility="{Binding IsSourceTypeRequired,Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -59,7 +59,7 @@
                     <controls:NumericUpDown Value="{Binding UnfriendOptionModel.DaysNotPostedOnWall}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" Minimum="0" IsEnabled="{Binding UnfriendOptionModel.IsNotPostOnWall}" />
                     <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
                 </StackPanel>-->
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
+                <!--<StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
                     <CheckBox Margin="30,5,15,5" Content="{DynamicResource LangKeyUserInActiveOnMyWallFromPast}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding UnfriendOptionModel.IsNotActiveOnWall}"/>
                     <controls:NumericUpDown Value="{Binding UnfriendOptionModel.DaysNotActiveOnWall}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" Minimum="0" IsEnabled="{Binding UnfriendOptionModel.IsNotActiveOnWall}" />
                     <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
@@ -80,7 +80,7 @@
                         <controls:NumericUpDown Value="{Binding UnfriendOptionModel.DaysNotActiveOnMessenager}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" Minimum="0" IsEnabled="{Binding UnfriendOptionModel.IsNotConnectedInMessenager}" />
                         <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
                     </StackPanel>
-                </StackPanel>
+                </StackPanel>-->
 
                 <StackPanel Orientation="Vertical" Visibility="{Binding MessageOptionsVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" >
                     <CheckBox Margin="30,5,15,5" Content="{DynamicResource LangKeyReplyToMessagesThatContainSpecificWord﻿}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding UnfriendOptionModel.IsFilterByMessageText}"/>

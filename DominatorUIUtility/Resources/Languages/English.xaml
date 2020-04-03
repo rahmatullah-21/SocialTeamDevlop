@@ -334,7 +334,7 @@
     <system:String x:Key="LangKeyClear">Clear</system:String>
     <system:String x:Key="LangKeyClearAllSources">Clear All Sources</system:String>
     <system:String x:Key="LangKeyClearHistory">Clear History</system:String>
-    <system:String x:Key="LangKeyClickToAddFreshAccounts">Click To Add Fresh Accounts</system:String>
+    <system:String x:Key="LangKeyClickToAddFreshAccounts">Click to refresh accounts list</system:String>
     <system:String x:Key="LangKeyClickToBrowse">Click To Browse</system:String>
     <system:String x:Key="LangKeyClickToDeleteThePost">Click To Delete The Post</system:String>
     <system:String x:Key="LangKeyClickToPauseOrResume">Click To Pause Or Resume</system:String>
@@ -4491,8 +4491,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyViewCount">View Count</system:String>
     <system:String x:Key="LangKeyUnfollowedUserId">Unfollowed User Id</system:String>
     <system:String x:Key="LangIGTikTokWontRunWithBrowserAutoTryWithHttp">Instagram and TikTok accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
-    <system:String x:Key="LangKeyBoardNameFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
-    <system:String x:Key="LangKeyBoardDescriptionFormatForMultiple">Format for multiple :- {abc}|{abc}|{abc}</system:String>
+    <system:String x:Key="LangKeyCreateBoardFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
     <system:String x:Key="LangKeyAccountNotRegisteredYet">Not Registered Yet</system:String>
     <system:String x:Key="LangKeyCopyAccountDetailToClipBoard" xml:space="preserve">Copy account's detail to clipboard.
 [Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
@@ -4622,10 +4621,14 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyConditionAddNAccPerProxy">[with condition "assigning {0} accounts per proxy"].</system:String>
     <system:String x:Key="LangKeyNoProxyToAssign">No proxy found to assign.</system:String>
 
+
     <system:String x:Key="LangKeyAccountToools">Account Tools.</system:String>
     <system:String x:Key="LangKeyDeleteSelectedCampaigns">Delete Selected Campaigns</system:String>
 
     <system:String x:Key="LangKeyDoNotSortAccountsByUserName">Do Not Sort Accounts By UserName.</system:String>
+
+    <system:String x:Key="LangKeyDoNotSortAccountsBy">Do Not Sort Accounts By</system:String>
+
     <system:String x:Key="LangKeyYTVideoCommenters">Youtube Video Commenters</system:String>
     <system:String x:Key="LangKeyPostLikedOutsideSoftware">Post Liked Outside Software</system:String>
     <system:String x:Key="LangKeyCommentersFromEachVideo">commenters from each video in each run.</system:String>
@@ -4656,6 +4659,62 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyInvalidProxyIpFormatBrowser">Failed to Open Browser! Invalid Proxy IP format :- "{0}"</system:String>
     <system:String x:Key="LangKeySkipCommentsOfSameProfile">Skip Comments Of Same Profile</system:String>
     <system:String x:Key="LangKeyQueryValueIsInInvalidFormat">Query Value {0} is in Invalid Format!</system:String>
+
     <system:String x:Key="LangKeyOverview">Overview</system:String>
+
+
+    <system:String x:Key="LangKeyWannaStopAllActivity">Do you really want to stop all the activities?</system:String>
+    <system:String x:Key="LangKeyLess">Less</system:String>
+
+    <system:String x:Key="LangKeyActivityTypesSelect1To6ForEachNet">Activity Types (Select any 1 to 6 activities for each network)</system:String>
+    <system:String x:Key="LangKeyBusinessCategory">Business Category</system:String>
+    <system:String x:Key="LangKeyBusinessAccounts">Business Accounts</system:String>
+    <system:String x:Key="LangKeyCopyCurrentPageUrl">Copy current page url</system:String>
+    <system:String x:Key="LangKeyCopiedCurrentPageUrl">Copied current page url successfully</system:String>
+    <system:String x:Key="LangKeyEnterUserFullName">Enter user's full name</system:String>
+    <system:String x:Key="LangKeyEnterAccountNikeName">Enter Account Nick Name (optional)</system:String>
+    <system:String x:Key="LangKeyAccountNikeName">Account's Nick Name</system:String>
+    <system:String x:Key="LangKeyMakeCommentAfterRepostAsSpinText">Make a comment after repost (as spin text)</system:String>
+    <system:String x:Key="LangKeyReposterComment">Reposter Comment</system:String>
+    <system:String x:Key="LangKeyByAccountNikeName">By Account's Nick name</system:String>
+    <system:String x:Key="LangKeyCreateBoardSpintaxFormat">Use Spintax : Format (a|b)(c|d)</system:String>
+    <system:String x:Key="LangKeySkipCommonCategory">Skip Common Category [Have to add one by one]</system:String>
+    <system:String x:Key="LangKeyUseRandomCategory">Use Random Category</system:String>
+    <system:String x:Key="LangKeyProxyIp">Proxy Ip</system:String>
+    <system:String x:Key="LangKeyOneFieldCantBeEmptyIfAnotherHasValue">{0} field can't be empty if {1} field has some value</system:String>
+    <system:String x:Key="LangKeyPasteFromClipboard">Paste from clipboard</system:String>
+    <system:String x:Key="LangKeyCreateUniqueBoardForCampaign">Create Unique Board From All Account For This Campaign</system:String>
+
+    <system:String x:Key="LangKeySwithToBusinessAccount">Swith To Business Account (Pinterest)</system:String>
+    <system:String x:Key="LangKeySwithToNormalAccount">Swith To Normal Account (Pinterest)</system:String>
+    <system:String x:Key="LangKeyNotAvailable">Not Available</system:String>
+    <system:String x:Key="LangKeyPinterestAccountType">Pinterest Account Type</system:String>
+
+    <system:String x:Key="LangKeyHashtagPostUrl">HashtagUrl Post(S)</system:String>
+    <system:String x:Key="LangKeyCompanyPostUrl">CompanyUrl Post(S)</system:String>
+
+    <system:String x:Key="LangKeyBusinessMode">Business Mode</system:String>
+    <system:String x:Key="LangKeyNormalMode">Normal Mode</system:String>
+    <system:String x:Key="LangKeySwitchingProfile">Switching Profile</system:String>
+    <system:String x:Key="LangKeySuccessfullySwitchedToBusinessProfile">Successfully Switched To Business Profile</system:String>
+    <system:String x:Key="LangKeySuccessfullySwitchedToNormalProfile">Successfully Switched To Normal Profile</system:String>
+    <system:String x:Key="LangKeyWeDidNotFoundAnyBusinessProfile">We Did Not Found Any Business Profile</system:String>
+
+    <system:String x:Key="LangKeyOwnPageCount">Own Page Count</system:String>
+    <system:String x:Key="LangKeyActivatingBusinessAccountforPinterest">Activating Business Account for Pinterest</system:String>
+    <system:String x:Key="LangKeyStartActivityBusinessAccount" xml:space="preserve">This will result in stopping all activity from Normal Account and starting activity by Business Account.
+Do you want to continue?</system:String>
+    <system:String x:Key="LangKeyDeActivatingBusinessAccountforPinterest">Deactivating Business Account for Pinterest</system:String>
+        <system:String x:Key="LangKeyStartActivityNormalAccount" xml:space="preserve">This will result in stopping all activity from Business Account and starting activity by Normal Account.
+Do you want to continue?</system:String>
+
+        <system:String x:Key="LangKeyReportToVideosPerDay">Report To Videos Per Day</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerHour">Report To Videos Per Hour</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerJob">Report To Videos Per Job</system:String>
+    <system:String x:Key="LangKeyMaximumReportToVideosPerDay">Maximum Report To Videos Per Day</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerWeek">Report To Videos Per Week</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoReportVideo">This Socinator feature helps to automate report to videos on YouTube. It allows to filter videos and report to them on configured time.</system:String>
+    <system:String x:Key="LangKeyReportVideo">Report Video</system:String>
+
 </ResourceDictionary>
 

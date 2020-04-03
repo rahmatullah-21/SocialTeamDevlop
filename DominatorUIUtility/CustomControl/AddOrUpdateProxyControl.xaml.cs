@@ -51,12 +51,12 @@ namespace LegionUIUtility.CustomControl
         {
             try
             {
-                IProxyValidationService _proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
-                if (!_proxyValidationService.IsValidProxy(ProxyManagerModel.AccountProxy.ProxyIp, ProxyManagerModel.AccountProxy.ProxyPort))
-                {
-                    Dialog.ShowDialog("Proxy Warning", $"Invalid Proxy IP format :- \"{ProxyManagerModel.AccountProxy.ProxyIp}\". ");
-                    return;
-                }
+                //IProxyValidationService _proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
+                //if (!_proxyValidationService.IsValidProxy(ProxyManagerModel.AccountProxy.ProxyIp, ProxyManagerModel.AccountProxy.ProxyPort))
+                //{
+                //    Dialog.ShowDialog("Proxy Warning", $"Invalid Proxy IP format :- \"{ProxyManagerModel.AccountProxy.ProxyIp}\". ");
+                //    return;
+                //}
 
                 foreach (var proxy in ProxyManagerViewModel.LstProxyManagerModel)
                 {

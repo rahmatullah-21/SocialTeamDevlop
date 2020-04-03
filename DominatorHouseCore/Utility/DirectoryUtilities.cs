@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace DominatorHouseCore.Utility
 {
@@ -12,6 +14,19 @@ namespace DominatorHouseCore.Utility
             {
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
+            }
+            catch (IOException ex)
+            {
+                ex.DebugLog();
+                throw;
+            }
+        }
+
+        public static List<string> GetSubDirectories(string folder)
+        {
+            try
+            {
+                return Directory.GetDirectories(folder).ToList();
             }
             catch (IOException ex)
             {
@@ -112,6 +127,41 @@ namespace DominatorHouseCore.Utility
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+        }
+
+        public static void DeleteFolder(List<string> lstFilePath, bool isDeleteSubdirectory = false)
+        {
+            try
+            {
+                lstFilePath.ForEach(x =>
+                {
+                    try
+                    {
+                        if (Directory.Exists(x))
+                            Directory.Delete(x, isDeleteSubdirectory);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        public static bool CheckExistingFie(string fileName)
+        {
+            try
+            {
+                return File.Exists(fileName);
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
     }

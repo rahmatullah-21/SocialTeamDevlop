@@ -11,7 +11,7 @@
              xmlns:actcustom="clr-namespace:LegionUIUtility.Views.AccountSetting.CustomControl">
     <Grid Margin="5,0" Name="Setting">
         <StackPanel >
-            <CheckBox Content="Use Global query" IsChecked="{Binding IsUseGlobalQuery}" Margin="5"/>
+            <CheckBox Content="Use Global query" Visibility="Collapsed" IsChecked="{Binding IsUseGlobalQuery}" Margin="5"/>
             <Expander Header="{DynamicResource LangKeySearchQuery}" Margin="0,5" 
                       IsExpanded="{Binding IsExpanded,UpdateSourceTrigger=Explicit,Mode=OneWay}">
                 <customControl:SearchQueryControl  x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"

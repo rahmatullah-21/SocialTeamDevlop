@@ -13,6 +13,10 @@ namespace DominatorHouseCore.Enums.LdQuery
         [Description("LangKeyCustomPostsList")]
         CustomPosts,
         [Description("LangkeyGroupUrlPosts")]
-        GroupsUrlPosts
+        GroupsUrlPosts,
+        [Description("LangKeyCompanyPostUrl")]
+        CompanyUrlPost,
+        [Description("LangKeyHashtagPostUrl")]
+        HashtagUrlPost
     }
 }

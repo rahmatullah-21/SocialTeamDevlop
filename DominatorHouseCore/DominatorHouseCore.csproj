@@ -117,7 +117,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Interop.WindowsInstaller">
-      <HintPath>..\packages\WindowsInstaller\Interop.WindowsInstaller.dll</HintPath>
+      <HintPath>..\libs\WindowsInstaller\Interop.WindowsInstaller.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
@@ -258,8 +258,11 @@
     <Compile Include="Converters\MessageTypeTovisibilityConverter.cs" />
     <Compile Include="Converters\MessegeTypeToHorizontalAlignmentConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />
+    <Compile Include="Converters\PinterestAccountTypeToStatusConverter.cs" />
+    <Compile Include="Converters\PinterestAccountTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\PositiveValueConvertor.cs" />
     <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
+    <Compile Include="Converters\SelectedNetworkToVisibilityConverter.cs" />
     <Compile Include="Converters\SocialNetworkToLinkConverter.cs" />
     <Compile Include="Converters\SocialNetworkToColorBrushConverter.cs" />
     <Compile Include="Converters\SocialNetworkToVisualBrushConverter.cs" />
@@ -298,6 +301,7 @@
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackListUser.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
+    <Compile Include="DatabaseHandler\DHTables\InstaAccountBackup.cs" />
     <Compile Include="DatabaseHandler\DHTables\LocationList.cs" />
     <Compile Include="DatabaseHandler\DHTables\WhiteListUser.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\DailyStatitics.cs" />
@@ -369,9 +373,11 @@
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InvitationsSent.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Account\Pages.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\RemovedConnections.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Account\SkipInteractedAttachments.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\UnjoinedGroups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedCompanies.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedGroups.cs" />

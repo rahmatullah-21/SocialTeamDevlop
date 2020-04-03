@@ -68,6 +68,7 @@ namespace Legion.ViewModels
             }
         }
 
+
         public string ApplicationVersion
         {
             get
@@ -75,6 +76,9 @@ namespace Legion.ViewModels
                 return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             }
         }
+
+        public KeyValuePair<int, int> ScreenResolution { get; set; } = new KeyValuePair<int, int>();
+
 
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {

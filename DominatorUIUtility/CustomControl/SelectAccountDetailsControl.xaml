@@ -274,7 +274,7 @@
                                         <Button Cursor="Hand" Margin="6,2,6,2" IsEnabled="{Binding IsFriendsAvailable}"
                                                     Content="{Binding FriendsSelectorText}" 
                                                     x:Name="ButtonSelectFriends" 
-                                                    FontWeight="SemiBold"      
+                                                    FontWeight="SemiBold" Foreground="White"
                                                     Command="{Binding Path=DataContext.GetSingleAccountFriendsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                     Background="Transparent"/>
                                     </Border>

@@ -60,6 +60,7 @@ namespace LegionUIUtility.CustomControl
                     {
                         UserName = x.UserName,
                         GroupName = x.AccountBaseModel.AccountGroup.Content,
+                        AccountNikeName = x.AccountBaseModel.AccountName,
                         BrowserAutomation = x.IsRunProcessThroughBrowser
                     });
                     if (ObjAccountViewModel.SelectAccountModel.Groups.Any(group => group.Content == x.AccountBaseModel.AccountGroup.Content) == false)
@@ -121,6 +122,9 @@ namespace LegionUIUtility.CustomControl
                     case 1:
                         ObjAccountViewModel.AccountCollectionView.Filter = FilterByAccounts;
                         break;
+                    case 2:
+                        ObjAccountViewModel.AccountCollectionView.Filter = FilterByAccountsNikeName;
+                        break;
                     default:
                         if (!string.IsNullOrEmpty(txtSearch.Text))
                             ObjAccountViewModel.AccountCollectionView.Filter = FilterByAccounts;
@@ -159,6 +163,22 @@ namespace LegionUIUtility.CustomControl
                 var objAccountViewModel = accountName as SelectAccountModel;
                 return objAccountViewModel != null &&
                        objAccountViewModel.UserName.IndexOf(txtSearch.Text,
+                           StringComparison.InvariantCultureIgnoreCase) >= 0;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
+
+        private bool FilterByAccountsNikeName(object model)
+        {
+            try
+            {
+                var objAccountViewModel = model as SelectAccountModel;
+                return objAccountViewModel != null &&
+                       objAccountViewModel.AccountNikeName.IndexOf(txtSearch.Text,
                            StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)

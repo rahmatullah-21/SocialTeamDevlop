@@ -408,10 +408,9 @@ namespace LegionUIUtility.ViewModel
         private void ExportProxyExecute()
         {
             var proxiesToExport = LstProxyManagerModel.Where(proxy => proxy.IsProxySelected).ToList();
+
             if (!proxiesToExport.Any())
-            {
                 proxiesToExport = _proxyFileManager.GetAllProxy();
-            }
 
             ExportProxies(proxiesToExport);
         }
@@ -440,13 +439,7 @@ namespace LegionUIUtility.ViewModel
                 {
                     try
                     {
-                        var csvData = proxy.AccountProxy.ProxyGroup + ","
-                                                                    + proxy.AccountProxy.ProxyName + ","
-                                                                    + proxy.AccountProxy.ProxyIp + ","
-                                                                    + proxy.AccountProxy.ProxyPort + ","
-                                                                    + proxy.AccountProxy.ProxyUsername + ","
-                                                                    + proxy.AccountProxy.ProxyPassword + ","
-                                                                    + proxy.Status;
+                        var csvData = $"{proxy.AccountProxy.ProxyGroup},{proxy.AccountProxy.ProxyName},{proxy.AccountProxy.ProxyIp},{proxy.AccountProxy.ProxyPort},{proxy.AccountProxy.ProxyUsername},{proxy.AccountProxy.ProxyPassword},{proxy.Status}";
 
                         using (var streamWriter = new StreamWriter(filename, true))
                         {
@@ -455,7 +448,7 @@ namespace LegionUIUtility.ViewModel
                         }
 
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         GlobusLogHelper.log.Error("LangKeyErrorInExportProxies".FromResourceDictionary());
                     }
@@ -465,11 +458,8 @@ namespace LegionUIUtility.ViewModel
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
             }
-
-
         }
 
         public DataGrid ProxyDataGrid { get; set; }
@@ -498,11 +488,10 @@ namespace LegionUIUtility.ViewModel
                 view.GroupDescriptions.Clear();
                 if (IsShowByGroup)
                     view.GroupDescriptions.Add(groupDescription);
-
             }
             catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
 
@@ -605,8 +594,6 @@ namespace LegionUIUtility.ViewModel
                              .AddOrUpdateDominatorAccountBase(account.AccountBaseModel)
                              .SaveToBinFile();
                     });
-
-
             }
             catch (Exception ex)
             {
@@ -1035,12 +1022,6 @@ namespace LegionUIUtility.ViewModel
             {
                 proxyManagerModel.AccountsToBeAssign.Clear();
                 
-                    //if (IsNumOfAccountPerProxy && ProxyManagerModel.AccountsAssignedto.Count >= NumOfAccountPerProxy)
-                    //{
-                    //    ToasterNotification.ShowInfomation($"Can't add more accounts to this proxy as you have checked setting 'Add {NumOfAccountPerProxy} accounts per proxy'");
-                    //    return;
-                    //}
-                
                 _accountsFileManager.GetAll()?.ForEach(account =>
                  {
 
@@ -1083,11 +1064,11 @@ namespace LegionUIUtility.ViewModel
                     foreach (var acc in accounts)
                     {
 
-                       var workingOne = (SettingsModel.IsNumOfAccountPerProxy
-                                            ? LstProxyManagerModel.Where(x => x.Status == "Working" && x.AccountsAssignedto.Count < SettingsModel.NumOfAccountPerProxy)
-                                             : LstProxyManagerModel.Where(x => x.Status == "Working"))?.ToList()
-                            ?? new List<ProxyManagerModel>();
-                           
+                        var workingOne = (SettingsModel.IsNumOfAccountPerProxy
+                                             ? LstProxyManagerModel.Where(x => x.Status == "Working" && x.AccountsAssignedto.Count < SettingsModel.NumOfAccountPerProxy)
+                                              : LstProxyManagerModel.Where(x => x.Status == "Working"))?.ToList()
+                             ?? new List<ProxyManagerModel>();
+
                         if (workingOne.Count == 0)
                         {
                             ToasterNotification.ShowInfomation($"{"LangKeyNoWorkingProxiesAvailableToAssign".FromResourceDictionary()}{conditionalString}");
@@ -1095,7 +1076,7 @@ namespace LegionUIUtility.ViewModel
                         }
 
                         randomIndex = random.Next(workingOne.Count);
-                        
+
                         if (!string.IsNullOrWhiteSpace(acc.AccountBaseModel.AccountProxy.ProxyIp)
                                 && MatchedProxyWithFromList(acc.AccountBaseModel.AccountProxy)?.Status == "Working")
                             continue;
@@ -1122,7 +1103,10 @@ namespace LegionUIUtility.ViewModel
             {
                 GlobusLogHelper.log.Error(ex.Message);
             }
-
+            finally
+            {
+                IsRandomSelected = false;
+            }
         }
 
         ProxyManagerModel MatchedProxyWithFromList(Proxy proxy)

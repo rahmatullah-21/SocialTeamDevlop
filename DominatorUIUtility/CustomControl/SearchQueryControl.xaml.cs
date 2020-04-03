@@ -43,8 +43,7 @@ namespace LegionUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyOwnFriends".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyScrapUserWhomWeMessaged".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyPeopleConnectedInMessenger".FromResourceDictionary());
-            LstNonQueryType.Add("LangKeyIstConnectionOfConnections".FromResourceDictionary());
-
+            
             DeleteQueryCommand = new BaseCommand<object>((sender) => true, DeleteQueryExecute);
             DeleteMulipleCommand = new BaseCommand<object>((sender) => true, DeleteMulipleExecute);
 

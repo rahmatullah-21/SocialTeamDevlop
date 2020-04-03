@@ -7,6 +7,8 @@ using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
+using DominatorHouseCore;
+using System;
 
 namespace LegionUIUtility.CustomControl
 {
@@ -74,32 +76,35 @@ namespace LegionUIUtility.CustomControl
         private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
-
-            var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
-            if (!Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
+            try
             {
-                if (!IsChecked)
+                var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
+                if (!Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
                 {
-                    _isUncheckfromList = true;
-                    Comments.LstQueries[0].IsContentSelected = false;
+                    if (!IsChecked)
+                    {
+                        _isUncheckfromList = true;
+                        Comments.LstQueries[0].IsContentSelected = false;
+                    }
+                }
+                if (Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
+                {
+                    _isUncheckfromList = false;
+                    Comments.LstQueries[0].IsContentSelected = IsChecked;
+                }
+                if (_isUncheckfromList)
+                {
+                    _isUncheckfromList = false;
+                    return;
+                }
+
+                if (currentQuery == "All" || currentQuery == "Default")
+                {
+                    _isUncheckfromList = false;
+                    Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
                 }
             }
-            if (Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
-            {
-                _isUncheckfromList = false;
-                Comments.LstQueries[0].IsContentSelected = IsChecked;
-            }
-            if (_isUncheckfromList)
-            {
-                _isUncheckfromList = false;
-                return;
-            }
-
-            if (currentQuery == "All" || currentQuery == "Default")
-            {
-                _isUncheckfromList = false;
-                Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
-            }
+            catch (Exception ex) { ex.DebugLog(); }
         }
         private void AddCheckedQueryToList()
         {

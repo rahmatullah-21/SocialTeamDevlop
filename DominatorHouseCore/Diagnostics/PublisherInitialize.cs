@@ -110,7 +110,13 @@ namespace DominatorHouseCore.Diagnostics
                     if (campaigns.JobConfigurations.IsDelayPostChecked)
                     {
                         specificRunningTime = new List<TimeSpan>();
-                        specificRunningTime.Add(campaigns.JobConfigurations.TimeRange.StartTime);
+
+                        if (DateTime.Now.Date.Add(campaigns.JobConfigurations.TimeRange.StartTime) < DateTime.Now
+                                && DateTime.Now.TimeOfDay < campaigns.JobConfigurations.TimeRange.EndTime)
+                            specificRunningTime.Add(DateTime.Now.TimeOfDay);
+                        else
+                            specificRunningTime.Add(campaigns.JobConfigurations.TimeRange.StartTime);
+
                         for (int i = 0; i < campaigns.JobConfigurations.MaxPost - 1; i++)
                         {
                             specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(campaigns.JobConfigurations.DelayBetweenEachPost.EndValue, campaigns.JobConfigurations.DelayBetweenEachPost.StartValue))));

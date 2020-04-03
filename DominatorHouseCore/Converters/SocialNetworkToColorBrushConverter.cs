@@ -18,18 +18,6 @@ namespace DominatorHouseCore.Converters
                 {
                     case SocialNetworks.Facebook:
                         return (SolidColorBrush)(new BrushConverter().ConvertFrom("#3684C1"));
-                   
-                    //case SocialNetworks.Quora:
-                    //    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#28A745"));
-                    //case SocialNetworks.Gplus:
-                    //    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
-
-                    //case SocialNetworks.Youtube:
-                    //    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
-                    //case SocialNetworks.Tumblr:
-                    //    return Brushes.DimGray;
-                    //case SocialNetworks.TikTok:
-                    //    return Brushes.DarkCyan;
 
                     case SocialNetworks.Social:
                         return null;

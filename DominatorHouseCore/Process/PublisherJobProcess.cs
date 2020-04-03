@@ -16,6 +16,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.Extensions;
+using System.Collections.Concurrent;
 
 namespace DominatorHouseCore.Process
 {
@@ -23,6 +24,7 @@ namespace DominatorHouseCore.Process
     {
         protected readonly IGenericFileManager GenericFileManager;
         private readonly IAccountsFileManager _accountsFileManager;
+
 
         #region Constructor
 
@@ -38,9 +40,9 @@ namespace DominatorHouseCore.Process
             List<string> pageDestinationList,
             List<PublisherCustomDestinationModel> customDestinationModels,
             bool isPublishOnOwnWall,
-            CancellationTokenSource campaignCancellationToken):this()
+            CancellationTokenSource campaignCancellationToken) : this()
         {
-            
+
             // assign campaign Id
             CampaignId = campaignId;
 
@@ -287,6 +289,9 @@ namespace DominatorHouseCore.Process
                 // check whether need to run parallel
                 if (isRunParallel)
                 {
+                    if (AccountModel == null)
+                        return;
+
                     // Call with task
                     ThreadFactory.Instance.Start(() =>
                     {
@@ -397,7 +402,7 @@ namespace DominatorHouseCore.Process
             }
         }
 
-     
+
         /// <summary>
         /// Update Post with specified success status
         /// </summary>
@@ -578,6 +583,8 @@ namespace DominatorHouseCore.Process
 
             postModelWithGeneralSettings.MediaList = removeVideoExtension;
 
+            DownloadMediaFiles(postModelWithGeneralSettings);
+
             #endregion
 
             #region Macro Substitution
@@ -634,6 +641,7 @@ namespace DominatorHouseCore.Process
 
             #endregion
 
+
             return postModelWithGeneralSettings;
 
         }
@@ -680,6 +688,102 @@ namespace DominatorHouseCore.Process
 
             // Apply the delay to current campaign specifically for current account to next post in minutes
             Thread.Sleep(delay * 1000 * 60);
+        }
+
+
+        protected void DownloadMediaFiles(PublisherPostlistModel postDetails)
+        {
+            try
+            {
+                if (!postDetails.MediaList.Any(x => x.Contains("https://") || x.Contains("http://")))
+                    return;
+                var downloadLock = PublishScheduler.DownloadLock.GetOrAdd(postDetails.PostId, _lock => new object());
+                RemovePreviousDirectory();
+
+                var folderPath = $@"{ConstantVariable.MediaTempFolder}\[{DateTime.Now.ToString("MM-dd-yyyy")}]";
+
+                DirectoryUtilities.CreateDirectory(folderPath);
+
+                var mediaCount = postDetails.MediaList.Count;
+
+                foreach (var media in postDetails.MediaList.DeepCloneObject())
+                {
+                    lock (downloadLock)
+                    {
+
+                        var fileName = $"{folderPath}\\{postDetails.CampaignId}_{postDetails.PostId}_{mediaCount--}" +
+                            $"{MediaUtilites.GetExtensionList().FirstOrDefault(x => System.Text.RegularExpressions.Regex.IsMatch(media, $@"\b{x}\b"))}";
+
+                        if ((!media.Contains("https://") && !media.Contains("http://")))
+                            continue;
+
+                        if (DirectoryUtilities.CheckExistingFie(fileName))
+                        {
+                            postDetails.MediaList[postDetails.MediaList.IndexOf(media)] = fileName;
+                            continue;
+                        }
+
+                        if (MediaUtilites.DownloadMediaFromUrl(media, fileName))
+                        {
+                            postDetails.MediaList[postDetails.MediaList.IndexOf(media)] = fileName;
+                        }
+                        else
+                        {
+                            postDetails.CanPostForNetwork = false;
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void RemovePreviousDirectory()
+        {
+            try
+            {
+                var lstTemprorayFolderList = DirectoryUtilities.GetSubDirectories(ConstantVariable.MediaTempFolder);
+
+                lstTemprorayFolderList.RemoveAll(x => x.Contains($@"[{DateTime.Now.ToString("MM-dd-yyyy")}]") ||
+                                 x.Contains($@"[{ DateTime.Now.AddDays(-1).ToString("MM-dd-yyyy")}]"));
+
+                DirectoryUtilities.DeleteFolder(lstTemprorayFolderList, true);
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        protected bool ValidateInstagramPosts(PublisherPostlistModel postDetails)
+        {
+            try
+            {
+                if (postDetails.MediaList.Count == 0)
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName
+                        , "", $"Post with Id {postDetails.PostId} dosen't contain any media! Failed to publish");
+                    return false;
+                }
+
+                if(postDetails.MediaList.Any(x => x.StartsWith("https://") ||
+                    postDetails.MediaList.Any(y => y.StartsWith("http://"))))
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName
+                        , "", $"Post with Id {postDetails.PostId} has media in \"Incorrect Format\"! Failed to publish");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            return true;
         }
 
         #endregion

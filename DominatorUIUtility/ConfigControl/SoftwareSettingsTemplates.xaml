@@ -174,8 +174,10 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" >
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotSortAccountsByUserName}"
+                                <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotSortAccountsBy}"
                                   IsChecked="{Binding DoNotSortByUserNameChecked}"/>
+                                <RadioButton Margin="5" GroupName="SortAccountGroup" Content="{DynamicResource LangKeyAccountUsername}" IsChecked="{Binding SortByUsername}"/>
+                                <RadioButton Margin="5" GroupName="SortAccountGroup" Content="{DynamicResource LangKeyAccountNikeName}" IsChecked="{Binding SortByNikename}"/>
                             </StackPanel>
 
                         </StackPanel>

@@ -10,6 +10,7 @@ namespace DominatorHouseCore.Interfaces
         public ColumnSpecificationAdapter(IAccountCountFactory misnamed_factory)
         {
             names = new List<string>();
+            if (misnamed_factory.HeaderColumn5Visiblity) names.Add(misnamed_factory.HeaderColumn5Value);
             if (misnamed_factory.HeaderColumn1Visiblity) names.Add(misnamed_factory.HeaderColumn1Value);
             if (misnamed_factory.HeaderColumn2Visiblity) names.Add(misnamed_factory.HeaderColumn2Value);
             if (misnamed_factory.HeaderColumn3Visiblity) names.Add(misnamed_factory.HeaderColumn3Value);

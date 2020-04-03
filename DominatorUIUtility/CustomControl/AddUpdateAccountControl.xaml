@@ -33,6 +33,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+
             <RowDefinition Height="5*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -59,6 +60,17 @@
                      Height="30" Grid.Column="1"  KeyDown="OnKeyDown"/>
         </Grid>
         <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2.5*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="txtblockAccountName" Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
+            <TextBox Name="txtAccountName" Text="{Binding AccountName}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyAccountNikeName}" 
+                     Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  
+                     Height="30" Grid.Column="1"  KeyDown="OnKeyDown"/>
+        </Grid>
+
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
@@ -98,7 +110,9 @@
 
         </Grid>
 
+
         <Grid Grid.Row="4" Visibility="Collapsed">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
@@ -110,9 +124,11 @@
                         <DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Youtube}" >
                             <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
-                        --><!--<DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Gplus}" >
+                        -->
+                    <!--<DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Gplus}" >
                             <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>--><!--
+                        </DataTrigger>-->
+                    <!--
                     </Style.Triggers>-->
                 </Style>
             </Grid.Style>
@@ -255,6 +271,7 @@
                 </PasswordBox>
             </Grid>
         </Grid>
+
         <Grid Grid.Row="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

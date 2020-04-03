@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 #endregion
 
@@ -44,7 +45,14 @@ namespace Socinator
 
                 SocinatorInitialize.LogInitializer(this);
 
+                var interopHelper = new WindowInteropHelper(Application.Current.MainWindow);
+                var activeScreen = System.Windows.Forms.Screen.FromHandle(interopHelper.Handle);
+
                 mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+
+                mainViewModel.ScreenResolution = new KeyValuePair<int, int>
+                    (activeScreen.WorkingArea.Width, activeScreen.WorkingArea.Height);
+
                 SocinatorWindow.DataContext = mainViewModel;
                 Loaded += (o, e) =>
                 {
