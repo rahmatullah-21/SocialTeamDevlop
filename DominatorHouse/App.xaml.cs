@@ -111,7 +111,7 @@ namespace Socinator
                 {
                     try
                     {
-                        if (item.ProcessName != "GramBoard")
+                        if (item.ProcessName != "InstaScraper")
                             continue;
                         itemCount++;
                         if (itemCount <= 1) continue;

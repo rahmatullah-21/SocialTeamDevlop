@@ -384,9 +384,9 @@
     <Content Include="CefSharp.Wpf.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InstaScraper.ico">
+    <Resource Include="InstaScraper.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <Content Include="InstaScraperIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
