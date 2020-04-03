@@ -1,7 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
@@ -29,11 +31,14 @@ namespace DominatorHouseCore.Interfaces
             _PostFetcherCancellationToken = campaignCancellationToken;
 
             var postList = PostlistFileManager.GetAll(_CampaignId);
-            _campaignPostCount.AddOrUpdate(_CampaignId, postList.Count, (id, count) =>
-            {
-                count = postList.Count;
-                return count;
-            });
+            var pendingPostCount = PostlistFileManager.GetAll
+                (_CampaignId)?.Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending)?.ToList();
+            _campaignPostCount.AddOrUpdate(_CampaignId, pendingPostCount == null ? 0 : pendingPostCount.Count
+                , (id, count) =>
+               {
+                   count = pendingPostCount == null ? 0 : pendingPostCount.Count;
+                   return count;
+               });
 
             postList.ForEach(x =>
             {
@@ -75,7 +80,7 @@ namespace DominatorHouseCore.Interfaces
         protected bool CheckForDuplicatePost(string postId)
         {
             var updatelock = _UpdatingLock.GetOrAdd($"{_CampaignId}_Duplicates", _lock => new object());
-            
+
             lock (updatelock)
             {
                 if (_lstCampaignPostId.TryAdd(postId, _CampaignId))
@@ -85,7 +90,7 @@ namespace DominatorHouseCore.Interfaces
                     _PostFetcherCancellationToken.Token.ThrowIfCancellationRequested();
 
                     return false;
-                }                    
+                }
                 else
                     return true;
             }

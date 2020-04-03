@@ -522,7 +522,6 @@
     <Compile Include="Enums\MouseKeys.cs" />
     <Compile Include="Enums\PdQuery\PDPinQueries.cs" />
     <Compile Include="Enums\PdQuery\PDUsersQueries.cs" />
-    <Compile Include="Enums\PinterestAccountType.cs" />
     <Compile Include="Enums\QdQuery\BroadcastMessageQuery.cs" />
     <Compile Include="Enums\QdQuery\FollowerQuery.cs" />
     <Compile Include="Enums\QueryType.cs" />

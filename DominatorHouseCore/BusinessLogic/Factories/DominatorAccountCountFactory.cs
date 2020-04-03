@@ -20,5 +20,7 @@ namespace DominatorHouseCore.BusinessLogic.Factories
         public bool HeaderColumn3Visiblity { get; set; } = false;
         public string HeaderColumn4Value { get; set; } = string.Empty;
         public bool HeaderColumn4Visiblity { get; set; } = false;
+        public string HeaderColumn5Value { get; set; }
+        public bool HeaderColumn5Visiblity { get; set; } = false;
     }
 }

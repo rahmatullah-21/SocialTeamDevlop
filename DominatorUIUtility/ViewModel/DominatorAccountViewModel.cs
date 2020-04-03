@@ -319,18 +319,28 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var accountFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().AccountUpdateFactory;
-                    if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
-                    {
-                        var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
-                        asyncAccount.SwitchToBusinessAccount(dominatorAccountModel, new CancellationToken(), false);
-                    }
+                var result = Dialog.ShowCustomDialog("LangKeyDeActivatingBusinessAccountforPinterest".FromResourceDictionary(),
+                            "LangKeyStartActivityNormalAccount".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
 
-                });
+                if (result == MessageDialogResult.Affirmative)
+                {
+
+                    StopAllActivity(new List<DominatorAccountModel>() { dominatorAccountModel }, true);
+
+                    ThreadFactory.Instance.Start(() =>
+                    {
+
+                        var accountFactory = SocinatorInitialize
+                            .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                            .GetNetworkCoreFactory().AccountUpdateFactory;
+                        if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
+                        {
+                            var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
+                            asyncAccount.SwitchToBusinessAccount(dominatorAccountModel, new CancellationToken(), false);
+                        }
+
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -344,17 +354,28 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                ThreadFactory.Instance.Start(() =>
+                var result = Dialog.ShowCustomDialog("LangKeyActivatingBusinessAccountforPinterest".FromResourceDictionary(),
+                            "LangKeyStartActivityBusinessAccount".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+
+                if (result == MessageDialogResult.Affirmative)
                 {
-                    var accountFactory = SocinatorInitialize
+                    StopAllActivity(new List<DominatorAccountModel>() { dominatorAccountModel }, true);
+
+                    ThreadFactory.Instance.Start(() =>
+                    {
+
+                        var accountFactory = SocinatorInitialize
                         .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
                         .GetNetworkCoreFactory().AccountUpdateFactory;
-                    if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
-                    {
-                        var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
-                        asyncAccount.SwitchToBusinessAccount(dominatorAccountModel, new CancellationToken());
-                    }
-                });
+                        if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
+                        {
+                            var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
+                            asyncAccount.SwitchToBusinessAccount(dominatorAccountModel, new CancellationToken());
+                        }
+
+
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -389,28 +410,51 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                Task.Factory.StartNew(() =>
-                {
-                    selectedAccount.ForEach(account =>
-                    {
-                        var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                            .GetNetworkCoreFactory().AccountUpdateFactory;
-                        try
-                        {
-                            if (!_changeBusinessAccountList.Contains(account.AccountBaseModel.UserName))
-                                MultipleBusinessAccoutSwitch(account, accountType, accountFactory);
-                            else
-                                GlobusLogHelper.log.Info(Log.AlreadyUpdatingAccount,
-                                    account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
+                var result = accountType == "BusinessAccount" ?
+                            Dialog.ShowCustomDialog("LangKeyActivatingBusinessAccountforPinterest".FromResourceDictionary(),
+                            "LangKeyStartActivityBusinessAccount".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary())
+                            : Dialog.ShowCustomDialog("LangKeyDeActivatingBusinessAccountforPinterest".FromResourceDictionary(),
+                            "LangKeyStartActivityNormalAccount".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
 
-                            Task.Delay(5);
-                        }
-                        catch (Exception ex)
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    var accountsToProcess = selectedAccount;
+
+                    if (accountsToProcess.Count() == 0)
+                    {
+                        ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
+                        return;
+                    }
+
+                    StopAllActivity(accountsToProcess.ToList(), true);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        selectedAccount.ForEach(account =>
                         {
-                            ex.DebugLog();
-                        }
+
+                            var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                .GetNetworkCoreFactory().AccountUpdateFactory;
+                            try
+                            {
+                                if (!_changeBusinessAccountList.Contains(account.AccountBaseModel.UserName))
+                                    MultipleBusinessAccoutSwitch(account, accountType, accountFactory);
+                                else
+                                    GlobusLogHelper.log.Info(Log.AlreadyUpdatingAccount,
+                                        account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
+
+                                Task.Delay(5);
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
+                            }
+
+
+                        });
                     });
-                });
+
+                }
             }
             catch (Exception ex)
             {
@@ -581,7 +625,9 @@ namespace DominatorUIUtility.ViewModel
                     VisibleColumns.Clear();
                     VisibleColumns.AddRange(spec.VisibleHeaders.Select((name, colIndex) => new GridViewColumn
                     {
-                        DisplayMemberBinding = new Binding($"DisplayColumnValue{colIndex + 1}"),
+                        DisplayMemberBinding = name == "Pinterest Account Type" ? new Binding($"DisplayColumnValue11")
+                            : e == SocialNetworks.Pinterest ? new Binding($"DisplayColumnValue{colIndex}") :
+                            new Binding($"DisplayColumnValue{colIndex + 1}"),
                         Header = name,
                         Width = 130
                     }));
@@ -723,7 +769,7 @@ namespace DominatorUIUtility.ViewModel
                                     : loadedAccountlist[0].Trim().Split('\t').Count() == 16;
 
                 Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
-                
+
                 #region Add to bin files which are valid accounts
 
                 ////add the account to DominatorAccountModel list and bin file
@@ -1985,6 +2031,10 @@ namespace DominatorUIUtility.ViewModel
                                             UpdateToDb(account.AccountBaseModel.AccountId, account.AccountBaseModel.AccountName, globalDbOperation);
                                         }
 
+                                        if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
+                                            account.DisplayColumnValue11 = string.IsNullOrEmpty(account.DisplayColumnValue11)
+                                                ? (PinterestAccountType.Inactive.GetDescriptionAttr()).FromResourceDictionary() : account.DisplayColumnValue11;
+
                                         LstDominatorAccountModel.AddSync(account);
                                     }
                                 }
@@ -2106,7 +2156,8 @@ namespace DominatorUIUtility.ViewModel
                             DisplayColumnValue1 = account.DisplayColumnValue1,
                             DisplayColumnValue2 = account.DisplayColumnValue2,
                             DisplayColumnValue3 = account.DisplayColumnValue3,
-                            DisplayColumnValue4 = account.DisplayColumnValue4
+                            DisplayColumnValue4 = account.DisplayColumnValue4,
+                            DisplayColumnValue11 = account.DisplayColumnValue11
                         };
 
                         if (!string.IsNullOrEmpty(account.Cookies))
@@ -2317,18 +2368,6 @@ namespace DominatorUIUtility.ViewModel
                         if (checkResult)
                         {
                             await asyncBusinessAccount.SwitchToBusinessAccountAsync(account, businessAccountCancellationTRoken, accountType == "NormalAccount" ? false : true);
-
-                            //try
-                            //{
-                            //    lock (AccountUpdateLock)
-                            //    {
-                            //        Monitor.Pulse(AccountUpdateLock);
-                            //    }
-                            //}
-                            //catch (Exception ex)
-                            //{
-                            //    ex.DebugLog();
-                            //}
                         }
                     }
                     catch (OperationCanceledException ex)
