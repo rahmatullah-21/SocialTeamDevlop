@@ -662,14 +662,18 @@ namespace DominatorUIUtility.ViewModel
                         GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
                     }
 
+                    var httpCookies = objAddUpdateAccountControl.JsonCookies;
+                    var browserCookies = objAddUpdateAccountControl.JsonBrowserCookies;
+                    var browserActivated = objAddUpdateAccountControl.RunThroughBrowserAutomation.IsChecked ?? false;
+
                     ThreadFactory.Instance.Start(() =>
                     {
-                        AddAccount(objDominatorAccountBaseModel, String.Empty, act =>
+                        AddAccount(objDominatorAccountBaseModel, httpCookies, act =>
                         {
                             var th = new Thread(() => act()) { IsBackground = true };
                             th.Start();
                             return () => th.Abort();
-                        }, string.Empty, false);
+                        }, browserCookies, browserActivated);
                     });
                 }
                 catch (Exception ex)
@@ -1053,16 +1057,19 @@ namespace DominatorUIUtility.ViewModel
                 RowNo = LstDominatorAccountModel.Count + 1,
                 AccountId = dominatorAccountBaseModel.AccountId
             };
-            if (!string.IsNullOrEmpty(cookies)/* && dominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube*/)
+            if (!string.IsNullOrEmpty(cookies))
                 try
                 {
                     dominatorAccountModel.CookieHelperList = JArray.Parse(cookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
+                }
+                catch{}
+            if (!string.IsNullOrEmpty(browserCookies))
+                try
+                {
                     dominatorAccountModel.BrowserCookieHelperList = JArray.Parse(browserCookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
                 }
-                catch (Exception ex)
-                {
+                catch{}
 
-                }
             List<ProxyManagerModel> oldproxies = _proxyFileManager.GetAllProxy();
 
             dominatorAccountModel.IsRunProcessThroughBrowser = isBrowserAutomationActive;

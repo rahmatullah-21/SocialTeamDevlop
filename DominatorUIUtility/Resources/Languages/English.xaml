@@ -4667,4 +4667,8 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyReportToVideosPerWeek">Report To Videos Per Week</system:String>
     <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoReportVideo">This Socinator feature helps to automate report to videos on YouTube. It allows to filter videos and report to them on configured time.</system:String>
     <system:String x:Key="LangKeyReportVideo">Report Video</system:String>
+
+    <system:String x:Key="LangKeyCookiesNotInValidJsonText">Cookies are not in a valid json text form.</system:String>
+    <system:String x:Key="LangKeyNoCookiesAdded">No cookies were added.</system:String>
+    <system:String x:Key="LangKeyRemovedCookiesSuccessfully">Removed added cookies successfully</system:String>
 </ResourceDictionary>

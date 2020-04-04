@@ -814,12 +814,12 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (ex.Message?.Contains(" parsing ") ?? false)
                 {
-                    ToasterNotification.ShowError("Cookies are not in a valid json text form.");
+                    ToasterNotification.ShowError("LangKeyCookiesNotInValidJsonText".FromResourceDictionary());
                 }
                 else
                 {
                     ex.DebugLog(!string.IsNullOrWhiteSpace(expireString) ? $"expireString:{expireString}" : "");
-                    ToasterNotification.ShowError("Oops! An error occured.");
+                    ToasterNotification.ShowError("LangKeyOopsAnErrorOccured".FromResourceDictionary());
                 }
             }
         }
