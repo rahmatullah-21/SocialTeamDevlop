@@ -216,6 +216,8 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _displayColumnValue5, value); }
         }
 
+        
+
         [ProtoIgnore]
         public int? DisplayColumnValue6
         {
@@ -284,6 +286,7 @@ namespace DominatorHouseCore.Models
         private int? _displayColumnValue8;
         private int? _displayColumnValue9;
         private int? _displayColumnValue10;
+        private string _displayColumnValue11;
 
         [ProtoIgnore]
         public CookieCollection Cookies
@@ -502,23 +505,12 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private PinterestAccountType _accountType = PinterestAccountType.NotAvailable;
 
         [ProtoMember(30)]
-        public PinterestAccountType AccountType
+        public string DisplayColumnValue11
         {
-            get
-            {
-                if (AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest && _accountType == PinterestAccountType.NotAvailable)
-                    return PinterestAccountType.Inactive;
-                return _accountType;
-            }
-            set
-            {
-                //if (_accountType != null)
-                //    return;
-                SetProperty(ref _accountType, value);
-            }
+            get { return _displayColumnValue11; }
+            set { SetProperty(ref _displayColumnValue11, value); }
         }
 
         [ProtoIgnore]

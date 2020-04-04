@@ -46,4 +46,14 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyUpdatingDetails")]
         UpdatingDetails
     }
+
+    public enum PinterestAccountType
+    {        
+        [Description("LangKeyNormalMode")]
+        Inactive,
+        [Description("LangKeyNotAvailable")]
+        NotAvailable,
+        [Description("LangKeyBusinessMode")]
+        Active
+    }
 }

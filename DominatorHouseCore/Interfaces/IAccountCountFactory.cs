@@ -24,6 +24,10 @@ namespace DominatorHouseCore.Interfaces
         string HeaderColumn4Value { get; set; }
 
         bool HeaderColumn4Visiblity { get; set; }
+
+        string HeaderColumn5Value { get; set; }
+
+        bool HeaderColumn5Visiblity { get; set; }
     }
 
     public interface IColumnSpecificationProvider

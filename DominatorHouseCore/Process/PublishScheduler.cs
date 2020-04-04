@@ -1510,8 +1510,17 @@ namespace DominatorHouseCore.Process
             // stop already running campaigns
             StopScheduledPublisher(campaign.CampaignId);
 
+            var postDetailsList = PostlistFileManager.GetAll(campaign.CampaignId);
+
+            postDetailsList = postDetailsList.Where(x => x.PostQueuedStatus == PostQueuedStatus.Published
+                    && x.LstPublishedPostDetailsModels.FirstOrDefault(y => y.PublishedDate.Date == DateTime.Now.Date
+                    && y.Successful == ConstantVariable.Yes) != null).ToList();
+
             // Get the specific running time of a campaign
             var timeRange = campaign.SpecificRunningTime;
+
+            if (timeRange.Count > postDetailsList.Count)
+                timeRange = timeRange.Take(timeRange.Count - postDetailsList.Count).ToList();
 
             // Check whether random time for every day has selected
             if (campaign.IsRandomRunningTime)
@@ -1557,36 +1566,41 @@ namespace DominatorHouseCore.Process
                              // Add into scheduled lsit
                              PublisherScheduledList.Add(addJobName);
 
-                             if (startTime.AddSeconds(10) < DateTime.Now)
+                             //if (startTime.AddSeconds(10) < DateTime.Now)
+                             //    startTime = startTime.AddDays(1);
+
+                             if (DateTime.Now.Date.Add(campaign.TimeRange.EndTime) < DateTime.Now)
+                                 startTime = startTime.AddDays(1);
+                             else if (postDetailsList.Count > campaign.SpecificRunningTime.Count)
                                  startTime = startTime.AddDays(1);
 
                              // Add job manager
                              JobManager.AddJob(() =>
-                                  {
-                                      var scheduleTime = startTime;
-                                      if (ValidateCampaignsTime(campaign))
-                                      {
-                                          if (!(startTime > DateTime.Now.AddMinutes(1)))
-                                          { // Call the start publishing
-                                              StartPublishingPosts(campaign);
-                                              return;
-                                          }
-                                          scheduleTime = DateTime.Now.AddSeconds((startTime - DateTime.Now).TotalSeconds);
-                                      }
-                                      else
-                                      {
-                                          if ((campaign.EndDate != null && campaign.EndDate < DateTime.Now) || campaign.StartDate == null)
-                                              return;
-                                          scheduleTime = DateTime.Now.AddSeconds(((campaign.StartDate ?? DateTime.Now) - DateTime.Now).TotalSeconds);
-                                      }
+                                          {
+                                              var scheduleTime = startTime;
+                                              if (ValidateCampaignsTime(campaign))
+                                              {
+                                                  if (!(startTime > DateTime.Now.AddMinutes(1)))
+                                                  { // Call the start publishing
+                                                      StartPublishingPosts(campaign);
+                                                      return;
+                                                  }
+                                                  scheduleTime = DateTime.Now.AddSeconds((startTime - DateTime.Now).TotalSeconds);
+                                              }
+                                              else
+                                              {
+                                                  if ((campaign.EndDate != null && campaign.EndDate < DateTime.Now) || campaign.StartDate == null)
+                                                      return;
+                                                  scheduleTime = DateTime.Now.AddSeconds(((campaign.StartDate ?? DateTime.Now) - DateTime.Now).TotalSeconds);
+                                              }
 
-                                      JobManager.AddJob(() =>
-                                      {
-                                          // Call the start publishing
-                                          SchedulePublisher(campaign);
-                                      }, x => x.WithName(addJobName).ToRunOnceAt(scheduleTime));
+                                              JobManager.AddJob(() =>
+                                              {
+                                                  // Call the start publishing
+                                                  SchedulePublisher(campaign);
+                                              }, x => x.WithName(addJobName).ToRunOnceAt(scheduleTime));
 
-                                  }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
+                                          }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
 
                              // Get the advanced settings details of an campaigns
                              var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);

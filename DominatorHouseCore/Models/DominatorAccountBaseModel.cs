@@ -294,6 +294,24 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _accountName, value); }
         }
 
+        private PinterestAccountType _pinterestAccountType;
+
+        [ProtoMember(17)]
+        public PinterestAccountType PinterestAccountType
+        {
+            get
+            {
+                if (AccountNetwork != SocialNetworks.Pinterest)
+                    return PinterestAccountType.NotAvailable;
+                return _pinterestAccountType;
+            }
+            set
+            {
+                SetProperty(ref _pinterestAccountType, value);
+            }
+        }
+
+
         public override string ToString()
         {
             return string.Format("{0} on {1}", _userName, _accountNetwork);

@@ -286,7 +286,7 @@
                                         </MenuItem.Icon>
                                     </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" Command="{Binding SwitchToSingleBusinessAccountCommandExecute}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}" CommandParameter="BusinessAccount">
+                                    <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}" CommandParameter="BusinessAccount">
                                         <MenuItem.Icon>
                                             <Rectangle Width="15" Height="15" Fill="Red">
                                                 <Rectangle.OpacityMask>
@@ -296,7 +296,7 @@
                                         </MenuItem.Icon>
                                     </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}" Command="{Binding SwitchToNormalAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}" CommandParameter="NormalAccount">
+                                    <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}" CommandParameter="NormalAccount">
                                         <MenuItem.Icon>
                                             <Rectangle Width="15" Height="15" Fill="Red">
                                                 <Rectangle.OpacityMask>
@@ -562,7 +562,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
 
-                                <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}" Command="{Binding SwitchToNormalAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}"  CommandParameter="NormalAccount">
+                                <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}"  CommandParameter="NormalAccount">
                                     <MenuItem.Icon>
                                         <Rectangle Width="15" Height="15" Fill="Red">
                                             <Rectangle.OpacityMask>
@@ -735,7 +735,7 @@
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
                             <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" 
-                                  CommandParameter="{Binding}"  Visibility="{Binding AccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverterInverted}}"
+                                  CommandParameter="{Binding}"  Visibility="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverterInverted}}"
                                   Command="{Binding Data.SwitchToSingleBusinessAccountCommand, Source={StaticResource ContextMenuBinding}}">
                                 <MenuItem.Icon>
                                     <Rectangle Fill="Red" Width="20" Height="20">
@@ -747,7 +747,7 @@
                             </MenuItem>
 
                             <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}"
-                                  CommandParameter="{Binding}" Visibility="{Binding AccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverter}}"
+                                  CommandParameter="{Binding}" Visibility="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverter}}"
                                   Command="{Binding Data.SwitchToSingleNormalAccountCommand, Source={StaticResource ContextMenuBinding}}">
                                 <MenuItem.Icon>
                                     <Rectangle Fill="Red" Width="20" Height="20">
@@ -954,7 +954,7 @@
 
                             <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
 
-                            <GridViewColumn  Header="{DynamicResource LangKeyPinterestAccountType}" DisplayMemberBinding="{Binding AccountType, Converter={StaticResource PinterestAccountTypeToStatusConverter}}"/>
+                            <!--<GridViewColumn  Header="{DynamicResource LangKeyPinterestAccountType}" DisplayMemberBinding="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToStatusConverter}}"/>-->
 
                             <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" Width="130">
                                 <GridViewColumn.CellTemplate>

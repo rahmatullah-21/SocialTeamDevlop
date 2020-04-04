@@ -289,6 +289,9 @@ namespace DominatorHouseCore.Process
                 // check whether need to run parallel
                 if (isRunParallel)
                 {
+                    if (AccountModel == null)
+                        return;
+
                     // Call with task
                     ThreadFactory.Instance.Start(() =>
                     {
