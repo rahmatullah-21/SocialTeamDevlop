@@ -103,8 +103,8 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <!--<TextBlock Text="{DynamicResource LangKeyQueriesList}" VerticalAlignment="Center" HorizontalAlignment="Left"/>-->
                                 <mah:Badged Badge="{Binding ListQueryInfo.Count}" Margin="10,15,0,0">
-                                    <Label Content="{DynamicResource LangKeyQueriesList}" VerticalAlignment="Center"
-                           Foreground="{DynamicResource IconFillBrushAccordingTheme}"/>
+                                    <Label Content="{DynamicResource LangKeyQueriesList}" VerticalAlignment="Center"  FontWeight="Bold" 
+                           Foreground="GhostWhite"/>
                                 </mah:Badged>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="5,0" HorizontalAlignment="Right">
