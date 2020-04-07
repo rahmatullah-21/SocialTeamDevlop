@@ -1,3 +1,45 @@
+Version[1.0.0.82],[7th April 2020]
+New Features:-
+		Social:
+			Accounts ==> Account Manager ==>  Add Single Account => Added options (import Json cookies and Activate BrowserAutomation) in Advanced option.
+		
+		Pinterest:
+			Accounts ==> Account Manager ==> Now you can Switch to business account.
+					
+		Linkedin:
+			Engage ==> Like ==> Search query ==> Company page posts/Hastag Posts ==> Now you can like posts of the Page and Hastag posts.	
+				
+Fixed:-
+	Social:
+		Publisher ==> Instagram ==> Fixed issue with post as album. 
+	
+	Twitter:
+		Messenger ==> Fixed issue with sending messages to new followers.
+	
+	Linkedin:
+		Scraper ==> Fixed issue with Attachment message scraper. 
+		Messanger ==> Fixed issue with Send messages to new connections. 
+		Scraper ==> Message attachment scraper ==> export file ==> Fixed issue extension or file type. 
+		Salesnavigator scraper ==> Userscraper ==> searc Url ==> fixed issue with wrong url in export file. 
+	
+	Instagram:
+		Instaposter ==> Reposter ==> Fixed issue with reposter. 
+	
+	Pinterest:
+		Boards ==> Fixed issue with  board count update.	
+
+	Facebook:
+		Broadcast message ==> Messages to own friends ==> Fixed issue with sending messages to own friends.
+		Grow friends ==> Send Friend request ==> Post liker ==> Fixed issue with post url
+		Grow friends ==> Withdraw friend requests ==> Fixed issue with rotating in loop.	
+
+	Youtube:
+		Engage ==> Comment ==> Fixed issue with comments.
+	
+	Reddit:
+		Voter ==> Upvote ==> Fixed issue with upvote.
+		Grow followers ==> campaign ==> Fixed issue with Report on follow campaign.
+		.
 Version[1.0.0.81],[20th March 2020]
 Fixed:-
     Social:
