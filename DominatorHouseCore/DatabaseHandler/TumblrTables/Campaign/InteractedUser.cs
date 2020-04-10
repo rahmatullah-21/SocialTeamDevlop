@@ -80,5 +80,8 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public string DirectMessage { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
+        public string PageUrl { get; set; }
+
     }
 }
