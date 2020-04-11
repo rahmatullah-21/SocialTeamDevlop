@@ -217,7 +217,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <TextBlock  Margin="6,2,6,2" Text="{Binding AccountName}"/>
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding AccountName}" Foreground="{DynamicResource TextColorBrushAccordingTheme}"/>
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -236,7 +236,7 @@
                                                     x:Name="ButtonSelectGroups" 
                                                     FontWeight="SemiBold"       
                                                     Command="{Binding Path=DataContext.GetSingleAccountGroupsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                    Background="Transparent"/>
+                                                    Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme}"/>
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -258,7 +258,7 @@
                                                     x:Name="ButtonSelectGroups" 
                                                     FontWeight="SemiBold"      
                                                     Command="{Binding Path=DataContext.GetSingleAccountPagesOrBoardsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                    Background="Transparent"/>
+                                                    Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme}"/>
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -274,7 +274,7 @@
                                         <Button Cursor="Hand" Margin="6,2,6,2" IsEnabled="{Binding IsFriendsAvailable}"
                                                     Content="{Binding FriendsSelectorText}" 
                                                     x:Name="ButtonSelectFriends" 
-                                                    FontWeight="SemiBold" Foreground="White"
+                                                    FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"
                                                     Command="{Binding Path=DataContext.GetSingleAccountFriendsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                     Background="Transparent"/>
                                     </Border>
@@ -294,7 +294,7 @@
                                                 x:Name="ButtonSelectGroups" 
                                                 FontWeight="SemiBold"      
                                                 Command="{Binding Path=DataContext.AddCustomDestinationCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                Background="Transparent"/>
+                                                Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme}"/>
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -311,7 +311,7 @@
                                                 Content="{Binding StatusSyncContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                 x:Name="ButtonStatusSync" FontSize="12"   ToolTip="{DynamicResource LangKeyToolTipForSync}"                                            
                                                 Command="{Binding Path=DataContext.StatusSyncCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                Background="Transparent">
+                                                Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme}">
                                         </Button>
                                     </Border>
                                 </DataTemplate>

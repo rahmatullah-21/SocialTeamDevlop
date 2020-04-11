@@ -2601,7 +2601,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void ActivateBrowserAutomationExecute(object sender)
         {
-            if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
+            if (sender.Equals("ActiveBrowser") && LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
             {
                 var result = Dialog.ShowCustomDialog("LangKeyActivatingBrowserAutomation".FromResourceDictionary(),
                   "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
@@ -2643,7 +2643,36 @@ namespace DominatorUIUtility.ViewModel
             }
             else
             {
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+                try
+                {
+                    var model = sender as DominatorAccountModel;
+                    if (model != null)
+                    {
+                        var result = Dialog.ShowCustomDialog("LangKeyActivatingBrowserAutomation".FromResourceDictionary(),
+                                            "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+                        if (result == MessageDialogResult.Affirmative)
+                        {
+                            var accountsToProcess = LstDominatorAccountModel.Where(x => x.AccountId == model.AccountId && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+
+                            if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && (x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram || x.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok)))
+                                Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGTikTokWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
+
+                            if (accountsToProcess.Count() == 0)
+                            {
+                                ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
+                                return;
+                            }
+
+                            StopAllActivity(accountsToProcess.ToList(), true, true);
+                        }
+                    }
+                    else
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
 
@@ -2651,7 +2680,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void DeActivateBrowserAutomationCommandExecute(object sender)
         {
-            if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
+            if (sender.Equals("DeActiveBrowser") && LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
             {
                 var result = Dialog.ShowCustomDialog("LangKeyDeactivatingBrowserAutomation".FromResourceDictionary(),
                       "LangKeyStartActivityByHttpStopByBrowser".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
@@ -2668,7 +2697,34 @@ namespace DominatorUIUtility.ViewModel
                 }
             }
             else
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+            {
+                try
+                {
+                    var model = sender as DominatorAccountModel;
+                    if (model != null)
+                    {
+                        var result = Dialog.ShowCustomDialog("LangKeyDeactivatingBrowserAutomation".FromResourceDictionary(),
+                       "LangKeyStartActivityByHttpStopByBrowser".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+                        if (result == MessageDialogResult.Affirmative)
+                        {
+                            var accountsToProcess = LstDominatorAccountModel.Where(x => x.AccountId == model.AccountId && x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+                            if (accountsToProcess.Count() == 0)
+                            {
+                                ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
+                                return;
+                            }
+
+                            StopAllActivity(accountsToProcess.ToList(), true, activateHttp: true);
+                        }
+                    }
+                    else
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+                }
+                catch (Exception)
+                {
+
+                }
+            }
         }
 
         private void UpdateGroupDetailsExecute()

@@ -70,7 +70,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId].
                     Where(x => x.IsEnabled && x.NextRun != new DateTime() && (!x.IsTemplateMadeByCampaignMode ||
                     (x.IsTemplateMadeByCampaignMode && campaignsFileManager.
-                    Any(y => y.TemplateId == x.TemplateId && y.Status == "Active")))).
+                    Any(y => y.TemplateId == x.TemplateId/* && y.Status == "Active"*/)))).
                     OrderByDescending(PickNextActivity)
                     .FirstOrDefault();
             if (moduleConfiguration == null) return;

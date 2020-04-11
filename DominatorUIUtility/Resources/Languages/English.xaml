@@ -4645,8 +4645,8 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyPasteFromClipboard">Paste from clipboard</system:String>
     <system:String x:Key="LangKeyCreateUniqueBoardForCampaign">Create Unique Board From All Account For This Campaign</system:String>
 
-    <system:String x:Key="LangKeySwithToBusinessAccount">Swith To Business Account (Pinterest)</system:String>
-    <system:String x:Key="LangKeySwithToNormalAccount">Swith To Normal Account (Pinterest)</system:String>
+    <system:String x:Key="LangKeySwithToBusinessAccount">Switch To Business Account (Pinterest)</system:String>
+    <system:String x:Key="LangKeySwithToNormalAccount">Switch To Normal Account (Pinterest)</system:String>
     <system:String x:Key="LangKeyNotAvailable">Not Available</system:String>
     <system:String x:Key="LangKeyPinterestAccountType">Pinterest Account Type</system:String>
 
@@ -4679,4 +4679,5 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyCookiesNotInValidJsonText">Cookies are not in a valid json text form.</system:String>
     <system:String x:Key="LangKeyNoCookiesAdded">No cookies were added.</system:String>
     <system:String x:Key="LangKeyRemovedCookiesSuccessfully">Removed added cookies successfully</system:String>
+    <system:String x:Key="LangkeyScrapeUniqueGroups">Scrape Unique Groups</system:String>
 </ResourceDictionary>

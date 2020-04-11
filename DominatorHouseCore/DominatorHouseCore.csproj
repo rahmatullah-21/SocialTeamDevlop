@@ -236,6 +236,7 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
     <Compile Include="Converters\BoolToValueConverter.cs" />
+    <Compile Include="Converters\BrowserAutomationConverter.cs" />
     <Compile Include="Converters\ChatImageCountToColumnConverter.cs" />
     <Compile Include="Converters\ChatImageCountToHeightConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
