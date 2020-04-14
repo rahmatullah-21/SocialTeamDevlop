@@ -261,14 +261,29 @@
                                 <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeySelectAccount}" HorizontalAlignment="Right" Height="25"/>
 
                                 <ComboBox Width="200" VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
-                                               SelectedIndex="0" DisplayMemberPath="UserName" 
-                                               SelectedValuePath="AccountId"  SelectedItem="{Binding SelectedAccount}" >
+                                               SelectedIndex="0"  SelectedItem="{Binding SelectedAccount}" >
                                     <ComboBox.ItemsSource>
                                         <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
                                             <Binding Path="Accounts"/>
                                             <Binding Path="SelectedNetworkViewModel.Selected"/>
                                         </MultiBinding>
                                     </ComboBox.ItemsSource>
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Rectangle Margin="5,0" VerticalAlignment="Center"
+                                                   Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}"
+                                                   Width="12" Height="12">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush
+                                                    Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}"
+                                                    Stretch="Fill" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <TextBlock Text="{Binding AccountBaseModel.UserName}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="SelectionChanged" >
                                             <i:InvokeCommandAction Command="{Binding AccountSelectionChangedCmd}"/>

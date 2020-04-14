@@ -11,10 +11,8 @@ namespace DominatorUIUtility.CustomControl
 
         public AccountGrowthControl(IAccountGrowthControlViewModel accountGrowthControlViewModel)
         {
-
             InitializeComponent();
             DataContext = accountGrowthControlViewModel;
-
         }
     }
 }
