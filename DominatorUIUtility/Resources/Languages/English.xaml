@@ -4680,4 +4680,7 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyNoCookiesAdded">No cookies were added.</system:String>
     <system:String x:Key="LangKeyRemovedCookiesSuccessfully">Removed added cookies successfully</system:String>
     <system:String x:Key="LangkeyScrapeUniqueGroups">Scrape Unique Groups</system:String>
+    <system:String x:Key="LangKeyPinPerAccountWithSpecificQuery">Pin Per Account With Specific Query</system:String>
+    <system:String x:Key="LangKeyRepingPerAccountLimitReachedOnQuery">Repin Per Account Limit Reached On Query</system:String>
+    <system:String x:Key="LangKeySearchingForNextQueryIfAny">Searching For Next Query If Any...</system:String>
 </ResourceDictionary>
