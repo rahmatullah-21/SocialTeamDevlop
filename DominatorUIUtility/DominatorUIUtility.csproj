@@ -307,6 +307,9 @@
     <Compile Include="CustomControl\FacebookCustomControl\UnfriendOptionsControl.xaml.cs">
       <DependentUpon>UnfriendOptionsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\YoutubeCutomControl\ManageReportVideosAs.xaml.cs">
+      <DependentUpon>ManageReportVideosAs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\PrivateBlacklistUserControl.xaml.cs">
       <DependentUpon>PrivateBlacklistUserControl.xaml</DependentUpon>
     </Compile>
@@ -382,6 +385,9 @@
     </Compile>
     <Compile Include="CustomControl\PrivateWhitelistUserControl.xaml.cs">
       <DependentUpon>PrivateWhitelistUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\YoutubeCutomControl\VideoReportContentControl.xaml.cs">
+      <DependentUpon>VideoReportContentControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="IoC\UtilityUnityExtension.cs" />
     <Compile Include="IoC\ISocialNetworkModule.cs" />
@@ -1247,6 +1253,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CustomControl\YoutubeCutomControl\ManageReportVideosAs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomControl\PrivateBlacklistUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1378,6 +1388,10 @@
     <Page Include="CustomControl\PrivateWhitelistUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\YoutubeCutomControl\VideoReportContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\WhitelistuserControl.xaml">
       <SubType>Designer</SubType>

@@ -244,6 +244,7 @@
     <Compile Include="Converters\FeatureVisibilityConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\ImageCountToRowHeightConverter.cs" />
+    <Compile Include="Converters\IndexToReportOptionConverter.cs" />
     <Compile Include="Converters\IndexToRowNoConverter.cs" />
     <Compile Include="Converters\IntToDateTimeConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
@@ -648,6 +649,7 @@
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LocationModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\ManageReportVideosContentModel.cs" />
     <Compile Include="Models\MenuHandlerModel.cs" />
     <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
     <Compile Include="Models\NetworksActivityCustomizeModel.cs" />

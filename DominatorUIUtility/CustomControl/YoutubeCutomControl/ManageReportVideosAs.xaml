@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.YoutubeCutomControl.ManageReportVideosAs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"  d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <UserControl.Resources>
+        <converters:IndexToReportOptionConverter x:Key="IndexToReportOptionConverter"/>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel Margin="10"  x:Name="MainGrid">
+        <TextBlock FontWeight="Bold" Margin="0,10,0,5" FontSize="16" Text="{DynamicResource LangKeyCommentLists}" VerticalAlignment="Center"/>
+        <ListView x:Name="CommentList" ItemsSource="{Binding LstManageCommentModel}" 
+                  AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
+                      ItemContainerStyle="{StaticResource ListViewItems}" Margin="5">
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+
+                        <GridViewColumn  Header="{DynamicResource LangKeySNo}" DisplayMemberBinding="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},Converter={StaticResource IndexToRowNoConverter}}"/>
+                        <GridViewColumn Header="{DynamicResource LangKeyQuery}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ListBox Name="chkSelectAccount" HorizontalAlignment="Center"
+                                         ItemsSource="{Binding SelectedQuery}" >
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0} [ {1} ]">
+                                                            <Binding Path="Content.QueryValue" />
+                                                            <Binding Path="Content.QueryType"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Report Details">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock  HorizontalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
+                                                <Binding Path="ReportOption" />
+                                                <Binding Path="ReportSubOption"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource LangKeyComment}" DisplayMemberBinding="{Binding CommentText}" />
+
+                        <GridViewColumn Header="{DynamicResource LangKeyFilter}" DisplayMemberBinding="{Binding FilterText}"/>
+                        <GridViewColumn Header="{DynamicResource LangKeyAction}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="4" >
+                                        <Button Name="BtnAction" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+                                                        VerticalAlignment="Top" Margin="10,0,0,0" Click="BtnAction_Click">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+
+                                            <Button.ContextMenu>
+                                                <ContextMenu >
+                                                    <MenuItem Header="{DynamicResource LangKeyEdit}" Height="30"  VerticalContentAlignment="Center"
+                                                                      Name="EditComment" Click="EditComment_Click">
+                                                        <MenuItem.Icon>
+                                                            <Rectangle Width="20" Height="20" Fill="Black">
+                                                                <Rectangle.OpacityMask>
+                                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
+                                                                </Rectangle.OpacityMask>
+                                                            </Rectangle>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+
+                                                    <Separator />
+
+                                                    <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" Click="DeleteSingleComment_Click"
+                                                                      x:Name="DeleteSingleComment" VerticalContentAlignment="Center">
+                                                        <MenuItem.Icon>
+                                                            <Rectangle Width="15" Height="20" Fill="Black">
+                                                                <Rectangle.OpacityMask>
+                                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                                </Rectangle.OpacityMask>
+                                                            </Rectangle>
+
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+
+                                                </ContextMenu>
+                                            </Button.ContextMenu>
+
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </StackPanel>
+
+</UserControl>
