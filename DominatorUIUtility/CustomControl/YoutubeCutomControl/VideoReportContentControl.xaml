@@ -9,7 +9,7 @@
         <StackPanel Orientation="Horizontal">
             <Label Content="Report Options" FontWeight="SemiBold"/>
             <ComboBox Name="CmbReportOption" x:FieldModifier="public" SelectionChanged="CmbReportOption_SelectionChanged" SelectedIndex="0" Width="200"/>
-            <Label Content="Sub Options" FontWeight="SemiBold"/>
+            <Label Content="Sub Options" Visibility="{Binding ElementName=CmbReportSubOption,Path=Visibility}" FontWeight="SemiBold"/>
             <ComboBox Name="CmbReportSubOption"  x:FieldModifier="public" SelectedIndex="0" Width="200"/>
         </StackPanel>
         <Grid >

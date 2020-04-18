@@ -58,7 +58,7 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                 if (currentItem == null)
                     return;
 
-                var editComment = new VideoReportContentControl
+                var editComment = new VideoReportContentControl(currentItem.ReportOption, currentItem.ReportSubOption)
                 {
                     btnAddCommentToList = { Content = "Update Comment" },
                     Comments = new ManageReportVideosContentModel
@@ -87,6 +87,8 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                     {
                         var indexToUpdate = LstManageCommentModel.IndexOf(currentItem);
                         LstManageCommentModel[indexToUpdate] = editComment.Comments;
+                        LstManageCommentModel[indexToUpdate].ReportOption = editComment.CmbReportOption.SelectedIndex;
+                        LstManageCommentModel[indexToUpdate].ReportSubOption = editComment.CmbReportSubOption.SelectedIndex;
                     }
 
                     currentItem.LstQueries.Select(query => query.IsContentSelected = false).ToList();

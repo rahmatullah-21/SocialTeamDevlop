@@ -50,11 +50,11 @@
                         <GridViewColumn Header="Report Details">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock  HorizontalAlignment="Center">
+                                    <TextBlock HorizontalAlignment="Center">
                                         <TextBlock.Text>
-                                            <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
-                                                <Binding Path="ReportOption" />
-                                                <Binding Path="ReportSubOption"/>
+                                            <MultiBinding Converter="{StaticResource IndexToReportOptionConverter}">
+                                                <Binding Path="ReportOption"></Binding>
+                                                <Binding Path="ReportSubOption"></Binding>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>

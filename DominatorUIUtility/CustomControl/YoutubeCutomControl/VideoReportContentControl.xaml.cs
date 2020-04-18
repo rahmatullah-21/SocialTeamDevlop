@@ -21,8 +21,14 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
             MainGrid.DataContext = this;
             AddCommentsCommand = new BaseCommand<object>((sender) => true, AddCommentsExecute);
             CmbReportOption.ItemsSource = new List<string>() { "Sexual content", "Violent or repulsive content", "Hateful or abusive content", "Harmful dangerous acts", "Child abuse", "Promotes terrorism", "Spam or misleading", "Infringes my rights", "Captions issue" };
-           
         }
+
+        public VideoReportContentControl(int optionIndex, int subOptionIndex) : this()
+        {
+            CmbReportOption.SelectedIndex = optionIndex;
+            CmbReportSubOption.SelectedIndex = subOptionIndex;
+        }
+
         private static readonly RoutedEvent AddCommentToListEvent =
        EventManager.RegisterRoutedEvent("AddCommentToListChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
            typeof(VideoReportContentControl));
@@ -156,6 +162,8 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                 }).ToList();
                 Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Comments.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
+                Comments.ReportOption = CmbReportOption.SelectedIndex;
+                Comments.ReportSubOption = CmbReportSubOption.SelectedIndex;
                 Isupdated = true;
                 Dialog.CloseDialog(this);
             }
@@ -179,9 +187,12 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
         {
             try
             {
-                CmbReportSubOption.ItemsSource = SetSubOptions((sender as ComboBox).SelectedIndex);
+                var getList = SetSubOptions((sender as ComboBox).SelectedIndex);
+                CmbReportSubOption.ItemsSource = getList;
+                if (getList != null)
+                    CmbReportSubOption.SelectedIndex = 0;
             }
-            catch (Exception ex) { }
+            catch (Exception ex) { ex.DebugLog(); }
         }
 
         List<string> SetSubOptions(int optionIndex)
@@ -193,10 +204,28 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                 case 0:
                     list = new List<string> { "Graphic sexual activity", "Nudity", "Suggestive, but without nudity", "Content involving minors", "Abusive title or description", "Other sexual content" };
                     break;
+                case 1:
+                    list = new List<string> { "Adults fighting", "Physical attack", "Youth violence", "Animal abuse" };
+                    break;
+                case 2:
+                    list = new List<string> { "Promotes hatred or violence", "Abusing vulnerable individuals", "Bullying", "Abusive title or description" };
+                    break;
+                case 3:
+                    list = new List<string> { "Pharmaceutical or drug abuse", "Abuse of fire or explosives", "Suicide or self injury", "Other dangerous acts" };
+                    break;
                 case 4:
                 case 5:
                     CmbReportSubOption.Visibility = Visibility.Hidden;
                     list?.Clear();
+                    return null;
+                case 6:
+                    list = new List<string> { "Mass advertising", "Pharmaceutical drugs for sale", "Misleading text", "Misleading thumbnail", "Scams/fraud" };
+                    break;
+                case 7:
+                    list = new List<string> { "Infringes my copyright", "Invades my privacy", "Other legal claim" };
+                    break;
+                case 8:
+                    list = new List<string> { "Captions are missing (CVAA)", "Captions are inaccurate", "Captions are abusive" };
                     break;
                 default:
                     break;

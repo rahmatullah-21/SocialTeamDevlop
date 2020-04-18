@@ -112,24 +112,19 @@ namespace EmbeddedBrowser
         private bool _isNeedResourceData { get; set; }
 
         #endregion
-
-        static object _cefInitLock = new object();
+        
         public BrowserWindow()
         {
             if (!Cef.IsInitialized)
             {
-                lock (_cefInitLock)
-                {
-                    if (Cef.IsInitialized)
-                        return;
-                    CefSettings settings = new CefSettings();
-                    settings.CommandLineArgsDisabled = false;
-                    settings.CefCommandLineArgs.Add("--disable-webgl", "1");
-                    settings.CefCommandLineArgs.Add("--disable-reading-from-canvas", "1");
-                    //settings.CefCommandLineArgs.Add("--js-flags", "--max_old_space_size=16384");
-                    Cef.Initialize(settings);
-                    _cefInitLock = null;
-                }
+                CefSettings settings = new CefSettings();
+                settings.CommandLineArgsDisabled = false;
+                settings.CefCommandLineArgs.Add("--disable-webgl", "1");
+                settings.CefCommandLineArgs.Add("--disable-reading-from-canvas", "1");
+                //settings.CefCommandLineArgs.Add("--js-flags", "--max_old_space_size=16384");
+                settings.CefCommandLineArgs.Add("--max_old_space_size","16384");
+                Cef.Initialize(settings);
+
             }
 
             InitializeComponent();
