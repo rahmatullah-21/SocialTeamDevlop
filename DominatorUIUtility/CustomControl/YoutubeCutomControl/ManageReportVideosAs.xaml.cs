@@ -20,23 +20,22 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
             MainGrid.DataContext = this;
 
         }
-
-
-        public ObservableCollection<ManageReportVideosContentModel> LstManageCommentModel
+        
+        public ObservableCollection<ManageReportVideosContentModel> ListReportDetailsModel
         {
-            get { return (ObservableCollection<ManageReportVideosContentModel>)GetValue(LstManageCommentModelProperty); }
-            set { SetValue(LstManageCommentModelProperty, value); }
+            get { return (ObservableCollection<ManageReportVideosContentModel>)GetValue(ListReportDetailsModelProperty); }
+            set { SetValue(ListReportDetailsModelProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LstManageCommentModelProperty =
-            DependencyProperty.Register("LstManageCommentModel", typeof(ObservableCollection<ManageReportVideosContentModel>), typeof(ManageReportVideosAs), new PropertyMetadata(OnAvailableItemsChanged));
+        // Using a DependencyProperty as the backing store for ListReportDetailsModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ListReportDetailsModelProperty =
+            DependencyProperty.Register("ListReportDetailsModel", typeof(ObservableCollection<ManageReportVideosContentModel>), typeof(ManageReportVideosAs), new PropertyMetadata(OnAvailableItemsChanged));
+
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var newValue = e.NewValue;
         }
-
-
+        
         private void BtnAction_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -44,13 +43,10 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                 ((Button)sender).ContextMenu.DataContext = ((Button)sender).DataContext;
                 ((Button)sender).ContextMenu.IsOpen = true;
             }
-            catch (Exception)
-            {
-
-            }
+            catch{ }
         }
-
-        private void EditComment_Click(object sender, RoutedEventArgs e)
+        
+        private void EditDetails_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -60,8 +56,8 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
 
                 var editComment = new VideoReportContentControl(currentItem.ReportOption, currentItem.ReportSubOption)
                 {
-                    btnAddCommentToList = { Content = "Update Comment" },
-                    Comments = new ManageReportVideosContentModel
+                    btnAddCommentToList = { Content = "LangKeyUpdate".FromResourceDictionary() },
+                    ReportDetails = new ManageReportVideosContentModel
                     {
                         CommentText = currentItem.CommentText,
                         LstQueries = new ObservableCollection<QueryContent>(currentItem.LstQueries),
@@ -69,26 +65,26 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                         SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery),
                         VideoTimestampPercentage = currentItem.VideoTimestampPercentage
                     },
-                    LstManageCommentModel = LstManageCommentModel,
+                    ListReportDetailsModel = ListReportDetailsModel,
                 };
 
-                editComment.Comments.LstQueries.ToList().ForEach(x =>
+                editComment.ReportDetails.LstQueries.ToList().ForEach(x =>
                 {
                     x.IsContentSelected = false;
-                    if (editComment.Comments.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType))
+                    if (editComment.ReportDetails.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType))
                         x.IsContentSelected = true;
                 });
                 editComment.MainGrid.Margin = new Thickness(20);
                 Dialog dialog = new Dialog();
-                Window window = dialog.GetMetroWindow(editComment, "Edit comment");
+                Window window = dialog.GetMetroWindow(editComment, "LangKeyEdit".FromResourceDictionary());
                 window.Closed += (s, evnt) =>
                 {
                     if (editComment.Isupdated)
                     {
-                        var indexToUpdate = LstManageCommentModel.IndexOf(currentItem);
-                        LstManageCommentModel[indexToUpdate] = editComment.Comments;
-                        LstManageCommentModel[indexToUpdate].ReportOption = editComment.CmbReportOption.SelectedIndex;
-                        LstManageCommentModel[indexToUpdate].ReportSubOption = editComment.CmbReportSubOption.SelectedIndex;
+                        var indexToUpdate = ListReportDetailsModel.IndexOf(currentItem);
+                        ListReportDetailsModel[indexToUpdate] = editComment.ReportDetails;
+                        ListReportDetailsModel[indexToUpdate].ReportOption = editComment.CmbReportOption.SelectedIndex;
+                        ListReportDetailsModel[indexToUpdate].ReportSubOption = editComment.CmbReportSubOption.SelectedIndex;
                     }
 
                     currentItem.LstQueries.Select(query => query.IsContentSelected = false).ToList();
@@ -101,11 +97,11 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                 ex.DebugLog();
             }
         }
-
-        private void DeleteSingleComment_Click(object sender, RoutedEventArgs e)
+        
+        private void DeleteSingleReport_Click(object sender, RoutedEventArgs e)
         {
             var currentItem = ((FrameworkElement)sender).DataContext as ManageReportVideosContentModel;
-            LstManageCommentModel.Remove(currentItem);
+            ListReportDetailsModel.Remove(currentItem);
         }
     }
 }

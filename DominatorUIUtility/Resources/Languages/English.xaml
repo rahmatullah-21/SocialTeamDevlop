@@ -4683,4 +4683,12 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyPinPerAccountWithSpecificQuery">Pin Per Account With Specific Query</system:String>
     <system:String x:Key="LangKeyRepingPerAccountLimitReachedOnQuery">Repin Per Account Limit Reached On Query</system:String>
     <system:String x:Key="LangKeySearchingForNextQueryIfAny">Searching For Next Query If Any...</system:String>
+    <system:String x:Key="LangKeyReportDetailsManager">Report details Manager</system:String>
+    <system:String x:Key="LangKeyAddDetailsToList">Add Details To List</system:String>
+    <system:String x:Key="LangKeyAddMultipleTextsSeparatedByNewLine">Add Multiple Texts Separated By New Line</system:String>
+    <system:String x:Key="LangKeyTextSpintaxFormat">Format : (Text 1|Text 2|Text 3|Text 4) Note: add any number of texts each separated by |</system:String>
+    <system:String x:Key="LangKeyProvideAdditionalDetails">Provide additional details</system:String>
+    <system:String x:Key="LangKeyReportDetailsList">Report details list</system:String>
+    <system:String x:Key="LangKeyReportOption">Report option</system:String>
+    <system:String x:Key="LangKeyText">Text</system:String>
 </ResourceDictionary>

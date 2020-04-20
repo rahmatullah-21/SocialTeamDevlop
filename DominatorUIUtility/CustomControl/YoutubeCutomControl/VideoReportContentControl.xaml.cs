@@ -19,7 +19,7 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
         {
             InitializeComponent();
             MainGrid.DataContext = this;
-            AddCommentsCommand = new BaseCommand<object>((sender) => true, AddCommentsExecute);
+            AddReportDetailsCommand = new BaseCommand<object>((sender) => true, AddCommentsExecute);
             CmbReportOption.ItemsSource = new List<string>() { "Sexual content", "Violent or repulsive content", "Hateful or abusive content", "Harmful dangerous acts", "Child abuse", "Promotes terrorism", "Spam or misleading", "Infringes my rights", "Captions issue" };
         }
 
@@ -47,28 +47,30 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
         }
 
 
-        public ManageReportVideosContentModel Comments
+        public ManageReportVideosContentModel ReportDetails
         {
-            get { return (ManageReportVideosContentModel)GetValue(ManageCommentsProperty); }
-            set { SetValue(ManageCommentsProperty, value); }
+            get { return (ManageReportVideosContentModel)GetValue(ReportDetailsProperty); }
+            set { SetValue(ReportDetailsProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ManageComments.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ManageCommentsProperty =
-            DependencyProperty.Register("Comments", typeof(ManageReportVideosContentModel), typeof(VideoReportContentControl), new PropertyMetadata(OnAvailableItemsChanged));
+        // Using a DependencyProperty as the backing store for ReportDetails.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ReportDetailsProperty =
+            DependencyProperty.Register("ReportDetails", typeof(ManageReportVideosContentModel), typeof(VideoReportContentControl), new PropertyMetadata(OnAvailableItemsChanged));
+
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var newValue = e.NewValue;
         }
-        public ObservableCollection<ManageReportVideosContentModel> LstManageCommentModel
+
+        public ObservableCollection<ManageReportVideosContentModel> ListReportDetailsModel
         {
-            get { return (ObservableCollection<ManageReportVideosContentModel>)GetValue(LstManageCommentModelProperty); }
-            set { SetValue(LstManageCommentModelProperty, value); }
+            get { return (ObservableCollection<ManageReportVideosContentModel>)GetValue(ListReportDetailsModelProperty); }
+            set { SetValue(ListReportDetailsModelProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LstManageCommentModelProperty =
-            DependencyProperty.Register("LstManageCommentModel", typeof(ObservableCollection<ManageReportVideosContentModel>), typeof(VideoReportContentControl), new PropertyMetadata(new ObservableCollection<ManageReportVideosContentModel>()));
+        // Using a DependencyProperty as the backing store for ListReportDetailsModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ListReportDetailsModelProperty =
+            DependencyProperty.Register("ListReportDetailsModel", typeof(ObservableCollection<ManageReportVideosContentModel>), typeof(VideoReportContentControl), new PropertyMetadata(new ObservableCollection<ManageReportVideosContentModel>()));
         
         public bool SplitTextByNextLine
         {
@@ -96,18 +98,18 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
             try
             {
                 var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
-                if (!Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
+                if (!ReportDetails.LstQueries.Skip(1).All(x => x.IsContentSelected))
                 {
                     if (!IsChecked)
                     {
                         _isUncheckfromList = true;
-                        Comments.LstQueries[0].IsContentSelected = false;
+                        ReportDetails.LstQueries[0].IsContentSelected = false;
                     }
                 }
-                if (Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
+                if (ReportDetails.LstQueries.Skip(1).All(x => x.IsContentSelected))
                 {
                     _isUncheckfromList = false;
-                    Comments.LstQueries[0].IsContentSelected = IsChecked;
+                    ReportDetails.LstQueries[0].IsContentSelected = IsChecked;
                 }
                 if (_isUncheckfromList)
                 {
@@ -118,63 +120,63 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                 if (currentQuery == "All" || currentQuery == "Default")
                 {
                     _isUncheckfromList = false;
-                    Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+                    ReportDetails.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
                 }
             }
             catch (Exception ex) { ex.DebugLog(); }
         }
         private void AddCheckedQueryToList()
         {
-            Comments.SelectedQuery.Clear();
-            Comments.LstQueries.ToList().ForEach(query =>
+            ReportDetails.SelectedQuery.Clear();
+            ReportDetails.LstQueries.ToList().ForEach(query =>
             {
                 if (query.IsContentSelected)
-                    Comments.SelectedQuery.Add(query);
+                    ReportDetails.SelectedQuery.Add(query);
             });
         }
         public bool Isupdated { get; set; }
 
-        public ICommand AddCommentsCommand
+        public ICommand AddReportDetailsCommand
         {
-            get { return (ICommand)GetValue(AddCommentsCommandProperty); }
-            set { SetValue(AddCommentsCommandProperty, value); }
+            get { return (ICommand)GetValue(AddReportDetailsCommandProperty); }
+            set { SetValue(AddReportDetailsCommandProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for AddCommentsCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AddCommentsCommandProperty =
-            DependencyProperty.Register("AddCommentsCommand", typeof(ICommand), typeof(VideoReportContentControl));
+        // Using a DependencyProperty as the backing store for AddReportDetailsCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AddReportDetailsCommandProperty =
+            DependencyProperty.Register("AddReportDetailsCommand", typeof(ICommand), typeof(VideoReportContentControl));
 
         private void AddCommentsExecute(object sender)
         {
-            if (string.IsNullOrEmpty(Comments.CommentText))
+            //if (string.IsNullOrEmpty(Comments.CommentText))
+            //{
+            //    Dialog.ShowDialog("Warning", "Please type some comment !!");
+            //    return;LangKeyWarning
+            //}
+            if (!ReportDetails.LstQueries.Any(x => x.IsContentSelected))
             {
-                Dialog.ShowDialog("Warning", "Please type some comment !!");
-                return;
-            }
-            if (!Comments.LstQueries.Any(x => x.IsContentSelected))
-            {
-                Dialog.ShowDialog("Warning", "Please select atleast one query.");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "Please select atleast one query.");
                 return;
             }
             AddCheckedQueryToList();
-            if (btnAddCommentToList.Content.ToString() == "Update Comment")
+            if (btnAddCommentToList.Content.ToString() == "LangKeyUpdate".FromResourceDictionary())
             {
-                LstManageCommentModel.Select(x =>
+                ListReportDetailsModel.Select(x =>
                 {
-                    if (x.CommentId == Comments.CommentId)
+                    if (x.CommentId == ReportDetails.CommentId)
                     {
-                        x.CommentText = Comments.CommentText;
-                        x.LstQueries = Comments.LstQueries;
-                        x.SelectedQuery = Comments.SelectedQuery;
+                        x.CommentText = ReportDetails.CommentText;
+                        x.LstQueries = ReportDetails.LstQueries;
+                        x.SelectedQuery = ReportDetails.SelectedQuery;
                         x.ReportOption = CmbReportOption.SelectedIndex;
                         x.ReportSubOption = CmbReportSubOption.SelectedIndex;
                     }
                     return x;
                 }).ToList();
-                Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
-                Comments.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
-                Comments.ReportOption = CmbReportOption.SelectedIndex;
-                Comments.ReportSubOption = CmbReportSubOption.SelectedIndex;
+                ReportDetails.SelectedQuery.Remove(ReportDetails.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+                ReportDetails.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
+                ReportDetails.ReportOption = CmbReportOption.SelectedIndex;
+                ReportDetails.ReportSubOption = CmbReportSubOption.SelectedIndex;
                 Isupdated = true;
                 Dialog.CloseDialog(this);
             }

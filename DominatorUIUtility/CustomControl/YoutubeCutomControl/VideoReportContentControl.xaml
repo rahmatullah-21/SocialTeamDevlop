@@ -10,7 +10,7 @@
         <StackPanel Orientation="Horizontal" Margin="7,0">
             <TextBlock Text="{DynamicResource LangKeyQueries}" VerticalAlignment="Center"/>
             <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries"  x:FieldModifier="public" 
-                          ItemsSource="{Binding Comments.LstQueries,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                          ItemsSource="{Binding ReportDetails.LstQueries,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox  x:Name="chkQuery"
@@ -42,23 +42,23 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBlock FontWeight="Bold" Margin="0,5" FontSize="16" Text="{DynamicResource LangKeyCommentText}" VerticalAlignment="Center"/>
-                        <customControl:InputBoxControl x:Name="InputComment" InputText="{Binding Comments.CommentText}" SaveVisiblity="Collapsed"/>
+                        <TextBlock FontWeight="Bold" Margin="0,5" FontSize="16" Text="{DynamicResource LangKeyProvideAdditionalDetails}" VerticalAlignment="Center"/>
+                        <customControl:InputBoxControl x:Name="InputComment" InputText="{Binding ReportDetails.CommentText}" SaveVisiblity="Collapsed"/>
                     </StackPanel>
                     <StackPanel Margin="10,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1">
                         <TextBlock FontWeight="Bold" Margin="0,5" FontSize="16" Text="Timestamp (in percentage of video length)" VerticalAlignment="Center"/>
-                        <controls:NumericUpDown Minimum="0" Maximum="100" HorizontalAlignment="Left" Width="40" Margin="5,2,0,0" Value="{Binding Comments.VideoTimestampPercentage}" />
+                        <controls:NumericUpDown Minimum="0" Maximum="100" HorizontalAlignment="Left" Width="60" Margin="5,2,0,0" Value="{Binding ReportDetails.VideoTimestampPercentage}" />
                     </StackPanel>
 
                 </Grid>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource LangKeySpintax}" IsChecked="{Binding Comments.IsSpinTax}" Margin="15,2" ToolTip="{DynamicResource LangKeyCommentSpintaxFormat}" FontSize="15" FontWeight="Bold" />
-                    <CheckBox Name="SplitByNextLine" Content="{DynamicResource LangKeyAddMultipleCommentsSeparatedByNewLine}" Margin="15,2" IsChecked="{Binding SplitTextByNextLine}"/>
+                    <CheckBox Content="{DynamicResource LangKeySpintax}" IsChecked="{Binding ReportDetails.IsSpinTax}" Margin="15,2" ToolTip="{DynamicResource LangKeyTextSpintaxFormat}" FontSize="15" FontWeight="Bold" />
+                    <CheckBox Name="SplitByNextLine" Content="{DynamicResource LangKeyAddMultipleTextsSeparatedByNewLine}" Margin="15,2" IsChecked="{Binding SplitTextByNextLine}"/>
                 </StackPanel>
             </StackPanel>
         </Expander>
-        <Button Content="{DynamicResource LangKeyAddCommentToList}" Width="200" x:Name="btnAddCommentToList" x:FieldModifier="public"
-                Command="{Binding AddCommentsCommand}" CommandParameter="{Binding CommandParameter}"
+        <Button Content="{DynamicResource LangKeyAddDetailsToList}" Width="200" x:Name="btnAddCommentToList" x:FieldModifier="public"
+                Command="{Binding AddReportDetailsCommand}" CommandParameter="{Binding CommandParameter}"
                     Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,0,0,0"/>
 
     </StackPanel>

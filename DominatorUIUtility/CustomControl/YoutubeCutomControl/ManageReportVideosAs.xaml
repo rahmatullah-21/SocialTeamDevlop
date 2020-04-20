@@ -11,8 +11,8 @@
     </UserControl.Resources>
 
     <StackPanel Margin="10"  x:Name="MainGrid">
-        <TextBlock FontWeight="Bold" Margin="0,10,0,5" FontSize="16" Text="{DynamicResource LangKeyCommentLists}" VerticalAlignment="Center"/>
-        <ListView x:Name="CommentList" ItemsSource="{Binding LstManageCommentModel}" 
+        <TextBlock FontWeight="Bold" Margin="0,10,0,5" FontSize="16" Text="{DynamicResource LangKeyReportDetailsList}" VerticalAlignment="Center"/>
+        <ListView x:Name="CommentList" ItemsSource="{Binding ListReportDetailsModel}" 
                   AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
                       ItemContainerStyle="{StaticResource ListViewItems}" Margin="5">
             <ListView.Resources>
@@ -47,7 +47,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Report Details" Width="50">
+                        <GridViewColumn Header="{DynamicResource LangKeyReportOption}" Width="50">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock HorizontalAlignment="Center">
@@ -61,7 +61,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource LangKeyComment}" DisplayMemberBinding="{Binding CommentText}" />
+                        <GridViewColumn Header="{DynamicResource LangKeyText}" DisplayMemberBinding="{Binding CommentText}" />
 
                         <GridViewColumn Header="{DynamicResource LangKeyAction}">
                             <GridViewColumn.CellTemplate>
@@ -80,7 +80,7 @@
                                             <Button.ContextMenu>
                                                 <ContextMenu >
                                                     <MenuItem Header="{DynamicResource LangKeyEdit}" Height="30"  VerticalContentAlignment="Center"
-                                                                      Name="EditComment" Click="EditComment_Click">
+                                                                      Name="EditDetails" Click="EditDetails_Click">
                                                         <MenuItem.Icon>
                                                             <Rectangle Width="20" Height="20" Fill="Black">
                                                                 <Rectangle.OpacityMask>
@@ -92,8 +92,8 @@
 
                                                     <Separator />
 
-                                                    <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" Click="DeleteSingleComment_Click"
-                                                                      x:Name="DeleteSingleComment" VerticalContentAlignment="Center">
+                                                    <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" Click="DeleteSingleReport_Click"
+                                                                      x:Name="DeleteSingleReport" VerticalContentAlignment="Center">
                                                         <MenuItem.Icon>
                                                             <Rectangle Width="15" Height="20" Fill="Black">
                                                                 <Rectangle.OpacityMask>
