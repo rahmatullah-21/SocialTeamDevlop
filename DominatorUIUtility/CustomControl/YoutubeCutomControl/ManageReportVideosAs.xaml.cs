@@ -67,9 +67,9 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                         LstQueries = new ObservableCollection<QueryContent>(currentItem.LstQueries),
                         CommentId = currentItem.CommentId,
                         SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery),
-                        FilterText = currentItem.FilterText
+                        VideoTimestampPercentage = currentItem.VideoTimestampPercentage
                     },
-                    LstManageCommentModel = LstManageCommentModel
+                    LstManageCommentModel = LstManageCommentModel,
                 };
 
                 editComment.Comments.LstQueries.ToList().ForEach(x =>

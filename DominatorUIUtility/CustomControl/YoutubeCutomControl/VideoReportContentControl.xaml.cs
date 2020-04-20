@@ -27,6 +27,7 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
         {
             CmbReportOption.SelectedIndex = optionIndex;
             CmbReportSubOption.SelectedIndex = subOptionIndex;
+            SplitByNextLine.Visibility = Visibility.Collapsed;
         }
 
         private static readonly RoutedEvent AddCommentToListEvent =
@@ -68,6 +69,17 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
         // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LstManageCommentModelProperty =
             DependencyProperty.Register("LstManageCommentModel", typeof(ObservableCollection<ManageReportVideosContentModel>), typeof(VideoReportContentControl), new PropertyMetadata(new ObservableCollection<ManageReportVideosContentModel>()));
+        
+        public bool SplitTextByNextLine
+        {
+            get { return (bool)GetValue(SplitTextByNextLineProperty); }
+            set { SetValue(SplitTextByNextLineProperty, value); }
+        }
+
+        public static readonly DependencyProperty SplitTextByNextLineProperty =
+            DependencyProperty.Register("SplitTextByNextLine", typeof(bool), typeof(VideoReportContentControl), new PropertyMetadata(new bool()));
+
+
 
         private void chkQuery_Checked(object sender, RoutedEventArgs e)
         {
@@ -152,7 +164,6 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                     if (x.CommentId == Comments.CommentId)
                     {
                         x.CommentText = Comments.CommentText;
-                        x.FilterText = Comments.FilterText;
                         x.LstQueries = Comments.LstQueries;
                         x.SelectedQuery = Comments.SelectedQuery;
                         x.ReportOption = CmbReportOption.SelectedIndex;

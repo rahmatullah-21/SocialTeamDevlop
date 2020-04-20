@@ -47,7 +47,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Report Details">
+                        <GridViewColumn Header="Report Details" Width="50">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock HorizontalAlignment="Center">
@@ -63,7 +63,6 @@
                         </GridViewColumn>
                         <GridViewColumn Header="{DynamicResource LangKeyComment}" DisplayMemberBinding="{Binding CommentText}" />
 
-                        <GridViewColumn Header="{DynamicResource LangKeyFilter}" DisplayMemberBinding="{Binding FilterText}"/>
                         <GridViewColumn Header="{DynamicResource LangKeyAction}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
