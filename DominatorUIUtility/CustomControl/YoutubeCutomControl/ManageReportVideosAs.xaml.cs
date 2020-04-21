@@ -63,7 +63,8 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                         LstQueries = new ObservableCollection<QueryContent>(currentItem.LstQueries),
                         CommentId = currentItem.CommentId,
                         SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery),
-                        VideoTimestampPercentage = currentItem.VideoTimestampPercentage
+                        VideoTimestampPercentage = currentItem.VideoTimestampPercentage,
+                        IsSpinTax = currentItem.IsSpinTax
                     },
                     ListReportDetailsModel = ListReportDetailsModel,
                 };

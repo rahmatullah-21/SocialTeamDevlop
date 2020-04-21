@@ -4691,4 +4691,5 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyReportDetailsList">Report details list</system:String>
     <system:String x:Key="LangKeyReportOption">Report option</system:String>
     <system:String x:Key="LangKeyText">Text</system:String>
+    <system:String x:Key="LangKeyTimestampPercentage">Timestamp(%)</system:String>
 </ResourceDictionary>

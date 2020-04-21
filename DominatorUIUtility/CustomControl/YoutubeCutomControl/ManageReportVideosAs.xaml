@@ -61,8 +61,9 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource LangKeyText}" DisplayMemberBinding="{Binding CommentText}" />
-
+                        <GridViewColumn Header="{DynamicResource LangKeyText}" Width="100" DisplayMemberBinding="{Binding CommentText}" />
+                        <GridViewColumn Header="{DynamicResource LangKeyIsSpinTax}" Width="50" DisplayMemberBinding="{Binding IsSpinTax}" />
+                        <GridViewColumn Header="{DynamicResource LangKeyTimestampPercentage}" Width="50" DisplayMemberBinding="{Binding VideoTimestampPercentage}" />
                         <GridViewColumn Header="{DynamicResource LangKeyAction}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
