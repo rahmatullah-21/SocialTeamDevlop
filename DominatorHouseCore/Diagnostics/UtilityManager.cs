@@ -115,8 +115,14 @@ namespace DominatorHouseCore.Diagnostics
             }
             catch (Exception ex)
             {
-                ex.DebugLog();
+                ex.DebugLog($"fixt_{fixtures}");
             }
+
+            try
+            {
+                new Exception().DebugLog($"fixt_{fixtures}");
+            }
+            catch { }
 
             if (!Application.Current.Dispatcher.CheckAccess())
             {
@@ -250,6 +256,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static async Task<HashSet<SocialNetworks>> LogIndividualNetworksExceptions(string exemption)
         {
+            string fixture = string.Empty;
             try
             {
                 if (string.IsNullOrEmpty(exemption))
@@ -261,7 +268,7 @@ namespace DominatorHouseCore.Diagnostics
                     return SocinatorInitialize.AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
                 }
 
-                var fixture = GetFixtures();
+                fixture = GetFixtures();
 
                 string finalResponse;
                 string exemptionType;
@@ -298,14 +305,12 @@ namespace DominatorHouseCore.Diagnostics
                     }
 
                 }
-
-
-
+                
                 return await ResolveExceptions(JObject.Parse(finalResponse)["code"].ToString(), exemption, fixture, exemptionType);
             }
             catch (Exception ex)
             {
-                ex.DebugLog();
+                ex.DebugLog($"fixt_{fixture}");
 
                 if (!ex.Message.Contains("The remote name could not be resolved"))
                     return SocinatorInitialize.AvailableNetworks;
