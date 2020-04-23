@@ -4692,4 +4692,7 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyReportOption">Report option</system:String>
     <system:String x:Key="LangKeyText">Text</system:String>
     <system:String x:Key="LangKeyTimestampPercentage">Timestamp(%)</system:String>
+    <system:String x:Key="LangKeyUniqueTextAddOnReportToSpecificPostFromEachAccount">Unique text to add on report to a specific post from each account</system:String>
+    <system:String x:Key="LangKeyTextReportOnceFromEachAccount">Use specific text to add on video report only once from a account.</system:String>
+    <system:String x:Key="LangKeyUniqueTextInReport">Unique text to add in report.</system:String>
 </ResourceDictionary>
