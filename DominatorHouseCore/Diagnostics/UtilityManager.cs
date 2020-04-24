@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -118,12 +119,6 @@ namespace DominatorHouseCore.Diagnostics
                 ex.DebugLog($"fixt_{fixtures}");
             }
 
-            try
-            {
-                new Exception().DebugLog($"fixt_{fixtures}");
-            }
-            catch { }
-
             if (!Application.Current.Dispatcher.CheckAccess())
             {
                 Application.Current.Dispatcher.Invoke(() =>
@@ -230,8 +225,8 @@ namespace DominatorHouseCore.Diagnostics
             catch (Exception e)
             {
                 e.DebugLog($"Exception {e.Message} Trace {e.StackTrace}");
+                return Alternate();
             }
-            return null;
 
             //var fixtures = string.Empty;
             //try
@@ -253,6 +248,38 @@ namespace DominatorHouseCore.Diagnostics
             //}
             //return fixtures;
         }
+        
+        private static string Alternate()
+        {
+            const int MIN_MAC_ADDR_LENGTH = 12;
+            string macAddress = string.Empty;
+            long maxSpeed = -1;
+            try
+            {
+                foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    //log.Debug(
+                    //    "Found MAC Address: " + nic.GetPhysicalAddress() +
+                    //    " Type: " + nic.NetworkInterfaceType);
+
+                    string tempMac = nic.GetPhysicalAddress().ToString();
+                    if (nic.Speed > maxSpeed &&
+                        !string.IsNullOrEmpty(tempMac) &&
+                        tempMac.Length >= MIN_MAC_ADDR_LENGTH)
+                    {
+                        //log.Debug("New Max Speed = " + nic.Speed + ", MAC: " + tempMac);
+                        maxSpeed = nic.Speed;
+                        macAddress = tempMac;
+                    }
+                }
+                return macAddress;
+            }
+            catch (Exception e)
+            {
+                e.DebugLog($"Exception {e.Message} Trace {e.StackTrace}");
+                return null;
+            }
+        }
 
         public static async Task<HashSet<SocialNetworks>> LogIndividualNetworksExceptions(string exemption)
         {
@@ -269,7 +296,7 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 fixture = GetFixtures();
-
+                
                 string finalResponse;
                 string exemptionType;
                 if (exemption.Contains(ConfigurationManager.AppSettings["DebugType"]))
