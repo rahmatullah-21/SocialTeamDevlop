@@ -661,7 +661,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _exportPath, value);
             }
         }
-        private bool _isThreadLimitChecked = true;
+        private bool _isThreadLimitChecked;
         [ProtoMember(45)]
         public bool IsThreadLimitChecked
         {
