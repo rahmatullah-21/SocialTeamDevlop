@@ -118,17 +118,29 @@
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <DockPanel Grid.Row="0" Name="MainContainer" Background="{DynamicResource AccentColorBrush}">
 
-                <Label  HorizontalAlignment="Left" DockPanel.Dock="Left"
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                    <Label  HorizontalAlignment="Left"
                                VerticalAlignment="Bottom" 
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,4"
                                Content="{DynamicResource LangKeyAccountDetails}" />
+                    <CheckBox  Background="Transparent" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
+                        <CheckBox.Content>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <StackPanel Orientation="Vertical" >
+                                    <Image Width="15" Height="15" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/search.png" />
+                                </StackPanel>
+                            </Border>
+                        </CheckBox.Content>
+                    </CheckBox>
+                </StackPanel>
 
                 <ToggleButton DockPanel.Dock="Right" Visibility="{Binding MenuHandlerModel.IsMenuHandlerVisible,Converter={StaticResource BooleanToVisibilityConverter}}" BorderBrush="Transparent" Cursor="Hand" Background="Transparent" VerticalAlignment="Center" 
                               Name="MenuHandlerPanel" ToolTip="{DynamicResource LangKeyInfo}" Margin="10,0">
@@ -697,10 +709,24 @@
             </DockPanel>
             <!--</Grid>-->
 
+            <!--Filter Section-->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,2,0,2" VerticalAlignment="Center" Visibility="{Binding ElementName=SearchExpander, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                <!--Visibility="{Binding ElementName=SearchExpander, Path=IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}"-->
+                <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" 
+                              VerticalAlignment="Center" Height="29"  HorizontalAlignment="Left" Width="150"
+                              Style="{StaticResource SearchMetroTextBox}" Name="txtSearch" />
+                <ComboBox  Margin="5,2,0,2" SelectedIndex="0" Width="150" 
+                              VerticalAlignment="Center" HorizontalAlignment="Right" Height="29"  Name="cmbSearchFilter" >
+                    <ComboBoxItem Content="{DynamicResource LangKeyByAccount}"/>
+                    <ComboBoxItem Content="{DynamicResource LangKeyByGroupName}"/>
+                    <ComboBoxItem Content="{DynamicResource LangKeyByAccountNikeName}"/>
+                </ComboBox>
+            </StackPanel>
+
             <!--Data grid view-->
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="2">
                 <ListView x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
-                      VirtualizingPanel.IsContainerVirtualizable="True" Grid.Row="1"
+                      VirtualizingPanel.IsContainerVirtualizable="True"
                       VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
                     <ListView.Resources>
@@ -802,6 +828,8 @@
                             <Binding Path="LstDominatorAccountModel.Count"/>
                             <Binding Path="IsSortAccounts"/>
                             <Binding Path="SortByUserNikeName"/>
+                            <Binding Path="Text" ElementName="txtSearch"/>
+                            <Binding Path="SelectedIndex" ElementName="cmbSearchFilter" />
                         </MultiBinding>
                     </ListView.ItemsSource>
 
