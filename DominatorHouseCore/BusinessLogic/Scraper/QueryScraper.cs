@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.Extensions;
+using System.Linq;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -84,6 +85,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
             try
             {
+                CallItAgain:
+
                 foreach (var query in listQueries)
                 {
                     try
@@ -115,7 +118,16 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     usedQueries++;
                 }
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                if (totalQueries == usedQueries)
+
+                var continueIfLimitNotReached = !_jobProcess.CheckJobProcessLimitsReached() ? _jobProcess.ContinueIfLimitNotReached(_jobProcess.ActivityType) : null;
+                if (continueIfLimitNotReached != null && continueIfLimitNotReached.Count >0)
+                {
+                    listQueries = listQueries.Where(x => continueIfLimitNotReached.Any(y => x.QueryTypeEnum == y)).ToList();
+                    if(listQueries?.Count > 0) 
+                        goto CallItAgain;
+                }
+
+                if (totalQueries <= usedQueries)
                 {
                     UpdateScheduleIfRequire();
                 }
