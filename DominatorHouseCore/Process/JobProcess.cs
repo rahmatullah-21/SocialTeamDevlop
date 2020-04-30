@@ -356,7 +356,6 @@ namespace DominatorHouseCore.Process
                           StopIfAccountLoginFail();
                       }
 
-
                   }, JobCancellationTokenSource.Token);
 
                 JobCancellationTokenSource.Token.Register(() =>

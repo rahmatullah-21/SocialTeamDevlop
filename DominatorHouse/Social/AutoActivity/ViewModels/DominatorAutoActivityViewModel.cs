@@ -454,17 +454,42 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             if (networks.Contains(SocialNetworks.Social))
                 networks = networks.Where(x => x != SocialNetworks.Social);
 
-            if (getCustomAuto?.NetworksActListCollection != null && getCustomAuto?.NetworksActListCollection.Count>0)
+            if (getCustomAuto?.NetworksActListCollection != null && getCustomAuto?.NetworksActListCollection.Count > 0)
             {
+                var newAdded = false;
                 foreach (var net in networks)
                 {
                     var getData = getCustomAuto.NetworksActListCollection.FirstOrDefault(x => x.SocialNetwork == net);
                     if (getData == null)
                         continue;
-                    var collected = new Activities(getImportants ? getData.NetworkActivityTypeModelCollections.Where(x => x.IsSelected).Select(y => y.Title) : null,
-                                                   getOthers ? getData.NetworkActivityTypeModelCollections.Where(x => !x.IsSelected).Select(y => y.Title) : null);
+
+                    var show = getImportants ? getData.NetworkActivityTypeModelCollections.Where(x => x.IsSelected).Select(y => y.Title).ToList() : null;
+                    var hide = getOthers ? getData.NetworkActivityTypeModelCollections.Where(x => !x.IsSelected).Select(y => y.Title).ToList() : null;
+
+                    var all = show.DeepCloneObject() ?? new List<ActivityType>();
+                    all.AddRange(hide);
+
+                    var newOne = hide == null ? new List<ActivityType>() : SocinatorInitialize.GetSocialLibrary(net).GetNetworkCoreFactory().AccountUserControlTools.GetOtherActivityTypes().Except(all);
+                    if (newOne.Count() > 0)
+                    {
+                        hide.AddRange(newOne);
+                        newAdded = true;
+                        if (getCustomAuto != null)
+                            newOne.ForEach(x =>
+                            {
+                                getCustomAuto.NetworksActListCollection?.FirstOrDefault(y => y.SocialNetwork == net)?.NetworkActivityTypeModelCollections.Add(new NetworkCustomizeActivityTypeModel
+                                {
+                                    Network = net,
+                                    Title = x
+                                });
+                            });
+                    }
+                    var collected = new Activities(show, hide);
                     returnDict.Add(net, collected);
                 }
+                if (newAdded)
+                    ServiceLocator.Current.GetInstance<IBinFileHelper>().SaveAutoActivityCustomized(getCustomAuto);
+
             }
             else
             {

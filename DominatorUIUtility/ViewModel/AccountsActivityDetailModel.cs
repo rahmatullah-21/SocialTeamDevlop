@@ -59,7 +59,7 @@ namespace DominatorUIUtility.ViewModel
             get
             {
                 _activityTitle = Regex.Replace(Title.ToString(), "(\\B[A-Z])", " $1");
-                return _activityTitle;
+                    return _activityTitle;
             }
             set
             {
