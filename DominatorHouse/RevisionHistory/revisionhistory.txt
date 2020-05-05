@@ -1,3 +1,21 @@
+Version[1.0.0.84],[5th May 2020]
+New Features:-
+		Social:
+			Account manager ==> Now you can search accounts in account manager.
+        Youtube:
+			Engage ==> Report Video ==> Now you can Report the videos
+             		 				
+Fixed:-
+	Social:
+		Publisher ==> Pinterest ==> Fixed issue with create post in board
+		Publisher ==> Facebook  ==> Share from FB page/scrape from FB page ==> Fixed issue  with post to groups
+
+	Linkedin:
+		Grow connection ==> Export connection ==> Fixed issue withfile extension and exported file 
+		Grow connection ==> Send connection ==> Fixed issue with search url
+		Scraper ==> Job Scrapper ==> Fixed issue with sequence 
+		Engage ==> like ==> Fixed issue with search urls
+	
 Version[1.0.0.83],[20th April 2020]
 New Features:-
         Pinterest:

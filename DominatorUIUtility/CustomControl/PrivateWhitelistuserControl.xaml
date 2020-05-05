@@ -131,7 +131,7 @@
                     <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstWhiteListUsers,IsAsync=True}" VerticalAlignment="Stretch">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox x:Name="ChkWhitlistuser"  IsChecked="{Binding IsWhiteListUserChecked}"
+                                <CheckBox x:Name="ChkWhitlistuser"  IsChecked="{Binding IsWhiteListUserChecked}" Style="{StaticResource CheckBoxStyle}"
                                       Command="{Binding DataContext.SelectCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=ListBox}}">
                                     <CheckBox.Content>
                                         <TextBlock Text="{Binding WhitelistUser}"/>

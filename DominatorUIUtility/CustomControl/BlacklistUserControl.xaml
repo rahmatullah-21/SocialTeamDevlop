@@ -123,7 +123,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <CheckBox x:Name="ChkBlacklistuser"  IsChecked="{Binding IsBlackListUserChecked}"
-                                      Content="{Binding BlacklistUser}"
+                                      Content="{Binding BlacklistUser}" Style="{StaticResource CheckBoxStyle}"
                                       Command="{Binding DataContext.SelectCommand,RelativeSource={RelativeSource AncestorType=ListBox}}"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
