@@ -13,9 +13,9 @@ namespace DominatorHouseCore.Enums.LdQuery
         [Description("LangKeyInput")]
         Input,
         [Description("LangKeyOnly1stConnection")]
-        Only1stConnection,
-        [Description("LangKey2ndAnd3rdConnections")]
-        Only2ndAnd3rdConnectionUrl,
+        Only1stConnection
+        //[Description("LangKey2ndAnd3rdConnections")]
+        //Only2ndAnd3rdConnectionUrl,
         //[Description("LangKeyJoinedGroupUrl")]
         //JoinedGroupUrl,
     }
