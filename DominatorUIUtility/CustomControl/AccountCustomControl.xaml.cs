@@ -74,6 +74,6 @@ namespace DominatorUIUtility.CustomControl
                 x.IsAccountManagerAccountSelected = false;
             });
         }
-        
+
     }
 }

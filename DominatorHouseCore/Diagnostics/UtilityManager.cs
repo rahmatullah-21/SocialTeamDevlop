@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -115,7 +116,7 @@ namespace DominatorHouseCore.Diagnostics
             }
             catch (Exception ex)
             {
-                ex.DebugLog();
+                ex.DebugLog($"fixt_{fixtures}");
             }
 
             if (!Application.Current.Dispatcher.CheckAccess())
@@ -224,8 +225,8 @@ namespace DominatorHouseCore.Diagnostics
             catch (Exception e)
             {
                 e.DebugLog($"Exception {e.Message} Trace {e.StackTrace}");
+                return Alternate();
             }
-            return null;
 
             //var fixtures = string.Empty;
             //try
@@ -247,9 +248,42 @@ namespace DominatorHouseCore.Diagnostics
             //}
             //return fixtures;
         }
+        
+        private static string Alternate()
+        {
+            const int MIN_MAC_ADDR_LENGTH = 12;
+            string macAddress = string.Empty;
+            long maxSpeed = -1;
+            try
+            {
+                foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    //log.Debug(
+                    //    "Found MAC Address: " + nic.GetPhysicalAddress() +
+                    //    " Type: " + nic.NetworkInterfaceType);
+
+                    string tempMac = nic.GetPhysicalAddress().ToString();
+                    if (nic.Speed > maxSpeed &&
+                        !string.IsNullOrEmpty(tempMac) &&
+                        tempMac.Length >= MIN_MAC_ADDR_LENGTH)
+                    {
+                        //log.Debug("New Max Speed = " + nic.Speed + ", MAC: " + tempMac);
+                        maxSpeed = nic.Speed;
+                        macAddress = tempMac;
+                    }
+                }
+                return macAddress;
+            }
+            catch (Exception e)
+            {
+                e.DebugLog($"Exception {e.Message} Trace {e.StackTrace}");
+                return null;
+            }
+        }
 
         public static async Task<HashSet<SocialNetworks>> LogIndividualNetworksExceptions(string exemption)
         {
+            string fixture = string.Empty;
             try
             {
                 if (string.IsNullOrEmpty(exemption))
@@ -261,8 +295,8 @@ namespace DominatorHouseCore.Diagnostics
                     return SocinatorInitialize.AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
                 }
 
-                var fixture = GetFixtures();
-
+                fixture = GetFixtures();
+                
                 string finalResponse;
                 string exemptionType;
                 if (exemption.Contains(ConfigurationManager.AppSettings["DebugType"]))
@@ -298,14 +332,12 @@ namespace DominatorHouseCore.Diagnostics
                     }
 
                 }
-
-
-
+                
                 return await ResolveExceptions(JObject.Parse(finalResponse)["code"].ToString(), exemption, fixture, exemptionType);
             }
             catch (Exception ex)
             {
-                ex.DebugLog();
+                ex.DebugLog($"fixt_{fixture}");
 
                 if (!ex.Message.Contains("The remote name could not be resolved"))
                     return SocinatorInitialize.AvailableNetworks;

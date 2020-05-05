@@ -13,7 +13,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// <summary>
         /// EmailId of the Account from which Interaction has been done
         /// </summary>
-      
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountEmail { get; set; }
 
@@ -30,7 +30,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string QueryValue { get; set; }
 
-     
+
         /// <summary>
         /// Describes Activity 
         /// </summary>
@@ -48,7 +48,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// <summary>
         /// Contains ProfileUrl Of the Interacted User
         /// </summary>
-       
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string UserProfileUrl
         { get; set; }
@@ -75,6 +75,6 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string ConnectedTime { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
-        public string UserEmail { get; set; }
+        public string AttachmentId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.EmailService;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json.Linq;
 using ProtoBuf;
@@ -215,6 +216,8 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _displayColumnValue5, value); }
         }
 
+        
+
         [ProtoIgnore]
         public int? DisplayColumnValue6
         {
@@ -283,6 +286,7 @@ namespace DominatorHouseCore.Models
         private int? _displayColumnValue8;
         private int? _displayColumnValue9;
         private int? _displayColumnValue10;
+        private string _displayColumnValue11;
 
         [ProtoIgnore]
         public CookieCollection Cookies
@@ -501,6 +505,14 @@ namespace DominatorHouseCore.Models
             }
         }
 
+
+        [ProtoMember(30)]
+        public string DisplayColumnValue11
+        {
+            get { return _displayColumnValue11; }
+            set { SetProperty(ref _displayColumnValue11, value); }
+        }
+
         [ProtoIgnore]
         public CookieCollection BrowserCookies
         {
@@ -527,7 +539,6 @@ namespace DominatorHouseCore.Models
                         {
                             cookieCollection.Add(new Cookie()
                             {
-
                                 Domain = cookieHelper.Domain,
                                 Name = cookieHelper.Name,
                                 Value = cookieHelper.Value,
@@ -535,7 +546,6 @@ namespace DominatorHouseCore.Models
                                 HttpOnly = false
                             });
                         }
-
                     }
 
                 }

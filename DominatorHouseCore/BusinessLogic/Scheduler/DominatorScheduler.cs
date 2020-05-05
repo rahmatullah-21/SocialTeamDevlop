@@ -190,6 +190,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                             moduleConfiguration.NextRun = DateTimeUtilities.GetNextStartTime(moduleConfiguration);
                         }
                         moduleConfiguration.IsEnabled = needRestart;
+                        if (moduleConfiguration.Status == null || moduleConfiguration.Status == "Active" && !moduleConfiguration.IsEnabled || moduleConfiguration.Status == "Paused" && moduleConfiguration.IsEnabled)
+                            moduleConfiguration.Status = moduleConfiguration.IsEnabled ? "Active" : "Paused";
                         _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
                         _accountsCacheService.UpsertAccounts(account);
                     }
@@ -371,6 +373,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 //GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.UserName, activityType,$"User {dominatorAccount.UserName} is already running with {activityType} activity");
                 return;
             }
+
+            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            if (!softwareSettings.GetSoftwareSettings().IsEnableParallelActivitiesChecked
+                && _runningJobsHolder.IsActivityRunningForAccount(dominatorAccount.AccountId))
+                return;
+
             try
             {
                 //Get the time when the activity has to be performed next and stopped.

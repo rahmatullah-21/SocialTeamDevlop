@@ -34,15 +34,17 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         public static PublisherMultiplePost GetMultiplePost(ObservableCollection<PostDetailsModel> postDetails)
         {
-            return _instance ?? (_instance = new PublisherMultiplePost(postDetails));
+            return _instance = _instance ?? (_instance = new PublisherMultiplePost(postDetails));
         }
         public PublisherMultiplePost(ObservableCollection<PostDetailsModel> postDetails) : this()
         {
-            PublisherMultiplePostViewModel.LstPostDetailsModel = postDetails;
+            PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels = postDetails;
         }
         public ObservableCollection<PostDetailsModel> GetFinalPostDetails()
         {
-            return PublisherMultiplePostViewModel.LstPostDetailsModel;
+            return PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels;
         }
 
         private PublisherMultiplePostViewModel _publisherMultiplePostViewModel;
@@ -72,10 +74,9 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void PublisherMultiplePost_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var lstPostDetails = PublisherMultiplePostViewModel.LstPostDetailsModel = PublisherCreateCampaigns
-                 .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                 .PublisherCreateCampaignModel.LstPostDetailsModels;
-            PublisherMultiplePostViewModel.LstPostDetailsModel = lstPostDetails;
+            //var lstPostDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+            //        .PublisherCreateCampaignModel.LstPostDetailsModels;
+            //PublisherMultiplePostViewModel.LstPostDetailsModel = lstPostDetails;
 
             if (!Application.Current.Dispatcher.CheckAccess())
             {
@@ -83,12 +84,14 @@ namespace DominatorUIUtility.Views.SocioPublisher
                 {
 
                     PublisherMultiplePostViewModel.PostListsCollectionView =
-                        CollectionViewSource.GetDefaultView(PublisherMultiplePostViewModel.LstPostDetailsModel);
+                        CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels);
                 });
             }
             else
                 PublisherMultiplePostViewModel.PostListsCollectionView =
-                    CollectionViewSource.GetDefaultView(PublisherMultiplePostViewModel.LstPostDetailsModel);
+                    CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels);
 
         }
         public void Dispose()

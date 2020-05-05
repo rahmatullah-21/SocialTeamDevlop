@@ -25,7 +25,9 @@ namespace DominatorHouseCore.Process
         Task StartProcessAsync();
         void Stop();
         JobKey Id { get; }
+        List<string> ContinueIfLimitNotReached(ActivityType actTpe);
         ReachedLimitInfo CheckLimit();
+        bool CheckJobProcessLimitsReached();
         JobConfiguration JobConfiguration { get; }
         CancellationTokenSource JobCancellationTokenSource { get; }
         DominatorAccountModel DominatorAccountModel { get; }
@@ -107,7 +109,6 @@ namespace DominatorHouseCore.Process
         //        var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
         //        runningActivityManager.StartNextRound(DominatorAccountModel);
         //    }
-
         //}
 
 
@@ -151,7 +152,7 @@ namespace DominatorHouseCore.Process
         /// </summary>
         /// <returns></returns>
         /// 
-        protected virtual bool CheckJobProcessLimitsReached()
+        public virtual bool CheckJobProcessLimitsReached()
         {
             var limitType = ReachedLimitType.NoLimit;
             try
@@ -194,6 +195,10 @@ namespace DominatorHouseCore.Process
             }
         }
 
+        public virtual List<string> ContinueIfLimitNotReached(ActivityType actTpe)
+        {
+            return null;
+        }
 
         public abstract ReachedLimitInfo CheckLimit();
 
@@ -351,7 +356,6 @@ namespace DominatorHouseCore.Process
                           StopIfAccountLoginFail();
                       }
 
-
                   }, JobCancellationTokenSource.Token);
 
                 JobCancellationTokenSource.Token.Register(() =>
@@ -429,9 +433,9 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
                     if (!DominatorAccountModel.IsRunProcessThroughBrowser)
-                        logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
+                        logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true, JobCancellationTokenSource.Token);
                     else
-                        logInProcess.LoginWithBrowserMethod(DominatorAccountModel);
+                        logInProcess.LoginWithBrowserMethod(DominatorAccountModel, JobCancellationTokenSource.Token);
 
                     JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }

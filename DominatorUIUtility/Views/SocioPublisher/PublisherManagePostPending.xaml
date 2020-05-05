@@ -246,6 +246,17 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+
+                    <behaviours:FixedWidthGridViewColumn Header="{DynamicResource LangKeyTitle}" FixedWidth="300">
+                        <behaviours:FixedWidthGridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock  VerticalAlignment="Center" Margin="6,2,6,2" Text="{Binding PublisherInstagramTitle}" TextTrimming="CharacterEllipsis"/>
+                                </Border>
+                            </DataTemplate>
+                        </behaviours:FixedWidthGridViewColumn.CellTemplate>
+                    </behaviours:FixedWidthGridViewColumn>
+
                     <behaviours:FixedWidthGridViewColumn Header="{DynamicResource LangKeyDescription}" FixedWidth="300">
                         <behaviours:FixedWidthGridViewColumn.CellTemplate>
                             <DataTemplate>

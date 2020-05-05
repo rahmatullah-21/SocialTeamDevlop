@@ -7,6 +7,7 @@ namespace DominatorHouseCore.Process.JobLimits
     public interface IExecutionLimitsManager
     {
         ReachedLimitInfo CheckIfLimitreached<T>(JobKey key, SocialNetworks networks, ActivityType activityType) where T : class, new();
+        int GetCurrentJobCount(JobKey key);
     }
     public class ExecutionLimitsManager : IExecutionLimitsManager
     {
@@ -47,6 +48,20 @@ namespace DominatorHouseCore.Process.JobLimits
             }
 
             return new ReachedLimitInfo(ReachedLimitType.NoLimit, 0); ;
+        }
+
+        public int GetCurrentJobCount(JobKey key)
+        {
+            try
+            {
+                return _jobLimitsHolder[key].MaxNoOfActionPerJob;
+            }
+            catch (System.Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            return 0;
         }
     }
 }

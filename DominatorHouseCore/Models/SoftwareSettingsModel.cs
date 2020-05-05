@@ -4,6 +4,7 @@ using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace DominatorHouseCore.Models
 {
@@ -660,7 +661,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _exportPath, value);
             }
         }
-        private bool _isThreadLimitChecked = true;
+        private bool _isThreadLimitChecked;
         [ProtoMember(45)]
         public bool IsThreadLimitChecked
         {
@@ -675,7 +676,7 @@ namespace DominatorHouseCore.Models
             get { return _maxThreadCount; }
             set { SetProperty(ref _maxThreadCount, value); }
         }
-        
+
         private bool _runQueriesTopToBottom;
         [ProtoMember(47)]
         public bool RunQueriesTopToBottom
@@ -698,7 +699,7 @@ namespace DominatorHouseCore.Models
         {
             get { return _runQueriesRandomly; }
             set
-            {SetProperty(ref _runQueriesRandomly, value);}
+            { SetProperty(ref _runQueriesRandomly, value); }
         }
 
         private bool _stopIfNoMoreData;
@@ -730,6 +731,35 @@ namespace DominatorHouseCore.Models
             }
         }
 
+        private bool _isTestMode;
+        [ProtoIgnore]
+        public bool IsTestMode
+        {
+            get
+            {
+                return _isTestMode;
+            }
+            set
+            {
+                SetProperty(ref _isTestMode, value);
+            }
+        }
+
+        private Visibility _debugVisibility;
+        [ProtoIgnore]
+        public Visibility DebugVisibility
+        {
+            get
+            {
+                return _debugVisibility;
+            }
+            set
+            {
+
+                SetProperty(ref _debugVisibility, value);
+            }
+        }
+
         private bool _isSelectCountriesFilter;
         public bool IsSelectCountriesFilter
         {
@@ -751,6 +781,37 @@ namespace DominatorHouseCore.Models
             {
                 SetProperty(ref _listlocationModelTemp, value);
             }
+        }
+
+
+        private bool _doNotSortByUserNameChecked = false;
+        [ProtoMember(53)]
+        public bool DoNotSortByUserNameChecked
+        {
+            get
+            {
+                return _doNotSortByUserNameChecked;
+            }
+            set
+            {
+                SetProperty(ref _doNotSortByUserNameChecked, value);
+            }
+        }
+
+        private bool _sortByUsername;
+        [ProtoMember(54)]
+        public bool SortByUsername
+        {
+            get { return _sortByUsername; }
+            set { SetProperty(ref _sortByUsername, value); }
+        }
+
+        private bool _sortByNikename;
+        [ProtoMember(55)]
+        public bool SortByNikename
+        {
+            get { return _sortByNikename; }
+            set { SetProperty(ref _sortByNikename, value); }
         }
 
 

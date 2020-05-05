@@ -82,5 +82,8 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         public bool IsFollowingback { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string DirectMessage { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public string PageUrl { get; set; }
     }
 }

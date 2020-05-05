@@ -10,6 +10,8 @@ namespace DominatorHouseCore.Interfaces
 
         IEnumerable<ActivityType> GetImportantActivityTypes();
 
+        IEnumerable<ActivityType> GetOtherActivityTypes();
+
         string RecentlySelectedAccount { get; set; }
     }
 }

@@ -1,3 +1,262 @@
+Version[1.0.0.83],[20th April 2020]
+New Features:-
+        Pinterest:
+             Repin ==> Other configuration ==> Repin pin per account with specific Query
+
+Fixed:-
+	Fixed minor issues and improved performance.
+
+Version[1.0.0.82],[7th April 2020]
+New Features:-
+		Social:
+			Accounts ==> Account Manager ==>  Add Single Account => Added options (import Json cookies and Activate BrowserAutomation) in Advanced option.
+		
+		Pinterest:
+			Accounts ==> Account Manager ==> Now you can Switch to business account.
+					
+		Linkedin:
+			Engage ==> Like ==> Search query ==> Company page posts/Hastag Posts ==> Now you can like posts of the Page and Hastag posts.	
+				
+Fixed:-
+	Social:
+		Publisher ==> Instagram ==> Fixed issue with post as album. 
+	
+	Twitter:
+		Messenger ==> Fixed issue with sending messages to new followers.
+	
+	Linkedin:
+		Scraper ==> Fixed issue with Attachment message scraper. 
+		Messanger ==> Fixed issue with Send messages to new connections. 
+		Scraper ==> Message attachment scraper ==> export file ==> Fixed issue extension or file type. 
+		Salesnavigator scraper ==> Userscraper ==> searc Url ==> fixed issue with wrong url in export file. 
+	
+	Instagram:
+		Instaposter ==> Reposter ==> Fixed issue with reposter. 
+	
+	Pinterest:
+		Boards ==> Fixed issue with  board count update.	
+
+	Facebook:
+		Broadcast message ==> Messages to own friends ==> Fixed issue with sending messages to own friends.
+		Grow friends ==> Send Friend request ==> Post liker ==> Fixed issue with post url
+		Grow friends ==> Withdraw friend requests ==> Fixed issue with rotating in loop.	
+
+	Youtube:
+		Engage ==> Comment ==> Fixed issue with comments.
+	
+	Reddit:
+		Voter ==> Upvote ==> Fixed issue with upvote.
+		Grow followers ==> campaign ==> Fixed issue with Report on follow campaign.
+		.
+Version[1.0.0.81],[20th March 2020]
+Fixed:-
+    Social:
+        publisher ==> Facebook ==> Fixed issue with tags in post.        
+
+Version[1.0.0.80],[20th March 2020]
+New Features:-
+    Social:
+        Account Manager ==> Browser login ==> Now you can copy current page URL(From Browser).
+        Account Manager ==> Added One more column 'Account Name' as Account's nick name. Now You can give a name to accounts by setting value in AccountName TextBox in AccountDetails.
+
+    Instagram:
+        Instascrapper ==> User Scrapper ==> Other configuration ==> Required data ==> Now you can scrape Business category.
+        Instaposter ==> Reposter ==> Manage Post Caption ==> Now you can comment after repost.
+
+    Pinterest: 
+        Board ==> Create Board ==> Now you can create board using spintax.
+        Board ==> Create Board ==> Other configuration ==> Now you can create unique board for each account.
+
+    Youtube:        
+        Engage ==> Comment ==> Now we can do auto-reply to comments by using specific word in a post.
+        
+Fixed:-
+    Social:
+        publisher ==> Pinterest ==> Fixed issue with post is getting failed with error invalid parameter. 
+        Account manager ==> Pinterest ==> Fixed issue with board count.
+        EmbeddedBrowser ==> Fixed issue on Searching url by entering in URL search TextBox.
+
+    Twitter:
+        Engage ==> Unlike ==> Fixed issue with unlike.
+        
+    Linkedin:
+        Browser mode ==> Scraper ==> Message attachment scraper ==> Fixed issue with downloaded file extension. 
+        Grow connection ==> Connection request ==> Query type ==> Keyword ==> Browser mode ==> Fixed issue with Grow connection module.
+        Accounts ==> Fixed issue with Proxies.
+
+    Pinterest:
+        pinposter ==> Repin ==> Fixed issue with edit of paused campaign accounts getting duplicate, when it's refreshed. 
+        Pinposter ==> Repin ==> Fixed issue with users not found issue. 
+
+    Quora:
+        Grow followers ==> Unfollow ==> People followed by outside the software ==>Fixed issue with unfollow.
+        Grow followers ==> Follow ==> Followers of someone followers ==> Fixed issue with question count filter.
+
+    Facebook:
+        Account  Manager ==> Fixed issue with update all details in browser automation mode.
+
+    Youtube:
+        Watch video ==> Fixed issues with channel filters and video filters.
+
+    Reddit:
+        Engage ==> Comment ==> Fixed issue with comments.
+        Upvote ==> Fixed issue with Sociopublisher Campaign ID.
+    
+Version[1.0.0.79],[06th March 2020]
+New Features:-
+	Social:
+		Accounts Activity ==> Added an option to Customize Activity Actions
+			
+	Youtube:
+		Youtube ==> Engage ==> Comment => Reply to comments ==> Now, we can reply to comments (Added options for this feature in other configurations)
+		Youtube ==> Engage ==> Comment ==> Other configuration ==> Now we can auto-reply to comments by matching specific text in a post's comment list.
+        
+Fixed:-
+	Social:
+		SocioPublisher ==> PostConfiguration ==> Advanced settings ==> Instagram ==> Fixed issue with Enable Automatic/Dynamic hashtags.
+		Sociopublisher ==> Facebook ==> Fixed issue with posting in wall.
+		Sociopublisher ==> Pinterest ==> Fixed issue in publisher
+
+	Linkedin:
+		Accounts ==> Account Manager ==> Fixed issue with account login
+		Scarper ==> User Scarper ==> scarping data in report issue is fixed.
+		Grow connection ==> Connection Request ==> Fixed issue with showing No more results found.
+		Grow Connection[Browser Mode] ==> Accept Connection ==> Fixed issue accept connection request.
+		
+	Tumblr:
+		Engage ==> Unlike ==> Liked by software ==> Fixed issues with unlike search result 0.
+
+	Instagram: 
+		Accounts ==> Account Manager ==> Fixed issue with account login
+	
+	Pinterest 
+		Accounts ==> Account Manager ==>  Fixed issue in account browser login
+		User scarper ==> Fixed issue in report 
+		Repin ==> Fixed issue in Repin
+
+	Twitter:
+		Engage ==> Fixed issues with language conversion.
+
+Version:[1.0.0.78],[27th February 2020]
+New Features:-
+	Social:
+		Other Configurations ==> Added option 'Do not Sort Accounts By UserName'.
+		Accounts Activity ==> Now you can stop all campaigns at once on each account.
+		Proxy Manager ==> Now you can stop accountlogin after assigning/unassigning accounts to proxy.
+						  And you can save the setting now with Save setting button click.
+	
+	Pinterest:
+ 		Export file ==> Now you can see username of your own social accounts in export file.
+			
+	Linkedin: 
+		Message conversation scraper ==> All connections ==> It will scrape recent conversatios now.
+		
+	Youtube:
+		Engage ==> Like ==> Video Filter ==> Added checkbox 'Filters searching video', applicable on 'keyword' query only.
+		Subscriber ==> Subscribe ==> Now you can subscribe to video commenters(At other configurations, added some special filters for this feature) 
+		Scraper ==> channel scraper ==> Now you can subscribe to video commenters(At other configurations, added some special filters for this feature) 
+					 
+	Tumblr:
+		Engage ==> Unlike ==> Post liked by outside software.
+
+Fixed:- 
+	Social:
+		publisher ==> Scrape post from Twitter ==> Fixed issue with auto update.
+		publisher ==> Scrape from group ==> Posting into page ==> Fixed issue with failed to post in page.
+		publisher ==> Scrape from pinterest posts ==> Fixed issue with keywords.
+		publisher ==> Multiple post ==> issue solved for browser settings
+		
+	Facebook:
+		Grow group ==> Group joiner ==> Fixed issue with custom group url.
+		Fb inviter ==> Group inviter ==> Fixed issue with showing failed message.
+		Engage ==> post like & post comment ==> Fixed issue with custom post list query type.
+		Grow Friends ==> Unfriend ==> Fixed issue with added by software and outside software.
+		Grow friends ==> Accept friend request ==> Fixed issue with gender filter.
+			
+	Linkedin:
+		Scarper ==> User Scarper ==> Trying to scarpe using the profile URL ==> Fixed issue with phone number and details.
+		Messenger ==> Send greetings to connections ==> Greetings options ==> Fixed issue Work anniversary Greetings.
+		Grow connection ==> Follow pages ==> Fixed issue with export report. 
+		Scraper ==> Message conversation scraper ==> Fixed issue with report.
+			
+	Pinterest:	
+		Boards ==> Create Board ==> Issue fixed with posting Description in browser automation.
+		
+	Youtube:
+		Unsubscribe ==> Fixed issue on unsubscribing channel from custom channel list.
+		Engage ==> Comment ==> Fixed issue on comment using keyword query.
+		Engage ==> Like Comments ==> Fixed issue on liking comment using Custom Url query.
+		Watchvideo ==> View Increaser ==> Fixed issue on ViewIncreaser with filters inside account activity tool mode.
+		
+	Reddit:
+		Grow follower ==> Follower ==> Fixed issue with custom user list.
+
+Version[1.0.0.77],[17th February 2020]
+New Features:-
+	Social:-
+		sociopublisher ==> Added feature to scraper images from Google/any Other Links
+		Social ==> Other Configuration ==> Youtube Tab ==> Added setting to do activity on some specified amount of results fetched from any search query (this setting will be executed on each campaign/account run).
+
+	Pinterest:
+		Pin message ==> Broadcast message ==> Now you can skip those users who already received Message
+
+	Instagram:
+ 		Instachat ==> Now  you can send Messages with videos
+
+	Linkedin:
+		Grow connection ==> FollowPages ==> Added feature to follow pages 
+	
+	Youtube:
+		Like Comment ==> Other Configuration ==>  Added setting to like comments in a specified amount in each video post (this setting will be executed on each campaign/account run).
+
+Fixed:-
+	Social:
+		social ==> Tumblr ==> Account Manager ==> Go to tools ==> Account activity ==> Fixed issue with Report.
+
+	Facebook:
+		Broadcast message ==> Send greetings to friends ==> Fixed issue with showing the message as successfully completed the process.
+		Scraper ==> Profile Scraper ==> filters ==> Gender & location ==> Fixed issue with profile Doesn't Match With Gender Filter Condition.
+		Scraper ==> Comment scraper ==> Fixed issue with pagination in comments.
+
+	Linkedin:
+ 		Scraper ==> Message conversatio scraper ==> Query Type==> 1st connection ==> Fixed issue with message scraper.
+             	Engage ==> Like ==> Query Type ==> Someones post ==> Fixed issue with Like.
+		Messenger ==> Broadcast Messages ==> Fixed issue with broadcast message.
+
+	Youtube:
+		Engage[http mode] ==> Like ==> Fixed issue in other configuration
+		Engage[http mode] ==> Like ==> Fixed issue in export report
+
+ 	Twitter:
+		Poster ==> Retweet ==> keywords ==> Fixed issue with no more data.
+		Poster ==> Reposter ==> keywords ==> Fixed issue with no more data.
+		Grow Follower ==> Follow ==> Fixed issue with 'user has profile image' filte.	
+
+Version[1.0.0.76],[8th February 2020]
+Fixed:- 
+	Social:
+		Publisher ==> Pinterest ==> Issue fixed with Scrape post for Pinterest Network
+
+	Pinterest:
+		Pinterest ==> Pin Poster ==> Issue fixed with Edit Pin 
+		Pin Poster ==> Issue fixed with re pinning with Browser settings
+		Account Manager ==> Issue fixed with NOT Updating Details with Browser settings
+
+	Instagram:
+		Instaposter ==> Reposter ==> Specific user post ==>  Fixed issue with original post caption.
+		Instaposter ==> Reposter ==> Followers of someones following post ==>Fixed issue with repost count filter.
+	
+	Quora:
+		Quora ==> voting ==> Downvote question ==> Custom urls ==> Fixed issue with downvote the question.
+	
+	Twitter:
+		Grow Followers ==> Follower ==> Someones followers ==> Fixed issue with follow. 
+		Grow Followers ==> Follower ==> User Who liked Tweet ==> Fixed issue with retweet.
+		Poster=> Tweet To ==> Fixed issue with follow 
+
+	Tumblr
+		Tumblr ==> Reblog ==> Keywords ==> Fixed issue with post filter Notes 
+
 Version[1.0.0.75],[30th January 2020]
 New features:
 	Social:         

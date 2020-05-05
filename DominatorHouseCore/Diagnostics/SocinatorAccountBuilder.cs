@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.EmailService;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using System;
@@ -36,6 +37,8 @@ namespace DominatorHouseCore.Diagnostics
             DominatorAccountModel.IsRunProcessThroughBrowser = isBrowerAutomationActive;
             return this;
         }
+
+        
 
         public SocinatorAccountBuilder AddOrUpdateDominatorAccountBase(DominatorAccountBaseModel accountBaseModel)
         {
@@ -117,6 +120,12 @@ namespace DominatorHouseCore.Diagnostics
         public SocinatorAccountBuilder AddOrUpdateDisplayColumn4(int? value)
         {
             DominatorAccountModel.DisplayColumnValue4 = value;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateDisplayColumn11(string value)
+        {
+            DominatorAccountModel.DisplayColumnValue11 = value;
             return this;
         }
         public SocinatorAccountBuilder UpdateLastUpdateTime(int value)

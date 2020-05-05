@@ -76,7 +76,7 @@
                     </StackPanel>
                     <GroupBox Header="{DynamicResource LangKeyHashByKeyword}" Margin="0,5">
                         <StackPanel>
-                            <TextBlock Text="{DynamicResource LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByCommas}" VerticalAlignment="Center" Margin="5"/>
+                            <TextBlock Text="{DynamicResource LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByNewLine}" VerticalAlignment="Center" Margin="5"/>
                             <TextBox Height="50" Width="300" AcceptsReturn="True"
                                      HorizontalAlignment="Left" Margin="10,5" Text="{Binding InstagramModel.HashWords}"/>
                         </StackPanel>

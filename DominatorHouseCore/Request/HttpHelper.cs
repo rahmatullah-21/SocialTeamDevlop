@@ -130,6 +130,11 @@ namespace DominatorHouseCore.Request
 
                 #endregion
 
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                                                        | SecurityProtocolType.Tls11
+                                                        | SecurityProtocolType.Tls12
+                                                        | SecurityProtocolType.Ssl3;
+
                 if (ServicePointManager.Expect100Continue)
                 {
                     ServicePointManager.Expect100Continue = false;

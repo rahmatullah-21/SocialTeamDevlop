@@ -14,23 +14,23 @@ namespace DominatorHouseCore.Utility
         }
 
         [ProtoMember(6)]
-        public string AndroidRelease { get; private set; }
+        public string AndroidRelease { get; set; }
 
         [ProtoMember(7)]
-        public string AndroidVersion { get; private set; }
+        public string AndroidVersion { get; set; }
 
         [ProtoMember(1)]
-        public string Device { get; private set; }
+        public string Device { get; set; }
 
         [ProtoMember(2)]
         public string DeviceId { get; set; }
 
 
         [ProtoMember(3)]
-        public string Manufacturer { get; private set; }
+        public string Manufacturer { get; set; }
 
         [ProtoMember(4)]
-        public string Model { get; private set; }
+        public string Model { get; set; }
 
         [ProtoMember(5)]
         public string PhoneId { get; set; }

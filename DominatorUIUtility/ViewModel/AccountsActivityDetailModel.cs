@@ -14,6 +14,9 @@ namespace DominatorUIUtility.ViewModel
         public SocialNetworks AccountNetwork { get; set; }
 
         public ObservableCollection<ActivityDetailsModel> ActivityDetailsCollections { get; set; }
+
+        string _showMoreButtonText = "LangKeyMore".FromResourceDictionary();
+        public string ShowMoreButtonText { get=> _showMoreButtonText; set { SetProperty(ref _showMoreButtonText, value); } }
     }
 
     public class ActivityDetailsModel : BindableBase
@@ -56,7 +59,7 @@ namespace DominatorUIUtility.ViewModel
             get
             {
                 _activityTitle = Regex.Replace(Title.ToString(), "(\\B[A-Z])", " $1");
-                return _activityTitle;
+                    return _activityTitle;
             }
             set
             {

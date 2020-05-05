@@ -366,6 +366,35 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="{x:Type DataGridCell}" x:Key="DaraGridCellStyle">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme1}"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="MinHeight" Value="25"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding}" Value="">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="0">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Transparent" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="False">
+                <Setter Property="Background" Value="Transparent" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Foreground" Value="LightGreen" />
+                <Setter Property="Background" Value="Transparent" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
     <!--Begin Socinator Textbox Items-->
 
     <Style TargetType="ListBoxItem" x:Key="SuggestionItemStyle">

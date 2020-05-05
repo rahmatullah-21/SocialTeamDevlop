@@ -64,6 +64,9 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public bool IsSubscribed { get; set; }
 
+        /// <summary>
+        /// use it as CommentText/ReplyCommentText/LikedCommentText/ReportText
+        /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
         public string MyCommentedText { get; set; }
         
@@ -88,5 +91,14 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
         public string PostTitle { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 29)]
+        public string InteractedCommentUrl { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 30)]
+        public string SelectedOptionToVideoReport { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 31)]
+        public string SelectedTimeStampToVideoReport { get; set; }
     }
 }

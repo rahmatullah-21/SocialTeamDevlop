@@ -42,6 +42,8 @@ using DominatorUIUtility.ViewModel.Startup;
 using MahApps.Metro.Controls;
 using Unity;
 using System.Windows.Controls.Primitives;
+using DominatorHouseCore.ProxyServerManagment;
+using System.Windows.Interop;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -98,6 +100,14 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _height, value);
             }
         }
+
+
+        public bool IsSortAccounts { get; set; }
+            = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>().GetSoftwareSettings().DoNotSortByUserNameChecked;
+
+        public bool SortByUserNikeName { get; set; }
+            = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>().GetSoftwareSettings().SortByNikename;
+
 
         private MenuHandlerModel _menuHandlerModel;
 
@@ -188,6 +198,13 @@ namespace DominatorUIUtility.ViewModel
         public ICommand UpdateButtonSizeChangedCommand { get; }
         public ICommand ExportButtonSizeChangedCommand { get; }
         public ICommand DeleteButtonSizeChangedCommand { get; }
+        public ICommand SettingWizardCommand { get; }
+        public ICommand BrowserButtonSizeChangedCommand { get; }
+        public ICommand InfoButtonSizeChnagedCommand { get; }
+        public ICommand SwitchToBusinessAccountCommand { get; }
+        public ICommand SwitchToSingleBusinessAccountCommand { get; }
+        public ICommand SwitchToSingleNormalAccountCommand { get; }
+
 
         #endregion
 
@@ -259,7 +276,14 @@ namespace DominatorUIUtility.ViewModel
             ExportButtonSizeChangedCommand = new BaseCommand<object>(ExportButtonSizeChangedCommandCanExecute, ExportButtonSizeChangedCommandExecute);
 
             DeleteButtonSizeChangedCommand = new BaseCommand<object>(DeleteButtonSizeChangedCommandCanExecute, DeleteButtonSizeChangedCommandExecute);
-            
+
+            BrowserButtonSizeChangedCommand = new BaseCommand<object>(BrowserButtonSizeChangedCommandCanExecute, BrowserButtonSizeChangedCommandExecute);
+
+            InfoButtonSizeChnagedCommand = new BaseCommand<object>(InfoButtonSizeChnagedCommandCanExecute, InfoButtonSizeChnagedCommandExecute);
+
+            SwitchToBusinessAccountCommand = new BaseCommand<object>(SwitchAccountTypeCommandCanExecute, SwitchAccountTypeCommandExecute);
+
+
             #region Context Menu Command
 
             ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
@@ -270,24 +294,223 @@ namespace DominatorUIUtility.ViewModel
             UpdateFriendshipCommand = new DelegateCommand<DominatorAccountModel>(AccountUpdate);
             EditNetworkProfileCommand = new DelegateCommand<DominatorAccountModel>(EditProfile);
             CopyAccountIdCommand = new DelegateCommand<DominatorAccountModel>(CopyAccountId);
+            SwitchToSingleBusinessAccountCommand = new DelegateCommand<DominatorAccountModel>(SwitchToSingleBusinessAccountCommandExecute);
+            SwitchToSingleNormalAccountCommand = new DelegateCommand<DominatorAccountModel>(SwitchToSingleNormalAccountCommandExecute);
+
 
             #endregion
 
             #endregion
+
 
             var spec = SocinatorInitialize.GetSocialLibrary(SocialNetworks.LinkedIn)
                         .GetNetworkCoreFactory()
                         .AccountCountFactory.GetColumnSpecificationProvider();
 
-            VisibleColumns.Clear();
-            VisibleColumns.AddRange(spec.VisibleHeaders.Select((name, colIndex) => new GridViewColumn
-            {
-                DisplayMemberBinding = new Binding($"DisplayColumnValue{colIndex + 1}"),
-                Header = name,
-                Width = 130
-            }));
+            #region Custom Setting Command
+
+            SettingWizardCommand = new DelegateCommand<DominatorAccountModel>(CustomSetting);
+
+            #endregion
+
+            SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
+
+
+
         }
-        
+
+        private void CustomSetting(DominatorAccountModel account)
+        {
+            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
+            viewModel.SelectAccount = account;
+            ModuleSetting.Instance.Show();
+        }
+
+        private void SwitchToSingleNormalAccountCommandExecute(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                var result = Dialog.ShowCustomDialog("LangKeyDeActivatingBusinessAccountforPinterest".FromResourceDictionary(),
+                            "LangKeyStartActivityNormalAccount".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+
+                if (result == MessageDialogResult.Affirmative)
+                {
+
+                    StopAllActivity(new List<DominatorAccountModel>() { dominatorAccountModel }, true);
+
+                    ThreadFactory.Instance.Start(() =>
+                    {
+
+                        var accountFactory = SocinatorInitialize
+                            .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                            .GetNetworkCoreFactory().AccountUpdateFactory;
+                        if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
+                        {
+                            var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
+                            asyncAccount.SwitchToBusinessAccount(dominatorAccountModel, new CancellationToken(), false);
+                        }
+
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+
+        private void SwitchToSingleBusinessAccountCommandExecute(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                var result = Dialog.ShowCustomDialog("LangKeyActivatingBusinessAccountforPinterest".FromResourceDictionary(),
+                            "LangKeyStartActivityBusinessAccount".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    StopAllActivity(new List<DominatorAccountModel>() { dominatorAccountModel }, true);
+
+                    ThreadFactory.Instance.Start(() =>
+                    {
+
+                        var accountFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+                        if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
+                        {
+                            var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
+                            asyncAccount.SwitchToBusinessAccount(dominatorAccountModel, new CancellationToken());
+                        }
+
+
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private bool SwitchAccountTypeCommandCanExecute(object sender)
+         => true;
+
+        private void SwitchAccountTypeCommandExecute(object sender)
+        {
+            try
+            {
+                var accountType = sender as string;
+
+                var selectedAccount = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected &&
+                    x.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest).ToList();
+
+                SwitchAccountType(selectedAccount, accountType);
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+
+        public void SwitchAccountType(List<DominatorAccountModel> selectedAccount, string accountType)
+        {
+            try
+            {
+                var result = accountType == "BusinessAccount" ?
+                            Dialog.ShowCustomDialog("LangKeyActivatingBusinessAccountforPinterest".FromResourceDictionary(),
+                            "LangKeyStartActivityBusinessAccount".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary())
+                            : Dialog.ShowCustomDialog("LangKeyDeActivatingBusinessAccountforPinterest".FromResourceDictionary(),
+                            "LangKeyStartActivityNormalAccount".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    var accountsToProcess = selectedAccount;
+
+                    if (accountsToProcess.Count() == 0)
+                    {
+                        ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
+                        return;
+                    }
+
+                    StopAllActivity(accountsToProcess.ToList(), true);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        selectedAccount.ForEach(account =>
+                        {
+
+                            var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                .GetNetworkCoreFactory().AccountUpdateFactory;
+                            try
+                            {
+                                if (!_changeBusinessAccountList.Contains(account.AccountBaseModel.UserName))
+                                    MultipleBusinessAccoutSwitch(account, accountType, accountFactory);
+                                else
+                                    GlobusLogHelper.log.Info(Log.AlreadyUpdatingAccount,
+                                        account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
+
+                                Task.Delay(5);
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
+                            }
+
+
+                        });
+                    });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private bool SwitchToBusinessAccountCommandCanExecute(object sender)
+         => true;
+
+        private void InfoButtonSizeChnagedCommandExecute(object Sender)
+        {
+            if (((Button)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsInfoVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsInfoVisible = true;
+                MenuHandlerModel.IsBrowserAutomationVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool InfoButtonSizeChnagedCommandCanExecute(object arg) => true;
+
+        private bool BrowserButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void BrowserButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((DropDownButton)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsBrowserAutomationVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsBrowserAutomationVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
         private void ChangeMenuHandlerStatus()
         {
             if (MenuHandlerModel.IsBrowserAutomationVisible || MenuHandlerModel.IsDeleteAccountVisible
@@ -322,6 +545,13 @@ namespace DominatorUIUtility.ViewModel
 
         private void ExportButtonSizeChangedCommandExecute(object Sender)
         {
+            if (_mainViewModel.ScreenResolution.Key <= 1024)
+            {
+                MenuHandlerModel.IsDeleteAccountVisible = true;
+                MenuHandlerModel.IsBrowserAutomationVisible = true;
+                MenuHandlerModel.IsInfoVisible = true;
+            }
+
             if (((Button)Sender).ActualHeight == 40)
             {
                 MenuHandlerModel.IsExportAccountVisible = false;
@@ -399,7 +629,9 @@ namespace DominatorUIUtility.ViewModel
                     VisibleColumns.Clear();
                     VisibleColumns.AddRange(spec.VisibleHeaders.Select((name, colIndex) => new GridViewColumn
                     {
-                        DisplayMemberBinding = new Binding($"DisplayColumnValue{colIndex + 1}"),
+                        DisplayMemberBinding = name == "Pinterest Account Type" ? new Binding($"DisplayColumnValue11")
+                            : e == SocialNetworks.Pinterest ? new Binding($"DisplayColumnValue{colIndex}") :
+                            new Binding($"DisplayColumnValue{colIndex + 1}"),
                         Header = name,
                         Width = 130
                     }));
@@ -413,6 +645,7 @@ namespace DominatorUIUtility.ViewModel
         private void AddSingleAccountExecute()
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
+            //IProxyValidationService _proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
 
             var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "LangKeyAddAccount".FromResourceDictionary(), "LangKeySave".FromResourceDictionary(), false, SocinatorInitialize.ActiveSocialNetwork);
 
@@ -425,6 +658,10 @@ namespace DominatorUIUtility.ViewModel
             objDominatorAccountBaseModel.AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks),
                     objAddUpdateAccountControl.ComboBoxSocialNetworks.Text);
 
+            Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
+            var nickName = DefaultAccountNameFromModel(LstDominatorAccountModel.BySocialNetwork(objDominatorAccountBaseModel.AccountNetwork), ref dictNetLasNum, objDominatorAccountBaseModel.AccountNetwork);
+            objDominatorAccountBaseModel.AccountName = nickName;
+
             var objDialog = new Dialog();
             var dialogWindow = objDialog.GetCustomDialog(customDialog, "LangKeyAddAccount".FromResourceDictionary());
 
@@ -432,18 +669,38 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
+                    //if (!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
+                    //    !_proxyValidationService.IsValidProxy(objDominatorAccountBaseModel.AccountProxy.ProxyIp, objDominatorAccountBaseModel.AccountProxy.ProxyPort))
+                    //{
+                    //    Dialog.ShowDialog("Proxy Warning", $"Invalid Proxy IP format :- \"{objDominatorAccountBaseModel.AccountProxy.ProxyIp}\". ");
+                    //    return;
+                    //}
+
+
                     if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
                                string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
 
                     if ((!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
                         string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))
                         || (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
-                            !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))) return;
+                            !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort)))
+                    {
+                        var filledOne = (!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) ? "LangKeyProxyIp" : "LangKeyProxyPort").FromResourceDictionary();
+                        var emptyOne = (filledOne == "LangKeyProxyIp".FromResourceDictionary() ? "LangKeyProxyPort" : "LangKeyProxyIp").FromResourceDictionary();
+                        ToasterNotification.ShowError(String.Format("LangKeyOneFieldCantBeEmptyIfAnotherHasValue".FromResourceDictionary(), emptyOne, filledOne));
+                        return;
+                    }
 
                     if ((!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) &&
                          string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword))
                         || (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) &&
-                            !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword))) return;
+                            !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword)))
+                    {
+                        var filledOne = (!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) ? "LangKeyProxyUsername" : "LangKeyProxyPassword").FromResourceDictionary();
+                        var emptyOne = (filledOne == "LangKeyProxyUsername".FromResourceDictionary() ? "LangKeyProxyPassword" : "LangKeyProxyUsername").FromResourceDictionary();
+                        ToasterNotification.ShowError(String.Format("LangKeyOneFieldCantBeEmptyIfAnotherHasValue".FromResourceDictionary(), emptyOne, filledOne));
+                        return;
+                    }
 
 
                     objDominatorAccountBaseModel.Status = AccountStatus.NotChecked;
@@ -455,14 +712,21 @@ namespace DominatorUIUtility.ViewModel
                         GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
                     }
 
+                    var httpCookies = objAddUpdateAccountControl.JsonCookies;
+                    var browserCookies = objAddUpdateAccountControl.JsonBrowserCookies;
+                    var browserActivated = false;
+
+                    var pinterestAccountType = objDominatorAccountBaseModel.AccountNetwork == SocialNetworks.Pinterest
+                            ? PinterestAccountType.Inactive.ToString() : PinterestAccountType.NotAvailable.ToString();
+
                     ThreadFactory.Instance.Start(() =>
                     {
-                        AddAccount(objDominatorAccountBaseModel, String.Empty, act =>
+                        AddAccount(objDominatorAccountBaseModel, httpCookies, act =>
                         {
                             var th = new Thread(() => act()) { IsBackground = true };
                             th.Start();
                             return () => th.Abort();
-                        }, string.Empty, false);
+                        }, browserCookies, browserActivated, pinterestAccountType);
                     });
                 }
                 catch (Exception ex)
@@ -470,6 +734,20 @@ namespace DominatorUIUtility.ViewModel
                     ex.DebugLog();
                 }
 
+            };
+
+            objAddUpdateAccountControl.ComboBoxSocialNetworks.SelectionChanged += (senders, events) =>
+            {
+                try
+                {
+                    dictNetLasNum = new Dictionary<SocialNetworks, int>();
+                    nickName = DefaultAccountNameFromModel(LstDominatorAccountModel.BySocialNetwork(objDominatorAccountBaseModel.AccountNetwork), ref dictNetLasNum, objDominatorAccountBaseModel.AccountNetwork);
+                    objDominatorAccountBaseModel.AccountName = nickName;
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             };
 
             objAddUpdateAccountControl.btnCancel.Click += (senders, events) => dialogWindow.Close();
@@ -496,6 +774,12 @@ namespace DominatorUIUtility.ViewModel
 
                 //if loaded text or csv contains no accounts then return
                 if (loadedAccountlist == null || loadedAccountlist.Count == 0) return;
+                var split = loadedAccountlist[0].Trim().Split('\t');
+                var haveNickName = loadedAccountlist[0].StartsWith("Account Group\tAccountNetwork")
+                                    ? loadedAccountlist[0].Contains("AccountName(Nick name)")
+                                    : loadedAccountlist[0].Trim().Split('\t').Count() == 16;
+
+                Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
 
                 #region Add to bin files which are valid accounts
 
@@ -561,12 +845,14 @@ namespace DominatorUIUtility.ViewModel
                         var proxyusername = string.Empty;
                         var proxypassword = string.Empty;
                         var proxyGroup = string.Empty;
+                        var nickName = string.Empty;
                         var status = AccountStatus.NotChecked.ToString();
                         var cookies = string.Empty;
                         var browserCookies = string.Empty;
                         var alternetEmail = string.Empty;
                         var banned = string.Empty;
                         var isBrowserAutomationActive = string.Empty;
+                        var pinterestAccountType = PinterestAccountType.NotAvailable.ToString();
 
                         switch (splitAccount.Length)
                         {
@@ -638,6 +924,10 @@ namespace DominatorUIUtility.ViewModel
                             case 16:
                             case 17:
                             case 18:
+                            case 19:
+                            case 20:
+                            case 21:
+                            case 22:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];
@@ -649,8 +939,16 @@ namespace DominatorUIUtility.ViewModel
                                 browserCookies = splitAccount[12].Replace("<>", ",");
                                 isBrowserAutomationActive = splitAccount[13];
                                 proxyGroup = splitAccount[14];
+                                nickName = haveNickName && splitAccount.Length >= 15 ? (splitAccount[splitAccount.Length - 2] ?? "") : "";
+                                pinterestAccountType = splitAccount.Length >= 16 ? splitAccount[splitAccount.Length - 1] : pinterestAccountType;
                                 break;
                         }
+
+                        if (string.IsNullOrWhiteSpace(nickName))
+                            nickName = DefaultAccountNameFromModel(LstDominatorAccountModel.GetCopySync(), ref dictNetLasNum, (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork));
+
+                        if (string.IsNullOrWhiteSpace(status))
+                            status = "NotChecked";
 
                         if (splitAccount.Length > 4)
                         {
@@ -690,7 +988,8 @@ namespace DominatorUIUtility.ViewModel
                             AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork),
                             Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), status),
                             AlternateEmail = alternetEmail,
-                            Banned = banned
+                            Banned = banned,
+                            AccountName = nickName
                         };
 
                         #endregion
@@ -716,7 +1015,7 @@ namespace DominatorUIUtility.ViewModel
                                                                                           .Except(new[] { action })
                                                                                           .ForEach(it => _pendingActions = _pendingActions.Enqueue(it));
                                                                                   };
-                                                                              }, browserCookies, browserAutomationStatus));
+                                                                              }, browserCookies, browserAutomationStatus, pinterestAccountType));
                             }
                         }
                         else
@@ -750,7 +1049,8 @@ namespace DominatorUIUtility.ViewModel
 
 
         public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, string cookies,
-            Func<Action, Action> secondaryTaskStrategyReturningCancellation, string browserCookies, bool isBrowserAutomationActive = false)
+            Func<Action, Action> secondaryTaskStrategyReturningCancellation, string browserCookies
+            , bool isBrowserAutomationActive = false, string pinterestAccountType = "")
         {
             #region Check account limits
 
@@ -804,25 +1104,30 @@ namespace DominatorUIUtility.ViewModel
                 AccountNetwork = objDominatorAccountBaseModel.AccountNetwork,
                 AccountId = objDominatorAccountBaseModel.AccountId,
                 IsChkTwoFactorLogin = objDominatorAccountBaseModel.IsChkTwoFactorLogin,
-                AlternateEmail = objDominatorAccountBaseModel.AlternateEmail
+                AlternateEmail = objDominatorAccountBaseModel.AlternateEmail,
+                AccountName = objDominatorAccountBaseModel.AccountName
             };
 
             var dominatorAccountModel = new DominatorAccountModel
             {
                 AccountBaseModel = dominatorAccountBaseModel,
                 RowNo = LstDominatorAccountModel.Count + 1,
-                AccountId = dominatorAccountBaseModel.AccountId
+                AccountId = dominatorAccountBaseModel.AccountId,
+                DisplayColumnValue11 = pinterestAccountType
             };
-            if (!string.IsNullOrEmpty(cookies)/* && dominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube*/)
+            if (!string.IsNullOrEmpty(cookies))
                 try
                 {
                     dominatorAccountModel.CookieHelperList = JArray.Parse(cookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
+                }
+                catch{}
+            if (!string.IsNullOrEmpty(browserCookies))
+                try
+                {
                     dominatorAccountModel.BrowserCookieHelperList = JArray.Parse(browserCookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
                 }
-                catch (Exception ex)
-                {
+                catch{}
 
-                }
             List<ProxyManagerModel> oldproxies = _proxyFileManager.GetAllProxy();
 
             dominatorAccountModel.IsRunProcessThroughBrowser = isBrowserAutomationActive;
@@ -887,6 +1192,7 @@ namespace DominatorUIUtility.ViewModel
                     ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort,
                     ProxyUserName = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword,
+                    AccountName = objDominatorAccountBaseModel.AccountName,
                     UserAgent = dominatorAccountModel.UserAgentWeb,
                     AddedDate = DateTime.Now,
                     Cookies = cookies
@@ -1502,16 +1808,16 @@ namespace DominatorUIUtility.ViewModel
                               .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn4Value;
 
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader}";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
 
             else if (!string.IsNullOrEmpty(FourthCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader}";            
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
 
             else if (!string.IsNullOrEmpty(ThirdCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader}";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
 
             else if (!string.IsNullOrEmpty(SecondCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader}";
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
 
 
             var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_Accounts {ConstantVariable.DateasFileName}.csv";
@@ -1527,6 +1833,8 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
+                    var pinterestAccountType = string.IsNullOrEmpty(account.DisplayColumnValue11) ? PinterestAccountType.NotAvailable.ToString() : account.DisplayColumnValue11;
+
                     var csvData =
                      account.AccountBaseModel.AccountGroup.Content + ","
                      + account.AccountBaseModel.AccountNetwork + ","
@@ -1546,7 +1854,10 @@ namespace DominatorUIUtility.ViewModel
                      + account.DisplayColumnValue1
                      + (string.IsNullOrEmpty(SecondCountHeader) ? "" : $",{account.DisplayColumnValue2}")
                      + (string.IsNullOrEmpty(ThirdCountHeader) ? "" : $",{account.DisplayColumnValue3}")
-                     + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}");
+                     + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}")
+                     + $",{account.AccountBaseModel.ProfileId}"
+                     + $",{account.AccountBaseModel.AccountName}"
+                     + $",{pinterestAccountType}";
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1714,8 +2025,9 @@ namespace DominatorUIUtility.ViewModel
                         }
                         else
                         {
+                            var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
                             var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
-
+                            Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
                             foreach (var account in savedAccounts)
                             {
                                 if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
@@ -1733,6 +2045,18 @@ namespace DominatorUIUtility.ViewModel
                                             account.AccountBaseModel.Status = AccountStatus.NotChecked;
                                         else if (account.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
                                             account.AccountBaseModel.Status = AccountStatus.Success;
+
+                                        if (string.IsNullOrEmpty(account.AccountBaseModel.AccountName))
+                                        {
+                                            account.AccountBaseModel.AccountName = DefaultAccountNameFromModel(savedAccounts, ref dictNetLasNum, account.AccountBaseModel.AccountNetwork);
+                                            _accountsFileManager.Edit(account);
+                                            UpdateToDb(account.AccountBaseModel.AccountId, account.AccountBaseModel.AccountName, globalDbOperation);
+                                        }
+
+                                        if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
+                                            account.DisplayColumnValue11 = string.IsNullOrEmpty(account.DisplayColumnValue11)
+                                                ? (PinterestAccountType.Inactive.GetDescriptionAttr()).FromResourceDictionary() : account.DisplayColumnValue11;
+
                                         LstDominatorAccountModel.AddSync(account);
                                     }
                                 }
@@ -1789,7 +2113,7 @@ namespace DominatorUIUtility.ViewModel
 
                             var browserManager = accountScopeFactory[$"{account.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(account.AccountBaseModel.AccountNetwork.ToString());
 
-                            browserManager.BrowserLogin(account, LoginType.InitialiseBrowser);
+                            browserManager.BrowserLogin(account, account.Token, LoginType.InitialiseBrowser);
                         }
                     }
                     catch (Exception ex)
@@ -1805,12 +2129,24 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        void UpdateToDb(string accountId, string accountName, DbOperations globalDbOperation = null)
+        {
+            if (globalDbOperation == null)
+                globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+            var updateIt = globalDbOperation.GetSingle<AccountDetails>(x => x.AccountId == accountId);
+            if (updateIt == null)
+                return;
+            updateIt.AccountName = accountName;
+            globalDbOperation.Update(updateIt);
+        }
+
         private void UpdateAccountFromDb(IEnumerable<SocialNetworks> availablenetworks)
         {
             var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
 
             var accounts = globalDbOperation.Get<AccountDetails>();
             List<ProxyManagerModel> oldproxies = _proxyFileManager.GetAllProxy();
+            Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
             foreach (var account in accounts)
             {
                 var network = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), account.AccountNetwork);
@@ -1842,17 +2178,18 @@ namespace DominatorUIUtility.ViewModel
                             DisplayColumnValue1 = account.DisplayColumnValue1,
                             DisplayColumnValue2 = account.DisplayColumnValue2,
                             DisplayColumnValue3 = account.DisplayColumnValue3,
-                            DisplayColumnValue4 = account.DisplayColumnValue4
+                            DisplayColumnValue4 = account.DisplayColumnValue4,
+                            DisplayColumnValue11 = account.DisplayColumnValue11
                         };
+
                         if (!string.IsNullOrEmpty(account.Cookies))
                             try
                             {
                                 dominatorAccountModel.CookieHelperList = JArray.Parse(account.Cookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
                             }
                             catch (Exception ex)
-                            {
+                            { }
 
-                            }
                         if (!string.IsNullOrEmpty(account.Status))
                             dominatorAccountModel.AccountBaseModel.Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), account.Status);
                         if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
@@ -1862,6 +2199,13 @@ namespace DominatorUIUtility.ViewModel
 
                         if (!string.IsNullOrEmpty(account.ActivityManager))
                             dominatorAccountModel.ActivityManager = JsonConvert.DeserializeObject<JobActivityManager>(account.ActivityManager);
+
+                        if (string.IsNullOrEmpty(dominatorAccountModel.AccountBaseModel.AccountName))
+                        {
+                            dominatorAccountModel.AccountBaseModel.AccountName = DefaultAccountNameFromDB(accounts, ref dictNetLasNum, network);
+                            UpdateToDb(dominatorAccountModel.AccountBaseModel.AccountId, dominatorAccountModel.AccountBaseModel.AccountName, globalDbOperation);
+                        }
+
                         LstDominatorAccountModel.AddSync(dominatorAccountModel);
 
                         #region Update Proxies
@@ -1880,7 +2224,70 @@ namespace DominatorUIUtility.ViewModel
 
                     }
                 }
+
             }
+        }
+
+        string DefaultAccountNameFromDB(List<AccountDetails> listAcc, ref Dictionary<SocialNetworks, int> dictNetLasNum, SocialNetworks net)
+        {
+            var preName = $"{net.ToString()} Account ";
+            try
+            {
+                if (!dictNetLasNum.ContainsKey(net))
+                {
+                    int lastNum = 0;
+
+                    var netNumbers = listAcc.Where(x => x.AccountNetwork == net.ToString() && (x.AccountName?.StartsWith($"{net.ToString()} Account ") ?? false)).Select(y => y.AccountName?.Replace(preName, "")?.Trim());
+                    if (netNumbers != null && netNumbers.Count() > 0)
+                    {
+                        var numList = new List<int>();
+                        foreach (var each in netNumbers)
+                        {
+                            Int32.TryParse(each, out int num);
+                            if (num != 0)
+                            {
+                                numList.Add(num);
+                            }
+                        }
+                        numList.Sort();
+                        lastNum = numList.Last();
+                    }
+                    dictNetLasNum.Add(net, lastNum);
+                }
+                return $"{preName}{++dictNetLasNum[net]}";
+            }
+            catch (Exception ex) { ex.DebugLog(); return preName; }
+        }
+
+        string DefaultAccountNameFromModel(IEnumerable<DominatorAccountModel> listAcc, ref Dictionary<SocialNetworks, int> dictNetLasNum, SocialNetworks net)
+        {
+            var preName = $"{net.ToString()} Account ";
+            try
+            {
+                if (!dictNetLasNum.ContainsKey(net))
+                {
+                    int lastNum = 0;
+
+                    var netNumbers = listAcc.Where(x => x.AccountBaseModel.AccountNetwork == net && (x.AccountBaseModel.AccountName?.StartsWith($"{net.ToString()} Account ") ?? false)).Select(y => y.AccountBaseModel.AccountName?.Replace(preName, "")?.Trim());
+                    if (netNumbers != null && netNumbers.Count() > 0)
+                    {
+                        var numList = new List<int>();
+                        foreach (var each in netNumbers)
+                        {
+                            Int32.TryParse(each, out int num);
+                            if (num != 0)
+                            {
+                                numList.Add(num);
+                            }
+                        }
+                        numList.Sort();
+                        lastNum = numList.Last();
+                    }
+                    dictNetLasNum.Add(net, lastNum);
+                }
+                return $"{preName}{++dictNetLasNum[net]}";
+            }
+            catch (Exception ex) { ex.DebugLog(); return preName; }
         }
 
         #endregion
@@ -1890,6 +2297,8 @@ namespace DominatorUIUtility.ViewModel
         private ImmutableQueue<Action> _checkPendingList = ImmutableQueue<Action>.Empty;
 
         public List<string> _updateAccountList { get; set; } = new List<string>();
+
+        public List<string> _changeBusinessAccountList { get; set; } = new List<string>();
 
         public object AccountUpdateLock { get; set; } = new object();
 
@@ -1955,6 +2364,54 @@ namespace DominatorUIUtility.ViewModel
             #endregion
         }
 
+        public void MultipleBusinessAccoutSwitch(DominatorAccountModel account, string accountType, IAccountUpdateFactory accountFactory)
+        {
+            if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
+            {
+                // this account supports async modules
+                var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
+
+                var asyncBusinessAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
+
+                var businessAccountCancellationTRoken = new CancellationToken();
+
+
+                var updateAccount = new Task(async () =>
+                {
+                    try
+                    {
+                        _updateAccountList.Add(account.UserName);
+
+                        account.Token.ThrowIfCancellationRequested();
+
+                        account.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+                        var checkResult = await asyncAccount.CheckStatusAsync(account, businessAccountCancellationTRoken);
+
+                        if (checkResult)
+                        {
+                            await asyncBusinessAccount.SwitchToBusinessAccountAsync(account, businessAccountCancellationTRoken, accountType == "NormalAccount" ? false : true);
+                        }
+                    }
+                    catch (OperationCanceledException ex)
+                    {
+                        ex.DebugLog("Cancellation Requested!");
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                    finally
+                    {
+                        _updateAccountList.Remove(account.UserName);
+                    }
+
+                }, account.Token);
+                updateAccount.Start();
+            }
+
+        }
+
+
         public void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
         {
             if (accountFactory is IAccountUpdateFactoryAsync)
@@ -1992,8 +2449,6 @@ namespace DominatorUIUtility.ViewModel
                                 var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
                                 var accounts = globalDbOperation.UpdateAccountDetails(account);
 
-                                _updateAccountList.Remove(account.UserName);
-
                                 try
                                 {
                                     lock (AccountUpdateLock)
@@ -2014,6 +2469,10 @@ namespace DominatorUIUtility.ViewModel
                         catch (Exception ex)
                         {
                             ex.DebugLog();
+                        }
+                        finally
+                        {
+                            _updateAccountList.Remove(account.UserName);
                         }
 
                     }, account.Token);
@@ -2146,7 +2605,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void ActivateBrowserAutomationExecute(object sender)
         {
-            if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
+            if (sender.Equals("ActiveBrowser") && LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
             {
                 var result = Dialog.ShowCustomDialog("LangKeyActivatingBrowserAutomation".FromResourceDictionary(),
                   "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
@@ -2188,7 +2647,36 @@ namespace DominatorUIUtility.ViewModel
             }
             else
             {
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+                try
+                {
+                    var model = sender as DominatorAccountModel;
+                    if (model != null)
+                    {
+                        var result = Dialog.ShowCustomDialog("LangKeyActivatingBrowserAutomation".FromResourceDictionary(),
+                                            "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+                        if (result == MessageDialogResult.Affirmative)
+                        {
+                            var accountsToProcess = LstDominatorAccountModel.Where(x => x.AccountId == model.AccountId && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+
+                            if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && (x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram || x.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok)))
+                                Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGTikTokWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
+
+                            if (accountsToProcess.Count() == 0)
+                            {
+                                ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
+                                return;
+                            }
+
+                            StopAllActivity(accountsToProcess.ToList(), true, true);
+                        }
+                    }
+                    else
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
 
@@ -2196,7 +2684,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void DeActivateBrowserAutomationCommandExecute(object sender)
         {
-            if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
+            if (sender.Equals("DeActiveBrowser") && LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
             {
                 var result = Dialog.ShowCustomDialog("LangKeyDeactivatingBrowserAutomation".FromResourceDictionary(),
                       "LangKeyStartActivityByHttpStopByBrowser".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
@@ -2213,7 +2701,34 @@ namespace DominatorUIUtility.ViewModel
                 }
             }
             else
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+            {
+                try
+                {
+                    var model = sender as DominatorAccountModel;
+                    if (model != null)
+                    {
+                        var result = Dialog.ShowCustomDialog("LangKeyDeactivatingBrowserAutomation".FromResourceDictionary(),
+                       "LangKeyStartActivityByHttpStopByBrowser".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+                        if (result == MessageDialogResult.Affirmative)
+                        {
+                            var accountsToProcess = LstDominatorAccountModel.Where(x => x.AccountId == model.AccountId && x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+                            if (accountsToProcess.Count() == 0)
+                            {
+                                ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
+                                return;
+                            }
+
+                            StopAllActivity(accountsToProcess.ToList(), true, activateHttp: true);
+                        }
+                    }
+                    else
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+                }
+                catch (Exception)
+                {
+
+                }
+            }
         }
 
         private void UpdateGroupDetailsExecute()
@@ -2277,7 +2792,8 @@ namespace DominatorUIUtility.ViewModel
 
                     var browserManager = accountScopeFactory[$"{dominatorAccountModel.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
 
-                    browserManager.BrowserLogin(dominatorAccountModel, LoginType.BrowserLogin);
+                    // don't pass account's cancellationToken here. Otherwise "stopping account activity" could close the browser opened by BrowserLogin click 
+                    browserManager.BrowserLogin(dominatorAccountModel, new CancellationToken(), LoginType.BrowserLogin);
                 });
             }
             catch (Exception ex)

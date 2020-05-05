@@ -11,7 +11,7 @@
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} Scraper}"
-        BorderThickness="1" Icon="SociNator.ico"
+        BorderThickness="1" Icon="LinkedInScraper.ico"
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"

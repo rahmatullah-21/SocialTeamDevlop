@@ -24,7 +24,7 @@
             <Grid Grid.Column="0">
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <StackPanel Orientation="Horizontal"    Margin="0,10">
+                    <StackPanel Orientation="Horizontal"  Margin="0,10">
                         <Label   VerticalAlignment="Top"  Content="{DynamicResource LangKeyQueryType}" HorizontalAlignment="Right" Height="25"/>
                         <ComboBox  ItemsSource="{Binding ListQueryType}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
                                       SelectedIndex="{Binding SelectedIndex}" SelectionChanged="ComboBox_SelectionChanged"
@@ -90,7 +90,6 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1" >
@@ -101,7 +100,13 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{DynamicResource LangKeyQueriesList}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <!--<TextBlock Text="{DynamicResource LangKeyQueriesList}" VerticalAlignment="Center" HorizontalAlignment="Left"/>-->
+                                <mah:Badged Badge="{Binding ListQueryInfo.Count}" Margin="10,15,0,0">
+                                    <Label Content="{DynamicResource LangKeyQueriesList}" VerticalAlignment="Center"  FontWeight="Bold" 
+                           Foreground="GhostWhite"/>
+                                </mah:Badged>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="5,0" HorizontalAlignment="Right">
                                 <Button Background="Transparent" Command="{Binding DeleteMulipleCommand}">
                                     <Button.Content>
@@ -148,8 +153,8 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <CheckBox IsChecked="{Binding IsQuerySelected,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="9,0"
-                                                      Content="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource DataGridRowToIndexConverter}}" Click="OnQuerySelect"/>
-                                        <!--Index-->
+                                                       Click="OnQuerySelect"/>
+                                        <!-- Content="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource DataGridRowToIndexConverter}}" -->
 
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>

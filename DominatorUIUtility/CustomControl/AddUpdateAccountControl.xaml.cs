@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -14,7 +15,8 @@ namespace DominatorUIUtility.CustomControl
     public partial class AddUpdateAccountControl : UserControl
     {
         public DominatorAccountBaseModel DominatorAccountBaseModel { get; set; }
-
+        public string JsonCookies { get; set; }
+        public string JsonBrowserCookies { get; set; }
 
         /// <summary>
         /// Constructor with dominatorAccountBaseModel as data context
@@ -56,6 +58,46 @@ namespace DominatorUIUtility.CustomControl
             {
                 btnSave.IsDefault = true;
             }
+        }
+
+        private void SaveCopiedCookies_Click(object sender, RoutedEventArgs e)
+        {
+            //try
+            //{
+            //    if (string.IsNullOrWhiteSpace(CopiedJsonCookies.Text?.Trim()))
+            //        return;
+
+            //    var jsonHand = new JsonHandler("{\"object\" :" + CopiedJsonCookies.Text + "}");
+
+            //    JsonCookies = CopiedJsonCookies.Text;
+            //    if (DominatorAccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
+            //        JsonBrowserCookies = CopiedJsonCookies.Text;
+
+            //    ToasterNotification.ShowSuccess("LangKeyCookiesSavedNowLogin".FromResourceDictionary());
+            //}
+            //catch (System.Exception ex)
+            //{
+            //    if (ex.Message?.Contains(" parsing ") ?? false)
+            //    {
+            //        ToasterNotification.ShowError("LangKeyCookiesNotInValidJsonText".FromResourceDictionary());
+            //    }
+            //    else
+            //    {
+            //        ex.DebugLog();
+            //        ToasterNotification.ShowError("LangKeyOopsAnErrorOccured".FromResourceDictionary());
+            //    }
+            //}
+        }
+
+        private void ClearCopiedCookies_Click(object sender, RoutedEventArgs e)
+        {
+            //if(string.IsNullOrWhiteSpace(JsonCookies))
+            //{
+            //    ToasterNotification.ShowInfomation("LangKeyNoCookiesAdded".FromResourceDictionary());
+            //    return;
+            //}
+            //JsonCookies = JsonBrowserCookies = CopiedJsonCookies.Text = null;
+            //ToasterNotification.ShowSuccess("LangKeyRemovedCookiesSuccessfully".FromResourceDictionary());
         }
     }
 }

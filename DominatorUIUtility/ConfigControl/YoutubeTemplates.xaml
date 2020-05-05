@@ -39,7 +39,18 @@
                     <Label Margin="5" Content="{DynamicResource LangKeyCaptchaSolvingManuallyTimeout}"/>
                     <controls:NumericUpDown Minimum="10" Maximum="60"  Value="{Binding TimeoutToSolveCaptchaManually}"/>
                 </StackPanel>
-
+                <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding YoutubeModel}">
+                    <CheckBox Content="{DynamicResource LangKeyPerAccountsActivitiesOn}" Margin="0,5,0,0" 
+                                                  IsChecked="{Binding IsCheckActivitiesOnNPost}"/>
+                    <controls:NumericUpDown Margin="5,5,0,0" Minimum="1"
+                                                                IsEnabled="{Binding IsCheckActivitiesOnNPost}"
+                                                                Value="{Binding ActivitiesOnNPost.StartValue}"/>
+                    <Label Content="{DynamicResource LangKeyTo}" Margin="5,5,0,0"/>
+                    <controls:NumericUpDown Margin="5,5,0,0" Minimum="{Binding ActivitiesOnNPost.StartValue}"
+                                                                IsEnabled="{Binding IsCheckActivitiesOnNPost}"
+                                                                Value="{Binding ActivitiesOnNPost.EndValue}"/>
+                    <Label Content="{DynamicResource LangKeyResultsFromQueryOnEachRun}" Margin="5,5,0,0"/>
+                </StackPanel>
                 <!-- Old Config (Implement it later) -->
                 <!--<StackPanel Margin="10" x:Name="MainGrid">
                     <StackPanel Orientation="Horizontal">

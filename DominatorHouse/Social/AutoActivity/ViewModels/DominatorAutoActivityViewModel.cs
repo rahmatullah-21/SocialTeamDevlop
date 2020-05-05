@@ -6,15 +6,18 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using Prism.Commands;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace DominatorHouse.Social.AutoActivity.ViewModels
@@ -51,7 +54,41 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         }
 
         public DelegateCommand<AccountsActivityDetailModel> GoToToolsCmd { get; }
+
         public DelegateCommand<ActivityDetailsModel> ChangeActivityStatusCmd { get; }
+        public DelegateCommand<AccountsActivityDetailModel> ShowMoreCommand { get; }
+        public ICommand CustomizeCommand { get; }
+        public ICommand StopAllCommand { get; }
+
+        void StopAllActivities()
+        {
+            if (Dialog.ShowCustomDialog("LangKeyStopAllActivity".FromResourceDictionary(), "LangKeyWannaStopAllActivity".FromResourceDictionary(),
+                                                       "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
+                return;
+
+            // If no activity is running then return.
+            if (!AccountsCollection.Any(x => x.ActivityDetailsCollections.Any(y => y.Status)))
+                return;
+            
+            var listOfActsPerNet = AvailableNetworksActivity(NetworksFromAccCollection());
+
+            foreach (var x in AccountsCollection)
+            {
+                new TaskFactory().StartNew(() =>
+                {
+                    try
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                var actDetail = x.ActivityDetailsCollections[0];
+                                actDetail.Status = false;
+                                ChangeActivitiesStatus(actDetail, listOfActsPerNet[x.AccountNetwork]);
+                            });
+                    }
+                    catch (Exception ex) { ex.DebugLog(); }
+                });
+            }
+        }
 
         /// <summary>
         /// To hold all accounts important activities enable status
@@ -71,6 +108,9 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             BindingOperations.EnableCollectionSynchronization(AccountsCollection, _syncObject);
             GoToToolsCmd = new DelegateCommand<AccountsActivityDetailModel>(GoToTools);
             ChangeActivityStatusCmd = new DelegateCommand<ActivityDetailsModel>(ChangeActivityStatus);
+            ShowMoreCommand = new DelegateCommand<AccountsActivityDetailModel>(ShowMore);
+            CustomizeCommand = new DelegateCommand(CustomizeExecute);
+            StopAllCommand = new DelegateCommand(StopAllActivities);
         }
 
         public bool NewAutoActivityObject(SocialNetworks soicalNetworks, string selectedAccounts)
@@ -89,6 +129,52 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 ex.DebugLog();
                 return false;
             }
+        }
+
+        private void CustomizeExecute()
+        {
+            try
+            {
+                var dialog = new Dialog();
+                var model = GetCustomizeUiModel();
+                var ui = new CustomizeAutoActivity(model);
+
+                var custAuto = dialog.GetMetroWindow(ui, "Customize Auto Activity");
+                custAuto.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                custAuto.ShowDialog();
+
+                if (ui.ViewModel.IsSaved)
+                    CallRespectiveView(SocialNetworks.Social);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void ShowMore(AccountsActivityDetailModel actDetalsModel)
+        {
+            try
+            {
+                if (actDetalsModel.ShowMoreButtonText != "LangKeyMore".FromResourceDictionary())
+                {
+                    for (int i = actDetalsModel.ActivityDetailsCollections.Count - 1; i > 6; --i)
+                        actDetalsModel.ActivityDetailsCollections.RemoveAt(i);
+
+                    actDetalsModel.ShowMoreButtonText = "LangKeyMore".FromResourceDictionary();
+                    return;
+                }
+
+                var actsListPerNet = AvailableNetworksActivity(new List<SocialNetworks>() { actDetalsModel.AccountNetwork }, getImportants: false)[actDetalsModel.AccountNetwork].Others;
+
+                var jobActConfigManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+
+                foreach (var x in actsListPerNet)
+                    AddToActDetails(x, actDetalsModel, jobActConfigManager);
+
+                actDetalsModel.ShowMoreButtonText = "LangKeyLess".FromResourceDictionary();
+            }
+            catch (Exception ex) { ex.DebugLog(); }
         }
 
         /// <summary>
@@ -125,16 +211,70 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
         private void ChangeActivityStatus(ActivityDetailsModel currentDataContext)
         {
+            var currentAccount = AccountsCollection.FirstOrDefault(x => x.AccountId == currentDataContext.AccountId);
+            if (currentAccount == null)
+                return;
+
+            var actsListPerNet = AvailableNetworksActivity(new List<SocialNetworks>() { currentAccount.AccountNetwork })[currentAccount.AccountNetwork];
+
+            ChangeActivitiesStatus(currentDataContext, actsListPerNet);
+        }
+
+
+        private void ChangeActivitiesStatus(ActivityDetailsModel currentDataContext, Activities activites)
+        {
+            if (currentDataContext.Title == ActivityType.StopAll && currentDataContext.Status)
+            {
+                currentDataContext.Status = false;
+                return;
+            }
 
             var account = _accountsFileManager.GetAccountById(currentDataContext.AccountId);
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+
+            if (currentDataContext.Title == ActivityType.StopAll)
+            {
+                AccountsCollection.FirstOrDefault(x => x.AccountId == currentDataContext.AccountId)?.ActivityDetailsCollections?.ForEach(y =>
+                {
+                    if (y.Title != ActivityType.StopAll && y.Status)
+                    {
+                        y.Status = currentDataContext.Status;
+                        ChangeActivity(y, account, true);
+                    }
+                });
+
+                foreach (var act in activites.Others)
+                {
+                    if (jobActivityConfigurationManager[account.AccountId, act]?.IsEnabled ?? false)
+                        ChangeActivity(new ActivityDetailsModel() { AccountId = currentDataContext.AccountId, Title = act, Status = false }, account, true);
+                }
+            }
+            else
+            {
+                ChangeActivity(currentDataContext, account);
+
+                var getOne = AccountsCollection.FirstOrDefault(x => x.AccountId == currentDataContext.AccountId)?
+                    .ActivityDetailsCollections;
+                if (getOne == null)
+                    return;
+
+                ActivityType act = (activites.Important.Contains(currentDataContext.Title)
+                    ? activites.Important : activites.Others).First(x => x == currentDataContext.Title);
+
+                getOne[0].Status = jobActivityConfigurationManager[account.AccountId, act]?.IsEnabled ?? false;
+            }
+        }
+
+        void ChangeActivity(ActivityDetailsModel currentDataContext, DominatorAccountModel account, bool IsStopping = false)
+        {
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-            var currentAccountActivity =
-                jobActivityConfigurationManager[account.AccountId, currentDataContext.Title];
+            var currentAccountActivity = jobActivityConfigurationManager[account.AccountId, currentDataContext.Title];
             var campaignStatus = campaignFileManager.FirstOrDefault(x => x.TemplateId == currentAccountActivity?.TemplateId)?.Status;
             if (campaignStatus == "Paused" && currentDataContext.Status)
             {
-                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
+                if (!IsStopping)
+                    ToasterNotification.ShowInfomation("LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
                 currentDataContext.Status = false;
                 return;
             }
@@ -147,17 +287,16 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             {
                 try
                 {
-                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
+                    if (!IsStopping)
+                        ToasterNotification.ShowInfomation(String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
                     currentDataContext.Status = false;
                 }
                 catch (Exception ex)
                 {
-
                     ex.DebugLog();
                 }
             }
         }
-
 
         private void GoToTools(AccountsActivityDetailModel accountsActivityDetailModel)
         {
@@ -171,15 +310,11 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             CallRespectiveView(accountsActivityDetailModel.AccountNetwork);
         }
 
-
         /// <summary>
         /// To Initialize the account details with enable status 
         /// </summary>
         private void InitializeAccounts()
         {
-            // read from bin file for getting all accounts
-
-
             // if accounts count more than one means generate the activities
             AccountsCollection.Clear();
 
@@ -187,6 +322,12 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             {
                 var accountCollection = _accountCollectionViewModel.GetCopySync()
                     .Where(x => x.AccountBaseModel.Status == AccountStatus.Success || x.AccountBaseModel.Status == AccountStatus.UpdatingDetails);
+                
+                var listOfActsPerNet = AvailableNetworksActivity(NetworksFromAccCollection(accountCollection));
+
+                var jobActivityConfigurationManager = ServiceLocator.Current
+                                .GetInstance<IJobActivityConfigurationManager>();
+
                 foreach (var account in accountCollection)
                 {
                     try
@@ -200,63 +341,31 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                             ActivityDetailsCollections = new ObservableCollection<ActivityDetailsModel>()
                         };
 
-                        // get the respective network details
-                        var activities = SocinatorInitialize
-                            .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                            .GetNetworkCoreFactory()
-                            .AccountUserControlTools
-                            .GetImportantActivityTypes();
-                        try
+                        accountsActivityDetailModel.ActivityDetailsCollections
+                                        .Add(new ActivityDetailsModel
+                                        {
+                                            Status = false,
+                                            Title = ActivityType.StopAll,
+                                            ActivityTitle = "LangKeyStopAllActivity".FromResourceDictionary(),
+                                            AccountId = account.AccountId
+                                        });
+
+                        var important = listOfActsPerNet[account.AccountBaseModel.AccountNetwork].Important;
+
+                        foreach (var x in important)
+                            AddToActDetails(x, accountsActivityDetailModel, jobActivityConfigurationManager);
+
+                        var othersAct = listOfActsPerNet[account.AccountBaseModel.AccountNetwork].Others;
+                        var allActivity = new List<ActivityType>(important);
+                        allActivity.AddRange(othersAct);
+
+                        foreach(var x in allActivity)
                         {
-                            var jobActivityConfigurationManager = ServiceLocator.Current
-                                .GetInstance<IJobActivityConfigurationManager>();
-                            foreach (var x in activities)
+                            if (jobActivityConfigurationManager[account.AccountId, x]?.IsEnabled ?? false)
                             {
-                                try
-                                {
-                                    var titleData = x.GetDescriptionAttr().Split(',');
-
-                                    var activityTitle = titleData.LastOrDefault().Contains("LangKey") ?
-                                           titleData.LastOrDefault().FromResourceDictionary() : x.ToString();
-                                    
-                                    // get the activity details                    
-                                    var activityData =
-                                        jobActivityConfigurationManager[account.AccountId, x];
-
-                                    // if activity present then add to list with status
-                                    if (activityData != null)
-                                    {
-                                        accountsActivityDetailModel.ActivityDetailsCollections
-                                            .Add(new ActivityDetailsModel
-                                            {
-                                                Status = activityData.IsEnabled,
-                                                Title = x,
-                                                ActivityTitle = activityTitle,
-                                                AccountId = account.AccountId
-                                            });
-                                    }
-                                    // if activity not present then add to list with default status
-                                    else
-                                    {
-                                        accountsActivityDetailModel.ActivityDetailsCollections
-                                            .Add(new ActivityDetailsModel
-                                            {
-                                                Status = false,
-                                                Title = x,
-                                                ActivityTitle = activityTitle,
-                                                AccountId = account.AccountId
-                                            });
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    ex.DebugLog();
-                                }
+                                accountsActivityDetailModel.ActivityDetailsCollections[0].Status = true;
+                                break;
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
                         }
 
                         if (!Application.Current.Dispatcher.CheckAccess())
@@ -290,5 +399,192 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             });
 
         }
+
+        void AddToActDetails(ActivityType act, AccountsActivityDetailModel accountsActivityDetailModel, IJobActivityConfigurationManager jobActivityConfigurationManager)
+        {
+            try
+            {
+                // get the activity details                    
+                var activityData = jobActivityConfigurationManager[accountsActivityDetailModel.AccountId, act];
+
+                accountsActivityDetailModel.ActivityDetailsCollections
+                    .Add(new ActivityDetailsModel
+                    {
+                        // if activity present then add to list with status
+                        // and if activity not present then add to list with default status
+                        Status = activityData != null ? activityData.IsEnabled : false,
+                        Title = act,
+                        ActivityTitle = GetActivityTitle(act),
+                        AccountId = accountsActivityDetailModel.AccountId
+                    });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        #region Utils
+        /// <summary>
+        /// Get Important and other Activities(totally all activities) from all available network
+        /// </summary>
+        /// <param name="networks">Social Network</param>
+        /// <param name="getImportants">condition for getting Important activities</param>
+        /// <param name="getOthers">condition for getting other than important activities</param>
+        /// <returns></returns>
+        Dictionary<SocialNetworks, Activities> AvailableNetworksActivity(IEnumerable<SocialNetworks> networks, bool getImportants = true, bool getOthers = true)
+        {
+            var returnDict = new Dictionary<SocialNetworks, Activities>();
+            var getCustomAuto = GetCustomizeUiModel();
+            return AvailableNetworksActivity(getCustomAuto, networks, getImportants, getOthers);
+        }
+
+        /// <summary>
+        /// Get Important and other Activities(totally all activities) from all available network
+        /// </summary>
+        /// <param name="getCustomAuto">NetworksActivityCustomizeModel model</param>
+        /// <param name="networks">Social Network</param>
+        /// <param name="getImportants">condition for getting Important activities</param>
+        /// <param name="getOthers">condition for getting other than important activities</param>
+        /// <returns></returns>
+        Dictionary<SocialNetworks, Activities> AvailableNetworksActivity(NetworksActivityCustomizeModel getCustomAuto, IEnumerable<SocialNetworks> networks, bool getImportants = true, bool getOthers = true)
+        {
+            var returnDict = new Dictionary<SocialNetworks, Activities>();
+
+            if (networks.Contains(SocialNetworks.Social))
+                networks = networks.Where(x => x != SocialNetworks.Social);
+
+            if (getCustomAuto?.NetworksActListCollection != null && getCustomAuto?.NetworksActListCollection.Count > 0)
+            {
+                var newAdded = false;
+                foreach (var net in networks)
+                {
+                    var getData = getCustomAuto.NetworksActListCollection.FirstOrDefault(x => x.SocialNetwork == net);
+                    if (getData == null)
+                        continue;
+
+                    var show = getImportants ? getData.NetworkActivityTypeModelCollections.Where(x => x.IsSelected).Select(y => y.Title).ToList() : null;
+                    var hide = getOthers ? getData.NetworkActivityTypeModelCollections.Where(x => !x.IsSelected).Select(y => y.Title).ToList() : null;
+
+                    var all = show.DeepCloneObject() ?? new List<ActivityType>();
+                    all.AddRange(hide);
+
+                    var newOne = hide == null ? new List<ActivityType>() : SocinatorInitialize.GetSocialLibrary(net).GetNetworkCoreFactory().AccountUserControlTools.GetOtherActivityTypes().Except(all);
+                    if (newOne.Count() > 0)
+                    {
+                        hide.AddRange(newOne);
+                        newAdded = true;
+                        if (getCustomAuto != null)
+                            newOne.ForEach(x =>
+                            {
+                                getCustomAuto.NetworksActListCollection?.FirstOrDefault(y => y.SocialNetwork == net)?.NetworkActivityTypeModelCollections.Add(new NetworkCustomizeActivityTypeModel
+                                {
+                                    Network = net,
+                                    Title = x
+                                });
+                            });
+                    }
+                    var collected = new Activities(show, hide);
+                    returnDict.Add(net, collected);
+                }
+                if (newAdded)
+                    ServiceLocator.Current.GetInstance<IBinFileHelper>().SaveAutoActivityCustomized(getCustomAuto);
+
+            }
+            else
+            {
+                foreach (var net in networks)
+                {
+                    var initializer = SocinatorInitialize.GetSocialLibrary(net)
+                                                .GetNetworkCoreFactory()
+                                                .AccountUserControlTools;
+                    var collected = new Activities(getImportants ? initializer.GetImportantActivityTypes() : null,
+                                                   getOthers ? initializer.GetOtherActivityTypes() : null);
+                    returnDict.Add(net, collected);
+
+                }
+            }
+            return returnDict;
+        }
+
+        NetworksActivityCustomizeModel GetCustomizeUiModel()
+        {
+            var custModel = ServiceLocator.Current.GetInstance<IBinFileHelper>().GetCustomizedAutoActivity();
+            if (custModel.NetworksActListCollection != null && custModel.NetworksActListCollection.Count>0)
+                return custModel;
+
+            custModel.NetworksActListCollection = new ObservableCollection<EachNetworkActivityCustomizeModel>();
+
+            var netActs = AvailableNetworksActivity(custModel, SocinatorInitialize.GetRegisterNetwork());
+
+            foreach (var x in netActs)
+            {
+                var eachModel = new EachNetworkActivityCustomizeModel()
+                {
+                    SocialNetwork = x.Key
+                };
+
+                x.Value.Important.ForEach(y =>
+                {
+                    eachModel.NetworkActivityTypeModelCollections.Add(new NetworkCustomizeActivityTypeModel
+                    {
+                        Network = x.Key,
+                        Title = y,
+                        IsSelected = true
+                    });
+                });
+
+                x.Value.Others.ForEach(y =>
+                {
+                    eachModel.NetworkActivityTypeModelCollections.Add(new NetworkCustomizeActivityTypeModel
+                    {
+                        Network = x.Key,
+                        Title = y
+                    });
+                });
+
+                custModel.NetworksActListCollection.Add(eachModel);
+            }
+
+            return custModel;
+        }
+
+        string GetActivityTitle(ActivityType act)
+        {
+            var titleData = act.GetDescriptionAttr().Split(',');
+
+            var activityTitle = titleData.LastOrDefault().Contains("LangKey") ?
+                                titleData.LastOrDefault().FromResourceDictionary() : act.ToString();
+            return activityTitle;
+        }
+
+        IEnumerable<SocialNetworks> NetworksFromAccCollection(IEnumerable<DominatorAccountModel> accounts = null)
+        {
+            var returnList = new List<SocialNetworks>();
+            if (accounts == null && AccountsCollection == null)
+                return returnList;
+            var list = accounts != null ? accounts.Select(x => x.AccountBaseModel.AccountNetwork) : AccountsCollection.Select(x => x.AccountNetwork);
+            foreach (var each in list)
+            {
+                if (returnList.Contains(each))
+                    continue;
+                returnList.Add(each);
+            }
+            return returnList;
+        }
+
+        #endregion
+    }
+
+    struct Activities
+    {
+        public Activities(IEnumerable<ActivityType> important, IEnumerable<ActivityType> others)
+        {
+            Important = important;
+            Others = others;
+        }
+
+        public IEnumerable<ActivityType> Important;
+        public IEnumerable<ActivityType> Others;
     }
 }

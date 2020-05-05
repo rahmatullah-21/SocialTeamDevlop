@@ -334,7 +334,7 @@
     <system:String x:Key="LangKeyClear">Clear</system:String>
     <system:String x:Key="LangKeyClearAllSources">Clear All Sources</system:String>
     <system:String x:Key="LangKeyClearHistory">Clear History</system:String>
-    <system:String x:Key="LangKeyClickToAddFreshAccounts">Click To Add Fresh Accounts</system:String>
+    <system:String x:Key="LangKeyClickToAddFreshAccounts">Click to refresh accounts list</system:String>
     <system:String x:Key="LangKeyClickToBrowse">Click To Browse</system:String>
     <system:String x:Key="LangKeyClickToDeleteThePost">Click To Delete The Post</system:String>
     <system:String x:Key="LangKeyClickToPauseOrResume">Click To Pause Or Resume</system:String>
@@ -2210,7 +2210,7 @@
     <system:String x:Key="LangKeyStopFollowToolWhenReaching">Stop Follow Tool When Reaching</system:String>
     <system:String x:Key="LangKeyStopJoinTool">Stop Join Tool</system:String>
     <system:String x:Key="LangKeyStopProcess">Stop Process</system:String>
-    <system:String x:Key="LangKeyStopAllActivity">Stop All Activity</system:String>
+    <system:String x:Key="LangKeyStopAllActivity">Stop All Activities</system:String>
     <system:String x:Key="LangKeyStopRandomisingDestinationsOrderForPosts">Stop Randomising Destinations Order For Posts</system:String>
     <system:String x:Key="LangKeyStopSavingEmbeddedBrowserScreenshotsWhenErrorOccurToSaveDiskSpace">Stop Saving Embedded Browser Screenshots When Error Occur (To Save Disk Space)</system:String>
     <system:String x:Key="LangKeyStopTheCampaignForSpecificErrorCodes">Stop The Campaign For Specific Error Codes</system:String>
@@ -2714,7 +2714,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPublishingProcessCompleted">Publish process completed with campaign</system:String>
     <!--Ends Newly Added-->
     <!--Begins Newly Added on (05/07/2018)-->
-    <system:String x:Key="LangKeyPercentageOfSelectedAccounts">% of selected accounts</system:String>
+    <system:String x:Key="LangKeyPercentageOfSelectedAccounts">% of selected accounts (for individual post)</system:String>
     <system:String x:Key="LangKeyKeepDelayBetween">Keep delay between</system:String>
     <system:String x:Key="LangKeyPerformActionOnUniquePostFromAllAccountsInThisCampaign">Perform action on unique post from all accounts in this campaign.</system:String>
     <system:String x:Key="LangKeyPerformActionOnPostsOfUniqueUserFromAllAccountsInThisCampaign">Perform action on posts of unique user from all accounts in this campaign.</system:String>
@@ -2821,7 +2821,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyLogIn">Log In</system:String>
     <system:String x:Key="LangKeyApiKey">Api Key</system:String>
     <system:String x:Key="LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware">Do not auto login accounts while adding to the software.</system:String>
-    <system:String x:Key="LangKeyAssignRandomProxyToUnassignedAccounts">Assign Random proxy to unassigned accounts</system:String>
+    <system:String x:Key="LangKeyAssignRandomProxyToUnassignedAccounts">Assign random working proxies to unassigned accounts</system:String>
 
     <system:String x:Key="LangKeySuccess">Success</system:String>
     <system:String x:Key="LangKeyFailed">Failed</system:String>
@@ -4012,7 +4012,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyLicenseError">License Error</system:String>
     <system:String x:Key="LangKeyNote">Note</system:String>
     <system:String x:Key="LangIGWontRunWithBrowserAutoTryWithHttp">Instagram accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
-    <system:String x:Key="LangKeyPostPerAccountWithSpecificQuery">post per account with specific query</system:String>
     <system:String x:Key="LangKeyFriendsBasicDetails">Friends Basic Details</system:String>
     <system:String x:Key="LangKeyFacebookConfigurationSaved">Facebook Configuration successfully saved !!</system:String>
     <system:String x:Key="LangKeyValidate">Validate</system:String>
@@ -4485,8 +4484,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyViewCount">View Count</system:String>
     <system:String x:Key="LangKeyUnfollowedUserId">Unfollowed User Id</system:String>
     <system:String x:Key="LangIGTikTokWontRunWithBrowserAutoTryWithHttp">Instagram and TikTok accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
-    <system:String x:Key="LangKeyBoardNameFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
-    <system:String x:Key="LangKeyBoardDescriptionFormatForMultiple">Format for multiple :- {abc}|{abc}|{abc}</system:String>
+    <system:String x:Key="LangKeyCreateBoardFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
     <system:String x:Key="LangKeyAccountNotRegisteredYet">Not Registered Yet</system:String>
     <system:String x:Key="LangKeyCopyAccountDetailToClipBoard" xml:space="preserve">Copy account's detail to clipboard.
 [Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
@@ -4512,7 +4510,7 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyAnUpdatedVersionAvailable">A new version of socinator is available</system:String>
     <system:String x:Key="LangKeyCheckingUpdates">Hang On! Checking for Updates</system:String>
     <system:String x:Key="LangKeyUpdatingSocinator">Hang On! Updating Socinator</system:String>
-    <system:String x:Key="LangKeyMessageConversationsScraper">MessageConversation Scraper</system:String>
+    <system:String x:Key="LangKeyMessageConversationsScraper">AttachmentMessage Scraper</system:String>
     <system:String x:Key="LangKeyUnLikeSource">Unlike Source</system:String>
     <system:String x:Key="LangKeyPagePostCommenters">Page Post Commenters</system:String>
     <system:String x:Key="LangKeyGroupPostCommenters">Group Post Commenters</system:String>
@@ -4529,6 +4527,7 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeLikePerGroup">Maximum Number of post to be like per Group</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeCommentPerGroup">Maximum Number of post to be comment per Group</system:String>
     <system:String x:Key="LangKeyCannotPostOnPage">Cannot Post On page {0} from account {1}!</system:String>
+    <system:String x:Key="LangKeyCannotPostOnGroup">Cannot Post On group {0} from account {1}!</system:String>
     <system:String x:Key="LangKeyStopActivityAfter">Stop Activity After</system:String>
     <system:String x:Key="LangKeyFailedAttemptFor">Failed Attempt For</system:String>
     <system:String x:Key="LangKeyPostOwner">Post Owner</system:String>
@@ -4541,7 +4540,7 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeGoogleSearch">Add Posts Source! Like ([G]Google images, [U]Any other url)</system:String>
     <system:String x:Key="LangKeyScrapeImagesFromGoogle">Scrape Images/Preview/Product Details From Google/Any Link Url</system:String>
     <system:String x:Key="LangKeyImagesForEachUrl">Images for each Url.</system:String>
-    <system:String x:Key="LangKeyForScrapingOnly">For Scraping Only.</system:String>
+    <system:String x:Key="LangKeyScrapeFromAccount">Scrape From Account</system:String>
     <system:String x:Key="LangKeyRemoveAllDestinations">Remove All Destinations</system:String>
     <system:String x:Key="LangKeyDestinationDetailsWillBeRemoved" xml:space="preserve">All selected destinations must be removed to proceed for option "Scraping only"!
 Do you want to continue?</system:String>
@@ -4559,4 +4558,146 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeySaveLocations">Save Locations</system:String>
     <system:String x:Key="LangKeySelectCountry">Select Country</system:String>
     <system:String x:Key="LangKeySelectLocationByMultipleCities">Select Location By Multiple Cities</system:String>
+
+    <system:String x:Key="LangKeySkipUserWhoHasEverReceivedMessage">Skip User Who Has Ever Received Message</system:String>
+    <system:String x:Key="LangKeySkippingThisUserMessageAlreadySent">Skipping this user, Message already sent</system:String>
+    <system:String x:Key="LangKeyMustHaveEmailId">User Must Have Email-Id</system:String>
+    <system:String x:Key="LangKeyMustHavePhoneNO">User Must Have Phone-No</system:String>
+    <system:String x:Key="LangKeyPerAccountsActivitiesOn">Per account activities on</system:String>
+    <system:String x:Key="LangKeyResultsFromQueryOnEachRun">results fetched from each query On each Run</system:String>
+    <system:String x:Key="LangKeyPostPerAccountWithSpecificQuery">post per account with specific query</system:String>
+    <system:String x:Key="LangKeyMultipleActivitiesOnPostFromAccount">activities in multiple on same post from each account</system:String>
+    <system:String x:Key="LangKeyButUniquely">but uniquely</system:String>
+    <system:String x:Key="LangKeyFollowPages">Follow Pages</system:String>
+    <system:String x:Key="LangKeyLinkedinPageUrl">Page Url</system:String>
+    <system:String x:Key="LangKeyNumberOfFollowPagesPerJob">Number Of Follow Pages Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfFollowPagesPerHour">Number Of Follow Pages Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfFollowPagesPerDay">Number Of Follow Pages Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfFollowPagesPerWeek">Number Of Follow Pages Per Week</system:String>
+    <system:String x:Key="LangKeyMaxFollowPagesPerDay">Max Follow Pages Per Day</system:String>
+    <system:String x:Key="LangKeyCommentsInEachVideo">comments in each video post in each run.</system:String>
+    <system:String x:Key="LangKeyLastHour">Last hour</system:String>
+    <system:String x:Key="LangKeyThisWeek">This week</system:String>
+    <system:String x:Key="LangKeyThisMonth">This month</system:String>
+    <system:String x:Key="LangKeyThisYear">This year</system:String>
+    <system:String x:Key="LangKeyShortDurationYT">Short (less than 4 minutes)</system:String>
+    <system:String x:Key="LangKeyLongDurationYT">Long (more than 20 minutes)</system:String>
+    <system:String x:Key="LangKeyRelevance">Relevance</system:String>
+    <system:String x:Key="LangKeyUploadDate">Upload date</system:String>
+    <system:String x:Key="LangKeyRating">Rating</system:String>
+    <system:String x:Key="LangKeyFilterSearchingVideos">Filter searching videos</system:String>
+    <system:String x:Key="LangKeyNone">None</system:String>
+    <system:String x:Key="LangKeySortByNoCollon">Sort by</system:String>
+    <system:String x:Key="LangKeyApplicableOnKeywordQueries">Applicable only on keywords queries</system:String>
+    <system:String x:Key="LangKeyStopAll">Stop all</system:String>
+    <system:String x:Key="LangKeySelectLocationAndSave">Please Select Location And Save</system:String>
+    <system:String x:Key="LangKeyDontLoginAccountAfterProxyManagement">Don't let the account login after assigning/unassigning account to proxy.</system:String>
+    <system:String x:Key="LangKeyCantaddAccountToProxyAddingLimitReached">Can't add more accounts to this proxy as you have checked setting 'Add {0} accounts per proxy'</system:String>
+    <system:String x:Key="LangKeyAccountHasWorkingProxyStillWannaReplace"  xml:space="preserve">This account already has a working proxy.
+Do you still want to replace it's proxy with new one?</system:String>
+    <system:String x:Key="LangKeyConfirmToAssignRandProxies">Confirm to assign random proxies</system:String>
+    <system:String x:Key="LangKeyNoWorkingProxiesAvailableToAssign">No more working proxies available to assign</system:String>
+    <system:String x:Key="LangKeyConditionAddNAccPerProxy">[with condition "assigning {0} accounts per proxy"].</system:String>
+    <system:String x:Key="LangKeyNoProxyToAssign">No proxy found to assign.</system:String>
+    <system:String x:Key="LangKeyDoNotSortAccountsBy">Do Not Sort Accounts By</system:String>
+    <system:String x:Key="LangKeyYTVideoCommenters">Youtube Video Commenters</system:String>
+    <system:String x:Key="LangKeyPostLikedOutsideSoftware">Post Liked Outside Software</system:String>
+    <system:String x:Key="LangKeyCommentersFromEachVideo">commenters from each video in each run.</system:String>
+    <system:String x:Key="LangKeySkipSubscribingTheCommentersCommentHasLessThan">Skip those commenters to subscribe whose comment has less than</system:String>
+    <system:String x:Key="LangKeySkipScrapingTheCommentersCommentHasLessThan">Skip those commenters to scrape whose comment has less than</system:String>
+    <system:String x:Key="LangKeySaveSettings">Save settings</system:String>
+    <system:String x:Key="LangKeyProxySettingsSavedSuccessfully">Proxy settings saved successfully</system:String>
+    <system:String x:Key="LangKeyOopsAnErrorOccured">Oops! An error occured.</system:String>
+    <system:String x:Key="LangKeyIsNotSelecteedForThisAccount">is not selected for this account.</system:String>
+    <system:String x:Key="LangKeyCustomize">Customize</system:String>
+    <system:String x:Key="LangKeyTakeMinimumConnectionConversation">Take minimum connection conversation</system:String>
+
+    <system:String x:Key="LangKeySucceededInSaving">Succeeded in saving</system:String>
+
+    <system:String x:Key="LangKeyReplyConfiguration">Reply configuration (Optional)</system:String>
+    <system:String x:Key="LangKeyReplyThoseCommentsContainingText">Reply to only those comments containing the specific text</system:String>
+    <system:String x:Key="LangKeyCheckedReplyToCommentWithTextButNotGivenText" xml:space="preserve">You have checked option "Reply to only those comments containing the specific text" in other configuration,
+but you have not given any text inside the box. Please check.</system:String>
+    <system:String x:Key="LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByNewLine">Automatically Hash All The Words In The List Below. Add Your Keywords Separated By New Line.</system:String>
+
+    <system:String x:Key="LangKeyInvalidProxyIpFormat">Invalid Proxy IP format :- "{0}"</system:String>
+    <system:String x:Key="LangKeyInvalidProxyIpFormatBrowser">Failed to Open Browser! Invalid Proxy IP format :- "{0}"</system:String>
+    <system:String x:Key="LangKeySkipCommentsOfSameProfile">Skip Comments Of Same Profile</system:String>
+    <system:String x:Key="LangKeyQueryValueIsInInvalidFormat">Query Value {0} is in Invalid Format!</system:String>
+
+    <system:String x:Key="LangKeyWannaStopAllActivity">Do you really want to stop all the activities?</system:String>
+    <system:String x:Key="LangKeyLess">Less</system:String>
+
+    <system:String x:Key="LangKeyActivityTypesSelect1To6ForEachNet">Activity Types (Select any 1 to 6 activities for each network)</system:String>
+    <system:String x:Key="LangKeyBusinessCategory">Business Category</system:String>
+    <system:String x:Key="LangKeyBusinessAccounts">Business Accounts</system:String>
+    <system:String x:Key="LangKeyCopyCurrentPageUrl">Copy current page url</system:String>
+    <system:String x:Key="LangKeyCopiedCurrentPageUrl">Copied current page url successfully</system:String>
+    <system:String x:Key="LangKeyEnterUserFullName">Enter user's full name</system:String>
+    <system:String x:Key="LangKeyEnterAccountNikeName">Enter Account Nick Name (optional)</system:String>
+    <system:String x:Key="LangKeyAccountNikeName">Account's Nick Name</system:String>
+    <system:String x:Key="LangKeyMakeCommentAfterRepostAsSpinText">Make a comment after repost (as spin text)</system:String>
+    <system:String x:Key="LangKeyReposterComment">Reposter Comment</system:String>
+    <system:String x:Key="LangKeyByAccountNikeName">By Account's Nick name</system:String>
+    <system:String x:Key="LangKeyCreateBoardSpintaxFormat">Use Spintax : Format (a|b)(c|d)</system:String>
+    <system:String x:Key="LangKeySkipCommonCategory">Skip Common Category [Have to add one by one]</system:String>
+    <system:String x:Key="LangKeyUseRandomCategory">Use Random Category</system:String>
+    <system:String x:Key="LangKeyProxyIp">Proxy Ip</system:String>
+    <system:String x:Key="LangKeyOneFieldCantBeEmptyIfAnotherHasValue">{0} field can't be empty if {1} field has some value</system:String>
+    <system:String x:Key="LangKeyPasteFromClipboard">Paste from clipboard</system:String>
+    <system:String x:Key="LangKeyCreateUniqueBoardForCampaign">Create Unique Board From All Account For This Campaign</system:String>
+
+    <system:String x:Key="LangKeySwithToBusinessAccount">Switch To Business Account (Pinterest)</system:String>
+    <system:String x:Key="LangKeySwithToNormalAccount">Switch To Normal Account (Pinterest)</system:String>
+    <system:String x:Key="LangKeyNotAvailable">Not Available</system:String>
+    <system:String x:Key="LangKeyPinterestAccountType">Pinterest Account Type</system:String>
+
+    <system:String x:Key="LangKeyHashtagPostUrl">HashtagUrl Post(S)</system:String>
+    <system:String x:Key="LangKeyCompanyPostUrl">CompanyUrl Post(S)</system:String>
+
+    <system:String x:Key="LangKeyBusinessMode">Business Mode</system:String>
+    <system:String x:Key="LangKeyNormalMode">Normal Mode</system:String>
+    <system:String x:Key="LangKeySwitchingProfile">Switching Profile</system:String>
+    <system:String x:Key="LangKeySuccessfullySwitchedToBusinessProfile">Successfully Switched To Business Profile</system:String>
+    <system:String x:Key="LangKeySuccessfullySwitchedToNormalProfile">Successfully Switched To Normal Profile</system:String>
+    <system:String x:Key="LangKeyWeDidNotFoundAnyBusinessProfile">We Did Not Found Any Business Profile</system:String>
+
+    <system:String x:Key="LangKeyOwnPageCount">Own Page Count</system:String>
+    <system:String x:Key="LangKeyActivatingBusinessAccountforPinterest">Activating Business Account for Pinterest</system:String>
+    <system:String x:Key="LangKeyStartActivityBusinessAccount" xml:space="preserve">This will result in stopping all activity from Normal Account and starting activity by Business Account.
+Do you want to continue?</system:String>
+    <system:String x:Key="LangKeyDeActivatingBusinessAccountforPinterest">Deactivating Business Account for Pinterest</system:String>
+        <system:String x:Key="LangKeyStartActivityNormalAccount" xml:space="preserve">This will result in stopping all activity from Business Account and starting activity by Normal Account.
+Do you want to continue?</system:String>
+
+        <system:String x:Key="LangKeyReportToVideosPerDay">Report To Videos Per Day</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerHour">Report To Videos Per Hour</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerJob">Report To Videos Per Job</system:String>
+    <system:String x:Key="LangKeyMaximumReportToVideosPerDay">Maximum Report To Videos Per Day</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerWeek">Report To Videos Per Week</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoReportVideo">This Socinator feature helps to automate report to videos on YouTube. It allows to filter videos and report to them on configured time.</system:String>
+    <system:String x:Key="LangKeyReportVideo">Report Video</system:String>
+
+    <system:String x:Key="LangKeyCookiesNotInValidJsonText">Cookies are not in a valid json text form.</system:String>
+    <system:String x:Key="LangKeyNoCookiesAdded">No cookies were added.</system:String>
+    <system:String x:Key="LangKeyRemovedCookiesSuccessfully">Removed added cookies successfully</system:String>
+    <system:String x:Key="LangkeyScrapeUniqueGroups">Scrape Unique Groups</system:String>
+    <system:String x:Key="LangKeyPinPerAccountWithSpecificQuery">Pin Per Account With Specific Query</system:String>
+    <system:String x:Key="LangKeyRepingPerAccountLimitReachedOnQuery">Repin Per Account Limit Reached On Query</system:String>
+    <system:String x:Key="LangKeySearchingForNextQueryIfAny">Searching For Next Query If Any...</system:String>
+    <system:String x:Key="LangKeyReportDetailsManager">Report details Manager</system:String>
+    <system:String x:Key="LangKeyAddDetailsToList">Add Details To List</system:String>
+    <system:String x:Key="LangKeyAddMultipleTextsSeparatedByNewLine">Add Multiple Texts Separated By New Line</system:String>
+    <system:String x:Key="LangKeyTextSpintaxFormat">Format : (Text 1|Text 2|Text 3|Text 4) Note: add any number of texts each separated by |</system:String>
+    <system:String x:Key="LangKeyProvideAdditionalDetails">Provide additional details</system:String>
+    <system:String x:Key="LangKeyReportDetailsList">Report details list</system:String>
+    <system:String x:Key="LangKeyReportOption">Report option</system:String>
+    <system:String x:Key="LangKeyText">Text</system:String>
+    <system:String x:Key="LangKeyTimestampPercentage">Timestamp(%)</system:String>
+    <system:String x:Key="LangKeyUniqueTextAddOnReportToSpecificPostFromEachAccount">Unique text to add on report to a specific post from each account</system:String>
+    <system:String x:Key="LangKeyTextReportOnceFromEachAccount">Use specific text to add on video report only once from a account.</system:String>
+    <system:String x:Key="LangKeyUniqueTextInReport">Unique text to add in report.</system:String>
+    <system:String x:Key="LangKeyAddAtLeastOneReportDetail">Please add at least one report detail into the list in Report Details Manager.</system:String>
+
+
 </ResourceDictionary>

@@ -28,146 +28,163 @@
                 </Grid>
             </GroupBox.Header>
             <ScrollViewer   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <StackPanel Margin="10" DataContext="{Binding SoftwareSettingsModel}">
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyRunSocinatorAtSystemStartup}"
+                <Grid>
+                    <mah:ProgressRing IsActive="{Binding ProgressRing}" Visibility="{Binding ProgressRing,Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                    <StackPanel>
+                        <StackPanel Margin="10" DataContext="{Binding SoftwareSettingsModel}">
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeyRunSocinatorAtSystemStartup}"
                              Visibility="Collapsed" IsChecked="{Binding IsRunDHAtStartUpChecked}"/>
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyShowToolTipWhenMinimizingToSystemTray}"
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeyShowToolTipWhenMinimizingToSystemTray}"
                               Visibility="Collapsed"   IsChecked="{Binding IsShowToolTipToSystemTrayChecked}"/>
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyRecreateDesktopShortcutAtStartup}"
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeyRecreateDesktopShortcutAtStartup}"
                               Visibility="Collapsed" IsChecked="{Binding IsRecreateDesktopshortcutAtStartupChecked}"/>
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
                               IsChecked="{Binding IsEnableParallelActivitiesChecked}"/>
-                        <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyStopAutoSynchronizeAccount}"
+                            <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyStopAutoSynchronizeAccount}"
                               IsChecked="{Binding IsStopAutoSynchronizeAccount}"/>-->
-                        <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <StackPanel  Orientation="Horizontal">
-                                <Label Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"/>
-                                <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding ExecuteAnyActionsBetween.StartValue}"/>
-                                <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
-                                <mah:NumericUpDown  Margin="5" Minimum="{Binding ExecuteAnyActionsBetween.StartValue}"
+                            <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel  Orientation="Horizontal">
+                                    <Label Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"/>
+                                    <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding ExecuteAnyActionsBetween.StartValue}"/>
+                                    <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
+                                    <mah:NumericUpDown  Margin="5" Minimum="{Binding ExecuteAnyActionsBetween.StartValue}"
                                                     Value="{Binding ExecuteAnyActionsBetween.EndValue}"/>
-                            </StackPanel>
-                            <CheckBox Margin="5" Content="{DynamicResource LangKeyRandomiseNightMode}"
+                                </StackPanel>
+                                <CheckBox Margin="5" Content="{DynamicResource LangKeyRandomiseNightMode}"
                                   IsChecked="{Binding IsRandomiseNightModeChecked}"/>
-                            <StackPanel Margin="20,5" Visibility="{Binding IsRandomiseNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Margin="5" Content="{DynamicResource LangKeyStartBetween}"/>
-                                    <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding StartBetween.StartValue}"/>
-                                    <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
-                                    <mah:NumericUpDown  Margin="5" Minimum="{Binding StartBetween.StartValue}"
+                                <StackPanel Margin="20,5" Visibility="{Binding IsRandomiseNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Margin="5" Content="{DynamicResource LangKeyStartBetween}"/>
+                                        <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding StartBetween.StartValue}"/>
+                                        <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
+                                        <mah:NumericUpDown  Margin="5" Minimum="{Binding StartBetween.StartValue}"
                                                         Value="{Binding StartBetween.EndValue}"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="5">
-                                    <Label Margin="5" Content="{DynamicResource LangKeyEndBetween}"/>
-                                    <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding EndBetween.StartValue}"/>
-                                    <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
-                                    <mah:NumericUpDown Margin="5" Minimum="{Binding EndBetween.StartValue}"
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <Label Margin="5" Content="{DynamicResource LangKeyEndBetween}"/>
+                                        <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding EndBetween.StartValue}"/>
+                                        <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
+                                        <mah:NumericUpDown Margin="5" Minimum="{Binding EndBetween.StartValue}"
                                                         Value="{Binding EndBetween.EndValue}"/>
+                                    </StackPanel>
+                                    <Label Margin="5" Content="{DynamicResource LangKeyNoActionWillBeExecutedOnAnySocialProfileDuringSelectedTimeIntervalEachAccountHasItsOwnNightModeIfBetterPrecisionIsNeededSpecifyingANightModeForAnAccountDoesNotExemptThatAccountFromGlobalNightMode}"/>
                                 </StackPanel>
-                                <Label Margin="5" Content="{DynamicResource LangKeyNoActionWillBeExecutedOnAnySocialProfileDuringSelectedTimeIntervalEachAccountHasItsOwnNightModeIfBetterPrecisionIsNeededSpecifyingANightModeForAnAccountDoesNotExemptThatAccountFromGlobalNightMode}"/>
-                            </StackPanel>
-                            <CheckBox Margin="5" Content="{DynamicResource LangKeyAllowAccountThatSetTheirOwnNightModeToIgnoreGlobalNightMode}"
+                                <CheckBox Margin="5" Content="{DynamicResource LangKeyAllowAccountThatSetTheirOwnNightModeToIgnoreGlobalNightMode}"
                                   IsChecked="{Binding IsIgnoreGlobalChecked}"/>
-                        </StackPanel>
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyUseTabInsteadOfComma}"
+                            </StackPanel>
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeyUseTabInsteadOfComma}"
                          Visibility="Collapsed"     IsChecked="{Binding IsUseTabInsteadOfCommaChecked}"/>
-                        <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
-                            <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAutoRestartSocinatorAfterAMinimumOf}"
+                            <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
+                                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAutoRestartSocinatorAfterAMinimumOf}"
                                   IsChecked="{Binding IsEnableAutoRestartSocinatorChecked}"/>
-                            <mah:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsEnableAutoRestartSocinatorChecked}"
+                                <mah:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsEnableAutoRestartSocinatorChecked}"
                                                 Value="{Binding MinHour}"/>
-                            <Label Margin="5" Content="{DynamicResource LangKeyHours}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="5" Content="{DynamicResource LangKeySynchronizeAccountInformationsEvery}"  
+                                <Label Margin="5" Content="{DynamicResource LangKeyHours}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Margin="5" Content="{DynamicResource LangKeySynchronizeAccountInformationsEvery}"  
                                   IsChecked="{Binding IsStopAutoSynchronizeAccount}"/>
-                            <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding AccountSynchronizationHours}"/>
-                            <Label Margin="5" Content="{DynamicResource LangKeyHours}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="5" Text="{DynamicResource LangKeyNumberOfAccountsToSynchronizeSimultaneously}"/>
-                            <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
-                        </StackPanel>
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
+                                <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding AccountSynchronizationHours}"/>
+                                <Label Margin="5" Content="{DynamicResource LangKeyHours}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="5" Text="{DynamicResource LangKeyNumberOfAccountsToSynchronizeSimultaneously}"/>
+                                <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
+                            </StackPanel>
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
                               IsChecked="{Binding IsEnableAdvancedUserMode}"/>
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
                               IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="5" Content="{DynamicResource LangKeyMaxThreadsToRun}"
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Margin="5" Content="{DynamicResource LangKeyMaxThreadsToRun}"
                               IsChecked="{Binding IsThreadLimitChecked}"/>
-                            <mah:NumericUpDown Minimum="1" Margin="5" IsEnabled="{Binding IsThreadLimitChecked}" Value="{Binding MaxThreadCount}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <CheckBox Content="{DynamicResource LangKeyDefaultExportPath}" Name="IsDefaultPath" IsChecked="{Binding IsDefaultExportPathSelected}"/>
-                            <TextBox Text="{Binding ExportPath,Mode=TwoWay}"  Margin="5"
+                                <mah:NumericUpDown Minimum="1" Margin="5" IsEnabled="{Binding IsThreadLimitChecked}" Value="{Binding MaxThreadCount}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <CheckBox Content="{DynamicResource LangKeyDefaultExportPath}" Name="IsDefaultPath" IsChecked="{Binding IsDefaultExportPathSelected}"/>
+                                <TextBox Text="{Binding ExportPath,Mode=TwoWay}"  Margin="5"
                              Visibility="{Binding IsDefaultExportPathSelected,Converter={StaticResource BooleanToVisibilityConverter}}"
                              HorizontalAlignment="Left" Width="200"  mah:TextBoxHelper.ButtonCommand="{Binding DataContext.ExportCommand,
                                 RelativeSource={RelativeSource AncestorType={x:Type GroupBox}}}">
-                                <TextBox.Style>
-                                    <Style TargetType="{x:Type TextBox}"   BasedOn="{StaticResource ButtonCommandMetroTextBox}">
-                                        <Setter Property="mah:TextBoxHelper.ButtonTemplate">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type Button}">
-                                                    <Grid Background="{TemplateBinding Background}">
-                                                        <Grid x:Name="contentPresenter"  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    <TextBox.Style>
+                                        <Style TargetType="{x:Type TextBox}"   BasedOn="{StaticResource ButtonCommandMetroTextBox}">
+                                            <Setter Property="mah:TextBoxHelper.ButtonTemplate">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Grid Background="{TemplateBinding Background}">
+                                                            <Grid x:Name="contentPresenter"  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                             Margin="{TemplateBinding Padding}"
                                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                             Opacity="0.75">
 
-                                                            <Canvas Width="15"  Height="15"   Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0">
-                                                                <Path Width="15.7781" Height="15.7781" Stretch="Fill"
+                                                                <Canvas Width="15"  Height="15"   Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0">
+                                                                    <Path Width="15.7781" Height="15.7781" Stretch="Fill"
                                                                   Fill="{TemplateBinding Foreground}"
                                                                   Data="F1 M 16.6668,20L 13,28.5336L 13,16L 23,16L 23,15C 23,13.8954 23.8954,13 25,13L 32,13C 33.1046,13 35,14.8954 35,16L 35,20L 16.6668,20 Z M 35,32L 28,32L 13,32L 17.5833,21L 39.5833,21L 35,32 Z " />
-                                                            </Canvas>
+                                                                </Canvas>
+                                                            </Grid>
                                                         </Grid>
-                                                    </Grid>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </TextBox.Style>
-                            </TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="5" Text="{DynamicResource LangKeyRunQueries}"/>
-                            <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyTopToBottom}" IsChecked="{Binding RunQueriesTopToBottom}"/>
-                            <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyBottomToTop}" IsChecked="{Binding RunQueriesBottomToTop}"/>
-                            <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyRandomly}" IsChecked="{Binding RunQueriesRandomly}"/>
-                        </StackPanel>
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyStopIfNoMoreData}"
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="5" Text="{DynamicResource LangKeyRunQueries}"/>
+                                <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyTopToBottom}" IsChecked="{Binding RunQueriesTopToBottom}"/>
+                                <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyBottomToTop}" IsChecked="{Binding RunQueriesBottomToTop}"/>
+                                <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyRandomly}" IsChecked="{Binding RunQueriesRandomly}"/>
+                            </StackPanel>
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeyStopIfNoMoreData}"
                               IsChecked="{Binding StopIfNoMoreData}"/>
 
-                        <StackPanel Orientation="Horizontal" >
-                            <CheckBox Margin="5" Content="{DynamicResource LangKeySelectCountriesFilter}"
+                            <StackPanel Orientation="Horizontal" >
+                                <CheckBox Margin="5" Content="{DynamicResource LangKeySelectCountriesFilter}"
                               IsChecked="{Binding IsSelectCountriesFilter}"/>
-                            <ComboBox VirtualizingPanel.IsContainerVirtualizable="True" IsEditable="True" Height="30" Width="200" Text="{Binding DataContext.SearchText,RelativeSource={RelativeSource AncestorType=GroupBox}}" ItemsSource="{Binding Path=ListLocationModelTemp}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <CheckBox IsChecked="{Binding IsSelected}"/>
-                                            <TextBlock Text="{Binding CountryName}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                                <ComboBox.Triggers>
-                                    <EventTrigger RoutedEvent="TextBoxBase.TextChanged">
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsDropDownOpen">
-                                                    <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0"/>
-                                                </BooleanAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </ComboBox.Triggers>
-                            </ComboBox>
+                                <ComboBox VirtualizingPanel.IsContainerVirtualizable="True" IsEditable="True" Height="30" Width="200" Text="{Binding DataContext.SearchText,RelativeSource={RelativeSource AncestorType=GroupBox}}" ItemsSource="{Binding Path=ListLocationModelTemp}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox IsChecked="{Binding IsSelected}"/>
+                                                <TextBlock Text="{Binding CountryName}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                    <ComboBox.Triggers>
+                                        <EventTrigger RoutedEvent="TextBoxBase.TextChanged">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsDropDownOpen">
+                                                        <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0"/>
+                                                    </BooleanAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </ComboBox.Triggers>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotSortAccountsBy}"
+                                  IsChecked="{Binding DoNotSortByUserNameChecked}"/>
+                                <RadioButton Margin="5" GroupName="SortAccountGroup" Content="{DynamicResource LangKeyAccountUsername}" IsChecked="{Binding SortByUsername}"/>
+                                <RadioButton Margin="5" GroupName="SortAccountGroup" Content="{DynamicResource LangKeyAccountNikeName}" IsChecked="{Binding SortByNikename}"/>
+                            </StackPanel>
+
                         </StackPanel>
 
+                        <GroupBox Background="{DynamicResource GreenColorAccordingTheme}" Header="Developer mode" Visibility="Collapsed" >
+                            <!--{Binding DebugVisibility}-->
+                            <StackPanel>
+                                <CheckBox Margin="5" Content="Modify response files in UnitTests as per respective http hit"
+                                  IsChecked="{Binding IsTestMode}"/>
+                            </StackPanel>
+                        </GroupBox>
                     </StackPanel>
-
-                </StackPanel>
+                </Grid>
             </ScrollViewer>
         </GroupBox>
     </ControlTemplate>

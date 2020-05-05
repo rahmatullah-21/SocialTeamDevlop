@@ -22,13 +22,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public PublisherMultiplePostViewModel()
         {
-            LstPostDetailsModel = new ObservableCollection<PostDetailsModel>();
+            //LstPostDetailsModel = new ObservableCollection<PostDetailsModel>();
             CreateNewPost = new BaseCommand<object>(CanExecuteCreateNewPost, ExecuteCreateNewPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             DeletePostCommand = new BaseCommand<object>(DeletePostCanExecute, DeletePostExecute);
             StopLoadingPostCommand = new BaseCommand<object>((sender) => true, StopLoadingPost);
 
-            BindingOperations.EnableCollectionSynchronization(LstPostDetailsModel, lockObject);
+            //BindingOperations.EnableCollectionSynchronization(LstPostDetailsModel, lockObject);
         }
 
         private void StopLoadingPost(object sender)
@@ -74,21 +74,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             set { SetProperty(ref _isProgressVisibile, value); }
         }
 
-        private ObservableCollection<PostDetailsModel> _lstPostDetailsModel = new ObservableCollection<PostDetailsModel>();
+        //private ObservableCollection<PostDetailsModel> _lstPostDetailsModel = new ObservableCollection<PostDetailsModel>();
 
-        public ObservableCollection<PostDetailsModel> LstPostDetailsModel
-        {
-            get
-            {
-                return _lstPostDetailsModel;
-            }
-            set
-            {
-                if (_lstPostDetailsModel == value)
-                    return;
-                SetProperty(ref _lstPostDetailsModel, value);
-            }
-        }
+        //public ObservableCollection<PostDetailsModel> LstPostDetailsModel
+        //{
+        //    get
+        //    {
+        //        return _lstPostDetailsModel;
+        //    }
+        //    set
+        //    {
+        //        if (_lstPostDetailsModel == value)
+        //            return;
+        //        SetProperty(ref _lstPostDetailsModel, value);
+        //    }
+        //}
 
         private ICollectionView _postListsCollectionView;
 
@@ -124,10 +124,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                LstPostDetailsModel.Add(postDetailsModel);
-                PostListsCollectionView = CollectionViewSource.GetDefaultView(LstPostDetailsModel);
                 PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
+                    .PublisherCreateCampaignModel.LstPostDetailsModels.Add(postDetailsModel);
+                PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels/*LstPostDetailsModel*/);
+                //PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                //    .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
             });
 
         }
@@ -214,7 +216,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                                     // Add to Collections
                                     //postDetails.Add(postDetailsModel);
-                                    Application.Current.Dispatcher.Invoke(() => LstPostDetailsModel.Add(postDetailsModel));
+                                    Application.Current.Dispatcher.Invoke(() => PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels.Add(postDetailsModel));
                                     Thread.Sleep(50);
                                 }
                                 catch (Exception ex)
@@ -243,14 +246,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (content == "DeleteAll")
                 {
                     IsStopLoadingPost = true;
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() => LstPostDetailsModel.Clear()));
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() => 
+                    {
+                        PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels.Clear();
+                        IsStopLoadingPost = false;
+                    }));
                 }
                 else
                 {
                     try
                     {
                         var postToDelete = sender as PostDetailsModel;
-                        LstPostDetailsModel.Remove(postToDelete);
+                        PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels.Remove(postToDelete);
                     }
                     catch (Exception ex)
                     {
@@ -258,7 +267,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                 }
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                        PostListsCollectionView = CollectionViewSource.GetDefaultView(LstPostDetailsModel)));
+                        PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels)));
             }
             catch (Exception ex)
             {

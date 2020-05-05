@@ -5,6 +5,8 @@ using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 using DominatorHouseCore.ViewModel;
 using Unity;
 using Unity.Extension;
+using DominatorHouseCore.Interfaces;
+using DominatorHouse.Social;
 
 namespace DominatorHouse.IoC
 {
@@ -18,7 +20,7 @@ namespace DominatorHouse.IoC
             Container.RegisterSingleton<IMainViewModel, MainViewModel>();
             Container.RegisterSingleton<IPerfCounterViewModel, PerfCounterViewModel>();
             Container.RegisterSingleton<IDominatorAutoActivityViewModel, DominatorAutoActivityViewModel>();
-
+            Container.RegisterSingleton<ISocialBrowserManager, SocialBrowserManager>();
             #region Startup ViewModel
 
             Container.RegisterType<IFollowViewModel, FollowViewModel>();

@@ -274,6 +274,9 @@
     <Compile Include="CustomControl\ChatMediaContainer.xaml.cs">
       <DependentUpon>ChatMediaContainer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\CustomizeAutoActivity.xaml.cs">
+      <DependentUpon>CustomizeAutoActivity.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml.cs">
       <DependentUpon>AutoReplyOptionControl.xaml</DependentUpon>
     </Compile>
@@ -303,6 +306,9 @@
     </Compile>
     <Compile Include="CustomControl\FacebookCustomControl\UnfriendOptionsControl.xaml.cs">
       <DependentUpon>UnfriendOptionsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\YoutubeCutomControl\ManageReportVideosAs.xaml.cs">
+      <DependentUpon>ManageReportVideosAs.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\PrivateBlacklistUserControl.xaml.cs">
       <DependentUpon>PrivateBlacklistUserControl.xaml</DependentUpon>
@@ -380,6 +386,9 @@
     <Compile Include="CustomControl\PrivateWhitelistUserControl.xaml.cs">
       <DependentUpon>PrivateWhitelistUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\YoutubeCutomControl\VideoReportContentControl.xaml.cs">
+      <DependentUpon>VideoReportContentControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IoC\UtilityUnityExtension.cs" />
     <Compile Include="IoC\ISocialNetworkModule.cs" />
     <Compile Include="ModuleSetting.xaml.cs">
@@ -394,6 +403,7 @@
     <Compile Include="ViewModel\CampaignViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
+    <Compile Include="ViewModel\NetworksActivityCustomizeViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\EmbeddedBrowserViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\InstagramUserViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\IOtherConfigurationViewModel.cs" />
@@ -1199,6 +1209,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CustomControl\CustomizeAutoActivity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1238,6 +1252,10 @@
     <Page Include="CustomControl\FacebookCustomControl\UnfriendOptionsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\YoutubeCutomControl\ManageReportVideosAs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\PrivateBlacklistUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1370,6 +1388,10 @@
     <Page Include="CustomControl\PrivateWhitelistUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\YoutubeCutomControl\VideoReportContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\WhitelistuserControl.xaml">
       <SubType>Designer</SubType>
@@ -2244,7 +2266,7 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SociNator.ico" />
+    <Resource Include="LinkedInScraper.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\angry.png" />

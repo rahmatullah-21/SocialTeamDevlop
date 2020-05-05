@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Windows;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
@@ -40,6 +41,11 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
             //Assign LocationDetails
             SoftwareSettingsModel.ListLocationModelTemp = SoftwareSettingsModel.ListLocationModel = softwareSettings.AssignLocationList();
 
+            SoftwareSettingsModel.DebugVisibility = Visibility.Collapsed;
+
+            #if DEBUG
+                SoftwareSettingsModel.DebugVisibility = Visibility.Visible;
+            #endif
         }
 
         private string _searchText;
@@ -70,70 +76,26 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         {
             SoftwareSettingsModel.ExportPath = FileUtilities.GetExportPath(true);
         }
-
+        private bool _progressRing = false;
+        public bool ProgressRing
+        {
+            get { return _progressRing; }
+            set
+            {
+                if (_progressRing == value) return;
+                SetProperty(ref _progressRing, value);
+            }
+        }
         private void Save()
         {
-
             if (SoftwareSettingsModel.IsSelectCountriesFilter)
             {
-                try
+                ProgressRing = true;
+                ThreadFactory.Instance.Start(() =>
                 {
-
-                    IGlobalDatabaseConnection dataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-                    var dbGlobalContext = dataBaseConnectionGlb.GetSqlConnection();
-                    var _dbGlobalListOperations = new DbOperations(dbGlobalContext);
-
-                    var ListCountry = _dbGlobalListOperations.Get<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
-                    var dt = new List<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
-                    foreach (var locationModel in SoftwareSettingsModel.ListLocationModel.Where(x => x.IsSelected))
-                    {
-                        if (ListCountry.Any(x => x.CountryName.Equals(locationModel.CountryName)))
-                            continue;
-
-                        try
-                        {
-                            var request = (HttpWebRequest)WebRequest.Create($"http://209.250.252.53/DownloadForSocinator/CityListByCountries/{locationModel.CountryName}.txt");
-                            var response = request.GetResponse();
-                            string cityResponse = string.Empty;
-                            using (var responseStream = response.GetResponseStream())
-                            {
-                                if (responseStream != null)
-                                {
-                                    var reader = new StreamReader(responseStream, Encoding.UTF8);
-                                    cityResponse = reader.ReadToEnd();
-                                }
-                            }
-
-                            List<string> cityList = System.Text.RegularExpressions.Regex.Split(cityResponse, "\r\n").ToList();
-                            cityList.ForEach(x =>
-                            {
-                                var lst = new DominatorHouseCore.DatabaseHandler.DHTables.LocationList()
-                                {
-                                    CountryName = locationModel.CountryName,
-                                    CityName = x,
-                                    IsSelected = false
-                                };
-                                dt.Add(lst);
-                            });
-                        }
-                        catch (WebException)
-                        {
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    }
-                    _dbGlobalListOperations.AddRange(dt);
-                }
-                catch (Exception)
-                {
-
-                }
-
+                    DownloadLocations();
+                });
             }
-
-
 
             if (SoftwareSettingsModel.IsDefaultExportPathSelected)
             {
@@ -152,19 +114,92 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
         private void SaveSetting()
         {
-            if (_softwareSettings.Save())
+            ThreadFactory.Instance.Start(() =>
             {
-                var result = Dialog.ShowCustomDialog("LangKeySuccess".FromResourceDictionary(),
-                    "LangKeyConfirmToRestartAfterSoftwareSettingSaved".FromResourceDictionary(),
-                    "LangKeyRestartNow".FromResourceDictionary(), "LangKeyRestartLater".FromResourceDictionary());
-                if (result == MessageDialogResult.Affirmative)
+                while (ProgressRing)
+                    Thread.Sleep(500);
+
+                if (_softwareSettings.Save())
                 {
-                    Application.Current.Shutdown();
-                    Process.Start(Application.ResourceAssembly.Location);
-                    Process.GetCurrentProcess().Kill();
-                    Environment.Exit(0);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        var result = Dialog.ShowCustomDialog("LangKeySuccess".FromResourceDictionary(),
+                                     "LangKeyConfirmToRestartAfterSoftwareSettingSaved".FromResourceDictionary(),
+                                     "LangKeyRestartNow".FromResourceDictionary(), "LangKeyRestartLater".FromResourceDictionary());
+                        if (result == MessageDialogResult.Affirmative)
+                        {
+                            Application.Current.Shutdown();
+                            Process.Start(Application.ResourceAssembly.Location);
+                            Process.GetCurrentProcess().Kill();
+                            Environment.Exit(0);
+                        }
+                    });
+
                 }
-            }
+            });
         }
+
+
+        private void DownloadLocations()
+        {
+            try
+            {
+                IGlobalDatabaseConnection dataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+                var dbGlobalContext = dataBaseConnectionGlb.GetSqlConnection();
+                var _dbGlobalListOperations = new DbOperations(dbGlobalContext);
+
+                var ListCountry = _dbGlobalListOperations.Get<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
+                var dt = new List<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
+                foreach (var locationModel in SoftwareSettingsModel.ListLocationModel.Where(x => x.IsSelected))
+                {
+                    try
+                    {
+                        if (ListCountry.Any(x => x.CountryName.Equals(locationModel.CountryName)))
+                            continue;
+
+                        var request = (HttpWebRequest)WebRequest.Create($"http://209.250.252.53/DownloadForSocinator/CityListByCountries/{locationModel.CountryName}.txt");
+                        var response = request.GetResponse();
+                        string cityResponse = string.Empty;
+                        using (var responseStream = response.GetResponseStream())
+                        {
+                            if (responseStream != null)
+                            {
+                                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                                cityResponse = reader.ReadToEnd();
+                            }
+                        }
+
+                        List<string> cityList = System.Text.RegularExpressions.Regex.Split(cityResponse, "\r\n").ToList();
+                        cityList.ForEach(x =>
+                        {
+                            var lst = new DominatorHouseCore.DatabaseHandler.DHTables.LocationList()
+                            {
+                                CountryName = locationModel.CountryName,
+                                CityName = x,
+                                IsSelected = false
+                            };
+                            dt.Add(lst);
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }
+                _dbGlobalListOperations.AddRange(dt);
+                ToasterNotification.ShowSuccess("Location Details Downloaded Successfully");
+            }
+            catch (WebException)
+            {
+                ToasterNotification.ShowError("failed To Downloaded Location Details");
+            }
+            catch (Exception)
+            {
+                ToasterNotification.ShowError("failed To Downloaded Location Details");
+            }
+
+            ProgressRing = false;
+        }
+
     }
 }

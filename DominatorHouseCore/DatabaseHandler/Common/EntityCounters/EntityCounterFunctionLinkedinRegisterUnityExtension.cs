@@ -72,6 +72,18 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<ICounterKeyFactory<RemovedConnections>>(
                     new CounterKeyFactory<RemovedConnections>(SocialNetworks.LinkedIn, true));
+
+            Container
+               .RegisterInstance<IEntityCounterFunction<InteractedPage>>(
+                   new EntityCounterFunction<InteractedPage>(
+                       new DateFilterPredicate<InteractedPage>(
+                           a => a.InteractionDatetime),
+                       new ActivityTypeAsStringFilterPredicate<InteractedPage>(
+                           a => a.ActivityType)));
+
+            Container
+               .RegisterInstance<ICounterKeyFactory<InteractedPage>>(
+                   new CounterKeyFactory<InteractedPage>(SocialNetworks.LinkedIn, true));
         }
     }
 }

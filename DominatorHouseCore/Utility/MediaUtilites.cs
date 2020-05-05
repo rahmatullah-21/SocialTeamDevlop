@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -612,6 +613,20 @@ namespace DominatorHouseCore.Utility
 
         };
 
+        public static List<string> GetExtensionList()
+        {
+            try
+            {
+                return _mappings.Keys.ToList();
+            }
+            catch(Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            return new List<string>();
+        }
+
         public static string GetMimeType(string extension)
         {
             if (extension == null)
@@ -710,6 +725,21 @@ namespace DominatorHouseCore.Utility
                 sb.Append(hash1[i].ToString("X2"));
             }
             return sb.ToString();
+        }
+
+        public static bool DownloadMediaFromUrl(string url, string filePath)
+        {
+            try
+            {
+                File.WriteAllBytes(filePath, GetImageBytesFromUrl(url));
+            }
+            catch(Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -23,6 +23,11 @@ namespace Socinator.DominatorCores
             return new List<ActivityType>();
         }
 
+        public IEnumerable<ActivityType> GetOtherActivityTypes()
+        {
+            return new List<ActivityType>();
+        }
+
         public string RecentlySelectedAccount { get; set; } = string.Empty;
     }
 }

@@ -26,7 +26,7 @@
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://209.250.252.53/socinator/</InstallUrl>
     <UpdateUrl>http://209.250.252.53/socinator/</UpdateUrl>
@@ -34,9 +34,9 @@
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>74</ApplicationRevision>
-    <ApplicationVersion>1.0.0.74</ApplicationVersion>
+    <MinimumRequiredVersion>1.0.0.81</MinimumRequiredVersion>
+    <ApplicationRevision>83</ApplicationRevision>
+    <ApplicationVersion>1.0.0.83</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -111,7 +111,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>SociNator.ico</ApplicationIcon>
+    <ApplicationIcon>LinkedInScraper.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -294,6 +294,7 @@
     <Compile Include="Social\Settings\View\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Social\SocialBrowserManager.cs" />
     <Compile Include="Social\TablifiedContentControl.cs" />
     <Compile Include="Support\Logs\Views\LogList.xaml.cs">
       <DependentUpon>LogList.xaml</DependentUpon>
@@ -382,7 +383,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="SociNator.ico">
+    <Resource Include="LinkedInScraper.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <EmbeddedResource Include="RevisionHistory\revisionhistory.txt">

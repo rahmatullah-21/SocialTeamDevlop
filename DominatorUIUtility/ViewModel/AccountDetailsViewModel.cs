@@ -22,6 +22,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Extensions;
 using Unity;
+using DominatorHouseCore.ProxyServerManagment;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -302,6 +303,7 @@ namespace DominatorUIUtility.ViewModel
 
             var newAccountBaseModel = DominatorAccountModel.AccountBaseModel;
             IProxyManagerViewModel proxyManagerViewModel = null;
+            //IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
             try
             {
                 if (string.IsNullOrEmpty(newAccountBaseModel.UserName) ||
@@ -311,6 +313,14 @@ namespace DominatorUIUtility.ViewModel
                         "LangKeyAccount".FromResourceDictionary(), "LangKeySavingAccountFailedUserOrPasswordEmpty".FromResourceDictionary());
                     return false;
                 }
+
+                //if (!proxyValidationService.IsValidProxy(newAccountBaseModel.AccountProxy.ProxyIp, newAccountBaseModel.AccountProxy.ProxyPort))
+                //{
+                //    GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
+                //        "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormat".FromResourceDictionary(), newAccountBaseModel.AccountProxy.ProxyIp));
+                    
+                //    return false;
+                //}
 
 
                 if ((!string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyIp) &&
@@ -600,7 +610,16 @@ namespace DominatorUIUtility.ViewModel
                     ProxyPort = accountModel.AccountBaseModel.AccountProxy.ProxyPort,
                     ProxyUsername = accountModel.AccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = accountModel.AccountBaseModel.AccountProxy.ProxyPassword
-                }
+                },
+                AccountName = accountModel.AccountBaseModel.AccountName,
+                UserFullName = accountModel.AccountBaseModel.UserFullName,
+                UserId = accountModel.AccountBaseModel.UserId,
+                ProfileId = accountModel.AccountBaseModel.ProfileId,
+                AlternateEmail = accountModel.AccountBaseModel.AlternateEmail,
+                Banned = accountModel.AccountBaseModel.Banned,
+                IsChkTwoFactorLogin = accountModel.AccountBaseModel.IsChkTwoFactorLogin,
+                PhoneNumber = accountModel.AccountBaseModel.PhoneNumber,
+                ProfilePictureUrl = accountModel.AccountBaseModel.ProfilePictureUrl, 
             };
 
             OldDominatorAccountModel.MailCredentials = new MailCredentials
@@ -624,6 +643,13 @@ namespace DominatorUIUtility.ViewModel
             DominatorAccountModel.AccountBaseModel.AccountGroup.Content = OldDominatorAccountModel.AccountBaseModel.AccountGroup.Content;
             DominatorAccountModel.AccountBaseModel.AccountProxy = OldDominatorAccountModel.AccountBaseModel.AccountProxy;
             DominatorAccountModel.AccountBaseModel.UserFullName = OldDominatorAccountModel.AccountBaseModel.UserFullName;
+            DominatorAccountModel.AccountBaseModel.AccountName = OldDominatorAccountModel.AccountBaseModel.AccountName;
+            DominatorAccountModel.AccountBaseModel.UserId = OldDominatorAccountModel.AccountBaseModel.UserId;
+            DominatorAccountModel.AccountBaseModel.ProfileId = OldDominatorAccountModel.AccountBaseModel.ProfileId;
+            DominatorAccountModel.AccountBaseModel.AlternateEmail = OldDominatorAccountModel.AccountBaseModel.AlternateEmail;
+            DominatorAccountModel.AccountBaseModel.Banned = OldDominatorAccountModel.AccountBaseModel.Banned;
+            DominatorAccountModel.AccountBaseModel.PhoneNumber = OldDominatorAccountModel.AccountBaseModel.PhoneNumber;
+            DominatorAccountModel.AccountBaseModel.ProfilePictureUrl = OldDominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
 
             DominatorAccountModel.MailCredentials = OldDominatorAccountModel.MailCredentials;
             DominatorAccountModel.UserAgentWeb = OldDominatorAccountModel.UserAgentWeb;
@@ -788,12 +814,12 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (ex.Message?.Contains(" parsing ") ?? false)
                 {
-                    ToasterNotification.ShowError("Cookies are not in a valid json text form.");
+                    ToasterNotification.ShowError("LangKeyCookiesNotInValidJsonText".FromResourceDictionary());
                 }
                 else
                 {
                     ex.DebugLog(!string.IsNullOrWhiteSpace(expireString) ? $"expireString:{expireString}" : "");
-                    ToasterNotification.ShowError("Oops! An error occured.");
+                    ToasterNotification.ShowError("LangKeyOopsAnErrorOccured".FromResourceDictionary());
                 }
             }
         }

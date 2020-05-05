@@ -45,7 +45,7 @@
                         </Button.Template>
                     </Button>
                 </StackPanel>
-                <mah:Badged Badge="{Binding LstPostDetailsModel.Count}" Margin="10,15,0,0">
+                <mah:Badged Badge="{Binding PostListsCollectionView.Count}" Margin="10,15,0,0">
                     <Label Content="{DynamicResource LangKeyPosts}" FontWeight="Bold" 
                            Foreground="{DynamicResource AccentBaseColorBrush}"/>
                 </mah:Badged>

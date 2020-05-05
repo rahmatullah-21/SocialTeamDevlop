@@ -472,10 +472,11 @@ namespace DominatorUIUtility.CustomControl
                 //var schedulePending = ImmutableQueue<Action>.Empty;
                 if (IsNeedToSaveTemplate())
                 {
+                    var originalTemplateId = TemplateId.DeepCloneObject();
                     TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork,
                         CampaignName);
                     SaveTemplateToAccounts(TemplateId);
-                    SaveTemplateToCampaigns();
+                    SaveTemplateToCampaigns(originalTemplateId);
                     var accountDetails =
                         _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
                     try
@@ -540,7 +541,7 @@ namespace DominatorUIUtility.CustomControl
 
         }
 
-        public void SaveTemplateToCampaigns()
+        public void SaveTemplateToCampaigns(string originalTemplateId)
         {
             var campaignDetails = new CampaignDetails
             {
@@ -555,12 +556,23 @@ namespace DominatorUIUtility.CustomControl
                 LastEditedDate = DateTimeUtilities.GetEpochTime(),
             };
 
+
             var dbOperations =
-                new DbOperations(campaignDetails.CampaignId, SocialNetwork, ConstantVariable.GetCampaignDb);
+                    new DbOperations(campaignDetails.CampaignId, SocialNetwork, ConstantVariable.GetCampaignDb);
 
             _dataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
 
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+
+            if (_cancelEditVisibility == Visibility.Visible)
+            {
+                var mainCampaignDetails = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == originalTemplateId);
+                
+                if (mainCampaignDetails.SelectedAccountList.Count == 0)
+                    mainCampaignDetails.Status = "Pause";
+
+            }
+
             if (!campaignFileManager.Any(x => x.CampaignId == campaignDetails.CampaignId))
             {
                 campaignFileManager.Add(campaignDetails);
@@ -1519,13 +1531,15 @@ namespace DominatorUIUtility.CustomControl
                 }
                 #region Template Id present case
 
-                // need to check whether its running or not, if its running then need to stop process
-                _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
-                    moduleConfiguration.TemplateId, moduleConfiguration.IsEnabled);
+                var previousSettings = moduleConfiguration.DeepCloneObject();
 
                 // update the template
                 UpdateTemplate(accountModel, moduleConfiguration.TemplateId,
                     moduleConfiguration.IsTemplateMadeByCampaignMode);
+
+                // need to check whether its running or not, if its running then need to stop process
+                _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
+                    previousSettings.TemplateId, previousSettings.IsEnabled);
 
                 // update the running time
                 UpdateRunningTime(Model.JobConfiguration, accountModel);
@@ -1793,11 +1807,18 @@ namespace DominatorUIUtility.CustomControl
                 }
                 _queryControl.IsEnabled = true;
 
+                ClearQueryCollection();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+        }
+
+        public void ClearQueryCollection()
+        {
+            if(_queryControl.QueryCollection != null && _queryControl.QueryCollection.Count() > 0)
+                _queryControl.QueryCollection.Clear();
         }
 
         public void SetQueryTypeEnumName(string[] enumsList, QueryInfo currentQuery)
@@ -1807,7 +1828,7 @@ namespace DominatorUIUtility.CustomControl
                 var queryNameIndex = this.Model.ListQueryType.IndexOf(currentQuery.QueryType);
                 currentQuery.QueryTypeEnum = enumsList[queryNameIndex];
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ex.DebugLog();
             }
@@ -1862,6 +1883,11 @@ namespace DominatorUIUtility.CustomControl
                 {
                     var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
                     var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
+
+                    if (moduleConfiguration.Status == null || moduleConfiguration.Status == "Active" && !moduleConfiguration.IsEnabled || moduleConfiguration.Status == "Paused" && moduleConfiguration.IsEnabled)
+                        jobActivityConfigurationManager[accountDetails.AccountId, _activityType].Status =
+                            moduleConfiguration.IsEnabled ? "Active" : "Paused";
+
                     SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
                 }
                 else
