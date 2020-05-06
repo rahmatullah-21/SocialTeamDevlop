@@ -1,4 +1,4 @@
-Version[1.0.0.84],[5th May 2020]
+Version[1.0.0.84],[6th May 2020]
 New Features:-
 		Social:
 			Account manager ==> Now you can search accounts in account manager.
