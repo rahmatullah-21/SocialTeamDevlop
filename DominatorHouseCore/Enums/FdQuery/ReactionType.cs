@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace DominatorHouseCore.Enums.FdQuery
 {
@@ -15,17 +10,20 @@ namespace DominatorHouseCore.Enums.FdQuery
         [Description("Love")]
         Love = 2,
 
-        [Description("Haha")]
-        Haha = 4,
+        [Description("Care")]
+        Care = 3,
 
         [Description("Wow")]
-        Wow = 3,
+        Wow = 4,
+
+        [Description("Haha")]
+        Haha = 5,
 
         [Description("Sad")]
-        Sad = 7,
+        Sad = 8,
 
         [Description("Angry")]
-        Angry = 8,
+        Angry = 9,
 
         [Description("Unlike")]
         Unlike = 0,
@@ -42,23 +40,26 @@ namespace DominatorHouseCore.Enums.FdQuery
         [Description("Love")]
         Love = 1,
 
+        [Description("Care")]
+        Care = 2,
+
         [Description("Haha")]
-        Haha = 2,
+        Haha = 3,
 
         [Description("Wow")]
-        Wow = 3,
+        Wow = 4,
 
         [Description("Sad")]
-        Sad = 4,
+        Sad = 5,
 
         [Description("Angry")]
-        Angry = 5,
+        Angry = 6,
 
         [Description("Share")]
-        Share = 6,
+        Share = 7,
 
         [Description("Comment")]
-        Comment = 7
+        Comment = 8
 
         //        [Description(" ")]
         //        NotLiked = 0,

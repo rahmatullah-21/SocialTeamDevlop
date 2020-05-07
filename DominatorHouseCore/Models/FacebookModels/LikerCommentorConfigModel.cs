@@ -9,9 +9,9 @@ using System.Collections.ObjectModel;
 namespace DominatorHouseCore.Models.FacebookModels
 {
     [ProtoContract]
-    public class LikerCommentorConfigModel:BindableBase
+    public class LikerCommentorConfigModel : BindableBase
     {
-        private bool _isLikeTypeFilterChkd=true;
+        private bool _isLikeTypeFilterChkd = true;
 
         [ProtoMember(1)]
         public bool IsLikeTypeFilterChkd
@@ -22,8 +22,6 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
             set
             {
-                if (value == _isLikeTypeFilterChkd)
-                    return;
                 SetProperty(ref _isLikeTypeFilterChkd, value);
             }
         }
@@ -43,8 +41,6 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
             set
             {
-                if (value == _isHahaFilterChkd)
-                    return;
                 SetProperty(ref _isHahaFilterChkd, value);
             }
         }
@@ -63,8 +59,6 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
             set
             {
-                if (value == _isLikeFilterChkd)
-                    return;
                 SetProperty(ref _isLikeFilterChkd, value);
             }
         }
@@ -81,8 +75,6 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
             set
             {
-                if (value == _isLoveFilterChkd)
-                    return;
                 SetProperty(ref _isLoveFilterChkd, value);
             }
         }
@@ -99,8 +91,6 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
             set
             {
-                if (value == _isWowFilterChkd)
-                    return;
                 SetProperty(ref _isWowFilterChkd, value);
             }
         }
@@ -117,8 +107,6 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
             set
             {
-                if (value == _isSadFilterChkd)
-                    return;
                 SetProperty(ref _isSadFilterChkd, value);
             }
         }
@@ -135,15 +123,28 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
             set
             {
-                if (value == _isAngryFilterChkd)
-                    return;
                 SetProperty(ref _isAngryFilterChkd, value);
             }
         }
 
-        private bool _isCommentFilterChecked=true;
+        private bool _isCareFilterChkd;
 
         [ProtoMember(8)]
+        public bool IsCareFilterChkd
+        {
+            get
+            {
+                return _isCareFilterChkd;
+            }
+            set
+            {
+                SetProperty(ref _isCareFilterChkd, value);
+            }
+        }
+
+        private bool _isCommentFilterChecked = true;
+
+        [ProtoMember(9)]
         public bool IsCommentFilterChecked
         {
             get
@@ -152,74 +153,65 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
             set
             {
-                if (value == _isCommentFilterChecked)
-                    return;
                 SetProperty(ref _isCommentFilterChecked, value);
             }
         }
 
+
         private ObservableCollectionBase<ManageCustomCommentsModel> _savedComments = new ObservableCollectionBase<ManageCustomCommentsModel>();
 
-        [ProtoMember(3)]
+        [ProtoMember(10)]
         public ObservableCollectionBase<ManageCustomCommentsModel> SavedComments
         {
             get { return _savedComments; }
             set
             {
-                if (value == _savedComments)
-                    return;
                 SetProperty(ref _savedComments, value);
             }
         }
 
         private ManageCustomCommentsModel _currentCommment = new ManageCustomCommentsModel();
 
-        [ProtoMember(4)]
+        [ProtoMember(11)]
         public ManageCustomCommentsModel CurrentCommment
         {
             get { return _currentCommment; }
             set
             {
-                if (value == _currentCommment)
-                    return;
                 SetProperty(ref _currentCommment, value);
             }
         }
 
 
-        [ProtoMember(5)]
+        [ProtoMember(12)]
         public ObservableCollection<ManageCommentModel> LstManageCommentModel { get; set; } = new ObservableCollection<ManageCommentModel>();
 
 
-        [ProtoMember(6)]
+        [ProtoMember(13)]
 
         public ManageCommentModel ManageCommentModel { get; set; } = new ManageCommentModel();
 
         private List<ReactionType> _lstReactionType = new List<ReactionType>();
 
-        [ProtoMember(7)]
+        [ProtoMember(14)]
 
         public List<ReactionType> ListReactionType
         {
             get { return _lstReactionType; }
             set
             {
-                if (value == _lstReactionType)
-                    return;
                 SetProperty(ref _lstReactionType, value);
             }
         }
 
         private bool _isSpintaxChecked;
 
-        [ProtoMember(14)]
+        [ProtoMember(15)]
         public bool IsSpintaxChecked
         {
             get { return _isSpintaxChecked; }
             set
             {
-                if (value == _isSpintaxChecked)
-                    return;
                 SetProperty(ref _isSpintaxChecked, value);
             }
         }

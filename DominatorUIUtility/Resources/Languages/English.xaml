@@ -4696,5 +4696,6 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyTextReportOnceFromEachAccount">Use specific text to add on video report only once from a account.</system:String>
     <system:String x:Key="LangKeyUniqueTextInReport">Unique text to add in report.</system:String>
     <system:String x:Key="LangKeyAddAtLeastOneReportDetail">Please add at least one report detail into the list in Report Details Manager.</system:String>
-
+    <system:String x:Key="LangKeyCare">Care</system:String>
+    
 </ResourceDictionary>

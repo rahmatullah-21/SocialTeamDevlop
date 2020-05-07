@@ -10,70 +10,80 @@
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
-   
-        <StackPanel Name="MainGrid" Orientation="Vertical"  >
-            <StackPanel Visibility="{Binding IsLikeOptionVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Name="ChckLikeFilters" Margin="5,5,0,5" Content="{DynamicResource LangKeyLike}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13" IsChecked="{Binding LikerCommentorConfig.IsLikeTypeFilterChkd}" />
-                    <TextBlock Text="{DynamicResource LangKeySelectDesiredReactionsBelow}" Margin="4" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  FontSize="13" Visibility="{Binding IsLikeTypeFilterRequired,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Visibility="{Binding IsLikeTypeFilterRequired,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal" Margin="25,0" Visibility="{Binding LikerCommentorConfig.IsLikeTypeFilterChkd,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <CheckBox Name="Like" Margin="5,5,0,5"  FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsLikeFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
-                            <CheckBox.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/DominatorUIUtility;component/Images/Like.png" Height="30"/>
-                                    <TextBlock Name="TxtBlkLike" Text="{DynamicResource LangKeyLike}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox.Content>
-                        </CheckBox>
-                    <CheckBox Name="Love" Margin="25,5,0,5"  FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsLoveFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
-                            <CheckBox.Content>
-                                <StackPanel Orientation="Horizontal">
-                                <Image Source="/DominatorUIUtility;component/Images/Love.png" Height="30"/>
-                                    <TextBlock Name="TxtBlkLove" Text="{DynamicResource LangKeyLove}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox.Content>
-                        </CheckBox>
-                    <CheckBox Name="Haha" Margin="25,5,0,5"  FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsHahaFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
-                            <CheckBox.Content>
-                                <StackPanel Orientation="Horizontal">
-                                <Image Source="/DominatorUIUtility;component/Images/haha.png" Height="30"/>
-                                    <TextBlock Name="TxtBlkHaha" Text="{DynamicResource LangKeyHaha}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox.Content>
-                        </CheckBox>
-                    <CheckBox Name="Wow" Margin="25,5,0,5" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsWowFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
-                            <CheckBox.Content>
-                                <StackPanel Orientation="Horizontal">
-                                <Image Source="/DominatorUIUtility;component/Images/wow.png" Height="30"/>
-                                    <TextBlock Name="TxtBlkWow" Text="{DynamicResource LangKeyWow}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox.Content>
-                        </CheckBox>
-                    <CheckBox Name="Sad" Margin="25,5,0,5"  Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsSadFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
-                            <CheckBox.Content>
-                                <StackPanel Orientation="Horizontal">
-                                <Image Source="/DominatorUIUtility;component/Images/sad.png" Height="30"/>
-                                    <TextBlock Name="TxtBlkSad" Text="{DynamicResource LangKeySad}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox.Content>
-                        </CheckBox>
-                    <CheckBox Name="Angry" Margin="25,5,0,5" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding UserFilter.GenderFilters.IsAngryFilterChkd}"  Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
-                            <CheckBox.Content>
-                                <StackPanel Orientation="Horizontal">
-                                <Image  Height="30" Source="/DominatorUIUtility;component/Images/angry.png"/>
-                                    <TextBlock Name="TxtBlkAngry" Text="{DynamicResource LangKeyAngry}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox.Content>
-                        </CheckBox>
-                    </StackPanel>
-                </StackPanel>
 
+    <StackPanel Name="MainGrid" Orientation="Vertical"  >
+        <StackPanel Visibility="{Binding IsLikeOptionVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Name="ChckLikeFilters" Margin="5,5,0,5" Content="{DynamicResource LangKeyLike}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13" IsChecked="{Binding LikerCommentorConfig.IsLikeTypeFilterChkd}" />
+                <TextBlock Text="{DynamicResource LangKeySelectDesiredReactionsBelow}" Margin="4" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  FontSize="13" Visibility="{Binding IsLikeTypeFilterRequired,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Visibility="{Binding IsLikeTypeFilterRequired,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" Margin="25,0" Visibility="{Binding LikerCommentorConfig.IsLikeTypeFilterChkd,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <CheckBox Name="Like" Margin="5,5,0,5"  FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsLikeFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
+                        <CheckBox.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/DominatorUIUtility;component/Images/Like.png" Height="30"/>
+                                <TextBlock Name="TxtBlkLike" Text="{DynamicResource LangKeyLike}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </CheckBox.Content>
+                    </CheckBox>
+                    <CheckBox Name="Love" Margin="25,5,0,5"  FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsLoveFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
+                        <CheckBox.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/DominatorUIUtility;component/Images/Love.png" Height="30"/>
+                                <TextBlock Name="TxtBlkLove" Text="{DynamicResource LangKeyLove}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </CheckBox.Content>
+                    </CheckBox>
+
+                    <CheckBox Name="Care" Margin="25,5,0,5"  FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsCareFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
+                        <CheckBox.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/DominatorUIUtility;component/Images/Care.png" Height="30"/>
+                                <TextBlock Name="TxtBlkCare" Text="{DynamicResource LangKeyCare}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </CheckBox.Content>
+                    </CheckBox>
+
+                    <CheckBox Name="Haha" Margin="25,5,0,5"  FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsHahaFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
+                        <CheckBox.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/DominatorUIUtility;component/Images/haha.png" Height="30"/>
+                                <TextBlock Name="TxtBlkHaha" Text="{DynamicResource LangKeyHaha}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </CheckBox.Content>
+                    </CheckBox>
+                    <CheckBox Name="Wow" Margin="25,5,0,5" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsWowFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
+                        <CheckBox.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/DominatorUIUtility;component/Images/wow.png" Height="30"/>
+                                <TextBlock Name="TxtBlkWow" Text="{DynamicResource LangKeyWow}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </CheckBox.Content>
+                    </CheckBox>
+                    <CheckBox Name="Sad" Margin="25,5,0,5"  Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding LikerCommentorConfig.IsSadFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
+                        <CheckBox.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/DominatorUIUtility;component/Images/sad.png" Height="30"/>
+                                <TextBlock Name="TxtBlkSad" Text="{DynamicResource LangKeySad}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </CheckBox.Content>
+                    </CheckBox>
+                    <CheckBox Name="Angry" Margin="25,5,0,5" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  IsChecked="{Binding UserFilter.GenderFilters.IsAngryFilterChkd}"  Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
+                        <CheckBox.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image  Height="30" Source="/DominatorUIUtility;component/Images/angry.png"/>
+                                <TextBlock Name="TxtBlkAngry" Text="{DynamicResource LangKeyAngry}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </CheckBox.Content>
+                    </CheckBox>
+                </StackPanel>
             </StackPanel>
 
+        </StackPanel>
+
         <StackPanel Orientation="Vertical"  Visibility="{Binding IsCommentOptionVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
-            
+
             <CheckBox Name="ChckCommentFilters" Margin="5,5" FontSize="13" Content="{DynamicResource LangKeyComment}" IsChecked="{Binding LikerCommentorConfig.IsCommentFilterChecked}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  />
 
             <StackPanel>
@@ -89,5 +99,5 @@
         </StackPanel>
 
     </StackPanel>
-    
+
 </UserControl>
