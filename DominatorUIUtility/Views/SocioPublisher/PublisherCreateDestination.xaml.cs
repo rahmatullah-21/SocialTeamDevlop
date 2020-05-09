@@ -23,6 +23,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             PublisherCreateDestinationsViewModel.IsNeedToNavigate = isNeedToNevigate;
             CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
+            if (isNeedToNevigate)
+                BtnBackToCampaign.Visibility = Visibility.Collapsed;
         }
         public PublisherCreateDestinationsViewModel PublisherCreateDestinationsViewModel
         {
