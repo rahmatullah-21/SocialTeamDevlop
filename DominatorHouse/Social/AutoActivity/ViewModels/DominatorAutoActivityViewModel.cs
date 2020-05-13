@@ -467,6 +467,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     var hide = getOthers ? getData.NetworkActivityTypeModelCollections.Where(x => !x.IsSelected).Select(y => y.Title).ToList() : null;
 
                     var all = show.DeepCloneObject() ?? new List<ActivityType>();
+                    if(hide!=null)
                     all.AddRange(hide);
 
                     var newOne = hide == null ? new List<ActivityType>() : SocinatorInitialize.GetSocialLibrary(net).GetNetworkCoreFactory().AccountUserControlTools.GetOtherActivityTypes().Except(all);
@@ -510,7 +511,8 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         NetworksActivityCustomizeModel GetCustomizeUiModel()
         {
             var custModel = ServiceLocator.Current.GetInstance<IBinFileHelper>().GetCustomizedAutoActivity();
-            if (custModel.NetworksActListCollection != null && custModel.NetworksActListCollection.Count>0)
+            
+            if (custModel.NetworksActListCollection != null && custModel.NetworksActListCollection.Count>0 && custModel.NetworksActListCollection.ToList().Count == SocinatorInitialize.GetRegisterNetwork().Count()-1)
                 return custModel;
 
             custModel.NetworksActListCollection = new ObservableCollection<EachNetworkActivityCustomizeModel>();
