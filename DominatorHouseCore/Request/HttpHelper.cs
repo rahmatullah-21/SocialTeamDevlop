@@ -352,9 +352,9 @@ namespace DominatorHouseCore.Request
                 return await DoGetFinalResponseAsync();
             }
 
-            using (cancellationToken.Register(() => _request.Abort()))
+            //using (cancellationToken.Register(() => _request.Abort()))
             {
-                return await DoGetFinalResponseAsync(() => cancellationToken.IsCancellationRequested);
+                return await DoGetFinalResponseAsync(/*() => cancellationToken.IsCancellationRequested*/);
             }
 
         }
@@ -368,10 +368,10 @@ namespace DominatorHouseCore.Request
             }
             catch (WebException ex)
             {
-                if (wasCancelled != null && wasCancelled())
-                {
-                    throw new OperationCanceledException();
-                }
+                //if (wasCancelled != null && wasCancelled())
+                //{
+                //    throw new OperationCanceledException();
+                //}
                 try
                 {
                     // Get error message from the response
