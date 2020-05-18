@@ -93,6 +93,24 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_108D194995BC8F6112EEFA1A6AB96B87"
+        "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_108D194995BC8F6112EEFA1A6AB96B87"
+        "OwnerKey" = "8:_A8F792F0A7989DA77867D93F4CCD6306"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_108D194995BC8F6112EEFA1A6AB96B87"
+        "OwnerKey" = "8:_AE8EBE923CCDE135BE25E52F569F54DD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_10F741696BC54F6DBBC87FBD8DB287E0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -2097,18 +2115,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_AC3BA58ED4170F46E7D153BA468019B1"
-        "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AC3BA58ED4170F46E7D153BA468019B1"
-        "OwnerKey" = "8:_A8F792F0A7989DA77867D93F4CCD6306"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_AC6105293C3CCDA5CC787A1497DB1E6C"
         "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
         "MsmSig" = "8:_UNDEFINED"
@@ -3070,12 +3076,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AC3BA58ED4170F46E7D153BA468019B1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_820EC83EF268A67E69D7DFD7029C2CDB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -3083,6 +3083,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_AE8EBE923CCDE135BE25E52F569F54DD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_108D194995BC8F6112EEFA1A6AB96B87"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -4005,6 +4011,37 @@
                     }
                 }
             "SourcePath" = "8:ObjectsComparer.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_700B19654AF749FA895365FE0BFB2982"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_108D194995BC8F6112EEFA1A6AB96B87"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:imagetyperzapi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_108D194995BC8F6112EEFA1A6AB96B87"
+                    {
+                    "Name" = "8:imagetyperzapi.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:imagetyperzapi.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_700B19654AF749FA895365FE0BFB2982"
@@ -7163,37 +7200,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AC3BA58ED4170F46E7D153BA468019B1"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:imagetyperzapi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_AC3BA58ED4170F46E7D153BA468019B1"
-                    {
-                    "Name" = "8:imagetyperzapi.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:imagetyperzapi.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_700B19654AF749FA895365FE0BFB2982"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AC6105293C3CCDA5CC787A1497DB1E6C"
             {
             "AssemblyRegister" = "3:1"
@@ -8723,19 +8729,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
-        "ProductCode" = "8:{1FFBB2D7-4DC3-45D0-85A9-2827EBF35FA3}"
-        "PackageCode" = "8:{DA21BE26-3E46-482C-92DE-41EF873761DD}"
+        "ProductCode" = "8:{5FE2594E-9555-455E-AF68-A862790395E1}"
+        "PackageCode" = "8:{137A334E-EEC3-457A-AD0F-E71ABB877757}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.257"
+        "ProductVersion" = "8:1.0.85"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://socinator.com/contact-us/"
-        "Title" = "8:Socinator 1.0.0.257"
+        "Title" = "8:Socinator 1.0.0.85"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Socinator"
         "Keywords" = "8:"
@@ -9287,7 +9293,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3527753F54744C9C87FEEBDF617EEBD7"
             {
-            "SourcePath" = "8:..\\DominatorHouse\\obj\\Release\\Socinator.exe"
+            "SourcePath" = "8:..\\DominatorHouse\\obj\\Debug\\Socinator.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_700B19654AF749FA895365FE0BFB2982"

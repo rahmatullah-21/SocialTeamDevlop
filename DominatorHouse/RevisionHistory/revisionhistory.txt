@@ -1,3 +1,20 @@
+Version[1.0.0.85],[18th May 2020]            		 				
+Fixed:-
+	Social:-
+		Publisher ==> Facebook ==> Fixed issue with scrape from page and post to pages
+	
+	Facebook:
+		Blacklist ==> Settings ==> Fixed issue with add blacklisted users  
+		Engage ==> Comment ==> Fixed issue with video posts
+	
+	Pinterest:
+		Pinposter ==> Repin ==> Fixed issue with custom users/issue fixed with browser mode
+	
+	Linkedin:
+		Engage ==> like ==> Fixed issue with search url
+		Scraper ==> Fixed issue with jobscraper 
+		Grow connection ==> Connection requrest ==> Fixed issue with search url
+
 Version[1.0.0.84],[6th May 2020]
 New Features:-
 		Social:
