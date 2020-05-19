@@ -25,7 +25,8 @@ namespace DominatorHouseCore.Process
         Task StartProcessAsync();
         void Stop();
         JobKey Id { get; }
-        List<string> ContinueIfLimitNotReached(ActivityType actTpe);
+        List<string> ContinueIfLimitNotReached();
+        List<string> AlreadyProcessedQueryValues();
         ReachedLimitInfo CheckLimit();
         bool CheckJobProcessLimitsReached();
         JobConfiguration JobConfiguration { get; }
@@ -195,9 +196,14 @@ namespace DominatorHouseCore.Process
             }
         }
 
-        public virtual List<string> ContinueIfLimitNotReached(ActivityType actTpe)
+        public virtual List<string> ContinueIfLimitNotReached()
         {
             return null;
+        }
+
+        public virtual List<string> AlreadyProcessedQueryValues()
+        {
+            return new List<string>();
         }
 
         public abstract ReachedLimitInfo CheckLimit();

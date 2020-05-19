@@ -85,12 +85,18 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
             try
             {
-                CallItAgain:
+                bool processedEver = false;
+            CallItAgain:
 
+                var exceptQueryValues = _jobProcess.AlreadyProcessedQueryValues();
                 foreach (var query in listQueries)
                 {
                     try
                     {
+                        if (exceptQueryValues.Any(x=>x == query.QueryValue))
+                            continue;
+
+                        processedEver = true;
                         _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                         ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
@@ -119,7 +125,14 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 }
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                var continueIfLimitNotReached = !_jobProcess.CheckJobProcessLimitsReached() ? _jobProcess.ContinueIfLimitNotReached(_jobProcess.ActivityType) : null;
+                if(!processedEver)
+                {
+                    _jobProcess.DominatorAccountModel.IsNeedToSchedule = false;
+                    UpdateScheduleIfRequire();
+                    return;
+                }
+
+                var continueIfLimitNotReached = !_jobProcess.CheckJobProcessLimitsReached() ? _jobProcess.ContinueIfLimitNotReached() : null;
                 if (continueIfLimitNotReached != null && continueIfLimitNotReached.Count >0)
                 {
                     listQueries = listQueries.Where(x => continueIfLimitNotReached.Any(y => x.QueryTypeEnum == y)).ToList();
