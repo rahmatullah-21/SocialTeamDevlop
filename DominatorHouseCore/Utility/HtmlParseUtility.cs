@@ -166,6 +166,25 @@ namespace DominatorHouseCore.Utility
             return text;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageSource"></param>
+        /// <param name="tagName"></param>
+        /// <param name="attributeName"></param>
+        /// <param name="attributeValue"></param>
+        /// <returns></returns>
+        public static List<string> GetListInnerHtmlFromPartialTagNamecontains(string pageSource, string tagName, string attributeName,
+            string attributeValue)
+        {
+            var lstInnerhtml = new List<string>();
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(pageSource);
+            htmlDoc.DocumentNode
+                .SelectNodes($"//{tagName}[contains(@{attributeName}, '{attributeValue}')]")
+                .ForEach(x => { lstInnerhtml.Add(x.InnerText.ToString()); });
+            return lstInnerhtml;
+        }
 
         /// <summary>
         /// Get inner text from single node by atteribute and index
