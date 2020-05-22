@@ -4702,5 +4702,7 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyCommentsScrapPerJob">Comments Scrape Per Job</system:String>
     <system:String x:Key="LangKeyCommentsScrapPerWeek">Comments Scrape Per Week</system:String>
     <system:String x:Key="LangKeyMaximumCommentssScrapPerDay">Maximum Comments Scrape Per Day</system:String>
+    <system:String x:Key="LangKeyJobScraperCampaign">Job Scraper Campaign</system:String>
+    <system:String x:Key="LangKeyTagJobDeatilsOnlyApplicableForQueryTypeJobScarperCampaign">Tag Job Details is only applicable for JobScarper Campaign(QueryType)</system:String>
 
 </ResourceDictionary>

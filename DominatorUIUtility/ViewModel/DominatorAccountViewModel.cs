@@ -645,15 +645,21 @@ namespace DominatorUIUtility.ViewModel
 
             var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "LangKeyAddAccount".FromResourceDictionary(), "LangKeySave".FromResourceDictionary(), false, SocinatorInitialize.ActiveSocialNetwork);
 
+            objDominatorAccountBaseModel.AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks),
+                    objAddUpdateAccountControl.ComboBoxSocialNetworks.Text);
+            
+            var isIgOrTik = objDominatorAccountBaseModel.AccountNetwork == SocialNetworks.Instagram || objDominatorAccountBaseModel.AccountNetwork == SocialNetworks.TikTok;
+
+            var visibility = isIgOrTik ? Visibility.Collapsed : Visibility.Visible;
+            objAddUpdateAccountControl.RunThroughBrowserAutomation.Visibility = visibility;
+            objAddUpdateAccountControl.CopyJsonCookieGrid.Visibility = visibility;
+
             var customDialog = new CustomDialog()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Content = objAddUpdateAccountControl
             };
-
-            objDominatorAccountBaseModel.AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks),
-                    objAddUpdateAccountControl.ComboBoxSocialNetworks.Text);
-
+            
             Dictionary<SocialNetworks, int> dictNetLasNum = new Dictionary<SocialNetworks, int>();
             var nickName = DefaultAccountNameFromModel(LstDominatorAccountModel.BySocialNetwork(objDominatorAccountBaseModel.AccountNetwork), ref dictNetLasNum, objDominatorAccountBaseModel.AccountNetwork);
             objDominatorAccountBaseModel.AccountName = nickName;
@@ -708,9 +714,9 @@ namespace DominatorUIUtility.ViewModel
                         GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
                     }
 
-                    var httpCookies = objAddUpdateAccountControl.JsonCookies;
-                    var browserCookies = objAddUpdateAccountControl.JsonBrowserCookies;
-                    var browserActivated = objAddUpdateAccountControl.RunThroughBrowserAutomation.IsChecked ?? false;
+                    var httpCookies = isIgOrTik ? "" : objAddUpdateAccountControl.JsonCookies;
+                    var browserCookies = isIgOrTik ? "" : objAddUpdateAccountControl.JsonBrowserCookies;
+                    var browserActivated = isIgOrTik ? false : (objAddUpdateAccountControl.RunThroughBrowserAutomation.IsChecked ?? false);
 
                     var pinterestAccountType = objDominatorAccountBaseModel.AccountNetwork == SocialNetworks.Pinterest
                             ? PinterestAccountType.Inactive.ToString() : PinterestAccountType.NotAvailable.ToString();
@@ -739,6 +745,10 @@ namespace DominatorUIUtility.ViewModel
                     dictNetLasNum = new Dictionary<SocialNetworks, int>();
                     nickName = DefaultAccountNameFromModel(LstDominatorAccountModel.BySocialNetwork(objDominatorAccountBaseModel.AccountNetwork), ref dictNetLasNum, objDominatorAccountBaseModel.AccountNetwork);
                     objDominatorAccountBaseModel.AccountName = nickName;
+
+                    visibility = isIgOrTik ? Visibility.Collapsed : Visibility.Visible;
+                    objAddUpdateAccountControl.RunThroughBrowserAutomation.Visibility = visibility;
+                    objAddUpdateAccountControl.CopyJsonCookieGrid.Visibility = visibility;
                 }
                 catch (Exception ex)
                 {
