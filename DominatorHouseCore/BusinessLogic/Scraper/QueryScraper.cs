@@ -93,8 +93,12 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 {
                     try
                     {
-                        if (exceptQueryValues.Any(x=>x == query.QueryValue))
+                        if (exceptQueryValues.Any(x => x == query.QueryValue))
+                        {
+                            GlobusLogHelper.log.Info(Log.CustomMessage, _jobProcess.SocialNetworks,
+                                    _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType,$"Already processed with query [{query.QueryType}-{query.QueryValue} last time. Processing for next query if any.]");
                             continue;
+                        }
 
                         processedEver = true;
                         _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();

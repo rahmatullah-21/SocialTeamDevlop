@@ -395,27 +395,83 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var stopTime = timeToRunNext.Date;
                 var templateId = moduleConfiguration.TemplateId;
                 var jobId = JobProcess.AsId(dominatorAccount.AccountId, templateId);
-                var runningTimes = moduleConfiguration.LstRunningTimes[(int)timeToRunNext.DayOfWeek];
-                var timings = runningTimes.Timings.ToList();
-                timings.Sort(new RunningTimeComparer());
-                var time = new TimingRange(TimeSpan.MinValue, TimeSpan.MaxValue);
-                time.Module = activityType.ToString();
 
-                foreach (var timing in timings)
+                var index = (int)timeToRunNext.DayOfWeek;
+
+                List<TimingRange> timings = new List<TimingRange>();
+                TimingRange time = new TimingRange(TimeSpan.MinValue, TimeSpan.MaxValue)
                 {
-                    if (timing.StartTime <= timeToRunNext.TimeOfDay && timeToRunNext.TimeOfDay < timing.EndTime)
+                    Module = activityType.ToString()
+                };
+
+                // Write logic summery here to understand it later
+                #region Schedulling logic
+                int? nextIndex = null;
+                List<TimingRange> nextTimings = null;
+                var shouldStop = false;
+                var setTime = false;
+
+                // this loop is for 7 days of the week
+                for (int i = 0; i < 7; i++)
+                {
+                    // at first iteration nextindex will null because it's getting initialized below
+                    if (nextIndex == null)
                     {
-                        stopTime = stopTime.Date.Add(timing.EndTime);
-                        time = timing;
-                        break;
+
+                        index += i;
+                        if (index > 6) // A week has only 7 days, so if index gets the value more than 6, we are making it 0 as sunday.
+                            index = 0;
+
+                        // get running times for todays or account scheduling date
+                        var runningTimes = moduleConfiguration.LstRunningTimes[index];
+                        timings = runningTimes.Timings.ToList();
+                        timings.Sort(new RunningTimeComparer());
                     }
-                }
+                    else
+                    { 
+                        // after first iteration we are intializing last index and timing to current index and timings
+                        index = nextIndex ?? 0;
+                        timings = nextTimings;
+                    }
+
+                    nextIndex = index + 1;
+                    if (nextIndex > 6) // A week has only 7 days, so if index gets the value more than 6, we are making it 0 as sunday.
+                        nextIndex = 0;
+                    // get running times for next days of todays or account scheduling date
+                    var nextRunningTimes = moduleConfiguration.LstRunningTimes[nextIndex ?? 0];
+
+                    nextTimings = nextRunningTimes.Timings.ToList();
+                    nextTimings.Sort(new RunningTimeComparer());
+
+                    //sorted timings of the day selected
+                    foreach (var timing in timings)
+                    {
+                        // getting a runnig time which should be between the startTime and endTime
+                        if (!setTime && timing.StartTime <= timeToRunNext.TimeOfDay && timeToRunNext.TimeOfDay < timing.EndTime)
+                        {
+                            time = timing;
+                            setTime = true;
+                        }
+                        // getting a stop time whose end time should not be as 23:59:59 and endTime as 0:0:0 togather
+                        if (timing.EndTime == new TimeSpan(23, 59, 59) && nextTimings.First().StartTime > new TimeSpan(0, 0, 0) || timing.EndTime < new TimeSpan(23, 59, 59) && nextTimings.First().StartTime == new TimeSpan(0, 0, 0) || timing.EndTime < new TimeSpan(23, 59, 59) && nextTimings.First().StartTime > new TimeSpan(0, 0, 0))
+                        {
+                            stopTime = stopTime.Date.AddDays(i).Add(timing.EndTime);
+                            shouldStop = true;
+                            break;
+                        }
+                    }
+
+                    if (shouldStop)
+                        break;
+                } 
+                #endregion
+
                 if (timeToRunNext < DateTime.Now)
                 {
                     timeToRunNext = timeToRunNext.AddSeconds(25);
                 }
 
-                UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime);
+                UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime, shouldStop);
                 GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy,
                                                   dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName,
                                                   activityType, timeToRunNext);
@@ -479,18 +535,18 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         }
 
         private void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId,
-            string jobId, DateTime timeToRunNext, DateTime stopTime)
+            string jobId, DateTime timeToRunNext, DateTime stopTime, bool shouldStop)
         {
             _schedulerProxy.AddJob(async () =>
              {
                  await RunActivity(dominatorAccount, templateId, timing, timing.Module);
              }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
 
-
-            _schedulerProxy.AddJob(() =>
-            {
-                StopActivity(dominatorAccount, timing.Module, templateId, true, true);
-            }, s => s.ToRunOnceAt(stopTime));
+            if (shouldStop)
+                _schedulerProxy.AddJob(() =>
+                {
+                    StopActivity(dominatorAccount, timing.Module, templateId, true, true);
+                }, s => s.ToRunOnceAt(stopTime));
 
         }
 
