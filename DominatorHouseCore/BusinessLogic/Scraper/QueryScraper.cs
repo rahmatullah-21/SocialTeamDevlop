@@ -136,7 +136,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     return;
                 }
 
-                var continueIfLimitNotReached = !_jobProcess.CheckJobProcessLimitsReached() ? _jobProcess.ContinueIfLimitNotReached() : null;
+                var continueIfLimitNotReached = _jobProcess.DominatorAccountModel.IsNeedToSchedule && !_jobProcess.CheckJobProcessLimitsReached() ? _jobProcess.ContinueIfLimitNotReached() : null;
                 if (continueIfLimitNotReached != null && continueIfLimitNotReached.Count >0)
                 {
                     listQueries = listQueries.Where(x => continueIfLimitNotReached.Any(y => x.QueryTypeEnum == y)).ToList();

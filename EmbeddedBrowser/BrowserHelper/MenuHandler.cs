@@ -10,7 +10,7 @@ namespace EmbeddedBrowser.BrowserHelper
         void IContextMenuHandler.OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
         {
             //To disable the menu then call clear
-            model.Clear();
+            model?.Clear();
             //Add new custom menu items
             //model.AddItem((CefMenuCommand)Refresh, "Refresh");
             //model.AddItem((CefMenuCommand)Back, "Back");

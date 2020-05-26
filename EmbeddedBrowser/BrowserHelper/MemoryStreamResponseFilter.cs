@@ -63,8 +63,12 @@ namespace EmbeddedBrowser.BrowserHelper
 
         void IDisposable.Dispose()
         {
-            memoryStream.Dispose();
-            memoryStream = null;
+            try
+            {
+                memoryStream?.Dispose();
+                memoryStream = null;
+            }
+            catch(Exception ex) { ex.DebugLog(); }
         }
 
         private byte[] _data;
