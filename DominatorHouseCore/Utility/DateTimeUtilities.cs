@@ -284,7 +284,9 @@ namespace DominatorHouseCore.Utility
                 }
                 else
                 {
-                    return GetStartTimeOfTomorrow(moduleConfiguration);//If no time slot is available for the day, calculate the start time for tomorrow
+                    return startTimeOfNextJob;
+                    // commented the next line temporarily and returning startTimeOfNextJob instead. if there is next job time crossing today's time then let it to take nextday according to its jobConfig. if the selected time will not be between the time of the next day then it will select next run by executing next scheduling login wtitten in line no. 364 in method 'ScheduleActivityForNextJob' in class 'DominatorScheduler' 
+                    //return GetStartTimeOfTomorrow(moduleConfiguration);//If no time slot is available for the day, calculate the start time for tomorrow
                 }
                 return startTimeOfNextJob;
             }

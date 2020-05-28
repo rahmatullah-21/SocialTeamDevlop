@@ -403,8 +403,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     Module = activityType.ToString()
                 };
-
-                // Write logic summery here to understand it later
+                
                 #region Schedulling logic
                 int? nextIndex = null;
                 List<TimingRange> nextTimings = null;
