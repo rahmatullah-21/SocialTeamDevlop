@@ -142,7 +142,9 @@ namespace DominatorHouseCore.Enums.EmbeddedBrowser
         [Description("jsname")]
         Jsname = 24,
         [Description("data-errormessage")]
-        DataErrormessage = 25
+        DataErrormessage = 25,
+        [Description("data-pagelet")]
+        Datapagelet = 26
     }
 
     public enum CoordinateDirection
