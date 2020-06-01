@@ -173,7 +173,10 @@
                                 <RadioButton Margin="5" GroupName="SortAccountGroup" Content="{DynamicResource LangKeyAccountUsername}" IsChecked="{Binding SortByUsername}"/>
                                 <RadioButton Margin="5" GroupName="SortAccountGroup" Content="{DynamicResource LangKeyAccountNikeName}" IsChecked="{Binding SortByNikename}"/>
                             </StackPanel>
-
+                            <StackPanel Orientation="Horizontal" >
+                                <CheckBox Margin="5" Content="{DynamicResource LangKeySkipAlreadyProcessedQueryValue}"
+                                  IsChecked="{Binding SkipAlreadyProcessedQueryValue}"/>
+                            </StackPanel>
                         </StackPanel>
 
                         <GroupBox Background="{DynamicResource GreenColorAccordingTheme}" Header="Developer mode" Visibility="Collapsed" >

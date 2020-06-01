@@ -245,15 +245,36 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="CefSharpFiles\Libs\cef.pak" />
-    <None Include="CefSharpFiles\Libs\cef_100_percent.pak" />
-    <None Include="CefSharpFiles\Libs\cef_200_percent.pak" />
-    <None Include="CefSharpFiles\Libs\cef_extensions.pak" />
-    <None Include="CefSharpFiles\Libs\devtools_resources.pak" />
-    <None Include="CefSharpFiles\Libs\icudtl.dat" />
-    <None Include="CefSharpFiles\Libs\natives_blob.bin" />
-    <None Include="CefSharpFiles\Libs\snapshot_blob.bin" />
-    <None Include="CefSharpFiles\Libs\v8_context_snapshot.bin" />
+    <None Include="CefSharpFiles\Libs\cef.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CefSharpFiles\Libs\cef_100_percent.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CefSharpFiles\Libs\cef_200_percent.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CefSharpFiles\Libs\cef_extensions.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CefSharpFiles\Libs\devtools_resources.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CefSharpFiles\Libs\en-US.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CefSharpFiles\Libs\icudtl.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CefSharpFiles\Libs\natives_blob.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CefSharpFiles\Libs\snapshot_blob.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CefSharpFiles\Libs\v8_context_snapshot.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="COMODO DOM.pfx" />
     <None Include="ComodoCertificate.pfx" />
     <None Include="packages.config" />
@@ -279,15 +300,33 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CefSharpFiles\Libs\CefSharp.BrowserSubprocess.Core.dll" />
-    <Content Include="CefSharpFiles\Libs\CefSharp.BrowserSubprocess.exe" />
-    <Content Include="CefSharpFiles\Libs\CefSharp.dll" />
-    <Content Include="CefSharpFiles\Libs\chrome_elf.dll" />
-    <Content Include="CefSharpFiles\Libs\d3dcompiler_47.dll" />
-    <Content Include="CefSharpFiles\Libs\libcef.dll" />
-    <Content Include="CefSharpFiles\Libs\libEGL.dll" />
-    <Content Include="CefSharpFiles\Libs\libGLESv2.dll" />
-    <Content Include="CefSharpFiles\Libs\widevinecdmadapter.dll" />
+    <Content Include="CefSharpFiles\Libs\CefSharp.BrowserSubprocess.Core.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\CefSharp.BrowserSubprocess.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\CefSharp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\chrome_elf.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\d3dcompiler_47.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\libcef.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\libEGL.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\libGLESv2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\widevinecdmadapter.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>

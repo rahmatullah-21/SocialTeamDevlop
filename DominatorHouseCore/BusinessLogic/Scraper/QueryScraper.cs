@@ -88,12 +88,12 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 bool processedEver = false;
             CallItAgain:
 
-                var exceptQueryValues = _jobProcess.AlreadyProcessedQueryValues();
+                var exceptQueryValues = softwareSettings.SkipAlreadyProcessedQueryValue ? _jobProcess.AlreadyProcessedQueryValues() : null;
                 foreach (var query in listQueries)
                 {
                     try
                     {
-                        if (exceptQueryValues.Any(x => x == query.QueryValue))
+                        if (exceptQueryValues?.Any(x => x == query.QueryValue)??false)
                         {
                             GlobusLogHelper.log.Info(Log.CustomMessage, _jobProcess.SocialNetworks,
                                     _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType,$"Already processed with query [{query.QueryType}-{query.QueryValue} last time. Processing for next query if any.]");

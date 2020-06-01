@@ -4707,5 +4707,6 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyDownloadAllAttachmnetinOneFolder">Download All Attachments in one Folder</system:String>
     <system:String x:Key="LangKeyDownloadAllConversations">Delete All Conversations</system:String>
     <system:String x:Key="LangKeyDownloadAttachments">Download  Attachments</system:String>
+    <system:String x:Key="LangKeySkipAlreadyProcessedQueryValue">Skip to process already processed query value in activities [some queryTypes are specified internally to skip to process the queryValue attached with]</system:String>
     
 </ResourceDictionary>

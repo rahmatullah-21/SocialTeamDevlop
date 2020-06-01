@@ -203,7 +203,7 @@ namespace DominatorHouseCore.Process
 
         public virtual List<string> AlreadyProcessedQueryValues()
         {
-            return new List<string>();
+            return null;
         }
 
         public abstract ReachedLimitInfo CheckLimit();

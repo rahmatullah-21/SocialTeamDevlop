@@ -813,7 +813,13 @@ namespace DominatorHouseCore.Models
             get { return _sortByNikename; }
             set { SetProperty(ref _sortByNikename, value); }
         }
-
-
+        
+        private bool _skipAlreadyProcessedQueryValue;
+        [ProtoMember(56)]
+        public bool SkipAlreadyProcessedQueryValue
+        {
+            get { return _skipAlreadyProcessedQueryValue; }
+            set { SetProperty(ref _skipAlreadyProcessedQueryValue, value); }
+        }
     }
 }
