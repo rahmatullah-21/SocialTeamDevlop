@@ -2441,7 +2441,7 @@ namespace SQLite
                     }
                     else
                     {
-                        var text = SQLite3.ColumnString(stmt, index);
+                        var text = SQLite3.ColumnString(stmt, index).Replace('.',':');
                         return DateTime.Parse(text);
                     }
                 }

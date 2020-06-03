@@ -745,7 +745,7 @@ namespace DominatorUIUtility.ViewModel
                     dictNetLasNum = new Dictionary<SocialNetworks, int>();
                     nickName = DefaultAccountNameFromModel(LstDominatorAccountModel.BySocialNetwork(objDominatorAccountBaseModel.AccountNetwork), ref dictNetLasNum, objDominatorAccountBaseModel.AccountNetwork);
                     objDominatorAccountBaseModel.AccountName = nickName;
-
+                    isIgOrTik = objDominatorAccountBaseModel.AccountNetwork == SocialNetworks.Instagram || objDominatorAccountBaseModel.AccountNetwork == SocialNetworks.TikTok;
                     visibility = isIgOrTik ? Visibility.Collapsed : Visibility.Visible;
                     objAddUpdateAccountControl.RunThroughBrowserAutomation.Visibility = visibility;
                     objAddUpdateAccountControl.CopyJsonCookieGrid.Visibility = visibility;
