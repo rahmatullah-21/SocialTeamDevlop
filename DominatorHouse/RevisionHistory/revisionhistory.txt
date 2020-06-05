@@ -1,3 +1,40 @@
+Version[1.0.0.86],[5th june 2020]
+New features:-
+	Social:
+		Sociopublisher ==> Pinterest ==> Now you can Publish vidoes on pinterest account
+
+	Linkedin:
+		Grow connection ==> Job sraper(Query type) ==> Now you can send connection to job posters through jobscraper campaign id
+		Grow connection ==> personal note ==> Tag ==> Added three more tags(JobPosterFirstName,JobTitle,Joblocation)
+		Attachment scraper ==> check box added to take all attachments to one folder. 
+
+	YouTube:
+      	Scraper ==> Comment scraper ==> Now you can scrape the comment   
+      		 				
+Fixed:-
+	Social:
+		Sociopublisher ==> Facebook ==> Fixed issue  with scrape post
+		Sociopublisher ==> Facebook ==> Fixed issue with share post to groups 
+
+	Facebook:
+		Accounts ==> Accounts Manager ==> Issue fixed with browserlogin 
+		Grow Friends ==> Fixed issue with incoming friend request 
+		Engage ==> Fixed issue with fanpage liker
+
+	Linkedin:
+		Messenger ==> Broadcast message ==> Fixed issue with filter to skip user who have already received message from software
+		Engage ==> Fixed issue with Like,Comment,Share 
+		Broadcast message ==> Fixed issue with delete conversation
+
+	Pinterest:
+		Create board ==> Fixed issue in create board Browser mode
+		Grow follow ==> Unfollow ==> Fixed issue in Unfollow
+		PinPoster ==> Edit Pin ==> Fixed issue in edit pin
+
+	Twitter:
+		Fixed Login issue
+		Fixed issues in some tweet query type
+
 Version[1.0.0.85],[18th May 2020]            		 				
 Fixed:-
 	Social:-
