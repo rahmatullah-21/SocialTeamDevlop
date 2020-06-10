@@ -65,5 +65,8 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string AttachmentId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
+        public string PublicIdentifer { get; set; }
     }
 }
