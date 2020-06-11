@@ -96,6 +96,9 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public int InteractionTimeStamp { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
+        public string PublicIdentifier { get; set; }
     }
 
 

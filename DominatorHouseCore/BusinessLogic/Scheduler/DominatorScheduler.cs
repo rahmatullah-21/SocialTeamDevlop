@@ -409,38 +409,69 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 List<TimingRange> nextTimings = null;
                 var shouldStop = false;
                 var setTime = false;
-
+                var resetTime = false;
                 // this loop is for 7 days of the week
                 for (int i = 0; i < 7; i++)
                 {
+                    var daysGap = 1;
                     // at first iteration nextindex will null because it's getting initialized below
                     if (nextIndex == null)
                     {
-
                         index += i;
-                        if (index > 6) // A week has only 7 days, so if index gets the value more than 6, we are making it 0 as sunday.
-                            index = 0;
 
-                        // get running times for todays or account scheduling date
-                        var runningTimes = moduleConfiguration.LstRunningTimes[index];
-                        timings = runningTimes.Timings.ToList();
-                        timings.Sort(new RunningTimeComparer());
+                        while (true)
+                        {
+                            if (index > 6) // A week has only 7 days, so if index gets the value more than 6, we are making it 0 as sunday.
+                                index = 0;
+
+                            // get running times for todays or account scheduling date
+                            var runningTimes = moduleConfiguration.LstRunningTimes[index];
+                            if (runningTimes.Timings.Count == 0)
+                            {
+                                nextIndex = null;
+                                resetTime = true;
+                                i++;
+                                index++;
+                                continue;
+                            }
+                            if (resetTime)
+                            {
+                                timeToRunNext = timeToRunNext.Date.AddDays(i).Add(runningTimes.Timings.First().StartTime);
+                            }
+
+                            timings = runningTimes.Timings.ToList();
+                            timings.Sort(new RunningTimeComparer());
+                            break;
+                        }
                     }
-                    else
+                    else if(nextTimings?.Count>0)
                     { 
                         // after first iteration we are intializing last index and timing to current index and timings
                         index = nextIndex ?? 0;
                         timings = nextTimings;
                     }
 
-                    nextIndex = index + 1;
-                    if (nextIndex > 6) // A week has only 7 days, so if index gets the value more than 6, we are making it 0 as sunday.
-                        nextIndex = 0;
-                    // get running times for next days of todays or account scheduling date
-                    var nextRunningTimes = moduleConfiguration.LstRunningTimes[nextIndex ?? 0];
+                    var addDayToStop = i;
+                    while (true)
+                    {
+                        nextIndex = index + 1;
+                        if (nextIndex > 6) // A week has only 7 days, so if index gets the value more than 6, we are making it 0 as sunday.
+                            nextIndex = 0;
+                        // get running times for next days of todays or account scheduling date
+                        var nextRunningTimes = moduleConfiguration.LstRunningTimes[nextIndex ?? 0];
 
-                    nextTimings = nextRunningTimes.Timings.ToList();
-                    nextTimings.Sort(new RunningTimeComparer());
+                        if (nextRunningTimes.Timings.Count == 0)
+                        {
+                            i++;
+                            daysGap++;
+                            index = nextIndex??0;
+                            continue;
+                        }
+
+                        nextTimings = nextRunningTimes.Timings.ToList();
+                        nextTimings.Sort(new RunningTimeComparer());
+                        break;
+                    }
 
                     //sorted timings of the day selected
                     foreach (var timing in timings)
@@ -450,11 +481,18 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         {
                             time = timing;
                             setTime = true;
+                            if(daysGap > 1)
+                            {
+                                stopTime = timeToRunNext.Date.Add(timing.EndTime);
+                                shouldStop = true;
+                                break;
+                            }
                         }
+                        
                         // getting a stop time whose end time should not be as 23:59:59 and endTime as 0:0:0 togather
-                        if (timing.EndTime == new TimeSpan(23, 59, 59) && nextTimings.First().StartTime > new TimeSpan(0, 0, 0) || timing.EndTime < new TimeSpan(23, 59, 59) && nextTimings.First().StartTime == new TimeSpan(0, 0, 0) || timing.EndTime < new TimeSpan(23, 59, 59) && nextTimings.First().StartTime > new TimeSpan(0, 0, 0))
+                        if (daysGap > 1 || timing.EndTime == new TimeSpan(23, 59, 59) && nextTimings.First().StartTime > new TimeSpan(0, 0, 0) || timing.EndTime < new TimeSpan(23, 59, 59) && nextTimings.First().StartTime == new TimeSpan(0, 0, 0) || timing.EndTime < new TimeSpan(23, 59, 59) && nextTimings.First().StartTime > new TimeSpan(0, 0, 0))
                         {
-                            stopTime = stopTime.Date.AddDays(i).Add(timing.EndTime);
+                            stopTime = stopTime.Date.AddDays(addDayToStop).Add(timing.EndTime);
                             shouldStop = true;
                             break;
                         }
@@ -480,7 +518,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 ChangeAccountsRunningStatus(false, dominatorAccount.AccountId, activityType);
                 GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork,
-                    dominatorAccount.UserName, String.Format("LangKeyErrorActivityIsntConfiguredProperlyForAccount".FromResourceDictionary(), activityType));
+                    dominatorAccount.UserName, activityType, String.Format("LangKeyErrorActivityIsntConfiguredProperlyForAccount".FromResourceDictionary(), activityType));
             }
             catch (Exception ex)
             {
