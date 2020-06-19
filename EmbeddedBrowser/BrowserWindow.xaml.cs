@@ -345,9 +345,13 @@ namespace EmbeddedBrowser
                 if (DominatorAccountModel.Cookies.Count == 0)
                     return;
 
+                var cookies = DominatorAccountModel.BrowserCookies.Count != 0
+                    && DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook
+                    ? DominatorAccountModel.BrowserCookies : DominatorAccountModel.Cookies;
+
                 var callBack = new TaskCompletionCallback();
 
-                foreach (var accCookie in DominatorAccountModel.Cookies)
+                foreach (var accCookie in cookies)
                 {
                     var cook = (System.Net.Cookie)accCookie;
 
@@ -400,7 +404,7 @@ namespace EmbeddedBrowser
             {
                 if (DominatorAccountModel.BrowserCookies.Count == 0)
                     return;
-
+                
                 var callBack = new TaskCompletionCallback();
 
                 foreach (var accCookie in DominatorAccountModel.BrowserCookies)
