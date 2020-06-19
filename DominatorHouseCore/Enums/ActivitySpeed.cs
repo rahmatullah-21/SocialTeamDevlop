@@ -1,5 +1,6 @@
 ﻿namespace DominatorHouseCore.Enums
 {
+
     public enum ActivitySpeed
     {
         Slow,
