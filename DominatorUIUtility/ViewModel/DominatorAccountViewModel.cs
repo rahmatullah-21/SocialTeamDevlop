@@ -2071,7 +2071,7 @@ namespace DominatorUIUtility.ViewModel
 
                         _mainViewModel.AccountList = new ObservableCollection<DominatorAccountModel>(_accountsFileManager.GetAll());
 
-                        #region Start scheduling 
+                        #region Start schedu67ling 
 
                         var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
                         runningActivityManager.Initialize(LstDominatorAccountModel);

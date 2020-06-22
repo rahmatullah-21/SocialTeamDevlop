@@ -1,3 +1,43 @@
+Version[1.0.0.87],[22th June 2020] 
+New features:-
+	Social:
+		Socipublisher ==> Pinterest ==> Now you can Upload videos 
+   
+	Linkedin :
+		Grow connection ==> Check box added for sending connection request without visiting profile  		
+
+Fixed:-
+	Social:
+		Sociopublisher ==> Facebook ==> Fixed issue with post description with videos and photos
+		
+	Facebook:
+		Facebook ==> Fixed issue with login with new UI
+
+	Linkedin :
+		Messenger ==> Fixed issue with send greetings to connection 
+		Engage ==> Fixed issue with Like and comment 
+
+	Instagram:
+		Grow Follower ==> Follower ==> Fixed issue with user fliters 
+		Instascraper ==> post scraper ==> Fixed with issue with poster url showing no more data
+	
+	Pinterest:
+		Board ==> Create board ==> Fixed issue in create board browser mode
+		Grow follower ==> Board follower ==> Fixed issue in board follower.
+		Repin ==> Fixed issue in repin issue
+
+	Twitter:
+		Follower ==> Fixed issue with Grow Follower activity. 
+		Unfollower ==> Fixed issue with activity log showing account status failed 
+
+	Youtube:
+		Scraper ==> Channel scraper ==> Fixed issue with scrapper.
+		Enage ==> Like comment ==> Fixed issue with Like Comment.
+		Enage ==> Comment ==> Fixed issue with Comment.
+
+	Quora:
+		Answers ==> Answer on question ==> Fixed issue with Answer On Question
+
 Version[1.0.0.86],[5th june 2020]
 New features:-
 	Social:
