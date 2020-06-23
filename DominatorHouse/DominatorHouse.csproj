@@ -412,6 +412,9 @@
     </Content>
     <Resource Include="Images\crucial-background.png" />
     <Resource Include="Images\CrucialConnectionImage.jpg" />
+    <Resource Include="Images\macos_buttons1.ico" />
+    <Resource Include="Images\macos_buttons2.ico" />
+    <Resource Include="Images\macos_buttons3.ico" />
     <Content Include="SocinatorIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

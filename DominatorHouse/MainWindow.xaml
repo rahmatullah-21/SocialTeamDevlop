@@ -78,7 +78,7 @@
                                     <Grid.RowDefinitions>
 
                                         <!-- Title Bar -->
-                                        <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=60}" />
+                                        <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=80}" />
 
                                         <RowDefinition Height="Auto" />
 
@@ -118,21 +118,25 @@
                                                     </Button>
                                                 </StackPanel>
                                                 <!--Window Buttons-->
-                                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="10,0">
                                                     <Button Command="{Binding MinimizeCommand}" Style="{StaticResource WindowControlButton}">
                                                         <Button.Template>
                                                             <ControlTemplate>
-                                                                <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
-                                                                    <materialDesign:PackIcon Kind="WindowMinimize" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                <Border Padding="{TemplateBinding Padding}"  Height="25" Width="25">
+                                                                    <Border.Background>
+                                                                        <ImageBrush ImageSource="Images/macos_buttons1.ico"/>
+                                                                    </Border.Background>  
                                                                 </Border>
                                                             </ControlTemplate>
                                                         </Button.Template>
                                                     </Button>
-                                                    <Button Command="{Binding MaximizeCommand}"  Style="{StaticResource WindowControlButton}"  >
+                                                    <Button Command="{Binding MaximizeCommand}"  Margin="4,0,4,0" Style="{StaticResource WindowControlButton}"  >
                                                         <Button.Template>
                                                             <ControlTemplate>
-                                                                <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
-                                                                    <materialDesign:PackIcon Kind="WindowMaximize" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                <Border Padding="{TemplateBinding Padding}"  Height="25" Width="25">
+                                                                    <Border.Background>
+                                                                        <ImageBrush ImageSource="Images/macos_buttons2.ico"/>
+                                                                    </Border.Background>
                                                                 </Border>
                                                             </ControlTemplate>
                                                         </Button.Template>
@@ -140,8 +144,10 @@
                                                     <Button Command="{Binding CloseCommand}" Style="{StaticResource WindowCloseButton}" >
                                                         <Button.Template>
                                                             <ControlTemplate>
-                                                                <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
-                                                                    <materialDesign:PackIcon Kind="WindowClose"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                <Border Padding="{TemplateBinding Padding}" Height="25" Width="25">
+                                                                    <Border.Background>
+                                                                        <ImageBrush ImageSource="Images/macos_buttons3.ico"/>
+                                                                    </Border.Background>
                                                                 </Border>
                                                             </ControlTemplate>
                                                         </Button.Template>
