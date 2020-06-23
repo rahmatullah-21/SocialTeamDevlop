@@ -940,6 +940,7 @@
     <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
     <Compile Include="ViewModel\LogViewModel.cs" />
     <Compile Include="ViewModel\ViewModelUnityExtension.cs" />
+    <Compile Include="Window\WindowResizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

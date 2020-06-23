@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouse.Window;
 using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.Scheduler;
@@ -69,12 +70,186 @@ namespace DominatorHouse.ViewModels
 
         public KeyValuePair<int, int> ScreenResolution { get; set; } = new KeyValuePair<int, int>();
 
+        #region Private Member
+
+        /// <summary>
+        /// The window this view model controls
+        /// </summary>
+        private System.Windows.Window mWindow;
+
+        /// <summary>
+        /// The window resizer helper that keeps the window size correct in various states
+        /// </summary>
+        private WindowResizer _windowResizer;
+
+        /// <summary>
+        /// The margin around the window to allow for a drop shadow
+        /// </summary>
+        private int mOuterMarginSize = 10;
+
+        /// <summary>
+        /// The radius of the edges of the window
+        /// </summary>
+        private int mWindowRadius = 10;
+
+        /// <summary>
+        /// The last known dock position
+        /// </summary>
+        private WindowDockPosition mDockPosition = WindowDockPosition.Undocked;
+
+        
+        private bool _isIconVisible = false;
+
+        /// <summary>
+        /// True if we should have a dimmed overlay on the window
+        /// such as when a popup is visible or the window is not focused
+        /// </summary>
+        private bool _dimmableOverlayVisible { get; set; }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// The smallest width the window can go to
+        /// </summary>
+        public double WindowMinimumWidth { get; set; } = 800;
+
+        /// <summary>
+        /// The smallest height the window can go to
+        /// </summary>
+        public double WindowMinimumHeight { get; set; } = 600;
+
+        /// <summary>
+        /// True if the window should be borderless because it is docked or maximized
+        /// </summary>
+        public bool Borderless => (mWindow.WindowState == WindowState.Maximized || mDockPosition != WindowDockPosition.Undocked);
+        /// <summary>
+        /// The size of the resize border around the window
+        /// </summary>
+        public int ResizeBorder => Borderless ? 0 : 6;
+
+        public WindowResizer WindowResizer
+        {
+            get
+            {
+                // If it is maximized or docked, no border
+                return _windowResizer;
+            }
+            set
+            {
+                _windowResizer = value;
+                OnPropertyChanged(nameof(WindowResizer));
+            }
+        }
+
+
+        public bool IsIconVisible
+        {
+            get
+            {
+                // If it is maximized or docked, no border
+                return _isIconVisible;
+            }
+            set
+            {
+                _isIconVisible = value;
+                OnPropertyChanged(nameof(IsIconVisible));
+            }
+        }
+
+        
+
+        private SelectedMenuItem _selectedMenuItem = SelectedMenuItem.DashBoard;
+
+        public SelectedMenuItem SelectedMenuItem
+        {
+            get
+            {
+                return _selectedMenuItem;
+            }
+            set
+            {
+                _selectedMenuItem = value;
+                OnPropertyChanged(nameof(SelectedMenuItem));
+            }
+        }
+
+        /// <summary>
+        /// The size of the resize border around the window, taking into account the outer margin
+        /// </summary>
+        public Thickness ResizeBorderThickness => new Thickness(ResizeBorder + OuterMarginSize);
+
+        /// <summary>
+        /// The padding of the inner content of the main window
+        /// </summary>
+        public Thickness InnerContentPadding { get; set; } = new Thickness(0);
+
+        /// <summary>
+        /// True if we should have a dimmed overlay on the window
+        /// such as when a popup is visible or the window is not focused
+        /// </summary>
+        public bool DimmableOverlayVisible
+        {
+            get
+            {
+                return _dimmableOverlayVisible;
+            }
+            set
+            {
+                _dimmableOverlayVisible = value;
+                OnPropertyChanged(nameof(DimmableOverlayVisible));
+            }
+        }
+
+        /// <summary>
+        /// The margin around the window to allow for a drop shadow
+        /// </summary>
+        public int OuterMarginSize
+        {
+            // If it is maximized or docked, no border
+            get => Borderless ? 0 : mOuterMarginSize;
+            set => mOuterMarginSize = value;
+        }
+
+        /// <summary>
+        /// The margin around the window to allow for a drop shadow
+        /// </summary>
+        public Thickness OuterMarginSizeThickness => new Thickness(OuterMarginSize);
+
+        /// <summary>
+        /// The radius of the edges of the window
+        /// </summary>
+        public int WindowRadius
+        {
+            // If it is maximized or docked, no border
+            get => Borderless ? 0 : mWindowRadius;
+            set => mWindowRadius = value;
+        }
+
+        /// <summary>
+        /// The radius of the edges of the window
+        /// </summary>
+        public CornerRadius WindowCornerRadius => new CornerRadius(WindowRadius);
+
+        /// <summary>
+        /// The height of the title bar / caption of the window
+        /// </summary>
+        public int TitleHeight { get; set; } = 55;
+        /// <summary>
+        /// The height of the title bar / caption of the window
+        /// </summary>
+        public GridLength TitleHeightGridLength => new GridLength(TitleHeight + ResizeBorder);
+
+
+        #endregion
+
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             SocinatorKeyHelper.InitilizeKey();
             RemoveLocationDataFromTemplate();
             FatalErrorDiagnosis();
-
+            mWindow = Application.Current.MainWindow;
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;

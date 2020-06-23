@@ -10,11 +10,13 @@
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
         xmlns:local="clr-namespace:Socinator"
-        mc:Ignorable="d" 
+        mc:Ignorable="d"
+        MinWidth="{Binding WindowMinimumWidth}"
+        MinHeight="{Binding WindowMinimumHeight}"
         Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
-        BorderThickness="1" Icon="SociNator.ico"        
-        Name="SocinatorWindow" MinWidth="500" MinHeight="500"
-        WindowState="Maximized" >
+        BorderThickness="1" Icon="SociNator.ico" Loaded="WindowLoaded"
+        Name="SocinatorWindow" WindowStartupLocation="CenterScreen"
+        WindowState="Normal" WindowStyle="None" AllowsTransparency="True">
 
     <Window.Resources>
         <Style TargetType="{x:Type local:MainWindow}">
@@ -32,7 +34,7 @@
                                 </Border>-->
 
                                 <!-- Opacity mask for corners on grid -->
-                                <Border x:Name="Container" 
+                                <Border x:Name="Container"  Margin="0,2"
                                         Background="{StaticResource BackgroundLightBrush}"
                                         Visibility="Visible"
                                         CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}">
@@ -40,7 +42,7 @@
 
                                 <!--Window border and dropshadown-->
                                 <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}"
-                                         Visibility="Visible"
+                                         Visibility="Visible"  Margin="0,2"
                                          Background="{Binding ForegroundLightBrush, FallbackValue=White}">
                                     <Border.Effect>
                                         <DropShadowEffect ShadowDepth="0" Opacity="0.2" />
@@ -78,13 +80,16 @@
                                     <Grid.RowDefinitions>
 
                                         <!-- Title Bar -->
-                                        <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=80}" />
+                                        <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=55}" />
+
+                                        <RowDefinition Height="Auto" />
 
                                         <RowDefinition Height="Auto" />
 
                                         <!-- Window Content -->
                                         <RowDefinition Height="*" />
 
+                                        <RowDefinition Height="20" />
                                     </Grid.RowDefinitions>
 
                                     <!-- Title Bar -->
@@ -92,8 +97,8 @@
                                         Panel.ZIndex="10" Visibility="Visible" Background="#FFCBCBCB" CornerRadius="10,10,0,0">
                                         <Grid>
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="0.3*"/>
-                                                <RowDefinition Height="0.7*"/>
+                                                <RowDefinition Height="20"/>
+                                                <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
                                             <Border Background="Black" CornerRadius="10,10,0,0"/>
                                             <Grid Grid.Row="1">
@@ -107,33 +112,40 @@
                                                 </Grid.ColumnDefinitions>
                                                 <StackPanel Orientation="Horizontal">
                                                     <!--Icon-->
-                                                    <Button Margin="5,0" Style="{StaticResource SystemIconButton}" Command="{Binding MenuCommand}">
+                                                    <Button Margin="5" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"  Command="{Binding MenuCommand}">
                                                         <Button.Template>
                                                             <ControlTemplate>
-                                                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                                <Border HorizontalAlignment="Center" BorderBrush="Transparent" VerticalAlignment="Center" >
                                                                     <Image Source="Images/CrucialConnectionImage.jpg" />
                                                                 </Border>
                                                             </ControlTemplate>
                                                         </Button.Template>
                                                     </Button>
                                                 </StackPanel>
+
+                                                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Background="Transparent">
+                                                    <ComboBox DataContext="{Binding AvailableNetworks}"  Background="White" VerticalAlignment="Center" 
+                                                            ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent"
+                                                            BorderThickness="0" SelectedItem="{Binding Selected}" Width="50"/>
+                                                </StackPanel>
+                                                
                                                 <!--Window Buttons-->
                                                 <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="10,0">
-                                                    <Button Command="{Binding MinimizeCommand}" Style="{StaticResource WindowControlButton}">
+                                                    <Button Command="{Binding MinimizeCommand}" Style="{StaticResource WindowControlButton}" VerticalAlignment="Center" HorizontalAlignment="Center">
                                                         <Button.Template>
                                                             <ControlTemplate>
-                                                                <Border Padding="{TemplateBinding Padding}"  Height="25" Width="25">
+                                                                <Border Height="22" Width="18">
                                                                     <Border.Background>
                                                                         <ImageBrush ImageSource="Images/macos_buttons1.ico"/>
-                                                                    </Border.Background>  
+                                                                    </Border.Background>
                                                                 </Border>
                                                             </ControlTemplate>
                                                         </Button.Template>
                                                     </Button>
-                                                    <Button Command="{Binding MaximizeCommand}"  Margin="4,0,4,0" Style="{StaticResource WindowControlButton}"  >
+                                                    <Button Command="{Binding MaximizeCommand}" Margin="10,0,0,0" Style="{StaticResource WindowControlButton}"   VerticalAlignment="Center" HorizontalAlignment="Center">
                                                         <Button.Template>
                                                             <ControlTemplate>
-                                                                <Border Padding="{TemplateBinding Padding}"  Height="25" Width="25">
+                                                                <Border  Height="20" Width="15">
                                                                     <Border.Background>
                                                                         <ImageBrush ImageSource="Images/macos_buttons2.ico"/>
                                                                     </Border.Background>
@@ -141,10 +153,10 @@
                                                             </ControlTemplate>
                                                         </Button.Template>
                                                     </Button>
-                                                    <Button Command="{Binding CloseCommand}" Style="{StaticResource WindowCloseButton}" >
+                                                    <Button Command="{Binding CloseCommand}" Margin="10,0,10,0" Style="{StaticResource WindowCloseButton}"  VerticalAlignment="Center" HorizontalAlignment="Center">
                                                         <Button.Template>
                                                             <ControlTemplate>
-                                                                <Border Padding="{TemplateBinding Padding}" Height="25" Width="25">
+                                                                <Border  Height="20" Width="16">
                                                                     <Border.Background>
                                                                         <ImageBrush ImageSource="Images/macos_buttons3.ico"/>
                                                                     </Border.Background>
@@ -156,24 +168,38 @@
                                             </Grid>
                                         </Grid>
                                     </Border>
-                                    
 
-                                    <Border Grid.Row="1" Height="2" BorderThickness="0 0.2 0 0">
+
+                                    <Border Grid.Row="1" Height="2" BorderThickness="0 0.2 0 0" Background="#FFB0B0B0">
                                         <Rectangle Height="2" >
                                             <Rectangle.Fill>
                                                 <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                    <GradientStop Color="Violet" Offset="0.880"/>
+                                                    <GradientStop Color="DarkGray" Offset="0.880"/>
                                                     <GradientStop Color="Transparent" Offset="1.0"/>
                                                 </LinearGradientBrush>
                                             </Rectangle.Fill>
                                         </Rectangle>
                                     </Border>
 
+                                    <Border Grid.Row="2" Height="50" Background="#FFB0B0B0">
+                                        <DockPanel>
+                                            <Rectangle Height="2" VerticalAlignment="Bottom">
+                                                <Rectangle.Fill>
+                                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                        <GradientStop Color="#FF888888" Offset="0.880"/>
+                                                        <GradientStop Color="Transparent" Offset="1.0"/>
+                                                    </LinearGradientBrush>
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </DockPanel>
+                                    </Border>
+
                                     <!-- Page Content -->
-                                    <Border Grid.Row="2" Padding="{Binding InnerContentPadding}" ClipToBounds="True">
+                                    <Border Grid.Row="3" Padding="{Binding InnerContentPadding}" ClipToBounds="True">
                                         <ContentPresenter Content="{TemplateBinding Content}" />
                                     </Border>
 
+                                    <Border Background="Black" Grid.Row="4"/>
                                 </Grid>
 
                             </Grid>

@@ -1,5 +1,6 @@
 ﻿#region Namespaces
 using CommonServiceLocator;
+using DominatorHouse.Window;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
@@ -45,6 +46,8 @@ namespace Socinator
 
                 mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
 
+                mainViewModel.WindowResizer = new WindowResizer(Application.Current.MainWindow);
+
                 mainViewModel.ScreenResolution = new KeyValuePair<int, int>
                     (activeScreen.WorkingArea.Width, activeScreen.WorkingArea.Height);
 
@@ -59,13 +62,18 @@ namespace Socinator
                 ex.DebugLog();
             }
         }
+
+        private void WindowLoaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        }
         //private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         //{
         //    statusbar.IsEnabled = false;
         //    if (IsClickedFromMainWindow)
         //    {
         //        var dialog = new Dialog();
-                
+
         //        var activityLogWindow = dialog.GetMetroWindow(Logger, "LangKeyActivityLog".FromResourceDictionary());
 
         //        IsClickedFromMainWindow = false;
@@ -113,7 +121,7 @@ namespace Socinator
         //        Accent newAccent;
         //        AppTheme newAppTheme;
         //        string colorName = selected == "Light" ? "PrussianBlue" : "Teal";
-                
+
         //        switch (selected)
         //        {
         //            case "Light":

@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using DominatorHouse.Window;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,18 @@ namespace DominatorHouseCore.ViewModel
 {
     public interface IMainViewModel : IDisposable
     {
-        void AddNetwork(SocialNetworks socialNetwork);
-        void SetActiveNetwork(SocialNetworks social);
         AccessorStrategies Strategies { get; }
+
+        void SetActiveNetwork(SocialNetworks social);
+
+        void AddNetwork(SocialNetworks socialNetwork);
+
+        KeyValuePair<int, int> ScreenResolution { get; set; }
 
         ObservableCollection<DominatorAccountModel> AccountList { get; set; }
 
-        KeyValuePair<int, int> ScreenResolution { get; set; }
+        WindowResizer WindowResizer { get; set; }
+
+
     }
 }
