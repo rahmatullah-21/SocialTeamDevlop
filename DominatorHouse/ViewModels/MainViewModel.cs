@@ -237,7 +237,7 @@ namespace DominatorHouse.ViewModels
         private bool _isStartedfirstTime;
         private async Task FatalErrorDiagnosis()
         {
-            string fatalError;
+            string fatalError = string.Empty;
             await UpdateSoftware();
 
             var key = SocinatorKeyHelper.Key;
@@ -248,16 +248,16 @@ namespace DominatorHouse.ViewModels
                 {
                     if (!_isStartedfirstTime)
                         return;
-                    var settings = new MetroDialogSettings()
-                    {
-                        DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
-                        AffirmativeButtonText = "LangKeyValidate".FromResourceDictionary()
-                    };
+                    //var settings = new MetroDialogSettings()
+                    //{
+                    //    DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
+                    //    AffirmativeButtonText = "LangKeyValidate".FromResourceDictionary()
+                    //};
                     while (true)
                     {
                         try
                         {
-                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "LangKeySocinator".FromResourceDictionary(), "LangKeyLicense".FromResourceDictionary(), settings);
+                            //fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "LangKeySocinator".FromResourceDictionary(), "LangKeyLicense".FromResourceDictionary(), settings);
                             if (string.IsNullOrEmpty(fatalError))
                             {
                                 Application.Current.MainWindow.Close();
@@ -340,21 +340,21 @@ namespace DominatorHouse.ViewModels
 
         private async Task<bool> DiagnoseFatalError(string fatalError)
         {
-            var controller = await DialogCoordinator.Instance.ShowProgressAsync(Application.Current.MainWindow, "LangKeyCheckingLicense".FromResourceDictionary(),
-                "LangKeyTakeFewMoments".FromResourceDictionary());
-            controller.SetIndeterminate();
+            //var controller = await DialogCoordinator.Instance.ShowProgressAsync(Application.Current.MainWindow, "LangKeyCheckingLicense".FromResourceDictionary(),
+            //    "LangKeyTakeFewMoments".FromResourceDictionary());
+            //controller.SetIndeterminate();
             _fatalError = fatalError;
             var networks = await UtilityManager.LogIndividualNetworksExceptions(_fatalError);
 
             if (networks == null)
             {
-                await controller.CloseAsync();
+                //await controller.CloseAsync();
                 return await DiagnoseFatalError(fatalError);
             }
             if (networks.Count <= 1)
             {
 
-                await controller.CloseAsync();
+                //await controller.CloseAsync();
                 if (!_isStartedfirstTime)
                     await FatalErrorDiagnosis();
                 return true;
@@ -370,7 +370,7 @@ namespace DominatorHouse.ViewModels
             SocinatorKeyHelper.SaveKey(fatalErrorHandler);
 
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
-            await controller.CloseAsync();
+            //await controller.CloseAsync();
             return true;
         }
 

@@ -1,6 +1,6 @@
-﻿<controls:MetroWindow
-        x:Class="Socinator.MainWindow"
+﻿<Window x:Class="Socinator.MainWindow"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,17 +9,187 @@
         xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
-        mc:Ignorable="d"
+        xmlns:local="clr-namespace:Socinator"
+        mc:Ignorable="d" 
         Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
-        BorderThickness="1" Icon="SociNator.ico"
-        WindowTitleBrush="{DynamicResource AccentColorBrush}"
-        NonActiveWindowTitleBrush="#B30000"
-        GlowBrush="{DynamicResource AccentColorBrush}"
-        ShowIconOnTitleBar="True" 
+        BorderThickness="1" Icon="SociNator.ico"        
         Name="SocinatorWindow" MinWidth="500" MinHeight="500"
         WindowState="Maximized" >
 
     <Window.Resources>
+        <Style TargetType="{x:Type local:MainWindow}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+
+                        <Border Padding="{Binding OuterMarginSizeThickness, FallbackValue=10}">
+
+                            <Grid>
+                                <!--<Border Grid.ColumnSpan="2"
+                                    Panel.ZIndex="10"
+                                    Opacity="0.3" Visibility="Visible">
+                                    <Border Background="{StaticResource ForegroundVeryDarkBrush}" CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}"/>
+                                </Border>-->
+
+                                <!-- Opacity mask for corners on grid -->
+                                <Border x:Name="Container" 
+                                        Background="{StaticResource BackgroundLightBrush}"
+                                        Visibility="Visible"
+                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}">
+                                </Border>
+
+                                <!--Window border and dropshadown-->
+                                <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}"
+                                         Visibility="Visible"
+                                         Background="{Binding ForegroundLightBrush, FallbackValue=White}">
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Opacity="0.2" />
+                                    </Border.Effect>
+                                </Border>
+
+                                <!-- The main window content -->
+                                <Grid>
+                                    <!-- Corner clipping -->
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="OpacityMask">
+                                                <Setter.Value>
+                                                    <VisualBrush Visual="{Binding ElementName=Container}" />
+                                                </Setter.Value>
+                                            </Setter>
+
+                                            <!--Here is the 'normal' content-->
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Visibility, ElementName=Container}" Value="Collapsed">
+                                                    <Setter Property="OpacityMask">
+                                                        <Setter.Value>
+                                                            <VisualBrush TileMode="FlipXY" >
+                                                                <VisualBrush.Visual>
+                                                                    <Button />
+                                                                </VisualBrush.Visual>
+                                                            </VisualBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+
+                                    <Grid.RowDefinitions>
+
+                                        <!-- Title Bar -->
+                                        <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=60}" />
+
+                                        <RowDefinition Height="Auto" />
+
+                                        <!-- Window Content -->
+                                        <RowDefinition Height="*" />
+
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Title Bar -->
+                                    <Border Grid.ColumnSpan="2"
+                                        Panel.ZIndex="10" Visibility="Visible" Background="#FFCBCBCB" CornerRadius="10,10,0,0">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="0.3*"/>
+                                                <RowDefinition Height="0.7*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border Background="Black" CornerRadius="10,10,0,0"/>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <!--Icon-->
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <!--Title-->
+                                                    <ColumnDefinition Width="*" />
+                                                    <!--Windows Button-->
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <!--Icon-->
+                                                    <Button Margin="5,0" Style="{StaticResource SystemIconButton}" Command="{Binding MenuCommand}">
+                                                        <Button.Template>
+                                                            <ControlTemplate>
+                                                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                                    <Image Source="Images/CrucialConnectionImage.jpg" />
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                </StackPanel>
+                                                <!--Window Buttons-->
+                                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                    <Button Command="{Binding MinimizeCommand}" Style="{StaticResource WindowControlButton}">
+                                                        <Button.Template>
+                                                            <ControlTemplate>
+                                                                <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                                                                    <materialDesign:PackIcon Kind="WindowMinimize" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                    <Button Command="{Binding MaximizeCommand}"  Style="{StaticResource WindowControlButton}"  >
+                                                        <Button.Template>
+                                                            <ControlTemplate>
+                                                                <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                                                                    <materialDesign:PackIcon Kind="WindowMaximize" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                    <Button Command="{Binding CloseCommand}" Style="{StaticResource WindowCloseButton}" >
+                                                        <Button.Template>
+                                                            <ControlTemplate>
+                                                                <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                                                                    <materialDesign:PackIcon Kind="WindowClose"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                    
+
+                                    <Border Grid.Row="1" Height="2" BorderThickness="0 0.2 0 0">
+                                        <Rectangle Height="2" >
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                    <GradientStop Color="Violet" Offset="0.880"/>
+                                                    <GradientStop Color="Transparent" Offset="1.0"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </Border>
+
+                                    <!-- Page Content -->
+                                    <Border Grid.Row="2" Padding="{Binding InnerContentPadding}" ClipToBounds="True">
+                                        <ContentPresenter Content="{TemplateBinding Content}" />
+                                    </Border>
+
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            ResizeBorderThickness="{Binding ResizeBorderThickness}"
+            CaptionHeight="{Binding TitleHeight}"
+            CornerRadius="0"
+            GlassFrameThickness="0"/>
+
+    </WindowChrome.WindowChrome>
+
+
+
+    <!--<Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
@@ -28,10 +198,10 @@
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
             </Style>
         </ResourceDictionary>
-    </Window.Resources>
+    </Window.Resources>-->
 
     <!--Manage Networks Here -->
-    <controls:MetroWindow.RightWindowCommands>
+    <!--<controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
 
             <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
@@ -40,8 +210,8 @@
             <ComboBox x:Name="ThemeCombo" DataContext="{Binding Themes}" Visibility="Visible" SelectionChanged="ThemeCombo_SelectionChanged"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}" />
 
         </controls:WindowCommands>
-    </controls:MetroWindow.RightWindowCommands>
-    <Grid Name="MainGrid" >
+    </controls:MetroWindow.RightWindowCommands>-->
+    <!--<Grid Name="MainGrid" >
         <Grid.RowDefinitions>
             <RowDefinition Height="30*"/>
             <RowDefinition Height="4"/>
@@ -49,7 +219,9 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
-        <!--Account Growth Mode Tabs-->
+        -->
+    <!--Account Growth Mode Tabs-->
+    <!--
         <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
                     ItemContainerStyle="{DynamicResource TabItemStyle}" BorderThickness="0">
@@ -88,12 +260,14 @@
         </Grid>
 
         <Grid Grid.Row="3" VerticalAlignment="Bottom">
-            <!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>-->
+            -->
+    <!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>-->
+    <!--
             <ContentControl regions:RegionManager.RegionName="PerfCounterRegion"  x:Name="statusbar"/>
         </Grid>
 
-    </Grid>
-</controls:MetroWindow>
+    </Grid>-->
+</Window>
 
 
 

@@ -231,11 +231,13 @@
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Converters\AccountsFilterConverter.cs" />
     <Compile Include="Converters\AverageConverter.cs" />
+    <Compile Include="Converters\BaseValueConverter.cs" />
     <Compile Include="Converters\BooleanToAutomationStatusConverter.cs" />
     <Compile Include="Converters\BooleanToStringSelectConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
     <Compile Include="Converters\BoolToValueConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BrowserAutomationConverter.cs" />
     <Compile Include="Converters\ChatImageCountToColumnConverter.cs" />
     <Compile Include="Converters\ChatImageCountToHeightConverter.cs" />
@@ -531,6 +533,7 @@
     <Compile Include="Enums\RdQuery\PostQuery.cs" />
     <Compile Include="Enums\RdQuery\UserQuery.cs" />
     <Compile Include="Enums\ReportType.cs" />
+    <Compile Include="Enums\SelectedMenuItem.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
     <Compile Include="Enums\TtdQuery\TtdPostQuery.cs" />

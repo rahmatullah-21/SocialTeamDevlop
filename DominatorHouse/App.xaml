@@ -18,6 +18,10 @@
                 <ResourceDictionary Source="/Social/DashBoards/DashboardTemplates.xaml" />
                 <ResourceDictionary Source="/Social/TablifiedContentControlTemplates.xaml" />
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/UtilityControls.xaml" />
+                <ResourceDictionary Source="/DominatorUIUtility;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="/DominatorUIUtility;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="/DominatorUIUtility;component/Styles/Buttons.xaml" />
+                <ResourceDictionary Source="/DominatorUIUtility;component/Styles/Texts.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MetroExpander}">
                 <Setter Property="IsExpanded" Value="True" />
