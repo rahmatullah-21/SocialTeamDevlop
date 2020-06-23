@@ -2282,6 +2282,15 @@
   <ItemGroup>
     <Resource Include="Images\Love.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\macos_buttons1.ico" />
+    <Resource Include="Images\macos_buttons2.ico" />
+    <Resource Include="Images\macos_buttons3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\crucial-background.png" />
+    <Resource Include="Images\CrucialConnectionImage.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

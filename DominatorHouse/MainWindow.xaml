@@ -10,28 +10,25 @@
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
-        BorderThickness="1" Icon="SociNator.ico"
-        WindowTitleBrush="{DynamicResource AccentColorBrush}"
-        NonActiveWindowTitleBrush="#B30000"
+        BorderThickness="1" 
         GlowBrush="{DynamicResource AccentColorBrush}"
-        ShowIconOnTitleBar="True" 
+        ShowCloseButton="False"  ShowMinButton="False" ShowMaxRestoreButton="False" ShowTitleBar="False"
         Name="SocinatorWindow" MinWidth="500" MinHeight="500"
-        WindowState="Maximized" >
+        WindowState="Normal" >
 
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="{x:Type dragable:TabablzControl}" >
-                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
+            <Style TargetType="{x:Type dragable:TabablzControl}">
+                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}"/>
             </Style>
         </ResourceDictionary>
     </Window.Resources>
 
     <!--Manage Networks Here -->
-    <controls:MetroWindow.RightWindowCommands>
+    <!--<controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
 
             <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
@@ -40,59 +37,118 @@
             <ComboBox x:Name="ThemeCombo" DataContext="{Binding Themes}" Visibility="Visible" SelectionChanged="ThemeCombo_SelectionChanged"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}" />
 
         </controls:WindowCommands>
-    </controls:MetroWindow.RightWindowCommands>
-    <Grid Name="MainGrid" >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30*"/>
-            <RowDefinition Height="4"/>
-            <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
-            <RowDefinition Height="25"/>
-        </Grid.RowDefinitions>
+    </controls:MetroWindow.RightWindowCommands>-->
 
-        <!--Account Growth Mode Tabs-->
-        <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
-                  VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
-                    ItemContainerStyle="{DynamicResource TabItemStyle}" BorderThickness="0">
-            <TabControl.Style>
-                <Style TargetType="TabControl">
-                    <Style.Triggers>
-                        <Trigger Property="TabStripPlacement" Value="Left">
-                            <Setter Property="Template" Value="{DynamicResource LeftTabstyle}"></Setter>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </TabControl.Style>
-            <TabControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                    <TextBlock Text="{Binding Title}"/>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                    <Grid>
+    <Border BorderThickness="0,15,0,15"  BorderBrush="Black" CornerRadius="5">
+        <Grid Name="MainGrid" >
+            <Grid.Background>
+                <ImageBrush ImageSource="Images/crucial-background.png" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="30*"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
 
-                        <UserControl Content="{Binding Content.Value}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <DockPanel Grid.ColumnSpan="2" Height="50" Background="LightGray">
+                <Grid Height="50" Grid.ColumnSpan="2" Background="LightGray">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="10,0,0,10">
+                        <Image VerticalAlignment="Center" Height="40" Source="Images/CrucialConnectionImage.jpg"/>
                     </Grid>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
+                    <ComboBox Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+                      ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
+                    <StackPanel Orientation="Horizontal" Grid.Column="4">
+                        <Button Margin="4,0,4,0" Click="button_Close" Height="30" Width="30">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/macos_buttons1.ico"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Margin="4,0,4,0" Click="button_Minimize"  Height="25" Width="25">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/macos_buttons2.ico"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Margin="4,0,40,0" Click="button_Maximize" Height="25" Width="25">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/macos_buttons3.ico"/>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
+                    <ComboBox DataContext="{Binding Languages}" HorizontalAlignment="Right" Grid.Column="3"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
 
 
-        <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
+                </Grid>
+            </DockPanel>
+            <Grid Grid.Row="1" Height="50" Grid.ColumnSpan="2" Background="DarkGray">
+
+            </Grid>
+            <!--Account Growth Mode Tabs-->
+
+            <Border Grid.Row="3" Background="Transparent" Margin="40,0,40,25" CornerRadius="5">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" BlurRadius="10" Color="Black"/>
+                </Border.Effect>
+                <TabControl Grid.Row="1" Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
+                  VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
+                    Foreground="Black" BorderThickness="0">
+                    <TabControl.Style>
+                        <Style TargetType="TabControl">
+                            <Style.Triggers>
+                                <Trigger Property="TabStripPlacement" Value="Left">
+                                    <Setter Property="Template" Value="{DynamicResource LeftTabstyle1}"></Setter>
+                                    <Setter Property="ItemContainerStyle" Value="{DynamicResource LeftTabItemStyle}"/>
+                                </Trigger>
+                                <Trigger Property="TabStripPlacement" Value="Top">
+                                    <Setter Property="Template" Value="{DynamicResource TopTabstyle}"></Setter>
+                                    <Setter Property="ItemContainerStyle" Value="{DynamicResource TabItemStyle}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TabControl.Style>
+                    <TabControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
+                            <TextBlock Text="{Binding Title}" Padding="20,0,0,0" FontSize="14" FontWeight="Bold" Foreground="Black"/>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
+                            <Grid>
+
+                                <UserControl Content="{Binding Content.Value}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            </Grid>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </TabControl>
+            </Border>
+
+
+            <GridSplitter Grid.Row="4" Height="2" HorizontalAlignment="Stretch" Background="Red"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows" IsEnabled="{Binding IsEnabled,ElementName=statusbar}"/>
 
-        <Grid Name="Logger" Grid.Row="2" Margin="5">
-            <views:LogView MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" ViewModel="{Binding LogViewModel, Mode=OneWay}"
+            <Grid Name="Logger" Grid.Row="5" Margin="5">
+                <views:LogView MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" ViewModel="{Binding LogViewModel, Mode=OneWay}"
                            AvailableAccounts="{Binding AccountList, Mode=OneWay}"
                            AvailableNetworks="{Binding AvailableNetworks.ItemsCollection, Mode=OneWay}" x:Name="RootLayout"></views:LogView>
-        </Grid>
+            </Grid>
 
-        <Grid Grid.Row="3" VerticalAlignment="Bottom">
-            <!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>-->
-            <ContentControl regions:RegionManager.RegionName="PerfCounterRegion"  x:Name="statusbar"/>
-        </Grid>
+            <Grid Grid.Row="6" VerticalAlignment="Bottom">
+                <!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>-->
+                <ContentControl regions:RegionManager.RegionName="PerfCounterRegion"  x:Name="statusbar"/>
+            </Grid>
 
-    </Grid>
+        </Grid>
+    </Border>
 </controls:MetroWindow>
 
 

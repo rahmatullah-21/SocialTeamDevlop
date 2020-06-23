@@ -3,17 +3,12 @@ using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
-using Socinator.Social.Settings.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -70,7 +65,7 @@ namespace Socinator
             if (IsClickedFromMainWindow)
             {
                 var dialog = new Dialog();
-                
+
                 var activityLogWindow = dialog.GetMetroWindow(Logger, "LangKeyActivityLog".FromResourceDictionary());
 
                 IsClickedFromMainWindow = false;
@@ -118,7 +113,7 @@ namespace Socinator
                 Accent newAccent;
                 AppTheme newAppTheme;
                 string colorName = selected == "Light" ? "PrussianBlue" : "Teal";
-                
+
                 switch (selected)
                 {
                     case "Light":
@@ -126,7 +121,7 @@ namespace Socinator
                             Application.Current.Resources["UserControlBackgroundBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255)); // White
                             Application.Current.Resources["SelectedTabBorderBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 248, 255)); //Black
                             Application.Current.Resources["TextColorBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 248, 255)); // Pure Black
-                            Application.Current.Resources["IconFillBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1,0,0)); // Black
+                            Application.Current.Resources["IconFillBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1, 0, 0)); // Black
                             Application.Current.Resources["TextColorBrushAccordingTheme1"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(35, 49, 64)); // #233140
                             Application.Current.Resources["ListItemsMouseHoverColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(214, 235, 242)); // LightBlue (Much Lighter)
                             Application.Current.Resources["GreenColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 128, 0)); // Green
@@ -157,6 +152,24 @@ namespace Socinator
                 ServiceLocator.Current.GetInstance<IBinFileHelper>().SetTheme(setThemeString);
             }
             catch (Exception ex) { }
+        }
+
+        private void button_Close(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button_Maximize(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+                this.WindowState = WindowState.Normal;
+            else
+                this.WindowState = WindowState.Maximized;
+        }
+
+        private void button_Minimize(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
     }
 }
