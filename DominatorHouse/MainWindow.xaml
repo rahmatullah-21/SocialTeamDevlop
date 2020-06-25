@@ -5,6 +5,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
@@ -66,10 +67,16 @@
                     <Grid Margin="10,0,0,10">
                         <Image VerticalAlignment="Center" Height="40" Source="Images/CrucialConnectionImage.jpg"/>
                     </Grid>
-                    <ComboBox Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
-                      ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
-                    <StackPanel Orientation="Horizontal" Grid.Column="4">
-                        <Button Margin="4,0,4,0" Click="button_Close" Height="30" Width="30">
+                    <Grid Grid.Column="1">
+                        <Grid.Effect>
+                            <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
+                        </Grid.Effect>
+                        <ComboBox Style="{StaticResource ComboBoxStyle}" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+                      ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}" />
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="4" Margin="20,0,0,0" >
+                        <Button Margin="4,0,4,0" Click="button_Close" Height="28" Width="28">
                             <Button.Background>
                                 <ImageBrush ImageSource="Images/macos_buttons1.ico"/>
                             </Button.Background>
@@ -85,7 +92,12 @@
                             </Button.Background>
                         </Button>
                     </StackPanel>
-                    <ComboBox DataContext="{Binding Languages}" HorizontalAlignment="Right" Grid.Column="3"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+                    <Grid Grid.Column="3">
+                        <Grid.Effect>
+                            <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
+                        </Grid.Effect>
+                        <ComboBox Style="{StaticResource ComboBoxStyle}"  DataContext="{Binding Languages}" HorizontalAlignment="Right" Grid.Column="3" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+                    </Grid>
 
 
                 </Grid>
