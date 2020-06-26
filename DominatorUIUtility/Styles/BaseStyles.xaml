@@ -62,6 +62,8 @@
 
     <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
@@ -119,12 +121,8 @@
 
     <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
-        <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontSize" Value="30"/>
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
@@ -174,7 +172,7 @@
             <Setter.Value>
                 <DropShadowEffect ShadowDepth="0"
                         Color="Black"
-                        BlurRadius="10" />
+                        BlurRadius="2" />
             </Setter.Value>
         </Setter>
     </Style>
@@ -382,7 +380,6 @@
         <GradientStop Color="#AF1414 " Offset="0.15"/>
         <GradientStop Color="#FF0000" Offset="0.5"/>
         <GradientStop Color="#FF0000" Offset="0.7"/>
-
         <GradientStop Color="#AF1414" Offset="1"/>
     </LinearGradientBrush>
 
@@ -411,8 +408,8 @@
     </Style>
     <!-- TabItem style -->
     <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
-        <Setter Property="Width" Value="100"/>
-        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Width" Value="110"/>
+        <Setter Property="Margin" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
@@ -423,8 +420,7 @@
                         </Grid.RowDefinitions>
                         <Border BorderThickness="0" Height="35" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}"
                                         Background="{StaticResource BackGroundBrush}" Name="Bd">
-                            <ContentPresenter
- TextElement.Foreground="White" ContentSource="Header"  Name="Content" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            <ContentPresenter TextElement.Foreground="White" ContentSource="Header"  Name="Content" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                         </Border>
                     </Grid>
                 </ControlTemplate>
@@ -441,15 +437,19 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Border BorderThickness="0" Height="35" CornerRadius="2" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}"
-                                        Background="#EAEFEF" Name="Bd">
-                            <ContentPresenter ContentSource="Header"   Name="Content" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <Border Margin="0,0,0,3" BorderThickness="0" Height="35" CornerRadius="2" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}"
+                                        Background="#F7F7F7" Name="Bd">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="1" BlurRadius="8" Color="Black"/>
+                            </Border.Effect>
+                            <ContentPresenter ContentSource="Header" Margin="8,0,0,0" Name="Content" TextBlock.FontSize="16" TextElement.FontFamily="{StaticResource Header-Font7}" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
     <!--<Style TargetType="{x:Type TabItem}" x:Key="TabItemStyle">
         <Setter Property="Template">
             <Setter.Value>
@@ -496,13 +496,16 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid Margin="10,0,10,0">
+            <Grid Margin="-5,0,5,-3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Label Content="CHOOSE FUNCTION" Margin="5,0,5,0" HorizontalContentAlignment="Center" Height="40" VerticalAlignment="Center" Padding="5,10,50,10" Foreground="Silver" FontWeight="Bold" FontSize="14" Background="{DynamicResource BackGroundBrushReverse}"/>
-                <Border Grid.Row="1" Margin="5,0,5,0" CornerRadius="0,0,5,5" Padding="10" Background="#CACFD1">
+                <Label Content="CHOOSE FUNCTION" Margin="3,0,3,0" HorizontalContentAlignment="Center" Height="40" VerticalAlignment="Center" Padding="5,10,50,10" Foreground="Silver" FontWeight="Bold" FontSize="14" Background="{DynamicResource BackGroundBrushReverse}"/>
+                <Border Grid.Row="1" Margin="5,0,5,0" CornerRadius="0" Padding="10" Background="#CACFD1">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="2" BlurRadius="5" Color="Black"/>
+                    </Border.Effect>
                     <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                         <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
                     </ScrollViewer>
@@ -532,7 +535,7 @@
 
     <Style TargetType="{x:Type TabItem}" x:Key="TabItemToolsStyle" >
         <Setter Property="Width" Value="100"/>
-        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">

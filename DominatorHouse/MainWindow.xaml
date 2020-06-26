@@ -67,15 +67,15 @@
                     <Grid Margin="10,0,0,10">
                         <Image VerticalAlignment="Center" Height="40" Source="Images/CrucialConnectionImage.jpg"/>
                     </Grid>
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="1" Margin="20,0,0,0">
                         <Grid.Effect>
                             <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                         </Grid.Effect>
-                        <ComboBox Style="{StaticResource ComboBoxStyle}" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
-                      ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}" />
+                        <ComboBox Style="{StaticResource ComboBoxStyle}" HorizontalContentAlignment="Center" FontSize="20" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+                      ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}"/>
                     </Grid>
 
-                    <StackPanel Orientation="Horizontal" Grid.Column="4" Margin="20,0,0,0" >
+                    <StackPanel Orientation="Horizontal" Grid.Column="4" Margin="20,0,0,0">
                         <Button Margin="4,0,4,0" Click="button_Close" Height="28" Width="28">
                             <Button.Background>
                                 <ImageBrush ImageSource="Images/macos_buttons1.ico"/>
@@ -92,11 +92,11 @@
                             </Button.Background>
                         </Button>
                     </StackPanel>
-                    <Grid Grid.Column="3">
+                    <Grid Grid.Column="3" Margin="0,0,12,0">
                         <Grid.Effect>
                             <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                         </Grid.Effect>
-                        <ComboBox Style="{StaticResource ComboBoxStyle}"  DataContext="{Binding Languages}" HorizontalAlignment="Right" Grid.Column="3" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+                        <ComboBox Style="{StaticResource ComboBoxStyle}" HorizontalContentAlignment="Center" FontSize="20" DataContext="{Binding Languages}" Grid.Column="3" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
                     </Grid>
 
 
@@ -109,13 +109,14 @@
             </Border>
             <!--Account Growth Mode Tabs-->
 
-            <Border Grid.Row="3" Background="Transparent" Margin="40,0,40,25" CornerRadius="5">
-                <Border.Effect>
-                    <DropShadowEffect ShadowDepth="2" BlurRadius="10" Color="Black"/>
-                </Border.Effect>
+            <Border Grid.Row="3" Background="Transparent"  Margin="40,0,40,25" CornerRadius="5">
+
                 <TabControl Grid.Row="1" Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
                     Foreground="Black" BorderThickness="0">
+                    <TabControl.Effect>
+                        <DropShadowEffect ShadowDepth="2" Direction="270" BlurRadius="8" Color="White"/>
+                    </TabControl.Effect>
                     <TabControl.Style>
                         <Style TargetType="TabControl">
                             <Style.Triggers>
@@ -132,13 +133,12 @@
                     </TabControl.Style>
                     <TabControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                            <TextBlock Text="{Binding Title}" Padding="20,0,0,0" FontSize="14" FontWeight="Bold" Foreground="Black"/>
+                            <TextBlock Text="{Binding Title}"  Padding="5,0,0,0" FontSize="12" FontWeight="Bold" Foreground="Black"/>
                         </DataTemplate>
                     </TabControl.ItemTemplate>
                     <TabControl.ContentTemplate>
                         <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
                             <Grid>
-
                                 <UserControl Content="{Binding Content.Value}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </Grid>
                         </DataTemplate>

@@ -2179,6 +2179,16 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\CustomFont\built titling bd it.ttf" />
+    <Resource Include="Resources\CustomFont\built titling bd.ttf" />
+    <Resource Include="Resources\CustomFont\built titling el it.ttf" />
+    <Resource Include="Resources\CustomFont\built titling el.ttf" />
+    <Resource Include="Resources\CustomFont\built titling lt it.ttf" />
+    <Resource Include="Resources\CustomFont\built titling lt.ttf" />
+    <Resource Include="Resources\CustomFont\built titling rg it.ttf" />
+    <Resource Include="Resources\CustomFont\built titling rg.ttf" />
+    <Resource Include="Resources\CustomFont\built titling sb it.ttf" />
+    <Resource Include="Resources\CustomFont\built titling sb.ttf" />
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>

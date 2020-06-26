@@ -124,13 +124,16 @@
 
             <DockPanel Grid.Row="0" Name="MainContainer" Background="Transparent">
 
-                <Border DockPanel.Dock="Left" Style="{DynamicResource BorderStyle}" Margin="5" Background="{DynamicResource AccentColorBrush}">
+                <Border DockPanel.Dock="Left" Style="{DynamicResource BorderStyle}" Margin="0,2,4,9" Background="{DynamicResource AccentColorBrush}">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
+                    </Border.Effect>
                     <Label  HorizontalAlignment="Center"
                                VerticalAlignment="Center" 
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="Black" Margin="5,0,0,4"
-                               Content="{DynamicResource LangKeyAccountManager}" />
+                               Content="{DynamicResource LangKeyAccountManager}"/>
 
                 </Border>
 
@@ -396,7 +399,10 @@
                     </Border>
                 </Popup>
 
-                <Border Margin="5"  Background="{DynamicResource AccentColorBrush}" >
+                <Border Margin="8,2,8,9"  Background="{DynamicResource AccentColorBrush}" >
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
+                    </Border.Effect>
                     <Grid >
                         <WrapPanel  Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Left"  Background="{DynamicResource AccentColorBrush}">
                             <CheckBox DockPanel.Dock="Left" Background="{DynamicResource AccentColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
@@ -728,7 +734,10 @@
             </StackPanel>
 
             <!--Data grid view-->
-            <Border Padding="10" CornerRadius="15" BorderBrush="{StaticResource AccentLightColorBrush}" BorderThickness="1" Grid.Row="2" Background="#ffffff">
+            <Border Padding="10" Margin="0,5,0,-2.5" CornerRadius="5" BorderBrush="{StaticResource AccentLightColorBrush}" BorderThickness="1" Grid.Row="2" Background="#ffffff">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
+                </Border.Effect>
                 <Grid >
                     <ListView x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
                       VirtualizingPanel.IsContainerVirtualizable="True"
