@@ -9,6 +9,7 @@
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
+         xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
         BorderThickness="1" 
@@ -115,7 +116,7 @@
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
                     Foreground="Black" BorderThickness="0">
                     <TabControl.Effect>
-                        <DropShadowEffect ShadowDepth="2" Direction="270" BlurRadius="8" Color="White"/>
+                        <DropShadowEffect ShadowDepth="-2" Direction="270" BlurRadius="0" Color="White"/>
                     </TabControl.Effect>
                     <TabControl.Style>
                         <Style TargetType="TabControl">
@@ -133,7 +134,19 @@
                     </TabControl.Style>
                     <TabControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                            <TextBlock Text="{Binding Title}"  Padding="5,0,0,0" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+                            <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="White"
+		                Stroke="Black"
+		                StrokeThickness="1"
+                                              StrokeMiterLimit="1"
+		                FontFamily="{StaticResource  BuildTitleSbIt}"
+		                FontSize="19"
+                        FontWeight="Bold">
+                                <utility:TextPath.Effect>
+                                    <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                                </utility:TextPath.Effect>
+                            </utility:TextPath>
                         </DataTemplate>
                     </TabControl.ItemTemplate>
                     <TabControl.ContentTemplate>

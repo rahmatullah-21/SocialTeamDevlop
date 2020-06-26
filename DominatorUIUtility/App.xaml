@@ -14,6 +14,8 @@
                  <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml"/>
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
         </ResourceDictionary>
+        
     </Application.Resources>
 </Application>

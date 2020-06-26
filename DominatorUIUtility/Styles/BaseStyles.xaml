@@ -384,7 +384,7 @@
     </LinearGradientBrush>
 
     <Style x:Key="TopTabStyle" TargetType="{x:Type TabControl}">
-        <Setter Property="Width" Value="100"/>
+        <Setter Property="Width" Value="Auto"/>
         <Setter Property="Margin" Value="2"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
@@ -408,7 +408,8 @@
     </Style>
     <!-- TabItem style -->
     <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
-        <Setter Property="Width" Value="110"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Padding" Value="10"/>
         <Setter Property="Margin" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -442,7 +443,7 @@
                             <Border.Effect>
                                 <DropShadowEffect ShadowDepth="1" BlurRadius="8" Color="Black"/>
                             </Border.Effect>
-                            <ContentPresenter ContentSource="Header" Margin="8,0,0,0" Name="Content" TextBlock.FontSize="16" TextElement.FontFamily="{StaticResource Header-Font7}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <ContentPresenter ContentSource="Header" Margin="8,0,0,0" Name="Content" TextBlock.FontSize="16"  HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </Border>
                     </Grid>
                 </ControlTemplate>
@@ -543,7 +544,7 @@
                         <ContentPresenter x:Name="ContentSite"
                                           VerticalAlignment="Center"
                                           HorizontalAlignment="Center"
-                                          ContentSource="Header" TextBlock.FontSize="16"
+                                          ContentSource="Header" TextBlock.FontSize="16" 
                                           Margin="2"/>
                     </Border>
 
@@ -734,4 +735,116 @@
         </Setter>
     </Style>
 
+    <!--    Below Design are specific for Template for the Crucials -->
+
+
+    <Style x:Key="CrucialToggleButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border CornerRadius="15" BorderBrush="LightGray" Background="#FFEFF3F6" BorderThickness="1">
+
+                        <Grid>
+                            <Ellipse Width="19" Name="IsCheckedBackgroundRect"
+                                                    Height="19"
+                                                    Fill="#FFA4ADB7" Margin="-42,0,0,0"/>
+                            <TextBlock Opacity="0" Margin="8,0,0,0" HorizontalAlignment="Left" Text="On" Name="OnText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" />
+                            <TextBlock HorizontalAlignment="Right" Text="Off" Name="OffText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" Margin="0,0,10,0" />
+                        </Grid>
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked , RelativeSource={RelativeSource Self}}" Value="true">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Name="enterBoard">
+                                    <Storyboard FillBehavior="HoldEnd">
+                                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="-42, 0,0,0" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00.10" Value="42, 0,0,0" />
+                                        </ThicknessAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)">
+                                            <LinearColorKeyFrame KeyTime="0:0:0.10" Value="#FF35C77B"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="OffText" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.03"/>
+                                        <DoubleAnimation Storyboard.TargetName="OnText" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.03"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard Name="exitBoard">
+                                    <Storyboard>
+                                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00:00" Value="42, 0,0,0" />
+
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00.10" Value="-42, 0,0,0" />
+                                        </ThicknessAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)">
+                                            <LinearColorKeyFrame KeyTime="0:0:0.10" Value="#FFA4ADB7"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="OffText" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.03"/>
+                                        <DoubleAnimation Storyboard.TargetName="OnText" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.03"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CrucialCheckBoxStyle" TargetType="{x:Type CheckBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <DockPanel>
+                        <Border x:Name="Border" Padding="4" BorderThickness="1" BorderBrush="#FFE9EEF1" CornerRadius="2" Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}" MinHeight="20" MinWidth="20" Background="#FFE9EEF1" DockPanel.Dock="Left">
+
+                            <Grid x:Name="CheckMark"
+                                          VerticalAlignment="Center"
+                                          Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"
+                                          Background="#FFDF0000"/>
+                        </Border>
+                        <ContentPresenter Margin="4,0,0,0"
+                                              VerticalAlignment="Center" RecognizesAccessKey="False" />
+                    </DockPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter TargetName="CheckMark" Property="Background" Value="#FF909BA5" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFE9EEF1" />
+                            <Setter TargetName="Border" Property="Background" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="LightSalmon" />
+                            <Setter TargetName="Border" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="2" BlurRadius="10" Color="LightGray"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <FontFamily x:Key="BuildTitleBdIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling bd it</FontFamily>
+    <FontFamily x:Key="BuildTitleBd">/DominatorUIUtility;component/Resources/CustomFont/#built titling bd</FontFamily>
+    <FontFamily x:Key="BuildTitleElIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling el it</FontFamily>
+    <FontFamily x:Key="BuildTitleEl">/DominatorUIUtility;component/Resources/CustomFont/#built titling el</FontFamily>
+    <FontFamily x:Key="BuildTitleItIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling It it</FontFamily>
+    <FontFamily x:Key="BuildTitleIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling bItd</FontFamily>
+    <FontFamily x:Key="BuildTitleRgIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling rg it</FontFamily>
+    <FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/#built titling rg</FontFamily>
+    <FontFamily x:Key="BuildTitleSbIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb it</FontFamily>
+    <FontFamily x:Key="BuildTitleSb">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb</FontFamily>
+    <!-- End Design-->
 </ResourceDictionary>
