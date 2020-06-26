@@ -992,7 +992,7 @@ namespace DominatorUIUtility.ViewModel
                                 ProxyPassword = proxypassword
                             },
                             AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork),
-                            Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), status),
+                            Status = string.IsNullOrWhiteSpace(status) ? AccountStatus.NotChecked :(AccountStatus)Enum.Parse(typeof(AccountStatus), status),
                             AlternateEmail = alternetEmail,
                             Banned = banned,
                             AccountName = nickName
