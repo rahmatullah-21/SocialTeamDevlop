@@ -4709,5 +4709,10 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyDownloadAttachments">Download  Attachments</system:String>
     <system:String x:Key="LangKeySkipAlreadyProcessedQueryValue">Skip to process already processed query value in activities [some queryTypes are specified internally to skip to process the queryValue attached with]</system:String>
     <system:String x:Key="LangKeyWithoutVisitingProfile">Without Visting profile</system:String>
-    
+    <system:String x:Key="LangKeySendPageInvitations">Send Page Invitation</system:String>
+    <system:String x:Key="LangKeyNumberSendinvitationPerDay">Number Of Invitation Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfSendinvitationPerHour">Number Of Invitation Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfSendinvitationPerJob">Number Of Invitation Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfSendinvitationPerWeek">Number Of Invitation Per Week</system:String>
+    <system:String x:Key="LangKeyMaxConnectionsToSendinvitationPerDay">Max Connections To SendInvitation Per Day</system:String>
 </ResourceDictionary>
