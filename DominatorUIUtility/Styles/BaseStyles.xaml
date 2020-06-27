@@ -30,6 +30,112 @@
                      x:Shared="False"
                      Fill="{Binding ColorBrush, Mode=OneWay}" />
 
+    <LinearGradientBrush x:Key="ComboBackGroundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="{DynamicResource AccentLightColor}" Offset="0"/>
+        <GradientStop Color="{DynamicResource AccentLightColor}" Offset="0.92"/>
+        <GradientStop Color="#AF1414" Offset="0.92"/>
+        <GradientStop Color="#AF1414" Offset="1"/>
+    </LinearGradientBrush>
+    <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+            <Border
+                  x:Name="Border" 
+                  Grid.ColumnSpan="2"
+                  CornerRadius="0"
+                  Background="{StaticResource ComboBackGroundBrush}"
+                  BorderBrush="{StaticResource ComboBackGroundBrush}"
+                  BorderThickness="1" />
+
+            <Path 
+                  x:Name="Arrow"
+                  Grid.Column="1"     
+                  Fill="Transparent"              
+                />
+        </Grid>
+
+    </ControlTemplate>
+
+
+    <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="MinHeight" Value="20"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <ToggleButton 
+                            Name="ToggleButton" 
+                            Template="{StaticResource ComboBoxToggleButton}" 
+                            Grid.Column="2" 
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press">
+                        </ToggleButton>
+                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="3,3,23,3"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+
+                        <Popup 
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True" 
+                            Focusable="False"
+                            PopupAnimation="Slide">
+
+                            <Grid Name="DropDown"
+                              SnapsToDevicePixels="True"                
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border 
+                                x:Name="DropDownBorder"
+                                Background="{StaticResource ComboBackGroundBrush}"
+                                BorderBrush="{StaticResource ComboBackGroundBrush}"/>
+                                <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Border Name="Border"
+                              SnapsToDevicePixels="true">
+                        <ContentPresenter />
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="canceledit_style">
         <Setter Property="Control.Background" Value="#FF4948"/>
         <!--<Setter Property="Control.Background" Value="{DynamicResource AccentColorBrush}" />-->
@@ -55,6 +161,22 @@
         <Setter Property="Control.Background" Value="#3897F0"/>
     </Style>
 
+    <Style x:Key="Border_Color">
+        <Setter Property="Control.Background" Value="#D2D2D2"/>
+    </Style>
+
+    <Style x:Key="BorderStyle" TargetType="Border">
+
+        <Setter Property="BorderBrush" Value="#D2D2D2"/>
+        <Setter Property="Effect" >
+            <Setter.Value>
+                <DropShadowEffect ShadowDepth="0.5"
+                        Color="Black"
+                                  Direction="90"
+                        BlurRadius="5" />
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style x:Key="ContactsupportStyle">
         <Setter Property="Control.Background" Value="#717171"/>
     </Style>
@@ -121,9 +243,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="border_color" BasedOn="{StaticResource {x:Type Border}}">
-        <Setter Property="Control.BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
-    </Style>
+
 
     <Style x:Key="contextmenu_style" >
         <Setter Property="Control.Height" Value="30"/>
@@ -246,8 +366,93 @@
         </Setter>
 
     </Style>
-    
-    <Style TargetType="{x:Type TabItem}" x:Key="TabItemStyle">
+    <LinearGradientBrush x:Key="BackGroundBrushReverse" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#631027" Offset="0"/>
+        <GradientStop Color="#FF0000" Offset="0.5"/>
+        <GradientStop Color="#FF0000" Offset="0.4"/>
+        <GradientStop Color="#FF0000" Offset="0.5"/>
+        <GradientStop Color="#631027" Offset="0.8"/>
+        <GradientStop Color="#8D9290" Offset="0.8"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="BackGroundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#838686" Offset="0.0"/>
+        <GradientStop Color="#B2B3B3" Offset="0.001"/>
+        <GradientStop Color="#E0E3E3" Offset="0.15"/>
+        <GradientStop Color="#AF1414 " Offset="0.15"/>
+        <GradientStop Color="#FF0000" Offset="0.5"/>
+        <GradientStop Color="#FF0000" Offset="0.7"/>
+        <GradientStop Color="#AF1414" Offset="1"/>
+    </LinearGradientBrush>
+
+    <Style x:Key="TopTabStyle" TargetType="{x:Type TabControl}">
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="1" BorderThickness="0" Panel.ZIndex="2" CornerRadius="0,0,2,2" >
+                            <ContentPresenter ContentSource="SelectedContent"/>
+                        </Border>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Panel.ZIndex="1" IsItemsHost="true"/>
+                        <Rectangle Grid.Row="0" Height="2" VerticalAlignment="Bottom"
+                                   Fill="White"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- TabItem style -->
+    <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Margin" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Grid SnapsToDevicePixels="True" Margin="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Border BorderThickness="0" Height="35" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}"
+                                        Background="{StaticResource BackGroundBrush}" Name="Bd">
+                            <ContentPresenter TextElement.Foreground="White" ContentSource="Header"  Name="Content" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LeftTabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Grid SnapsToDevicePixels="True" Margin="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Border Margin="0,0,0,3" BorderThickness="0" Height="35" CornerRadius="2" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}"
+                                        Background="#FFEBEBEB" Name="Bd">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="1" BlurRadius="8" Color="Black"/>
+                            </Border.Effect>
+                            <ContentPresenter ContentSource="Header" Margin="8,0,0,0" Name="Content" TextBlock.FontSize="16"  HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--<Style TargetType="{x:Type TabItem}" x:Key="TabItemStyle">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
@@ -272,18 +477,43 @@
         </Setter>
 
         <Setter Property="Padding" Value="0" />
-    </Style>
-    
+    </Style>-->
+
     <ControlTemplate TargetType="{x:Type TabControl}" x:Key="LeftTabstyle">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
-                <TabPanel IsItemsHost="True" Margin="0,4,0,0" />
+                <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
             </ScrollViewer>
-            <ContentPresenter Margin="4" ContentSource="SelectedContent" Grid.Column="1" />
+            <ContentPresenter ContentSource="SelectedContent" Grid.Column="2" />
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="{x:Type TabControl}" x:Key="LeftTabstyle1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="0,0,8,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Content="CHOOSE FUNCTION" Margin="3,0,3,0" HorizontalContentAlignment="Center" Height="40" VerticalAlignment="Center" Padding="5,10,50,10"  FontWeight="Bold" FontSize="14" Background="{DynamicResource BackGroundBrushReverse}"/>
+                <Border Grid.Row="1" Margin="3,0,4,0" CornerRadius="0" Padding="5" Background="#FFB0B0B0">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="1" BlurRadius="2" Direction="0" Color="Black"/>
+                    </Border.Effect>
+                    <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+                        <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+            <ContentPresenter ContentSource="SelectedContent" Grid.Column="2" />
         </Grid>
     </ControlTemplate>
 
@@ -291,16 +521,26 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
-                <TabPanel IsItemsHost="True" Margin="0,4,0,0" />
+                <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
             </ScrollViewer>
-            <ContentPresenter Margin="4" ContentSource="SelectedContent" Grid.Row="1" />
+            <Border Grid.Row="1" Margin="-1,0,-1,0" CornerRadius="3" Height="5" Background="#FFB0B0B0"/>
+            <Border Background="#F2F5F7" Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0.5,0.5" CornerRadius="0,0,6,6"  Margin="2,0,2,5" Padding="10,10,10,12" >
+                <Border.Effect>
+                <DropShadowEffect ShadowDepth="-4"  Direction="0" BlurRadius="10" Color="Gray"/>
+                </Border.Effect>
+                <ContentPresenter  ContentSource="SelectedContent" />
+            </Border>
         </Grid>
     </ControlTemplate>
-    
+
     <Style TargetType="{x:Type TabItem}" x:Key="TabItemToolsStyle" >
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
@@ -308,7 +548,7 @@
                         <ContentPresenter x:Name="ContentSite"
                                           VerticalAlignment="Center"
                                           HorizontalAlignment="Center"
-                                          ContentSource="Header" TextBlock.FontSize="16"
+                                          ContentSource="Header" TextBlock.FontSize="16" 
                                           Margin="2"/>
                     </Border>
 
@@ -422,7 +662,7 @@
         </Setter>
     </Style>
 
-        <Style TargetType="{x:Type TextBox}" x:Key="TransparentTextBoxStyle">
+    <Style TargetType="{x:Type TextBox}" x:Key="TransparentTextBoxStyle">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -499,4 +739,116 @@
         </Setter>
     </Style>
 
+    <!--    Below Design are specific for Template for the Crucials -->
+
+
+    <Style x:Key="CrucialToggleButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border CornerRadius="15" BorderBrush="LightGray" Background="#FFEFF3F6" BorderThickness="1">
+
+                        <Grid>
+                            <Ellipse Width="19" Name="IsCheckedBackgroundRect"
+                                                    Height="19"
+                                                    Fill="#FFA4ADB7" Margin="-42,0,0,0"/>
+                            <TextBlock Opacity="0" Margin="8,0,0,0" HorizontalAlignment="Left" Text="On" Name="OnText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" />
+                            <TextBlock HorizontalAlignment="Right" Text="Off" Name="OffText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" Margin="0,0,10,0" />
+                        </Grid>
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked , RelativeSource={RelativeSource Self}}" Value="true">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Name="enterBoard">
+                                    <Storyboard FillBehavior="HoldEnd">
+                                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="-42, 0,0,0" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00.10" Value="42, 0,0,0" />
+                                        </ThicknessAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)">
+                                            <LinearColorKeyFrame KeyTime="0:0:0.10" Value="#FF35C77B"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="OffText" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.03"/>
+                                        <DoubleAnimation Storyboard.TargetName="OnText" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.03"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard Name="exitBoard">
+                                    <Storyboard>
+                                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00:00" Value="42, 0,0,0" />
+
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00.10" Value="-42, 0,0,0" />
+                                        </ThicknessAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)">
+                                            <LinearColorKeyFrame KeyTime="0:0:0.10" Value="#FFA4ADB7"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="OffText" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.03"/>
+                                        <DoubleAnimation Storyboard.TargetName="OnText" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.03"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CrucialCheckBoxStyle" TargetType="{x:Type CheckBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <DockPanel>
+                        <Border x:Name="Border" Padding="4" BorderThickness="1" BorderBrush="#FFE9EEF1" CornerRadius="2" Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}" MinHeight="20" MinWidth="20" Background="#FFE9EEF1" DockPanel.Dock="Left">
+
+                            <Grid x:Name="CheckMark"
+                                          VerticalAlignment="Center"
+                                          Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"
+                                          Background="#FFDF0000"/>
+                        </Border>
+                        <ContentPresenter Margin="4,0,0,0"
+                                              VerticalAlignment="Center" RecognizesAccessKey="False" />
+                    </DockPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter TargetName="CheckMark" Property="Background" Value="#FF909BA5" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFE9EEF1" />
+                            <Setter TargetName="Border" Property="Background" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="LightSalmon" />
+                            <Setter TargetName="Border" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="2" BlurRadius="10" Color="LightGray"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <FontFamily x:Key="BuildTitleBdIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling bd it</FontFamily>
+    <FontFamily x:Key="BuildTitleBd">/DominatorUIUtility;component/Resources/CustomFont/#built titling bd</FontFamily>
+    <FontFamily x:Key="BuildTitleElIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling el it</FontFamily>
+    <FontFamily x:Key="BuildTitleEl">/DominatorUIUtility;component/Resources/CustomFont/#built titling el</FontFamily>
+    <FontFamily x:Key="BuildTitleItIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling It it</FontFamily>
+    <FontFamily x:Key="BuildTitleIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling bItd</FontFamily>
+    <FontFamily x:Key="BuildTitleRgIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling rg it</FontFamily>
+    <FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/CustomFont/#built titling rg</FontFamily>
+    <FontFamily x:Key="BuildTitleSbIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb it</FontFamily>
+    <FontFamily x:Key="BuildTitleSb">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb</FontFamily>
+    <!-- End Design-->
 </ResourceDictionary>

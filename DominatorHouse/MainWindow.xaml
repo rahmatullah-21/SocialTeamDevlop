@@ -5,9 +5,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
+        xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
         xmlns:local="clr-namespace:Socinator"
         mc:Ignorable="d"
@@ -23,23 +25,14 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Window}">
-
                         <Border Padding="{Binding OuterMarginSizeThickness, FallbackValue=10}">
-
                             <Grid>
-                                <!--<Border Grid.ColumnSpan="2"
-                                    Panel.ZIndex="10"
-                                    Opacity="0.3" Visibility="Visible">
-                                    <Border Background="{StaticResource ForegroundVeryDarkBrush}" CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}"/>
-                                </Border>-->
-
                                 <!-- Opacity mask for corners on grid -->
                                 <Border x:Name="Container"  Margin="0,2"
                                         Background="{StaticResource BackgroundLightBrush}"
                                         Visibility="Visible"
                                         CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}">
                                 </Border>
-
                                 <!--Window border and dropshadown-->
                                 <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}"
                                          Visibility="Visible"  Margin="0,2"
@@ -48,7 +41,6 @@
                                         <DropShadowEffect ShadowDepth="0" Opacity="0.2" />
                                     </Border.Effect>
                                 </Border>
-
                                 <!-- The main window content -->
                                 <Grid>
                                     <!-- Corner clipping -->
@@ -78,128 +70,87 @@
                                     </Grid.Style>
 
                                     <Grid.RowDefinitions>
-
                                         <!-- Title Bar -->
-                                        <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=55}" />
-
-                                        <RowDefinition Height="Auto" />
-
-                                        <RowDefinition Height="Auto" />
-
+                                        <RowDefinition Height=".14*" />
                                         <!-- Window Content -->
-                                        <RowDefinition Height="*" />
-
-                                        <RowDefinition Height="20" />
+                                        <RowDefinition Height=".825*" />
+                                        <RowDefinition Height=".025*" />
                                     </Grid.RowDefinitions>
 
                                     <!-- Title Bar -->
-                                    <Border Grid.ColumnSpan="2"
-                                        Panel.ZIndex="10" Visibility="Visible" Background="#FFCBCBCB" CornerRadius="10,10,0,0">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="20"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <Border Background="Black" CornerRadius="10,10,0,0"/>
-                                            <Grid Grid.Row="1">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <!-- Title Bar -->
+                                            <RowDefinition Height=".14*" />
+                                            <!-- Window Content -->
+                                            <RowDefinition Height=".38*" />
+                                            <RowDefinition Height=".48*" />
+                                        </Grid.RowDefinitions>
+                                        <Border Background="Black" CornerRadius="10,10,0,0"/>
+
+                                        <Border Grid.ColumnSpan="2" Grid.Row="1" Visibility="Visible">
+                                            <Grid Background="{DynamicResource AccentLightColorBrush}">
                                                 <Grid.ColumnDefinitions>
-                                                    <!--Icon-->
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <!--Title-->
-                                                    <ColumnDefinition Width="*" />
-                                                    <!--Windows Button-->
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="0.27*"/>
+                                                    <ColumnDefinition Width="0.115*"/>
+                                                    <ColumnDefinition Width="0.02*"/>
+                                                    <ColumnDefinition Width="0.36*"/>
+                                                    <ColumnDefinition Width="0.115*"/>
+                                                    <ColumnDefinition Width="0.12*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <!--Icon-->
-                                                    <Button Margin="5" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"  Command="{Binding MenuCommand}">
-                                                        <Button.Template>
-                                                            <ControlTemplate>
-                                                                <Border HorizontalAlignment="Center" BorderBrush="Transparent" VerticalAlignment="Center" >
-                                                                    <Image Source="Images/CrucialConnectionImage.jpg" />
-                                                                </Border>
-                                                            </ControlTemplate>
-                                                        </Button.Template>
+                                                <Grid Margin="10,0,10,0">
+                                                    <Image VerticalAlignment="Center" Stretch="Fill"  Source="Images/CrucialConnectionImage.jpg"/>
+                                                </Grid>
+                                                <Grid Grid.Column="1">
+                                                    <Grid.Effect>
+                                                        <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
+                                                    </Grid.Effect>
+                                                    <ComboBox Style="{StaticResource ComboBoxStyle}" HorizontalContentAlignment="Center" FontSize="20" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+                                                    ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}"/>
+                                                </Grid>
+                                                <Grid Grid.Column="4">
+                                                    <Grid.Effect>
+                                                        <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
+                                                    </Grid.Effect>
+                                                    <ComboBox Style="{StaticResource ComboBoxStyle}" HorizontalContentAlignment="Center" FontSize="20" DataContext="{Binding Languages}" Grid.Column="3" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+                                                </Grid>
+                                                <Grid Margin="20,0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" >
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button Margin="4,5" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_Close">
+                                                        <Button.Background>
+                                                            <ImageBrush Stretch="Fill" ImageSource="Images/macos_buttons1.ico"/>
+                                                        </Button.Background>
                                                     </Button>
-                                                </StackPanel>
-
-                                                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Background="Transparent">
-                                                    <ComboBox DataContext="{Binding AvailableNetworks}"  Background="White" VerticalAlignment="Center" 
-                                                            ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent"
-                                                            BorderThickness="0" SelectedItem="{Binding Selected}" Width="50"/>
-                                                </StackPanel>
-                                                
-                                                <!--Window Buttons-->
-                                                <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="10,0">
-                                                    <Button Command="{Binding MinimizeCommand}" Style="{StaticResource WindowControlButton}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                        <Button.Template>
-                                                            <ControlTemplate>
-                                                                <Border Height="22" Width="18">
-                                                                    <Border.Background>
-                                                                        <ImageBrush ImageSource="Images/macos_buttons1.ico"/>
-                                                                    </Border.Background>
-                                                                </Border>
-                                                            </ControlTemplate>
-                                                        </Button.Template>
+                                                    <Button Margin="4,6" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Click="button_Minimize">
+                                                        <Button.Background>
+                                                            <ImageBrush Stretch="Fill" ImageSource="Images/macos_buttons2.ico"/>
+                                                        </Button.Background>
                                                     </Button>
-                                                    <Button Command="{Binding MaximizeCommand}" Margin="10,0,0,0" Style="{StaticResource WindowControlButton}"   VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                        <Button.Template>
-                                                            <ControlTemplate>
-                                                                <Border  Height="20" Width="15">
-                                                                    <Border.Background>
-                                                                        <ImageBrush ImageSource="Images/macos_buttons2.ico"/>
-                                                                    </Border.Background>
-                                                                </Border>
-                                                            </ControlTemplate>
-                                                        </Button.Template>
+                                                    <Button Margin="4,6" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Column="2"  Click="button_Maximize">
+                                                        <Button.Background>
+                                                            <ImageBrush Stretch="Fill" ImageSource="Images/macos_buttons3.ico"/>
+                                                        </Button.Background>
                                                     </Button>
-                                                    <Button Command="{Binding CloseCommand}" Margin="10,0,10,0" Style="{StaticResource WindowCloseButton}"  VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                        <Button.Template>
-                                                            <ControlTemplate>
-                                                                <Border  Height="20" Width="16">
-                                                                    <Border.Background>
-                                                                        <ImageBrush ImageSource="Images/macos_buttons3.ico"/>
-                                                                    </Border.Background>
-                                                                </Border>
-                                                            </ControlTemplate>
-                                                        </Button.Template>
-                                                    </Button>
-                                                </StackPanel>
+                                                </Grid>
                                             </Grid>
-                                        </Grid>
-                                    </Border>
-
-
-                                    <Border Grid.Row="1" Height="2" BorderThickness="0 0.2 0 0" Background="#FFB0B0B0">
-                                        <Rectangle Height="2" >
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                    <GradientStop Color="DarkGray" Offset="0.880"/>
-                                                    <GradientStop Color="Transparent" Offset="1.0"/>
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-                                    </Border>
-
-                                    <Border Grid.Row="2" Height="50" Background="#FFB0B0B0">
-                                        <DockPanel>
-                                            <Rectangle Height="2" VerticalAlignment="Bottom">
-                                                <Rectangle.Fill>
-                                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                        <GradientStop Color="#FF888888" Offset="0.880"/>
-                                                        <GradientStop Color="Transparent" Offset="1.0"/>
-                                                    </LinearGradientBrush>
-                                                </Rectangle.Fill>
-                                            </Rectangle>
-                                        </DockPanel>
-                                    </Border>
-
+                                        </Border>
+                                        <Border Grid.Row="2" Grid.ColumnSpan="2" Background="{DynamicResource AccentColorBrush}">
+                                            <Border.Effect>
+                                                <DropShadowEffect ShadowDepth="2" Direction="290"  BlurRadius="12" Color="Gray"/>
+                                            </Border.Effect>
+                                        </Border>
+                                    </Grid>
+                                    
                                     <!-- Page Content -->
-                                    <Border Grid.Row="3" Padding="{Binding InnerContentPadding}" ClipToBounds="True">
+                                    <Border Grid.Row="1" ClipToBounds="True">
                                         <ContentPresenter Content="{TemplateBinding Content}" />
                                     </Border>
 
-                                    <Border Background="Black" Grid.Row="4"/>
+                                    <Border Grid.Row="2" Background="Black" CornerRadius="0,0,10,10"/>
                                 </Grid>
 
                             </Grid>
@@ -218,88 +169,80 @@
             GlassFrameThickness="0"/>
 
     </WindowChrome.WindowChrome>
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- Title Bar -->
+                <RowDefinition Height="0.15*" />
+                <RowDefinition Height="0.85*" />
+                <!-- Window Content -->
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                
+            </Grid.RowDefinitions>
 
-
-
-    <!--<Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="{x:Type dragable:TabablzControl}" >
-                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
-            </Style>
-        </ResourceDictionary>
-    </Window.Resources>-->
-
-    <!--Manage Networks Here -->
-    <!--<controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands>
-
-            <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
-                      ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
-            <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
-            <ComboBox x:Name="ThemeCombo" DataContext="{Binding Themes}" Visibility="Visible" SelectionChanged="ThemeCombo_SelectionChanged"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}" />
-
-        </controls:WindowCommands>
-    </controls:MetroWindow.RightWindowCommands>-->
-    <!--<Grid Name="MainGrid" >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30*"/>
-            <RowDefinition Height="4"/>
-            <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
-            <RowDefinition Height="25"/>
-        </Grid.RowDefinitions>
-
-        -->
-    <!--Account Growth Mode Tabs-->
-    <!--
-        <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
+            <Border Grid.Row="1" Background="Transparent"  Margin="40,0,40,25" CornerRadius="5">
+                <TabControl Grid.Row="1"  Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
-                    ItemContainerStyle="{DynamicResource TabItemStyle}" BorderThickness="0">
-            <TabControl.Style>
-                <Style TargetType="TabControl">
-                    <Style.Triggers>
-                        <Trigger Property="TabStripPlacement" Value="Left">
-                            <Setter Property="Template" Value="{DynamicResource LeftTabstyle}"></Setter>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </TabControl.Style>
-            <TabControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                    <TextBlock Text="{Binding Title}"/>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                    <Grid>
+                    Foreground="Black" BorderThickness="0">
 
-                        <UserControl Content="{Binding Content.Value}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    </Grid>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
+                    <TabControl.Style>
+                        <Style TargetType="TabControl">
+                            <Style.Triggers>
+                                <Trigger Property="TabStripPlacement" Value="Left">
+                                    <Setter Property="Template" Value="{DynamicResource LeftTabstyle1}"></Setter>
+                                    <Setter Property="ItemContainerStyle" Value="{DynamicResource LeftTabItemStyle}"/>
+                                </Trigger>
+                                <Trigger Property="TabStripPlacement" Value="Top">
+                                    <Setter Property="Template" Value="{DynamicResource TopTabstyle}"></Setter>
+                                    <Setter Property="ItemContainerStyle" Value="{DynamicResource TabItemStyle}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TabControl.Style>
+                    <TabControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
+                            <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                        VerticalAlignment="Center"
+		                        Fill="White"
+		                        Stroke="Black"
+		                        StrokeThickness="1"
+                                StrokeMiterLimit="1"                                              
+		                        FontFamily="{StaticResource  BuildTitleSbIt}"
+                                FontStyle="Italic"
+		                        FontSize="19"
+                                FontWeight="Bold">
+                                <utility:TextPath.Effect>
+                                    <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                                </utility:TextPath.Effect>
+                            </utility:TextPath>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
+                            <Grid>
+                                <UserControl Content="{Binding Content.Value}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            </Grid>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </TabControl>
+            </Border>
 
 
-        <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
+            <GridSplitter Grid.Row="2" Height="2" HorizontalAlignment="Stretch" Background="Red"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows" IsEnabled="{Binding IsEnabled,ElementName=statusbar}"/>
 
-        <Grid Name="Logger" Grid.Row="2" Margin="5">
-            <views:LogView MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" ViewModel="{Binding LogViewModel, Mode=OneWay}"
+            <Grid Visibility="Collapsed" Name="Logger" Grid.Row="2" Margin="5">
+                <views:LogView MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" ViewModel="{Binding LogViewModel, Mode=OneWay}"
                            AvailableAccounts="{Binding AccountList, Mode=OneWay}"
                            AvailableNetworks="{Binding AvailableNetworks.ItemsCollection, Mode=OneWay}" x:Name="RootLayout"></views:LogView>
-        </Grid>
+            </Grid>
 
-        <Grid Grid.Row="3" VerticalAlignment="Bottom">
-            -->
-    <!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>-->
-    <!--
-            <ContentControl regions:RegionManager.RegionName="PerfCounterRegion"  x:Name="statusbar"/>
+            <!--<Grid Grid.Row="3" VerticalAlignment="Bottom">
+                --><!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>--><!--
+                <ContentControl regions:RegionManager.RegionName="PerfCounterRegion"  x:Name="statusbar"/>
+            </Grid>-->
         </Grid>
-
-    </Grid>-->
+        
+    </Border>
 </Window>
-
-
-

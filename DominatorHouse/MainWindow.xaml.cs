@@ -46,8 +46,6 @@ namespace Socinator
 
                 mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
 
-                mainViewModel.WindowResizer = new WindowResizer(Application.Current.MainWindow);
-
                 mainViewModel.ScreenResolution = new KeyValuePair<int, int>
                     (activeScreen.WorkingArea.Width, activeScreen.WorkingArea.Height);
 
@@ -61,11 +59,6 @@ namespace Socinator
             {
                 ex.DebugLog();
             }
-        }
-
-        private void WindowLoaded(object sender, RoutedEventArgs e)
-        {
-            Application.Current.MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
         //private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         //{
@@ -129,7 +122,7 @@ namespace Socinator
         //                    Application.Current.Resources["UserControlBackgroundBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255)); // White
         //                    Application.Current.Resources["SelectedTabBorderBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 248, 255)); //Black
         //                    Application.Current.Resources["TextColorBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 248, 255)); // Pure Black
-        //                    Application.Current.Resources["IconFillBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1,0,0)); // Black
+        //                    Application.Current.Resources["IconFillBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1, 0, 0)); // Black
         //                    Application.Current.Resources["TextColorBrushAccordingTheme1"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(35, 49, 64)); // #233140
         //                    Application.Current.Resources["ListItemsMouseHoverColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(214, 235, 242)); // LightBlue (Much Lighter)
         //                    Application.Current.Resources["GreenColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 128, 0)); // Green
@@ -161,5 +154,33 @@ namespace Socinator
         //    }
         //    catch (Exception ex) { }
         //}
+
+        private void button_Close(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button_Maximize(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+                this.WindowState = WindowState.Normal;
+            else
+                this.WindowState = WindowState.Maximized;
+        }
+
+        private void button_Minimize(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void WindowLoaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

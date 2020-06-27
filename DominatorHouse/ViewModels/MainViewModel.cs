@@ -256,7 +256,7 @@ namespace DominatorHouse.ViewModels
             PerfCounterViewModel = perfCounterViewModel;
             AvailableNetworks = availableNetworks;
             _schedulerProxy = schedulerProxy;
-            Languages = new SelectableViewModel<string>(new[] { "English" });
+            Languages = new SelectableViewModel<string>(new[] { "ENGLISH" });
             Themes = new SelectableViewModel<string>(ServiceLocator.Current.GetInstance<IBinFileHelper>().ThemesList());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
