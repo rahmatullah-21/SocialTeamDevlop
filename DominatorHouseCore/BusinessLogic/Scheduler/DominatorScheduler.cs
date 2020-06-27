@@ -576,15 +576,22 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             _schedulerProxy.AddJob(async () =>
              {
-                 await RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                 try
+                 {
+                     await RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                 }
+                 catch (Exception ex) { ex.DebugLog(); }
              }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
 
             if (shouldStop)
                 _schedulerProxy.AddJob(() =>
                 {
-                    StopActivity(dominatorAccount, timing.Module, templateId, true, true);
+                    try
+                    {
+                        StopActivity(dominatorAccount, timing.Module, templateId, true, true);
+                    }
+                    catch (Exception ex) { ex.DebugLog(); }
                 }, s => s.ToRunOnceAt(stopTime));
-
         }
 
         public void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo,
