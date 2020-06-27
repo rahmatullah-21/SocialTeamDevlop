@@ -41,7 +41,13 @@
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>-->
 
-    <Border BorderThickness="0,15,0,15"  BorderBrush="Black" CornerRadius="5">
+    <Border BorderThickness="0,20,0,0" BorderBrush="Black" CornerRadius="5">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="0.5"
+                        Color="Black"
+                                  Direction="90"
+                        BlurRadius="5" />
+        </Border.Effect>
         <Grid Name="MainGrid" >
             <Grid.Background>
                 <ImageBrush ImageSource="Images/crucial-background.png" Stretch="UniformToFill"/>
@@ -105,7 +111,7 @@
             </DockPanel>
             <Border Grid.Row="1" Height="50" Grid.ColumnSpan="2" Background="{DynamicResource AccentColorBrush}">
                 <Border.Effect>
-                    <DropShadowEffect ShadowDepth="2" BlurRadius="10" Color="Black"/>
+                    <DropShadowEffect ShadowDepth="2" Direction="270"  BlurRadius="15" Color="Gray"/>
                 </Border.Effect>
             </Border>
             <!--Account Growth Mode Tabs-->
@@ -115,9 +121,7 @@
                 <TabControl Grid.Row="1" Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
                     Foreground="Black" BorderThickness="0">
-                    <TabControl.Effect>
-                        <DropShadowEffect ShadowDepth="-2" Direction="270" BlurRadius="0" Color="White"/>
-                    </TabControl.Effect>
+                   
                     <TabControl.Style>
                         <Style TargetType="TabControl">
                             <Style.Triggers>
@@ -140,7 +144,9 @@
 		                Stroke="Black"
 		                StrokeThickness="1"
                                               StrokeMiterLimit="1"
+                                              
 		                FontFamily="{StaticResource  BuildTitleSbIt}"
+                                              FontStyle="Italic"
 		                FontSize="19"
                         FontWeight="Bold">
                                 <utility:TextPath.Effect>
