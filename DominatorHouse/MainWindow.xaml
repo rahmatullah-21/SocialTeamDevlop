@@ -78,7 +78,7 @@
                         <Grid.Effect>
                             <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                         </Grid.Effect>
-                        <ComboBox Style="{StaticResource ComboBoxStyle}" HorizontalContentAlignment="Center" FontSize="20" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+                        <ComboBox Style="{StaticResource ComboBoxStyle}" FontSize="30" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
                       ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}"/>
                     </Grid>
 
@@ -103,7 +103,7 @@
                         <Grid.Effect>
                             <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                         </Grid.Effect>
-                        <ComboBox Style="{StaticResource ComboBoxStyle}" HorizontalContentAlignment="Center" FontSize="20" DataContext="{Binding Languages}" Grid.Column="3" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+                        <ComboBox Style="{StaticResource ComboBoxStyle}" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" HorizontalAlignment="Center" FontSize="30" DataContext="{Binding Languages}" Grid.Column="3"  BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
                     </Grid>
 
 
@@ -121,32 +121,66 @@
                 <TabControl Grid.Row="1" Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
                     Foreground="Black" BorderThickness="0">
-                   
+
                     <TabControl.Style>
                         <Style TargetType="TabControl">
                             <Style.Triggers>
                                 <Trigger Property="TabStripPlacement" Value="Left">
                                     <Setter Property="Template" Value="{DynamicResource LeftTabstyle1}"></Setter>
                                     <Setter Property="ItemContainerStyle" Value="{DynamicResource LeftTabItemStyle}"/>
+                                    <Setter Property="ItemTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="Black"
+		                Stroke="White"                                             
+		                FontFamily="{StaticResource BuildTitleBdIt}"
+		                FontSize="16"
+                        FontWeight="Bold">
+
+                                                </utility:TextPath>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Trigger>
                                 <Trigger Property="TabStripPlacement" Value="Top">
                                     <Setter Property="Template" Value="{DynamicResource TopTabstyle}"></Setter>
                                     <Setter Property="ItemContainerStyle" Value="{DynamicResource TabItemStyle}"/>
+                                    <Setter Property="ItemTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="#ffffff"
+                       StrokeThickness="1"
+                        StrokeMiterLimit="1"
+		                Stroke="Black"
+                        FontStyle="Italic"
+		                FontFamily="{StaticResource BuildTitleBdIt}"
+		                FontSize="19"
+                        FontWeight="Bold">
+                                                    <utility:TextPath.Effect>
+                                                        <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                                                    </utility:TextPath.Effect>
+                                                </utility:TextPath>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </TabControl.Style>
-                    <TabControl.ItemTemplate>
+                    <!--<TabControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
                             <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
 		                VerticalAlignment="Center"
 		                Fill="White"
 		                Stroke="Black"
 		                StrokeThickness="1"
-                                              StrokeMiterLimit="1"
-                                              
+                        StrokeMiterLimit="1"                                              
 		                FontFamily="{StaticResource  BuildTitleSbIt}"
-                                              FontStyle="Italic"
+                        FontStyle="Italic"
 		                FontSize="19"
                         FontWeight="Bold">
                                 <utility:TextPath.Effect>
@@ -154,7 +188,7 @@
                                 </utility:TextPath.Effect>
                             </utility:TextPath>
                         </DataTemplate>
-                    </TabControl.ItemTemplate>
+                    </TabControl.ItemTemplate>-->
                     <TabControl.ContentTemplate>
                         <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
                             <Grid>
@@ -177,7 +211,7 @@
 
             <Grid Grid.Row="6" VerticalAlignment="Bottom">
                 <!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>-->
-                <ContentControl regions:RegionManager.RegionName="PerfCounterRegion"  x:Name="statusbar"/>
+                <ContentControl regions:RegionManager.RegionName="PerfCounterRegion" x:Name="statusbar"/>
             </Grid>
 
         </Grid>

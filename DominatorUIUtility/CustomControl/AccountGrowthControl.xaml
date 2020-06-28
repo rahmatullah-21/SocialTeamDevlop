@@ -8,6 +8,7 @@
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums.DHEnum;assembly=DominatorHouseCore"
+              xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              Name="AccountModule"
              mc:Ignorable="d">
@@ -39,22 +40,58 @@
         </Style>
         <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
     </UserControl.Resources>
-    <Grid Name="MainGrid">
+    <Grid Name="MainGrid" Margin="-2">
         <TabControl ItemContainerStyle="{StaticResource TabItemStyle}">
-            <TabItem Header="{DynamicResource LangKeyTableView}">
+            <TabControl.Style>
+                <Style TargetType="TabControl">
+                    <Setter Property="ItemTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="Black"
+		                Stroke="White"                                             
+		                FontFamily="{StaticResource BuildTitleBdIt}"
+		                FontSize="16"
+                        FontWeight="Bold">
+
+                                </utility:TextPath>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Style>
+            <TabItem >
+                <TabItem.Header>
+                    <utility:TextPath Text="{DynamicResource LangKeyTableView}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="#ffffff"
+                       StrokeThickness="1"
+                        StrokeMiterLimit="1"
+		                Stroke="Black"
+                        FontStyle="Italic"
+		                FontFamily="{StaticResource BuildTitleBdIt}"
+		                FontSize="19"
+                        FontWeight="Bold">
+                        <utility:TextPath.Effect>
+                            <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                        </utility:TextPath.Effect>
+                    </utility:TextPath>
+                </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
+                        <Grid.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="2" Direction="0" Color="Black"/>
+                        </Grid.Effect>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.35*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-
-
-                        <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal" Margin="0,3,0,0">
                             <Label  
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center" 
@@ -63,9 +100,8 @@
                                Foreground="White" Margin="5,0,0,0"
                                Content="{DynamicResource LangKeyAccountGrowth}" />
                         </StackPanel>
+                        <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}" Margin="0,3,0,0">
 
-
-                        <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
                             <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
                                 <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
                                     <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeyFilterBy}" HorizontalAlignment="Right" Height="25"/>
@@ -107,129 +143,150 @@
 
                     </Grid>
                     <!--Account List View-->
-                    <Grid Grid.Row="1">
-                        <ListView x:Name="AccountListView" VirtualizingPanel.IsContainerVirtualizable="True"  ItemContainerStyle="{StaticResource ListViewItems}"
-                                  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
+                    <Border Grid.Row="1" Margin="0,10,0,0" CornerRadius="5" Background="White">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="2" Direction="0" Color="Black"/>
+                        </Border.Effect>
+                        <Grid Background="Transparent">
+                            <ListView x:Name="AccountListView" VirtualizingPanel.IsContainerVirtualizable="True"  ItemContainerStyle="{StaticResource ListViewItems}"
+                                  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" Background="Transparent"
                                   AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
-                            <ListView.ItemsSource>
-                                <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
-                                    <Binding Path="Accounts" IsAsync="True"/>
-                                    <Binding Path="SelectedNetworkViewModel.Selected"/>
-                                </MultiBinding>
-                            </ListView.ItemsSource>
-                            <ListView.View>
-                                <GridView >
-                                    <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <ContentControl>
-                                                        <ContentControl.Style>
-                                                            <Style TargetType="{x:Type ContentControl}">
-                                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                                <Setter Property="Content">
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </Style>
-                                                        </ContentControl.Style>
-                                                    </ContentControl>
-                                                    <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
+                                <ListView.ItemsSource>
+                                    <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
+                                        <Binding Path="Accounts" IsAsync="True"/>
+                                        <Binding Path="SelectedNetworkViewModel.Selected"/>
+                                    </MultiBinding>
+                                </ListView.ItemsSource>
+                                <ListView.View>
+                                    <GridView >
+                                        <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <ContentControl>
+                                                            <ContentControl.Style>
+                                                                <Style TargetType="{x:Type ContentControl}">
+                                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                                    <Setter Property="Content">
+                                                                        <Setter.Value>
+                                                                            <Rectangle Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
+                                                                                <Rectangle.OpacityMask>
+                                                                                    <VisualBrush Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
+                                                                                </Rectangle.OpacityMask>
+                                                                            </Rectangle>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </Style>
+                                                            </ContentControl.Style>
+                                                        </ContentControl>
+                                                        <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
                                                   Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
                                                   Converter={StaticResource IndexToRowNoConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
-                                    <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn1}" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding DisplayColumnValue1}"/>
-                                                        <UserControl DataContext="{Binding DisplayColumnValue6, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
-                                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue6, Converter={StaticResource objPositiveValueConvertor}}"/>
                                                     </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn2}">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn1}" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding DisplayColumnValue1}"/>
+                                                            <UserControl DataContext="{Binding DisplayColumnValue6, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
+                                                            <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue6, Converter={StaticResource objPositiveValueConvertor}}"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn2}">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                                                                Content="{Binding DisplayColumnValue2}"/>
-                                                        <UserControl DataContext="{Binding DisplayColumnValue7, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
-                                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue7, Converter={StaticResource objPositiveValueConvertor}}"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn3}" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding DisplayColumnValue3}"/>
-                                                        <UserControl DataContext="{Binding DisplayColumnValue8, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
-                                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue8, Converter={StaticResource objPositiveValueConvertor}}"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn4}" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding DisplayColumnValue3}"/>
-                                                        <UserControl DataContext="{Binding DisplayColumnValue9, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
-                                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue9, Converter={StaticResource objPositiveValueConvertor}}"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn5}" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding DisplayColumnValue3}"/>
-                                                        <UserControl DataContext="{Binding DisplayColumnValue10, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
-                                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue10, Converter={StaticResource objPositiveValueConvertor}}"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        <!--Help section-->
-                        <Controls:FlyoutsControl>
-                            <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
+                                                            <UserControl DataContext="{Binding DisplayColumnValue7, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
+                                                            <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue7, Converter={StaticResource objPositiveValueConvertor}}"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn3}" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding DisplayColumnValue3}"/>
+                                                            <UserControl DataContext="{Binding DisplayColumnValue8, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
+                                                            <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue8, Converter={StaticResource objPositiveValueConvertor}}"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn4}" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding DisplayColumnValue3}"/>
+                                                            <UserControl DataContext="{Binding DisplayColumnValue9, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
+                                                            <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue9, Converter={StaticResource objPositiveValueConvertor}}"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn5}" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding DisplayColumnValue3}"/>
+                                                            <UserControl DataContext="{Binding DisplayColumnValue10, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
+                                                            <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue10, Converter={StaticResource objPositiveValueConvertor}}"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <!--Help section-->
+                            <Controls:FlyoutsControl>
+                                <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
-                                <local:HelpControl ModuleDescription="{DynamicResource LangKeyTableViewDescription}"
+                                    <local:HelpControl ModuleDescription="{DynamicResource LangKeyTableViewDescription}"
                                                  VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
                                                  ContactSupportLink="{Binding ContactSupportLink}" />
-                            </Controls:Flyout>
-                        </Controls:FlyoutsControl>
-                    </Grid>
+                                </Controls:Flyout>
+                            </Controls:FlyoutsControl>
+                        </Grid>
+                    </Border>
                 </Grid>
             </TabItem>
-            <TabItem Header="{DynamicResource LangKeyChartsView}" >
+            <TabItem >
+                <TabItem.Header>
+                    <utility:TextPath Text="{DynamicResource LangKeyChartsView}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="#ffffff"
+                       StrokeThickness="1"
+                        StrokeMiterLimit="1"
+		                Stroke="Black"
+                        FontStyle="Italic"
+		                FontFamily="{StaticResource BuildTitleBdIt}"
+		                FontSize="19"
+                        FontWeight="Bold">
+                        <utility:TextPath.Effect>
+                            <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                        </utility:TextPath.Effect>
+                    </utility:TextPath>
+                </TabItem.Header>
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
