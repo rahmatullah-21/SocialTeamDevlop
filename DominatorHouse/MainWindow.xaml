@@ -190,29 +190,79 @@
                 
             </Grid.RowDefinitions>
 
+
             <Border Grid.Row="1" Background="Transparent"  Margin="40,0,40,25" Padding="{Binding InnerPadding}" CornerRadius="5">
                 <TabControl Grid.Row="1"  Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
                     Foreground="Black" BorderThickness="0" Background="#FF585A57">
+
                     <TabControl.Style>
                         <Style TargetType="TabControl">
                             <Style.Triggers>
                                 <Trigger Property="TabStripPlacement" Value="Left">
                                     <Setter Property="Template" Value="{DynamicResource LeftTabstyle1}"></Setter>
                                     <Setter Property="ItemContainerStyle" Value="{DynamicResource LeftTabItemStyle}"/>
+                                    <Setter Property="ItemTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                                            VerticalAlignment="Center"
+		                                            Fill="Black"
+		                                            Stroke="White"                                             
+		                                            FontFamily="{StaticResource BuildTitleBdIt}"
+		                                            FontSize="16"
+                                                    FontWeight="Bold">
+                                                </utility:TextPath>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Trigger>
                                 <Trigger Property="TabStripPlacement" Value="Top">
                                     <Setter Property="Template" Value="{DynamicResource TopTabstyle}"></Setter>
                                     <Setter Property="ItemContainerStyle" Value="{DynamicResource TabItemStyle}"/>
+                                    <Setter Property="ItemTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                                             VerticalAlignment="Center"
+		                                             Fill="#ffffff"
+                                                     StrokeThickness="1"
+                                                     StrokeMiterLimit="1"
+		                                             Stroke="Black"
+                                                     FontStyle="Italic"
+		                                             FontFamily="{StaticResource BuildTitleBdIt}"
+		                                             FontSize="19"
+                                                     FontWeight="Bold">
+                                                    <utility:TextPath.Effect>
+                                                        <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                                                    </utility:TextPath.Effect>
+                                                </utility:TextPath>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </TabControl.Style>
                     <TabControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                            <TextBlock Text="{Binding Title}"/>
+
+                            <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                        VerticalAlignment="Center"
+		                        Fill="White"
+		                        Stroke="Black"
+		                        StrokeThickness="1"
+                                StrokeMiterLimit="1"                                              
+		                        FontFamily="{StaticResource  BuildTitleSbIt}"
+                                FontStyle="Italic"
+		                        FontSize="19"
+                                FontWeight="Bold">
+                                <utility:TextPath.Effect>
+                                    <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                                </utility:TextPath.Effect>
+                            </utility:TextPath>
                         </DataTemplate>
-                    </TabControl.ItemTemplate>
+                    </TabControl.ItemTemplate>-->
                     <TabControl.ContentTemplate>
                         <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
                             <Grid>
@@ -227,7 +277,7 @@
             <GridSplitter Grid.Row="2" Height="2" HorizontalAlignment="Stretch" Background="Red"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows" IsEnabled="{Binding IsEnabled,ElementName=statusbar}"/>
 
-            <Grid Visibility="Collapsed" Name="Logger" Grid.Row="2" Margin="5">
+            <Grid Visibility="Collapsed" Name="Logger" Grid.Row="3" Margin="5">
                 <views:LogView MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" ViewModel="{Binding LogViewModel, Mode=OneWay}"
                            AvailableAccounts="{Binding AccountList, Mode=OneWay}"
                            AvailableNetworks="{Binding AvailableNetworks.ItemsCollection, Mode=OneWay}" x:Name="RootLayout"></views:LogView>
@@ -237,6 +287,7 @@
                 --><!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>--><!--
                 <ContentControl regions:RegionManager.RegionName="PerfCounterRegion"  x:Name="statusbar"/>
             </Grid>-->
+
         </Grid>
         
     </Border>

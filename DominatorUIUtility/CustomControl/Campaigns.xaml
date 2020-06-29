@@ -21,7 +21,7 @@
         <converters:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
     </UserControl.Resources>
 
-    <Border  BorderBrush="{DynamicResource AccentBaseColorBrush}"  Margin="5, .5, 0, 0 ">
+    <Border  BorderBrush="{DynamicResource AccentBaseColorBrush}"  Margin="0, 1.5, 0, 4 ">
         <Grid Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
@@ -30,7 +30,7 @@
 
             <Grid  Background="{DynamicResource AccentBaseColorBrush}" Height="40" Margin="0,-1,0,0">
                 <Grid.Effect>
-                    <DropShadowEffect Direction="0" ShadowDepth="1"/>
+                    <DropShadowEffect BlurRadius="8" ShadowDepth="1" Direction="0"/>
                 </Grid.Effect>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
