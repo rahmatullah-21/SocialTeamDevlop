@@ -71,10 +71,10 @@
 
                                     <Grid.RowDefinitions>
                                         <!-- Title Bar -->
-                                        <RowDefinition Height=".14*" />
+                                        <RowDefinition Height=".164*" />
                                         <!-- Window Content -->
-                                        <RowDefinition Height=".825*" />
-                                        <RowDefinition Height=".025*" />
+                                        <RowDefinition Height=".812*" />
+                                        <RowDefinition Height=".024*" />
                                     </Grid.RowDefinitions>
 
                                     <!-- Title Bar -->
@@ -114,33 +114,39 @@
                                                     </Grid.Effect>
                                                     <ComboBox Style="{StaticResource ComboBoxStyle}" HorizontalContentAlignment="Center" FontSize="20" DataContext="{Binding Languages}" Grid.Column="3" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
                                                 </Grid>
-                                                <Grid Margin="20,0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" >
+                                                <Grid Margin="15,0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" >
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
-                                                    <Button Margin="4,5" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_Close">
-                                                        <Button.Background>
-                                                            <ImageBrush Stretch="Fill" ImageSource="Images/macos_buttons1.ico"/>
-                                                        </Button.Background>
+                                                    <Button Margin="2,8" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_Close">
+                                                        <Button.Template>
+                                                            <ControlTemplate>
+                                                                <Image Cursor="Hand" Stretch="Fill" Source="Images/macos_buttons1.ico"/>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
                                                     </Button>
-                                                    <Button Margin="4,6" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Click="button_Minimize">
-                                                        <Button.Background>
-                                                            <ImageBrush Stretch="Fill" ImageSource="Images/macos_buttons2.ico"/>
-                                                        </Button.Background>
+                                                    <Button Margin="3,10" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Click="button_Minimize">
+                                                        <Button.Template>
+                                                            <ControlTemplate>
+                                                                <Image Cursor="Hand" Stretch="Fill" Source="Images/macos_buttons2.ico"/>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
                                                     </Button>
-                                                    <Button Margin="4,6" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Column="2"  Click="button_Maximize">
-                                                        <Button.Background>
-                                                            <ImageBrush Stretch="Fill" ImageSource="Images/macos_buttons3.ico"/>
-                                                        </Button.Background>
+                                                    <Button Margin="3,10"  HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Column="2"  Click="button_Maximize">
+                                                        <Button.Template>
+                                                            <ControlTemplate>
+                                                                <Image Cursor="Hand" Stretch="Fill" Source="Images/macos_buttons3.ico"/>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
                                                     </Button>
                                                 </Grid>
                                             </Grid>
                                         </Border>
                                         <Border Grid.Row="2" Grid.ColumnSpan="2" Background="{DynamicResource AccentColorBrush}">
                                             <Border.Effect>
-                                                <DropShadowEffect ShadowDepth="2" Direction="290"  BlurRadius="12" Color="Gray"/>
+                                                <DropShadowEffect ShadowDepth="2" Direction="290"  BlurRadius="5" Color="Gray"/>
                                             </Border.Effect>
                                         </Border>
                                     </Grid>
@@ -164,12 +170,15 @@
     <WindowChrome.WindowChrome>
         <WindowChrome
             ResizeBorderThickness="{Binding ResizeBorderThickness}"
-            CaptionHeight="{Binding TitleHeight}"
+            CaptionHeight="10"
             CornerRadius="0"
             GlassFrameThickness="0"/>
 
     </WindowChrome.WindowChrome>
     <Border>
+        <Border.Background>
+            <ImageBrush ImageSource="Images/crucial-background.png" Stretch="UniformToFill"/>
+        </Border.Background>
         <Grid>
             <Grid.RowDefinitions>
                 <!-- Title Bar -->
@@ -181,11 +190,10 @@
                 
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="1" Background="Transparent"  Margin="40,0,40,25" CornerRadius="5">
+            <Border Grid.Row="1" Background="Transparent"  Margin="40,0,40,25" Padding="{Binding InnerPadding}" CornerRadius="5">
                 <TabControl Grid.Row="1"  Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
-                    Foreground="Black" BorderThickness="0">
-
+                    Foreground="Black" BorderThickness="0" Background="#FF585A57">
                     <TabControl.Style>
                         <Style TargetType="TabControl">
                             <Style.Triggers>
@@ -202,20 +210,7 @@
                     </TabControl.Style>
                     <TabControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                            <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
-		                        VerticalAlignment="Center"
-		                        Fill="White"
-		                        Stroke="Black"
-		                        StrokeThickness="1"
-                                StrokeMiterLimit="1"                                              
-		                        FontFamily="{StaticResource  BuildTitleSbIt}"
-                                FontStyle="Italic"
-		                        FontSize="19"
-                                FontWeight="Bold">
-                                <utility:TextPath.Effect>
-                                    <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
-                                </utility:TextPath.Effect>
-                            </utility:TextPath>
+                            <TextBlock Text="{Binding Title}"/>
                         </DataTemplate>
                     </TabControl.ItemTemplate>
                     <TabControl.ContentTemplate>

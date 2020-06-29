@@ -2203,6 +2203,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\CustomFont\monbaiti.ttf" />
     <Resource Include="Resources\CustomFont\built titling bd it.ttf" />
     <Resource Include="Resources\CustomFont\built titling bd.ttf" />
     <Resource Include="Resources\CustomFont\built titling el it.ttf" />

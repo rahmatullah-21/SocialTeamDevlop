@@ -741,12 +741,11 @@
                 </Border.Effect>
                 <Grid >
                     <ListView x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
-                      VirtualizingPanel.IsContainerVirtualizable="True"
+                      VirtualizingPanel.IsContainerVirtualizable="True" BorderBrush="#FFD8D7DD" BorderThickness="0,2,0,0"
                       VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}">
                         <ListView.Resources>
                             <viewModel:BindingData x:Key="ContextMenuBinding" Data="{Binding}" />
-
                             <ContextMenu x:Key="ItemContextMenu">
                                 <MenuItem Header="{DynamicResource LangKeyDetails}" CommandParameter="{Binding}"
                                   Command="{Binding Data.ProfileDetailsCommand, Source={StaticResource ContextMenuBinding}}"
@@ -861,7 +860,7 @@
 
                         <ListView.View>
                             <GridView uiExtensions:GridViewExtension.Columns="{Binding VisibleColumns}">
-                                <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
+                                <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}" Header="{DynamicResource LangKeySocialNetwork}" >
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -872,9 +871,9 @@
                                                         </Style>
                                                     </ContentControl.Style>
                                                 </ContentControl>
-                                                <Rectangle Margin="10,0" VerticalAlignment="Center"
+                                                <Rectangle Margin="10,0,0,0" VerticalAlignment="Center"
                                                    Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}"
-                                                   Width="20" Height="20">
+                                                   Width="16" Height="18">
                                                     <Rectangle.OpacityMask>
                                                         <VisualBrush
                                                     Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}"
@@ -882,9 +881,10 @@
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
                                                 <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
+                                                  Style="{StaticResource CrucialCheckBoxStyle}" Height="20"
                                                   Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
-                                                  Converter={StaticResource IndexToRowNoConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}"/>
+                                                  Converter={StaticResource IndexToRowNoConverter}}" Foreground="DarkSlateGray"/>
 
                                             </VirtualizingStackPanel>
 
@@ -892,14 +892,14 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyAccountName}" Width="Auto" DisplayMemberBinding="{Binding AccountBaseModel.AccountName}"/>
+                                <GridViewColumn  HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}" Header="{DynamicResource LangKeyAccountName}" Width="Auto" DisplayMemberBinding="{Binding AccountBaseModel.AccountName}"/>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
+                                <GridViewColumn  HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"  Header="{DynamicResource LangKeyUsername}" Width="Auto" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyStatus}">
+                                <GridViewColumn  Width="Auto"  HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"  Header="{DynamicResource LangKeyStatus}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock >
+                                            <TextBlock HorizontalAlignment="Left" TextAlignment="Left">
                                                 <TextBlock.Style>
                                                     <Style TargetType="TextBlock">
                                                         <Style.Triggers>
@@ -994,9 +994,9 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyByGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
+                                <GridViewColumn  Width="Auto"  HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}" Header="{DynamicResource LangKeyByGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyProxyAddress}" Width="130">
+                                <GridViewColumn  HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}" Header="{DynamicResource LangKeyProxyAddress}" Width="130">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate DataType="{x:Type ListViewItem}">
                                             <TextBlock Name="TextBlockName">
@@ -1018,11 +1018,9 @@
                                             </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
-
-
                                 </GridViewColumn>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
+                                <GridViewColumn  HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}" Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}" Width="Auto"/>
 
                                 <!--<GridViewColumn  Header="{DynamicResource LangKeyPinterestAccountType}" DisplayMemberBinding="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToStatusConverter}}"/>-->
 

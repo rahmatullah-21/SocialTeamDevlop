@@ -131,7 +131,7 @@
 
     </Style>
     <!-- Regular button -->
-    <Style TargetType="{x:Type Button}">
+    <!--<Style TargetType="{x:Type Button}">
 
         <Setter Property="Background" Value="{StaticResource WordOrangeBrush}" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundLightBrush}" />
@@ -180,7 +180,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 
 
 
