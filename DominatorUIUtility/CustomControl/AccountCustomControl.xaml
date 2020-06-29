@@ -125,15 +125,13 @@
 
             <DockPanel Grid.Row="0" Name="MainContainer" Background="Transparent">
 
-                <Border DockPanel.Dock="Left" Style="{DynamicResource BorderStyle}" Margin="0,2,4,9" Background="{DynamicResource AccentColorBrush}">
-                    <Border.Effect>
-                        <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
-                    </Border.Effect>
+                <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="1" Margin="0,2,4,9" Background="{DynamicResource AccentColorBrush}">
+                    
                     <utility:TextPath  HorizontalAlignment="Center"
                                VerticalAlignment="Center" 
                                FontSize="22"
                                FontWeight="SemiBold" FontFamily="{StaticResource BuildTitleBdIt}" 
-                               Fill="Black" Margin="5,0,5,4" Stroke="White" StrokeThickness="1"
+                               Fill="Black" Margin="5" Stretch="Uniform" Stroke="White" StrokeThickness="1"
                                Text="{DynamicResource LangKeyAccountManager}"/>
 
                 </Border>

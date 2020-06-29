@@ -529,10 +529,7 @@
                         </utility:TextPath.Effect>
                     </utility:TextPath>
                 </Border>
-                <Border Grid.Row="1" Margin="3,0,4,0" CornerRadius="0" Padding="5" Background="#FFB0B0B0">
-                    <Border.Effect>
-                        <DropShadowEffect ShadowDepth="2" BlurRadius="5" Direction="0" Color="Gray"/>
-                    </Border.Effect>
+                <Border Grid.Row="1" Margin="3,0,4,0" BorderBrush="Black" BorderThickness="1" CornerRadius="0,0,1,1" Padding="5" Background="#FFB0B0B0">
                     <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                         <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
                     </ScrollViewer>
@@ -767,7 +764,7 @@
     <!--    Below Design are specific for Template for the Crucials -->
 
 
-    <Style x:Key="CrucialToggleButton" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="CrucialToggleButton" TargetType="{x:Type controls:ToggleSwitchButton}">
         <Setter Property="Background" Value="White"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Template">
@@ -779,8 +776,8 @@
                             <Ellipse Width="19" Name="IsCheckedBackgroundRect"
                                                     Height="19"
                                                     Fill="#FFA4ADB7" Margin="-42,0,0,0"/>
-                            <TextBlock Opacity="0" Margin="8,0,0,0" HorizontalAlignment="Left" Text="On" Name="OnText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" />
-                            <TextBlock HorizontalAlignment="Right" Text="Off" Name="OffText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" Margin="0,0,10,0" />
+                            <TextBlock Opacity="0" Margin="8,0,0,0" HorizontalAlignment="Left" Text="On" Name="OnText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" />
+                            <TextBlock HorizontalAlignment="Right" Text="Off" Name="OffText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Margin="0,0,15,0" />
                         </Grid>
 
                     </Border>
@@ -865,6 +862,48 @@
         </Setter>
     </Style>
 
-
+    <Style x:Key="ExpanderStyle" TargetType="{x:Type Expander}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Expander}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition x:Name="ContentRow"
+                           Height="0" />
+                        </Grid.RowDefinitions>
+                        <Border x:Name="Border"
+                  Grid.Row="0" Background="Gray"
+                  BorderThickness="1" 
+                  CornerRadius="8">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton OverridesDefaultStyle="True"
+                            Template="{StaticResource ExpanderToggleButton}"
+                            IsChecked="{Binding IsExpanded, Mode=TwoWay, 
+                  RelativeSource={RelativeSource TemplatedParent}}">
+                                </ToggleButton>
+                                <ContentPresenter Grid.Column="1"
+                                Margin="4"
+                                ContentSource="Header"
+                                RecognizesAccessKey="True" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded"
+                   Value="True">
+                            <Setter TargetName="ContentRow"
+                    Property="Height"
+                    Value="{Binding DesiredHeight, ElementName=Content}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!-- End Design-->
 </ResourceDictionary>

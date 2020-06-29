@@ -51,18 +51,17 @@
                             </StackPanel>
                         </Button.Content>
                     </Button>
-                    <controls:ToggleSwitch Margin="15,0,0,0" OffLabel="{DynamicResource LangKeyActiveAllSelectedCampaign}"
-                                           OnLabel="{DynamicResource LangKeyPauseAllSelectedCampaign}" 
+                    <controls:ToggleSwitchButton  Margin="15,0,0,0" 
                                            FontSize="12" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" 
                                            IsChecked="{Binding AllCampStatus,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                           OnSwitchBrush="#00ff00" OffSwitchBrush="#DC143C" FocusVisualStyle="{x:Null}"
-                                           Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
+                                           OnSwitchBrush="#00ff00" Height="28" OffSwitchBrush="#DC143C" FocusVisualStyle="{x:Null}"
+                                           Style="{StaticResource CrucialToggleButton}">
                         <interactivity:Interaction.Triggers>
                             <interactivity:EventTrigger EventName="Click">
                                 <interactivity:InvokeCommandAction Command="{Binding StatusChangeCommand}"/>
                             </interactivity:EventTrigger>
                         </interactivity:Interaction.Triggers>
-                    </controls:ToggleSwitch>
+                    </controls:ToggleSwitchButton>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="1">
                     <Label Foreground="White" FontSize="12" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -105,12 +104,12 @@
                         <GridView>
                             <GridView.Columns>
                                 <GridViewColumn Width="100">
-                                    <CheckBox x:Name="AllCampaign" IsChecked="{Binding IsAllCampaignChecked}" Content=" #"/>
+                                    <CheckBox x:Name="AllCampaign" Height="20" Background="LightGray" Style="{StaticResource CrucialCheckBoxStyle}"  IsChecked="{Binding IsAllCampaignChecked}" Content=" #"/>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox IsChecked="{Binding IsCampaignChecked}" 
-                                                  x:Name="ChkSingleCampaign"
-                                                  Margin="5,0,0,0"  Content="{Binding (ItemsControl.AlternationIndex),
+                                                  x:Name="ChkSingleCampaign" Height="20"
+                                                  Margin="5,0,0,0" Style="{StaticResource CrucialCheckBoxStyle}"  Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
                                                   Converter={StaticResource IndexToRowNoConverter}}" 
                                                   Foreground="{DynamicResource AccentBaseColorBrush}"
@@ -124,8 +123,8 @@
                                 <GridViewColumn Header="{DynamicResource LangKeyStatus}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource LangKeyPaused}" 
-                                                               FontSize="12" Foreground="{DynamicResource AccentBaseColorBrush}" Name="campaignStatus"
+                                            <controls:ToggleSwitchButton Style="{StaticResource CrucialToggleButton}"
+                                                                Foreground="{DynamicResource AccentBaseColorBrush}" Name="campaignStatus"
                                                                SwitchForeground="{DynamicResource AccentBaseColorBrush}"
                                                                IsChecked="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}},
                                             Converter={StaticResource StringToBooleanConverter},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
@@ -135,8 +134,8 @@
                                                         RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding ElementName=campaignStatus}"/>
                                                     </interactivity:EventTrigger>
                                                 </interactivity:Interaction.Triggers>
-                                                <controls:ToggleSwitch.Style>
-                                                    <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
+                                                <!--<controls:ToggleSwitchButton.Style>
+                                                    <Style TargetType="controls:ToggleSwitchButton" BasedOn="{StaticResource CrucialToggleButton}">
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding SelectedAccountList.Count}" Value="0">
                                                                 <Setter Property="OffSwitchBrush" Value="#FA8072"/>
@@ -145,8 +144,8 @@
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
-                                                </controls:ToggleSwitch.Style>
-                                            </controls:ToggleSwitch>
+                                                </controls:ToggleSwitchButton.Style>-->
+                                            </controls:ToggleSwitchButton>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

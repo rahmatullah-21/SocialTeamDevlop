@@ -9,7 +9,7 @@
     <UserControl.Template>
         <ControlTemplate>
             <Grid>
-                <StatusBar Background="{DynamicResource AccentColorBrush}" Height="25" VerticalAlignment="Center" >
+                <StatusBar Background="Black" Height="25" VerticalAlignment="Center" >
                     <StatusBar.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Grid>
@@ -26,7 +26,7 @@
 
                     <StatusBarItem  Grid.Column="0" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Foreground="White">
+                            <TextBlock Foreground="White" FontFamily="{StaticResource BuildTitleSbIt}">
                                 <Run Text="{DynamicResource LangKeyDate}"/>
                                 <Run Text=" "/>
                                 <Run Text="{Binding CurrentDateTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
@@ -36,7 +36,7 @@
 
                     <StatusBarItem  Grid.Column="1" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Foreground="White">
+                            <TextBlock Foreground="White" FontFamily="{StaticResource BuildTitleSbIt}">
                                 <Run Text="{DynamicResource LangKeyAvailableMemory}"/>
                                 <Run Text=" "/>
                                 <Run Text="{Binding AvailableMemory, Mode=OneWay}"/>
@@ -46,7 +46,7 @@
                     </StatusBarItem>
 
                     <StatusBarItem  Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center">
-                        <TextBlock Text="{DynamicResource LangKeyActivityLog}" Name="ActivityLog">
+                        <TextBlock Text="{DynamicResource LangKeyActivityLog}" FontFamily="{StaticResource BuildTitleSbIt}" Name="ActivityLog">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
                                     <i:InvokeCommandAction Command="{Binding Path=ShowHideLogCmd, Mode=OneWay}"/>
@@ -58,7 +58,7 @@
                     <StatusBarItem  Grid.Column="3" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
 
-                            <TextBlock Foreground="White" >
+                            <TextBlock Foreground="White" FontFamily="{StaticResource BuildTitleSbIt}">
                                 <Run Text="{DynamicResource LangKeyCPUUsage}"/>
                                 <Run Text=" "/>
                                 <Run Text="{Binding CpuUsage, Mode=OneWay}"/>
@@ -70,7 +70,7 @@
                     <StatusBarItem  Grid.Column="4" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock 
-                                   Foreground="White" >
+                                   Foreground="White" FontFamily="{StaticResource BuildTitleSbIt}">
                                 <Run Text="{DynamicResource LangKeyLoadedMemory}"/>
                                 <Run Text=" "/>
                                 <Run Text="{Binding LoadedMemory, Mode=OneWay}"/>

@@ -56,8 +56,8 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="70"/>
-                <RowDefinition Height="30*"/>
-                <RowDefinition Height="4"/>
+                <RowDefinition Height="3000*"/>
+                <RowDefinition Height="2"/>
                 <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
@@ -211,7 +211,7 @@
 
             <Grid Grid.Row="6" VerticalAlignment="Bottom">
                 <!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>-->
-                <ContentControl regions:RegionManager.RegionName="PerfCounterRegion" x:Name="statusbar"/>
+                <ContentControl Background="Black" regions:RegionManager.RegionName="PerfCounterRegion" x:Name="statusbar"/>
             </Grid>
 
         </Grid>

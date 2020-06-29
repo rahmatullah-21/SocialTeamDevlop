@@ -13,9 +13,12 @@
         <Grid.RowDefinitions>
            
             <RowDefinition Height="*"/>
-            <RowDefinition Height="1.5*"/>
+            <!--<RowDefinition Height="1.5*"/>-->
         </Grid.RowDefinitions>
-      
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid Grid.Row="0" Background="Gray" Name="selectaccount"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -38,16 +41,16 @@
                
             </Button>
 
-            <TextBlock Name="txtblkSelectedAccountCount"
+            <!--<TextBlock Name="txtblkSelectedAccountCount"
                                    Grid.Column="1"  Margin="0,0,5,0"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
                                    FontSize="16" 
                                    FontWeight="SemiBold"
-                                   Text="{Binding NoOfAccountsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                   Text="{Binding NoOfAccountsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />-->
 
         </Grid>
-        <Grid Grid.Row="1"  Background="#fee0a6">
+        <Grid Grid.Row="1" Grid.Column="1"  Background="#fee0a6">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="4*" />
@@ -59,7 +62,7 @@
                                    Foreground="Black" FontWeight="SemiBold"
                                    Text="{DynamicResource LangKeyLetsDominateInstagramWithGramdominator}" />
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Grid.Column="1">
                 <Button Name="btnCampaignManager"
                         Grid.Column="0" Style="{StaticResource ButtonStyle}" Background="#ef1d1d" 
                         Width="160"  Command="{Binding CreateCampaignCommand}" CommandParameter="{Binding}">
