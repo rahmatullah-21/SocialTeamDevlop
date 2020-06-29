@@ -94,26 +94,29 @@
                                                     <ColumnDefinition Width="0.27*"/>
                                                     <ColumnDefinition Width="0.115*"/>
                                                     <ColumnDefinition Width="0.02*"/>
-                                                    <ColumnDefinition Width="0.36*"/>
+                                                    <ColumnDefinition Width="0.32*"/>
                                                     <ColumnDefinition Width="0.115*"/>
                                                     <ColumnDefinition Width="0.12*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <Grid Margin="10,0,10,0">
                                                     <Image VerticalAlignment="Center" Stretch="Fill"  Source="Images/CrucialConnectionImage.jpg"/>
                                                 </Grid>
+                                                
                                                 <Grid Grid.Column="1">
                                                     <Grid.Effect>
                                                         <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                                                     </Grid.Effect>
-                                                    <ComboBox Style="{StaticResource ComboBoxStyle}" HorizontalContentAlignment="Center" FontSize="20" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+                                                    <ComboBox MinWidth="100"  FontSize="30" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
                                                     ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}"/>
                                                 </Grid>
+                                                
                                                 <Grid Grid.Column="4">
                                                     <Grid.Effect>
                                                         <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                                                     </Grid.Effect>
-                                                    <ComboBox Style="{StaticResource ComboBoxStyle}" HorizontalContentAlignment="Center" FontSize="20" DataContext="{Binding Languages}" Grid.Column="3" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+                                                    <ComboBox Style="{StaticResource ComboBoxStyle}" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" HorizontalAlignment="Center" FontSize="30" DataContext="{Binding Languages}" Grid.Column="3"  BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
                                                 </Grid>
+                                                
                                                 <Grid Margin="15,0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" >
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*" />
