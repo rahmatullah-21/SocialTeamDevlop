@@ -86,8 +86,8 @@ namespace DominatorHouse.ViewModels
 
         private void ShowHideLog()
         {
-            if (LogViewHeight.Value <= 200 && LogViewHeight.Value > 45)
-                LogViewHeight = new GridLength(45);
+            if (LogViewHeight.Value <= 200 && LogViewHeight.Value > 0)
+                LogViewHeight = new GridLength(0);
             else
                 LogViewHeight = new GridLength(200);
         }

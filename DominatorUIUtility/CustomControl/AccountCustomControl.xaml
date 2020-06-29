@@ -737,294 +737,295 @@
                 <Border.Effect>
                     <DropShadowEffect ShadowDepth="-1" BlurRadius="10"  Color="Gray"/>
                 </Border.Effect>
-                <Grid >
-                    <ListView x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
+                <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                    <Grid >
+                        <ListView x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
                       VirtualizingPanel.IsContainerVirtualizable="True"
                       VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}">
-                        <ListView.Resources>
-                            <viewModel:BindingData x:Key="ContextMenuBinding" Data="{Binding}" />
+                            <ListView.Resources>
+                                <viewModel:BindingData x:Key="ContextMenuBinding" Data="{Binding}" />
 
-                            <ContextMenu x:Key="ItemContextMenu">
-                                <MenuItem Header="{DynamicResource LangKeyDetails}" CommandParameter="{Binding}"
+                                <ContextMenu x:Key="ItemContextMenu">
+                                    <MenuItem Header="{DynamicResource LangKeyDetails}" CommandParameter="{Binding}"
                                   Command="{Binding Data.ProfileDetailsCommand, Source={StaticResource ContextMenuBinding}}"
                                   Icon="{DynamicResource DetailsIcon}"/>
-                                <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
+                                    <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
                                   Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
                                   Icon="{DynamicResource DeleteIcon}"/>
-                                <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
+                                    <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
-                                <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{DynamicResource GoToToolsIcon}"
+                                    <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{DynamicResource GoToToolsIcon}"
                                   CommandParameter="{Binding}"
                                   Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
                                   Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>
-                                <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{DynamicResource CheckStatusIcon}"
+                                    <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{DynamicResource CheckStatusIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CheckLoginCommand, Source={StaticResource ContextMenuBinding}}" />
-                                <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{DynamicResource UpdateFriendshipIcon}"
+                                    <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{DynamicResource UpdateFriendshipIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.UpdateFriendshipCommand, Source={StaticResource ContextMenuBinding}}" />
-                                <MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
+                                    <MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
                                   Icon="{DynamicResource InstEditIcon}" 
                                   Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
                                   CommandParameter="{Binding}" />
-                                <MenuItem Header="{DynamicResource LangKeyEditTwitterProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
+                                    <MenuItem Header="{DynamicResource LangKeyEditTwitterProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
                                   Icon="{DynamicResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
                                   Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />
-                                <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{DynamicResource CopyAccountIdIcon}"
+                                    <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{DynamicResource CopyAccountIdIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
-                                <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}" 
+                                    <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}" 
                                   CommandParameter="{Binding}"  Visibility="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BrowserAutomationConverter},ConverterParameter=Browser }"
                                   Command="{Binding Data.ActivateBrowserAutomationCommand, Source={StaticResource ContextMenuBinding}}">
-                                    <MenuItem.Icon>
-                                        <Rectangle Fill="Red" Width="20" Height="20">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                        <MenuItem.Icon>
+                                            <Rectangle Fill="Red" Width="20" Height="20">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
 
-                                <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}" 
+                                    <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}" 
                                   CommandParameter="{Binding}"  Visibility="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BrowserAutomationConverter},ConverterParameter=http}"
                                   Command="{Binding Data.DeActivateBrowserAutomationCommand, Source={StaticResource ContextMenuBinding}}">
-                                    <MenuItem.Icon>
-                                        <Rectangle Fill="Red" Width="20" Height="20">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                        <MenuItem.Icon>
+                                            <Rectangle Fill="Red" Width="20" Height="20">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
 
-                                <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" 
+                                    <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" 
                                   CommandParameter="{Binding}"  Visibility="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverterInverted}}"
                                   Command="{Binding Data.SwitchToSingleBusinessAccountCommand, Source={StaticResource ContextMenuBinding}}">
-                                    <MenuItem.Icon>
-                                        <Rectangle Fill="Red" Width="20" Height="20">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                        <MenuItem.Icon>
+                                            <Rectangle Fill="Red" Width="20" Height="20">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
 
-                                <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}"
+                                    <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}"
                                   CommandParameter="{Binding}" Visibility="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverter}}"
                                   Command="{Binding Data.SwitchToSingleNormalAccountCommand, Source={StaticResource ContextMenuBinding}}">
-                                    <MenuItem.Icon>
-                                        <Rectangle Fill="Red" Width="20" Height="20">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                        <MenuItem.Icon>
+                                            <Rectangle Fill="Red" Width="20" Height="20">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
 
 
-                                <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
-                                    <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
-                                    <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
+                                    <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
+                                        <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
+                                        <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>-->
-                                </MenuItem>
-                            </ContextMenu>
-                        </ListView.Resources>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </ListView.Resources>
 
-                        <ListView.ItemsSource>
-                            <MultiBinding Converter="{StaticResource AccountsFilterConverter}" >
-                                <Binding Path="LstDominatorAccountModel" IsAsync="True"/>
-                                <Binding Path="SelectedNetworkViewModel.Selected"/>
-                                <Binding Path="LstDominatorAccountModel.Count"/>
-                                <Binding Path="IsSortAccounts"/>
-                                <Binding Path="SortByUserNikeName"/>
-                                <Binding Path="Text" ElementName="txtSearch"/>
-                                <Binding Path="SelectedIndex" ElementName="cmbSearchFilter" />
-                            </MultiBinding>
-                        </ListView.ItemsSource>
+                            <ListView.ItemsSource>
+                                <MultiBinding Converter="{StaticResource AccountsFilterConverter}" >
+                                    <Binding Path="LstDominatorAccountModel" IsAsync="True"/>
+                                    <Binding Path="SelectedNetworkViewModel.Selected"/>
+                                    <Binding Path="LstDominatorAccountModel.Count"/>
+                                    <Binding Path="IsSortAccounts"/>
+                                    <Binding Path="SortByUserNikeName"/>
+                                    <Binding Path="Text" ElementName="txtSearch"/>
+                                    <Binding Path="SelectedIndex" ElementName="cmbSearchFilter" />
+                                </MultiBinding>
+                            </ListView.ItemsSource>
 
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel/>
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
-                                <Setter Property="ContextMenu" Value="{StaticResource ItemContextMenu}" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
+                                    <Setter Property="ContextMenu" Value="{StaticResource ItemContextMenu}" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
 
-                        <ListView.View>
-                            <GridView uiExtensions:GridViewExtension.Columns="{Binding VisibleColumns}">
-                                <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <ContentControl>
-                                                    <ContentControl.Style>
-                                                        <Style TargetType="{x:Type ContentControl}">
-                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                        </Style>
-                                                    </ContentControl.Style>
-                                                </ContentControl>
-                                                <Rectangle Margin="10,0" VerticalAlignment="Center"
+                            <ListView.View>
+                                <GridView uiExtensions:GridViewExtension.Columns="{Binding VisibleColumns}">
+                                    <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <ContentControl>
+                                                        <ContentControl.Style>
+                                                            <Style TargetType="{x:Type ContentControl}">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                            </Style>
+                                                        </ContentControl.Style>
+                                                    </ContentControl>
+                                                    <Rectangle Margin="10,0" VerticalAlignment="Center"
                                                    Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}"
                                                    Width="20" Height="20">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush
                                                     Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}"
                                                     Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                                <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                    <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
                                                   Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
                                                   Converter={StaticResource IndexToRowNoConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}"/>
 
-                                            </VirtualizingStackPanel>
+                                                </VirtualizingStackPanel>
 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyAccountName}" Width="Auto" DisplayMemberBinding="{Binding AccountBaseModel.AccountName}"/>
+                                    <GridViewColumn  Header="{DynamicResource LangKeyAccountName}" Width="Auto" DisplayMemberBinding="{Binding AccountBaseModel.AccountName}"/>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
+                                    <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyStatus}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock >
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.InvalidCredentials}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyInvalidCredentials}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TryingToLogin}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyTryingToLogin}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Success}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeySuccess}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Failed}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyFailed}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyNeedsVerification}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyEmailVerification}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyPhoneVerification}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotChecked}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyNotChecked}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.ProxyNotWorking}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyProxyNotWorking}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PermanentlyBlocked}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyPermanentlyBlocked}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.TemporarilyBlocked}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyTemporarilyBlocked}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.AddPhoneNumberToYourAccount}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyAddPhoneNumberToYourAccount}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.TooManyAttemptsOnPhoneVerification}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyTooManyAttemptsOnPhoneVerification}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypeEmail}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyRetypeEmail}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypePhoneNumber}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyRetypePhoneNumber}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ProfileSuspended}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyProfileSuspended}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TwoFactorLoginAttempt}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyTwoFactorLoginAttempt}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TooManyAttemptsOnSignIn}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyTooManyAttemptsOnSignIn}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}" >
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeySetNewPassword}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ActionBlocked}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyActionBlock}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.DisableAccount}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyDisableAccount}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.BrowerNotSecure}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyBrowserNotsecure}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.AccountDisabled}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyAccountDisabled}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}"
+                                    <GridViewColumn  Header="{DynamicResource LangKeyStatus}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock >
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.InvalidCredentials}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyInvalidCredentials}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TryingToLogin}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyTryingToLogin}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Success}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeySuccess}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Failed}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyFailed}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyNeedsVerification}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyEmailVerification}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyPhoneVerification}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotChecked}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyNotChecked}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.ProxyNotWorking}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyProxyNotWorking}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PermanentlyBlocked}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyPermanentlyBlocked}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.TemporarilyBlocked}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyTemporarilyBlocked}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.AddPhoneNumberToYourAccount}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyAddPhoneNumberToYourAccount}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.TooManyAttemptsOnPhoneVerification}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyTooManyAttemptsOnPhoneVerification}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypeEmail}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyRetypeEmail}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypePhoneNumber}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyRetypePhoneNumber}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ProfileSuspended}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyProfileSuspended}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TwoFactorLoginAttempt}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyTwoFactorLoginAttempt}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TooManyAttemptsOnSignIn}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyTooManyAttemptsOnSignIn}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}" >
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeySetNewPassword}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ActionBlocked}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyActionBlock}"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.DisableAccount}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyDisableAccount}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.BrowerNotSecure}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyBrowserNotsecure}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.AccountDisabled}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyAccountDisabled}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}"
                                                                  Value="{x:Static enums:AccountStatus.InvalidSecurityCode}">
-                                                                <Setter Property="Text"
+                                                                    <Setter Property="Text"
                                                                 Value="{DynamicResource LangKeyInvalidSecurityCode}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TooManyAttemptsWithTheSamePhoneNumber}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyTooManyAttemptWithSameNumber}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotRegisteredYet}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyAccountNotRegisteredYet}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.UpdatingDetails}">
-                                                                <Setter Property="Text" Value="{DynamicResource LangKeyUpdatingDetails}" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TooManyAttemptsWithTheSamePhoneNumber}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyTooManyAttemptWithSameNumber}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotRegisteredYet}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyAccountNotRegisteredYet}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.UpdatingDetails}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyUpdatingDetails}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyByGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
+                                    <GridViewColumn  Header="{DynamicResource LangKeyByGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyProxyAddress}" Width="130">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate DataType="{x:Type ListViewItem}">
-                                            <TextBlock Name="TextBlockName">
-                                                <TextBlock.Text>
-                                                    <MultiBinding StringFormat="{}{0}:{1}">
-                                                        <Binding Path="AccountBaseModel.AccountProxy.ProxyIp" />
-                                                        <Binding Path="AccountBaseModel.AccountProxy.ProxyPort" />
-                                                    </MultiBinding>
-                                                </TextBlock.Text>
-                                            </TextBlock>
+                                    <GridViewColumn  Header="{DynamicResource LangKeyProxyAddress}" Width="130">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type ListViewItem}">
+                                                <TextBlock Name="TextBlockName">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0}:{1}">
+                                                            <Binding Path="AccountBaseModel.AccountProxy.ProxyIp" />
+                                                            <Binding Path="AccountBaseModel.AccountProxy.ProxyPort" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
 
-                                            <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="">
-                                                    <Setter TargetName="TextBlockName" Property="Text" Value="{DynamicResource LangKeyLocalIP}" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="{x:Null}">
-                                                    <Setter TargetName="TextBlockName" Property="Text" Value="{DynamicResource LangKeyLocalIP}" />
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="">
+                                                        <Setter TargetName="TextBlockName" Property="Text" Value="{DynamicResource LangKeyLocalIP}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="{x:Null}">
+                                                        <Setter TargetName="TextBlockName" Property="Text" Value="{DynamicResource LangKeyLocalIP}" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
 
 
-                                </GridViewColumn>
+                                    </GridViewColumn>
 
-                                <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
+                                    <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
 
-                                <!--<GridViewColumn  Header="{DynamicResource LangKeyPinterestAccountType}" DisplayMemberBinding="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToStatusConverter}}"/>-->
+                                    <!--<GridViewColumn  Header="{DynamicResource LangKeyPinterestAccountType}" DisplayMemberBinding="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToStatusConverter}}"/>-->
 
-                                <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" Width="130">
+                                    <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" Width="130">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate DataType="{x:Type ListViewItem}">
                                         <TextBlock Name="AutomationStatus" Text="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}" />
@@ -1040,26 +1041,27 @@
 
                             </GridViewColumn>-->
 
-                            </GridView>
+                                </GridView>
 
 
 
 
-                        </ListView.View>
+                            </ListView.View>
 
 
 
-                    </ListView>
-                    <!--Help section-->
-                    <Controls:FlyoutsControl>
-                        <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" FontWeight="Bold"
+                        </ListView>
+                        <!--Help section-->
+                        <Controls:FlyoutsControl>
+                            <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
-                            <local:HelpControl ModuleDescription="{DynamicResource LangKeyAccountCustomControlDescription}"
+                                <local:HelpControl ModuleDescription="{DynamicResource LangKeyAccountCustomControlDescription}"
                                                  VideoTutorial="{Binding SelectedNetworkViewModel.Selected, Converter={StaticResource SocialNetworkToLinkConverter}}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
                                                  ContactSupportLink="{Binding ContactSupportLink}" />
-                        </Controls:Flyout>
-                    </Controls:FlyoutsControl>
-                </Grid>
+                            </Controls:Flyout>
+                        </Controls:FlyoutsControl>
+                    </Grid>
+                </ScrollViewer>
             </Border>
 
 
