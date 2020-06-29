@@ -71,8 +71,7 @@
     <FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/CustomFont/#built titling rg</FontFamily>
     <FontFamily x:Key="BuildTitleSbIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb it</FontFamily>
     <FontFamily x:Key="BuildTitleSb">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb</FontFamily>
-    <FontFamily x:Key="Monbaiti">/DominatorUIUtility;component/Resources/CustomFont/#monbaiti</FontFamily>
-    
+
     <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="Width" Value="150"/>
@@ -552,6 +551,7 @@
             </Border>
         </Grid>
     </ControlTemplate>
+
 
     <ControlTemplate TargetType="{x:Type TabControl}" x:Key="TopTabstyle">
         <Grid>
@@ -1135,7 +1135,6 @@
         </Style.Triggers>
     </Style>
 
-    
 
     <!-- End Design-->
 </ResourceDictionary>

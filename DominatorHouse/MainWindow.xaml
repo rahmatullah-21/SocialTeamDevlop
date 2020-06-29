@@ -192,10 +192,9 @@
 
 
             <Border Grid.Row="1" Background="Transparent"  Margin="40,0,40,25" Padding="{Binding InnerPadding}" CornerRadius="5">
-                <TabControl Grid.Row="1"  Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
+                <TabControl Grid.Row="1" Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
-                    Foreground="Black" BorderThickness="0" Background="#FF585A57">
-
+                    Foreground="Black" BorderThickness="0">
                     <TabControl.Style>
                         <Style TargetType="TabControl">
                             <Style.Triggers>
@@ -206,12 +205,12 @@
                                         <Setter.Value>
                                             <DataTemplate>
                                                 <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
-		                                            VerticalAlignment="Center"
-		                                            Fill="Black"
-		                                            Stroke="White"                                             
-		                                            FontFamily="{StaticResource BuildTitleBdIt}"
-		                                            FontSize="16"
-                                                    FontWeight="Bold">
+		                                        VerticalAlignment="Center"
+		                                        Fill="Black"
+		                                        Stroke="White"                                             
+		                                        FontFamily="{StaticResource BuildTitleBdIt}"
+		                                        FontSize="16"
+                                                FontWeight="Bold">
                                                 </utility:TextPath>
                                             </DataTemplate>
                                         </Setter.Value>
@@ -224,15 +223,15 @@
                                         <Setter.Value>
                                             <DataTemplate>
                                                 <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
-		                                             VerticalAlignment="Center"
-		                                             Fill="#ffffff"
-                                                     StrokeThickness="1"
-                                                     StrokeMiterLimit="1"
-		                                             Stroke="Black"
-                                                     FontStyle="Italic"
-		                                             FontFamily="{StaticResource BuildTitleBdIt}"
-		                                             FontSize="19"
-                                                     FontWeight="Bold">
+		                                            VerticalAlignment="Center"
+		                                            Fill="#ffffff"
+                                                    StrokeThickness="1"
+                                                    StrokeMiterLimit="1"
+		                                            Stroke="Black"
+                                                    FontStyle="Italic"
+		                                            FontFamily="{StaticResource BuildTitleBdIt}"
+		                                            FontSize="19"
+                                                    FontWeight="Bold">
                                                     <utility:TextPath.Effect>
                                                         <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
                                                     </utility:TextPath.Effect>
@@ -244,19 +243,18 @@
                             </Style.Triggers>
                         </Style>
                     </TabControl.Style>
-                    <TabControl.ItemTemplate>
+                    <!--<TabControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-
                             <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
-		                        VerticalAlignment="Center"
-		                        Fill="White"
-		                        Stroke="Black"
-		                        StrokeThickness="1"
-                                StrokeMiterLimit="1"                                              
-		                        FontFamily="{StaticResource  BuildTitleSbIt}"
-                                FontStyle="Italic"
-		                        FontSize="19"
-                                FontWeight="Bold">
+		                VerticalAlignment="Center"
+		                Fill="White"
+		                Stroke="Black"
+		                StrokeThickness="1"
+                        StrokeMiterLimit="1"                                              
+		                FontFamily="{StaticResource  BuildTitleSbIt}"
+                        FontStyle="Italic"
+		                FontSize="19"
+                        FontWeight="Bold">
                                 <utility:TextPath.Effect>
                                     <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
                                 </utility:TextPath.Effect>
