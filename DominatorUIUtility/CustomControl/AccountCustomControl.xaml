@@ -125,7 +125,7 @@
 
             <DockPanel Grid.Row="0" Name="MainContainer" Background="Transparent">
 
-                <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="1" Margin="0,2,4,9" Background="{DynamicResource AccentColorBrush}">
+                <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="0.5" Margin="0,2,4,9" Background="{DynamicResource AccentColorBrush}">
                     
                     <utility:TextPath  HorizontalAlignment="Center"
                                VerticalAlignment="Center" 
@@ -153,7 +153,7 @@
 
                 <Popup DockPanel.Dock="Right" HorizontalAlignment="Right"  PopupAnimation="None" PlacementTarget="{Binding ElementName=MenuHandlerPanel}"
                                HorizontalOffset="0" VerticalOffset="5" Placement="Bottom" AllowsTransparency="True"  IsOpen="{Binding IsChecked, ElementName=MenuHandlerPanel}"  StaysOpen="False" MaxWidth="400">
-                    <Border Background="{DynamicResource AccentColorBrush}"  CornerRadius="4" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Border Background="{DynamicResource AccentColorBrush}"  CornerRadius="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
                         <WrapPanel Margin="5">
                             <Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsImportMultipleAccountsVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccountsSub" 
                                         Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource LangKeyImportAccountDescription}">
@@ -166,7 +166,7 @@
                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
-                                                <Label Content="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                                <utility:TextPath Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
                                         </Border>
                                     </ControlTemplate>
@@ -178,12 +178,13 @@
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Vertical" >
                                             <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                            <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            <utility:TextPath Text="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                         </StackPanel>
                                     </Border>
                                 </Controls:DropDownButton.Content>
                                 <Controls:DropDownButton.Items>
                                     <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="TitleMenu_AllAccountsSub"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource True}">
+                                        
                                         <MenuItem.Icon>
                                             <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
                                         </MenuItem.Icon>
@@ -241,7 +242,8 @@
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Vertical" >
                                             <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
-                                            <Label Content="{DynamicResource LangKeyUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+
+                                            <utility:TextPath Text="{DynamicResource LangKeyUpdate}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                         </StackPanel>
                                     </Border>
                                 </Controls:DropDownButton.Content>
@@ -324,7 +326,8 @@
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Vertical">
                                                 <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
-                                                <Label Content="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+
+                                                <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
                                         </Border>
                                     </ControlTemplate>
@@ -341,8 +344,7 @@
                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
-
-                                                <Label Content="{DynamicResource LangKeyDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                                <utility:TextPath Text="{DynamicResource LangKeyDelete}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
                                         </Border>
                                     </ControlTemplate>
@@ -358,7 +360,7 @@
                                                     <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
-                                            <Label Content="{DynamicResource LangKeyBrowserAutomation}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            <utility:TextPath Text="{DynamicResource LangKeyBrowserAutomation}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold"/>
                                         </StackPanel>
                                     </Border>
                                 </Controls:DropDownButton.Content>
@@ -398,18 +400,16 @@
                     </Border>
                 </Popup>
 
-                <Border Margin="8,2,8,9"  Background="{DynamicResource AccentColorBrush}" >
-                    <Border.Effect>
-                        <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
-                    </Border.Effect>
+                <Border Margin="8,2,8,9" BorderBrush="Black" BorderThickness="0.5" Background="{DynamicResource AccentColorBrush}" >
+                    
                     <Grid >
                         <WrapPanel  Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Left"  Background="{DynamicResource AccentColorBrush}">
-                            <CheckBox DockPanel.Dock="Left" Background="{DynamicResource AccentColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
+                            <CheckBox DockPanel.Dock="Left" Margin="0,3,0,0" Background="{DynamicResource AccentColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
                                 <CheckBox.Content>
                                     <Border HorizontalAlignment="Center" Background="{DynamicResource AccentColorBrush}" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Horizontal" >
-                                            <Image Width="15" Height="15"  Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/search.ico" />
-                                            <Label Content="SEARCH" FontWeight="Bold"/>
+                                            <Image Width="20" Height="20"  Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/search.ico" />
+                                            <utility:TextPath Text="Search" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                         </StackPanel>
                                     </Border>
                                 </CheckBox.Content>
@@ -420,7 +420,7 @@
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" >
                                                 <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddSingleAccount.png"  />
-                                                <Label Content="{DynamicResource LangKeyAddAccount}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                                <utility:TextPath  Text="{DynamicResource LangKeyAddAccount}" Margin="5,3,0,0" Fill="White"  Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
                                         </Border>
                                     </ControlTemplate>
@@ -433,12 +433,12 @@
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" >
-                                                <Rectangle Width="20" Height="18" Fill="White" >
+                                                <Rectangle Width="20" Height="20" Fill="White" >
                                                     <Rectangle.OpacityMask>
                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
-                                                <Label Content="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                                <utility:TextPath  Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,2,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Border>
                                     </ControlTemplate>
@@ -455,7 +455,7 @@
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Horizontal" >
                                             <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                            <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            <utility:TextPath Text="{DynamicResource LangKeySelect}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                         </StackPanel>
                                     </Border>
                                 </Controls:DropDownButton.Content>
@@ -523,7 +523,8 @@
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Horizontal" >
                                             <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
-                                            <Label Content="{DynamicResource LangKeyUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+
+                                            <utility:TextPath  Text="{DynamicResource LangKeyUpdate}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                         </StackPanel>
                                     </Border>
                                 </Controls:DropDownButton.Content>
@@ -608,7 +609,8 @@
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal">
                                                 <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
-                                                <Label Content="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+
+                                                <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
                                         </Border>
                                     </ControlTemplate>
@@ -631,7 +633,7 @@
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
 
-                                                <Label Content="{DynamicResource LangKeyDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                                <utility:TextPath  Text="{DynamicResource LangKeyDelete}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
                                         </Border>
                                     </ControlTemplate>
@@ -643,7 +645,7 @@
                                 </i:Interaction.Triggers>
                             </Button>
 
-                            <Controls:DropDownButton Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
+                            <Controls:DropDownButton Background="Transparent"  Margin="10,2,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
                                 <Controls:DropDownButton.Content>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Horizontal">
@@ -652,7 +654,8 @@
                                                     <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
-                                            <Label Content="{DynamicResource LangKeyBrowserAutomation}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+
+                                            <utility:TextPath  Text="{DynamicResource LangKeyBrowserAutomation}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                         </StackPanel>
                                     </Border>
                                 </Controls:DropDownButton.Content>
@@ -722,7 +725,7 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,2,0,2" VerticalAlignment="Center" Visibility="{Binding ElementName=SearchExpander, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" >
                 <!--Visibility="{Binding ElementName=SearchExpander, Path=IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}"-->
                 <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" 
-                              VerticalAlignment="Center" Height="29"  HorizontalAlignment="Left" Width="150"
+                              VerticalAlignment="Center" FontFamily="{StaticResource BuildTitleBdIt}" Height="29"  HorizontalAlignment="Left" Width="150"
                               Style="{StaticResource SearchMetroTextBox}" Name="txtSearch" />
                 <ComboBox  Margin="5,2,0,2" SelectedIndex="0" Width="150" 
                               VerticalAlignment="Center" HorizontalAlignment="Right" Height="29"  Name="cmbSearchFilter" >
@@ -737,7 +740,7 @@
                 <Border.Effect>
                     <DropShadowEffect ShadowDepth="-1" BlurRadius="10"  Color="Gray"/>
                 </Border.Effect>
-                <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <Grid >
                         <ListView x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
                       VirtualizingPanel.IsContainerVirtualizable="True"
