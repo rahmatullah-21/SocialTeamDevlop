@@ -1,9 +1,9 @@
 ﻿using CommonServiceLocator;
 using DominatorHouse.Social.AutoActivity.ViewModels;
-using DominatorHouse.Window;
 using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -32,6 +32,7 @@ using System.Management;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DominatorHouse.ViewModels
 {
@@ -56,6 +57,21 @@ namespace DominatorHouse.ViewModels
         public AccessorStrategies Strategies { get; set; }
         string _fatalError { get; set; }
         private bool IsCancelFromLicenceValidationState { get; set; }
+
+        private WindowModel _crucialWindowModel;
+
+        public WindowModel CrucialWindowModel
+        {
+            get
+            {
+                return _crucialWindowModel;
+            }
+            set
+            {
+                SetProperty(ref _crucialWindowModel, value);
+            }
+        }
+
         public Dock TabDock
         {
             get
@@ -70,186 +86,31 @@ namespace DominatorHouse.ViewModels
 
         public KeyValuePair<int, int> ScreenResolution { get; set; } = new KeyValuePair<int, int>();
 
-        #region Private Member
+        public ICommand WindowDeactivatedCommand { get; set; }
+
+        public ICommand WindowActivatedCommand { get; set; }
 
         /// <summary>
-        /// The window this view model controls
+        /// The command to minimize the window
         /// </summary>
-        private System.Windows.Window mWindow;
+        public ICommand MinimizeCommand { get; set; }
 
         /// <summary>
-        /// The window resizer helper that keeps the window size correct in various states
+        /// The command to maximize the window
         /// </summary>
-        private WindowResizer _windowResizer;
+        public ICommand MaximizeCommand { get; set; }
 
         /// <summary>
-        /// The margin around the window to allow for a drop shadow
+        /// The command to close the window
         /// </summary>
-        private int mOuterMarginSize = 10;
+        public ICommand CloseCommand { get; set; }
 
-        /// <summary>
-        /// The radius of the edges of the window
-        /// </summary>
-        private int mWindowRadius = 10;
-
-        /// <summary>
-        /// The last known dock position
-        /// </summary>
-        private WindowDockPosition mDockPosition = WindowDockPosition.Undocked;
-
-        
-        private bool _isIconVisible = false;
-
-        /// <summary>
-        /// True if we should have a dimmed overlay on the window
-        /// such as when a popup is visible or the window is not focused
-        /// </summary>
-        private bool _dimmableOverlayVisible { get; set; }
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        /// The smallest width the window can go to
-        /// </summary>
-        public double WindowMinimumWidth { get; set; } = 800;
-
-        /// <summary>
-        /// The smallest height the window can go to
-        /// </summary>
-        public double WindowMinimumHeight { get; set; } = 600;
-
-        /// <summary>
-        /// True if the window should be borderless because it is docked or maximized
-        /// </summary>
-        public bool Borderless => (mWindow.WindowState == WindowState.Maximized || mDockPosition != WindowDockPosition.Undocked);
-        /// <summary>
-        /// The size of the resize border around the window
-        /// </summary>
-        public int ResizeBorder => Borderless ? 0 : 6;
-
-        public WindowResizer WindowResizer
-        {
-            get
-            {
-                // If it is maximized or docked, no border
-                return _windowResizer;
-            }
-            set
-            {
-                _windowResizer = value;
-                OnPropertyChanged(nameof(WindowResizer));
-            }
-        }
-
-
-        public bool IsIconVisible
-        {
-            get
-            {
-                // If it is maximized or docked, no border
-                return _isIconVisible;
-            }
-            set
-            {
-                _isIconVisible = value;
-                OnPropertyChanged(nameof(IsIconVisible));
-            }
-        }
-
-        
-
-        private SelectedMenuItem _selectedMenuItem = SelectedMenuItem.DashBoard;
-
-        public SelectedMenuItem SelectedMenuItem
-        {
-            get
-            {
-                return _selectedMenuItem;
-            }
-            set
-            {
-                _selectedMenuItem = value;
-                OnPropertyChanged(nameof(SelectedMenuItem));
-            }
-        }
-
-        /// <summary>
-        /// The size of the resize border around the window, taking into account the outer margin
-        /// </summary>
-        public Thickness ResizeBorderThickness => new Thickness(ResizeBorder + OuterMarginSize);
-
-        /// <summary>
-        /// The padding of the inner content of the main window
-        /// </summary>
-        public Thickness InnerContentPadding { get; set; } = new Thickness(0);
-
-        /// <summary>
-        /// True if we should have a dimmed overlay on the window
-        /// such as when a popup is visible or the window is not focused
-        /// </summary>
-        public bool DimmableOverlayVisible
-        {
-            get
-            {
-                return _dimmableOverlayVisible;
-            }
-            set
-            {
-                _dimmableOverlayVisible = value;
-                OnPropertyChanged(nameof(DimmableOverlayVisible));
-            }
-        }
-
-        /// <summary>
-        /// The margin around the window to allow for a drop shadow
-        /// </summary>
-        public int OuterMarginSize
-        {
-            // If it is maximized or docked, no border
-            get => Borderless ? 0 : mOuterMarginSize;
-            set => mOuterMarginSize = value;
-        }
-
-        /// <summary>
-        /// The margin around the window to allow for a drop shadow
-        /// </summary>
-        public Thickness OuterMarginSizeThickness => new Thickness(OuterMarginSize);
-
-        /// <summary>
-        /// The radius of the edges of the window
-        /// </summary>
-        public int WindowRadius
-        {
-            // If it is maximized or docked, no border
-            get => Borderless ? 0 : mWindowRadius;
-            set => mWindowRadius = value;
-        }
-
-        /// <summary>
-        /// The radius of the edges of the window
-        /// </summary>
-        public CornerRadius WindowCornerRadius => new CornerRadius(WindowRadius);
-
-        /// <summary>
-        /// The height of the title bar / caption of the window
-        /// </summary>
-        public int TitleHeight { get; set; } = 55;
-        /// <summary>
-        /// The height of the title bar / caption of the window
-        /// </summary>
-        public GridLength TitleHeightGridLength => new GridLength(TitleHeight + ResizeBorder);
-
-
-        #endregion
 
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             SocinatorKeyHelper.InitilizeKey();
             RemoveLocationDataFromTemplate();
             FatalErrorDiagnosis();
-            mWindow = Application.Current.MainWindow;
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
@@ -292,6 +153,40 @@ namespace DominatorHouse.ViewModels
                 .OrderBy(s => s.AccountBaseModel.UserName).ToList());
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
+
+            MinimizeCommand = new BaseCommand<object>((sender) => true, MinimizeWindowState);
+            MaximizeCommand = new BaseCommand<object>((sender) => true, ManageWindowState);
+            CloseCommand = new BaseCommand<object>((sender) => true, HideWindow);
+            WindowDeactivatedCommand = new BaseCommand<object>((sender) => true, WindowDeactivatedExecute); 
+            WindowActivatedCommand = new BaseCommand<object>((sender) => true, WindowActivatedExecute); 
+        }
+
+        private void MinimizeWindowState(object obj)
+        {
+            CrucialWindowModel.WindowState = WindowState.Minimized;
+        }
+
+        private void ManageWindowState(object obj)
+        {
+            if (CrucialWindowModel.WindowState == WindowState.Normal)
+                CrucialWindowModel.WindowState = WindowState.Maximized;
+            else
+                CrucialWindowModel.WindowState = WindowState.Normal;
+        }
+
+        private void HideWindow(object obj)
+        {
+            Application.Current.MainWindow.Hide();
+        }
+
+        private void WindowActivatedExecute(object sender)
+        {
+            CrucialWindowModel.DimmableOverlayVisible = false;
+        }
+
+        private void WindowDeactivatedExecute(object sender)
+        {
+            CrucialWindowModel.DimmableOverlayVisible = true;
         }
 
         public async Task RemoveLocationDataFromTemplate()

@@ -23,6 +23,9 @@
 
     <Color x:Key="PrussianBlueColor">#003569</Color>
 
+    <Color x:Key="ForegroundVeryDark">#000000</Color>
+    <SolidColorBrush x:Key="ForegroundVeryDarkBrush" Color="{StaticResource ForegroundVeryDark}" />
+
     <SolidColorBrush x:Key="UserControlBackgroundBrush" Color="Transparent" />
     <SolidColorBrush x:Key="SelectedTabBorderBrush" Color="AliceBlue" />
     <SolidColorBrush x:Key="TextColorBrushAccordingTheme" Color="Black" />

@@ -20,8 +20,6 @@ namespace DominatorHouseCore.ViewModel
 
         ObservableCollection<DominatorAccountModel> AccountList { get; set; }
 
-        WindowResizer WindowResizer { get; set; }
-
-
+        WindowModel CrucialWindowModel { get; set; }
     }
 }

@@ -10,33 +10,50 @@
         xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
+        xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:regions="http://prismlibrary.com/"
+        WindowState="Normal"
         xmlns:local="clr-namespace:Socinator"
         mc:Ignorable="d"
-        MinWidth="{Binding WindowMinimumWidth}"
-        MinHeight="{Binding WindowMinimumHeight}"
+        MinWidth="{Binding mainViewModel.CrucialWindowModel.WindowMinimumWidth}"
+        MinHeight="{Binding mainViewModel.CrucialWindowModel.WindowMinimumHeight}"
         Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
         BorderThickness="1" Icon="SociNator.ico" Loaded="WindowLoaded"
         Name="SocinatorWindow" WindowStartupLocation="CenterScreen"
-        WindowState="Normal" WindowStyle="None" AllowsTransparency="True">
+        WindowStyle="None" AllowsTransparency="True">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Deactivated" >
+            <i:InvokeCommandAction Command="{Binding WindowDeactivatedCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Activated" >
+            <i:InvokeCommandAction Command="{Binding WindowActivatedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Window.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style TargetType="{x:Type local:MainWindow}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Window}">
-                        <Border Padding="{Binding OuterMarginSizeThickness, FallbackValue=10}">
+                        <Border Padding="{Binding mainViewModel.CrucialWindowModel.OuterMarginSizeThickness}">
                             <Grid>
+
+                                <Border Panel.ZIndex="10" Visibility="Collapsed"
+                                    Opacity="0.3" Background="{StaticResource ForegroundVeryDarkBrush}" CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}"/>
+
                                 <!-- Opacity mask for corners on grid -->
                                 <Border x:Name="Container"  Margin="0,2"
-                                        Background="{StaticResource BackgroundLightBrush}"
+                                        Background="Red"
                                         Visibility="Visible"
-                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}">
+                                        CornerRadius="{Binding mainViewModel.CrucialWindowModel.WindowCornerRadius, FallbackValue=10}">
                                 </Border>
                                 <!--Window border and dropshadown-->
-                                <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}"
+                                <Border CornerRadius="{Binding mainViewModel.CrucialWindowModel.WindowCornerRadius, FallbackValue=10}"
                                          Visibility="Visible"  Margin="0,2"
-                                         Background="{Binding ForegroundLightBrush, FallbackValue=White}">
+                                         Background="Red">
                                     <Border.Effect>
                                         <DropShadowEffect ShadowDepth="0" Opacity="0.2" />
                                     </Border.Effect>
@@ -71,9 +88,9 @@
 
                                     <Grid.RowDefinitions>
                                         <!-- Title Bar -->
-                                        <RowDefinition Height=".164*" />
+                                        <RowDefinition Height=".176*" />
                                         <!-- Window Content -->
-                                        <RowDefinition Height=".812*" />
+                                        <RowDefinition Height=".800*" />
                                         <RowDefinition Height=".024*" />
                                     </Grid.RowDefinitions>
 
@@ -87,18 +104,17 @@
                                             <RowDefinition Height=".48*" />
                                         </Grid.RowDefinitions>
                                         <Border Background="Black" CornerRadius="10,10,0,0"/>
-
                                         <Border Grid.ColumnSpan="2" Grid.Row="1" Visibility="Visible">
                                             <Grid Background="{DynamicResource AccentLightColorBrush}">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="0.27*"/>
-                                                    <ColumnDefinition Width="0.115*"/>
+                                                    <ColumnDefinition Width="0.22*"/>
+                                                    <ColumnDefinition Width="0.14*"/>
                                                     <ColumnDefinition Width="0.02*"/>
-                                                    <ColumnDefinition Width="0.32*"/>
-                                                    <ColumnDefinition Width="0.115*"/>
-                                                    <ColumnDefinition Width="0.12*"/>
+                                                    <ColumnDefinition Width="0.37*"/>
+                                                    <ColumnDefinition Width="0.14*"/>
+                                                    <ColumnDefinition Width="0.11*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Grid Margin="10,0,10,0">
+                                                <Grid Margin="10,5,-20,5">
                                                     <Image VerticalAlignment="Center" Stretch="Fill"  Source="Images/CrucialConnectionImage.jpg"/>
                                                 </Grid>
                                                 
@@ -106,43 +122,37 @@
                                                     <Grid.Effect>
                                                         <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                                                     </Grid.Effect>
-                                                    <ComboBox MinWidth="100"  FontSize="30" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+                                                    <ComboBox Style="{StaticResource ComboBoxStyle}" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" DataContext="{Binding AvailableNetworks}" FontSize="30"  Background="Transparent" 
                                                     ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}"/>
                                                 </Grid>
                                                 
-                                                <Grid Grid.Column="4">
+                                                <Grid Grid.Column="4" HorizontalAlignment="Right" Margin="0,0,15,0">
                                                     <Grid.Effect>
                                                         <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                                                     </Grid.Effect>
-                                                    <ComboBox Style="{StaticResource ComboBoxStyle}" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" HorizontalAlignment="Center" FontSize="30" DataContext="{Binding Languages}" Grid.Column="3"  BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+                                                    <ComboBox Style="{StaticResource ComboBoxStyle}" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" HorizontalAlignment="Center" FontSize="30" DataContext="{Binding Languages}" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
                                                 </Grid>
                                                 
-                                                <Grid Margin="15,0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" >
+                                                <Grid Margin="0,0,2,0" Grid.Column="5" >
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
-                                                    <Button Margin="2,8" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_Close">
-                                                        <Button.Template>
-                                                            <ControlTemplate>
-                                                                <Image Cursor="Hand" Stretch="Fill" Source="Images/macos_buttons1.ico"/>
-                                                            </ControlTemplate>
-                                                        </Button.Template>
+                                                    <Button HorizontalAlignment="Right" Command="{Binding CloseCommand}" Height="28" Width="28">
+                                                        <Button.Background>
+                                                            <ImageBrush ImageSource="Images/macos_buttons1.ico"/>
+                                                        </Button.Background>
                                                     </Button>
-                                                    <Button Margin="3,10" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Click="button_Minimize">
-                                                        <Button.Template>
-                                                            <ControlTemplate>
-                                                                <Image Cursor="Hand" Stretch="Fill" Source="Images/macos_buttons2.ico"/>
-                                                            </ControlTemplate>
-                                                        </Button.Template>
+                                                    <Button Command="{Binding MinimizeCommand}" Grid.Column="1"  Height="25" Width="25">
+                                                        <Button.Background>
+                                                            <ImageBrush ImageSource="Images/macos_buttons2.ico"/>
+                                                        </Button.Background>
                                                     </Button>
-                                                    <Button Margin="3,10"  HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Column="2"  Click="button_Maximize">
-                                                        <Button.Template>
-                                                            <ControlTemplate>
-                                                                <Image Cursor="Hand" Stretch="Fill" Source="Images/macos_buttons3.ico"/>
-                                                            </ControlTemplate>
-                                                        </Button.Template>
+                                                    <Button HorizontalAlignment="Left" Command="{Binding MaximizeCommand}"  Grid.Column="2" Height="25" Width="25">
+                                                        <Button.Background>
+                                                            <ImageBrush ImageSource="Images/macos_buttons3.ico"/>
+                                                        </Button.Background>
                                                     </Button>
                                                 </Grid>
                                             </Grid>
@@ -172,7 +182,7 @@
 
     <WindowChrome.WindowChrome>
         <WindowChrome
-            ResizeBorderThickness="{Binding ResizeBorderThickness}"
+            ResizeBorderThickness="{Binding mainViewModel.CrucialWindowModel.ResizeBorderThickness}"
             CaptionHeight="10"
             CornerRadius="0"
             GlassFrameThickness="0"/>
@@ -184,10 +194,10 @@
         </Border.Background>
         <Grid>
             <Grid.RowDefinitions>
-                <!-- Title Bar -->
+                 <!--Title Bar--> 
                 <RowDefinition Height="0.15*" />
                 <RowDefinition Height="0.85*" />
-                <!-- Window Content -->
+                 <!--Window Content--> 
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 
@@ -285,7 +295,7 @@
             </Grid>
 
             <!--<Grid Grid.Row="3" VerticalAlignment="Bottom">
-                --><!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>--><!--
+                <views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>
                 <ContentControl regions:RegionManager.RegionName="PerfCounterRegion"  x:Name="statusbar"/>
             </Grid>-->
 

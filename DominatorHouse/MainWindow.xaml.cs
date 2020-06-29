@@ -4,15 +4,13 @@ using DominatorHouse.Window;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
-using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 
@@ -45,11 +43,34 @@ namespace Socinator
                 var activeScreen = System.Windows.Forms.Screen.FromHandle(interopHelper.Handle);
 
                 mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
-
+                
                 mainViewModel.ScreenResolution = new KeyValuePair<int, int>
                     (activeScreen.WorkingArea.Width, activeScreen.WorkingArea.Height);
 
+                mainViewModel.CrucialWindowModel = new WindowModel();
+
+                mainViewModel.CrucialWindowModel.mWindow = Application.Current.MainWindow;
+
+                mainViewModel.CrucialWindowModel.WindowResizer = new WindowResizer(mainViewModel.CrucialWindowModel.mWindow);                
+
+                mainViewModel.CrucialWindowModel.mWindow.StateChanged += (sender, e) =>
+                {
+                    // Fire off events for all properties that are affected by a resize
+                    WindowResized();
+                };
+
+                mainViewModel.CrucialWindowModel.WindowResizer.WindowDockChanged += (dock) =>
+                {
+                    // Store last position
+                    mainViewModel.CrucialWindowModel.MdockPosition = dock;
+
+                    // Fire off resize events
+                    WindowResized();
+                };
+
                 SocinatorWindow.DataContext = mainViewModel;
+
+
                 Loaded += (o, e) =>
                 {
                     GlobusLogHelper.log.Info(String.Format("LangKeyWelcomeToApplication".FromResourceDictionary(), ConstantVariable.ApplicationName));
@@ -60,6 +81,12 @@ namespace Socinator
                 ex.DebugLog();
             }
         }
+
+        private void WindowResized()
+        {
+            
+        }
+
         //private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         //{
         //    statusbar.IsEnabled = false;
