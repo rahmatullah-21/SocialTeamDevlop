@@ -265,7 +265,7 @@
             <Track
       Name="PART_Track"
       Grid.Column="1"
-      IsDirectionReversed="true">
+      IsDirectionReversed="False">
                 <Track.DecreaseRepeatButton>
                     <RepeatButton
           Style="{StaticResource ScrollBarPageButtonHor}"
@@ -425,8 +425,8 @@ Grid.Column="1"
     <FontFamily x:Key="BuildTitleBd">/DominatorUIUtility;component/Resources/CustomFont/#built titling bd</FontFamily>
     <FontFamily x:Key="BuildTitleElIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling el it</FontFamily>
     <FontFamily x:Key="BuildTitleEl">/DominatorUIUtility;component/Resources/CustomFont/#built titling el</FontFamily>
-    <FontFamily x:Key="BuildTitleItIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling It it</FontFamily>
-    <FontFamily x:Key="BuildTitleIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling bItd</FontFamily>
+    <FontFamily x:Key="BuildTitleItIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling it it</FontFamily>
+    <FontFamily x:Key="BuildTitleIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling it</FontFamily>
     <FontFamily x:Key="BuildTitleRgIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling rg it</FontFamily>
     <FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/CustomFont/#built titling rg</FontFamily>
     <FontFamily x:Key="BuildTitleSbIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb it</FontFamily>
@@ -890,7 +890,7 @@ Grid.Column="1"
                     </utility:TextPath>
                 </Border>
                 <Border Grid.Row="1" Margin="3,0,4,0" BorderBrush="Black" BorderThickness="1" CornerRadius="0,0,1,1" Padding="5" Background="#FFB0B0B0">
-                    <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+                    <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                         <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
                     </ScrollViewer>
                 </Border>

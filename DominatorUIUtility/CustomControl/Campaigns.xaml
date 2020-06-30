@@ -62,6 +62,8 @@
                             </interactivity:EventTrigger>
                         </interactivity:Interaction.Triggers>
                     </controls:ToggleSwitchButton>
+                    
+                    
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="1">
                     <Label Foreground="White" FontSize="12" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
