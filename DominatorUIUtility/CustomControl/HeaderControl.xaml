@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              mc:Ignorable="d" MinHeight="40">
     <Grid Name="mainGrid"  Background="{DynamicResource AccentBaseColorBrush}"  Margin="6,2,5,3">
         
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{DynamicResource LangKeyNameYourCampaign}"  Margin="10,0" Foreground="White" VerticalAlignment="Center"  FontSize="13" FontWeight="SemiBold"/>
-            <TextBox Name="txtblkCampaignName" Margin="100,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="White" Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="White" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Background="Transparent" Width="300" FontWeight="SemiBold" />
+            <utility:TextPath Text="{DynamicResource LangKeyNameYourCampaign}" FontFamily="{StaticResource BuildTitleRgIt}" Margin="10,5,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="Bold"/>
+            <TextBox Name="txtblkCampaignName" Margin="50,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="White" Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="White" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Background="Transparent" Width="300" FontWeight="SemiBold" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <ToggleButton VerticalAlignment="Center"  Foreground="White" Name="ClpsExpnd" Click="ClpsExpnd_OnClick">
@@ -17,12 +18,24 @@
                         <Setter Property="IsChecked" Value="{Binding IsExpanded,UpdateSourceTrigger=PropertyChanged}" />
                         <Style.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Content" Value="{DynamicResource LangKeyCollapseAll}" />
-                                <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Border Background="WhiteSmoke" Height="30" Width="150"  BorderBrush="Black" CornerRadius="6" BorderThickness="1">
+                                            <utility:TextPath Text="{DynamicResource LangKeyCollapseAll}"  FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.8" FontSize="16" FontWeight="Bold"/>
+                                        </Border>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" Value="{DynamicResource AccentLightColorBrush}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
-                                <Setter Property="Content" Value="{DynamicResource LangKeyExpandAll}" />
-                                <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Border Background="WhiteSmoke" Height="30" Width="150"  BorderBrush="Black" CornerRadius="10" BorderThickness="1">
+                                            <utility:TextPath Text="{DynamicResource LangKeyExpandAll}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.8"  FontSize="16" FontWeight="Bold"/>
+                                        </Border>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" Value="Transparent" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
