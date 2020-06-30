@@ -6,10 +6,10 @@
              xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              mc:Ignorable="d" MinHeight="40">
     <Grid Name="mainGrid"  Background="{DynamicResource AccentBaseColorBrush}"  Margin="6,2,5,3">
-        
+
         <StackPanel Orientation="Horizontal">
             <utility:TextPath Text="{DynamicResource LangKeyNameYourCampaign}" FontFamily="{StaticResource BuildTitleRgIt}" Margin="10,5,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="Bold"/>
-            <TextBox Name="txtblkCampaignName" Margin="50,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="White" Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="White" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Background="Transparent" Width="300" FontWeight="SemiBold" />
+            <TextBox Name="txtblkCampaignName" Background="{StaticResource AccentLightColorBrush}" Margin="50,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="Black" FontFamily="{StaticResource BuildTitleRg}" Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="Black" BorderThickness="0.5" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Width="300" FontWeight="SemiBold" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <ToggleButton VerticalAlignment="Center"  Foreground="White" Name="ClpsExpnd" Click="ClpsExpnd_OnClick">
@@ -20,12 +20,12 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="WhiteSmoke" Height="30" Width="150"  BorderBrush="Black" CornerRadius="6" BorderThickness="1">
-                                            <utility:TextPath Text="{DynamicResource LangKeyCollapseAll}"  FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.8" FontSize="16" FontWeight="Bold"/>
+                                        <Border Background="WhiteSmoke" Height="30" Width="150"  BorderBrush="Black" CornerRadius="10" BorderThickness="1">
+                                            <utility:TextPath Text="{DynamicResource LangKeyCollapseAll}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.8" FontSize="16" FontWeight="Bold"/>
                                         </Border>
                                     </Setter.Value>
                                 </Setter>
-                                <Setter Property="Background" Value="{DynamicResource AccentLightColorBrush}" />
+                                <Setter Property="Background" Value="Transparent" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter Property="Content">
@@ -41,19 +41,24 @@
                     </Style>
                 </ToggleButton.Style>
             </ToggleButton>
-            <Button Width="130" Height="28"
+            <Button 
                     Margin="7,0,10,0"
-                    BorderBrush="Black" BorderThickness="0" Style="{StaticResource ButtonStyle}" Background="#ef1d1d" Name="btnCancelEdit" 
+                    BorderBrush="Black" BorderThickness="0" Background="Transparent"  Name="btnCancelEdit" 
                     Visibility="{Binding IsCancelEditVisible}" Command="{Binding CancelEditCommand}">
                 <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Width="15" Height="15" Fill="White">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                        <TextBlock Text="{DynamicResource LangKeyCancelEditing}" Margin="6,0"/>
-                    </StackPanel>
+                    <Border Margin="5"  Background="Red" Height="30" Width="150"  BorderBrush="Black" CornerRadius="10" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal">
+
+                            <Rectangle Margin="5" Width="15" Height="15" Fill="White">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+
+                            <utility:TextPath Text="{DynamicResource LangKeyCancelEditing}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.8"  FontSize="16" FontWeight="Bold"/>
+
+                        </StackPanel>
+                    </Border>
                 </Button.Content>
             </Button>
 

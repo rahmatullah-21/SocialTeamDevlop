@@ -5,11 +5,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
+        xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"    
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
-         xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
+        xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
         BorderThickness="1" 
@@ -86,10 +86,15 @@
                                 <DataTemplate>
                                     <Border Background="Transparent" HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <Image Margin="0,0,10,0"  Height="30" Width="30" Source="{Binding Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
+                                            <Image Name="NetworkIcon" Margin="0,0,10,0"  Height="30" Width="30" Source="{Binding Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
                                             <TextBlock FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" Text="{Binding}" />
                                         </StackPanel>
                                     </Border>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger  Binding="{Binding}" Value="{x:Static enums:SocialNetworks.Social}">
+                                            <Setter TargetName="NetworkIcon" Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
