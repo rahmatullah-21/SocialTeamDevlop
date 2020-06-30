@@ -46,6 +46,7 @@
                 <EventSetter Event="Expanded" Handler="CheckAllforExpand"/>
                 <EventSetter Event="Collapsed" Handler="CheckAllforExpand"/>
             </Style>
+           
         </ResourceDictionary>
     </unity:PrismApplication.Resources>
 </unity:PrismApplication>

@@ -5,6 +5,10 @@
                     xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListView.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
     <Style x:Key="MahApps.Metro.Styles.ToggleSwitch.Win10" TargetType="{x:Type controls:ToggleSwitch}">
         <Setter Property="ContentDirection" Value="RightToLeft" />
         <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="{DynamicResource ToggleSwitchHeaderFontSize.Win10}" />
@@ -966,8 +970,10 @@ Grid.Column="1"
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme1}"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="DarkSlateGray"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -977,7 +983,7 @@ Grid.Column="1"
                         <GridViewRowPresenter Grid.RowSpan="2"
                                       Margin="{TemplateBinding Padding}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      VerticalAlignment="Center"
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 
                     </Grid>
@@ -997,6 +1003,7 @@ Grid.Column="1"
             </Trigger>
         </Style.Triggers>
     </Style>
+
 
     <Style TargetType="{x:Type DataGridCell}" x:Key="DaraGridCellStyle">
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -1140,14 +1147,13 @@ Grid.Column="1"
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Border CornerRadius="15" BorderBrush="LightGray" Background="#FFEFF3F6" BorderThickness="1">
-
+                    <Border CornerRadius="12" BorderBrush="LightGray" Background="#FFEFF3F6" BorderThickness="1">
                         <Grid>
-                            <Ellipse Width="19" Name="IsCheckedBackgroundRect"
-                                                    Height="19"
-                                                    Fill="#FFA4ADB7" Margin="-42,0,0,0"/>
-                            <TextBlock Opacity="0" Margin="8,0,0,0" HorizontalAlignment="Left" Text="On" Name="OnText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" />
-                            <TextBlock HorizontalAlignment="Right" Text="Off" Name="OffText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Margin="0,0,15,0" />
+                            <Ellipse Width="16" Name="IsCheckedBackgroundRect"
+                                                    Height="16"
+                                                    Fill="#FFA4ADB7" Margin="-30,0,0,0"/>
+                            <TextBlock Margin="7,0,0,0" Opacity="0" DockPanel.Dock="Left"  HorizontalAlignment="Left" Text="On" Name="OnText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" />
+                            <TextBlock HorizontalAlignment="Right" Text="Off" Name="OffText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Margin="0,0,7,0" />
                         </Grid>
 
                     </Border>
@@ -1158,8 +1164,8 @@ Grid.Column="1"
                                     <Storyboard FillBehavior="HoldEnd">
                                         <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
                                                                         Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
-                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="-42, 0,0,0" />
-                                            <SplineThicknessKeyFrame KeyTime="00:00:00.10" Value="42, 0,0,0" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="-30, 0,0,0" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00.10" Value="30, 0,0,0" />
                                         </ThicknessAnimationUsingKeyFrames>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
                                                                         Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)">
@@ -1175,9 +1181,9 @@ Grid.Column="1"
                                     <Storyboard>
                                         <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
                                                                         Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
-                                            <SplineThicknessKeyFrame KeyTime="00:00:00:00" Value="42, 0,0,0" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00:00" Value="30, 0,0,0" />
 
-                                            <SplineThicknessKeyFrame KeyTime="00:00:00.10" Value="-42, 0,0,0" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00.10" Value="-30, 0,0,0" />
                                         </ThicknessAnimationUsingKeyFrames>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
                                                                         Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)">
@@ -1275,5 +1281,11 @@ Grid.Column="1"
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="GridViewColumnHeaderStyle" TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource MetroGridViewColumnHeader}">
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="FontWeight" Value="SemiBold"></Setter>
+    </Style>
     <!-- End Design-->
 </ResourceDictionary>
+    

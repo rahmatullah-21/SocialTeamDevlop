@@ -125,591 +125,593 @@
 
             <DockPanel Grid.Row="0" Name="MainContainer" Background="Transparent">
 
-                <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="0.5" Margin="0,2,4,9" Background="{DynamicResource AccentColorBrush}">
-                    
+                <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="0.5" Margin="0,2,20,9" Background="{DynamicResource AccentColorBrush}">
+
                     <utility:TextPath  HorizontalAlignment="Center"
                                VerticalAlignment="Center" 
                                FontSize="22"
-                               FontWeight="SemiBold" FontFamily="{StaticResource BuildTitleBdIt}" 
+                               FontWeight="Bold" FontFamily="{StaticResource BuildTitleBdIt}" 
                                Fill="Black" Margin="5" Stretch="Uniform" Stroke="White" StrokeThickness="1"
                                Text="{DynamicResource LangKeyAccountManager}"/>
 
                 </Border>
 
 
-                <ToggleButton DockPanel.Dock="Right" Visibility="{Binding MenuHandlerModel.IsMenuHandlerVisible,Converter={StaticResource BooleanToVisibilityConverter}}" BorderBrush="Transparent" Cursor="Hand" Background="Transparent" VerticalAlignment="Center" 
+               
+                <Border DockPanel.Dock="Right" Margin="0,2,8,9" BorderBrush="Black" BorderThickness="0.5" Background="{DynamicResource AccentColorBrush}" >
+
+                    <DockPanel>
+                        <ToggleButton DockPanel.Dock="Right" Visibility="{Binding MenuHandlerModel.IsMenuHandlerVisible,Converter={StaticResource BooleanToVisibilityConverter}}" BorderBrush="Transparent" Cursor="Hand" Background="Transparent" VerticalAlignment="Center" 
                               Name="MenuHandlerPanel" ToolTip="{DynamicResource LangKeyInfo}" Margin="10,0">
-                    <ToggleButton.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                <StackPanel Orientation="Horizontal" >
-                                    <iconPacks:PackIconMaterial Width="25" Height="25"  Kind="ClipboardArrowDown" Foreground="White"/>
-                                    <iconPacks:PackIconMaterial Width="10" Height="15" Kind="MenuDown" Background="Transparent" Foreground="White" Margin="5" />
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </ToggleButton.Template>
-                </ToggleButton>
+                            <ToggleButton.Template>
+                                <ControlTemplate>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                        <StackPanel Orientation="Horizontal" >
+                                            <iconPacks:PackIconMaterial Width="25" Height="25"  Kind="ClipboardArrowDown" Foreground="White"/>
+                                            <iconPacks:PackIconMaterial Width="10" Height="15" Kind="MenuDown" Background="Transparent" Foreground="White" Margin="5" />
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
 
-                <Popup DockPanel.Dock="Right" HorizontalAlignment="Right"  PopupAnimation="None" PlacementTarget="{Binding ElementName=MenuHandlerPanel}"
+                        <Popup DockPanel.Dock="Right" HorizontalAlignment="Right"  PopupAnimation="None" PlacementTarget="{Binding ElementName=MenuHandlerPanel}"
                                HorizontalOffset="0" VerticalOffset="5" Placement="Bottom" AllowsTransparency="True"  IsOpen="{Binding IsChecked, ElementName=MenuHandlerPanel}"  StaysOpen="False" MaxWidth="400">
-                    <Border Background="{DynamicResource AccentColorBrush}"  CornerRadius="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                        <WrapPanel Margin="5">
-                            <Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsImportMultipleAccountsVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccountsSub" 
+                            <Border Background="{DynamicResource AccentColorBrush}"  CornerRadius="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <WrapPanel Margin="5">
+                                    <Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsImportMultipleAccountsVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccountsSub" 
                                         Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource LangKeyImportAccountDescription}">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                            <StackPanel Orientation="Vertical" >
-                                                <Rectangle Width="20" Height="18" Fill="White" >
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                                <utility:TextPath Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                            </StackPanel>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                    <StackPanel Orientation="Vertical" >
+                                                        <Rectangle Width="20" Height="18" Fill="White" >
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                        <utility:TextPath Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
 
-                            <Controls:DropDownButton  Background="Transparent" Visibility="{Binding MenuHandlerModel.IsSelectAccountsVisible,Converter={StaticResource BooleanToVisibilityConverter}}"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelectSub">
-                                <Controls:DropDownButton.Content>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Vertical" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                            <utility:TextPath Text="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                        </StackPanel>
-                                    </Border>
-                                </Controls:DropDownButton.Content>
-                                <Controls:DropDownButton.Items>
-                                    <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="TitleMenu_AllAccountsSub"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource True}">
-                                        
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                    <Controls:DropDownButton  Background="Transparent" Visibility="{Binding MenuHandlerModel.IsSelectAccountsVisible,Converter={StaticResource BooleanToVisibilityConverter}}"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelectSub">
+                                        <Controls:DropDownButton.Content>
+                                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                <StackPanel Orientation="Vertical" >
+                                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                                    <utility:TextPath Text="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
+                                                </StackPanel>
+                                            </Border>
+                                        </Controls:DropDownButton.Content>
+                                        <Controls:DropDownButton.Items>
+                                            <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="TitleMenu_AllAccountsSub"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource True}">
 
-                                    <Separator />
+                                                <MenuItem.Icon>
+                                                    <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeyWorkingAccounts}" Name="TitleMenuWorkingAccountsSub" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                            <Separator />
 
-                                    <Separator />
-                                    <MenuItem Header="{DynamicResource LangKeyNotWorkingAccounts}" Name="TitleMenuNotWorkingAccountSub" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                            <MenuItem Header="{DynamicResource LangKeyWorkingAccounts}" Name="TitleMenuWorkingAccountsSub" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
+                                                <MenuItem.Icon>
+                                                    <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeyNotCheckedAccounts}" Name="TitleMenuNotCheckedAccountSub" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                            <Separator />
+                                            <MenuItem Header="{DynamicResource LangKeyNotWorkingAccounts}" Name="TitleMenuNotWorkingAccountSub" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
+                                                <MenuItem.Icon>
+                                                    <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
 
-                                    <MenuItem Name="MenuTitleGroupsSub"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource LangKeySelectAccountsByGroups}"  Command="{Binding UpdateGroupCommand}">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
-                                        </MenuItem.Icon>
-                                        <MenuItem.ItemTemplate>
-                                            <DataTemplate>
-                                                <CheckBox Content="{Binding Content}" IsChecked="{Binding IsContentSelected}" 
+                                            <MenuItem Header="{DynamicResource LangKeyNotCheckedAccounts}" Name="TitleMenuNotCheckedAccountSub" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
+                                                <MenuItem.Icon>
+                                                    <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+
+                                            <MenuItem Name="MenuTitleGroupsSub"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource LangKeySelectAccountsByGroups}"  Command="{Binding UpdateGroupCommand}">
+                                                <MenuItem.Icon>
+                                                    <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
+                                                </MenuItem.Icon>
+                                                <MenuItem.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox Content="{Binding Content}" IsChecked="{Binding IsContentSelected}" 
                                                         Command="{Binding DataContext.SelectAccountByGroupCommand,
                                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                                                         CommandParameter="{Binding}">
-                                                </CheckBox>
-                                            </DataTemplate>
-                                        </MenuItem.ItemTemplate>
-                                    </MenuItem>
+                                                        </CheckBox>
+                                                    </DataTemplate>
+                                                </MenuItem.ItemTemplate>
+                                            </MenuItem>
 
-                                    <Separator />
+                                            <Separator />
 
-                                    <MenuItem Header="{DynamicResource LangKeyDeselectAll}" Name="TitleMenu_DeselectAllSub"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource False}">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                            <MenuItem Header="{DynamicResource LangKeyDeselectAll}" Name="TitleMenu_DeselectAllSub"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource False}">
+                                                <MenuItem.Icon>
+                                                    <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
 
-                                </Controls:DropDownButton.Items>
-                            </Controls:DropDownButton>
+                                        </Controls:DropDownButton.Items>
+                                    </Controls:DropDownButton>
 
-                            <Controls:DropDownButton  Background="Transparent" Visibility="{Binding MenuHandlerModel.IsUpdateAccountVisible,Converter={StaticResource BooleanToVisibilityConverter}}"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnUpdateSub">
-                                <Controls:DropDownButton.Content>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Vertical" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
+                                    <Controls:DropDownButton  Background="Transparent" Visibility="{Binding MenuHandlerModel.IsUpdateAccountVisible,Converter={StaticResource BooleanToVisibilityConverter}}"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnUpdateSub">
+                                        <Controls:DropDownButton.Content>
+                                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                <StackPanel Orientation="Vertical" >
+                                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
 
-                                            <utility:TextPath Text="{DynamicResource LangKeyUpdate}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                        </StackPanel>
-                                    </Border>
-                                </Controls:DropDownButton.Content>
-                                <Controls:DropDownButton.Items>
-                                    <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenuSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                                    <utility:TextPath Text="{DynamicResource LangKeyUpdate}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
+                                                </StackPanel>
+                                            </Border>
+                                        </Controls:DropDownButton.Content>
+                                        <Controls:DropDownButton.Items>
+                                            <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenuSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatusSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                            <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatusSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeyStopProcess}" Name="StopProcessSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="IndianRed">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="{DynamicResource LangKeyStopAllActivity}"  Name="StopAllActivitySub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopAllActivity">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="Red">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-
-
-
-                                    <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}" CommandParameter="BusinessAccount">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="Red">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-
-                                    <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}" CommandParameter="NormalAccount">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="Red">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                </Controls:DropDownButton.Items>
-                            </Controls:DropDownButton>
-
-                            <Button Background="Transparent" Cursor="Hand" Visibility="{Binding MenuHandlerModel.IsExportAccountVisible,Converter={StaticResource BooleanToVisibilityConverter}}" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0" Name="btnExportSub" Command="{Binding ExportCommand}">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                            <StackPanel Orientation="Vertical">
-                                                <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
-
-                                                <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                            </StackPanel>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-
-                            <Button  Background="Transparent" Visibility="{Binding MenuHandlerModel.IsDeleteAccountVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccountsSub" Command="{Binding DeleteAccountsCommand}">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
-                                            <StackPanel Orientation="Vertical" >
-                                                <Rectangle Width="15" Height="20" Fill="IndianRed">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                                <utility:TextPath Text="{DynamicResource LangKeyDelete}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                            </StackPanel>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-
-                            <Controls:DropDownButton MaxHeight="55" Visibility="{Binding MenuHandlerModel.IsBrowserAutomationVisible,Converter={StaticResource BooleanToVisibilityConverter}}"  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnBrowserAutomationSub">
-                                <Controls:DropDownButton.Content>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Vertical">
-                                            <Rectangle Fill="White" Width="25" Height="20">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                            <utility:TextPath Text="{DynamicResource LangKeyBrowserAutomation}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold"/>
-                                        </StackPanel>
-                                    </Border>
-                                </Controls:DropDownButton.Content>
-                                <Controls:DropDownButton.Items>
-                                    <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}" Name="btnEnableBrowserAutomationSub" Command="{Binding ActivateBrowserAutomationCommand}" CommandParameter="ActiveBrowser">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-
-                                    <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}" Name="btnDisableBrowserAutomationSub" Command="{Binding DeActivateBrowserAutomationCommand}" CommandParameter="DeActiveBrowser">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                </Controls:DropDownButton.Items>
-                            </Controls:DropDownButton>
+                                            <MenuItem Header="{DynamicResource LangKeyStopProcess}" Name="StopProcessSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="IndianRed">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Header="{DynamicResource LangKeyStopAllActivity}"  Name="StopAllActivitySub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopAllActivity">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="Red">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
 
 
-                            <Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsInfoVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Name="btnInfoSub" VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
-                                <Rectangle Width="25" Height="25" Fill="White" x:Name="InfoSub"
+
+                                            <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}" CommandParameter="BusinessAccount">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="Red">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+
+                                            <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}" CommandParameter="NormalAccount">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="Red">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </Controls:DropDownButton.Items>
+                                    </Controls:DropDownButton>
+
+                                    <Button Background="Transparent" Cursor="Hand" Visibility="{Binding MenuHandlerModel.IsExportAccountVisible,Converter={StaticResource BooleanToVisibilityConverter}}" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0" Name="btnExportSub" Command="{Binding ExportCommand}">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
+
+                                                        <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+                                    <Button  Background="Transparent" Visibility="{Binding MenuHandlerModel.IsDeleteAccountVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccountsSub" Command="{Binding DeleteAccountsCommand}">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                                                    <StackPanel Orientation="Vertical" >
+                                                        <Rectangle Width="15" Height="20" Fill="IndianRed">
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                        <utility:TextPath Text="{DynamicResource LangKeyDelete}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+                                    <Controls:DropDownButton MaxHeight="55" Visibility="{Binding MenuHandlerModel.IsBrowserAutomationVisible,Converter={StaticResource BooleanToVisibilityConverter}}"  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnBrowserAutomationSub">
+                                        <Controls:DropDownButton.Content>
+                                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                <StackPanel Orientation="Vertical">
+                                                    <Rectangle Fill="White" Width="25" Height="20">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                    <utility:TextPath Text="{DynamicResource LangKeyBrowserAutomation}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Controls:DropDownButton.Content>
+                                        <Controls:DropDownButton.Items>
+                                            <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}" Name="btnEnableBrowserAutomationSub" Command="{Binding ActivateBrowserAutomationCommand}" CommandParameter="ActiveBrowser">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+
+                                            <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}" Name="btnDisableBrowserAutomationSub" Command="{Binding DeActivateBrowserAutomationCommand}" CommandParameter="DeActiveBrowser">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill"/>
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </Controls:DropDownButton.Items>
+                                    </Controls:DropDownButton>
+
+
+                                    <Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsInfoVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Name="btnInfoSub" VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
+                                        <Rectangle Width="25" Height="25" Fill="White" x:Name="InfoSub"
                                             VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                            </Button>
-                        </WrapPanel>
-                    </Border>
-                </Popup>
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Button>
+                                </WrapPanel>
+                            </Border>
+                        </Popup>
 
-                <Border Margin="8,2,8,9" BorderBrush="Black" BorderThickness="0.5" Background="{DynamicResource AccentColorBrush}" >
-                    
-                    <Grid >
-                        <WrapPanel  Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Left"  Background="{DynamicResource AccentColorBrush}">
-                            <CheckBox DockPanel.Dock="Left" Margin="0,3,0,0" Background="{DynamicResource AccentColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
-                                <CheckBox.Content>
-                                    <Border HorizontalAlignment="Center" Background="{DynamicResource AccentColorBrush}" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Image Width="20" Height="20"  Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/search.ico" />
-                                            <utility:TextPath Text="Search" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                        </StackPanel>
-                                    </Border>
-                                </CheckBox.Content>
-                            </CheckBox>
-                            <Button  Background="Transparent" Cursor="Hand" Height="40" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <Grid >
+                            <WrapPanel  Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Left"  Background="{DynamicResource AccentColorBrush}">
+                                <CheckBox DockPanel.Dock="Left" Margin="0,3,0,0" Background="{DynamicResource AccentColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
+                                    <CheckBox.Content>
+                                        <Border HorizontalAlignment="Center" Background="{DynamicResource AccentColorBrush}" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" >
-                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddSingleAccount.png"  />
-                                                <utility:TextPath  Text="{DynamicResource LangKeyAddAccount}" Margin="5,3,0,0" Fill="White"  Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
+                                                <Image Width="20" Height="20"  Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/search.ico" />
+                                                <utility:TextPath Text="Search" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
                                         </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
+                                    </CheckBox.Content>
+                                </CheckBox>
+                                <Button  Background="Transparent" Cursor="Hand" Height="40" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddSingleAccount.png"  />
+                                                    <utility:TextPath  Text="{DynamicResource LangKeyAddAccount}" Margin="5,3,0,0" Fill="White"  Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
+                                                </StackPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
 
-                            <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" 
-                            Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource LangKeyImportAccountDescription}">
-                                <Button.Template>
-                                    <ControlTemplate>
+                                <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" 
+                                    Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource LangKeyImportAccountDescription}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Rectangle Width="20" Height="20" Fill="White" >
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                    <utility:TextPath  Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,2,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SizeChanged" >
+                                            <i:InvokeCommandAction Command="{Binding ImportButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnLoadMultipleAccounts}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+                                <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect">
+                                    <Controls:DropDownButton.Content>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" >
-                                                <Rectangle Width="20" Height="20" Fill="White" >
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                                <utility:TextPath  Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,2,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold"/>
+                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                                <utility:TextPath Text="{DynamicResource LangKeySelect}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
                                         </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SizeChanged" >
-                                        <i:InvokeCommandAction Command="{Binding ImportButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnLoadMultipleAccounts}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+                                    </Controls:DropDownButton.Content>
+                                    <Controls:DropDownButton.Items>
+                                        <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="TitleMenu_AllAccounts"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource True}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
 
-                            <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect">
-                                <Controls:DropDownButton.Content>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                            <utility:TextPath Text="{DynamicResource LangKeySelect}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                        </StackPanel>
-                                    </Border>
-                                </Controls:DropDownButton.Content>
-                                <Controls:DropDownButton.Items>
-                                    <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="TitleMenu_AllAccounts"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource True}">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                        <Separator />
 
-                                    <Separator />
+                                        <MenuItem Header="{DynamicResource LangKeyWorkingAccounts}" Name="TitleMenuWorkingAccounts" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
+                                            <MenuItem.Icon>
+                                                <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeyWorkingAccounts}" Name="TitleMenuWorkingAccounts" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                        <Separator />
+                                        <MenuItem Header="{DynamicResource LangKeyNotWorkingAccounts}" Name="TitleMenuNotWorkingAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
+                                            <MenuItem.Icon>
+                                                <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
 
-                                    <Separator />
-                                    <MenuItem Header="{DynamicResource LangKeyNotWorkingAccounts}" Name="TitleMenuNotWorkingAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                        <MenuItem Header="{DynamicResource LangKeyNotCheckedAccounts}" Name="TitleMenuNotCheckedAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
+                                            <MenuItem.Icon>
+                                                <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeyNotCheckedAccounts}" Name="TitleMenuNotCheckedAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-
-                                    <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource LangKeySelectAccountsByGroups}"  Command="{Binding UpdateGroupCommand}">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
-                                        </MenuItem.Icon>
-                                        <MenuItem.ItemTemplate>
-                                            <DataTemplate>
-                                                <CheckBox Content="{Binding Content}" IsChecked="{Binding IsContentSelected}" 
+                                        <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource LangKeySelectAccountsByGroups}"  Command="{Binding UpdateGroupCommand}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
+                                            </MenuItem.Icon>
+                                            <MenuItem.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox Content="{Binding Content}" IsChecked="{Binding IsContentSelected}" 
                                                         Command="{Binding DataContext.SelectAccountByGroupCommand,
                                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                                                         CommandParameter="{Binding}">
-                                                </CheckBox>
-                                            </DataTemplate>
-                                        </MenuItem.ItemTemplate>
-                                    </MenuItem>
+                                                    </CheckBox>
+                                                </DataTemplate>
+                                            </MenuItem.ItemTemplate>
+                                        </MenuItem>
 
-                                    <Separator />
+                                        <Separator />
 
-                                    <MenuItem Header="{DynamicResource LangKeyDeselectAll}" Name="TitleMenu_DeselectAll"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource False}">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                        <MenuItem Header="{DynamicResource LangKeyDeselectAll}" Name="TitleMenu_DeselectAll"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource False}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
 
-                                </Controls:DropDownButton.Items>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SizeChanged" >
-                                        <i:InvokeCommandAction Command="{Binding SelectButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=BtnSelect}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Controls:DropDownButton>
+                                    </Controls:DropDownButton.Items>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SizeChanged" >
+                                            <i:InvokeCommandAction Command="{Binding SelectButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=BtnSelect}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Controls:DropDownButton>
 
-                            <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnUpdate">
-                                <Controls:DropDownButton.Content>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
+                                <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnUpdate">
+                                    <Controls:DropDownButton.Content>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
 
-                                            <utility:TextPath  Text="{DynamicResource LangKeyUpdate}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                        </StackPanel>
-                                    </Border>
-                                </Controls:DropDownButton.Content>
-                                <Controls:DropDownButton.Items>
-                                    <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                                <utility:TextPath  Text="{DynamicResource LangKeyUpdate}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
+                                            </StackPanel>
+                                        </Border>
+                                    </Controls:DropDownButton.Content>
+                                    <Controls:DropDownButton.Items>
+                                        <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
+                                            <MenuItem.Icon>
+                                                <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                        <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
+                                            <MenuItem.Icon>
+                                                <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeyStopProcess}" Name="StopProcess" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="IndianRed">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="{DynamicResource LangKeyStopAllActivity}"  Name="StopAllActivity" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopAllActivity">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="Red">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}"  CommandParameter="BusinessAccount">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="Red">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                        <MenuItem Header="{DynamicResource LangKeyStopProcess}" Name="StopProcess" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
+                                            <MenuItem.Icon>
+                                                <Rectangle Width="15" Height="15" Fill="IndianRed">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="{DynamicResource LangKeyStopAllActivity}"  Name="StopAllActivity" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopAllActivity">
+                                            <MenuItem.Icon>
+                                                <Rectangle Width="15" Height="15" Fill="Red">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
+                                            <MenuItem.Icon>
+                                                <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}"  CommandParameter="BusinessAccount">
+                                            <MenuItem.Icon>
+                                                <Rectangle Width="15" Height="15" Fill="Red">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}"  CommandParameter="NormalAccount">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="Red">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                </Controls:DropDownButton.Items>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SizeChanged" >
-                                        <i:InvokeCommandAction Command="{Binding UpdateButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnUpdate}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Controls:DropDownButton>
+                                        <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}" Command="{Binding SwitchToBusinessAccountCommand}" Visibility="{Binding SelectedNetworkViewModel.Selected,Converter={StaticResource SelectedNetworkToVisibilityConverter}}"  CommandParameter="NormalAccount">
+                                            <MenuItem.Icon>
+                                                <Rectangle Width="15" Height="15" Fill="Red">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill"/>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </Controls:DropDownButton.Items>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SizeChanged" >
+                                            <i:InvokeCommandAction Command="{Binding UpdateButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnUpdate}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Controls:DropDownButton>
 
-                            <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
-                                <Button.Template>
-                                    <ControlTemplate>
+                                <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Export.ico" />
+
+                                                    <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
+                                                </StackPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SizeChanged" >
+                                            <i:InvokeCommandAction Command="{Binding ExportButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnExport}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+                                <Button  Background="Transparent" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/DeleteNew.png" />
+
+                                                    <utility:TextPath  Text="{DynamicResource LangKeyDelete}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
+                                                </StackPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SizeChanged" >
+                                            <i:InvokeCommandAction Command="{Binding DeleteButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnDeleteAccounts}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+                                <Controls:DropDownButton Background="Transparent"  Margin="10,2,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
+                                    <Controls:DropDownButton.Content>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Export.ico" />
-
-                                                <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                            </StackPanel>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SizeChanged" >
-                                        <i:InvokeCommandAction Command="{Binding ExportButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnExport}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
-
-                            <Button  Background="Transparent" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
-                                            <StackPanel Orientation="Horizontal" >
-                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/DeleteNew.png" />
-
-                                                <utility:TextPath  Text="{DynamicResource LangKeyDelete}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                            </StackPanel>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SizeChanged" >
-                                        <i:InvokeCommandAction Command="{Binding DeleteButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnDeleteAccounts}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
-
-                            <Controls:DropDownButton Background="Transparent"  Margin="10,2,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
-                                <Controls:DropDownButton.Content>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal">
-                                            <Rectangle Fill="White" Width="25" Height="20">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-
-                                            <utility:TextPath  Text="{DynamicResource LangKeyBrowserAutomation}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
-                                        </StackPanel>
-                                    </Border>
-                                </Controls:DropDownButton.Content>
-                                <Controls:DropDownButton.Items>
-                                    <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}" Name="btnEnableBrowserAutomation" Command="{Binding ActivateBrowserAutomationCommand}" CommandParameter="ActiveBrowser">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-
-                                    <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}" Name="btnDisableBrowserAutomation" Command="{Binding DeActivateBrowserAutomationCommand}" CommandParameter="DeActiveBrowser">
-                                        <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill"/>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-
-
-                                </Controls:DropDownButton.Items>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SizeChanged" >
-                                        <i:InvokeCommandAction Command="{Binding BrowserButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnBrowserAutomation}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Controls:DropDownButton>
-
-
-
-                            <Button  Background="Transparent" Cursor="Hand"  Margin="10,0,15,0" BorderBrush="Transparent" BorderThickness="0" ToolTip="{DynamicResource LangKeyInfo}"  Name="btnInfo" Command="{Binding InfoCommand}" >
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
-                                            <StackPanel Orientation="Horizontal" >
-                                                <Rectangle Width="25" Height="25" Fill="White" x:Name="Info"
-                                                VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}">
+                                                <Rectangle Fill="White" Width="25" Height="20">
                                                     <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
+                                                        <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
+
+                                                <utility:TextPath  Text="{DynamicResource LangKeyBrowserAutomation}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
                                         </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SizeChanged" >
-                                        <i:InvokeCommandAction Command="{Binding InfoButtonSizeChnagedCommand}" CommandParameter="{Binding ElementName=btnInfo}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
-                        </WrapPanel>
-                    </Grid>
+                                    </Controls:DropDownButton.Content>
+                                    <Controls:DropDownButton.Items>
+                                        <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}" Name="btnEnableBrowserAutomation" Command="{Binding ActivateBrowserAutomationCommand}" CommandParameter="ActiveBrowser">
+                                            <MenuItem.Icon>
+                                                <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+
+                                        <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}" Name="btnDisableBrowserAutomation" Command="{Binding DeActivateBrowserAutomationCommand}" CommandParameter="DeActiveBrowser">
+                                            <MenuItem.Icon>
+                                                <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill"/>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+
+
+                                    </Controls:DropDownButton.Items>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SizeChanged" >
+                                            <i:InvokeCommandAction Command="{Binding BrowserButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnBrowserAutomation}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Controls:DropDownButton>
+
+                                <Button  Background="Transparent" Cursor="Hand"  Margin="10,0,15,0" BorderBrush="Transparent" BorderThickness="0" ToolTip="{DynamicResource LangKeyInfo}"  Name="btnInfo" Command="{Binding InfoCommand}" >
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Rectangle Width="25" Height="25" Fill="White" x:Name="Info"
+                                                VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </StackPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SizeChanged" >
+                                            <i:InvokeCommandAction Command="{Binding InfoButtonSizeChnagedCommand}" CommandParameter="{Binding ElementName=btnInfo}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </WrapPanel>
+                        </Grid>
+                    </DockPanel>
+                   
                 </Border>
 
 
@@ -739,46 +741,45 @@
                 <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <Grid >
                         <ListView x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
-                      VirtualizingPanel.IsContainerVirtualizable="True"
-                      VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
-                      AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}">
+                            VirtualizingPanel.IsContainerVirtualizable="True"
+                            VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
+                            AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}">
                             <ListView.Resources>
                                 <viewModel:BindingData x:Key="ContextMenuBinding" Data="{Binding}" />
 
                                 <ContextMenu x:Key="ItemContextMenu">
                                     <MenuItem Header="{DynamicResource LangKeyDetails}" CommandParameter="{Binding}"
-                                  Command="{Binding Data.ProfileDetailsCommand, Source={StaticResource ContextMenuBinding}}"
-                                  Icon="{DynamicResource DetailsIcon}"/>
+                                        Command="{Binding Data.ProfileDetailsCommand, Source={StaticResource ContextMenuBinding}}"
+                                        Icon="{DynamicResource DetailsIcon}"/>
                                     <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
-                                  Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
-                                  Icon="{DynamicResource DeleteIcon}"/>
+                                        Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
+                                        Icon="{DynamicResource DeleteIcon}"/>
                                     <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
-                                  CommandParameter="{Binding}"
-                                  Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
+                                        CommandParameter="{Binding}"
+                                        Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                                     <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{DynamicResource GoToToolsIcon}"
-                                  CommandParameter="{Binding}"
-                                  Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
-                                  Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>
+                                        CommandParameter="{Binding}"
+                                        Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
+                                        Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>
                                     <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{DynamicResource CheckStatusIcon}"
-                                  CommandParameter="{Binding}"
-                                  Command="{Binding Data.CheckLoginCommand, Source={StaticResource ContextMenuBinding}}" />
+                                        CommandParameter="{Binding}"
+                                        Command="{Binding Data.CheckLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                                     <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{DynamicResource UpdateFriendshipIcon}"
-                                  CommandParameter="{Binding}"
-                                  Command="{Binding Data.UpdateFriendshipCommand, Source={StaticResource ContextMenuBinding}}" />
+                                        CommandParameter="{Binding}"
+                                        Command="{Binding Data.UpdateFriendshipCommand, Source={StaticResource ContextMenuBinding}}" />
                                     <MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
-                                  Icon="{DynamicResource InstEditIcon}" 
-                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
-                                  CommandParameter="{Binding}" />
+                                        Icon="{DynamicResource InstEditIcon}" 
+                                        Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
+                                        CommandParameter="{Binding}" />
                                     <MenuItem Header="{DynamicResource LangKeyEditTwitterProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
-                                  Icon="{DynamicResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
-                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />
+                                        Icon="{DynamicResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
+                                        Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />
                                     <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{DynamicResource CopyAccountIdIcon}"
-                                  CommandParameter="{Binding}"
-                                  Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
-
+                                        CommandParameter="{Binding}"
+                                        Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
                                     <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}" 
-                                  CommandParameter="{Binding}"  Visibility="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BrowserAutomationConverter},ConverterParameter=Browser }"
-                                  Command="{Binding Data.ActivateBrowserAutomationCommand, Source={StaticResource ContextMenuBinding}}">
+                                        CommandParameter="{Binding}"  Visibility="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BrowserAutomationConverter},ConverterParameter=Browser }"
+                                        Command="{Binding Data.ActivateBrowserAutomationCommand, Source={StaticResource ContextMenuBinding}}">
                                         <MenuItem.Icon>
                                             <Rectangle Fill="Red" Width="20" Height="20">
                                                 <Rectangle.OpacityMask>
@@ -789,8 +790,8 @@
                                     </MenuItem>
 
                                     <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}" 
-                                  CommandParameter="{Binding}"  Visibility="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BrowserAutomationConverter},ConverterParameter=http}"
-                                  Command="{Binding Data.DeActivateBrowserAutomationCommand, Source={StaticResource ContextMenuBinding}}">
+                                        CommandParameter="{Binding}"  Visibility="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BrowserAutomationConverter},ConverterParameter=http}"
+                                        Command="{Binding Data.DeActivateBrowserAutomationCommand, Source={StaticResource ContextMenuBinding}}">
                                         <MenuItem.Icon>
                                             <Rectangle Fill="Red" Width="20" Height="20">
                                                 <Rectangle.OpacityMask>
@@ -801,8 +802,8 @@
                                     </MenuItem>
 
                                     <MenuItem Header="{DynamicResource LangKeySwithToBusinessAccount}" 
-                                  CommandParameter="{Binding}"  Visibility="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverterInverted}}"
-                                  Command="{Binding Data.SwitchToSingleBusinessAccountCommand, Source={StaticResource ContextMenuBinding}}">
+                                        CommandParameter="{Binding}"  Visibility="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverterInverted}}"
+                                        Command="{Binding Data.SwitchToSingleBusinessAccountCommand, Source={StaticResource ContextMenuBinding}}">
                                         <MenuItem.Icon>
                                             <Rectangle Fill="Red" Width="20" Height="20">
                                                 <Rectangle.OpacityMask>
@@ -813,8 +814,8 @@
                                     </MenuItem>
 
                                     <MenuItem Header="{DynamicResource LangKeySwithToNormalAccount}"
-                                  CommandParameter="{Binding}" Visibility="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverter}}"
-                                  Command="{Binding Data.SwitchToSingleNormalAccountCommand, Source={StaticResource ContextMenuBinding}}">
+                                        CommandParameter="{Binding}" Visibility="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToVisibilityConverter}}"
+                                        Command="{Binding Data.SwitchToSingleNormalAccountCommand, Source={StaticResource ContextMenuBinding}}">
                                         <MenuItem.Icon>
                                             <Rectangle Fill="Red" Width="20" Height="20">
                                                 <Rectangle.OpacityMask>
@@ -859,7 +860,7 @@
 
                             <ListView.View>
                                 <GridView uiExtensions:GridViewExtension.Columns="{Binding VisibleColumns}">
-                                    <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
+                                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}" Header="{DynamicResource LangKeySocialNetwork}" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -891,11 +892,11 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn  Header="{DynamicResource LangKeyAccountName}" Width="Auto" DisplayMemberBinding="{Binding AccountBaseModel.AccountName}"/>
+                                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"  Header="{DynamicResource LangKeyAccountName}" Width="Auto" DisplayMemberBinding="{Binding AccountBaseModel.AccountName}"/>
 
-                                    <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
+                                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
-                                    <GridViewColumn  Header="{DynamicResource LangKeyStatus}">
+                                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"  Header="{DynamicResource LangKeyStatus}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock >
@@ -993,9 +994,9 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn  Header="{DynamicResource LangKeyByGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
+                                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"  Header="{DynamicResource LangKeyByGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
 
-                                    <GridViewColumn  Header="{DynamicResource LangKeyProxyAddress}" Width="130">
+                                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"  Header="{DynamicResource LangKeyProxyAddress}" Width="130">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate DataType="{x:Type ListViewItem}">
                                                 <TextBlock Name="TextBlockName">
@@ -1021,7 +1022,7 @@
 
                                     </GridViewColumn>
 
-                                    <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
+                                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
 
                                     <!--<GridViewColumn  Header="{DynamicResource LangKeyPinterestAccountType}" DisplayMemberBinding="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToStatusConverter}}"/>-->
 
@@ -1042,14 +1043,7 @@
                             </GridViewColumn>-->
 
                                 </GridView>
-
-
-
-
                             </ListView.View>
-
-
-
                         </ListView>
                         <!--Help section-->
                         <Controls:FlyoutsControl>

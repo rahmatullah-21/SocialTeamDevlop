@@ -121,7 +121,7 @@
                         <Grid.Effect>
                             <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                         </Grid.Effect>
-                        <ComboBox Style="{StaticResource ComboBoxStyle}" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" HorizontalAlignment="Center" FontSize="30" DataContext="{Binding Languages}" Grid.Column="3"  BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+                        <CheckBox Content="hello"/>
                     </Grid>
 
 
