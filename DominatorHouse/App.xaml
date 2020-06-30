@@ -20,6 +20,28 @@
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/UtilityControls.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MetroExpander}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Expander}">
+                            <Border BorderBrush="DarkGray" Background="LightGray" BorderThickness="2" CornerRadius="10" Padding="2">
+                                <Expander Style="{StaticResource MetroExpander}" Content="{TemplateBinding Content}" IsExpanded="{TemplateBinding IsExpanded}" Background="LightGray" Foreground="White" BorderThickness="0" Header="{TemplateBinding Header}">
+                                    <Expander.ContentTemplate>
+                                        <DataTemplate>
+                                            <Border Background="White" CornerRadius="5" Padding="2">
+                                                <ContentPresenter x:Name="content" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </Expander.ContentTemplate>
+                                    <Expander.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" FontFamily="{StaticResource BuildTitleSbIt}" Foreground="Black" FontSize="20" VerticalAlignment="Center" TextAlignment="Left"/>
+                                        </DataTemplate>
+                                    </Expander.HeaderTemplate>
+                                </Expander>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
                 <Setter Property="IsExpanded" Value="True" />
                 <EventSetter Event="Expanded" Handler="CheckAllforExpand"/>
                 <EventSetter Event="Collapsed" Handler="CheckAllforExpand"/>

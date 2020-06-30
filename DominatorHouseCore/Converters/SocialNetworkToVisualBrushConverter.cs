@@ -17,25 +17,25 @@ namespace DominatorHouseCore.Converters
                 switch (network.Value)
                 {
                     case SocialNetworks.Facebook:
-                        return Application.Current?.FindResource("appbar_social_facebook_variant");
+                        return "/DominatorUIUtility;component/Images/RedditNew.png";
                     case SocialNetworks.Instagram:
-                        return Application.Current?.FindResource("Instagram");
+                        return "/DominatorUIUtility;component/Images/InstagramNew.png";
                     case SocialNetworks.Twitter:
-                        return Application.Current?.FindResource("appbar_twitter_bird");
+                        return "/DominatorUIUtility;component/Images/RedditNew.png";
                     case SocialNetworks.Pinterest:
-                        return Application.Current?.FindResource("appbar_social_pinterest");
+                        return "/DominatorUIUtility;component/Images/RedditNew.png";
                     case SocialNetworks.LinkedIn:
-                        return Application.Current?.FindResource("appbar_social_linkedin_variant");
+                        return "/DominatorUIUtility;component/Images/RedditNew.png";
                     case SocialNetworks.Reddit:
-                        return Application.Current?.FindResource("appbar_social_reddit");
+                        return "/DominatorUIUtility;component/Images/RedditNew.png";
                     case SocialNetworks.Quora:
-                        return Application.Current?.FindResource("Quora");
+                        return "/DominatorUIUtility;component/Images/RedditNew.png";
                     //case SocialNetworks.Gplus:
                     //    return Application.Current?.FindResource("appbar_googleplus");
                     case SocialNetworks.Youtube:
-                        return Application.Current?.FindResource("appbar_youtube");
+                        return "/DominatorUIUtility;component/Images/RedditNew.png";
                     case SocialNetworks.Tumblr:
-                        return Application.Current?.FindResource("appbar_social_tumblr");
+                        return "/DominatorUIUtility;component/Images/TumblrNew.png";
                     case SocialNetworks.Social:
                         return null;
                     case SocialNetworks.TikTok:

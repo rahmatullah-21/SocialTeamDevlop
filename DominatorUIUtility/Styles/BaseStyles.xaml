@@ -378,7 +378,7 @@ Grid.Column="1"
     <!-- Scroll Viewer End-->
 
 
-        <Ellipse x:Key="AppThemeMenuIcon"
+    <Ellipse x:Key="AppThemeMenuIcon"
                      Width="16"
                      Height="16"
                      x:Shared="False"
@@ -421,6 +421,16 @@ Grid.Column="1"
 
     </ControlTemplate>
 
+
+    <Image x:Key="RedditIcon" Source="/DominatorUIUtility;component/Images/RedditNew.png"/>
+    <Image x:Key="InstagramIcon" Source="/DominatorUIUtility;component/Images/InstagramNew.png"/>
+    <Image x:Key="QuoraIcon" Source="/DominatorUIUtility;component/Images/QuoraNew.png"/>
+    <Image x:Key="TumblrIcon" Source="/DominatorUIUtility;component/Images/TumblrNew.png"/>
+    <Image x:Key="TwitterIcon" Source="/DominatorUIUtility;component/Images/TwitterNew.png"/>
+    <Image x:Key="YouTubeIcon" Source="/DominatorUIUtility;component/Images/YouTubeNew.png"/>
+    <Image x:Key="FacebookIcon" Source="/DominatorUIUtility;component/Images/FacebookNew.png"/>
+    <Image x:Key="PinterestIcon" Source="/DominatorUIUtility;component/Images/PinterestNew.png"/>
+
     <FontFamily x:Key="BuildTitleBdIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling bd it</FontFamily>
     <FontFamily x:Key="BuildTitleBd">/DominatorUIUtility;component/Resources/CustomFont/#built titling bd</FontFamily>
     <FontFamily x:Key="BuildTitleElIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling el it</FontFamily>
@@ -459,7 +469,7 @@ Grid.Column="1"
                             ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                             Margin="3,3,23,3"
                             VerticalAlignment="Center"
-                            HorizontalAlignment="Left" />
+                            HorizontalAlignment="Center" />
 
                         <Popup 
                             Name="Popup"

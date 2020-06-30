@@ -2304,6 +2304,30 @@
   <ItemGroup>
     <Resource Include="Images\search.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FacebookNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\InstagramNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinterestNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\QuoraNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\RedditNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TumblrNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TwitterNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\YouTubeNew.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

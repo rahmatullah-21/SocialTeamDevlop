@@ -608,7 +608,7 @@
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
+                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Export.ico" />
 
                                                 <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
@@ -627,11 +627,7 @@
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
                                             <StackPanel Orientation="Horizontal" >
-                                                <Rectangle Width="15" Height="20" Fill="IndianRed">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
+                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/DeleteNew.png" />
 
                                                 <utility:TextPath  Text="{DynamicResource LangKeyDelete}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
@@ -874,7 +870,7 @@
                                                             </Style>
                                                         </ContentControl.Style>
                                                     </ContentControl>
-                                                    <Rectangle Margin="10,0" VerticalAlignment="Center"
+                                                    <!--<Rectangle Margin="10,0" VerticalAlignment="Center"
                                                    Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}"
                                                    Width="20" Height="20">
                                                         <Rectangle.OpacityMask>
@@ -882,7 +878,8 @@
                                                     Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}"
                                                     Stretch="Fill" />
                                                         </Rectangle.OpacityMask>
-                                                    </Rectangle>
+                                                    </Rectangle>-->
+                                                    <Image Margin="10,0" VerticalAlignment="Center"  Height="20" Width="20" Source="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
                                                     <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
                                                   Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
