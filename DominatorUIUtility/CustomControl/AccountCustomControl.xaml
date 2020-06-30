@@ -627,7 +627,7 @@
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
                                             <StackPanel Orientation="Horizontal" >
-                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/DeleteNew.png" />
+                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/delete.png" />
 
                                                 <utility:TextPath  Text="{DynamicResource LangKeyDelete}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>

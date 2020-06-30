@@ -2203,12 +2203,10 @@
     <Resource Include="Images\check.png" />
     <Resource Include="Images\checkall.png" />
     <Resource Include="Images\close.png" />
-    <Resource Include="Images\delete.png" />
     <Resource Include="Images\deleteaccount.png" />
     <Resource Include="Images\deletenotworking.png" />
     <Resource Include="Images\deselect.png" />
     <Resource Include="Images\duplicatecampaign.png" />
-    <Resource Include="Images\edit.png" />
     <Resource Include="Images\followersUpdate.png" />
     <Resource Include="Images\followingUpdate.png" />
     <Resource Include="Images\loadaccouts.png" />
@@ -2217,7 +2215,6 @@
     <Resource Include="Images\reset.png" />
     <Resource Include="Images\search.png" />
     <Resource Include="Images\setting.png" />
-    <Resource Include="Images\settings.png" />
     <Resource Include="Images\singleaccount.png" />
     <Resource Include="Images\stop.png" />
   </ItemGroup>
@@ -2227,7 +2224,6 @@
     <Resource Include="Images\DashBoardLogo.png" />
     <Resource Include="Images\DeleteAccounts.png" />
     <Resource Include="Images\DownArrow.png" />
-    <Resource Include="Images\export.png" />
     <Resource Include="Images\friendupdate.png" />
     <Resource Include="Images\groupsearch.png" />
     <Resource Include="Images\groupupdate.png" />
@@ -2327,6 +2323,27 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\YouTubeNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\garbage_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\export.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\upload.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
