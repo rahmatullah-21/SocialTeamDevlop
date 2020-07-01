@@ -140,7 +140,7 @@
                
                 <Border DockPanel.Dock="Right" Margin="0,2,8,9" BorderBrush="Black" BorderThickness="0.5" Background="{DynamicResource AccentColorBrush}" >
 
-                    <DockPanel>
+                    <DockPanel Name="TitleContainer" >
                         <ToggleButton DockPanel.Dock="Right" Visibility="{Binding MenuHandlerModel.IsMenuHandlerVisible,Converter={StaticResource BooleanToVisibilityConverter}}" BorderBrush="Transparent" Cursor="Hand" Background="Transparent" VerticalAlignment="Center" 
                               Name="MenuHandlerPanel" ToolTip="{DynamicResource LangKeyInfo}" Margin="10,0">
                             <ToggleButton.Template>
@@ -406,17 +406,35 @@
 
                         <Grid >
                             <WrapPanel  Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Left"  Background="{DynamicResource AccentColorBrush}">
-                                <CheckBox DockPanel.Dock="Left" Margin="0,3,0,0" Background="{DynamicResource AccentColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
-                                    <CheckBox.Content>
+                                <ToggleButton DockPanel.Dock="Left" Margin="0,3,0,0" Background="{DynamicResource AccentColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
+                                    <ToggleButton.Content>
                                         <Border HorizontalAlignment="Center" Background="{DynamicResource AccentColorBrush}" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" >
                                                 <Image Width="20" Height="20"  Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/search.ico" />
                                                 <utility:TextPath Text="Search" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
                                             </StackPanel>
                                         </Border>
-                                    </CheckBox.Content>
-                                </CheckBox>
-                                <Button  Background="Transparent" Cursor="Hand" Height="40" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
+                                    </ToggleButton.Content>
+                                </ToggleButton>
+                                <Popup DockPanel.Dock="Right" HorizontalAlignment="Right"  PopupAnimation="None" PlacementTarget="{Binding ElementName=TitleContainer}"
+                                    HorizontalOffset="0" VerticalOffset="0" Placement="Bottom" AllowsTransparency="True"  IsOpen="{Binding IsChecked, ElementName=SearchExpander}"  StaysOpen="False">
+                                    <!--Filter Section-->
+                                    <Border CornerRadius="1" Background="White" Width="{Binding Path=ActualWidth , ElementName=TitleContainer}" BorderThickness="1" BorderBrush="{StaticResource AccentColorBrush}">
+                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="10,0,0,2" VerticalAlignment="Center" Visibility="{Binding ElementName=SearchExpander, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                                            <!--Visibility="{Binding ElementName=SearchExpander, Path=IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}"-->
+                                            <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" 
+                                            VerticalAlignment="Center" Height="25"  HorizontalAlignment="Left" Width="150"
+                                            Style="{StaticResource SearchMetroTextBox}" Name="txtSearch" Margin="0,4,0,4"/>
+                                            <ComboBox Style="{StaticResource CommonComboBoxStyle}"  Margin="40,4,0,4" SelectedIndex="0" Width="150" 
+                                            VerticalAlignment="Center" HorizontalAlignment="Right" Height="25"  Name="cmbSearchFilter" >
+                                                <ComboBoxItem Content="{DynamicResource LangKeyByAccount}"/>
+                                                <ComboBoxItem Content="{DynamicResource LangKeyByGroupName}"/>
+                                                <ComboBoxItem Content="{DynamicResource LangKeyByAccountNikeName}"/>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                                <Button  Background="Transparent" Cursor="Hand" Height="40" BorderBrush="Transparent"  Margin="6,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
                                     <Button.Template>
                                         <ControlTemplate>
                                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -719,19 +737,7 @@
             </DockPanel>
             <!--</Grid>-->
 
-            <!--Filter Section-->
-            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,2,0,2" VerticalAlignment="Center" Visibility="{Binding ElementName=SearchExpander, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" >
-                <!--Visibility="{Binding ElementName=SearchExpander, Path=IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}"-->
-                <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" 
-                              VerticalAlignment="Center" FontFamily="{StaticResource BuildTitleBdIt}" Height="29"  HorizontalAlignment="Left" Width="150"
-                              Style="{StaticResource SearchMetroTextBox}" Name="txtSearch" />
-                <ComboBox  Margin="5,2,0,2" SelectedIndex="0" Width="150" 
-                              VerticalAlignment="Center" HorizontalAlignment="Right" Height="29"  Name="cmbSearchFilter" >
-                    <ComboBoxItem Content="{DynamicResource LangKeyByAccount}"/>
-                    <ComboBoxItem Content="{DynamicResource LangKeyByGroupName}"/>
-                    <ComboBoxItem Content="{DynamicResource LangKeyByAccountNikeName}"/>
-                </ComboBox>
-            </StackPanel>
+            
 
             <!--Data grid view-->
             <Border Padding="10" Margin="0,5,0,2" CornerRadius="5" BorderBrush="Black" BorderThickness="0.7" Grid.Row="2" Background="#ffffff">

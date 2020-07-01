@@ -40,7 +40,7 @@
                 </Border>
                 <Border Height="38" Margin="20,0,0,0"  DockPanel.Dock="Right" BorderBrush="Black" BorderThickness="0.5" Background="{DynamicResource AccentBaseColorBrush}" VerticalAlignment="Center">
                     <DockPanel VerticalAlignment="Center">
-                        <Button DockPanel.Dock="Left" Height="30" Margin="30,0,0,0" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Command="{Binding DeleteCommand}"
+                        <Button DockPanel.Dock="Left" Height="30" Margin="20,0,0,0" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Command="{Binding DeleteCommand}"
                                 VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource LangKeyDeleteSelected}">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal" >
@@ -49,7 +49,7 @@
                                 </StackPanel>
                             </Button.Content>
                         </Button>
-                        <DockPanel HorizontalAlignment="Center" Margin="30,0,0,0" VerticalAlignment="Center">
+                        <DockPanel HorizontalAlignment="Center" Margin="20,0,0,0" VerticalAlignment="Center">
                             <utility:TextPath Margin="0,0,0,6" VerticalAlignment="Center" Text="{DynamicResource LangKeyActivateSelectedCammpaigns}" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17"  StrokeThickness="1" FontWeight="Bold"/>
                             <controls:ToggleSwitchButton  Margin="10,0,0,0" Height="22" Width="55"
                                            FontSize="12" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" 
@@ -62,13 +62,14 @@
                                 </interactivity:Interaction.Triggers>
                             </controls:ToggleSwitchButton>
                         </DockPanel>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="30,0,0,6" Grid.Column="1">
-                            <utility:TextPath  Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="0,0,10,0" VerticalAlignment="Center" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="1" FontWeight="Bold"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="30,0,0,0" Grid.Column="1">
+                            <utility:TextPath Margin="0,0,10,6" Text="{DynamicResource LangKeyImportMultipleAccounts}" VerticalAlignment="Center" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="1" FontWeight="Bold"/>
                             <ComboBox x:Name="CmbCampaignType" SelectedIndex="0"
-                                Height="26" ItemsSource="{Binding CampaignModel.ActivityType}"
-                                MinWidth="240" SelectedItem="{Binding CampaignModel.SelectedActivity}"
-                                Margin="3"  Background="Transparent"  Foreground="White"                 
-                                BorderBrush="White"
+                                Height="30" ItemsSource="{Binding CampaignModel.ActivityType}"
+                                MinWidth="200" SelectedItem="{Binding CampaignModel.SelectedActivity}"
+                                Margin="3"  Background="Transparent"  Foreground="SlateGray"                 
+                                BorderBrush="White" VerticalAlignment="Center"
+                                Style="{StaticResource CommonComboBoxStyle}"
                                 ToolTip="{DynamicResource LangKeySelectTheCampaignToFilterForView}" 
                                 behaviours:SelectionChangedBehaviour.Command="{Binding CampaignTypeSelectionChange}"/>
                         </StackPanel>
@@ -105,12 +106,12 @@
                         <GridView>
                             <GridView.Columns>
                                 <GridViewColumn Width="100">
-                                    <CheckBox x:Name="AllCampaign" Height="20" Background="LightGray" Style="{StaticResource CrucialCheckBoxStyle}"  IsChecked="{Binding IsAllCampaignChecked}" Content=" #"/>
+                                    <CheckBox x:Name="AllCampaign" Height="20" Background="LightGray" IsChecked="{Binding IsAllCampaignChecked}" Content=" #"/>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox IsChecked="{Binding IsCampaignChecked}" 
                                                   x:Name="ChkSingleCampaign" Height="20"
-                                                  Margin="5,0,0,0" Style="{StaticResource CrucialCheckBoxStyle}"  Content="{Binding (ItemsControl.AlternationIndex),
+                                                  Margin="5,0,0,0" Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
                                                   Converter={StaticResource IndexToRowNoConverter}}" 
                                                   Foreground="{DynamicResource AccentBaseColorBrush}"
@@ -124,28 +125,15 @@
                                 <GridViewColumn Header="{DynamicResource LangKeyStatus}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <controls:ToggleSwitchButton Style="{StaticResource CrucialToggleButton}"
-                                                                Foreground="{DynamicResource AccentBaseColorBrush}" Name="campaignStatus"
-                                                               SwitchForeground="{DynamicResource AccentBaseColorBrush}"
+                                            <controls:ToggleSwitchButton FontSize="12" Margin="-4,0,0,0" Height="22" Width="105" Name="campaignStatus" Style="{StaticResource CrucialToggleButtonWithStatus}"
                                                                IsChecked="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}},
-                                            Converter={StaticResource StringToBooleanConverter},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                                                Converter={StaticResource StringToBooleanConverter},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                                                 <interactivity:Interaction.Triggers>
                                                     <interactivity:EventTrigger EventName="Click">
                                                         <interactivity:InvokeCommandAction Command="{Binding DataContext.StatusChangeCommand,
                                                         RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding ElementName=campaignStatus}"/>
                                                     </interactivity:EventTrigger>
                                                 </interactivity:Interaction.Triggers>
-                                                <!--<controls:ToggleSwitchButton.Style>
-                                                    <Style TargetType="controls:ToggleSwitchButton" BasedOn="{StaticResource CrucialToggleButton}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding SelectedAccountList.Count}" Value="0">
-                                                                <Setter Property="OffSwitchBrush" Value="#FA8072"/>
-                                                                <Setter Property="OnSwitchBrush" Value="#FA8072"/>
-                                                                <Setter Property="ToolTip" Value="*Account not present"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </controls:ToggleSwitchButton.Style>-->
                                             </controls:ToggleSwitchButton>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -154,8 +142,8 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="4" >
-                                                <Button Name="BtnCampaignSetting" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="38" Height="20" 
-                                                    VerticalAlignment="Top" Margin="10,0,0,0"  Command="{Binding DataContext.SettingCommand,
+                                                <Button Name="BtnCampaignSetting" Style="{StaticResource ButtonStyle}" Width="38" Height="20" 
+                                                    VerticalAlignment="Top" Background="Black"  Command="{Binding DataContext.SettingCommand,
                                                     RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
                                                     CommandParameter="{Binding ElementName=BtnCampaignSetting}" >
                                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

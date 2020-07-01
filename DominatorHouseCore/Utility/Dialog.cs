@@ -25,8 +25,7 @@ namespace DominatorHouseCore.Utility
                 Background = dialog.Background,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
-                Title = title,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
+                Title = title
             };
 
             try
@@ -58,8 +57,7 @@ namespace DominatorHouseCore.Utility
                 WindowTransitionsEnabled = false,
                 Title = title,
                 BorderThickness = new Thickness(0),
-                GlowBrush = Brushes.Black,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
+                GlowBrush = Brushes.Black
 
             };
 
@@ -96,7 +94,6 @@ namespace DominatorHouseCore.Utility
                 Title = title,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon())),
                 Margin = new Thickness(10)
             };
 

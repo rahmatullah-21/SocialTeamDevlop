@@ -23,11 +23,11 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Expander}">
-                            <Border BorderBrush="DarkGray" Background="LightGray" BorderThickness="2" CornerRadius="10" Padding="2">
+                            <Border BorderBrush="DarkGray" Background="LightGray" BorderThickness="2" MinHeight="25" CornerRadius="8" Padding="1">
                                 <Expander Style="{StaticResource MetroExpander}" Content="{TemplateBinding Content}" IsExpanded="{TemplateBinding IsExpanded}" Background="LightGray" Foreground="White" BorderThickness="0" Header="{TemplateBinding Header}">
                                     <Expander.ContentTemplate>
                                         <DataTemplate>
-                                            <Border Background="White" CornerRadius="5" Padding="2">
+                                            <Border Background="White" CornerRadius="6" Padding="2">
                                                 <ContentPresenter x:Name="content" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
                                             </Border>
                                         </DataTemplate>
@@ -46,7 +46,42 @@
                 <EventSetter Event="Expanded" Handler="CheckAllforExpand"/>
                 <EventSetter Event="Collapsed" Handler="CheckAllforExpand"/>
             </Style>
-           
+            <Style TargetType="{x:Type CheckBox}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type CheckBox}">
+                            <DockPanel>
+                                <Border x:Name="Border" Padding="4" BorderThickness="1" BorderBrush="{StaticResource AccentBaseColorBrush}" CornerRadius="3" Width="20"
+                                Height="20" MinHeight="15"  MinWidth="15" Background="Transparent" DockPanel.Dock="Left">
+
+                                    <Grid x:Name="CheckMark"
+                                          VerticalAlignment="Center"
+                                          MinHeight="8" MinWidth="8"
+                                          Background="#FFDF0000"/>
+                                </Border>
+                                <ContentPresenter Margin="4,0,0,0"
+                                              VerticalAlignment="Center" RecognizesAccessKey="False" />
+                            </DockPanel>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="false">
+                                    <Setter TargetName="CheckMark" Property="Background" Value="#FF909BA5" />
+                                    <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource AccentBaseColorBrush}" />
+                                    <Setter TargetName="Border" Property="Background" Value="#FFE9EEF1" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter TargetName="Border" Property="BorderBrush" Value="#FFDF0000" />
+                                    <Setter TargetName="Border" Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect ShadowDepth="0.5" BlurRadius="10" Color="LightSalmon"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </unity:PrismApplication.Resources>
 </unity:PrismApplication>

@@ -426,6 +426,105 @@ Grid.Column="1"
     </ControlTemplate>
 
 
+    <RotateTransform x:Key="Rotate180" CenterX="5" CenterY="5" Angle="180"/>
+    <RotateTransform x:Key="Rotate0" CenterX="0" CenterY="0" Angle="0"/>
+    <DrawingImage x:Key="ArrowImage">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="Silver"  Geometry="M 3 1 5 4 1 4 Z">
+                <GeometryDrawing.Pen>
+                    <Pen Brush="Silver" Thickness="2"
+                                 LineJoin="Round" />
+                </GeometryDrawing.Pen>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <ControlTemplate x:Key="CommonComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="0.2*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                  x:Name="Border" 
+                  Grid.ColumnSpan="2"
+                  CornerRadius="6"
+                    BorderBrush="LightGray"
+                  Background="White"
+                  BorderThickness="1" />
+                <Border Name="ChildBorder" Grid.Column="1" BorderThickness="1" Margin="1" CornerRadius="0,6,6,0" Background="#FFEFF2F5"  BorderBrush="#FFEFF2F5">
+                    <Image Name="Arrow" Margin="2"  VerticalAlignment="Center" Height="10" Width="10" Source="{StaticResource ArrowImage}" RenderTransform="{StaticResource Rotate180}"/>
+                </Border>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="true">
+                    <Setter TargetName="Arrow" Property="RenderTransform" Value="{StaticResource Rotate0}"/>
+                    <Setter TargetName="Border" Property="CornerRadius" Value="6,6,0,0"/>
+                    <Setter TargetName="ChildBorder" Property="CornerRadius" Value="0,6,0,0"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+    <Style x:Key="CommonComboBoxStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinHeight" Value="20"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <ToggleButton 
+                            Name="ToggleButton" 
+                            Template="{StaticResource CommonComboBoxToggleButton}" 
+                            Grid.Column="2" 
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press">
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"                            
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" Margin="10,0"/>
+
+                            <Popup 
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True" 
+                            Focusable="False"
+                            PopupAnimation="Slide">
+                            <Grid Name="DropDown"
+                              SnapsToDevicePixels="True"                
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border BorderThickness="1,0,1,1"
+                                    CornerRadius="0,0,6,6"
+                                    x:Name="DropDownBorder"
+                                    Background="White"
+                                    BorderBrush="LightGray">
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+
+                                </Border>
+                            </Grid>
+                        </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+    
+
     <Image x:Key="RedditIcon" Source="/DominatorUIUtility;component/Images/RedditNew.png"/>
     <Image x:Key="InstagramIcon" Source="/DominatorUIUtility;component/Images/InstagramNew.png"/>
     <Image x:Key="QuoraIcon" Source="/DominatorUIUtility;component/Images/QuoraNew.png"/>
@@ -577,17 +676,12 @@ Grid.Column="1"
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Focusable" Value="False"/>
-
-
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Background="{TemplateBinding Background}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-
                     </Grid>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1151,9 +1245,9 @@ Grid.Column="1"
                         <Grid>
                             <Ellipse Width="16" Name="IsCheckedBackgroundRect"
                                                     Height="16"
-                                                    Fill="#FFA4ADB7" Margin="-30,0,0,0"/>
-                            <TextBlock Margin="7,0,0,0" Opacity="0" DockPanel.Dock="Left"  HorizontalAlignment="Left" Text="On" Name="OnText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" />
-                            <TextBlock HorizontalAlignment="Right" Text="Off" Name="OffText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Margin="0,0,7,0" />
+                                                    Fill="SlateGray" Margin="-30,0,0,0"/>
+                            <TextBlock Margin="7,0,0,0" Opacity="0" DockPanel.Dock="Left"  HorizontalAlignment="Left" Text="On" Name="OnText" Foreground="DarkSlateGray" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" />
+                            <TextBlock HorizontalAlignment="Right" Text="Off" Name="OffText" Foreground="DarkSlateGray" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Margin="0,0,9,0" />
                         </Grid>
 
                     </Border>
@@ -1201,81 +1295,72 @@ Grid.Column="1"
         </Setter>
     </Style>
 
-    <Style x:Key="CrucialCheckBoxStyle" TargetType="{x:Type CheckBox}">
+    <Style x:Key="CrucialToggleButtonWithStatus" TargetType="{x:Type controls:ToggleSwitchButton}">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <DockPanel>
-                        <Border x:Name="Border" Padding="4" BorderThickness="1" BorderBrush="#FFE9EEF1" CornerRadius="2" Width="{TemplateBinding Width}"
-                                Height="{TemplateBinding Height}" MinHeight="20" MinWidth="20" Background="#FFE9EEF1" DockPanel.Dock="Left">
-
-                            <Grid x:Name="CheckMark"
-                                          VerticalAlignment="Center"
-                                          Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"
-                                          Background="#FFDF0000"/>
-                        </Border>
-                        <ContentPresenter Margin="4,0,0,0"
-                                              VerticalAlignment="Center" RecognizesAccessKey="False" />
-                    </DockPanel>
-
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border BorderBrush="Transparent">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="12" MinHeight="22" MinWidth="50" BorderBrush="LightGray" Background="#FFEFF3F6" BorderThickness="1">
+                                <Grid>
+                                    <Ellipse Width="16" Name="IsCheckedBackgroundRect"
+                                                    Height="16"
+                                                    Fill="#FFA4ADB7" Margin="-30,0,0,0"/>
+                                    <TextBlock Margin="7,0,0,0" Opacity="0" DockPanel.Dock="Left"  HorizontalAlignment="Left" Text="On" Name="OnText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" />
+                                    <TextBlock HorizontalAlignment="Right" Text="Off" Name="OffText" Foreground="#FF71777C" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Margin="0,0,7,0" />
+                                </Grid>
+                            </Border>
+                            <TextBlock Name="StatusText" Margin="5,0" FontWeight="SemiBold" VerticalAlignment="Center" Text="Paused" Foreground="#FF71777C" FontSize="15"/>
+                        </StackPanel>
+                    </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="false">
-                            <Setter TargetName="CheckMark" Property="Background" Value="#FF909BA5" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFE9EEF1" />
-                            <Setter TargetName="Border" Property="Background" Value="White" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="LightSalmon" />
-                            <Setter TargetName="Border" Property="Effect">
-                                <Setter.Value>
-                                    <DropShadowEffect ShadowDepth="2" BlurRadius="10" Color="LightGray"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+                        <DataTrigger Binding="{Binding IsChecked , RelativeSource={RelativeSource Self}}" Value="true">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Name="enterBoard">
+                                    <Storyboard FillBehavior="HoldEnd">
+                                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="-30, 0,0,0" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00.10" Value="30, 0,0,0" />
+                                        </ThicknessAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)">
+                                            <LinearColorKeyFrame KeyTime="0:0:0.10" Value="#FF35C77B"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="OffText" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.03"/>
+                                        <DoubleAnimation Storyboard.TargetName="OnText" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.03"/>
+                                        <StringAnimationUsingKeyFrames 
+                                                Storyboard.TargetName="StatusText" Storyboard.TargetProperty="(TextBlock.Text)">
+                                            <DiscreteStringKeyFrame Value="Active" KeyTime="00:00:00.10" />
+                                        </StringAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard Name="exitBoard">
+                                    <Storyboard>
+                                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00:00" Value="30, 0,0,0" />
 
-    <Style x:Key="ExpanderStyle" TargetType="{x:Type Expander}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Expander}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition x:Name="ContentRow"
-                           Height="0" />
-                        </Grid.RowDefinitions>
-                        <Border x:Name="Border"
-                  Grid.Row="0" Background="Gray"
-                  BorderThickness="1" 
-                  CornerRadius="8">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <ToggleButton OverridesDefaultStyle="True"
-                            Template="{StaticResource ExpanderToggleButton}"
-                            IsChecked="{Binding IsExpanded, Mode=TwoWay, 
-                  RelativeSource={RelativeSource TemplatedParent}}">
-                                </ToggleButton>
-                                <ContentPresenter Grid.Column="1"
-                                Margin="4"
-                                ContentSource="Header"
-                                RecognizesAccessKey="True" />
-                            </Grid>
-                        </Border>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsExpanded"
-                   Value="True">
-                            <Setter TargetName="ContentRow"
-                    Property="Height"
-                    Value="{Binding DesiredHeight, ElementName=Content}" />
-                        </Trigger>
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00.10" Value="-30, 0,0,0" />
+                                        </ThicknessAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="IsCheckedBackgroundRect"
+                                                                        Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)">
+                                            <LinearColorKeyFrame KeyTime="0:0:0.10" Value="#FFA4ADB7"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="OffText" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.03"/>
+                                        <DoubleAnimation Storyboard.TargetName="OnText" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.03"/>
+                                        <StringAnimationUsingKeyFrames 
+                                                Storyboard.TargetName="StatusText" Storyboard.TargetProperty="(TextBlock.Text)">
+                                            <DiscreteStringKeyFrame Value="Paused" KeyTime="00:00:00.10" />
+                                        </StringAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -516,7 +516,7 @@ namespace DominatorUIUtility.ViewModel
                         return;
                     }
 
-                    var isChecked = ((ToggleSwitch)sender).IsChecked;
+                    var isChecked = ((ToggleSwitchButton)sender).IsChecked;
                     var isToggleSwitchSelected = isChecked != null && (bool)isChecked;
                     ChangeAllCampStatus();
                     Task.Factory.StartNew(() =>
