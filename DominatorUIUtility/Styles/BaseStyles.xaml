@@ -486,8 +486,7 @@ Grid.Column="1"
         <DrawingImage.Drawing>
             <GeometryDrawing Brush="Silver"  Geometry="M 3 1 5 4 1 4 Z">
                 <GeometryDrawing.Pen>
-                    <Pen Brush="Silver" Thickness="2"
-                                 LineJoin="Round" />
+                    <Pen Brush="Silver" Thickness="2" LineJoin="Round" />
                 </GeometryDrawing.Pen>
             </GeometryDrawing>
         </DrawingImage.Drawing>
@@ -503,7 +502,7 @@ Grid.Column="1"
                   x:Name="Border" 
                   Grid.ColumnSpan="2"
                   CornerRadius="6"
-                    BorderBrush="LightGray"
+                    BorderBrush="Red"
                   Background="White"
                   BorderThickness="1" />
                 <Border Name="ChildBorder" Grid.Column="1" BorderThickness="1" Margin="1" CornerRadius="0,6,6,0" Background="#FFEFF2F5"  BorderBrush="#FFEFF2F5">

@@ -101,7 +101,7 @@
                         </ComboBox>
                     </Grid>
                     
-                    <Image Width="15" Height="15" Grid.Column="2" VerticalAlignment="Center" Margin="10,2,0,2" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/InfoNew.ico"/>
+                    <Image Width="25" Height="25" Grid.Column="2" VerticalAlignment="Center" Margin="10,2,0,2" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="5" Margin="20,0,0,0">
                         <Button Margin="4,0,4,0" Click="button_Close" Height="28" Width="28">

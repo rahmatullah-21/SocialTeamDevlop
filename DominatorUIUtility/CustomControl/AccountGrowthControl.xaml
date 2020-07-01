@@ -84,29 +84,28 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <Grid.Effect>
-                            <DropShadowEffect BlurRadius="10" ShadowDepth="2" Direction="0" Color="Black"/>
-                        </Grid.Effect>
+                        
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.35*" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal" Margin="0,3,0,0">
-                            <Label  
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center" 
-                               FontSize="16"
-                               FontWeight="SemiBold" VerticalContentAlignment="Center"
-                               Foreground="White" Margin="5,0,0,0"
-                               Content="{DynamicResource LangKeyAccountGrowth}" />
+                            <Border BorderBrush="Gray" BorderThickness="0.5">
+                                <utility:TextPath  
+                               FontSize="20"
+                                FontFamily="{StaticResource BuildTitleBdIt}"
+                               FontWeight="Bold" StrokeThickness="1"
+                               Fill="Black" Stroke="White" Margin="15,5,15,5"
+                               Text="{DynamicResource LangKeyAccountGrowth}" />
+                            </Border>
                         </StackPanel>
-                        <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}" Margin="0,3,0,0">
+                        <Grid Grid.Column="1" Height="50" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}" Margin="0,3,0,0">
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
                                 <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
-                                    <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeyFilterBy}" HorizontalAlignment="Right" Height="25"/>
+                                    <Label FontFamily="{StaticResource BuildTitleBdIt}" FontSize="16" Margin="0,0,0,10" Foreground="Black" Content="{DynamicResource LangKeyFilterBy}" HorizontalAlignment="Right" Height="25"/>
 
-                                    <ComboBox  DataContext="{Binding GrowthPeriods}" ItemsSource="{Binding ItemsCollection}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
+                                    <ComboBox  DataContext="{Binding GrowthPeriods}" Style="{StaticResource CommonComboBoxStyle}" ItemsSource="{Binding ItemsCollection}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
                                       SelectedIndex="0" SelectedItem="{Binding Selected}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>

@@ -82,16 +82,19 @@ namespace DominatorHouseCore.Utility
         {
             var MetroWindow = new MetroWindow
             {
-                ShowInTaskbar = true,
                 ShowActivated = true,
                 Topmost = false,
+                TitleForeground = Brushes.White,
                 ResizeMode = ResizeMode.NoResize,
                 WindowStyle = WindowStyle.SingleBorderWindow,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
                 ShowTitleBar = true,
+                FontFamily = new FontFamily("BuildTitleBdIt"),
+                ShowIconOnTitleBar = false,
                 ShowCloseButton = true,
                 WindowTransitionsEnabled = false,
                 Title = title,
+                WindowTitleBrush = Brushes.Black,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
                 Margin = new Thickness(10)
