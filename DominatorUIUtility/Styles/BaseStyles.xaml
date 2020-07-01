@@ -155,12 +155,26 @@
                                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                                     <Border
                          Name="Border"
-                         Margin="1"
                          CornerRadius="0"
                          Background="{StaticResource CenterpartBrush}"
                          BorderBrush="Gray"
                          BorderThickness="0,0,0,1">
-                                        <Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 0 4 L 8 4 L 4 0 Z"/>
+                                        <!--<Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 0 4 L 8 4 L 4 0 Z"/>-->
+                                        <Image Height="15" Width="15">
+                                            <Image.Source>
+
+                                                <TransformedBitmap Source="/DominatorUIUtility;component/Images/arrow_up.png" >
+
+                                                    <TransformedBitmap.Transform>
+
+                                                        <RotateTransform Angle="0"/>
+
+                                                    </TransformedBitmap.Transform>
+
+                                                </TransformedBitmap>
+
+                                            </Image.Source>
+                                        </Image>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -206,12 +220,26 @@
                                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                                     <Border
                                          Name="Border"
-                                         Margin="1"
                                          CornerRadius="0"
                                          Background="{StaticResource CenterpartBrush}"
                                          BorderBrush="Gray"
                                          BorderThickness="0,1,0,0">
-                                        <Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                        <!--<Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 0 0 L 4 4 L 8 0 Z"/>-->
+                                        <Image Height="15" Width="15">
+                                            <Image.Source>
+
+                                                <TransformedBitmap Source="/DominatorUIUtility;component/Images/arrow_up.png" >
+
+                                                    <TransformedBitmap.Transform>
+
+                                                        <RotateTransform Angle="180"/>
+
+                                                    </TransformedBitmap.Transform>
+
+                                                </TransformedBitmap>
+
+                                            </Image.Source>
+                                        </Image>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -251,12 +279,24 @@
                                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                                     <Border
                          Name="Border"
-                         Margin="1"
                          CornerRadius="0"
                          Background="{StaticResource CenterpartBrushHor}"
                          BorderBrush="Gray"
                          BorderThickness="0,0,1,0">
-                                        <Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 4 0 L 4 8 L 0 4 Z"/>
+                                        <!--<Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 4 0 L 4 8 L 0 4 Z"/>-->
+                                        <Image Height="15" Width="15">
+                                            <Image.Source>
+                                                <TransformedBitmap Source="/DominatorUIUtility;component/Images/arrow_up.png" >
+                                                    <TransformedBitmap.Transform>
+
+                                                        <RotateTransform Angle="270"/>
+
+                                                    </TransformedBitmap.Transform>
+
+                                                </TransformedBitmap>
+
+                                            </Image.Source>
+                                        </Image>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -302,12 +342,26 @@
                                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                                     <Border
                          Name="Border"
-                         Margin="1"
                          CornerRadius="0"
                          Background="{StaticResource CenterpartBrushHor}"
                          BorderBrush="Gray"
                          BorderThickness="1,0,0,0">
-                                        <Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 0 0 L 4 4 L 0 8 Z"/>
+                                        <!--<Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 0 0 L 4 4 L 0 8 Z"/>-->
+                                        <Image Height="15" Width="15">
+                                            <Image.Source>
+
+                                                <TransformedBitmap Source="/DominatorUIUtility;component/Images/arrow_up.png" >
+
+                                                    <TransformedBitmap.Transform>
+
+                                                        <RotateTransform Angle="90"/>
+
+                                                    </TransformedBitmap.Transform>
+
+                                                </TransformedBitmap>
+
+                                            </Image.Source>
+                                        </Image>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -998,9 +1052,9 @@ Grid.Column="1"
                     </utility:TextPath>
                 </Border>
                 <Border Grid.Row="1" Margin="3,0,4,0" BorderBrush="Black" BorderThickness="1" CornerRadius="0,0,1,1" Padding="5" Background="#FFB0B0B0">
-                    <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+                    <!--<ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >-->
                         <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
-                    </ScrollViewer>
+                    <!--</ScrollViewer>-->
                 </Border>
             </Grid>
             <ContentPresenter ContentSource="SelectedContent" Grid.Column="2" />

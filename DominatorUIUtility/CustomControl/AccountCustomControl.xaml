@@ -392,14 +392,14 @@
                                     </Controls:DropDownButton>
 
 
-                                    <Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsInfoVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Name="btnInfoSub" VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
+                                    <!--<Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsInfoVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Name="btnInfoSub" VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
                                         <Rectangle Width="25" Height="25" Fill="White" x:Name="InfoSub"
                                             VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
-                                    </Button>
+                                    </Button>-->
                                 </WrapPanel>
                             </Border>
                         </Popup>
@@ -705,7 +705,7 @@
                                     </i:Interaction.Triggers>
                                 </Controls:DropDownButton>
 
-                                <Button  Background="Transparent" Cursor="Hand"  Margin="10,0,15,0" BorderBrush="Transparent" BorderThickness="0" ToolTip="{DynamicResource LangKeyInfo}"  Name="btnInfo" Command="{Binding InfoCommand}" >
+                                <!--<Button  Background="Transparent" Cursor="Hand"  Margin="10,0,15,0" BorderBrush="Transparent" BorderThickness="0" ToolTip="{DynamicResource LangKeyInfo}"  Name="btnInfo" Command="{Binding InfoCommand}" >
                                     <Button.Template>
                                         <ControlTemplate>
                                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
@@ -725,7 +725,7 @@
                                             <i:InvokeCommandAction Command="{Binding InfoButtonSizeChnagedCommand}" CommandParameter="{Binding ElementName=btnInfo}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
-                                </Button>
+                                </Button>-->
                             </WrapPanel>
                         </Grid>
                     </DockPanel>
