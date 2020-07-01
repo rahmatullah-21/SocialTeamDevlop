@@ -408,7 +408,7 @@
                             <WrapPanel  Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Left"  Background="{DynamicResource AccentColorBrush}">
                                 <ToggleButton DockPanel.Dock="Left" Margin="0,3,0,0" Background="{DynamicResource AccentColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
                                     <ToggleButton.Content>
-                                        <Border HorizontalAlignment="Center" Background="{DynamicResource AccentColorBrush}" VerticalAlignment="Center" >
+                                        <Border HorizontalAlignment="Center" Background="{DynamicResource AccentColorBrush}" VerticalAlignment="Center" BorderBrush="Transparent" >
                                             <StackPanel Orientation="Horizontal" >
                                                 <Image Width="20" Height="20"  Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/search.ico" />
                                                 <utility:TextPath Text="Search" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="0.9" FontWeight="Bold" />
@@ -888,10 +888,9 @@
                                                     </Rectangle>-->
                                                     <Image Margin="10,0" VerticalAlignment="Center"  Height="20" Width="20" Source="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
                                                     <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
-                                                  Content="{Binding (ItemsControl.AlternationIndex),
-                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
-                                                  Converter={StaticResource IndexToRowNoConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}"/>
-
+                                                        Content="{Binding (ItemsControl.AlternationIndex),
+                                                        RelativeSource={RelativeSource AncestorType=ListViewItem},
+                                                        Converter={StaticResource IndexToRowNoConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}"/>
                                                 </VirtualizingStackPanel>
 
                                             </DataTemplate>
