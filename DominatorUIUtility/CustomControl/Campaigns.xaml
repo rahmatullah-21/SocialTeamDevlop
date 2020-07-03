@@ -39,6 +39,9 @@
                                Text="{DynamicResource LangKeyCrucialCampaigns}"/>
                 </Border>
                 <Border Height="38" Margin="20,0,0,0"  DockPanel.Dock="Right" BorderBrush="Black" BorderThickness="0.5" Background="{DynamicResource AccentBaseColorBrush}" VerticalAlignment="Center">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="5" Color="Gray" ShadowDepth="3" Direction="0"/>
+                    </Border.Effect>
                     <DockPanel VerticalAlignment="Center">
                         <Button DockPanel.Dock="Left" Height="30" Margin="20,0,0,0" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Command="{Binding DeleteCommand}"
                                 VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource LangKeyDeleteSelected}">

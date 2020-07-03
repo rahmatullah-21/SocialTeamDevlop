@@ -171,5 +171,16 @@ namespace Socinator
         {
             this.WindowState = WindowState.Minimized;
         }
+
+        private void Drag_Event(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                if (e.ClickCount == 1)
+                { 
+                    App.Current.MainWindow.DragMove();//Here is where I do the drag move
+                }
+            }
+        }
     }
 }

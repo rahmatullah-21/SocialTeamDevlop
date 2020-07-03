@@ -80,17 +80,22 @@ namespace DominatorHouseCore.Utility
 
         public Window GetMetroWindow(Object window, string title)
         {
-            var MetroWindow = new Window
+            var MetroWindow = new MetroWindow
             {
-                ShowInTaskbar = true,
                 ShowActivated = true,
                 Topmost = false,
+                TitleForeground = Brushes.White,
                 ResizeMode = ResizeMode.NoResize,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                WindowStyle = WindowStyle.None,
-                AllowsTransparency=true,
+
+                ShowTitleBar = true,
+                FontFamily = new FontFamily("BuildTitleBdIt"),
+                ShowIconOnTitleBar = false,
+                ShowCloseButton = true,
+                WindowTransitionsEnabled = false,
                 Title = title,
-                Style= Application.Current.FindResource("DialogWindowStyle") as Style,
+                WindowTitleBrush = Brushes.Black,
+
                 BorderThickness = new Thickness(0),
                 Margin = new Thickness(10)
             };

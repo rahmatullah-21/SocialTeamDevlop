@@ -8,7 +8,7 @@
     <Grid Name="mainGrid"  Background="{DynamicResource AccentBaseColorBrush}"  Margin="6,2,5,3">
 
         <StackPanel Orientation="Horizontal">
-            <utility:TextPath Text="{DynamicResource LangKeyNameYourCampaign}" FontFamily="{StaticResource BuildTitleRgIt}" Margin="10,5,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="Bold"/>
+            <utility:TextPath Text="{DynamicResource LangKeyNameYourCampaign}" FontFamily="{StaticResource BuildTitleBdIt}" StrokeThickness="0.5" Margin="10,12,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="Bold"/>
             <TextBox Name="txtblkCampaignName" Background="{StaticResource AccentLightColorBrush}" Margin="50,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="Black" FontFamily="{StaticResource BuildTitleRg}" Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="Black" BorderThickness="0.5" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Width="300" FontWeight="SemiBold" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -20,8 +20,12 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="WhiteSmoke" Height="30" Width="150"  BorderBrush="Black" CornerRadius="10" BorderThickness="1">
-                                            <utility:TextPath Text="{DynamicResource LangKeyCollapseAll}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.8" FontSize="16" FontWeight="Bold"/>
+                                        <Border Background="WhiteSmoke" Height="30" Width="Auto"  BorderBrush="Gray" CornerRadius="10" BorderThickness="1">
+                                            <StackPanel Orientation="Horizontal" Margin="5,0,10,0" HorizontalAlignment="Center">
+                                                <Image Height="20" Width="20" Source="/DominatorUIUtility;component/Images/collapse.png"/>
+                                                <utility:TextPath Text="{DynamicResource LangKeyCollapseAll}" Margin="5,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.9" FontSize="16" FontWeight="Bold"/>
+                                                
+                                            </StackPanel>
                                         </Border>
                                     </Setter.Value>
                                 </Setter>
@@ -30,8 +34,11 @@
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="WhiteSmoke" Height="30" Width="150"  BorderBrush="Black" CornerRadius="10" BorderThickness="1">
-                                            <utility:TextPath Text="{DynamicResource LangKeyExpandAll}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.8"  FontSize="16" FontWeight="Bold"/>
+                                        <Border Background="WhiteSmoke" Height="30" Width="Auto"  BorderBrush="Gray" CornerRadius="10" BorderThickness="1">
+                                            <StackPanel Orientation="Horizontal" Margin="5,0,10,0" HorizontalAlignment="Center">
+                                                <Image Height="20" Width="20" Source="/DominatorUIUtility;component/Images/expand.ico"/>
+                                                <utility:TextPath Text="{DynamicResource LangKeyExpandAll}" Margin="5,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.9"  FontSize="16" FontWeight="Bold"/>
+                                            </StackPanel>
                                         </Border>
                                     </Setter.Value>
                                 </Setter>
@@ -46,7 +53,7 @@
                     BorderBrush="Black" BorderThickness="0" Background="Transparent"  Name="btnCancelEdit" 
                     Visibility="{Binding IsCancelEditVisible}" Command="{Binding CancelEditCommand}">
                 <Button.Content>
-                    <Border Margin="5"  Background="Red" Height="30" Width="150"  BorderBrush="Black" CornerRadius="10" BorderThickness="1">
+                    <Border Margin="5"  Background="Red" Height="30" Width="150"  BorderBrush="Red" CornerRadius="10" BorderThickness="1">
                         <StackPanel Orientation="Horizontal">
 
                             <Rectangle Margin="5" Width="15" Height="15" Fill="White">
@@ -55,7 +62,7 @@
                                 </Rectangle.OpacityMask>
                             </Rectangle>
 
-                            <utility:TextPath Text="{DynamicResource LangKeyCancelEditing}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.8"  FontSize="16" FontWeight="Bold"/>
+                            <utility:TextPath Text="{DynamicResource LangKeyCancelEditing}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Red" StrokeThickness="0.8"  FontSize="16" FontWeight="Bold"/>
 
                         </StackPanel>
                     </Border>
@@ -64,12 +71,13 @@
 
             <Button Background="Transparent" Command="{Binding InfoCommand}">
                 <Button.Content>
-                    <Rectangle Width="25" Height="25" Fill="White" 
+                    <!--<Rectangle Width="25" Height="25" Fill="White" 
                        x:Name="Info" Margin="10,0" ToolTip="{DynamicResource LangKeyInfo}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
                         </Rectangle.OpacityMask>
-                    </Rectangle>
+                    </Rectangle>-->
+                    <Image Width="35" Height="35" Grid.Column="2" VerticalAlignment="Center" Margin="10,2,0,2" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
                 </Button.Content>
             </Button>
 

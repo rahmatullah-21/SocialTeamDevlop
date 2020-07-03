@@ -1283,7 +1283,7 @@
     <system:String x:Key="LangKeyMyConnectionsPostS">My Connections Post(S)</system:String>
     <system:String x:Key="LangKeyMyGroupsPostS">My Groups Post(S)</system:String>
     <system:String x:Key="LangKeyName">Name</system:String>
-    <system:String x:Key="LangKeyNameYourCampaign">Name Your Campaign</system:String>
+    <system:String x:Key="LangKeyNameYourCampaign">Name Campaign</system:String>
     <system:String x:Key="LangKeyNameOrUsername">Name/Username</system:String>
     <system:String x:Key="LangKeyNavigateFromTheFacebookWallToAGroupWhenPublishingInsteadOfDirectlyVisitingTheGroup">Navigate From The Facebook Wall To A Group When Publishing (Instead Of Directly Visiting The Group)</system:String>
     <system:String x:Key="LangKeyNearMyLocation">Near My Location</system:String>
@@ -1998,7 +1998,7 @@
     <system:String x:Key="LangKeySelectAllPagesOrBoards">Select All Pages/Boards</system:String>
     <system:String x:Key="LangKeySelectAllWallsOrProfiles">Select All Walls/Profiles</system:String>
     <system:String x:Key="LangKeySelectCampaign">Select Campaign</system:String>
-    <system:String x:Key="LangKeySelectCampaignCategory">Select Campaign Category</system:String>
+    <system:String x:Key="LangKeySelectCampaignCategory">Select Campaign View</system:String>
     <system:String x:Key="LangKeySelectDaysOfTheWeekToPublish">Select Days Of The Week To Publish</system:String>
     <system:String x:Key="LangKeySelectDestinations">Select Destinations</system:String>
     <system:String x:Key="LangKeySelectFilter">Select Filter</system:String>

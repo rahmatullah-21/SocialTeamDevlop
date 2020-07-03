@@ -43,19 +43,14 @@
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>-->
 
-    <Border BorderThickness="0,20,0,0" BorderBrush="Black" CornerRadius="5">
-        <Border.Effect>
-            <DropShadowEffect ShadowDepth="0.5"
-                        Color="Black"
-                                  Direction="90"
-                        BlurRadius="5" />
-        </Border.Effect>
+    <Border MouseDown="Drag_Event" BorderThickness="1,20,1,1" BorderBrush="Black" CornerRadius="5">
+        
         <Grid Name="MainGrid" >
             <Grid.Background>
-                <ImageBrush ImageSource="Images/crucial-background.png" Stretch="UniformToFill"/>
+                <ImageBrush   ImageSource="Images/crucial-background.png" Stretch="UniformToFill"/>
             </Grid.Background>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="3000*"/>
@@ -64,8 +59,8 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
 
-            <DockPanel Grid.ColumnSpan="2" Height="50" Background="{DynamicResource AccentLightColorBrush}">
-                <Grid Height="50" Grid.ColumnSpan="2" Background="{DynamicResource AccentLightColorBrush}">
+            <Border BorderBrush="DarkGray"  Grid.ColumnSpan="2" Height="40" Background="{DynamicResource AccentLightColorBrush}">
+                <Grid Height="40" Grid.ColumnSpan="2" Background="{DynamicResource AccentLightColorBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
@@ -74,20 +69,21 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Margin="10,0,0,10">
-                        <Image VerticalAlignment="Center" Height="40" Source="Images/CrucialConnectionImage.jpg"/>
+                    <Border BorderBrush="DarkGray" VerticalAlignment="Bottom" Height="4" Grid.ColumnSpan="6" BorderThickness="0,2,0,0" Background="{StaticResource AccentColorBrush}"/>
+                    <Grid Margin="10,10,0,10">
+                        <Image VerticalAlignment="Center" Height="30" Source="Images/CrucialConnectionImage.jpg"/>
                     </Grid>
-                    <Grid Grid.Column="1" Margin="20,0,0,0">
+                    <Grid Grid.Column="1" Margin="0,0,0,0">
                         <Grid.Effect>
-                            <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
+                            <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="270" Color="Black"/>
                         </Grid.Effect>
-                        <ComboBox Style="{StaticResource ComboBoxStyle}" FontSize="30" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+                        <ComboBox Style="{StaticResource ComboBoxStyle}" FontSize="25" Grid.Column="1" DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
                             ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border Background="Transparent" HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <Image Name="NetworkIcon" Margin="0,0,10,0"  Height="30" Width="30" Source="{Binding Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
+                                            <Image Name="NetworkIcon" Margin="0,0,10,0"  Height="25" Width="30" Source="{Binding Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
                                             <TextBlock FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" Text="{Binding}" />
                                         </StackPanel>
                                     </Border>
@@ -99,22 +95,23 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
+                        
                     </Grid>
                     
-                    <Image Width="15" Height="15" Grid.Column="2" VerticalAlignment="Bottom" Margin="10,2,0,2" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/InfoNew.ico"/>
+                    <Image Width="20" Height="20" Grid.Column="2" VerticalAlignment="Center" Margin="10,2,0,2" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="5" Margin="20,0,0,0">
-                        <Button Margin="4,0,4,0" Click="button_Close" Height="28" Width="28">
+                        <Button Margin="4,0,4,0" ToolTip="Close" Click="button_Close" Height="20" Width="20">
                             <Button.Background>
                                 <ImageBrush ImageSource="Images/macos_buttons1.ico"/>
                             </Button.Background>
                         </Button>
-                        <Button Margin="4,0,4,0" Click="button_Minimize"  Height="25" Width="25">
+                        <Button Margin="4,0,4,0" ToolTip="Minimize" Click="button_Minimize"  Height="18.5" Width="18.5">
                             <Button.Background>
                                 <ImageBrush ImageSource="Images/macos_buttons2.ico"/>
                             </Button.Background>
                         </Button>
-                        <Button Margin="4,0,40,0" Click="button_Maximize" Height="25" Width="25">
+                        <Button Margin="6,0,40,0" ToolTip="Resize" Click="button_Maximize" Height="17.5" Width="17.5">
                             <Button.Background>
                                 <ImageBrush ImageSource="Images/macos_buttons3.ico"/>
                             </Button.Background>
@@ -124,16 +121,17 @@
                         <Grid.Effect>
                             <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                         </Grid.Effect>
-                        <ComboBox Style="{StaticResource ComboBoxStyle}" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" HorizontalAlignment="Center" FontSize="30" DataContext="{Binding Languages}" Grid.Column="3"  BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+                        <ComboBox Style="{StaticResource ComboBoxStyle}" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" HorizontalAlignment="Center" FontSize="25" DataContext="{Binding Languages}" Grid.Column="3"  BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
 
                     </Grid>
-
+                    
 
                 </Grid>
-            </DockPanel>
-            <Border Grid.Row="1" Height="50" Grid.ColumnSpan="2" Background="{DynamicResource AccentColorBrush}">
+                
+            </Border>
+            <Border Grid.Row="1"  Height="50" Grid.ColumnSpan="2" Background="{DynamicResource AccentColorBrush}">
                 <Border.Effect>
-                    <DropShadowEffect ShadowDepth="2" Direction="270"  BlurRadius="15" Color="Gray"/>
+                    <DropShadowEffect ShadowDepth="3" Direction="-90"  BlurRadius="5" Color="#B0B4B4"/>
                 </Border.Effect>
             </Border>
             <!--Account Growth Mode Tabs-->
@@ -157,9 +155,10 @@
 		                VerticalAlignment="Center"
 		                Fill="Black"
 		                Stroke="White"                                             
-		                FontFamily="{StaticResource BuildTitleBdIt}"
+		                FontFamily="{StaticResource BuildTitleSbIt}"
 		                FontSize="16"
-                        FontWeight="Bold">
+                                                                  FontWeight="Medium"
+                        StrokeThickness="0.5">
 
                                                 </utility:TextPath>
                                             </DataTemplate>
@@ -175,15 +174,17 @@
                                                 <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
 		                VerticalAlignment="Center"
 		                Fill="#ffffff"
-                       StrokeThickness="1"
-                        StrokeMiterLimit="1"
+                        StrokeThickness="0.6"
+                        StrokeMiterLimit="0.5"
+                        StrokeStartLineCap="Round"
 		                Stroke="Black"
+                                              
                         FontStyle="Italic"
 		                FontFamily="{StaticResource BuildTitleBdIt}"
-		                FontSize="19"
+		                FontSize="15.75"
                         FontWeight="Bold">
                                                     <utility:TextPath.Effect>
-                                                        <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                                                        <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="30" Color="Black" ></DropShadowEffect>
                                                     </utility:TextPath.Effect>
                                                 </utility:TextPath>
                                             </DataTemplate>
