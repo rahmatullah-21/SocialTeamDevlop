@@ -87,15 +87,10 @@ namespace DominatorHouseCore.Utility
                 TitleForeground = Brushes.White,
                 ResizeMode = ResizeMode.NoResize,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
-
-                ShowTitleBar = true,
-                FontFamily = new FontFamily("BuildTitleBdIt"),
-                ShowIconOnTitleBar = false,
-                ShowCloseButton = true,
-                WindowTransitionsEnabled = false,
+                WindowStyle = WindowStyle.None,
+                AllowsTransparency = true,
                 Title = title,
-                WindowTitleBrush = Brushes.Black,
-
+                Style = Application.Current.FindResource("DialogWindowStyle") as Style,
                 BorderThickness = new Thickness(0),
                 Margin = new Thickness(10)
             };

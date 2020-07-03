@@ -1506,7 +1506,7 @@ Grid.Column="1"
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Border Height="40" CornerRadius="15,15,0,0" BorderBrush="Transparent" Background="Black" VerticalAlignment="Center">
-                                    <TextBlock Text="{TemplateBinding Title}" Foreground="White" FontWeight="Bold" FontFamily="{StaticResource BuildTitleRgIt}" Margin="10,0" FontSize="18" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{TemplateBinding Title}" Foreground="White" FontWeight="Bold" FontFamily="{StaticResource BuildTitleBdIt}" Margin="10,0" FontSize="18" VerticalAlignment="Center"/>
                                 </Border>
                                 <Grid Grid.Row="1" ClipToBounds="True" Margin="5">
                                     <ContentPresenter Content="{TemplateBinding Content}" />
@@ -1622,10 +1622,10 @@ Grid.Column="1"
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="2"/>
                         </Grid.RowDefinitions>
-                        <Border Visibility="Visible" Background="{TemplateBinding Background}" Height="30" Width="15" Margin="0,0,5,0" HorizontalAlignment="Right" Padding="0,4,0,0" CornerRadius="5,5,0,0" >
+                        <Border Visibility="Visible" Background="{TemplateBinding Background}" Height="30" Width="15" Margin="0,0,2,0" HorizontalAlignment="Right" Padding="0,4,0,0" CornerRadius="5,5,0,0" >
                             
                         </Border>
-                        <Rectangle Grid.Row="0" Height="27" Width="25" VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Right">
+                        <Rectangle Grid.Row="0" Height="27" Width="25" VerticalAlignment="Center" Margin="0,3,-3,0" HorizontalAlignment="Right">
                             <Rectangle.Fill>
                                 <ImageBrush ImageSource="/DominatorUIUtility;component/Images/ArrowIcon.png" />
                             </Rectangle.Fill>
@@ -1640,4 +1640,3 @@ Grid.Column="1"
     </Style>
     <!-- End Design-->
 </ResourceDictionary>
-    

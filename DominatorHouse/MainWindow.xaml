@@ -222,6 +222,7 @@
                 </TabControl>
             </Border>
 
+            <Image Width="15" Height="15" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,2,20,5" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
 
             <GridSplitter Grid.Row="4" BorderThickness="2" Style="{StaticResource GridSplitterStyle1}" HorizontalAlignment="Stretch" Background="#FFD40000"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows" IsEnabled="{Binding IsEnabled,ElementName=statusbar}"/>
