@@ -59,7 +59,7 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="3000*"/>
-                <RowDefinition Height="2"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
@@ -222,7 +222,7 @@
             </Border>
 
 
-            <GridSplitter Grid.Row="4" Height="2" HorizontalAlignment="Stretch" Background="Red"  ResizeBehavior="BasedOnAlignment"
+            <GridSplitter Grid.Row="4" BorderThickness="2" Style="{StaticResource GridSplitterStyle1}" HorizontalAlignment="Stretch" Background="#FFD40000"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows" IsEnabled="{Binding IsEnabled,ElementName=statusbar}"/>
 
             <Grid Name="Logger" Grid.Row="5" Margin="5">

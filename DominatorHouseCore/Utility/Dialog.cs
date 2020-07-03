@@ -80,31 +80,21 @@ namespace DominatorHouseCore.Utility
 
         public Window GetMetroWindow(Object window, string title)
         {
-            var MetroWindow = new MetroWindow
+            var MetroWindow = new Window
             {
                 ShowInTaskbar = true,
                 ShowActivated = true,
                 Topmost = false,
                 ResizeMode = ResizeMode.NoResize,
-                WindowStyle = WindowStyle.SingleBorderWindow,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                ShowTitleBar = true,
-                ShowCloseButton = true,
-                WindowTransitionsEnabled = false,
+                WindowStyle = WindowStyle.None,
+                AllowsTransparency=true,
                 Title = title,
+                Style= Application.Current.FindResource("DialogWindowStyle") as Style,
                 BorderThickness = new Thickness(0),
-                GlowBrush = Brushes.Black,
                 Margin = new Thickness(10)
             };
 
-            try
-            {
-                MetroWindow.GlowBrush = MetroWindow.FindResource("AccentColorBrush") as SolidColorBrush;
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
             MetroWindow.MinHeight = (SystemParameters.PrimaryScreenHeight / 4.0) - 80;
             MetroWindow.MinWidth = SystemParameters.PrimaryScreenHeight / 1.3;
             MetroWindow.SizeToContent = SizeToContent.WidthAndHeight;

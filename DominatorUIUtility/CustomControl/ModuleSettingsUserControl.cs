@@ -1701,7 +1701,7 @@ namespace DominatorUIUtility.CustomControl
                 };
 
                 objSelectAccountControl.btnCancel.Click += (senders, events) => window.Close();
-                window.ShowDialog();
+                window.Show();
 
             }
             catch (Exception Ex)

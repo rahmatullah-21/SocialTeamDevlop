@@ -63,7 +63,7 @@
                             </controls:ToggleSwitchButton>
                         </DockPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="30,0,0,0" Grid.Column="1">
-                            <utility:TextPath Margin="0,0,10,6" Text="{DynamicResource LangKeyImportMultipleAccounts}" VerticalAlignment="Center" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="1" FontWeight="Bold"/>
+                            <utility:TextPath Margin="0,0,10,6" Text="{DynamicResource LangKeySelectCampaignCategory}" VerticalAlignment="Center" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="17" StrokeThickness="1" FontWeight="Bold"/>
                             <ComboBox x:Name="CmbCampaignType" SelectedIndex="0"
                                 Height="30" ItemsSource="{Binding CampaignModel.ActivityType}"
                                 MinWidth="200" SelectedItem="{Binding CampaignModel.SelectedActivity}"

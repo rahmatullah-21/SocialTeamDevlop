@@ -6,10 +6,14 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+        <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+
     
-    <Style x:Key="MahApps.Metro.Styles.ToggleSwitch.Win10" TargetType="{x:Type controls:ToggleSwitch}">
+
+    <Style x:Key="MahApps.Metro.Styles.ToggleSwitch.Win10" TargetType="{x:Type controls:ToggleSwitch}"
+           BasedOn="{StaticResource MetroToggleSwitch}">
         <Setter Property="ContentDirection" Value="RightToLeft" />
         <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="{DynamicResource ToggleSwitchHeaderFontSize.Win10}" />
         <Setter Property="FontFamily" Value="{DynamicResource ToggleSwitchFontFamily.Win10}" />
@@ -445,14 +449,16 @@ Grid.Column="1"
                     <ColumnDefinition Width="0.8*"/>
                     <ColumnDefinition Width="0.2*" />
                 </Grid.ColumnDefinitions>
-                <Border
+            <Border
                   x:Name="Border" 
                   Grid.ColumnSpan="2"
                   CornerRadius="6"
                     BorderBrush="LightGray"
                   Background="White"
-                  BorderThickness="1" />
-                <Border Name="ChildBorder" Grid.Column="1" BorderThickness="1" Margin="1" CornerRadius="0,6,6,0" Background="#FFEFF2F5"  BorderBrush="#FFEFF2F5">
+                  BorderThickness="1">
+                <TextBlock Text="{TemplateBinding Content}" FontWeight="SemiBold" FontSize="15" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" Margin="5,0"/>
+            </Border>
+            <Border Name="ChildBorder" Grid.Column="1" BorderThickness="1" Margin="1" CornerRadius="0,6,6,0" Background="#FFEFF2F5"  BorderBrush="#FFEFF2F5">
                     <Image Name="Arrow" Margin="2"  VerticalAlignment="Center" Height="10" Width="10" Source="{StaticResource ArrowImage}" RenderTransform="{StaticResource Rotate180}"/>
                 </Border>
             </Grid>
@@ -465,7 +471,7 @@ Grid.Column="1"
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
-    <Style x:Key="CommonComboBoxStyle" TargetType="{x:Type ComboBox}">
+    <Style x:Key="CommonComboBoxStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MetroComboBox}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="Width" Value="150"/>
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -482,7 +488,8 @@ Grid.Column="1"
                             <ToggleButton 
                             Name="ToggleButton" 
                             Template="{StaticResource CommonComboBoxToggleButton}" 
-                            Grid.Column="2" 
+                            Grid.Column="2" Content="{TemplateBinding Text}"
+                            Foreground="{TemplateBinding Foreground}"
                             Focusable="false"
                             IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
                             ClickMode="Press">
@@ -490,7 +497,7 @@ Grid.Column="1"
                             <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
                             ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                             ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"                            
-                            VerticalAlignment="Center"
+                            VerticalAlignment="Center" 
                             HorizontalAlignment="Left" Margin="10,0"/>
 
                             <Popup 
@@ -545,7 +552,7 @@ Grid.Column="1"
     <FontFamily x:Key="BuildTitleSbIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb it</FontFamily>
     <FontFamily x:Key="BuildTitleSb">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb</FontFamily>
 
-    <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
+    <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MetroComboBox}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="Width" Value="150"/>
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -1370,6 +1377,200 @@ Grid.Column="1"
     <Style x:Key="GridViewColumnHeaderStyle" TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource MetroGridViewColumnHeader}">
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
         <Setter Property="FontWeight" Value="SemiBold"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Window}" x:Key="DialogWindowStyle">
+        <Setter Property="MinHeight" Value="300"/>
+        <Setter Property="MinWidth" Value="450"/>
+        <Setter Property="MaxHeight" Value="400"/>
+        <Setter Property="MaxWidth" Value="650"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <Border Padding="5" >
+                        <Grid >
+                            <!-- Opacity mask for corners on grid -->
+                            <Border x:Name="Container" 
+                                        Background="White"
+                                        Visibility="Visible"
+                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}">
+                            </Border>
+                            <!--Window border and dropshadown-->
+                            <Border CornerRadius="15"
+                                         BorderThickness="1.5"
+                                         BorderBrush="{StaticResource AccentLightColorBrush}"
+                                         Visibility="Visible"  Margin="0,2"
+                                         Background="Transparent">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0.9" BlurRadius="10" Opacity="0.2" />
+                                </Border.Effect>
+                            </Border>
+                            <!-- The main window content -->
+                            <Grid>
+                                <!-- Corner clipping -->
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="OpacityMask">
+                                            <Setter.Value>
+                                                <VisualBrush Visual="{Binding ElementName=Container}" />
+                                            </Setter.Value>
+                                        </Setter>
+
+                                        <!--Here is the 'normal' content-->
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Visibility, ElementName=Container}" Value="Collapsed">
+                                                <Setter Property="OpacityMask">
+                                                    <Setter.Value>
+                                                        <VisualBrush TileMode="FlipXY" >
+                                                            <VisualBrush.Visual>
+                                                                <Button />
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+
+                                <Grid.RowDefinitions>
+                                    <!-- Title Bar -->
+                                    <RowDefinition Height="40" />
+                                    <!-- Window Content -->
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Border Height="40" CornerRadius="15,15,0,0" BorderBrush="Transparent" Background="Black" VerticalAlignment="Center">
+                                    <TextBlock Text="{TemplateBinding Title}" Foreground="White" FontWeight="Bold" FontFamily="{StaticResource BuildTitleRgIt}" Margin="10,0" FontSize="18" VerticalAlignment="Center"/>
+                                </Border>
+                                <Grid Grid.Row="1" ClipToBounds="True" Margin="5">
+                                    <ContentPresenter Content="{TemplateBinding Content}" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DialogueButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource BackGroundBrushReverse}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
+
+    <Style x:Key="ListViewStyle" BasedOn="{StaticResource MetroListView}" TargetType="ListView">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListView">
+                    <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+                        <ItemsPresenter >
+                        </ItemsPresenter>
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="UIElement.Focusable" Value="false"/>
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Grid Background="{TemplateBinding Control.Background}" SnapsToDevicePixels="true">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Margin="{TemplateBinding Control.Padding}">
+                            <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
+                            Focusable="false">
+                                <GridViewHeaderRowPresenter Margin="2,0,2,0" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                                            ColumnHeaderContainerStyle="{Binding Path=TemplatedParent.View.ColumnHeaderContainerStyle, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ColumnHeaderTemplate="{Binding Path=TemplatedParent.View.ColumnHeaderTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ColumnHeaderTemplateSelector="{Binding Path=TemplatedParent.View.ColumnHeaderTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ColumnHeaderStringFormat="{Binding Path=TemplatedParent.View.ColumnHeaderStringFormat, RelativeSource={RelativeSource TemplatedParent}}"
+                                            AllowsColumnReorder="{Binding Path=TemplatedParent.View.AllowsColumnReorder, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ColumnHeaderContextMenu="{Binding Path=TemplatedParent.View.ColumnHeaderContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ColumnHeaderToolTip="{Binding Path=TemplatedParent.View.ColumnHeaderToolTip, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <GridViewRowPresenterBase.Columns>
+                                        <Binding Path="TemplatedParent.View.Columns" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    </GridViewRowPresenterBase.Columns>
+                                </GridViewHeaderRowPresenter>
+                            </ScrollViewer>
+                            <ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="Local"
+                                      Content="{TemplateBinding ContentControl.Content}"
+                                      ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                      CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
+                                      SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                        </DockPanel>
+                        <ScrollBar Name="PART_HorizontalScrollBar" Style="{StaticResource customScrollBar}" Orientation="Horizontal" Grid.Row="1" Minimum="0.0"
+                       Maximum="{TemplateBinding ScrollViewer.ScrollableWidth}"
+                       ViewportSize="{TemplateBinding ScrollViewer.ViewportWidth}"
+                       Visibility="{TemplateBinding ScrollViewer.ComputedHorizontalScrollBarVisibility}" Cursor="Arrow"
+                       Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                        <ScrollBar Name="PART_VerticalScrollBar" Style="{StaticResource customScrollBar}" Orientation="Vertical" Grid.Column="1" Minimum="0.0"
+                       Maximum="{TemplateBinding ScrollViewer.ScrollableHeight}"
+                       ViewportSize="{TemplateBinding ScrollViewer.ViewportHeight}"
+                       Visibility="{TemplateBinding ScrollViewer.ComputedVerticalScrollBarVisibility}" Cursor="Arrow"
+                       Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                        <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="false"
+                       Background="{Binding Path=Background, ElementName=PART_VerticalScrollBar}">
+                            <Rectangle DockPanel.Dock="Left" Width="1" Fill="White"
+                         Visibility="{TemplateBinding ScrollViewer.ComputedVerticalScrollBarVisibility}"/>
+                            <Rectangle DockPanel.Dock="Top" Height="1" Fill="White"
+                         Visibility="{TemplateBinding ScrollViewer.ComputedHorizontalScrollBarVisibility}"/>
+                        </DockPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GridSplitterStyle1" TargetType="{x:Type GridSplitter}">
+        <Setter Property="Background"
+          Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+        <Setter Property="PreviewStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle Fill="#80000000"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GridSplitter}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="2"/>
+                        </Grid.RowDefinitions>
+                        <Border Visibility="Visible" Background="{TemplateBinding Background}" Height="30" Width="15" Margin="0,0,5,0" HorizontalAlignment="Right" Padding="0,4,0,0" CornerRadius="5,5,0,0" >
+                            
+                        </Border>
+                        <Rectangle Grid.Row="0" Height="27" Width="25" VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Right">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="/DominatorUIUtility;component/Images/ArrowIcon.png" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Border Grid.Row="1" Background="{TemplateBinding Background}" Height="2"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                VerticalAlignment="Top"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     <!-- End Design-->
 </ResourceDictionary>

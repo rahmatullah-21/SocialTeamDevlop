@@ -278,6 +278,9 @@
     <Compile Include="CustomControl\CustomizeAutoActivity.xaml.cs">
       <DependentUpon>CustomizeAutoActivity.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml.cs">
       <DependentUpon>AutoReplyOptionControl.xaml</DependentUpon>
     </Compile>
@@ -1214,6 +1217,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CustomControl\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1450,6 +1457,10 @@
       <DependentUpon>WhitelistuserControl.xaml</DependentUpon>
     </Compile>
     <Page Include="Styles\BaseStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CommonStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -2341,6 +2352,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\SaveNew.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ArrowIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
