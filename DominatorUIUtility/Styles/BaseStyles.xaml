@@ -597,6 +597,11 @@ Grid.Column="1"
     <FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/CustomFont/#built titling rg</FontFamily>
     <FontFamily x:Key="BuildTitleSbIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb it</FontFamily>
     <FontFamily x:Key="BuildTitleSb">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb</FontFamily>
+    <FontFamily x:Key="RajdhaniBold">/DominatorUIUtility;component/Resources/CustomFont/#Rajdhani-Bold</FontFamily>
+    <FontFamily x:Key="RajdhaniLight">/DominatorUIUtility;component/Resources/CustomFont/#Rajdhani-Light</FontFamily>
+    <FontFamily x:Key="RajdhaniMedium">/DominatorUIUtility;component/Resources/CustomFont/#Rajdhani-Medium</FontFamily>
+    <FontFamily x:Key="RajdhaniRegular">/DominatorUIUtility;component/Resources/CustomFont/#Rajdhani-Regular</FontFamily>
+    <FontFamily x:Key="RajdhaniSemiBold">/DominatorUIUtility;component/Resources/CustomFont/#Rajdhani-SemiBold</FontFamily>
 
     <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -906,13 +911,16 @@ Grid.Column="1"
         <GradientStop Color="#631027" Offset="1"/>
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="BackGroundBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#838686" Offset="0.0"/>
-        <GradientStop Color="#B2B3B3" Offset="0.001"/>
-        <GradientStop Color="#E0E3E3" Offset="0.15"/>
-        <GradientStop Color="#AF1414 " Offset="0.15"/>
-        <GradientStop Color="#FF0000" Offset="0.5"/>
-        <GradientStop Color="#FF0000" Offset="0.7"/>
-        <GradientStop Color="#AF1414" Offset="1"/>
+        <GradientStop Color="Gray" Offset="0.0"/>
+        <GradientStop Color="Gray" Offset="0.0001"/>
+        <GradientStop Color="#ffd9d9d9" Offset="0.0011"/>
+        <GradientStop Color="#ffd9d9d9" Offset="0.01"/>
+        <GradientStop Color="#FFB5BFc1" Offset="0.0001"/>
+        <GradientStop Color="#cecece" Offset="0.15"/>
+        <GradientStop Color="#AF1410 " Offset="0.15"/>
+        <GradientStop Color="#FE0000" Offset="0.5"/>
+        <GradientStop Color="#FE0000" Offset="0.7"/>
+        <GradientStop Color="#AF1410" Offset="1"/>
     </LinearGradientBrush>
 
     <Style x:Key="TopTabStyle" TargetType="{x:Type TabControl}">
@@ -942,7 +950,7 @@ Grid.Column="1"
     <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
         <Setter Property="Width" Value="Auto"/>
         <Setter Property="Padding" Value="10"/>
-        <Setter Property="Margin" Value="1"/>
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
@@ -951,8 +959,11 @@ Grid.Column="1"
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Border BorderThickness="0" Height="35" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}"
-                                        Background="{StaticResource BackGroundBrush}" Name="Bd">
+                        <Border BorderThickness="0" Margin="0,0,-2,-2.5" Height="35" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}"
+                                         Name="Bd">
+                            <Border.Background>
+                                <ImageBrush ImageSource="/DominatorUIUtility;component/Images/bgTopTab.png" Stretch="Fill"/>
+                            </Border.Background>
                             <ContentPresenter TextElement.Foreground="White" ContentSource="Header"  Name="Content" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                         </Border>
                     </Grid>
@@ -1041,16 +1052,18 @@ Grid.Column="1"
                     <utility:TextPath Text="CHOOSE FUNCTION"   HorizontalAlignment="Center"
 		                VerticalAlignment="Center"
 		                Fill="White"
+                        Margin="25,0,-10,0"
 		                Stroke="Black"
+                                      StrokeThickness="0.7"
 		                FontFamily="{StaticResource BuildTitleBdIt}" 
-		                FontSize="22"
+		                FontSize="18"
                         FontWeight="Bold">
                         <utility:TextPath.Effect>
-                            <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                            <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="30" Color="#FE0000" ></DropShadowEffect>
                         </utility:TextPath.Effect>
                     </utility:TextPath>
                 </Border>
-                <Border Grid.Row="1" Margin="3,0,4,0" BorderBrush="Black" BorderThickness="1" CornerRadius="0,0,1,1" Padding="5" Background="#FFB0B0B0">
+                <Border Grid.Row="1" Margin="3,0,4,0" BorderBrush="DarkGray" BorderThickness="1.5" CornerRadius="0,0,1,1" Padding="5" Background="#B0B0B0">
                     <!--<ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >-->
                         <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
                     <!--</ScrollViewer>-->
@@ -1069,10 +1082,10 @@ Grid.Column="1"
             </Grid.RowDefinitions>
 
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
-                <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
+                <TabPanel IsItemsHost="True" Margin="0,0,0,-1" />
             </ScrollViewer>
             <Border Grid.Row="1" Margin="-1,0,-1,0" CornerRadius="3" Height="5" Background="#FFB0B0B0"/>
-            <Border Background="#F2F5F7" Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0.5,0.5" CornerRadius="0,0,6,6"  Margin="2,0,2,5" Padding="10,10,10,12" >
+            <Border Background="#F2F5F7" Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0.5,0.5" CornerRadius="0,0,6,6"  Margin="2,0,2,0" Padding="10,10,10,12" >
                 <Border.Effect>
                     <DropShadowEffect ShadowDepth="-4"  Direction="0" BlurRadius="10" Color="Gray"/>
                 </Border.Effect>

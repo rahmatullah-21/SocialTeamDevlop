@@ -9,7 +9,7 @@
     <Color x:Key="AccentBaseColor">#FFB0B0B0</Color>
     <!--Prussian Blue-->
 
-    <Color x:Key="AccentColor">#BDB6B6</Color>
+    <Color x:Key="AccentColor">#B0B0B0</Color>
 
     <Color x:Key="AccentColor2">#00308f</Color>
 
@@ -17,7 +17,7 @@
 
     <Color x:Key="AccentColor4">#003569</Color>
 
-    <Color x:Key="AccentLightColor">#CFCECE</Color>
+    <Color x:Key="AccentLightColor">#CBCBCB</Color>
 
     <Color x:Key="SelectedTabColor">AliceBlue</Color>
 

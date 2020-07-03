@@ -8,7 +8,7 @@
     <Grid Name="mainGrid"  Background="{DynamicResource AccentBaseColorBrush}"  Margin="6,2,5,3">
 
         <StackPanel Orientation="Horizontal">
-            <utility:TextPath Text="{DynamicResource LangKeyNameYourCampaign}" FontFamily="{StaticResource BuildTitleRgIt}" Margin="10,12,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="Bold"/>
+            <utility:TextPath Text="{DynamicResource LangKeyNameYourCampaign}" FontFamily="{StaticResource BuildTitleBdIt}" StrokeThickness="0.5" Margin="10,12,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="Bold"/>
             <TextBox Name="txtblkCampaignName" Background="{StaticResource AccentLightColorBrush}" Margin="50,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="Black" FontFamily="{StaticResource BuildTitleRg}" Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="Black" BorderThickness="0.5" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Width="300" FontWeight="SemiBold" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

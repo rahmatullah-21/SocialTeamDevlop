@@ -41,7 +41,7 @@
         <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
     </UserControl.Resources>
     <Grid Name="MainGrid" Margin="-2">
-        <TabControl ItemContainerStyle="{StaticResource TabItemStyle}">
+        <TabControl Background="Transparent" ItemContainerStyle="{StaticResource TabItemStyle}">
             <TabControl.Style>
                 <Style TargetType="TabControl">
                     <Setter Property="ItemTemplate">
@@ -61,27 +61,27 @@
                     </Setter>
                 </Style>
             </TabControl.Style>
-            <TabItem >
+            <TabItem>
                 <TabItem.Header>
                     <utility:TextPath Text="{DynamicResource LangKeyTableView}"   HorizontalAlignment="Center"
 		                VerticalAlignment="Center"
 		                Fill="#ffffff"
-                       StrokeThickness="1"
+                        StrokeThickness="1"
                         StrokeMiterLimit="1"
 		                Stroke="Black"
                         FontStyle="Italic"
 		                FontFamily="{StaticResource BuildTitleBdIt}"
-		                FontSize="19"
+		                FontSize="15.75"
                         FontWeight="Bold">
                         <utility:TextPath.Effect>
-                            <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                            <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="30" Color="Black" ></DropShadowEffect>
                         </utility:TextPath.Effect>
                     </utility:TextPath>
                 </TabItem.Header>
-                <Grid>
+                <Grid  >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition  Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         
@@ -89,13 +89,14 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal" Margin="0,3,0,0">
-                            <Border BorderBrush="Gray" BorderThickness="0.5">
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="-3,-3,-3,0">
+                            <Border >
                                 <utility:TextPath  
-                               FontSize="20"
+                               FontSize="18"
+                                    VerticalAlignment="Center"
                                 FontFamily="{StaticResource BuildTitleBdIt}"
-                               FontWeight="Bold" StrokeThickness="1"
-                               Fill="Black" Stroke="White" Margin="15,5,15,5"
+                               FontWeight="Bold" StrokeThickness="0.6"
+                               Fill="Black" Stroke="White" Margin="15,10,15,15"
                                Text="{DynamicResource LangKeyAccountGrowth}" />
                             </Border>
                         </StackPanel>
@@ -103,9 +104,9 @@
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
                                 <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
-                                    <Label FontFamily="{StaticResource BuildTitleBdIt}" FontSize="16" Margin="0,0,0,10" Foreground="Black" Content="{DynamicResource LangKeyFilterBy}" HorizontalAlignment="Right" Height="25"/>
+                                    <Label FontFamily="{StaticResource RajdhaniMedium}" FontSize="14" Margin="0,0,0,10" Foreground="Black" Content="{DynamicResource LangKeyFilterBy}" HorizontalAlignment="Right" Height="25"/>
 
-                                    <ComboBox  DataContext="{Binding GrowthPeriods}" Style="{StaticResource CommonComboBoxStyle}" ItemsSource="{Binding ItemsCollection}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
+                                    <ComboBox FontFamily="{StaticResource RajdhaniMedium}" DataContext="{Binding GrowthPeriods}" Style="{StaticResource CommonComboBoxStyle}" ItemsSource="{Binding ItemsCollection}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
                                       SelectedIndex="0" SelectedItem="{Binding Selected}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -143,9 +144,7 @@
                     </Grid>
                     <!--Account List View-->
                     <Border Grid.Row="1" Margin="0,10,0,0" CornerRadius="5" Background="White">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="10" ShadowDepth="2" Direction="0" Color="Black"/>
-                        </Border.Effect>
+                        
                         <Grid Background="Transparent">
                             <ListView x:Name="AccountListView" VirtualizingPanel.IsContainerVirtualizable="True"  ItemContainerStyle="{StaticResource ListViewItems}"
                                   VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" Background="Transparent"
@@ -279,10 +278,10 @@
 		                Stroke="Black"
                         FontStyle="Italic"
 		                FontFamily="{StaticResource BuildTitleBdIt}"
-		                FontSize="19"
+		                FontSize="15.75"
                         FontWeight="Bold">
                         <utility:TextPath.Effect>
-                            <DropShadowEffect BlurRadius="0" ShadowDepth="3" Direction="360" Color="Black" ></DropShadowEffect>
+                            <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="30" Color="Black" ></DropShadowEffect>
                         </utility:TextPath.Effect>
                     </utility:TextPath>
                 </TabItem.Header>
@@ -300,23 +299,24 @@
                         </Grid.ColumnDefinitions>
 
 
-                        <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
-                            <Label  
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center" 
-                               FontSize="16"
-                               FontWeight="SemiBold" VerticalContentAlignment="Center"
-                               Foreground="White" Margin="5,0,0,0"
-                               Content="{DynamicResource LangKeyAccountGrowthCharts}" />
+                        <StackPanel  Background="{DynamicResource AccentColorBrush}" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="-3,-3,-3,0">
+                            <Border >
+                                <utility:TextPath  
+                               FontSize="18" VerticalAlignment="Center"
+                                FontFamily="{StaticResource BuildTitleBdIt}"
+                               FontWeight="Bold" StrokeThickness="0.6"
+                               Fill="Black" Stroke="White" Margin="17,10,5,15"
+                               Text="{DynamicResource LangKeyAccountGrowthCharts}" />
+                            </Border>
                         </StackPanel>
 
 
-                        <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
+                        <Grid Grid.Column="1" Margin="0,-3,0,0" Background="{DynamicResource AccentColorBrush}">
 
                             <StackPanel  Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal"  VerticalAlignment="Center" Margin="0,0,10,0">
-                                <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeySelectAccount}" HorizontalAlignment="Right" Height="25"/>
+                                <Label   VerticalAlignment="Center" FontFamily="{StaticResource RajdhaniMedium}"  Foreground="Black" Content="{DynamicResource LangKeySelectAccount}" HorizontalAlignment="Right" Height="25"/>
 
-                                <ComboBox Width="200" VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
+                                <ComboBox Style="{StaticResource CommonComboBoxStyle}" FontFamily="{StaticResource RajdhaniMedium}" Width="200" VerticalAlignment="Center" Margin="6,0,0,0" Height="25"                                       
                                                SelectedIndex="0"  SelectedItem="{Binding SelectedAccount}" >
                                     <ComboBox.ItemsSource>
                                         <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
@@ -348,9 +348,9 @@
                                 </ComboBox>
 
 
-                                <Label  VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeySelectPeriod}"  HorizontalAlignment="Right" Height="25"/>
+                                <Label  VerticalAlignment="Center" FontFamily="{StaticResource RajdhaniMedium}" Foreground="Black" Content="{DynamicResource LangKeySelectPeriod}"  HorizontalAlignment="Right" Height="25"/>
 
-                                <ComboBox Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"   
+                                <ComboBox Width="200" FontFamily="{StaticResource RajdhaniMedium}" Style="{StaticResource CommonComboBoxStyle}" VerticalAlignment="Center" Margin="6,0,0,0" Height="25"   
                                           DataContext="{Binding GrowthChartPeriods}"
                                           ItemsSource="{Binding ItemsCollection}"
                                           SelectedIndex="0" SelectedItem="{Binding Selected}">
@@ -385,9 +385,9 @@
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
-                                <Label VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeySelectType}"  HorizontalAlignment="Right" Height="25"/>
+                                <Label VerticalAlignment="Center" FontFamily="{StaticResource RajdhaniMedium}" Foreground="Black" Content="{DynamicResource LangKeySelectType}"  HorizontalAlignment="Right" Height="25"/>
 
-                                <ComboBox  Width="100"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"  
+                                <ComboBox Style="{StaticResource CommonComboBoxStyle}" FontFamily="{StaticResource RajdhaniMedium}" Width="100"  VerticalAlignment="Center" Margin="6,0,0,0" Height="25"  
                                            DataContext="{Binding GrowthChartTypes}"
                                            ItemsSource="{Binding ItemsCollection}"
                                            SelectedItem="{Binding Selected}">

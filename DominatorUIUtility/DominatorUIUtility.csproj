@@ -2179,6 +2179,11 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\CustomFont\Rajdhani-Bold.ttf" />
+    <Resource Include="Resources\CustomFont\Rajdhani-Light.ttf" />
+    <Resource Include="Resources\CustomFont\Rajdhani-Medium.ttf" />
+    <Resource Include="Resources\CustomFont\Rajdhani-Regular.ttf" />
+    <Resource Include="Resources\CustomFont\Rajdhani-SemiBold.ttf" />
     <Resource Include="Resources\CustomFont\built titling bd it.ttf" />
     <Resource Include="Resources\CustomFont\built titling bd.ttf" />
     <Resource Include="Resources\CustomFont\built titling el it.ttf" />
@@ -2359,6 +2364,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bgTopTab.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
