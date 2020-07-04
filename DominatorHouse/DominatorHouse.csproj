@@ -404,11 +404,11 @@
     <Content Include="CefSharp.Wpf.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Images\CrucialConnectionImage.jpg" />
     <Resource Include="Images\macos_buttons1.ico" />
     <Resource Include="Images\macos_buttons2.ico" />
     <Resource Include="Images\macos_buttons3.ico" />
     <Resource Include="Images\crucial-background.png" />
+    <Resource Include="Images\CrucialLogo.png" />
     <Content Include="SocinatorIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

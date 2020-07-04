@@ -2313,9 +2313,6 @@
     <Resource Include="Images\FacebookNew.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\InstagramNew.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\PinterestNew.png" />
   </ItemGroup>
   <ItemGroup>
@@ -2367,6 +2364,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\bgTopTab.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ArrowIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\reverse_bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\InstagramNew.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

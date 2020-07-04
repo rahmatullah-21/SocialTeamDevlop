@@ -16,7 +16,7 @@
         GlowBrush="{DynamicResource AccentColorBrush}"
         xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
         ShowCloseButton="False"  ShowMinButton="False" ShowMaxRestoreButton="False" ShowTitleBar="False"
-        Name="SocinatorWindow" MinWidth="500" MinHeight="500"
+        Name="SocinatorWindow" MinWidth="700" MinHeight="700"
         WindowState="Maximized" >
 
     <Window.Resources>
@@ -54,7 +54,7 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="3000*"/>
-                <RowDefinition Height="2"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
@@ -70,10 +70,10 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Border BorderBrush="DarkGray" VerticalAlignment="Bottom" Height="4" Grid.ColumnSpan="6" BorderThickness="0,2,0,0" Background="{StaticResource AccentColorBrush}"/>
-                    <Grid Margin="10,10,0,10">
-                        <Image VerticalAlignment="Center" Height="30" Source="Images/CrucialConnectionImage.jpg"/>
+                    <Grid Margin="40,10,0,10">
+                        <Image VerticalAlignment="Center" Height="30" Source="Images/CrucialLogo.png"/>
                     </Grid>
-                    <Grid Grid.Column="1" Margin="0,0,0,0">
+                    <Grid Grid.Column="1" Margin="20,0,0,0">
                         <Grid.Effect>
                             <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="270" Color="Black"/>
                         </Grid.Effect>
@@ -136,7 +136,7 @@
             </Border>
             <!--Account Growth Mode Tabs-->
 
-            <Border Grid.Row="3" Background="Transparent"  Margin="40,0,40,65" CornerRadius="5">
+            <Border Grid.Row="3" Background="Transparent"  Margin="40,0,40,15" CornerRadius="5">
 
                 <TabControl Grid.Row="1" Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
@@ -152,8 +152,9 @@
                                         <Setter.Value>
                                             <DataTemplate>
                                                 <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
-		                VerticalAlignment="Center"
+		                VerticalAlignment="Center" 
 		                Fill="Black"
+                                                                  Margin="0,0,0,5"
 		                Stroke="White"                                             
 		                FontFamily="{StaticResource BuildTitleSbIt}"
 		                FontSize="16"
@@ -178,7 +179,7 @@
                         StrokeMiterLimit="0.5"
                         StrokeStartLineCap="Round"
 		                Stroke="Black"
-                                              
+                                    Width="100"          
                         FontStyle="Italic"
 		                FontFamily="{StaticResource BuildTitleBdIt}"
 		                FontSize="15.75"
@@ -223,7 +224,9 @@
             </Border>
 
 
-            <GridSplitter Grid.Row="4" Height="2" HorizontalAlignment="Stretch" Background="Red"  ResizeBehavior="BasedOnAlignment"
+            <Image Width="15" Height="15" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,2,20,5" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
+
+            <GridSplitter Grid.Row="4" BorderThickness="2" Style="{StaticResource GridSplitterStyle1}" HorizontalAlignment="Stretch" Background="#FFD40000"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows" IsEnabled="{Binding IsEnabled,ElementName=statusbar}"/>
 
             <Grid Name="Logger" Grid.Row="5" Margin="5">

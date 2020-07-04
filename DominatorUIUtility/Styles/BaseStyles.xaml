@@ -380,13 +380,15 @@
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Width" Value="Auto"/>
-                <Setter Property="Height" Value="14" />
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="MaxHeight" Value="14"/>
                 <Setter Property="Template"
 
                         Value="{StaticResource HorizontalScrollBar}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Width" Value="14"/>
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="MaxWidth" Value="14"/>
                 <Setter Property="Height" Value="Auto" />
                 <Setter Property="Template"
                         Value="{StaticResource VerticalScrollBar}" />
@@ -397,6 +399,8 @@
     <!--<! – Style for overall  ScrollViewer –>-->
     <Style x:Key="CrucialRedScrollViewer" TargetType="{x:Type ScrollViewer}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -420,7 +424,7 @@
             ViewportSize="{TemplateBinding ViewportHeight}"
 Grid.Column="1"
             Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
-                        <ScrollBar Style="{StaticResource customScrollBar}" Name="PART_HorizontalScrollBar"
+                        <ScrollBar  Style="{StaticResource customScrollBar}" Name="PART_HorizontalScrollBar"
             Orientation="Horizontal"
             Grid.Row="1"
             Value="{TemplateBinding HorizontalOffset}"
@@ -948,7 +952,7 @@ Grid.Column="1"
     </Style>
     <!-- TabItem style -->
     <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
-        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Width" Value="100"/>
         <Setter Property="Padding" Value="10"/>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Template">
@@ -1048,7 +1052,10 @@ Grid.Column="1"
                 </Grid.RowDefinitions>
                 <!--<Label Content="CHOOSE FUNCTION" Margin="3,0,3,0" HorizontalContentAlignment="Center" Height="40"  VerticalAlignment="Center" Padding="5,10,50,10"  FontWeight="Bold" FontSize="14" Background="{DynamicResource BackGroundBrushReverse}" FontFamily="{StaticResource BuildTitleBdIt}">
                 </Label>-->
-                <Border Height="40" Margin="3,0,3,0" Padding="5,5,50,10"  Background="{DynamicResource BackGroundBrushReverse}">
+                <Border Height="50" Margin="3,0,3,-3" Padding="5,5,50,20">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/DominatorUIUtility;component/Images/reverse_bg.png" Stretch="Fill"/>
+                    </Border.Background>
                     <utility:TextPath Text="CHOOSE FUNCTION"   HorizontalAlignment="Center"
 		                VerticalAlignment="Center"
 		                Fill="White"
@@ -1436,6 +1443,47 @@ Grid.Column="1"
     <Style x:Key="GridViewColumnHeaderStyle" TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource MetroGridViewColumnHeader}">
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
         <Setter Property="FontWeight" Value="SemiBold"></Setter>
+    </Style>
+
+    <Style x:Key="GridSplitterStyle1" TargetType="{x:Type GridSplitter}">
+        <Setter Property="Background"
+          Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+        <Setter Property="PreviewStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle Fill="#80000000"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GridSplitter}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="2"/>
+                        </Grid.RowDefinitions>
+                        <Border Visibility="Visible" Background="{TemplateBinding Background}" Height="30" Width="15" Margin="0,0,2,0" HorizontalAlignment="Right" Padding="0,4,0,0" CornerRadius="5,5,0,0" >
+
+                        </Border>
+                        <Rectangle Grid.Row="0" Height="27" Width="25" VerticalAlignment="Center" Margin="0,3,-3,0" HorizontalAlignment="Right">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="/DominatorUIUtility;component/Images/ArrowIcon.png" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Border Grid.Row="1" Background="{TemplateBinding Background}" Height="2"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                VerticalAlignment="Top"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     <!-- End Design-->
 </ResourceDictionary>
