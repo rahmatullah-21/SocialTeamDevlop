@@ -160,7 +160,7 @@
                          BorderBrush="Gray"
                          BorderThickness="0,0,0,1">
                                         <!--<Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 0 4 L 8 4 L 4 0 Z"/>-->
-                                        <Image Height="15" Width="15">
+                                        <Image Height="22" Margin="-4.5,0,0,1" Width="30">
                                             <Image.Source>
 
                                                 <TransformedBitmap Source="/DominatorUIUtility;component/Images/arrow_up.png" >
@@ -225,7 +225,7 @@
                                          BorderBrush="Gray"
                                          BorderThickness="0,1,0,0">
                                         <!--<Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 0 0 L 4 4 L 8 0 Z"/>-->
-                                        <Image Height="15" Width="15">
+                                        <Image Height="20" Margin="-4.5,0,0,0" Width="30">
                                             <Image.Source>
 
                                                 <TransformedBitmap Source="/DominatorUIUtility;component/Images/arrow_up.png" >
@@ -284,7 +284,7 @@
                          BorderBrush="Gray"
                          BorderThickness="0,0,1,0">
                                         <!--<Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 4 0 L 4 8 L 0 4 Z"/>-->
-                                        <Image Height="15" Width="15">
+                                        <Image Height="20" Margin="0,-3,0,0" Width="40">
                                             <Image.Source>
                                                 <TransformedBitmap Source="/DominatorUIUtility;component/Images/arrow_up.png" >
                                                     <TransformedBitmap.Transform>
@@ -347,7 +347,7 @@
                          BorderBrush="Gray"
                          BorderThickness="1,0,0,0">
                                         <!--<Path Stretch="Uniform" Height="15" Fill="Gray"  Width="8" Data="M 0 0 L 4 4 L 0 8 Z"/>-->
-                                        <Image Height="15" Width="15">
+                                        <Image Height="20" Margin="0,-3,0,0" Width="40">
                                             <Image.Source>
 
                                                 <TransformedBitmap Source="/DominatorUIUtility;component/Images/arrow_up.png" >
