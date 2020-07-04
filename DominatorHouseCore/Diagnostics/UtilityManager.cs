@@ -14,6 +14,7 @@ using System.Windows;
 using System.Xml.Linq;
 using CommonServiceLocator;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.DashboardVms;
@@ -28,13 +29,13 @@ namespace DominatorHouseCore.Diagnostics
         public static async Task<HashSet<SocialNetworks>> ResolveExceptions(string inputString, string exemption, string fixtures, string exemptionType)
         {
             var message = "LangKeySomethingWentWrong".FromResourceDictionary();
+            string finalResponse = null;
+            string availbleNetworkResponse = null;
 
             try
             {
                 if (inputString == ConfigurationManager.AppSettings["Unavailable"])
                 {
-                    string finalResponse = null;
-
                     if (exemptionType != "Fatal")
                     {
                         if (exemptionType == "Debug")
@@ -93,7 +94,7 @@ namespace DominatorHouseCore.Diagnostics
                     using (var streamReader = new StreamReader(availableExemption))
                     {
                         string decryptedString;
-                        var availbleNetworkResponse = streamReader.ReadToEnd();
+                        availbleNetworkResponse = streamReader.ReadToEnd();
                         var exemptionNumber = JObject.Parse(availbleNetworkResponse)[ConfigurationManager.AppSettings["ExemptionId"]].ToString();
                         var exemptionErrorDetails = await GetExemptionInnerException(exemptionNumber);
                         using (var stream = new StreamReader(exemptionErrorDetails))
@@ -144,6 +145,7 @@ namespace DominatorHouseCore.Diagnostics
                     //dialogWindow.ShowDialog();
                     //Thread.Sleep(10 * 1000);
                     //dialogWindow.Close();
+                    GlobusLogHelper.log.Debug($"IS:{inputString}| ET:{exemptionType} | {exemption}:{fixtures} | FR:{finalResponse} | ANR:{availbleNetworkResponse}");
                     Dialog.ShowDialog("LangKeyLicenseError".FromResourceDictionary(), message);
                     return new HashSet<SocialNetworks>();
                 });
@@ -162,6 +164,7 @@ namespace DominatorHouseCore.Diagnostics
                 //Thread.Sleep(10 * 1000);
                 //dialogWindow.Close();
                 //return new HashSet<SocialNetworks>();
+                GlobusLogHelper.log.Debug($"IS:{inputString}| ET:{exemptionType} | {exemption}:{fixtures} | FR:{finalResponse} | ANR:{availbleNetworkResponse}");
                 Dialog.ShowDialog("LangKeyLicenseError".FromResourceDictionary(), message);
                 return new HashSet<SocialNetworks>();
             }

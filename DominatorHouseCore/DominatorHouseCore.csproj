@@ -115,6 +115,9 @@
       <HintPath>..\packages\HtmlAgilityPack.1.8.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="imagetyperzapi">
+      <HintPath>..\packages\imagetyperz-api-latest.1.0.3\lib\net40\imagetyperzapi.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.WindowsInstaller">
       <HintPath>..\libs\WindowsInstaller\Interop.WindowsInstaller.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -739,6 +742,7 @@
     <Compile Include="Utility\AccountScopeFactory.cs" />
     <Compile Include="Utility\AutoItTool.cs" />
     <Compile Include="Utility\CacheText.cs" />
+    <Compile Include="Utility\CaptchaSolverUtilities\ImageTypersHelper.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\DateProvider.cs" />
     <Compile Include="Utility\EnumExtensions.cs" />

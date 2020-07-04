@@ -736,7 +736,7 @@
         "Entry"
         {
         "MsmKey" = "8:_3781E700DC97B07D47D3F0E31C899F31"
-        "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
+        "OwnerKey" = "8:_18582A26826030633FB0F70E71545549"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -749,6 +749,12 @@
         {
         "MsmKey" = "8:_3781E700DC97B07D47D3F0E31C899F31"
         "OwnerKey" = "8:_D90FC78FA9930D2445A959BBC8630926"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3781E700DC97B07D47D3F0E31C899F31"
+        "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3088,12 +3094,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3781E700DC97B07D47D3F0E31C899F31"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_16E4681A9DC8970CF41FE5AE0666BB80"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -3215,6 +3215,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_18582A26826030633FB0F70E71545549"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3781E700DC97B07D47D3F0E31C899F31"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -8729,19 +8735,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
-        "ProductCode" = "8:{D3BDBE28-1F2C-4A97-B72C-0C9996A83602}"
-        "PackageCode" = "8:{E214C05E-2FD0-4AE1-8747-01AF946A822D}"
+        "ProductCode" = "8:{E4D7CC23-849E-4DB7-A1A0-40B37EA851AE}"
+        "PackageCode" = "8:{F2D7D1B0-2C38-4B99-9BAC-C436CFFE9C51}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.292"
+        "ProductVersion" = "8:1.0.88"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://socinator.com/contact-us/"
-        "Title" = "8:Socinator 1.0.0.292"
+        "Title" = "8:Socinator 1.0.0.88"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Socinator"
         "Keywords" = "8:"
@@ -9293,7 +9299,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3527753F54744C9C87FEEBDF617EEBD7"
             {
-            "SourcePath" = "8:..\\DominatorHouse\\obj\\Debug\\Socinator.exe"
+            "SourcePath" = "8:..\\DominatorHouse\\obj\\Release\\Socinator.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_700B19654AF749FA895365FE0BFB2982"

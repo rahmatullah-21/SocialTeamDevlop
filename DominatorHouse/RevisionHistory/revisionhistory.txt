@@ -1,3 +1,28 @@
+Version[1.0.0.88],[4th July 2020]  
+New features:-
+	Linkedin :
+		Grow connection ==> Now you can send pageinvitation using admin view url 		
+Fixed:-
+	Social:
+		Sociopublisher ==> Facebook ==> manage post ==> details ==> Fixed issue with view in browser
+		
+	Facebook:
+		Engage ==> postcommenter ==> Fixed issue with links on comments
+		Engage ==> postlike ==>Fixed issue with  timeline and NewsFeed
+		Broadcastmesage ==> Fixed issue with Fanpagelikers querytype
+	
+	Pinterest:
+		Account update ==>  Fixed issue in browser mode updating accouont details 
+		Pinscraper ==> customuser ==> Fixed issue with pin scraper with showing no more data.
+
+	Youtube:
+		Report video ==> Fixed issue with adding Query type
+
+	Quora:
+		Voting ==> Upvote Answers ==> Fixed issue with Upvote Answers.
+		Answers ==> Answer On Question ==> Fixed issue with Answer On Question.
+		Grow Followe r==> Follow ==> Fixed issue With Follow.
+
 Version[1.0.0.87],[22th June 2020] 
 New features:-
 	Social:
