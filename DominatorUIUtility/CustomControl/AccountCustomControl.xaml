@@ -125,12 +125,12 @@
 
             <DockPanel Grid.Row="0" Name="MainContainer" Background="Transparent">
 
-                <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="0.5" Margin="0,2,20,9" Background="{DynamicResource AccentColorBrush}">
-
+                <Border DockPanel.Dock="Left" BorderBrush="DarkGray" BorderThickness="1" Margin="5,2,20,9" Background="{DynamicResource AccentLightColorBrush}">
+                   
                     <utility:TextPath  HorizontalAlignment="Center"
                                VerticalAlignment="Center" 
                                FontSize="22"
-                               FontWeight="SemiBold" FontFamily="{StaticResource BuildTitleBdIt}" 
+                               FontWeight="SemiBold" FontFamily="{StaticResource BuildTitleSbIt}" 
                                Fill="Black" Margin="5" Stretch="Uniform" Stroke="White" StrokeThickness="0.5"
                                Text="{DynamicResource LangKeyAccountManager}"/>
 
@@ -138,8 +138,8 @@
 
 
                
-                <Border DockPanel.Dock="Right" Margin="0,2,8,9" BorderBrush="Black" BorderThickness="0.5" Background="{DynamicResource AccentColorBrush}" >
-
+                <Border DockPanel.Dock="Right" Margin="0,2,8,9" BorderBrush="DarkGray" BorderThickness="1" Background="{DynamicResource AccentLightColorBrush}" >
+                    
                     <DockPanel Name="TitleContainer" >
                         <ToggleButton DockPanel.Dock="Right" Visibility="{Binding MenuHandlerModel.IsMenuHandlerVisible,Converter={StaticResource BooleanToVisibilityConverter}}" BorderBrush="Transparent" Cursor="Hand" Background="Transparent" VerticalAlignment="Center" 
                               Name="MenuHandlerPanel" ToolTip="{DynamicResource LangKeyInfo}" Margin="10,0">
@@ -157,7 +157,7 @@
 
                         <Popup DockPanel.Dock="Right" HorizontalAlignment="Right"  PopupAnimation="None" PlacementTarget="{Binding ElementName=MenuHandlerPanel}"
                                HorizontalOffset="0" VerticalOffset="5" Placement="Bottom" AllowsTransparency="True"  IsOpen="{Binding IsChecked, ElementName=MenuHandlerPanel}"  StaysOpen="False" MaxWidth="400">
-                            <Border Background="{DynamicResource AccentColorBrush}"  CornerRadius="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                            <Border Background="{DynamicResource AccentLightColorBrush}"  CornerRadius="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <WrapPanel Margin="5">
                                     <Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsImportMultipleAccountsVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccountsSub" 
                                         Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource LangKeyImportAccountDescription}">
@@ -170,9 +170,9 @@
                                                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
                                                             </Rectangle.OpacityMask>
                                                         </Rectangle>
-                                                        <utility:TextPath Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold" >
+                                                        <utility:TextPath Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold" >
                                                             <utility:TextPath.Effect>
-                                                                <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                                <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                             </utility:TextPath.Effect>
                                                         </utility:TextPath>
                                                     </StackPanel>
@@ -186,9 +186,9 @@
                                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                                 <StackPanel Orientation="Vertical" >
                                                     <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                                    <utility:TextPath Text="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold" >
+                                                    <utility:TextPath Text="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold" >
                                                         <utility:TextPath.Effect>
-                                                            <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                            <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                         </utility:TextPath.Effect>
                                                     </utility:TextPath>
                                                 </StackPanel>
@@ -255,9 +255,9 @@
                                                 <StackPanel Orientation="Vertical" >
                                                     <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
 
-                                                    <utility:TextPath Text="{DynamicResource LangKeyUpdate}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold">
+                                                    <utility:TextPath Text="{DynamicResource LangKeyUpdate}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
                                                         <utility:TextPath.Effect>
-                                                            <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                            <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                         </utility:TextPath.Effect>
                                                     </utility:TextPath>
                                                 </StackPanel>
@@ -343,9 +343,9 @@
                                                     <StackPanel Orientation="Vertical">
                                                         <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
 
-                                                        <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold" >
+                                                        <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold" >
                                                             <utility:TextPath.Effect>
-                                                                <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                                <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                             </utility:TextPath.Effect>
                                                         </utility:TextPath>
                                                     </StackPanel>
@@ -364,9 +364,9 @@
                                                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                             </Rectangle.OpacityMask>
                                                         </Rectangle>
-                                                        <utility:TextPath Text="{DynamicResource LangKeyDelete}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold" >
+                                                        <utility:TextPath Text="{DynamicResource LangKeyDelete}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold" >
                                                             <utility:TextPath.Effect>
-                                                                <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                                <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                             </utility:TextPath.Effect>
                                                         </utility:TextPath>
                                                     </StackPanel>
@@ -384,9 +384,9 @@
                                                             <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
                                                         </Rectangle.OpacityMask>
                                                     </Rectangle>
-                                                    <utility:TextPath Text="{DynamicResource LangKeyBrowserAutomation}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold">
+                                                    <utility:TextPath Text="{DynamicResource LangKeyBrowserAutomation}" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
                                                         <utility:TextPath.Effect>
-                                                            <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                            <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                         </utility:TextPath.Effect>
                                                     </utility:TextPath>
                                                 </StackPanel>
@@ -428,16 +428,16 @@
                             </Border>
                         </Popup>
 
-                        <Grid >
-                            <WrapPanel  Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Left"  Background="{DynamicResource AccentColorBrush}">
-                                <ToggleButton DockPanel.Dock="Left" Margin="0,3,0,0" Background="{DynamicResource AccentColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
+                        <StackPanel >
+                            <WrapPanel  Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Left"  Background="{DynamicResource AccentLightColorBrush}">
+                                <ToggleButton DockPanel.Dock="Right" Margin="10,5,0,0" Background="{DynamicResource AccentLightColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
                                     <ToggleButton.Content>
-                                        <Border HorizontalAlignment="Center" Background="{DynamicResource AccentColorBrush}" VerticalAlignment="Center" BorderBrush="Transparent" >
+                                        <Border HorizontalAlignment="Center" Background="{DynamicResource AccentLightColorBrush}" VerticalAlignment="Center" BorderBrush="Transparent" >
                                             <StackPanel Orientation="Horizontal" >
                                                 <Image Width="20" Height="20"  Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/search.ico" />
-                                                <utility:TextPath Text="Search" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleSbIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold">
+                                                <utility:TextPath Text="Search" Margin="5,0,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
                                                     <utility:TextPath.Effect>
-                                                        <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                        <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                     </utility:TextPath.Effect>
                                                 </utility:TextPath>
                                             </StackPanel>
@@ -447,7 +447,7 @@
                                 <Popup DockPanel.Dock="Right" HorizontalAlignment="Right"  PopupAnimation="None" PlacementTarget="{Binding ElementName=TitleContainer}"
                                     HorizontalOffset="0" VerticalOffset="0" Placement="Bottom" AllowsTransparency="True"  IsOpen="{Binding IsChecked, ElementName=SearchExpander}"  StaysOpen="False">
                                     <!--Filter Section-->
-                                    <Border CornerRadius="1" Background="White" Width="{Binding Path=ActualWidth , ElementName=TitleContainer}" BorderThickness="1" BorderBrush="{StaticResource AccentColorBrush}">
+                                    <Border CornerRadius="1" Background="White" Width="{Binding Path=ActualWidth , ElementName=TitleContainer}" BorderThickness="1" BorderBrush="{StaticResource AccentLightColorBrush}">
                                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="10,0,0,2" VerticalAlignment="Center" Visibility="{Binding ElementName=SearchExpander, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" >
                                             <!--Visibility="{Binding ElementName=SearchExpander, Path=IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}"-->
                                             <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" 
@@ -462,15 +462,15 @@
                                         </StackPanel>
                                     </Border>
                                 </Popup>
-                                <Button  Background="Transparent" Cursor="Hand" Height="40" BorderBrush="Transparent"  Margin="6,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
+                                <Button  Background="Transparent" Cursor="Hand" Height="40" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
                                     <Button.Template>
                                         <ControlTemplate>
                                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                                 <StackPanel Orientation="Horizontal" >
                                                     <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddSingleAccount.png"  />
-                                                    <utility:TextPath  Text="{DynamicResource LangKeyAddAccount}" Margin="5,3,0,0" Fill="White"  Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold">
+                                                    <utility:TextPath  Text="{DynamicResource LangKeyAddAccount}" Margin="5,3,0,0" Fill="White"  Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
                                                         <utility:TextPath.Effect>
-                                                            <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                            <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                         </utility:TextPath.Effect>
                                                     </utility:TextPath>
                                                 </StackPanel>
@@ -479,7 +479,7 @@
                                     </Button.Template>
                                 </Button>
 
-                                <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" 
+                                <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="20,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" 
                                     Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource LangKeyImportAccountDescription}">
                                     <Button.Template>
                                         <ControlTemplate>
@@ -490,9 +490,9 @@
                                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
                                                         </Rectangle.OpacityMask>
                                                     </Rectangle>
-                                                    <utility:TextPath  Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,2,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold">
+                                                    <utility:TextPath  Text="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,2,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
                                                         <utility:TextPath.Effect>
-                                                            <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                            <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                         </utility:TextPath.Effect>
                                                     </utility:TextPath>
                                                 </StackPanel>
@@ -506,14 +506,14 @@
                                     </i:Interaction.Triggers>
                                 </Button>
 
-                                <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect">
+                                <Controls:DropDownButton  Background="Transparent"  Margin="20,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect">
                                     <Controls:DropDownButton.Content>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" >
                                                 <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                                <utility:TextPath Text="{DynamicResource LangKeySelect}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold" >
+                                                <utility:TextPath Text="{DynamicResource LangKeySelect}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold" >
                                                     <utility:TextPath.Effect>
-                                                        <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                        <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                     </utility:TextPath.Effect>
                                                 </utility:TextPath>
                                             </StackPanel>
@@ -578,15 +578,15 @@
                                     </i:Interaction.Triggers>
                                 </Controls:DropDownButton>
 
-                                <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnUpdate">
+                                <Controls:DropDownButton  Background="Transparent"  Margin="20,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnUpdate">
                                     <Controls:DropDownButton.Content>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" >
                                                 <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
 
-                                                <utility:TextPath  Text="{DynamicResource LangKeyUpdate}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold">
+                                                <utility:TextPath  Text="{DynamicResource LangKeyUpdate}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
                                                     <utility:TextPath.Effect>
-                                                        <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                        <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                     </utility:TextPath.Effect>
                                                 </utility:TextPath>
                                             </StackPanel>
@@ -667,16 +667,16 @@
                                     </i:Interaction.Triggers>
                                 </Controls:DropDownButton>
 
-                                <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
+                                <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="20,0,0,0" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
                                     <Button.Template>
                                         <ControlTemplate>
                                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Export.ico" />
 
-                                                    <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold">
+                                                    <utility:TextPath Text="{DynamicResource LangKeyExport}" Margin="5,3,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
                                                         <utility:TextPath.Effect>
-                                                            <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                            <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                         </utility:TextPath.Effect>
                                                     </utility:TextPath>
                                                 </StackPanel>
@@ -690,16 +690,16 @@
                                     </i:Interaction.Triggers>
                                 </Button>
 
-                                <Button  Background="Transparent" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
+                                <Button  Background="Transparent" Cursor="Hand"  Margin="20,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
                                     <Button.Template>
                                         <ControlTemplate>
                                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
                                                 <StackPanel Orientation="Horizontal" >
                                                     <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/DeleteNew.png" />
 
-                                                    <utility:TextPath  Text="{DynamicResource LangKeyDelete}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold">
+                                                    <utility:TextPath  Text="{DynamicResource LangKeyDelete}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
                                                         <utility:TextPath.Effect>
-                                                            <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                            <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                         </utility:TextPath.Effect>
                                                     </utility:TextPath>
                                                 </StackPanel>
@@ -723,9 +723,9 @@
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
 
-                                                <utility:TextPath  Text="{DynamicResource LangKeyBrowserAutomation}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="15.75" StrokeThickness="0.5" FontWeight="Bold">
+                                                <utility:TextPath  Text="{DynamicResource LangKeyBrowserAutomation}" Margin="5,1,0,0" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="15.75" StrokeThickness="0.7" FontWeight="Bold">
                                                     <utility:TextPath.Effect>
-                                                        <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                                        <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                                     </utility:TextPath.Effect>
                                                 </utility:TextPath>
                                             </StackPanel>
@@ -783,7 +783,7 @@
                                     </i:Interaction.Triggers>
                                 </Button>-->
                             </WrapPanel>
-                        </Grid>
+                        </StackPanel>
                     </DockPanel>
                    
                 </Border>
@@ -796,9 +796,9 @@
             
 
             <!--Data grid view-->
-            <Border Padding="10" Margin="0,5,0,2" CornerRadius="5" BorderBrush="Black" BorderThickness="0.7" Grid.Row="2" Background="#ffffff">
+            <Border Padding="10" Margin="0,5,0,2" CornerRadius="5" BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Background="#ffffff">
                 <Border.Effect>
-                    <DropShadowEffect ShadowDepth="-1" BlurRadius="10"  Color="Gray"/>
+                    <DropShadowEffect ShadowDepth="-1" BlurRadius="7"  Color="Gray"/>
                 </Border.Effect>
                 <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <Grid >

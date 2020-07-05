@@ -8,7 +8,27 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListView.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    <FontFamily x:Key="BuildTitleSbIt" >/DominatorUIUtility;component/Resources/CustomFont/built titling sb.ttf#built titling sb</FontFamily>
+    <FontFamily x:Key="BuildTitleBdIt" >/DominatorUIUtility;component/Resources/CustomFont/built titling bd it.ttf#built titling bd it</FontFamily>
+    <FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/built titling bd.ttf#built titling bd</FontFamily>
+    <FontFamily x:Key="BuildTitle">/DominatorUIUtility;component/Resources/CustomFont/built titling rg.ttf#built titling rg</FontFamily>
+    <FontFamily x:Key="RajdhaniBold">/DominatorUIUtility;component/Resources/CustomFont/Rajdhani-Bold.ttf #Rajdhani Bold</FontFamily>
+    <FontFamily x:Key="RajdhaniLight">/DominatorUIUtility;component/Resources/CustomFont/Rajdhani-Light.ttf #Rajdhani Light</FontFamily>
+    <FontFamily x:Key="RajdhaniMedium">/DominatorUIUtility;component/Resources/CustomFont/Rajdhani-Medium.ttf #Rajdhani Medium</FontFamily>
+    <FontFamily x:Key="RajdhaniRegular">/DominatorUIUtility;component/Resources/CustomFont/Rajdhani-Regular.ttf #Rajdhani Regular</FontFamily>
+    <FontFamily x:Key="RajdhaniSemiBold">/DominatorUIUtility;component/Resources/CustomFont/Rajdhani-SemiBold.ttf #Rajdhani SemiBold</FontFamily>
+    <!--<FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>
+    <FontFamily x:Key="BuildTitleBd">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>
+    <FontFamily x:Key="BuildTitleElIt">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>
+    <FontFamily x:Key="BuildTitleEl">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>
+    <FontFamily x:Key="BuildTitleItIt">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>
+    <FontFamily x:Key="BuildTitleIt">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>
+    <FontFamily x:Key="BuildTitleRgIt">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>
+    <FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>-->
     
+    <!--<FontFamily x:Key="BuildTitleSb">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>-->
+   
+
     <Style x:Key="MahApps.Metro.Styles.ToggleSwitch.Win10" TargetType="{x:Type controls:ToggleSwitch}">
         <Setter Property="ContentDirection" Value="RightToLeft" />
         <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="{DynamicResource ToggleSwitchHeaderFontSize.Win10}" />
@@ -407,7 +427,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="18"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -591,21 +611,7 @@ Grid.Column="1"
     <Image x:Key="FacebookIcon" Source="/DominatorUIUtility;component/Images/FacebookNew.png"/>
     <Image x:Key="PinterestIcon" Source="/DominatorUIUtility;component/Images/PinterestNew.png"/>
 
-    <FontFamily x:Key="BuildTitleBdIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling bd it</FontFamily>
-    <FontFamily x:Key="BuildTitleBd">/DominatorUIUtility;component/Resources/CustomFont/#built titling bd</FontFamily>
-    <FontFamily x:Key="BuildTitleElIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling el it</FontFamily>
-    <FontFamily x:Key="BuildTitleEl">/DominatorUIUtility;component/Resources/CustomFont/#built titling el</FontFamily>
-    <FontFamily x:Key="BuildTitleItIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling it it</FontFamily>
-    <FontFamily x:Key="BuildTitleIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling it</FontFamily>
-    <FontFamily x:Key="BuildTitleRgIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling rg it</FontFamily>
-    <FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/CustomFont/#built titling rg</FontFamily>
-    <FontFamily x:Key="BuildTitleSbIt">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb it</FontFamily>
-    <FontFamily x:Key="BuildTitleSb">/DominatorUIUtility;component/Resources/CustomFont/#built titling sb</FontFamily>
-    <FontFamily x:Key="RajdhaniBold">/DominatorUIUtility;component/Resources/CustomFont/#Rajdhani-Bold</FontFamily>
-    <FontFamily x:Key="RajdhaniLight">/DominatorUIUtility;component/Resources/CustomFont/#Rajdhani-Light</FontFamily>
-    <FontFamily x:Key="RajdhaniMedium">/DominatorUIUtility;component/Resources/CustomFont/#Rajdhani-Medium</FontFamily>
-    <FontFamily x:Key="RajdhaniRegular">/DominatorUIUtility;component/Resources/CustomFont/#Rajdhani-Regular</FontFamily>
-    <FontFamily x:Key="RajdhaniSemiBold">/DominatorUIUtility;component/Resources/CustomFont/#Rajdhani-SemiBold</FontFamily>
+   
 
     <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -928,7 +934,7 @@ Grid.Column="1"
     </LinearGradientBrush>
 
     <Style x:Key="TopTabStyle" TargetType="{x:Type TabControl}">
-        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Width" Value="100"/>
         <Setter Property="Margin" Value="2"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
@@ -952,8 +958,8 @@ Grid.Column="1"
     </Style>
     <!-- TabItem style -->
     <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
-        <Setter Property="Width" Value="100"/>
-        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Width" Value="140"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -963,12 +969,12 @@ Grid.Column="1"
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Border BorderThickness="0" Margin="0,0,-2,-2.5" Height="35" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}"
+                        <Border BorderThickness="0" Margin="0,0,-4,-2.5" Height="38" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}"
                                          Name="Bd">
                             <Border.Background>
                                 <ImageBrush ImageSource="/DominatorUIUtility;component/Images/bgTopTab.png" Stretch="Fill"/>
                             </Border.Background>
-                            <ContentPresenter TextElement.Foreground="White" ContentSource="Header"  Name="Content" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            <ContentPresenter TextElement.Foreground="White" ContentSource="Header"  Name="Content" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                     </Grid>
                 </ControlTemplate>
@@ -1042,7 +1048,7 @@ Grid.Column="1"
     <ControlTemplate TargetType="{x:Type TabControl}" x:Key="LeftTabstyle1">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="220" />
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid Margin="0,0,8,1">
@@ -1050,7 +1056,7 @@ Grid.Column="1"
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <!--<Label Content="CHOOSE FUNCTION" Margin="3,0,3,0" HorizontalContentAlignment="Center" Height="40"  VerticalAlignment="Center" Padding="5,10,50,10"  FontWeight="Bold" FontSize="14" Background="{DynamicResource BackGroundBrushReverse}" FontFamily="{StaticResource BuildTitleBdIt}">
+                <!--<Label Content="CHOOSE FUNCTION" Margin="3,0,3,0" HorizontalContentAlignment="Center" Height="40"  VerticalAlignment="Center" Padding="5,10,50,10"  FontWeight="Bold" FontSize="14" Background="{DynamicResource BackGroundBrushReverse}" FontFamily="{StaticResource BuildTitleRg}">
                 </Label>-->
                 <Border Height="50" Margin="3,0,3,-3" Padding="5,5,50,20">
                     <Border.Background>
@@ -1061,19 +1067,20 @@ Grid.Column="1"
 		                Fill="White"
                         Margin="25,0,-10,0"
 		                Stroke="Black"
-                                      StrokeThickness="0.7"
-		                FontFamily="{StaticResource BuildTitleBdIt}" 
-		                FontSize="18"
+                                      StrokeThickness="0.8"
+		                FontFamily="{StaticResource BuildTitleRg}" 
+		                FontSize="20"
                         FontWeight="Bold">
                         <utility:TextPath.Effect>
-                            <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="30" Color="#FE0000" ></DropShadowEffect>
+                            <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="15" Color="Black" ></DropShadowEffect>
                         </utility:TextPath.Effect>
+                       
                     </utility:TextPath>
                 </Border>
-                <Border Grid.Row="1" Margin="3,0,4,0" BorderBrush="DarkGray" BorderThickness="1.5" CornerRadius="0,0,1,1" Padding="5" Background="#B0B0B0">
-                    <!--<ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >-->
+                <Border Grid.Row="1" Margin="3,0,4,0" BorderBrush="Gray" BorderThickness="1" CornerRadius="0,0,1,1" Padding="5" Background="#B0B0B0">
+                    <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >
                         <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
-                    <!--</ScrollViewer>-->
+                    </ScrollViewer>
                 </Border>
             </Grid>
             <ContentPresenter ContentSource="SelectedContent" Grid.Column="2" />
@@ -1088,7 +1095,7 @@ Grid.Column="1"
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+            <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                 <TabPanel IsItemsHost="True" Margin="0,0,0,-1" />
             </ScrollViewer>
             <Border Grid.Row="1" Margin="-1,0,-1,0" CornerRadius="3" Height="5" Background="#FFB0B0B0"/>

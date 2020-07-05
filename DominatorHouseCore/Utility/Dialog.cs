@@ -89,7 +89,7 @@ namespace DominatorHouseCore.Utility
                 WindowStyle = WindowStyle.SingleBorderWindow,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
                 ShowTitleBar = true,
-                FontFamily = new FontFamily("BuildTitleBdIt"),
+                FontFamily = new FontFamily("BuildTitleRg"),
                 ShowIconOnTitleBar = false,
                 ShowCloseButton = true,
                 WindowTransitionsEnabled = false,

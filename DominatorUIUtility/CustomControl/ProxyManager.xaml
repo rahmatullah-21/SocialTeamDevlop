@@ -76,7 +76,7 @@
                 <utility:TextPath  HorizontalAlignment="Center"
                                VerticalAlignment="Center" 
                                FontSize="22"
-                               FontWeight="Bold" FontFamily="{StaticResource BuildTitleBdIt}" 
+                               FontWeight="Bold" FontFamily="{StaticResource BuildTitleRg}" 
                                Fill="Black" Margin="5" Stretch="Uniform" Stroke="White" StrokeThickness="1"
                                Text="{DynamicResource LangKeyProxyManager}"/>
 
@@ -180,7 +180,7 @@
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
-		                                FontFamily="{StaticResource BuildTitleBdIt}" 
+		                                FontFamily="{StaticResource BuildTitleRg}" 
 		                                FontSize="18"
                                         FontWeight="Bold">
                                     </utility:TextPath>
@@ -198,7 +198,7 @@
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
-		                                FontFamily="{StaticResource BuildTitleBdIt}" 
+		                                FontFamily="{StaticResource BuildTitleRg}" 
 		                                FontSize="18"
                                         FontWeight="Bold">
                                 </utility:TextPath>
@@ -215,7 +215,7 @@
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
-		                                FontFamily="{StaticResource BuildTitleBdIt}" 
+		                                FontFamily="{StaticResource BuildTitleRg}" 
 		                                FontSize="18"
                                         FontWeight="Bold">
                                 </utility:TextPath>
@@ -628,7 +628,7 @@
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
-		                                FontFamily="{StaticResource BuildTitleBdIt}" 
+		                                FontFamily="{StaticResource BuildTitleRg}" 
 		                                FontSize="18"
                                         FontWeight="Bold">
                                 </utility:TextPath>
@@ -646,7 +646,7 @@
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
-		                                FontFamily="{StaticResource BuildTitleBdIt}" 
+		                                FontFamily="{StaticResource BuildTitleRg}" 
 		                                FontSize="18"
                                         FontWeight="Bold">
                                 </utility:TextPath>
@@ -669,7 +669,7 @@
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
-		                                FontFamily="{StaticResource BuildTitleBdIt}" 
+		                                FontFamily="{StaticResource BuildTitleRg}" 
 		                                FontSize="18"
                                         FontWeight="Bold">
                                     </utility:TextPath>
@@ -677,7 +677,7 @@
 		                                VerticalAlignment="Center" Visibility="{Binding VerifyProxiesViewModel.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}"
 		                                Fill="White"
 		                                Stroke="Black"
-		                                FontFamily="{StaticResource BuildTitleBdIt}" 
+		                                FontFamily="{StaticResource BuildTitleRg}" 
 		                                FontSize="16"
                                         FontWeight="Bold">
                                         <utility:TextPath.Text>
@@ -707,7 +707,7 @@
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
-		                                FontFamily="{StaticResource BuildTitleBdIt}" 
+		                                FontFamily="{StaticResource BuildTitleRg}" 
 		                                FontSize="18"
                                         FontWeight="Bold">
                                     </utility:TextPath>

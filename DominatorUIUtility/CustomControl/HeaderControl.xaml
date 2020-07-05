@@ -8,8 +8,8 @@
     <Grid Name="mainGrid"  Background="{DynamicResource AccentBaseColorBrush}"  Margin="6,2,5,3">
 
         <StackPanel Orientation="Horizontal">
-            <utility:TextPath Text="{DynamicResource LangKeyNameYourCampaign}" FontFamily="{StaticResource BuildTitleBdIt}" StrokeThickness="0.5" Margin="10,12,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
-            <TextBox Name="txtblkCampaignName" Background="{StaticResource AccentLightColorBrush}" Margin="50,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="Black" FontFamily="{StaticResource BuildTitleRg}" Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="Black" BorderThickness="0.5" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Width="300" FontWeight="SemiBold" />
+            <utility:TextPath Text="{DynamicResource LangKeyNameYourCampaign}" FontFamily="{StaticResource BuildTitleSbIt}" StrokeThickness="0.5" Margin="10,12,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
+            <TextBox Name="txtblkCampaignName" Background="{StaticResource AccentLightColorBrush}" Margin="50,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="Black"  Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="Black" BorderThickness="0.5" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Width="300" FontWeight="SemiBold" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <ToggleButton VerticalAlignment="Center"  Foreground="White" Name="ClpsExpnd" Click="ClpsExpnd_OnClick">
@@ -23,7 +23,7 @@
                                         <Border Background="WhiteSmoke" Height="30" Width="Auto"  BorderBrush="Gray" CornerRadius="10" BorderThickness="1">
                                             <StackPanel Orientation="Horizontal" Margin="5,0,10,0" HorizontalAlignment="Center">
                                                 <Image Height="20" Width="20" Source="/DominatorUIUtility;component/Images/collapse.png"/>
-                                                <utility:TextPath Text="{DynamicResource LangKeyCollapseAll}" Margin="5,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.9" FontSize="16" FontWeight="Bold"/>
+                                                <utility:TextPath Text="{DynamicResource LangKeyCollapseAll}" Margin="5,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRg}" Fill="White" Stroke="Black" StrokeThickness="0.9" FontSize="16" FontWeight="Bold"/>
                                                 
                                             </StackPanel>
                                         </Border>
@@ -37,7 +37,7 @@
                                         <Border Background="WhiteSmoke" Height="30" Width="Auto"  BorderBrush="Gray" CornerRadius="10" BorderThickness="1">
                                             <StackPanel Orientation="Horizontal" Margin="5,0,10,0" HorizontalAlignment="Center">
                                                 <Image Height="20" Width="20" Source="/DominatorUIUtility;component/Images/expand.ico"/>
-                                                <utility:TextPath Text="{DynamicResource LangKeyExpandAll}" Margin="5,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Black" StrokeThickness="0.9"  FontSize="16" FontWeight="Bold"/>
+                                                <utility:TextPath Text="{DynamicResource LangKeyExpandAll}" Margin="5,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRg}" Fill="White" Stroke="Black" StrokeThickness="0.9"  FontSize="16" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Border>
                                     </Setter.Value>
@@ -62,7 +62,7 @@
                                 </Rectangle.OpacityMask>
                             </Rectangle>
 
-                            <utility:TextPath Text="{DynamicResource LangKeyCancelEditing}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRgIt}" Fill="White" Stroke="Red" StrokeThickness="0.8"  FontSize="16" FontWeight="Bold"/>
+                            <utility:TextPath Text="{DynamicResource LangKeyCancelEditing}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRg}" Fill="White" Stroke="Red" StrokeThickness="0.8"  FontSize="16" FontWeight="Bold"/>
 
                         </StackPanel>
                     </Border>

@@ -51,7 +51,7 @@
 		                VerticalAlignment="Center"
 		                Fill="Black"
 		                Stroke="White"                                             
-		                FontFamily="{StaticResource BuildTitleBdIt}"
+		                FontFamily="{StaticResource BuildTitleRg}"
 		                FontSize="16"
                         FontWeight="Bold">
 
@@ -70,7 +70,7 @@
                         StrokeMiterLimit="1"
 		                Stroke="Black"
                         FontStyle="Italic"
-		                FontFamily="{StaticResource BuildTitleBdIt}"
+		                FontFamily="{StaticResource BuildTitleRg}"
 		                FontSize="15.75"
                         FontWeight="Bold">
                         <utility:TextPath.Effect>
@@ -94,7 +94,7 @@
                                 <utility:TextPath  
                                FontSize="18"
                                     VerticalAlignment="Center"
-                                FontFamily="{StaticResource BuildTitleBdIt}"
+                                FontFamily="{StaticResource BuildTitleRg}"
                                FontWeight="Bold" StrokeThickness="0.6"
                                Fill="Black" Stroke="White" Margin="15,10,15,15"
                                Text="{DynamicResource LangKeyAccountGrowth}" />
@@ -277,7 +277,7 @@
                         StrokeMiterLimit="1"
 		                Stroke="Black"
                         FontStyle="Italic"
-		                FontFamily="{StaticResource BuildTitleBdIt}"
+		                FontFamily="{StaticResource BuildTitleRg}"
 		                FontSize="15.75"
                         FontWeight="Bold">
                         <utility:TextPath.Effect>
@@ -303,7 +303,7 @@
                             <Border >
                                 <utility:TextPath  
                                FontSize="18" VerticalAlignment="Center"
-                                FontFamily="{StaticResource BuildTitleBdIt}"
+                                FontFamily="{StaticResource BuildTitleRg}"
                                FontWeight="Bold" StrokeThickness="0.6"
                                Fill="Black" Stroke="White" Margin="17,10,5,15"
                                Text="{DynamicResource LangKeyAccountGrowthCharts}" />

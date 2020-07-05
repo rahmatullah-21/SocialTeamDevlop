@@ -16,7 +16,7 @@
         GlowBrush="{DynamicResource AccentColorBrush}"
         xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
         ShowCloseButton="False"  ShowMinButton="False" ShowMaxRestoreButton="False" ShowTitleBar="False"
-        Name="SocinatorWindow" MinWidth="700" MinHeight="700"
+        Name="SocinatorWindow" MinWidth="1000" MinHeight="700"
         WindowState="Maximized" >
 
     <Window.Resources>
@@ -52,14 +52,14 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="44"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="70"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="3000*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
 
-            <Border BorderBrush="DarkGray"  Grid.ColumnSpan="2" Height="45" Background="{DynamicResource AccentLightColorBrush}">
+            <Border BorderBrush="Gray"  Grid.ColumnSpan="2" Height="45" Background="{DynamicResource AccentLightColorBrush}">
                 <Grid Height="45" Grid.ColumnSpan="2" Background="{DynamicResource AccentLightColorBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -69,7 +69,8 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <Border BorderBrush="DarkGray" VerticalAlignment="Bottom" Height="4" Grid.ColumnSpan="6" BorderThickness="0,2,0,0" Background="{StaticResource AccentColorBrush}"/>
+                    <Border  VerticalAlignment="Top" Height="3" Grid.ColumnSpan="6" BorderThickness="0,0,0,0" Background="Black"/>
+                    <Border BorderBrush="Gray" VerticalAlignment="Bottom" Height="5" Grid.ColumnSpan="6" BorderThickness="1" Background="{StaticResource AccentColorBrush}"/>
                     <Grid Margin="40,10,0,10">
                         <Image VerticalAlignment="Center" Height="30" Source="Images/CrucialLogo.png"/>
                     </Grid>
@@ -84,7 +85,7 @@
                                     <Border Background="Transparent" HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                                             <Image Name="NetworkIcon" Margin="0,0,10,0"  Height="25" Width="30" Source="{Binding Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
-                                            <TextBlock FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" Text="{Binding}" />
+                                            <TextBlock FontFamily="{StaticResource BuildTitle}" FontWeight="Thin"  Text="{Binding}" />
                                         </StackPanel>
                                     </Border>
                                     <DataTemplate.Triggers>
@@ -121,7 +122,7 @@
                         <Grid.Effect>
                             <DropShadowEffect ShadowDepth="1" BlurRadius="5" Color="Black"/>
                         </Grid.Effect>
-                        <ComboBox Style="{StaticResource ComboBoxStyle}" FontFamily="{StaticResource BuildTitleSbIt}" FontWeight="Light" HorizontalAlignment="Center" FontSize="25" DataContext="{Binding Languages}" Grid.Column="3"  BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+                        <ComboBox Style="{StaticResource ComboBoxStyle}" FontFamily="{StaticResource BuildTitle}" FontWeight="Light" HorizontalAlignment="Center" FontSize="25" DataContext="{Binding Languages}" Grid.Column="3"  BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
 
                     </Grid>
                     
@@ -151,15 +152,12 @@
                                     <Setter Property="ItemTemplate">
                                         <Setter.Value>
                                             <DataTemplate>
-                                                <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+                                                <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Stretch"
 		                VerticalAlignment="Center" 
-		                Fill="Black"
-                                                                  Margin="0,0,0,5"
-		                Stroke="White"                                             
-		                FontFamily="{StaticResource BuildTitleSbIt}"
-		                FontSize="16"
-                                                                  FontWeight="Medium"
-                        StrokeThickness="0.5">
+		                Fill="Black"                                  Margin="0,0,0,5"
+		                                                             
+		                FontFamily="{StaticResource BuildTitle}"
+		                FontSize="16">
 
                                                 </utility:TextPath>
                                             </DataTemplate>
@@ -174,18 +172,13 @@
                                             <DataTemplate>
                                                 <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
 		                VerticalAlignment="Center"
-		                Fill="#ffffff"
-                        StrokeThickness="0.6"
-                        StrokeMiterLimit="0.5"
-                        StrokeStartLineCap="Round"
-		                Stroke="Black"
-                                    Width="100"          
-                        FontStyle="Italic"
+		                Fill="#ffffff" Margin="0,0,0,0"
+                        StrokeThickness="0.4"
+		                Stroke="Black"                                            
 		                FontFamily="{StaticResource BuildTitleBdIt}"
-		                FontSize="15.75"
-                        FontWeight="Bold">
+		                FontSize="14.5">
                                                     <utility:TextPath.Effect>
-                                                        <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="30" Color="Black" ></DropShadowEffect>
+                                                        <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="0" Color="Black" ></DropShadowEffect>
                                                     </utility:TextPath.Effect>
                                                 </utility:TextPath>
                                             </DataTemplate>
@@ -203,7 +196,7 @@
 		                Stroke="Black"
 		                StrokeThickness="1"
                         StrokeMiterLimit="1"                                              
-		                FontFamily="{StaticResource  BuildTitleSbIt}"
+		                FontFamily="{StaticResource  BuildTitleRg}"
                         FontStyle="Italic"
 		                FontSize="19"
                         FontWeight="Bold">

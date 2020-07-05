@@ -50,7 +50,7 @@
     <system:String x:Key="LangKeyAccountUserid">Account Userid</system:String>
     <system:String x:Key="LangKeyAccountUsername">Account Username</system:String>
     <system:String x:Key="LangKeyAccountWiseDetails">Account Wise Details</system:String>
-    <system:String x:Key="LangKeyAccounts">Accounts</system:String>
+    <system:String x:Key="LangKeyAccounts">CRUCIAL ACCOUNT</system:String>
     <system:String x:Key="LangKeyAccountsActivity">Accounts Activity</system:String>
     <system:String x:Key="LangKeyAccountsAssignedToThisProxy">Accounts Assigned To This Proxy</system:String>
     <system:String x:Key="LangKeyAccountsGetDisabledInADay">Accounts Get Disabled In A Day.</system:String>
@@ -280,7 +280,7 @@
     <system:String x:Key="LangKeyCampaignHasEndDate">Campaign Has End Date</system:String>
     <system:String x:Key="LangKeyCampaignHasStartDate">Campaign Has Start Date</system:String>
     <system:String x:Key="LangKeyCampaignName">Campaign Name</system:String>
-    <system:String x:Key="LangKeyCampaigns">Campaigns</system:String>
+    <system:String x:Key="LangKeyCampaigns">CRUCIAL CAMPAIGNS</system:String>
     <system:String x:Key="LangKeyCampaignsCount">Campaigns Count</system:String>
     <system:String x:Key="LangKeyCampbatchkey">Campbatchkey</system:String>
     <system:String x:Key="LangKeyCancel">Cancel</system:String>
@@ -879,7 +879,7 @@
     <system:String x:Key="LangKeyGroupsWhichContainMemberRangeBetween">Groups Which Contain Member Range Between</system:String>
     <system:String x:Key="LangKeyGrowConnection">Grow Connection</system:String>
     <system:String x:Key="LangKeyGrowFollower">Grow Follower</system:String>
-    <system:String x:Key="LangKeyGrowFollowers">Grow Followers</system:String>
+    <system:String x:Key="LangKeyGrowFollowers">CRUCIAL FOLLOWERS</system:String>
     <system:String x:Key="LangKeyGrowFriends">Grow Friends</system:String>
     <system:String x:Key="LangKeyGrowGroups">Grow Groups</system:String>
     <system:String x:Key="LangKeyGrowSubscribers">Grow Subscribers</system:String>
@@ -950,15 +950,15 @@
     <system:String x:Key="LangKeyInputMessageS">Input Message(S)</system:String>
     <system:String x:Key="LangKeyInputPersonalNote">Input Personal Note</system:String>
     <system:String x:Key="LangKeyInsertPostsAtRandomLocationsInPostListInsteadOfAtTheEnd">Insert Posts At Random Locations In Post List (Instead Of At The End)</system:String>
-    <system:String x:Key="LangKeyInstachat">Instachat</system:String>
+    <system:String x:Key="LangKeyInstachat">CRUCIAL MESSAGES</system:String>
     <system:String x:Key="LangKeyInstagram">Instagram</system:String>
     <system:String x:Key="LangKeyInstagramAccountsAtTheSameTime">Instagram Accounts At The Same Time</system:String>
     <system:String x:Key="LangKeyInstagramAdvancedOptions">Instagram Advanced Options</system:String>
     <system:String x:Key="LangKeyInstagramHasTemporarilyBlockedTheActivitiesUnableToPerformActions">Instagram Has Temporarily Blocked The Activities, Unable To Perform Actions.</system:String>
-    <system:String x:Key="LangKeyInstaliker/Instacommenter">Instaliker/Instacommenter</system:String>
+    <system:String x:Key="LangKeyInstaliker/Instacommenter">CRUCIAL ENGAGEMENT</system:String>
     <system:String x:Key="LangKeyInstallNewAvailableUpdatesBetween">Install New Available Updates Between</system:String>
-    <system:String x:Key="LangKeyInstaposter">Instaposter</system:String>
-    <system:String x:Key="LangKeyInstascrape">Instascrape</system:String>
+    <system:String x:Key="LangKeyInstaposter">CRUCIAL REPOSTER</system:String>
+    <system:String x:Key="LangKeyInstascrape">INSTA SCRAPE</system:String>
     <system:String x:Key="LangKeyInvalidCredentials">Invalid Credentials</system:String>
     <system:String x:Key="LangKeyInviteBy">Invite By</system:String>
     <system:String x:Key="LangKeyInviteMaxProfilesPerDay">Invite Max Profiles Per Day</system:String>
@@ -1059,7 +1059,7 @@
     <system:String x:Key="LangKeyLinkedinGroupPostType">Linkedin Group Post Type</system:String>
     <system:String x:Key="LangKeyLinkedinMesenger">Linkedin Mesenger</system:String>
     <system:String x:Key="LangKeyLinkedinPoster">Linkedin Poster</system:String>
-    <system:String x:Key="LangKeyLivechat">Livechat</system:String>
+    <system:String x:Key="LangKeyLivechat">CRUCIAL CONVOS</system:String>
     <system:String x:Key="LangKeyLoadAccounts">Load Accounts</system:String>
     <system:String x:Key="LangKeyLoadEventUrlS">Load Event Url(S)</system:String>
     <system:String x:Key="LangKeyLoadGroupUrlS">Load Group Url(S)</system:String>
@@ -2061,7 +2061,7 @@
     <system:String x:Key="LangKeySeparateTheWordsUsingCommaEGHiHello">Separate The Words Using Comma E.G Hi,Hello</system:String>
     <system:String x:Key="LangKeySetDelayForNewJob">Set Delay For New Job</system:String>
     <system:String x:Key="LangKeySetting">Setting</system:String>
-    <system:String x:Key="LangKeySettings">Settings</system:String>
+    <system:String x:Key="LangKeySettings">CRUCIAL SETTINGS</system:String>
     <system:String x:Key="LangKeyShare">Share</system:String>
     <system:String x:Key="LangKeySharePost">Share Post</system:String>
     <system:String x:Key="LangKeySharePostsFromCustomPostsList">Share Posts From Custom Posts List</system:String>
@@ -4157,7 +4157,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeySwitchKeywordAfter">Switch keyword after</system:String>
     <system:String x:Key="LangKeyStoryViewer">Story Viewer</system:String>
     <system:String x:Key="LangKeyTooManyAttemptWithSameNumber">Too many attempts with the same PhoneNumber,Please use another number</system:String>
-    <system:String x:Key="LangKeyStory">InstaStory</system:String>
+    <system:String x:Key="LangKeyStory">CRUCIAL NICHING</system:String>
     <system:String x:Key="LangKeyLikeType">Like Type</system:String>
     <system:String x:Key="LangKeyIsLikedAsPage">Is Liked As Page</system:String>
     <system:String x:Key="LangKeyLikedAsPageUrl">Liked As Page Url</system:String>

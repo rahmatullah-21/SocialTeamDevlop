@@ -24,7 +24,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{DynamicResource LangKeyBlacklistUser}" FontFamily="{StaticResource BuildTitleBdIt}" Foreground="Black"  FontSize="25" FontWeight="SemiBold"/>
+                        <TextBlock Text="{DynamicResource LangKeyBlacklistUser}" FontFamily="{StaticResource BuildTitle}" Foreground="Black"  FontSize="25" />
                         <Grid Grid.Column="1" HorizontalAlignment="Right">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
@@ -86,12 +86,12 @@
                             <ColumnDefinition Width="0.8*"/>
                             <ColumnDefinition Width="1.2*"/>
                         </Grid.ColumnDefinitions>
-                        <Label FontFamily="{StaticResource BuildTitleBdIt}" Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="Black"
-                                VerticalAlignment="Center" FontSize="25" FontWeight="SemiBold"/>
+                        <Label FontFamily="{StaticResource BuildTitle}" Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="Black"
+                                VerticalAlignment="Center" FontSize="25"/>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right" >
                             <CheckBox Name="SelectAll" Foreground="Black" IsChecked="{Binding IsAllBlackListUserChecked}"
-                              Margin="10,0"    VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}"/>
+                              Margin="5,0"    VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}"/>
                             <Rectangle Width="20" Height="20" Fill="Black"  Margin="10,0" 
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
                                    ToolTip="{DynamicResource LangKeyExportUsers}">

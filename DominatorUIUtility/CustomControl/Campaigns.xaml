@@ -30,26 +30,24 @@
             </Grid.RowDefinitions>
 
             <DockPanel Grid.Row="0" Background="Transparent">
-                <Border Height="38" DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="0.5"  Background="{DynamicResource AccentBaseColorBrush}" VerticalAlignment="Center">
-                    <utility:TextPath  HorizontalAlignment="Center"
+                <Border Height="38" DockPanel.Dock="Left" BorderBrush="Gray" BorderThickness="1"  Background="{DynamicResource AccentLightColorBrush}" VerticalAlignment="Center">
+                    <utility:TextPath  HorizontalAlignment="Stretch"
                                VerticalAlignment="Center" 
                                FontSize="22" Margin="5,0"
-                               FontWeight="SemiBold" FontFamily="{StaticResource BuildTitleBdIt}" 
+                               FontWeight="SemiBold" FontFamily="{StaticResource BuildTitle}" 
                                Fill="Black" Stretch="Uniform" Stroke="White" StrokeThickness="0.5"
                                Text="{DynamicResource LangKeyCrucialCampaigns}"/>
                 </Border>
-                <Border Height="38" Margin="20,0,0,0"  DockPanel.Dock="Right" BorderBrush="Black" BorderThickness="0.5" Background="{DynamicResource AccentBaseColorBrush}" VerticalAlignment="Center">
-                    <Border.Effect>
-                        <DropShadowEffect BlurRadius="0" Direction="-90" Color="#E5E9E9" ShadowDepth="2.5" />
-                    </Border.Effect>
-                    <DockPanel VerticalAlignment="Center">
-                        <Button DockPanel.Dock="Left" Height="30" Margin="20,0,0,0" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Command="{Binding DeleteCommand}"
+                <Border Height="38"  Grid.Column="1" Margin="20,0,0,0"   BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource AccentLightColorBrush}" VerticalAlignment="Center">
+                    
+                    <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0" >
+                        <Button DockPanel.Dock="Left" Height="30" Margin="20,0,20,0" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Command="{Binding DeleteCommand}"
                                 VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource LangKeyDeleteSelected}">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal" >
-                                    <utility:TextPath  Text="{DynamicResource LangKeyDeleteSelected}" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold">
+                                    <utility:TextPath Margin="0,3,0,0" Text="{DynamicResource LangKeyDeleteSelected}" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
                                         <utility:TextPath.Effect>
-                                            <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                            <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                         </utility:TextPath.Effect>
                                     </utility:TextPath>
                                     <Image Width="20" Height="20" VerticalAlignment="Center" Margin="8,0,0,0" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/DeleteNew.png"  />
@@ -57,12 +55,12 @@
                             </Button.Content>
                         </Button>
                         <DockPanel HorizontalAlignment="Center" Margin="20,0,0,0" VerticalAlignment="Center">
-                            <utility:TextPath Margin="0,0,0,6" VerticalAlignment="Center" Text="{DynamicResource LangKeyActivateSelectedCammpaigns}" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75"  StrokeThickness="0.5" FontWeight="Bold">
+                            <utility:TextPath Margin="0,2,0,6" VerticalAlignment="Center" Text="{DynamicResource LangKeyActivateSelectedCammpaigns}" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75"  StrokeThickness="0.7" FontWeight="Bold">
                                 <utility:TextPath.Effect>
-                                    <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                    <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                 </utility:TextPath.Effect>
                             </utility:TextPath>
-                            <controls:ToggleSwitchButton  Margin="10,0,0,0" Height="22" Width="55"
+                            <controls:ToggleSwitchButton  Margin="10,0,20,0" Height="22" Width="55"
                                            FontSize="12" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" 
                                            IsChecked="{Binding AllCampStatus,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                            Style="{StaticResource CrucialToggleButton}">
@@ -73,10 +71,10 @@
                                 </interactivity:Interaction.Triggers>
                             </controls:ToggleSwitchButton>
                         </DockPanel>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="30,0,0,0" Grid.Column="1">
-                            <utility:TextPath Margin="0,0,10,6" Text="{DynamicResource LangKeySelectCampaignCategory}" VerticalAlignment="Center" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleBdIt}" FontSize="14.75" StrokeThickness="0.5" FontWeight="Bold">
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center"  Margin="30,0,0,0" Grid.Column="1">
+                            <utility:TextPath Margin="0,2,20,6" Text="{DynamicResource LangKeySelectCampaignCategory}" VerticalAlignment="Center" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
                                 <utility:TextPath.Effect>
-                                    <DropShadowEffect ShadowDepth="0.1" Direction="270" Color="Gray" />
+                                    <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
                                 </utility:TextPath.Effect>
                             </utility:TextPath>
                             <ComboBox x:Name="CmbCampaignType" SelectedIndex="0"

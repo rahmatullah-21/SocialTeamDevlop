@@ -34,7 +34,7 @@
                                     </Expander.ContentTemplate>
                                     <Expander.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding}" FontFamily="{StaticResource BuildTitleSbIt}" Foreground="Black" FontSize="20" VerticalAlignment="Center" TextAlignment="Left"/>
+                                            <TextBlock Text="{Binding}" FontFamily="{StaticResource BuildTitle}" Foreground="Black" FontSize="16" VerticalAlignment="Center" TextAlignment="Left"/>
                                         </DataTemplate>
                                     </Expander.HeaderTemplate>
                                 </Expander>
@@ -42,7 +42,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="IsExpanded" Value="True" />
+                <Setter Property="IsExpanded" Value="False" />
                 <EventSetter Event="Expanded" Handler="CheckAllforExpand"/>
                 <EventSetter Event="Collapsed" Handler="CheckAllforExpand"/>
             </Style>
