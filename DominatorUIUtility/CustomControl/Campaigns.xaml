@@ -29,36 +29,42 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <DockPanel Grid.Row="0" Background="Transparent">
-                <Border Height="38" DockPanel.Dock="Left" BorderBrush="Gray" BorderThickness="1"  Background="{DynamicResource AccentLightColorBrush}" VerticalAlignment="Center">
-                    <utility:TextPath  HorizontalAlignment="Stretch"
+            <Grid Grid.Row="0" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Background="Transparent" Margin="1">
+                    <Border Height="38" Width="150" HorizontalAlignment="Left" DockPanel.Dock="Left" BorderBrush="Gray" BorderThickness="1"  Background="{DynamicResource AccentLightColorBrush}" VerticalAlignment="Center">
+                        <utility:TextPath  HorizontalAlignment="Stretch"
                                VerticalAlignment="Center" 
-                               FontSize="22" Margin="5,0"
+                               FontSize="22" Margin="5,5,5,10"
                                FontWeight="SemiBold" FontFamily="{StaticResource BuildTitle}" 
-                               Fill="Black" Stretch="Uniform" Stroke="White" StrokeThickness="0.5"
+                               Fill="Black" Stretch="None" Stroke="White" StrokeThickness="0.5"
                                Text="{DynamicResource LangKeyCrucialCampaigns}"/>
-                </Border>
-                <Border Height="38"  Grid.Column="1" Margin="20,0,0,0"   BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource AccentLightColorBrush}" VerticalAlignment="Center">
+                    </Border>
+                </StackPanel>
+                <Border Height="38"  Grid.Column="1" Margin="20,0,20,0"   BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource AccentLightColorBrush}" VerticalAlignment="Center">
                     
                     <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0" >
-                        <Button DockPanel.Dock="Left" Height="30" Margin="20,0,20,0" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Command="{Binding DeleteCommand}"
+                        <Button DockPanel.Dock="Left" Height="30" Margin="10,0,20,0" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Command="{Binding DeleteCommand}"
                                 VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource LangKeyDeleteSelected}">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal" >
-                                    <utility:TextPath Margin="0,3,0,0" Text="{DynamicResource LangKeyDeleteSelected}" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
-                                        <utility:TextPath.Effect>
+                                    <utility:TextPath Margin="0,3,0,0" Text="{DynamicResource LangKeyDeleteSelected}" Fill="Black" Stroke="White" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7">
+                                        <!--<utility:TextPath.Effect>
                                             <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
-                                        </utility:TextPath.Effect>
+                                        </utility:TextPath.Effect>-->
                                     </utility:TextPath>
                                     <Image Width="20" Height="20" VerticalAlignment="Center" Margin="8,0,0,0" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/DeleteNew.png"  />
                                 </StackPanel>
                             </Button.Content>
                         </Button>
-                        <DockPanel HorizontalAlignment="Center" Margin="20,0,0,0" VerticalAlignment="Center">
-                            <utility:TextPath Margin="0,2,0,6" VerticalAlignment="Center" Text="{DynamicResource LangKeyActivateSelectedCammpaigns}" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75"  StrokeThickness="0.7" FontWeight="Bold">
-                                <utility:TextPath.Effect>
+                        <DockPanel HorizontalAlignment="Center" Margin="10,0,0,0" VerticalAlignment="Center">
+                            <utility:TextPath Margin="0,2,0,6" VerticalAlignment="Center" Text="{DynamicResource LangKeyActivateSelectedCammpaigns}" Fill="Black" Stroke="White" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75"  StrokeThickness="0.7" FontWeight="Bold">
+                                <!--<utility:TextPath.Effect>
                                     <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
-                                </utility:TextPath.Effect>
+                                </utility:TextPath.Effect>-->
                             </utility:TextPath>
                             <controls:ToggleSwitchButton  Margin="10,0,20,0" Height="22" Width="55"
                                            FontSize="12" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" 
@@ -71,11 +77,11 @@
                                 </interactivity:Interaction.Triggers>
                             </controls:ToggleSwitchButton>
                         </DockPanel>
-                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center"  Margin="30,0,0,0" Grid.Column="1">
-                            <utility:TextPath Margin="0,2,20,6" Text="{DynamicResource LangKeySelectCampaignCategory}" VerticalAlignment="Center" Fill="White" Stroke="Black" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
-                                <utility:TextPath.Effect>
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center"  Margin="10,0,0,0" Grid.Column="1">
+                            <utility:TextPath Margin="0,2,20,6" Text="{DynamicResource LangKeySelectCampaignCategory}" VerticalAlignment="Center" Fill="Black" Stroke="White" FontFamily="{StaticResource BuildTitleRg}" FontSize="14.75" StrokeThickness="0.7" FontWeight="Bold">
+                                <!--<utility:TextPath.Effect>
                                     <DropShadowEffect ShadowDepth="0.5" BlurRadius="0" Direction="0" Color="Black" />
-                                </utility:TextPath.Effect>
+                                </utility:TextPath.Effect>-->
                             </utility:TextPath>
                             <ComboBox x:Name="CmbCampaignType" SelectedIndex="0"
                                 Height="30" ItemsSource="{Binding CampaignModel.ActivityType}"
@@ -90,12 +96,15 @@
                     </DockPanel>
                 </Border>
 
-            </DockPanel>
+            </Grid>
             
-            <Border CornerRadius="4" Width="Auto" Grid.Row="1" Margin="1,12,3,-2" Padding="10"  Background="White">
-                <Border.Effect>
+            <Border CornerRadius="4" Width="Auto" Grid.Row="1" Margin="-5,12,3,-8" Padding="10"  >
+                <Border.Background>
+                    <ImageBrush ImageSource="/DominatorUIUtility;component/Images/funcmodulebackground.png" Stretch="Fill"/>
+                </Border.Background>
+                <!--<Border.Effect>
                     <DropShadowEffect BlurRadius="8" ShadowDepth="1" Direction="0"/>
-                </Border.Effect>
+                </Border.Effect>-->
                 <ListView x:Name="list"  Width="Auto" ItemsSource="{Binding CampaignCollection,IsAsync=True}"
                       VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                       VirtualizingPanel.IsContainerVirtualizable="True"

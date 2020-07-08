@@ -77,7 +77,7 @@
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>-->
-                    <Image Width="35" Height="35" Grid.Column="2" VerticalAlignment="Center" Margin="10,2,0,2" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
+                    <Image Width="27" Height="27" Grid.Column="2" VerticalAlignment="Center" Margin="10,2,0,2" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
                 </Button.Content>
             </Button>
 

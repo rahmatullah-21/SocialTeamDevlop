@@ -409,6 +409,9 @@
     <Resource Include="Images\macos_buttons3.ico" />
     <Resource Include="Images\crucial-background.png" />
     <Resource Include="Images\CrucialLogo.png" />
+    <Resource Include="Images\CloseButton.png" />
+    <Resource Include="Images\MaximizeButton.png" />
+    <Resource Include="Images\MinimizeButton.png" />
     <Content Include="SocinatorIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

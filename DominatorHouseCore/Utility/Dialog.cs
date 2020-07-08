@@ -23,6 +23,7 @@ namespace DominatorHouseCore.Utility
                 ShowCloseButton = true,
                 WindowTransitionsEnabled = false,
                 Background = dialog.Background,
+                WindowTitleBrush = Brushes.Black,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
                 Title = title

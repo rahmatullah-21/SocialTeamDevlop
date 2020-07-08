@@ -6,155 +6,156 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"   xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
-    <Grid Name="MainGrid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.95*"/>
-            <ColumnDefinition Width="1.05*"/>
-        </Grid.ColumnDefinitions>
-        <Grid Margin="0,2,10,0">
-            <Grid.Effect>
-                <DropShadowEffect ShadowDepth="2" Direction="0"/>
-            </Grid.Effect>
-            <GroupBox >
-                <GroupBox.Header>
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{DynamicResource LangKeyWhitelistUser}" FontFamily="{StaticResource BuildTitle}"  Foreground="Black"  FontSize="25"/>
-                        <Grid Grid.Column="1" HorizontalAlignment="Right">
+    <Border CornerRadius="8" Padding="20">
+        <Border.Background>
+            <ImageBrush ImageSource="/DominatorUIUtility;component/Images/funcmodulebackground.png" Stretch="Fill"/>
+        </Border.Background>
+        <Grid Name="MainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.95*"/>
+                <ColumnDefinition Width="1.05*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="0,2,10,0">
+                <GroupBox >
+                    <GroupBox.Header>
+                        <Grid >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Rectangle Width="20" Height="20" Fill="Black"  Margin="5,0" 
+                            <TextBlock Text="{DynamicResource LangKeyWhitelistUser}" FontFamily="{StaticResource BuildTitle}"  Foreground="Black"  FontSize="25"/>
+                            <Grid Grid.Column="1" HorizontalAlignment="Right">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Width="20" Height="20" Fill="Black"  Margin="5,0" 
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
                                    ToolTip="{DynamicResource LangKeyImportUsers}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding ImportCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cabinet_in}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <Rectangle Width="20" Height="20" Fill="Black"  Margin="10,0" Grid.Column="1"
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDown">
+                                            <i:InvokeCommandAction Command="{Binding ImportCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cabinet_in}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Rectangle Width="20" Height="20" Fill="Black"  Margin="10,0" Grid.Column="1"
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
                                    ToolTip="{DynamicResource LangKeyClearUsersList}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding ClearCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDown">
+                                            <i:InvokeCommandAction Command="{Binding ClearCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </GroupBox.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="40"/>
-                    </Grid.RowDefinitions>
-                    <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToWhitelistedOneUsernamePerLine}"  
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToWhitelistedOneUsernamePerLine}"  
                               TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding WhitelistUser,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                               ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToWhitelistedOneUsernamePerLine}"  
                               Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                               BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
-                    <Button Grid.Row="1" Name="BtnAddtoWhitelist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToWhitelist}" 
+                        <Button Grid.Row="1" Name="BtnAddtoWhitelist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToWhitelist}" 
                             VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Green" Foreground="White"
                            Command="{Binding AddToWhiteListCommand}"/>
-                </Grid>
-            </GroupBox>
-        </Grid>
+                    </Grid>
+                </GroupBox>
+            </Grid>
 
-        <Grid Grid.Column="1" Margin="0,2,10,0">
-            <Grid.Effect>
-                <DropShadowEffect ShadowDepth="2" Direction="0"/>
-            </Grid.Effect>
-            <GroupBox Grid.Column="1" Margin="5,0,0,0">
-                <GroupBox.Header>
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.8*"/>
-                            <ColumnDefinition Width="1.2*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label  Content="{DynamicResource LangKeyWhitelistedUsers}" FontFamily="{StaticResource BuildTitle}" Foreground="Black"
+            <Grid Grid.Column="1" Margin="0,2,10,0">
+                <GroupBox Grid.Column="1" Margin="5,0,0,0">
+                    <GroupBox.Header>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1.2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label  Content="{DynamicResource LangKeyWhitelistedUsers}" FontFamily="{StaticResource BuildTitle}" Foreground="Black"
                                 VerticalAlignment="Center" FontSize="25"/>
-                        <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right">
-                            <CheckBox Name="SelectAll"  Foreground="Black" IsChecked="{Binding IsAllWhiteListUserChecked}"
+                            <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" Grid.Column="1" HorizontalScrollBarVisibility="Auto">
+                                <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right">
+                                    <CheckBox Name="SelectAll"  Foreground="Black" IsChecked="{Binding IsAllWhiteListUserChecked}"
                               Margin="5,0"    VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}"/>
-                            <Rectangle Width="20" Height="20" Fill="Black"  Margin="10,0" 
+                                    <Rectangle Width="20" Height="20" Fill="Black"  Margin="10,0" 
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
                                    ToolTip="{DynamicResource LangKeyExportUsers}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding ExportCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cabinet_out}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <Rectangle Width="15" Height="18" Fill="Black"  Margin="10,0" VerticalAlignment="Center"
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseDown">
+                                                <i:InvokeCommandAction Command="{Binding ExportCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cabinet_out}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Rectangle Width="15" Height="18" Fill="Black"  Margin="10,0" VerticalAlignment="Center"
                                x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding RefreshCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseDown">
+                                                <i:InvokeCommandAction Command="{Binding RefreshCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                          VerticalAlignment="Center" Height="28" HorizontalAlignment="Right" Width="200"
                          Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"  mah:TextBoxHelper.ButtonCommand="{Binding TextSearchCommand,Mode=OneWay}"   />
-                        </StackPanel>
-                    </Grid>
-                </GroupBox.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="40"/>
-                    </Grid.RowDefinitions>
-                    <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstWhiteListUsers,IsAsync=True}" VerticalAlignment="Stretch">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox x:Name="ChkWhitlistuser"  IsChecked="{Binding IsWhiteListUserChecked}" Style="{StaticResource CheckBoxStyle}"
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstWhiteListUsers,IsAsync=True}" VerticalAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox x:Name="ChkWhitlistuser"  IsChecked="{Binding IsWhiteListUserChecked}" Style="{StaticResource CheckBoxStyle}"
                                       Command="{Binding DataContext.SelectCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=ListBox}}">
-                                    <CheckBox.Content>
-                                        <TextBlock Text="{Binding WhitelistUser}"/>
-                                    </CheckBox.Content>
-                                </CheckBox>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Button Grid.Row="1" Name="DeleteSelected" Content="{DynamicResource LangKeyRemoveSelectedFromWhitelist}"
+                                        <CheckBox.Content>
+                                            <TextBlock Text="{Binding WhitelistUser}"/>
+                                        </CheckBox.Content>
+                                    </CheckBox>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Grid.Row="1" Name="DeleteSelected" Content="{DynamicResource LangKeyRemoveSelectedFromWhitelist}"
                         Background="{DynamicResource AccentBaseColorBrush}" 
                         Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
                         Command="{Binding DeleteCommand}">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                <Setter Property="Foreground" Value="White" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=LstWhiteListUsers.Count}" Value="0">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                        <Setter Property="Foreground" Value="DarkGray" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </Grid>
-            </GroupBox>
-        </Grid>
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=LstWhiteListUsers.Count}" Value="0">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                            <Setter Property="Foreground" Value="DarkGray" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </GroupBox>
+            </Grid>
 
-    </Grid>
+        </Grid>
+    </Border>
 
 </UserControl>

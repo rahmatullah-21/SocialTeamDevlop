@@ -34,7 +34,7 @@
                                     </Expander.ContentTemplate>
                                     <Expander.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding}" FontFamily="{StaticResource BuildTitle}" Foreground="Black" FontSize="16" VerticalAlignment="Center" TextAlignment="Left"/>
+                                            <TextBlock Text="{Binding}" FontFamily="{StaticResource RajdhaniMedium}" Foreground="Black" FontSize="16" VerticalAlignment="Center" TextAlignment="Left"/>
                                         </DataTemplate>
                                     </Expander.HeaderTemplate>
                                 </Expander>

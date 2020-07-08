@@ -8,155 +8,156 @@
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
 
-    <Grid Name="MainGrid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.95*"/>
-            <ColumnDefinition Width="1.05*"/>
-        </Grid.ColumnDefinitions>
-        <Grid Margin="0,2,10,0">
-            <Grid.Effect>
-                <DropShadowEffect ShadowDepth="2" Direction="0"/>
-            </Grid.Effect>
-            <GroupBox>
-                <GroupBox.Header>
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{DynamicResource LangKeyBlacklistUser}" FontFamily="{StaticResource BuildTitle}" Foreground="Black"  FontSize="25" />
-                        <Grid Grid.Column="1" HorizontalAlignment="Right">
+    <Border CornerRadius="8" Padding="20">
+        <Border.Background>
+            <ImageBrush ImageSource="/DominatorUIUtility;component/Images/funcmodulebackground.png" Stretch="Fill"/>
+        </Border.Background>
+        <Grid Name="MainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.95*"/>
+                <ColumnDefinition Width="1.05*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="0,2,10,0">
+                <GroupBox>
+                    <GroupBox.Header>
+                        <Grid >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Rectangle Width="20" Height="20" Fill="Black"  Margin="5,0" 
+                            <TextBlock Text="{DynamicResource LangKeyBlacklistUser}" FontFamily="{StaticResource BuildTitle}" Foreground="Black"  FontSize="25" />
+                            <Grid Grid.Column="1" HorizontalAlignment="Right">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Width="20" Height="20" Fill="Black"  Margin="5,0" 
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
                                    ToolTip="{DynamicResource LangKeyImportUsers}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding ImportCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cabinet_in}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <Rectangle Width="20" Height="20" Fill="Black"  Margin="10,0" Grid.Column="1"
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDown">
+                                            <i:InvokeCommandAction Command="{Binding ImportCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cabinet_in}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Rectangle Width="20" Height="20" Fill="Black"  Margin="10,0" Grid.Column="1"
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
                                    ToolTip="{DynamicResource LangKeyClearUsersList}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding ClearCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDown">
+                                            <i:InvokeCommandAction Command="{Binding ClearCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </GroupBox.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="40"/>
-                    </Grid.RowDefinitions>
-                    <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
                               TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding BlacklistUser,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                               ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
                               Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                               BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
-                    <Button Grid.Row="1" Name="BtnAddtoBlacklist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToBlacklist}" 
+                        <Button Grid.Row="1" Name="BtnAddtoBlacklist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToBlacklist}" 
                             VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Red" Foreground="White"
                            Command="{Binding AddToBlackListCommand}"/>
-                </Grid>
-            </GroupBox>
-        </Grid>
+                    </Grid>
+                </GroupBox>
+            </Grid>
 
-        <Grid Margin="0,2,10,0" Grid.Column="1">
-            <Grid.Effect>
-                <DropShadowEffect ShadowDepth="2" Direction="0"/>
-            </Grid.Effect>
-            <GroupBox Grid.Column="1" Margin="5,0,0,0">
-                <GroupBox.Header>
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.8*"/>
-                            <ColumnDefinition Width="1.2*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label FontFamily="{StaticResource BuildTitle}" Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="Black"
+            <Grid Margin="0,2,10,0" Grid.Column="1">
+                <GroupBox Grid.Column="1" Margin="5,0,0,0">
+                    <GroupBox.Header>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1.2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label FontFamily="{StaticResource BuildTitle}" Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="Black"
                                 VerticalAlignment="Center" FontSize="25"/>
 
-                        <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right" >
-                            <CheckBox Name="SelectAll" Foreground="Black" IsChecked="{Binding IsAllBlackListUserChecked}"
+                            <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" Grid.Column="1" HorizontalScrollBarVisibility="Auto">
+                                <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right" >
+                                    <CheckBox Name="SelectAll" Foreground="Black" IsChecked="{Binding IsAllBlackListUserChecked}"
                               Margin="5,0"    VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}"/>
-                            <Rectangle Width="20" Height="20" Fill="Black"  Margin="10,0" 
+                                    <Rectangle Width="20" Height="20" Fill="Black"  Margin="10,0" 
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
                                    ToolTip="{DynamicResource LangKeyExportUsers}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding ExportCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cabinet_out}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <Rectangle Width="15" Height="18" Fill="Black"  Margin="10,0" VerticalAlignment="Center"
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseDown">
+                                                <i:InvokeCommandAction Command="{Binding ExportCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cabinet_out}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Rectangle Width="15" Height="18" Fill="Black"  Margin="10,0" VerticalAlignment="Center"
                                x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding RefreshCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseDown">
+                                                <i:InvokeCommandAction Command="{Binding RefreshCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
 
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                          VerticalAlignment="Center" Height="28" HorizontalAlignment="Right" Width="200"
                          Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"  mah:TextBoxHelper.ButtonCommand="{Binding TextSearchCommand,Mode=OneWay}"   />
-                        </StackPanel>
-                    </Grid>
-                </GroupBox.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="40"/>
-                    </Grid.RowDefinitions>
-                    <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstBlackListUsers,IsAsync=True}" VerticalAlignment="Stretch" VirtualizingPanel.IsVirtualizing="True"
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstBlackListUsers,IsAsync=True}" VerticalAlignment="Stretch" VirtualizingPanel.IsVirtualizing="True"
                          VirtualizingPanel.VirtualizationMode="Recycling">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox x:Name="ChkBlacklistuser"  IsChecked="{Binding IsBlackListUserChecked}"
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox x:Name="ChkBlacklistuser"  IsChecked="{Binding IsBlackListUserChecked}"
                                       Content="{Binding BlacklistUser}" Style="{StaticResource CheckBoxStyle}"
                                       Command="{Binding DataContext.SelectCommand,RelativeSource={RelativeSource AncestorType=ListBox}}"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource LangKeyRemoveSelectedFromBlacklist}"
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource LangKeyRemoveSelectedFromBlacklist}"
                         Background="{DynamicResource AccentBaseColorBrush}" 
                         Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
                         Command="{Binding DeleteCommand}">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                <Setter Property="Foreground" Value="White" />
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                    <Setter Property="Foreground" Value="White" />
 
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=LstBlackListUsers.Count}" Value="0">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                        <Setter Property="Foreground" Value="DarkGray" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </Grid>
-            </GroupBox>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=LstBlackListUsers.Count}" Value="0">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                            <Setter Property="Foreground" Value="DarkGray" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+
         </Grid>
-
-    </Grid>
+    </Border>
 </UserControl>

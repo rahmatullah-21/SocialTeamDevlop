@@ -2179,6 +2179,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\CustomFont\built titling lt.ttf" />
     <Resource Include="Resources\CustomFont\built titling sb.ttf" />
     <Resource Include="Resources\CustomFont\built titling bd.ttf" />
     <Resource Include="Resources\CustomFont\built titling rg.ttf" />
@@ -2354,9 +2355,6 @@
     <Resource Include="Images\createCampaign.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\info.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\bgTopTab.png" />
   </ItemGroup>
   <ItemGroup>
@@ -2367,6 +2365,30 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\InstagramNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\funcmodulebackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ModuleholderBG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CloseButton.png" />
+    <Resource Include="Images\MaximizeButton.png" />
+    <Resource Include="Images\MinimizeButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\scrollbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GetCrucialBG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\selectaccountselected.png" />
+    <Resource Include="Images\selectaccountunselected.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
