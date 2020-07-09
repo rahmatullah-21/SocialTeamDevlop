@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:iconpack="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
-             mc:Ignorable="d" MinHeight="40">
+             mc:Ignorable="d" MinHeight="40" MaxHeight="50">
     <Grid Name="mainGrid"  Background="{DynamicResource AccentBaseColorBrush}"  Margin="6,2,5,3">
 
         <StackPanel Orientation="Horizontal">
-            <utility:TextPath Text="{DynamicResource LangKeyNameYourCampaign}" FontFamily="{StaticResource BuildTitleSbIt}" StrokeThickness="0.5" Margin="10,12,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
+            <utility:TextPath Text="{DynamicResource LangKeyNameYourCampaign}" FontFamily="{StaticResource BuildTitleSbIt}" StrokeThickness="0.5" Margin="10,8,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
             <TextBox Name="txtblkCampaignName" Background="{StaticResource AccentLightColorBrush}" Margin="50,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="Black"  Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="Black" BorderThickness="0.5" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Width="300" FontWeight="SemiBold" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -22,7 +23,8 @@
                                     <Setter.Value>
                                         <Border Background="WhiteSmoke" Height="30" Width="Auto"  BorderBrush="Gray" CornerRadius="10" BorderThickness="1">
                                             <StackPanel Orientation="Horizontal" Margin="5,0,10,0" HorizontalAlignment="Center">
-                                                <Image Height="20" Width="20" Source="/DominatorUIUtility;component/Images/collapse.png"/>
+                                                <!--<Image Height="20" Width="20" Source="/DominatorUIUtility;component/Images/collapse.png"/>-->
+                                                <iconpack:PackIconFontAwesome Kind="MinusCircleSolid" VerticalAlignment="Center" Foreground="Black" Height="20" Width="20"/>
                                                 <utility:TextPath Text="{DynamicResource LangKeyCollapseAll}" Margin="5,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRg}" Fill="White" Stroke="Black" StrokeThickness="0.9" FontSize="16" FontWeight="Bold"/>
                                                 
                                             </StackPanel>
@@ -36,7 +38,8 @@
                                     <Setter.Value>
                                         <Border Background="WhiteSmoke" Height="30" Width="Auto"  BorderBrush="Gray" CornerRadius="10" BorderThickness="1">
                                             <StackPanel Orientation="Horizontal" Margin="5,0,10,0" HorizontalAlignment="Center">
-                                                <Image Height="20" Width="20" Source="/DominatorUIUtility;component/Images/expand.ico"/>
+                                                <!--<Image Height="20" Width="20" Source="/DominatorUIUtility;component/Images/expand.ico"/>-->
+                                                <iconpack:PackIconFontAwesome Kind="PlusCircleSolid" VerticalAlignment="Center" Foreground="Black" Height="20" Width="20"/>
                                                 <utility:TextPath Text="{DynamicResource LangKeyExpandAll}" Margin="5,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRg}" Fill="White" Stroke="Black" StrokeThickness="0.9"  FontSize="16" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Border>
@@ -56,13 +59,13 @@
                     <Border Margin="5"  Background="Red" Height="30" Width="150"  BorderBrush="Red" CornerRadius="10" BorderThickness="1">
                         <StackPanel Orientation="Horizontal">
 
-                            <Rectangle Margin="5" Width="15" Height="15" Fill="White">
+                            <Rectangle Margin="5" Width="15" Height="15" Fill="Black">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
 
-                            <utility:TextPath Text="{DynamicResource LangKeyCancelEditing}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRg}" Fill="White" Stroke="Red" StrokeThickness="0.8"  FontSize="16" FontWeight="Bold"/>
+                            <utility:TextPath Text="{DynamicResource LangKeyCancelEditing}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRg}" Fill="Black" Stroke="Red" StrokeThickness="0.8"  FontSize="16"/>
 
                         </StackPanel>
                     </Border>
@@ -77,7 +80,8 @@
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>-->
-                    <Image Width="27" Height="27" Grid.Column="2" VerticalAlignment="Center" Margin="10,2,0,2" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
+                    <Image Width="25" Height="25" Grid.Column="2" VerticalAlignment="Center" Margin="10,2,0,2" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
+                    <!--<iconpack:PackIconFontAwesome Kind="InfoSolid" VerticalAlignment="Center" Foreground="Black" Height="25" Width="25"/>-->
                 </Button.Content>
             </Button>
 

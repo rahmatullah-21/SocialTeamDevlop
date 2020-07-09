@@ -255,7 +255,7 @@
     <system:String x:Key="LangKeyBoth">Both</system:String>
     <system:String x:Key="LangKeyBrandOrProduct">Brand Or Product</system:String>
     <system:String x:Key="LangKeyBroadcastMessage">Broadcast Message</system:String>
-    <system:String x:Key="LangKeyBroadcastMessages">Broadcast Messages</system:String>
+    <system:String x:Key="LangKeyBroadcastMessages">Crucial Messages</system:String>
     <system:String x:Key="LangKeyBroadcastMessagesToSingleOrMultipleUsersUsingThisFeature">Broadcast Messages To Single Or Multiple Users Using This Feature.</system:String>
     <system:String x:Key="LangKeyBroadcastMesseges">Broadcast Messeges</system:String>
     <system:String x:Key="LangKeyBrodcastMessage">Broadcast Message</system:String>
@@ -686,7 +686,7 @@
     <system:String x:Key="LangKeyEndBetween">End Between</system:String>
     <system:String x:Key="LangKeyEndDate">End Date</system:String>
     <system:String x:Key="LangKeyEndorsementCriteria">Endorsement Criteria :</system:String>
-    <system:String x:Key="LangKeyEngage">Engage</system:String>
+    <system:String x:Key="LangKeyEngage">Crucial Engagement</system:String>
     <system:String x:Key="LangKeyEngagedUsers">Engaged Users</system:String>
     <system:String x:Key="LangKeyEngagementType">Engagement Type</system:String>
     <system:String x:Key="LangKeyEnterAListOfCategoriesKeywordsSeparatedBy">Enter A List Of Categories Keywords Separated By ','</system:String>
@@ -1797,7 +1797,7 @@
     <system:String x:Key="LangKeyReAdd">Re-Add</system:String>
     <system:String x:Key="LangKeyReaddPostToPostList">Readd Post To Post List</system:String>
     <system:String x:Key="LangKeyReAddPublishedPostsToTheEndOfPendingPostsListOnlyForPendingPostlist">Re-Add Published Posts To The End Of Pending Posts List (Only For Pending Postlist)</system:String>
-    <system:String x:Key="LangKeyReblog">Reblog</system:String>
+    <system:String x:Key="LangKeyReblog">Crucial Reblog</system:String>
     <system:String x:Key="LangKeyReblogLikerCommenter">Reblog Liker/Commenter</system:String>
     <system:String x:Key="LangKeyReblogPost">Reblog Post</system:String>
     <system:String x:Key="LangKeyRecentColors">Recent Colors</system:String>
@@ -1973,7 +1973,7 @@
     <system:String x:Key="LangKeyScrapeUsersPerJob">Scrape Users Per Job</system:String>
     <system:String x:Key="LangKeyScrapedTweetId">Scraped Tweet Id</system:String>
     <system:String x:Key="LangKeyScrapeddate">Scraped Date</system:String>
-    <system:String x:Key="LangKeyScraper">Scraper</system:String>
+    <system:String x:Key="LangKeyScraper">Crucial Scraper</system:String>
     <system:String x:Key="LangKeySearchKeywords">Search Keywords</system:String>
     <system:String x:Key="LangKeySearchQuery">Search Query</system:String>
     <system:String x:Key="LangKeySearchUrl">Search Url</system:String>
@@ -2602,7 +2602,7 @@
     <system:String x:Key="LangKeyViewIncreasePerWeek">View Increase Per Week</system:String>
     <system:String x:Key="LangKeyViewIncreaser">View Increaser</system:String>
     <system:String x:Key="LangKeyViewsCount">Views Count</system:String>
-    <system:String x:Key="LangKeyVoter">Voter</system:String>
+    <system:String x:Key="LangKeyVoter">Crucial Voter</system:String>
     <system:String x:Key="LangKeyVoting">Voting</system:String>
     <system:String x:Key="LangKeyWait">Wait</system:String>
     <system:String x:Key="LangKeyWaitAMaximumOf">Wait A Maximum Of</system:String>
