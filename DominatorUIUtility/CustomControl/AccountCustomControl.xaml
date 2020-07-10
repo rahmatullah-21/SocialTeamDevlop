@@ -442,7 +442,7 @@
 
                         <StackPanel >
                             <WrapPanel  Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Left"  Background="{DynamicResource AccentLightColorBrush}">
-                                <ToggleButton DockPanel.Dock="Right" Margin="10,5,0,0" Background="{DynamicResource AccentLightColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
+                                <ToggleButton DockPanel.Dock="Right" Margin="10,0,0,0" Background="{DynamicResource AccentLightColorBrush}" Foreground="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="SearchExpander">
                                     <ToggleButton.Content>
                                         <Border HorizontalAlignment="Center" Background="{DynamicResource AccentLightColorBrush}" VerticalAlignment="Center" BorderBrush="Transparent" >
                                             <StackPanel Orientation="Horizontal" >
@@ -460,7 +460,7 @@
                                     HorizontalOffset="0" VerticalOffset="0" Placement="Bottom" AllowsTransparency="True"  IsOpen="{Binding IsChecked, ElementName=SearchExpander}"  StaysOpen="False">
                                     <!--Filter Section-->
                                     <Border CornerRadius="1" Background="White" Width="{Binding Path=ActualWidth , ElementName=TitleContainer}" BorderThickness="1" BorderBrush="{StaticResource AccentLightColorBrush}">
-                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="10,0,0,2" VerticalAlignment="Center" Visibility="{Binding ElementName=SearchExpander, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="10,0,0,2" VerticalAlignment="Center" Visibility="{Binding ElementName=SearchExpander, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" >
                                             <!--Visibility="{Binding ElementName=SearchExpander, Path=IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}"-->
                                             <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" 
                                             VerticalAlignment="Center" Height="25"  HorizontalAlignment="Left" Width="150"
@@ -474,7 +474,7 @@
                                         </StackPanel>
                                     </Border>
                                 </Popup>
-                                <Button  Background="Transparent" Cursor="Hand" Height="40" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
+                                <Button  Background="Transparent" Cursor="Hand" VerticalAlignment="Center" Height="40" BorderBrush="Transparent"  Margin="10,-2,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
                                     <Button.Template>
                                         <ControlTemplate>
                                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -492,7 +492,7 @@
                                     </Button.Template>
                                 </Button>
 
-                                <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="20,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" 
+                                <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="20,-2,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" 
                                     Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource LangKeyImportAccountDescription}">
                                     <Button.Template>
                                         <ControlTemplate>
@@ -519,7 +519,7 @@
                                     </i:Interaction.Triggers>
                                 </Button>
 
-                                <Controls:DropDownButton ArrowVisibility="Collapsed"  Background="Transparent"  Margin="20,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect">
+                                <Controls:DropDownButton ArrowVisibility="Collapsed"  Background="Transparent"  Margin="20,-2,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect">
                                     <Controls:DropDownButton.Content>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" >
@@ -593,7 +593,7 @@
                                     </i:Interaction.Triggers>
                                 </Controls:DropDownButton>
 
-                                <Controls:DropDownButton ArrowVisibility="Collapsed"  Background="Transparent"  Margin="20,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnUpdate">
+                                <Controls:DropDownButton ArrowVisibility="Collapsed"  Background="Transparent"  Margin="20,-2,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnUpdate">
                                     
                                     <Controls:DropDownButton.Content>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -684,7 +684,7 @@
                                     </i:Interaction.Triggers>
                                 </Controls:DropDownButton>
 
-                                <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="20,0,0,0" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
+                                <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent"  Margin="20,-2,0,0" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
                                     <Button.Template>
                                         <ControlTemplate>
                                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -707,7 +707,7 @@
                                     </i:Interaction.Triggers>
                                 </Button>
 
-                                <Button  Background="Transparent" Cursor="Hand"  Margin="20,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
+                                <Button  Background="Transparent" Cursor="Hand"  Margin="20,-2,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
                                     <Button.Template>
                                         <ControlTemplate>
                                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
@@ -730,7 +730,7 @@
                                     </i:Interaction.Triggers>
                                 </Button>
 
-                                <Controls:DropDownButton ArrowVisibility="Collapsed" Background="Transparent"  Margin="20,2,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
+                                <Controls:DropDownButton ArrowVisibility="Collapsed" Background="Transparent"  Margin="20,1,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
                                     <Controls:DropDownButton.Content>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal">

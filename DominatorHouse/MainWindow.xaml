@@ -159,14 +159,7 @@
                                     <Setter Property="ItemTemplate">
                                         <Setter.Value>
                                             <DataTemplate>
-                                                <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Stretch"
-		                VerticalAlignment="Center" 
-		                Fill="Black"                                  Margin="0,0,0,5"
-		                                                             
-		                FontFamily="{StaticResource RajdhaniMedium}"
-		                FontSize="16">
-
-                                                </utility:TextPath>
+                                                <TextBlock Text="{Binding Title}" FontFamily="{StaticResource RajdhaniMedium}" />
                                             </DataTemplate>
                                         </Setter.Value>
                                     </Setter>

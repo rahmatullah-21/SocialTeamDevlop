@@ -84,8 +84,8 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="1.2*"/>
                             </Grid.ColumnDefinitions>
-                            <Label FontFamily="{StaticResource BuildTitle}" Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="Black"
-                                VerticalAlignment="Center" FontSize="25"/>
+                            <Label FontFamily="{StaticResource BuildTitle}" Height="40" Margin="0,-10,0,0" Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="Black"
+                                 FontSize="25"/>
 
                             <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" Grid.Column="1" HorizontalScrollBarVisibility="Auto">
                                 <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right" >

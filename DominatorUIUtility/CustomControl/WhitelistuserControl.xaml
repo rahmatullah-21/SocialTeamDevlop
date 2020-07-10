@@ -82,8 +82,8 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="1.2*"/>
                             </Grid.ColumnDefinitions>
-                            <Label  Content="{DynamicResource LangKeyWhitelistedUsers}" FontFamily="{StaticResource BuildTitle}" Foreground="Black"
-                                VerticalAlignment="Center" FontSize="25"/>
+                            <Label  Content="{DynamicResource LangKeyWhitelistedUsers}" Margin="0,-5,0,0" FontFamily="{StaticResource BuildTitle}" Foreground="Black"
+                                 FontSize="25"/>
                             <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" Grid.Column="1" HorizontalScrollBarVisibility="Auto">
                                 <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right">
                                     <CheckBox Name="SelectAll"  Foreground="Black" IsChecked="{Binding IsAllWhiteListUserChecked}"

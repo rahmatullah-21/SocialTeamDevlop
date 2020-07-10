@@ -31,7 +31,7 @@
                     Visibility="{Binding SelectAccountVisibility,Converter={StaticResource BooleanToVisibilityConverter}}"
                     Command="{Binding SelectAccountCommand}" >
                 <Button.Content>
-                    <Border  Height="30" Width="150">
+                    <Border  Height="20" Width="100">
                         <!--<Border.Background>
                             <ImageBrush ImageSource="/DominatorUIUtility;component/Images/selectaccountunselected.png" Stretch="Fill"/>
                         </Border.Background>-->
@@ -74,7 +74,7 @@
                 <Button Name="btnCampaignManager" HorizontalAlignment="Right"
                         Grid.Column="0" Background="Transparent"  
                         Width="160"  Command="{Binding CreateCampaignCommand}" CommandParameter="{Binding}">
-                    <Border x:Name="border"  Height="30" Width="120">
+                    <Border x:Name="border"  Height="20" Width="60">
                         <Border.Background>
                             <ImageBrush ImageSource="/DominatorUIUtility;component/Images/GetCrucialBG.png" Stretch="Fill"/>
                         </Border.Background>
