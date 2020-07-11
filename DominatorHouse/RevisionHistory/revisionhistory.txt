@@ -1,3 +1,15 @@
+Version[1.0.0.89],[11th July 2020] 
+Fixed:-
+	Social:
+ 		Social ==>linkedin ==> Sociopublisher ==> Fixed issue with posting on wall.
+
+	Instagram:
+		Account manager ==> Account ==> Fixed issue with account login failed
+	
+	Linkedin :
+		Messager ==> Broadcast Message ==> Fixed issue in Skip Blaklisted User
+		Messager ==> Send Greeting To Connections ==> Fixed issue with Send old bithday Greeting.
+
 Version[1.0.0.88],[4th July 2020]  
 New features:-
 	Linkedin :
