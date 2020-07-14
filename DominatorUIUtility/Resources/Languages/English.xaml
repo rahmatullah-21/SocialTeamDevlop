@@ -133,7 +133,7 @@
     <system:String x:Key="LangKeyAdvancedSettings">Advanced Settings</system:String>
     <system:String x:Key="LangKeyAdvancedTools">Advanced Tools</system:String>
     <system:String x:Key="LangKeyAfter">After</system:String>
-    <system:String x:Key="LangKeyAfterChannelScraperAction">After Channel Scraper Action</system:String>
+    <system:String x:Key="LangKeyAfterChannelScraperAction">After Channel Niching Action</system:String>
     <system:String x:Key="LangKeyAfterCommentAction">After Comment Action</system:String>
     <system:String x:Key="LangKeyAfterDeleteActions">After Delete Actions</system:String>
     <system:String x:Key="LangKeyAfterDeleteCommentAction">After Delete Comment Action</system:String>
@@ -150,13 +150,13 @@
     <system:String x:Key="LangKeyAfterLikecommentAction">After Likecomment Action</system:String>
     <system:String x:Key="LangKeyAfterLiketocommentAction">After Liketocomment Action</system:String>
     <system:String x:Key="LangKeyAfterMessageAction">After Message Action</system:String>
-    <system:String x:Key="LangKeyAfterPostScraperAction">After Post Scraper Action</system:String>
-    <system:String x:Key="LangKeyAfterQuestionsScraper">After Questions Scraper</system:String>
+    <system:String x:Key="LangKeyAfterPostScraperAction">After Post Niching Action</system:String>
+    <system:String x:Key="LangKeyAfterQuestionsScraper">After Questions Niching</system:String>
     <system:String x:Key="LangKeyAfterRepinAction">After Repin Action</system:String>
     <system:String x:Key="LangKeyAfterReportAnswer">After Report Answer</system:String>
     <system:String x:Key="LangKeyAfterReposterAction">After Reposter Action</system:String>
     <system:String x:Key="LangKeyAfterRetweetAction">After Retweet Action</system:String>
-    <system:String x:Key="LangKeyAfterScrapeUser">After Scrape User</system:String>
+    <system:String x:Key="LangKeyAfterScrapeUser">After Niching User</system:String>
     <system:String x:Key="LangKeyAfterShareAction">After Share Action</system:String>
     <system:String x:Key="LangKeyAfterSubscribeAction">After Subscribe Action</system:String>
     <system:String x:Key="LangKeyAfterTryAction">After Try Action</system:String>
@@ -958,7 +958,7 @@
     <system:String x:Key="LangKeyInstaliker/Instacommenter">CRUCIAL ENGAGEMENT</system:String>
     <system:String x:Key="LangKeyInstallNewAvailableUpdatesBetween">Install New Available Updates Between</system:String>
     <system:String x:Key="LangKeyInstaposter">CRUCIAL REPOSTER</system:String>
-    <system:String x:Key="LangKeyInstascrape">INSTA SCRAPE</system:String>
+    <system:String x:Key="LangKeyInstascrape">CRUCIAL NICHING</system:String>
     <system:String x:Key="LangKeyInvalidCredentials">Invalid Credentials</system:String>
     <system:String x:Key="LangKeyInviteBy">Invite By</system:String>
     <system:String x:Key="LangKeyInviteMaxProfilesPerDay">Invite Max Profiles Per Day</system:String>
@@ -3656,7 +3656,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyLocalIp">Local Ip</system:String>
     <system:String x:Key="LangKeyTableView">Table View</system:String>
     <system:String x:Key="LangKeyTableViewDescription">You can check account growth</system:String>
-    <system:String x:Key="LangKeyChartsView">Charts View (Beta)</system:String>
+    <system:String x:Key="LangKeyChartsView">Charts View</system:String>
     <system:String x:Key="LangKeyAccountGrowthCharts">Account Growth Charts</system:String>
     <system:String x:Key="LangKeySelectPeriod">Select Period</system:String>
     <system:String x:Key="LangKeySelectType">Select Type</system:String>
@@ -4157,7 +4157,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeySwitchKeywordAfter">Switch keyword after</system:String>
     <system:String x:Key="LangKeyStoryViewer">Story Viewer</system:String>
     <system:String x:Key="LangKeyTooManyAttemptWithSameNumber">Too many attempts with the same PhoneNumber,Please use another number</system:String>
-    <system:String x:Key="LangKeyStory">CRUCIAL NICHING</system:String>
+    <system:String x:Key="LangKeyStory">CRUCIAL VIEW</system:String>
     <system:String x:Key="LangKeyLikeType">Like Type</system:String>
     <system:String x:Key="LangKeyIsLikedAsPage">Is Liked As Page</system:String>
     <system:String x:Key="LangKeyLikedAsPageUrl">Liked As Page Url</system:String>

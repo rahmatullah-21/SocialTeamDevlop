@@ -641,7 +641,7 @@ namespace DominatorHouse.ViewModels
 
             TabDock = Dock.Top;
             if (network == SocialNetworks.Social)
-                TabDock = Dock.Left;
+                TabDock = Dock.Top;
 
             // if "Account details" was opened in account manager, then discard all account details changes while switching network 
             var isAccountDetailsOpened = AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType;

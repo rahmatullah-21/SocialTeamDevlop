@@ -37,16 +37,20 @@ namespace Socinator
                 DialogParticipation.SetRegister(this, this);
                 Application.Current.MainWindow = this;
                 InitializeComponent();
-
+                this.Height = 400;
+                this.Width = 945;
+                this.Left = (SystemParameters.WorkArea.Width - Width) / 8 + SystemParameters.WorkArea.Left;
+                this.Top = (SystemParameters.WorkArea.Height - Height) / 2 + SystemParameters.WorkArea.Top;
+                WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 SocinatorInitialize.LogInitializer(this);
 
                 var interopHelper = new WindowInteropHelper(Application.Current.MainWindow);
                 var activeScreen = System.Windows.Forms.Screen.FromHandle(interopHelper.Handle);
 
                 mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
-
-                mainViewModel.ScreenResolution = new KeyValuePair<int, int>
-                    (activeScreen.WorkingArea.Width, activeScreen.WorkingArea.Height);
+               
+                //mainViewModel.ScreenResolution = new KeyValuePair<int, int>
+                //    (activeScreen.WorkingArea.Width, activeScreen.WorkingArea.Height);
 
                 SocinatorWindow.DataContext = mainViewModel;
                 Loaded += (o, e) =>
@@ -144,7 +148,7 @@ namespace Socinator
                         }
                         break;
                 }
-
+                
                 newAccent = ThemeManager.GetAccent(colorName);
                 newAppTheme = ThemeManager.GetAppTheme(themeName);
                 ThemeManager.ChangeAppStyle(Application.Current, newAccent, newAppTheme);
@@ -163,8 +167,22 @@ namespace Socinator
         {
             if (this.WindowState == WindowState.Maximized)
                 this.WindowState = WindowState.Normal;
+            else if(this.Height== SystemParameters.WorkArea.Height && this.Width== SystemParameters.WorkArea.Width)
+            {
+                this.Height = 400;
+                this.Width = 1085;
+                this.Left = (SystemParameters.WorkArea.Width - Width)/2  + SystemParameters.WorkArea.Left;
+                this.Top = (SystemParameters.WorkArea.Height - Height) / 2 + SystemParameters.WorkArea.Top;
+            }
             else
-                this.WindowState = WindowState.Maximized;
+            {
+                //this.WindowState = WindowState.Maximized;
+                this.Height = SystemParameters.WorkArea.Height;
+                this.Width = SystemParameters.WorkArea.Width;
+                this.Left = (SystemParameters.WorkArea.Width - Width) / 2 + SystemParameters.WorkArea.Left;
+                this.Top = (SystemParameters.WorkArea.Height - Height) / 2 + SystemParameters.WorkArea.Top;
+            }
+
         }
 
         private void button_Minimize(object sender, RoutedEventArgs e)

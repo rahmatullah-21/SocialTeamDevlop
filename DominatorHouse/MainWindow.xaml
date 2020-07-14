@@ -12,23 +12,26 @@
         xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
-        BorderThickness="1" 
-        GlowBrush="{DynamicResource AccentColorBrush}"
-        xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+        BorderThickness="0"
+        xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore" 
         ShowCloseButton="False"  ShowMinButton="False" ShowMaxRestoreButton="False" ShowTitleBar="False"
-        Name="SocinatorWindow" MinWidth="900"  MinHeight="700"
-        WindowState="Maximized" >
+        Name="SocinatorWindow" MinWidth="700"  MinHeight="700"
+        AllowsTransparency="True" WindowStyle="None" UseNoneWindowStyle="True" Background="Transparent"
+        WindowState="Normal" >
 
     <Window.Resources>
         <ResourceDictionary>
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type dragable:TabablzControl}">
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}"/>
             </Style>
+            
             <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter"/>
         </ResourceDictionary>
+        
     </Window.Resources>
 
     <!--Manage Networks Here -->
@@ -43,13 +46,14 @@
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>-->
 
-    <Border MouseDown="Drag_Event" BorderThickness="1,20,1,1" BorderBrush="Black" CornerRadius="5">
+    <Border MouseDown="Drag_Event" BorderThickness="1,20,1,0" BorderBrush="Black" CornerRadius="10">
         
         <Grid Name="MainGrid" >
             <Grid.Background>
                 <ImageBrush   ImageSource="Images/crucial-background.png" Stretch="UniformToFill"/>
             </Grid.Background>
             <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
                 <RowDefinition Height="44"/>
                 <RowDefinition Height="45"/>
                 <RowDefinition Height="50"/>
@@ -58,8 +62,8 @@
                 <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
-
-            <Border BorderBrush="Gray"  Grid.ColumnSpan="2" Height="45" Background="{DynamicResource AccentLightColorBrush}">
+            <Border CornerRadius="0,0,5,5" Grid.Row="7" VerticalAlignment="Bottom"  Background="Black"></Border>
+            <Border BorderBrush="Gray" Grid.Row="1" Grid.ColumnSpan="2" Height="45" Background="{DynamicResource AccentLightColorBrush}">
                 <Grid Height="45" Grid.ColumnSpan="2" Background="{DynamicResource AccentLightColorBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -137,15 +141,15 @@
                 </Grid>
                 
             </Border>
-            <Border Grid.Row="1"  Height="45" Grid.ColumnSpan="2" Background="{DynamicResource AccentColorBrush}">
+            <Border Grid.Row="2"  Height="45" Grid.ColumnSpan="2" Background="{DynamicResource AccentColorBrush}">
                 <Border.Effect>
                     <DropShadowEffect ShadowDepth="2" Direction="-90"  BlurRadius="5" Color="#B0B4B4"/>
                 </Border.Effect>
             </Border>
             <!--Account Growth Mode Tabs-->
 
-            <Border Grid.Row="3" Background="Transparent"  Margin="40,0,40,15" CornerRadius="5">
-
+            <Border x:Name="MainBorder" Grid.Row="4" Padding="20"  Margin="40,0,40,15" CornerRadius="5">
+                
                 <TabControl Grid.Row="1" Margin="5"  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
                     Foreground="Black" BorderThickness="0">
@@ -153,17 +157,28 @@
                     <TabControl.Style>
                         <Style TargetType="TabControl">
                             <Style.Triggers>
-                                <Trigger Property="TabStripPlacement" Value="Left">
-                                    <Setter Property="Template" Value="{DynamicResource LeftTabstyle1}"></Setter>
-                                    <Setter Property="ItemContainerStyle" Value="{DynamicResource LeftTabItemStyle}"/>
+                                <!--<Trigger Property="TabStripPlacement" Value="Left">
+                                    <Setter Property="TabStripPlacement" Value="Top"/>
+                                    <Setter Property="Template" Value="{DynamicResource TopTabstyle}"></Setter>
+                                    <Setter Property="ItemContainerStyle" Value="{DynamicResource TabItemStyle}"/>
                                     <Setter Property="ItemTemplate">
                                         <Setter.Value>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Title}" FontFamily="{StaticResource RajdhaniMedium}" />
+                                                <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="#ffffff" Margin="0,0,0,0"
+                        StrokeThickness="0.4"
+		                Stroke="Black"                                            
+		                FontFamily="{StaticResource BuildTitleRg}"
+		                FontSize="14.5">
+                                                    <utility:TextPath.Effect>
+                                                        <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="0" Color="Black" ></DropShadowEffect>
+                                                    </utility:TextPath.Effect>
+                                                </utility:TextPath>
                                             </DataTemplate>
                                         </Setter.Value>
                                     </Setter>
-                                </Trigger>
+                                </Trigger>-->
                                 <Trigger Property="TabStripPlacement" Value="Top">
                                     <Setter Property="Template" Value="{DynamicResource TopTabstyle}"></Setter>
                                     <Setter Property="ItemContainerStyle" Value="{DynamicResource TabItemStyle}"/>
@@ -175,7 +190,7 @@
 		                Fill="#ffffff" Margin="0,0,0,0"
                         StrokeThickness="0.4"
 		                Stroke="Black"                                            
-		                FontFamily="{StaticResource BuildTitleBdIt}"
+		                FontFamily="{StaticResource BuildTitleRg}"
 		                FontSize="14.5">
                                                     <utility:TextPath.Effect>
                                                         <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="0" Color="Black" ></DropShadowEffect>
@@ -217,21 +232,21 @@
             </Border>
 
 
-            <Image Width="15" Height="15" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,2,20,5" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
+            <Image Width="15" Height="15" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,2,20,5" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/info.png"/>
 
-            <GridSplitter Grid.Row="4" BorderThickness="2" Style="{StaticResource GridSplitterStyle1}" HorizontalAlignment="Stretch" Background="#FFD40000"  ResizeBehavior="BasedOnAlignment"
+            <GridSplitter Grid.Row="5" BorderThickness="2" Style="{StaticResource GridSplitterStyle1}" HorizontalAlignment="Stretch" Background="#FFD40000"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows" IsEnabled="{Binding IsEnabled,ElementName=statusbar}"/>
 
-            <Grid Name="Logger" Grid.Row="5" Margin="5">
+            <Grid Name="Logger" Grid.Row="6" Margin="5">
                 <views:LogView MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" ViewModel="{Binding LogViewModel, Mode=OneWay}"
                            AvailableAccounts="{Binding AccountList, Mode=OneWay}"
                            AvailableNetworks="{Binding AvailableNetworks.ItemsCollection, Mode=OneWay}" x:Name="RootLayout"></views:LogView>
             </Grid>
 
-            <Grid Grid.Row="6" VerticalAlignment="Bottom">
+            <Border CornerRadius="0,0,5,5" Grid.Row="7" Background="Transparent" VerticalAlignment="Bottom">
                 <!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>-->
-                <ContentControl Background="Black" regions:RegionManager.RegionName="PerfCounterRegion" x:Name="statusbar"/>
-            </Grid>
+                <ContentControl Background="Transparent" regions:RegionManager.RegionName="PerfCounterRegion" x:Name="statusbar"/>
+            </Border>
 
         </Grid>
     </Border>

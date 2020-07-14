@@ -41,7 +41,7 @@
         <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
     </UserControl.Resources>
     <Grid Name="MainGrid" Margin="-2">
-        <TabControl Background="Transparent" ItemContainerStyle="{StaticResource TabItemStyle}">
+        <TabControl Background="Transparent" ItemContainerStyle="{StaticResource TabItemStyle}" Template="{StaticResource TopTabstyle1}">
             <TabControl.Style>
                 <Style TargetType="TabControl">
                     <Setter Property="ItemTemplate">
@@ -49,11 +49,11 @@
                             <DataTemplate>
                                 <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
 		                VerticalAlignment="Center"
-		                Fill="Black"
-		                Stroke="White"                                             
+		                Fill="#ffffff" Margin="0,0,0,0"
+                        StrokeThickness="0.4"
+		                Stroke="Black"                                            
 		                FontFamily="{StaticResource BuildTitleRg}"
-		                FontSize="16"
-                        FontWeight="Bold">
+		                FontSize="14.5">
 
                                 </utility:TextPath>
                             </DataTemplate>
@@ -64,18 +64,12 @@
             <TabItem>
                 <TabItem.Header>
                     <utility:TextPath Text="{DynamicResource LangKeyTableView}"   HorizontalAlignment="Center"
-		                VerticalAlignment="Center"
-		                Fill="#ffffff"
-                        StrokeThickness="0.5"
-                        StrokeMiterLimit="1"
-		                Stroke="Black"
-                        FontStyle="Italic"
+		                 VerticalAlignment="Center"
+		                Fill="#ffffff" Margin="0,0,0,0"
+                        StrokeThickness="0.4"
+		                Stroke="Black"                                            
 		                FontFamily="{StaticResource BuildTitleRg}"
-		                FontSize="15.75"
-                        FontWeight="Bold">
-                        <utility:TextPath.Effect>
-                            <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="30" Color="Black" ></DropShadowEffect>
-                        </utility:TextPath.Effect>
+		                FontSize="14.5">
                     </utility:TextPath>
                 </TabItem.Header>
                 <Grid  >
@@ -271,18 +265,12 @@
             <TabItem >
                 <TabItem.Header>
                     <utility:TextPath Text="{DynamicResource LangKeyChartsView}"   HorizontalAlignment="Center"
-		                VerticalAlignment="Center"
-		                Fill="#ffffff"
-                       StrokeThickness="0.5"
-                        StrokeMiterLimit="1"
-		                Stroke="Black"
-                        FontStyle="Italic"
+		                 VerticalAlignment="Center"
+		                Fill="#ffffff" Margin="0,0,0,0"
+                        StrokeThickness="0.4"
+		                Stroke="Black"                                            
 		                FontFamily="{StaticResource BuildTitleRg}"
-		                FontSize="15.75"
-                        FontWeight="Bold">
-                        <utility:TextPath.Effect>
-                            <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="30" Color="Black" ></DropShadowEffect>
-                        </utility:TextPath.Effect>
+		                FontSize="14.5">
                     </utility:TextPath>
                 </TabItem.Header>
                 <Grid >

@@ -8,77 +8,79 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Template>
         <ControlTemplate>
-            <Grid>
-                <StatusBar Background="Black" Height="25" VerticalAlignment="Center" >
-                    <StatusBar.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                            </Grid>
-                        </ItemsPanelTemplate>
-                    </StatusBar.ItemsPanel>
+            <Border Background="Black" BorderThickness="0" BorderBrush='Transparent' CornerRadius="0,0,5,5">
+                <Grid Background="Transparent">
+                    <StatusBar Background="Transparent" Height="25" VerticalAlignment="Center" >
+                        <StatusBar.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                            </ItemsPanelTemplate>
+                        </StatusBar.ItemsPanel>
 
-                    <StatusBarItem  Grid.Column="0" HorizontalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Foreground="White" FontFamily="{StaticResource RajdhaniBold}">
+                        <StatusBarItem  Grid.Column="0" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Foreground="White" FontFamily="{StaticResource RajdhaniBold}">
                                 <Run Text="{DynamicResource LangKeyDate}"/>
                                 <Run Text=" "/>
                                 <Run Text="{Binding CurrentDateTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
-                            </TextBlock>
-                        </StackPanel>
-                    </StatusBarItem>
+                                </TextBlock>
+                            </StackPanel>
+                        </StatusBarItem>
 
-                    <StatusBarItem  Grid.Column="1" HorizontalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  Foreground="White" FontFamily="{StaticResource RajdhaniBold}">
+                        <StatusBarItem  Grid.Column="1" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock  Foreground="White" FontFamily="{StaticResource RajdhaniBold}">
                                 <Run Text="{DynamicResource LangKeyAvailableMemory}"/>
                                 <Run Text=" "/>
                                 <Run Text="{Binding AvailableMemory, Mode=OneWay}"/>
                                 <Run Text="MB"/>
-                            </TextBlock>
-                        </StackPanel>
-                    </StatusBarItem>
+                                </TextBlock>
+                            </StackPanel>
+                        </StatusBarItem>
 
-                    <StatusBarItem  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <TextBlock Text="{DynamicResource LangKeyActivityLog}" FontFamily="{StaticResource RajdhaniBold}" Name="ActivityLog">
+                        <StatusBarItem  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="{DynamicResource LangKeyActivityLog}" FontFamily="{StaticResource RajdhaniBold}" Name="ActivityLog">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
                                     <i:InvokeCommandAction Command="{Binding Path=ShowHideLogCmd, Mode=OneWay}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                        </TextBlock>
-                    </StatusBarItem>
+                            </TextBlock>
+                        </StatusBarItem>
 
-                    <StatusBarItem  Grid.Column="3" HorizontalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
+                        <StatusBarItem  Grid.Column="3" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
 
-                            <TextBlock Foreground="White" FontFamily="{StaticResource RajdhaniBold}">
+                                <TextBlock Foreground="White" FontFamily="{StaticResource RajdhaniBold}">
                                 <Run Text="{DynamicResource LangKeyCPUUsage}"/>
                                 <Run Text=" "/>
                                 <Run Text="{Binding CpuUsage, Mode=OneWay}"/>
                                 <Run Text="%"/>
-                            </TextBlock>
-                        </StackPanel>
-                    </StatusBarItem>
+                                </TextBlock>
+                            </StackPanel>
+                        </StatusBarItem>
 
-                    <StatusBarItem  Grid.Column="4" HorizontalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock 
+                        <StatusBarItem  Grid.Column="4" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock 
                                    Foreground="White" FontFamily="{StaticResource RajdhaniBold}">
                                 <Run Text="{DynamicResource LangKeyLoadedMemory}"/>
                                 <Run Text=" "/>
                                 <Run Text="{Binding LoadedMemory, Mode=OneWay}"/>
-                            </TextBlock>
-                        </StackPanel>
-                    </StatusBarItem>
-                </StatusBar>
-            </Grid>
+                                </TextBlock>
+                            </StackPanel>
+                        </StatusBarItem>
+                    </StatusBar>
+                </Grid>
+            </Border>
         </ControlTemplate>
     </UserControl.Template>
 </UserControl>

@@ -4,13 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" MinHeight="40" x:Name="root"
+             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
+             xmlns:iconpack="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:behaviour="clr-namespace:DominatorUIUtility.Behaviours">
+
     <Grid  Background="{DynamicResource AccentBaseColorBrush}"  Name="mainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="{DynamicResource LangKeyAccounts}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+        <utility:TextPath Text="{DynamicResource LangKeyAccounts}" FontFamily="{StaticResource BuildTitleSbIt}" StrokeThickness="0.5" Margin="10,8,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
         <Grid Grid.Column="1" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
 
@@ -24,12 +27,33 @@
                             <Setter Property="IsChecked" Value="{Binding IsExpanded,UpdateSourceTrigger=PropertyChanged}" />
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Content" Value="{DynamicResource LangKeyCollapseAll}" />
-                                    <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
-                                </Trigger>
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <Border Background="WhiteSmoke" Height="30" Width="Auto"  BorderBrush="Gray" CornerRadius="10" BorderThickness="1">
+                                                    <StackPanel Orientation="Horizontal" Margin="5,0,10,0" HorizontalAlignment="Center">
+                                                        <!--<Image Height="20" Width="20" Source="/DominatorUIUtility;component/Images/collapse.png"/>-->
+                                                        <iconpack:PackIconFontAwesome Kind="MinusCircleSolid" VerticalAlignment="Center" Foreground="Black" Height="20" Width="20"/>
+                                                        <utility:TextPath Text="{DynamicResource LangKeyCollapseAll}" Margin="5,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRg}" Fill="Black" Stroke="White" StrokeThickness="0.9" FontSize="16" FontWeight="Bold"/>
+
+                                                    </StackPanel>
+                                                </Border>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Background" Value="Transparent" />
+                                    </Trigger>
                                 <Trigger Property="IsChecked" Value="False">
-                                    <Setter Property="Content" Value="{DynamicResource LangKeyExpandAll}" />
-                                    <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Border Background="WhiteSmoke" Height="30" Width="Auto"  BorderBrush="Gray" CornerRadius="10" BorderThickness="1">
+                                                <StackPanel Orientation="Horizontal" Margin="5,0,10,0" HorizontalAlignment="Center">
+                                                    <!--<Image Height="20" Width="20" Source="/DominatorUIUtility;component/Images/expand.ico"/>-->
+                                                    <iconpack:PackIconFontAwesome Kind="PlusCircleSolid" VerticalAlignment="Center" Foreground="Black" Height="20" Width="20"/>
+                                                    <utility:TextPath Text="{DynamicResource LangKeyExpandAll}" Margin="5,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRg}" Fill="Black" Stroke="White" StrokeThickness="0.9"  FontSize="16" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="Transparent" />
                                 </Trigger>
                             </Style.Triggers>
 
@@ -38,28 +62,28 @@
                 </ToggleButton>
                 <Button Command="{Binding SaveCommand}" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" VerticalAlignment="Center" >
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle Width="15" Height="15" Fill="White">
+                        <Rectangle Width="15" Height="15" Fill="Black">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <AccessText Margin="6,0" Text="{DynamicResource LangKey_Save}" />
+                        <AccessText Margin="6,0" Text="{DynamicResource LangKey_Save}" Foreground="Black" FontFamily="{StaticResource RajdhaniBold}"/>
                     </StackPanel>
                 </Button>
                 <Button  VerticalAlignment="Center"   Background="Transparent" Foreground="White" Command="{Binding TutorialCommand}" CommandParameter="{Binding VideoTutorialLink}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="15" Height="15" Fill="White">
+                            <Rectangle Width="15" Height="15" Fill="Black">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Visual="{StaticResource appbar_video}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource LangKeyTutorials}" Margin="6,0"/>
+                            <TextBlock Text="{DynamicResource LangKeyTutorials}" Foreground="Black" FontFamily="{StaticResource RajdhaniBold}" Margin="6,0"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
             </StackPanel>
-            <ComboBox VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged"  Margin="15,0" Background="Transparent" Foreground="White" Grid.Column="2" BorderThickness="1"
+            <ComboBox Style="{StaticResource CommonComboBoxStyle}" VerticalAlignment="Center" Width="260" SelectionChanged="ComboBox_SelectionChanged"  Margin="15,0" Background="Transparent" Foreground="Black" Grid.Column="2" BorderThickness="1"
                       BorderBrush="AntiqueWhite" ItemsSource="{Binding AccountItemSource}" SelectedItem="{Binding SelectedItem}"
                       behaviour:SelectionChangedBehaviour.Command="{Binding SelectionChangedCommand}"/>
 
