@@ -344,6 +344,8 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyStopAll")]
         StopAll = 123,
         [Description("Youtube")]
-        ReportVideo = 124
+        ReportVideo = 124,
+        [Description("LinkedIn")]
+        SendPageInvitations
     }
 }

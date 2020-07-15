@@ -17,23 +17,23 @@ namespace DominatorHouseCore.Converters
                 switch (network.Value)
                 {
                     case SocialNetworks.Facebook:
-                        return "/DominatorUIUtility;component/Images/RedditNew.png";
+                        return "/DominatorUIUtility;component/Images/FacebookNew.png";
                     case SocialNetworks.Instagram:
                         return "/DominatorUIUtility;component/Images/InstagramNew.png";
                     case SocialNetworks.Twitter:
-                        return "/DominatorUIUtility;component/Images/RedditNew.png";
+                        return "/DominatorUIUtility;component/Images/TwitterNew.png";
                     case SocialNetworks.Pinterest:
-                        return "/DominatorUIUtility;component/Images/RedditNew.png";
+                        return "/DominatorUIUtility;component/Images/PinterestNew.png";
                     case SocialNetworks.LinkedIn:
-                        return "/DominatorUIUtility;component/Images/RedditNew.png";
+                        return "/DominatorUIUtility;component/Images/TwitterNew.png";
                     case SocialNetworks.Reddit:
                         return "/DominatorUIUtility;component/Images/RedditNew.png";
                     case SocialNetworks.Quora:
-                        return "/DominatorUIUtility;component/Images/RedditNew.png";
+                        return "/DominatorUIUtility;component/Images/QuoraNew.png";
                     //case SocialNetworks.Gplus:
                     //    return Application.Current?.FindResource("appbar_googleplus");
                     case SocialNetworks.Youtube:
-                        return "/DominatorUIUtility;component/Images/RedditNew.png";
+                        return "/DominatorUIUtility;component/Images/YoutubeNew.png";
                     case SocialNetworks.Tumblr:
                         return "/DominatorUIUtility;component/Images/TumblrNew.png";
                     case SocialNetworks.Social:

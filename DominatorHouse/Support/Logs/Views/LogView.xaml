@@ -54,7 +54,7 @@
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Rectangle Margin="5,0" VerticalAlignment="Center"
+                                        <!--<Rectangle Margin="5,0" VerticalAlignment="Center"
                                                    Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}"
                                                    Width="12" Height="12">
                                             <Rectangle.OpacityMask>
@@ -62,7 +62,8 @@
                                                     Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}"
                                                     Stretch="Fill" />
                                             </Rectangle.OpacityMask>
-                                        </Rectangle>
+                                        </Rectangle>-->
+                                        <Image Name="NetworkIcon" Margin="5,5,10,0"  Height="12" Width="12" Source="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
                                         <TextBlock Text="{Binding AccountBaseModel.UserName}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"/>
                                     </StackPanel>
                                 </DataTemplate>
