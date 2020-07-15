@@ -58,15 +58,12 @@
                 <Button.Content>
                     <Border Margin="5"  Background="Red" Height="30" Width="150"  BorderBrush="Red" CornerRadius="10" BorderThickness="1">
                         <StackPanel Orientation="Horizontal">
-
                             <Rectangle Margin="5" Width="15" Height="15" Fill="Black">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-
                             <utility:TextPath Text="{DynamicResource LangKeyCancelEditing}" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BuildTitleRg}" Fill="Black" Stroke="Red" StrokeThickness="0.8"  FontSize="16"/>
-
                         </StackPanel>
                     </Border>
                 </Button.Content>

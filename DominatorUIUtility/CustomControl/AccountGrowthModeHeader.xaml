@@ -10,11 +10,11 @@
 
     <Grid  Background="{DynamicResource AccentBaseColorBrush}"  Name="mainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <utility:TextPath Text="{DynamicResource LangKeyAccounts}" FontFamily="{StaticResource BuildTitleSbIt}" StrokeThickness="0.5" Margin="10,8,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
-        <Grid Grid.Column="1" VerticalAlignment="Center">
+        <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
             <Grid.ColumnDefinitions>
 
                 <ColumnDefinition Width="*"/>
