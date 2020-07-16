@@ -21,10 +21,10 @@
             <CheckBox Content="{DynamicResource LangKeyFilter}" x:Name="ChkFilter" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Visibility="{Binding ReportModel.FollowRate, Converter={StaticResource BooleanToVisibilityConverter}}" Background="{DynamicResource AccentBaseColorBrush}"
-                     Foreground="White" Margin="0,0,5,0"  HorizontalAlignment="Left" VerticalAlignment="Center" Click="ClkFollowRate">
+                     Foreground="Black" Margin="0,0,5,0"  HorizontalAlignment="Left" VerticalAlignment="Center" Click="ClkFollowRate">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="12" Height="15" Fill="White"  VerticalAlignment="Center"
+                            <Rectangle Width="12" Height="15" Fill="Black"  VerticalAlignment="Center"
                                        ToolTip="{DynamicResource LangKeyFollowRate}">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
@@ -36,16 +36,16 @@
                 </Button>
 
                 <Button  Background="{DynamicResource AccentBaseColorBrush}" Click="RefreshReport"
-                     Foreground="White" Margin="0,0,5,0"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                     Foreground="Black" Margin="0,0,5,0"  HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="12" Height="15" Fill="White"  VerticalAlignment="Center"
+                            <Rectangle Width="12" Height="15" Fill="Black"  VerticalAlignment="Center"
                                        ToolTip="{DynamicResource LangKeyRefresh}">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Margin="5,0" Text="{DynamicResource LangKeyRefresh}"/>
+                            <TextBlock Margin="5,0" Foreground="Black" Text="{DynamicResource LangKeyRefresh}"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -53,12 +53,12 @@
                     x:FieldModifier="public" Click="ExportReport_Click">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
+                            <Rectangle  Width="16" Height="15" Fill="Black" VerticalAlignment="Center">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_out}"></VisualBrush>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource LangKeyExport}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+                            <TextBlock Text="{DynamicResource LangKeyExport}" Foreground="Black" Margin="5,0,0,0" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -67,14 +67,14 @@
 
         <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
             <!--Visibility="{Binding IsChecked, ElementName=ChkFilter,Converter={StaticResource BooleanToVisibilityConverter}}">-->
-            <ComboBox VerticalAlignment="Center" x:Name="CmbAccounts" x:FieldModifier="public" Width="130" Margin="10 0 0 5" ItemsSource="{Binding ReportModel.AccountList}" Visibility="{Binding ReportModel.AccountList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource LangKeySelectAccountS}">
+            <ComboBox Style="{StaticResource CommonComboBoxStyle}" VerticalAlignment="Center" x:Name="CmbAccounts" x:FieldModifier="public" Width="130" Margin="10 0 0 5" ItemsSource="{Binding ReportModel.AccountList}" Visibility="{Binding ReportModel.AccountList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource LangKeySelectAccountS}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Content}" Name="AccountCheckBox" IsChecked="{Binding IsContentSelected}"  />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ComboBox VerticalAlignment="Center"  x:Name="CmbQueries" x:FieldModifier="public" Width="130" Margin="8 0 0 5" ItemsSource="{Binding ReportModel.QueryList}" Visibility="{Binding ReportModel.QueryList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource LangKeySelectQuery}">
+            <ComboBox Style="{StaticResource CommonComboBoxStyle}" VerticalAlignment="Center"  x:Name="CmbQueries" x:FieldModifier="public" Width="130" Margin="8 0 0 5" ItemsSource="{Binding ReportModel.QueryList}" Visibility="{Binding ReportModel.QueryList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource LangKeySelectQuery}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Content}" Name="QueryCheckBox" IsChecked="{Binding IsContentSelected}"  />
@@ -83,7 +83,7 @@
             </ComboBox>
             <DatePicker VerticalAlignment="Center" Width="130" Margin="8 0 0 5"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStartDate}"/>
             <DatePicker VerticalAlignment="Center" Width="130" Margin="8 0 0 5"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEndDate}"/>
-            <ComboBox VerticalAlignment="Center" x:Name="CmbStatus" x:FieldModifier="public" Width="130" Margin="8 0 10 5" ItemsSource="{Binding ReportModel.StatusList}" Visibility="{Binding ReportModel.StatusList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStatus}">
+            <ComboBox Style="{StaticResource CommonComboBoxStyle}" VerticalAlignment="Center" x:Name="CmbStatus" x:FieldModifier="public" Width="130" Margin="8 0 10 5" ItemsSource="{Binding ReportModel.StatusList}" Visibility="{Binding ReportModel.StatusList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStatus}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Content}" Name="StatusCheckBox" IsChecked="{Binding IsContentSelected}"  />
@@ -92,50 +92,52 @@
             </ComboBox>
         </StackPanel>
 
-        <ListView ItemsSource="{Binding ReportModel.ReportCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,IsAsync=True}" 
+        <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ListView ItemsSource="{Binding ReportModel.ReportCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,IsAsync=True}" 
                   Margin="5" Name="ReportsListView" Grid.Row="2" Foreground="{DynamicResource AccentBaseColorBrush}"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.IsDeferredScrollingEnabled="True">
-            <ListView.ItemContainerStyle >
-                <Style TargetType="{x:Type ListViewItem}" >
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <Grid Background="{TemplateBinding Background}">
-                                    <Border Name="Selection" Visibility="Collapsed" />
-                                    <!-- This is used when GridView is put inside the ListView -->
-                                    <GridViewRowPresenter Grid.RowSpan="2"
+                <ListView.ItemContainerStyle >
+                    <Style TargetType="{x:Type ListViewItem}" >
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <Border Name="Selection" Visibility="Collapsed" />
+                                        <!-- This is used when GridView is put inside the ListView -->
+                                        <GridViewRowPresenter Grid.RowSpan="2"
                                       Margin="{TemplateBinding Padding}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="MinHeight" Value="27"/>
-                    <Setter Property="Height" Value="Auto"/>
-                    <Setter Property="MaxHeight" Value="50"/>
-                    <Setter Property="Focusable" Value="False"/>
-                    <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme1}"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="False">
-                            <Setter Property="Background" Value="Transparent" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView utility:GridViewColumns.ColumnHeader="ColumnHeaderText" 
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="MinHeight" Value="27"/>
+                        <Setter Property="Height" Value="Auto"/>
+                        <Setter Property="MaxHeight" Value="50"/>
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme1}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView utility:GridViewColumns.ColumnHeader="ColumnHeaderText" 
                           utility:GridViewColumns.ColumnBinding="ColumnBindingText" 
                           utility:GridViewColumns.ColumnValues="{Binding ReportModel.GridViewColumn,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-            </ListView.View>
-        </ListView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
 
     </Grid>
     

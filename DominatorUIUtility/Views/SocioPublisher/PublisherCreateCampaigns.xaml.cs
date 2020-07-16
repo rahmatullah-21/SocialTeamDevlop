@@ -57,7 +57,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void ToggleCampaignStatus_OnClick(object sender, RoutedEventArgs e)
         {
-            string onLabel = ToggleCampaignStatus.OnLabel;
+            string onLabel = ToggleCampaignStatus.Content==null?"Active":ToggleCampaignStatus.Content.ToString();
             switch (onLabel)
             {
                 case "Completed":

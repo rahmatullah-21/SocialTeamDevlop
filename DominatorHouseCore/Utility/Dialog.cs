@@ -58,7 +58,8 @@ namespace DominatorHouseCore.Utility
                 WindowTransitionsEnabled = false,
                 Title = title,
                 BorderThickness = new Thickness(0),
-                GlowBrush = Brushes.Black
+                GlowBrush = Brushes.Black,
+                WindowTitleBrush  = Brushes.Black
 
             };
 

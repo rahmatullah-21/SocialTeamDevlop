@@ -16,25 +16,25 @@
                 <Button x:Name="ButtonSave" x:FieldModifier="public"  Margin="0,0,10,10" Background="Green" Foreground="White" >
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="15" Height="15" Fill="White">
+                            <Rectangle Width="15" Height="15" Fill="Black">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource LangKeySave}" Margin="6,0" Foreground="White"/>
+                            <TextBlock Text="{DynamicResource LangKeySave}" Margin="6,0" Foreground="Black"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
 
-                <Button x:Name="ButtonCancel" x:FieldModifier="public" Margin="0,0,8,10" Background="#ef1d1d" >
+                <Button x:Name="ButtonCancel" x:FieldModifier="public" Margin="0,0,8,10" Background="{DynamicResource AccentBaseColorBrush}" >
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="15" Height="15" Fill="White">
+                            <Rectangle Width="15" Height="15" Fill="Black">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0" Foreground="White"/>
+                            <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0" Foreground="Black"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>

@@ -25,16 +25,16 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Foreground="White" Text="{DynamicResource LangKeyFeedUrlDetails}" VerticalAlignment="Center" />
+                            <TextBlock Foreground="Black" Text="{DynamicResource LangKeyFeedUrlDetails}" VerticalAlignment="Center" />
 
                             <Button Background="Transparent" Grid.Column="1"
-                                    HorizontalAlignment="Right"  Name="BtnClear" Foreground="White"
+                                    HorizontalAlignment="Right"  Name="BtnClear" Foreground="Black"
                                     Command="{Binding ClearCommand}" Margin="1" 
                                     CommandParameter="{Binding ElementName=BtnClear}">
                                 <Button.Content>
                                     <Canvas  HorizontalAlignment="Right" Width="15"  Height="15" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0">
                                         <Path Width="15.7781" Height="15.7781"  Stretch="Fill"
-                                              Fill="Gainsboro"
+                                              Fill="Black"
                                               Data="F1 M 58.5833,45.9167L 58.5833,57L 19,57L 19,45.9167L 28.8998,45.9167C 31.0306,47.2793 33.6795,48.4476 36.6434,49.2418C 40.3467,50.2341 44.7079,50.4746 47.6249,50.0692L 47.6249,45.9167L 58.5833,45.9167 Z M 56.2083,48.2917L 53.4374,48.2917L 53.4374,53.0417L 56.2082,53.0417L 56.2083,48.2917 Z M 45.7433,48.2824C 43.1578,48.6418 39.9938,48.0327 36.7113,47.1532C 31.1866,45.6728 26.8965,42.7258 25.5163,39.7952L 32.2902,33.0213L 45.7433,38.0663L 45.7433,48.2824 Z M 39.2905,28.1719C 39.6351,28.1719 39.9737,28.1941 40.3047,28.2368L 46.0048,17.0498L 49.0712,18.6122L 43.5443,29.4594C 45.1454,30.5622 46.1735,32.2733 46.1735,34.1946C 46.1735,35.0197 45.9839,35.806 45.6407,36.5221L 33.4151,31.7762C 34.4796,29.6541 36.4722,28.1719 39.2905,28.1719 Z " />
                                     </Canvas>
                                 </Button.Content>
@@ -76,78 +76,79 @@
                         </StackPanel>
                     </StackPanel>
                 </GroupBox>
-               
+
             </StackPanel>
-           
-                <GroupBox Header="{DynamicResource LangKeyFeedUrlDetails}" Width="400" HorizontalAlignment="Left" Margin="10,0">
-                    <GroupBox.Style>
-                        <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
-                            <Setter Property="Visibility" Value="Visible"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding LstFeedUrl.Count}" Value="0">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </GroupBox.Style>
-                    <ItemsControl ItemsSource="{Binding LstFeedUrl}" MaxHeight="390" Name="UrlFeedItems">
-                        <ItemsControl.Template>
-                            <ControlTemplate>
-                                <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
-                                    <ItemsPresenter />
-                                </ScrollViewer>
-                            </ControlTemplate>
-                        </ItemsControl.Template>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="100"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding FeedUrl}"  Margin="4" TextWrapping="Wrap"/>
-                                    <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="1" VerticalAlignment="Center">
-                                        <Button Name="BtnEdit" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+
+            <GroupBox Header="{DynamicResource LangKeyFeedUrlDetails}" Width="400" HorizontalAlignment="Left" Margin="10,0">
+                <GroupBox.Style>
+                    <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding LstFeedUrl.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </GroupBox.Style>
+                <ItemsControl ItemsSource="{Binding LstFeedUrl}" MaxHeight="390" Name="UrlFeedItems">
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding FeedUrl}"  Margin="4" TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="1" VerticalAlignment="Center">
+                                    <Button Name="BtnEdit" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
                                         VerticalAlignment="Top"
                                         Command="{Binding ElementName=UrlFeedItems,Path=DataContext.EditCommand}"
                                         CommandParameter="{Binding ElementName=BtnEdit}">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <Rectangle Width="15" Height="15" Fill="White">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </StackPanel>
-                                        </Button>
-                                        <Button Name="BtnDelete" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="White">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Name="BtnDelete" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
                                         VerticalAlignment="Top" Margin="10,0" 
                                         Command="{Binding  ElementName=UrlFeedItems,Path=DataContext.DeleteCommand}"
                                         CommandParameter="{Binding ElementName=BtnDelete}">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <Rectangle Width="12" Height="15" Fill="White">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </StackPanel>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </GroupBox>
-                <!--<GroupBox Header="{DynamicResource LangKeyFeedTemplates}" Margin="10,0">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Rectangle Width="12" Height="15" Fill="White">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </GroupBox>
+            <!--<GroupBox Header="{DynamicResource LangKeyFeedTemplates}" Margin="10,0">
                     <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400"
                          Text="{Binding PublisherRssFeedModel.FeedTemplate}" FontWeight="SemiBold"/>
                 </GroupBox>-->
-           
+
 
         </StackPanel>
         <Button Background="{DynamicResource AccentBaseColorBrush}" Height="30" Width="150" 
-                HorizontalAlignment="Center" Margin="0,10,300,10" Name="BtnSave" Foreground="White"
+                HorizontalAlignment="Center" Margin="0,10,300,10" Name="BtnSave" Foreground="Black"
                 Command="{Binding SaveCommand}" Content="{Binding PublisherRssFeedModel.ButtonContent}"
                 CommandParameter="{Binding ElementName=BtnSave}" />
 
     </StackPanel>
 </UserControl>
+ 

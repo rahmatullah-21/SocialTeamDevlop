@@ -42,7 +42,7 @@
                     <CheckBox Content="{DynamicResource LangKeyKeywords}" VerticalAlignment="Center" Margin="3,5" IsChecked="{Binding SharePostModel.IsKeywords}"/>
                     <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddKeywords}"
                              Margin="2" TextWrapping="Wrap" Height="60" Width="250" AcceptsReturn="True"
-                             Text="{Binding SharePostModel.AddKeywords}"/>
+                             Text="{Binding SharePostModel.AddKeywords}" Visibility="{Binding SharePostModel.IsKeywords,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox  Margin="2" Content="{DynamicResource LangKeySharePostsThatHaveMaximum}" IsChecked="{Binding SharePostModel.IsMinimumDays}"/>

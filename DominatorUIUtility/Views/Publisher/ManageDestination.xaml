@@ -58,7 +58,7 @@
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
                                 <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="15" Height="20" Fill="White">
+                                    <Rectangle Width="15" Height="20" Fill="Black">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                         </Rectangle.OpacityMask>

@@ -52,7 +52,7 @@
                       IsChecked="{Binding OtherConfigurations.IsEnableCustomTokensChecked}"  Margin="5"/>-->
             <StackPanel Orientation="Horizontal" Margin="5">
                 <Button Content="{DynamicResource LangKeyAdvancedSettings}"
-                        x:Name="btnAdvancedSettings" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" 
+                        x:Name="btnAdvancedSettings" Foreground="Black" Background="{DynamicResource AccentBaseColorBrush}" 
                         Click="btnAdvancedSettings_Click"/>
                 <!--<Button Content="{DynamicResource LangKeyCopySettings}" x:Name="btnCopySettings" Margin="10,0,0,0" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"/>-->
             </StackPanel>

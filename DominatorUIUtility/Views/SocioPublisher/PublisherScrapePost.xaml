@@ -34,7 +34,7 @@
                                 Visibility="{Binding ScrapePostModel.IsOwnPostDetails,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Button VerticalAlignment="Center" HorizontalAlignment="Left" 
                         Content="{DynamicResource LangKeyUploadPostDetails}" Background="{DynamicResource AccentBaseColorBrush}"
-                        Foreground="White"
+                        Foreground="Black"
                         Margin="5"  Height="30" Width="150" Command="{Binding UploadPostDetailsCommand}"/>
                     </mah:Badged>
 
@@ -67,17 +67,17 @@
                 <StackPanel Margin="10,0" Orientation="Horizontal">
                     <RadioButton  Content="{DynamicResource LangKeyUploadPostDescription}" GroupName="Description"
                                  IsChecked="{Binding ScrapePostModel.IsUploadPostDescription}"  VerticalAlignment="Center"/>
-                    <Button Foreground="White" Margin="2" HorizontalAlignment="Left" Cursor="Hand" 
+                    <Button Foreground="Black" Margin="2" HorizontalAlignment="Left" Cursor="Hand" 
                                 Visibility="{Binding ScrapePostModel.IsUploadPostDescription,Converter={StaticResource BooleanToVisibilityConverter}}"
                                 Background="{DynamicResource AccentBaseColorBrush}"  Height="30"  VerticalAlignment="Center" 
                                 Command="{Binding UploadDescriptionCommand}" CommandParameter="SaveToDraft">
                         <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
-                            <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Left">
+                            <Rectangle Width="15" Height="15" Fill="Black"  HorizontalAlignment="Left">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_upload}" />
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource LangKeyUploadDescription}"  Foreground="White"
+                            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource LangKeyUploadDescription}"  Foreground="Black"
                                        FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" />
                         </StackPanel>
                     </Button>

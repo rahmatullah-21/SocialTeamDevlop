@@ -161,11 +161,11 @@
                                                                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                                                                     <Setter Property="Content">
                                                                         <Setter.Value>
-                                                                            <Rectangle Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
-                                                                                <Rectangle.OpacityMask>
-                                                                                    <VisualBrush Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
-                                                                                </Rectangle.OpacityMask>
-                                                                            </Rectangle>
+                                                                            <!--<Rectangle Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
+                                                                                <Rectangle.OpacityMask>-->
+                                                                                    <Image Height="20"  Width="20" Source="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
+                                                                                <!--</Rectangle.OpacityMask>
+                                                                            </Rectangle>-->
                                                                         </Setter.Value>
                                                                     </Setter>
                                                                 </Style>
@@ -315,7 +315,7 @@
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <Rectangle Margin="5,0" VerticalAlignment="Center"
+                                                <!--<Rectangle Margin="5,0" VerticalAlignment="Center"
                                                    Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}"
                                                    Width="12" Height="12">
                                                     <Rectangle.OpacityMask>
@@ -323,7 +323,8 @@
                                                     Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}"
                                                     Stretch="Fill" />
                                                     </Rectangle.OpacityMask>
-                                                </Rectangle>
+                                                </Rectangle>-->
+                                                <Image Height="15" Margin="5,0" Width="15" Source="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
                                                 <TextBlock Text="{Binding AccountBaseModel.UserName}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"/>
                                             </StackPanel>
                                         </DataTemplate>

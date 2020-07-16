@@ -57,24 +57,24 @@
             <StackPanel Orientation="Horizontal" Visibility="{Binding PostDetailsModel.IsMultiPost,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Button Foreground="White" Margin="2"  Cursor="Hand" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="30" Width="160" VerticalAlignment="Center"  Command="{Binding MultiplePostCommand}" CommandParameter="{Binding}">
                     <StackPanel Orientation="Horizontal" >
-                        <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
+                        <Rectangle Width="18" Height="15" Fill="Black"  HorizontalAlignment="Center">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Label Content="{DynamicResource LangKeyMultiplePost}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                        <Label Content="{DynamicResource LangKeyMultiplePost}"  Foreground="Black" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                     </StackPanel>
                 </Button>
 
                 <Button Foreground="White" Margin="2" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
                         HorizontalAlignment="Center"  Height="30" Width="160" VerticalAlignment="Center" Command="{Binding ImportFromCsvCommand}">
                     <StackPanel Orientation="Horizontal" >
-                        <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
+                        <Rectangle Width="18" Height="15" Fill="Black"  HorizontalAlignment="Center">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Label Content="{DynamicResource LangKeyImportFromCSV}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                        <Label Content="{DynamicResource LangKeyImportFromCSV}"  Foreground="Black" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                     </StackPanel>
                 </Button>
 
@@ -99,12 +99,12 @@
                                 Background="{DynamicResource AccentBaseColorBrush}"  Height="30"  VerticalAlignment="Center" 
                                 Command="{Binding UploadDescriptionCommand}" CommandParameter="SaveToDraft">
                             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
-                                <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Left">
+                                <Rectangle Width="15" Height="15" Fill="Black"  HorizontalAlignment="Left">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_upload}" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock HorizontalAlignment="Left" Text="{DynamicResource LangKeyUploadDescription}"  Foreground="White"
+                                <TextBlock HorizontalAlignment="Left" Text="{DynamicResource LangKeyUploadDescription}"  Foreground="Black"
                                        FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" />
                             </StackPanel>
                         </Button>
@@ -152,23 +152,23 @@
 
             <Button Foreground="White" Margin="2" HorizontalAlignment="Left" Cursor="Hand" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="{DynamicResource AccentBaseColorBrush}"   Height="30" Width="160" VerticalAlignment="Center"  Command="{Binding SaveCurrentPostCommand}" CommandParameter="SaveToDraft">
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
-                    <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Left">
+                    <Rectangle Width="15" Height="15" Fill="Black"  HorizontalAlignment="Left">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_pin}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
-                    <Label HorizontalAlignment="Left" Content="{DynamicResource LangKeySavePostToDraft}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                    <Label HorizontalAlignment="Left" Content="{DynamicResource LangKeySavePostToDraft}"  Foreground="Black" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                 </StackPanel>
             </Button>
 
             <Button Foreground="White" Margin="2" HorizontalAlignment="Left" Cursor="Hand"  Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="{DynamicResource AccentBaseColorBrush}"   Height="30" Width="175" VerticalAlignment="Center"  Command="{Binding SaveCurrentPostCommand}" CommandParameter="SaveToPending">
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
-                    <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Left">
+                    <Rectangle Width="18" Height="15" Fill="Black"  HorizontalAlignment="Left">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_network_port}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
-                    <Label HorizontalAlignment="Left" Content="{DynamicResource LangKeySavePostToPending}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                    <Label HorizontalAlignment="Left" Content="{DynamicResource LangKeySavePostToPending}"  Foreground="Black" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                 </StackPanel>
             </Button>
 

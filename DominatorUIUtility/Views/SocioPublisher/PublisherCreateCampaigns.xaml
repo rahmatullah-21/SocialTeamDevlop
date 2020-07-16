@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
              
              x:Name="CreateCampaign"
@@ -22,38 +23,37 @@
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White">
-                    <Rectangle Width="25" Height="25" Fill="White" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="Black">
+                    <Rectangle Width="25" Height="25" Fill="Black" Margin="0,0,0,5" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_calendar}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
-                
-                    <Label Content="{Binding PageTitle}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                <utility:TextPath Text="{Binding PageTitle}" FontFamily="{StaticResource BuildTitleSbIt}" StrokeThickness="0.5" Margin="10,8,0,12" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <Label Foreground="White" Name="LabelSelectCampaign" Content="{DynamicResource LangKeySelectCampaign}"/>
-                    <ComboBox x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding CampaignList}" 
+                    <Label Foreground="Black" FontFamily="{StaticResource RajdhaniBold }"  Name="LabelSelectCampaign" Content="{DynamicResource LangKeySelectCampaign}"/>
+                    <ComboBox Style="{StaticResource CommonComboBoxStyle}" x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding CampaignList}" 
                               behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"
                               SelectedItem="{Binding SelectedItem}" metroControls:TextBoxHelper.ClearTextButton="True" />
                 </StackPanel>
 
-                <Button x:Name="BtnSelectDestination" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
-                        Foreground="White" VerticalAlignment="Center"  Margin="5"
+                <Button x:Name="BtnSelectDestination" Cursor="Hand" Background="{DynamicResource TextColorBrushAccordingTheme}" 
+                        Foreground="Black" VerticalAlignment="Center"  Margin="5"
                         Command="{Binding SelectDestinationCommand}">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="20" Height="20" Fill="White" >
+                                    <Rectangle Width="20" Height="20" Fill="Black" >
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_table_select}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                     <Label Content="{DynamicResource LangKeySelectDestinations}" Margin="0,0,0,0"
-                                           Foreground="White" FontSize="13" FontWeight="SemiBold" 
+                                           Foreground="Black" FontFamily="{StaticResource RajdhaniBold}" FontSize="13" FontWeight="SemiBold" 
                                            VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
@@ -62,19 +62,19 @@
                 </Button>
 
                 <Button  Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
-                        Foreground="White" VerticalAlignment="Center"  Margin="5"
+                        Foreground="Black" VerticalAlignment="Center"  Margin="5"
                         Command="{Binding SelectAccountCommand}">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="20" Height="20" Fill="White" >
+                                    <Rectangle Width="20" Height="20" Fill="Black" >
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_table_select}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                     <Label Content="{DynamicResource LangKeySelectAccountS}" Margin="0,0,0,0"
-                                           Foreground="White" FontSize="13" FontWeight="SemiBold" 
+                                           Foreground="Black" FontFamily="{StaticResource RajdhaniBold}" FontSize="13" FontWeight="SemiBold" 
                                            VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
@@ -87,12 +87,12 @@
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="15" Height="15" Fill="White" >
+                                    <Rectangle Width="15" Height="15" Fill="Black" >
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource LangKeySave}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeySave}" Margin="0,0,0,0" Foreground="Black" FontFamily="{StaticResource RajdhaniBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -103,12 +103,12 @@
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="15" Height="15" Fill="White" >
+                                    <Rectangle Width="15" Height="15" Fill="Black" >
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource LangKeyBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyBack}" Margin="0,0,0,0" Foreground="Black" FontFamily="{StaticResource RajdhaniBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -129,22 +129,22 @@
 
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <Label Content="{DynamicResource LangKeyCampaignName}" FontWeight="SemiBold"/>
+                    <Label Content="{DynamicResource LangKeyCampaignName}" VerticalAlignment="Center" FontWeight="SemiBold"/>
                     <TextBox metroControls:TextBoxHelper.Watermark="{DynamicResource LangKeyCampaign}" 
-                             Name="TextBoxCampaignName" 
+                             Name="TextBoxCampaignName"  VerticalAlignment="Center"
                              Width="250" 
                              HorizontalAlignment="Left" 
                              Margin="10,5" 
                              Text="{Binding PublisherCreateCampaignModel.CampaignName,UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <metroControls:ToggleSwitch VerticalAlignment="Center" 
+                    <metroControls:ToggleSwitchButton Style="{StaticResource CrucialToggleButton}" VerticalAlignment="Center" 
                                                 x:Name="ToggleCampaignStatus" 
-                                                HorizontalContentAlignment="Center"
-                                                FontSize="12" 
-                                                OnLabel="{Binding PublisherCreateCampaignModel.CampaignStatus}" 
-                                                OffLabel="{Binding PublisherCreateCampaignModel.CampaignStatus}" 
+                                                HorizontalContentAlignment="Center" Foreground="Black"
+                                                FontSize="12" Height="22" Width="55"  Content="{Binding PublisherCreateCampaignModel.CampaignStatus}"               
                                                 Margin="10,0" Click="ToggleCampaignStatus_OnClick">
-                        <metroControls:ToggleSwitch.Style>
+                        <!--OnLabel="{Binding PublisherCreateCampaignModel.CampaignStatus}" 
+                                                OffLabel="{Binding PublisherCreateCampaignModel.CampaignStatus}"-->
+                        <!--<metroControls:ToggleSwitchButton.Style>
                             <Style TargetType="metroControls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
                                 <Style.Triggers>
                                     <Trigger Property="OnLabel" Value="Active">
@@ -162,14 +162,16 @@
 
                                 </Style.Triggers>
                             </Style>
-                        </metroControls:ToggleSwitch.Style>
-                    </metroControls:ToggleSwitch>
+                        </metroControls:ToggleSwitchButton.Style>-->
+                    </metroControls:ToggleSwitchButton>
+                    <Label Content="{Binding PublisherCreateCampaignModel.CampaignStatus}" FontWeight="SemiBold"  VerticalAlignment="Center"/>
                 </StackPanel>
 
             </StackPanel>
 
             <TabControl Grid.Row="1" metroControls:TabControlHelper.IsUnderlined="True" 
-                        metroControls:TabControlHelper.Underlined="SelectedTabItem" ItemContainerStyle="{StaticResource TabItemStyle}">
+                        metroControls:TabControlHelper.Underlined="SelectedTabItem" ItemContainerStyle="{StaticResource TabItemStyle}" Template="{StaticResource TopTabstyle1}">
+                
                 <!--<TabControl.ItemContainerStyle>
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
                         <Setter Property="Template">
@@ -199,27 +201,63 @@
                 </TabControl.ItemContainerStyle>-->
 
                 <!--Options selections like create post, create post by multiple area, Scarpe post, Share post, Rss feed , Monitor folder-->
-                <TabItem Header="{DynamicResource LangKeyPostManager}" >
+                <TabItem>
+                    <TabItem.Header>
+                        <utility:TextPath Text="{DynamicResource LangKeyPostManager}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="#ffffff" Margin="0,0,0,0"
+                        StrokeThickness="0.4"
+		                Stroke="Black"                                            
+		                FontFamily="{StaticResource BuildTitleRg}"
+		                FontSize="14.5">
+                            <utility:TextPath.Effect>
+                                <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="0" Color="Black" ></DropShadowEffect>
+                            </utility:TextPath.Effect>
+                        </utility:TextPath>
+                    </TabItem.Header>
                     <TabControl x:Name="CreateCampaignTabs" ItemsSource="{Binding PostTabItems}" TabStripPlacement="Top"  Margin="10,5,5,5"
-                                metroControls:TabControlHelper.IsUnderlined="True" ItemContainerStyle="{StaticResource TabItemStyle}"
+                                metroControls:TabControlHelper.IsUnderlined="True" ItemContainerStyle="{StaticResource TabItemStyle}"  Template="{StaticResource TopTabstyle1}"
                                 metroControls:TabControlHelper.Underlined="SelectedTabItem">
                         <TabControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Title}" FontSize="16" />
+                                <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="#ffffff" Margin="0,0,0,0"
+                        StrokeThickness="0.4"
+		                Stroke="Black"                                            
+		                FontFamily="{StaticResource BuildTitleRg}"
+		                FontSize="14.5">
+                                    <utility:TextPath.Effect>
+                                        <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="0" Color="Black" ></DropShadowEffect>
+                                    </utility:TextPath.Effect>
+                                </utility:TextPath>
                             </DataTemplate>
                         </TabControl.ItemTemplate>
                         <TabControl.ContentTemplate>
                             <DataTemplate>
-                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                                     <ContentControl Content="{Binding Content.Value}"/>
                                 </ScrollViewer>
                             </DataTemplate>
                         </TabControl.ContentTemplate>
                     </TabControl>
                 </TabItem>
-                <TabItem Header="{DynamicResource LangKeyPostConfiguration}" >
+                <TabItem >
+                    <TabItem.Header>
+                        <utility:TextPath Text="{DynamicResource LangKeyPostConfiguration}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="#ffffff" Margin="0,0,0,0"
+                        StrokeThickness="0.4"
+		                Stroke="Black"                                            
+		                FontFamily="{StaticResource BuildTitleRg}"
+		                FontSize="14.5">
+                            <utility:TextPath.Effect>
+                                <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="0" Color="Black" ></DropShadowEffect>
+                            </utility:TextPath.Effect>
+                        </utility:TextPath>
+                    </TabItem.Header>
                     <!--Job Configuration and Other Configuration-->
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                         <StackPanel>
                             <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="15,5,5,5">
                                 <ContentControl Content="{Binding JobConfigurationControl}"></ContentControl>

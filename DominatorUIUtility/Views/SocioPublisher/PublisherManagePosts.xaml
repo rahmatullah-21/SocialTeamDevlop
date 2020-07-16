@@ -3,154 +3,159 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              x:Name="ManagePost"
              mc:Ignorable="d"
              xmlns:behaviour="clr-namespace:DominatorUIUtility.Behaviours">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="10*"/>
-        </Grid.RowDefinitions>
+    <Border  CornerRadius="5" Padding="20,20,20,10">
+        <Border.Background>
+            <ImageBrush ImageSource="/DominatorUIUtility;component/Images/funcmodulebackground.png" Stretch="Fill"/>
+        </Border.Background>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
 
-        <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid">
+            <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White">
-                    <Rectangle Width="25" Height="25" Fill="White" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White">
+                    <Rectangle Width="25" Height="25" Fill="Black" Margin="0,0,0,5" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_gallery}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
-                
-                    <Label Content="{DynamicResource LangKeyManagePosts}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-            </TextBlock>
+                <utility:TextPath Text="{DynamicResource LangKeyManagePosts}" FontFamily="{StaticResource BuildTitleSbIt}" StrokeThickness="0.5" Margin="10,8,0,12" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
+                </TextBlock>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
-                <StackPanel >
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <Label Name="LabelSelectCampaign" Content="{DynamicResource LangKeySelectCampaign}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
-                        <ComboBox x:Name="ComboCampaignList" ItemsSource="{Binding CampaignList}" DisplayMemberPath="Name" Height="25" Width="250" 
+                    <StackPanel >
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Name="LabelSelectCampaign" Content="{DynamicResource LangKeySelectCampaign}" Foreground="Black"  FontFamily="{StaticResource RajdhaniBold}" FontSize="13" FontWeight="SemiBold"/>
+                            <ComboBox x:Name="ComboCampaignList" Style="{StaticResource CommonComboBoxStyle}" ItemsSource="{Binding CampaignList}" DisplayMemberPath="Name" Height="25" Width="250" 
                                   SelectedItem="{Binding SelectedCampaignDetails}"
                                   behaviour:SelectionChangedBehaviour.Command="{Binding SelectionChangedCommand}"/>
+                        </StackPanel>
                     </StackPanel>
+
+                    <Button x:Name="ButtonDraft" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="Black" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Draft" >
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="15" Height="15" Fill="Black" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_pin}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Label Margin="0,0,0,0" Foreground="Black" FontFamily="{StaticResource RajdhaniBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
+                                            <TextBlock Text="{DynamicResource LangKeyDraft}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SelectedTabs}" Value="Draft">
+                                                                <Setter Property="TextDecorations" Value="Underline" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+
+                    <Button x:Name="ButtonPending" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="Black" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Pending" >
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="15" Height="15" Fill="Black" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_network_port}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Label  Margin="0,0,0,0" Foreground="Black" FontFamily="{StaticResource RajdhaniBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
+                                            <TextBlock Text="{DynamicResource LangKeyPending}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SelectedTabs}" Value="Pending">
+                                                                <Setter Property="TextDecorations" Value="Underline" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+
+
+                    <Button x:Name="ButtonPublished" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="Black" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Published" >
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="12" Height="20" Fill="Black" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_rocket}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Label Margin="0,0,0,0" Foreground="Black" FontFamily="{StaticResource RajdhaniBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
+                                            <TextBlock Text="{DynamicResource LangKeyPublished}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SelectedTabs}" Value="Published">
+                                                                <Setter Property="TextDecorations" Value="Underline"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button x:Name="BtnBackToCampaign" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="Black" VerticalAlignment="Center"  Margin="5" Command="{Binding NavigationCommand}" CommandParameter="Back">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="15" Height="15" Fill="Black" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Label Content="{DynamicResource LangKeyBack}" Margin="0,0,0,0" Foreground="Black" FontFamily="{StaticResource RajdhaniBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </StackPanel>
+            </Grid>
 
-                <Button x:Name="ButtonDraft" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Draft" >
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="15" Height="15" Fill="White" >
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_pin}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Label Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
-                                        <TextBlock Text="{DynamicResource LangKeyDraft}">
-                                           <TextBlock.Style>
-                                               <Style TargetType="TextBlock">
-                                                   <Style.Triggers>
-                                                       <DataTrigger Binding="{Binding SelectedTabs}" Value="Draft">
-                                                           <Setter Property="TextDecorations" Value="Underline" />
-                                                       </DataTrigger>
-                                                   </Style.Triggers>
-                                               </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </Label>
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-
-                <Button x:Name="ButtonPending" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Pending" >
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="15" Height="15" Fill="White" >
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_network_port}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Label  Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
-                                        <TextBlock Text="{DynamicResource LangKeyPending}">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedTabs}" Value="Pending">
-                                                            <Setter Property="TextDecorations" Value="Underline" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </Label>
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-
-
-                <Button x:Name="ButtonPublished" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Published" >
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="12" Height="20" Fill="White" >
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_rocket}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Label Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
-                                        <TextBlock Text="{DynamicResource LangKeyPublished}">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedTabs}" Value="Published">
-                                                            <Setter Property="TextDecorations" Value="Underline"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </Label>
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-                <Button x:Name="BtnBackToCampaign" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding NavigationCommand}" CommandParameter="Back">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="15" Height="15" Fill="White" >
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Label Content="{DynamicResource LangKeyBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </StackPanel>
+            <Grid Grid.Row="1">
+                <ContentControl Content="{Binding SelectedTabsUserControls}"/>
+            </Grid>
         </Grid>
-
-        <Grid Grid.Row="1">
-            <ContentControl Content="{Binding SelectedTabsUserControls}"/>
-        </Grid>
-    </Grid>
+    </Border>
 </UserControl>

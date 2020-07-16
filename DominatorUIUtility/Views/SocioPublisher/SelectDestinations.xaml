@@ -167,12 +167,12 @@
                 Grid.Row="1" HorizontalAlignment="Right">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="15" Height="15" Fill="White">
+                    <Rectangle Width="15" Height="15" Fill="Black">
                         <Rectangle.OpacityMask>
                             <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
                         </Rectangle.OpacityMask>
                     </Rectangle>
-                    <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0" Foreground="White"/>
+                    <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0" Foreground="Black"/>
                 </StackPanel>
             </Button.Content>
         </Button>

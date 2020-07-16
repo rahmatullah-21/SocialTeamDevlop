@@ -64,182 +64,193 @@
         </CollectionViewSource>
     </UserControl.Resources>
 
-    <Grid Grid.Row="0" Name="MainContainer" Background="Transparent">
+    
+        <Grid Grid.Row="0" Name="MainContainer" Background="Transparent">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <DockPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-            <Border DockPanel.Dock="Left" MaxWidth="180" Height="40" BorderBrush="Black" VerticalAlignment="Center" BorderThickness="0.5" Margin="0,2,20,9" Background="{DynamicResource AccentColorBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <DockPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Border DockPanel.Dock="Left" MaxWidth="180" Height="40" BorderBrush="Black" VerticalAlignment="Center" BorderThickness="0.5" Margin="8 ,2,20,9" Background="{DynamicResource AccentColorBrush}">
 
-                <utility:TextPath  HorizontalAlignment="Center"
+                    <utility:TextPath  HorizontalAlignment="Center"
                                VerticalAlignment="Center" 
                                FontSize="22"
                                FontWeight="Bold" FontFamily="{StaticResource BuildTitleRg}" 
                                Fill="Black" Margin="5" Stretch="Uniform" Stroke="White" StrokeThickness="1"
                                Text="{DynamicResource LangKeyProxyManager}"/>
 
-            </Border>
-        </DockPanel>
-        <Border Grid.Row="1" Margin="0,5,0,2" CornerRadius="5" BorderBrush="Black" BorderThickness="0.7" Background="#ffffff">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="-1" BlurRadius="10"  Color="Gray"/>
-            </Border.Effect>
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="10" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="20" />
-                </Grid.RowDefinitions>
-                <Border BorderBrush="Transparent" Padding="10">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal"  Margin="5">
+                </Border>
+            </DockPanel>
+            <Border Grid.Row="1" Margin="0,5,0,2" CornerRadius="5" Padding="7   ">
+                <Border.Background>
+                    <ImageBrush ImageSource="/DominatorUIUtility;component/Images/funcmodulebackground.png" Stretch="Fill"/>
+                </Border.Background>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="20" />
+                    </Grid.RowDefinitions>
+                    <Border BorderBrush="Transparent" Padding="10">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal"  Margin="5">
 
-                            <CheckBox Margin="5" 
+                                <CheckBox Margin="5" 
                           Content="{DynamicResource LangKeyHideAssignedSocialProfiles}"
                           x:Name="ChkHideUnhideSocialProfiles">
-                            </CheckBox>
-                            <CheckBox Margin="5" 
+                                </CheckBox>
+                                <CheckBox Margin="5" 
                           Content="{DynamicResource LangKeyHideUsernameAndPassword}"
                           x:Name="ChkHideUnhideUserPassword">
-                            </CheckBox>
-                            <CheckBox Margin="5" IsChecked="{Binding IsShowByGroup}"
+                                </CheckBox>
+                                <CheckBox Margin="5" IsChecked="{Binding IsShowByGroup}"
                           Content="{DynamicResource LangKeyShowByGroup}"
                           x:Name="ShowByGroup"
                           Command="{Binding ShowByGroupCommand}" CommandParameter="{Binding  ElementName=ProxyDataGrid}"/>
-                            <CheckBox Margin="5"
+                                <CheckBox Margin="5"
                           Content="{DynamicResource LangKeyFilterByGroup}" x:Name="FilterByGroup"/>
-                            <CheckBox Margin="5"  
+                                <CheckBox Margin="5"  
                           Content="{DynamicResource LangKeyShowOnlyProxiesWithError}" 
                           x:Name="ShowProxiesWithError"/>
-                            <CheckBox Margin="5"
+                                <CheckBox Margin="5"
                           Content="{DynamicResource LangKeyShowOnlyUnassignedProxies}" 
                           x:Name="ChkShowUnassignedProxies" />
 
-                        </StackPanel>
+                            </StackPanel>
 
-                        <StackPanel  Orientation="Horizontal" Margin="5">
-                            <TextBlock VerticalAlignment="Center" Margin="5" Text="{DynamicResource LangKeyFilter}"/>
-                            <TextBox Width="200" Height="25" x:Name="FilterTb" />
-                            <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource LangKeyURLToUseToVerifyTheProxies}"/>
-                            <TextBox Width="200" Height="25" >
-                                <TextBox.Text>
-                                    <Binding Path="VerifyProxiesViewModel.URLToUseToVerifyProxies"  UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <validation:UrlValidator ValidatesOnTargetUpdated="True"/>
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                            <CheckBox Margin="5" FontWeight="Bold" Content="{DynamicResource LangKeyAssignRandomProxyToUnassignedAccounts}" IsChecked="{Binding IsRandomSelected}" >
-                                <CheckBox.Style>
-                                    <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsChecked" Value="True">
-                                                <Setter Property="Command" Value="{Binding AssignRandomProxyCommand}" />
-                                                <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}"/>
-                                                <Setter Property="Foreground" Value="{DynamicResource GreenColorAccordingTheme}"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </CheckBox.Style>
-                            </CheckBox>
-
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-
-                            <StackPanel Orientation="Horizontal"
-                            Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay}">
-                                <TextBlock VerticalAlignment="Center" Margin="5,5" Text="{DynamicResource LangKeySelectGroup}"/>
-                                <ComboBox  Width="150" ItemsSource="{Binding Groups}" x:Name="GroupCmb" Controls:TextBoxHelper.ClearTextButton="True"/>
+                            <StackPanel  Orientation="Horizontal" Margin="5">
+                                <TextBlock VerticalAlignment="Center" Margin="5" Text="{DynamicResource LangKeyFilter}"/>
+                                <TextBox Width="200" Height="25" x:Name="FilterTb" />
+                                <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource LangKeyURLToUseToVerifyTheProxies}"/>
+                                <TextBox Width="200" Height="25" >
+                                    <TextBox.Text>
+                                        <Binding Path="VerifyProxiesViewModel.URLToUseToVerifyProxies"  UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:UrlValidator ValidatesOnTargetUpdated="True"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                                <CheckBox Margin="5" FontWeight="Bold" Content="{DynamicResource LangKeyAssignRandomProxyToUnassignedAccounts}" IsChecked="{Binding IsRandomSelected}" >
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter Property="Command" Value="{Binding AssignRandomProxyCommand}" />
+                                                    <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}"/>
+                                                    <Setter Property="Foreground" Value="{DynamicResource GreenColorAccordingTheme}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
 
                             </StackPanel>
-                            <CheckBox Margin="5"  Content="{DynamicResource LangKeyAdd}" IsChecked="{Binding SettingsModel.IsNumOfAccountPerProxy}" />
-                            <Controls:NumericUpDown Minimum="1" Value="{Binding SettingsModel.NumOfAccountPerProxy}" />
-                            <Label Content="{DynamicResource LangKeyAccountPerProxy}"/>
+                            <StackPanel Orientation="Horizontal" Margin="5">
 
-                            <CheckBox Margin="10,5" Content="{DynamicResource LangKeyDontLoginAccountAfterProxyManagement}" IsChecked="{Binding SettingsModel.DontLogin}" />
+                                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay}">
+                                    <TextBlock VerticalAlignment="Center" Margin="5,5" Text="{DynamicResource LangKeySelectGroup}"/>
+                                    <ComboBox  Width="150" ItemsSource="{Binding Groups}" x:Name="GroupCmb" Controls:TextBoxHelper.ClearTextButton="True"/>
 
+                                </StackPanel>
+                                <CheckBox Margin="5"  Content="{DynamicResource LangKeyAdd}" IsChecked="{Binding SettingsModel.IsNumOfAccountPerProxy}" />
+                                <Controls:NumericUpDown Minimum="1" Value="{Binding SettingsModel.NumOfAccountPerProxy}" />
+                                <Label Content="{DynamicResource LangKeyAccountPerProxy}"/>
+
+                                <CheckBox Margin="10,5" Content="{DynamicResource LangKeyDontLoginAccountAfterProxyManagement}" IsChecked="{Binding SettingsModel.DontLogin}" />
+
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Background="{DynamicResource BackGroundBrushReverse}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                        <Button  Height="30"  x:Name="btnSaveSetting" Margin="10,5" 
+                    </Border>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Background="{DynamicResource BackGroundBrushReverse}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <Button  Height="30"  x:Name="btnSaveSetting" Margin="10,5" 
                              Command="{Binding SaveSettingCommand}" 
                              Foreground="White" Background="Transparent"
                              Visibility="{Binding RefreshEnable}">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/SaveNew.ico"  />
-                                    <utility:TextPath Text="{StaticResource LangKeySaveSettings}" Margin="5,0,5,3"  HorizontalAlignment="Center"
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/SaveNew.ico"  />
+                                        <utility:TextPath Text="{StaticResource LangKeySaveSettings}" Margin="5,0,5,3"  HorizontalAlignment="Center"
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
+                                        StrokeThickness="0.5"
 		                                FontFamily="{StaticResource BuildTitleRg}" 
-		                                FontSize="18"
+		                                FontSize="14.75">
+                                        </utility:TextPath>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+
+                        <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Command="{Binding ImportProxyCommand}"
+                Foreground="White" Background="Transparent" ToolTip="{DynamicResource LangKeyImportProxyDescription}">
+                            <Button.Content>
+                                <VirtualizingStackPanel Orientation="Horizontal">
+                                    <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Export.ico"/>
+                                    <utility:TextPath Text="{StaticResource LangKeyImportProxies}" Margin="5,0,5,3"  HorizontalAlignment="Center"
+		                                VerticalAlignment="Center"
+		                                Fill="White"
+                                                      StrokeThickness="0.5"
+		                                Stroke="Black"
+		                                FontFamily="{StaticResource BuildTitleRg}" 
+		                                FontSize="14.75"
                                         FontWeight="Bold">
                                     </utility:TextPath>
-                                </StackPanel>
+                                </VirtualizingStackPanel>
                             </Button.Content>
                         </Button>
-                    </StackPanel>
 
-                    <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Command="{Binding ImportProxyCommand}"
-                Foreground="White" Background="Transparent" ToolTip="{DynamicResource LangKeyImportProxyDescription}">
-                        <Button.Content>
-                            <VirtualizingStackPanel Orientation="Horizontal">
-                                <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Export.ico"/>
-                                <utility:TextPath Text="{StaticResource LangKeyImportProxies}" Margin="5,0,5,3"  HorizontalAlignment="Center"
-		                                VerticalAlignment="Center"
-		                                Fill="White"
-		                                Stroke="Black"
-		                                FontFamily="{StaticResource BuildTitleRg}" 
-		                                FontSize="18"
-                                        FontWeight="Bold">
-                                </utility:TextPath>
-                            </VirtualizingStackPanel>
-                        </Button.Content>
-                    </Button>
-
-                    <Button  Height="30"  x:Name="btnExportProxies" Margin="17,5" Command="{Binding ExportProxyCommand}"
+                        <Button  Height="30"  x:Name="btnExportProxies" Margin="17,5" Command="{Binding ExportProxyCommand}"
                         Foreground="White" Background="Transparent" >
-                        <Button.Content>
-                            <VirtualizingStackPanel Orientation="Horizontal">
-                                <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Export.ico"/>
-                                <utility:TextPath Text="{StaticResource LangKeyExportProxies}" Margin="5,0,5,3"  HorizontalAlignment="Center"
+                            <Button.Content>
+                                <VirtualizingStackPanel Orientation="Horizontal">
+                                    <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Export.ico"/>
+                                    <utility:TextPath Text="{StaticResource LangKeyExportProxies}" Margin="5,0,5,3"  HorizontalAlignment="Center"
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
+                                                      StrokeThickness="0.5"
 		                                FontFamily="{StaticResource BuildTitleRg}" 
-		                                FontSize="18"
+		                                FontSize="14.75"
                                         FontWeight="Bold">
-                                </utility:TextPath>
-                            </VirtualizingStackPanel>
-                        </Button.Content>
-                    </Button>
+                                    </utility:TextPath>
+                                </VirtualizingStackPanel>
+                            </Button.Content>
+                        </Button>
 
-                    <Button  Height="30"  x:Name="btnAddProxy" Margin="35,5" IsEnabled="{Binding IsAddProxyEnabled}"
+                        <Button  Height="30"  x:Name="btnAddProxy" Margin="35,5" IsEnabled="{Binding IsAddProxyEnabled}"
                         Foreground="White" Background="Transparent" Command="{Binding AddProxyCommand}">
-                        <Button.Content>
-                            <VirtualizingStackPanel Orientation="Horizontal">
-                                <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddNew.ico"/>
-                                <TextBlock Text="{DynamicResource LangKeyAddProxy}" Margin="5,0"/>
-                            </VirtualizingStackPanel>
-                        </Button.Content>
-                    </Button>
+                            <Button.Content>
+                                <VirtualizingStackPanel Orientation="Horizontal">
+                                    <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddNew.ico"/>
+                                    <utility:TextPath Text="{StaticResource LangKeyAddProxy}" Margin="5,0,5,3"  HorizontalAlignment="Center"
+		                                VerticalAlignment="Center"
+		                                Fill="White"
+		                                Stroke="Black"
+                                                      StrokeThickness="0.5"
+		                                FontFamily="{StaticResource BuildTitleRg}" 
+		                                FontSize="14.75"
+                                        FontWeight="Bold">
+                                    </utility:TextPath>
+                                </VirtualizingStackPanel>
+                            </Button.Content>
+                        </Button>
 
-                </StackPanel>
-                <Border Grid.Row="2" Background="#FFEBEBEB" Height="9" BorderThickness="1">
-                    <Border.Effect>
-                        <DropShadowEffect ShadowDepth="2" BlurRadius="10"  Color="Gray"/>
-                    </Border.Effect>
-                </Border>
-                <DataGrid Grid.Row="3" Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource ProxyView}}"
+                    </StackPanel>
+                    <Border Grid.Row="2" Background="#FFEBEBEB" Height="9" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="10"  Color="Gray"/>
+                        </Border.Effect>
+                    </Border>
+                    <DataGrid Grid.Row="3" Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource ProxyView}}"
                   AutoGenerateColumns="False" EnableRowVirtualization="True" 
                   CanUserAddRows="False" Foreground="White" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -249,121 +260,121 @@
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.IsDeferredScrollingEnabled="True"
                   SelectedItem="{Binding ProxyManagerModel}">
-                    <DataGrid.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel VirtualizationMode="Recycling" ScrollUnit="Pixel"/>
-                        </ItemsPanelTemplate>
-                    </DataGrid.ItemsPanel>
-                    <DataGrid.Resources>
+                        <DataGrid.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel VirtualizationMode="Recycling" ScrollUnit="Pixel"/>
+                            </ItemsPanelTemplate>
+                        </DataGrid.ItemsPanel>
+                        <DataGrid.Resources>
 
-                        <DataTemplate x:Key="AccountsAssignedToTemplate">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="100"/>
-                                </Grid.ColumnDefinitions>
-                                <VirtualizingStackPanel  Orientation="Horizontal">
-                                    <ContentControl Margin="10,0" VerticalAlignment="Center">
-                                        <ContentControl.Style>
-                                            <Style TargetType="{x:Type ContentControl}"  >
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#003569" Width="20" Height="20">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                            <DataTemplate x:Key="AccountsAssignedToTemplate">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+                                    <VirtualizingStackPanel  Orientation="Horizontal">
+                                        <ContentControl Margin="10,0" VerticalAlignment="Center">
+                                            <ContentControl.Style>
+                                                <Style TargetType="{x:Type ContentControl}"  >
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#003569" Width="20" Height="20">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#3897F0" Width="20" Height="20">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="OrangeRed" Width="20" Height="20">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="OrangeRed" Width="20" Height="20">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="DodgerBlue" Width="20" Height="20">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="DodgerBlue" Width="20" Height="20">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="DimGray" Width="16" Height="20">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="DimGray" Width="16" Height="20">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <!--<DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                                        <!--<DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
                                                         <Rectangle Fill="#FF0000" Width="20" Height="20">
@@ -375,25 +386,25 @@
                                                 </Setter>
                                             </DataTrigger>-->
 
-                                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ContentControl.Style>
-                                    </ContentControl>
-                                    <TextBlock Text="{Binding UserName}" VerticalAlignment="Center" x:Name="txtblkaccount"/>
-                                </VirtualizingStackPanel>
-                                <Button Content="{DynamicResource LangKeyRemove}" x:Name="btnRemoveAccountFromProxy" 
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                        <TextBlock Text="{Binding UserName}" VerticalAlignment="Center" x:Name="txtblkaccount"/>
+                                    </VirtualizingStackPanel>
+                                    <Button Content="{DynamicResource LangKeyRemove}" x:Name="btnRemoveAccountFromProxy" 
                                 Grid.Column="1"
                                 HorizontalAlignment="Left" 
                                 FontWeight="SemiBold" VerticalAlignment="Center" 
@@ -401,328 +412,333 @@
                                 Background="Transparent" Command="{Binding Source={x:Reference MainGrid},
                                 Path=DataContext.RemoveAccountFromProxyCommand}"
                                 CommandParameter="{Binding}"/>
-                            </Grid>
-                        </DataTemplate>
+                                </Grid>
+                            </DataTemplate>
 
-                        <DataTemplate x:Key="AccountsToBeAssignTemplate">
-                            <VirtualizingStackPanel  Orientation="Horizontal">
-                                <CheckBox x:Name="Account" Command="{Binding DataContext.AccountToAddToProxyCommand,
+                            <DataTemplate x:Key="AccountsToBeAssignTemplate">
+                                <VirtualizingStackPanel  Orientation="Horizontal">
+                                    <CheckBox x:Name="Account" Command="{Binding DataContext.AccountToAddToProxyCommand,
                                   Source={x:Reference MainGrid}}" CommandParameter="{Binding}"/>
-                                <Rectangle Margin="10,0" VerticalAlignment="Center"   Fill="{Binding AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Visual="{Binding AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                                <TextBlock Text="{Binding UserName}" VerticalAlignment="Center" x:Name="txtblkaccount"/>
-                            </VirtualizingStackPanel>
-                        </DataTemplate>
-                        <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Foreground" Value="{DynamicResource MetroDataGrid.InactiveSelectionHighlightBrush}"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme}"/>
-                                    <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}"/>
-                                </Trigger>
-                                <Trigger Property="IsReadOnly" Value="True">
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
+                                    <Rectangle Margin="10,0" VerticalAlignment="Center"   Fill="{Binding AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Visual="{Binding AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <TextBlock Text="{Binding UserName}" VerticalAlignment="Center" x:Name="txtblkaccount"/>
+                                </VirtualizingStackPanel>
+                            </DataTemplate>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Foreground" Value="{DynamicResource MetroDataGrid.InactiveSelectionHighlightBrush}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme}"/>
+                                        <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsReadOnly" Value="True">
+                                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
 
-                    </DataGrid.Resources>
-                    <DataGrid.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.ContainerStyle>
-                                <Style TargetType="{x:Type GroupItem}">
-                                    <Setter Property="Margin" Value="0,0,0,5"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <Expander Margin="5">
-                                                    <Expander.Header>
-                                                        <VirtualizingStackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
-                                                            <TextBlock Text="{Binding ItemCount,StringFormat=({0})}" FontWeight="Bold" Foreground="White" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                                                        </VirtualizingStackPanel>
-                                                    </Expander.Header>
-                                                    <Expander.Content>
-                                                        <ItemsPresenter/>
-                                                    </Expander.Content>
-                                                </Expander>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </GroupStyle.ContainerStyle>
-                        </GroupStyle>
-                    </DataGrid.GroupStyle>
+                        </DataGrid.Resources>
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Margin" Value="0,0,0,5"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                    <Expander Margin="5">
+                                                        <Expander.Header>
+                                                            <VirtualizingStackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding ItemCount,StringFormat=({0})}" FontWeight="Bold" Foreground="White" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                                            </VirtualizingStackPanel>
+                                                        </Expander.Header>
+                                                        <Expander.Content>
+                                                            <ItemsPresenter/>
+                                                        </Expander.Content>
+                                                    </Expander>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
 
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn >
-                            <DataGridTemplateColumn.Header>
-                                <CheckBox Name="AllProxyChecked" Content=" #"
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn >
+                                <DataGridTemplateColumn.Header>
+                                    <CheckBox Name="AllProxyChecked" Content=" #"
                                   IsChecked="{Binding DataContext.IsAllProxySelected, 
                                   RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                            </DataGridTemplateColumn.Header>
+                                </DataGridTemplateColumn.Header>
 
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsProxySelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsProxySelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       Margin="5,0,0,0" Content="{Binding Index}"
                                       Command="{Binding DataContext.SelectProxyCommand,
                                       RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
 
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{DynamicResource LangKeyName}">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding AccountProxy.ProxyName, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <TextBox Text="{Binding AccountProxy.ProxyName, UpdateSourceTrigger=PropertyChanged}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{DynamicResource LangKeyName}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AccountProxy.ProxyName, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding AccountProxy.ProxyName, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
 
-                        <DataGridTemplateColumn Header="{DynamicResource LangKeyProxyIpPort}" MinWidth="160"  >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Validation.ErrorTemplate="{StaticResource ErrorTemplate}" VerticalAlignment="Center"  >
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0}:{1}" >
-                                                <MultiBinding.ValidationRules>
-                                                    <validation:IPAddressValidation ValidationStep="CommittedValue" />
-                                                </MultiBinding.ValidationRules>
-                                                <Binding Path="AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged"/>
-                                                <Binding Path="AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <Canvas>
-                                        <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Text="{Binding AccountProxy.ProxyIp, UpdateSourceTrigger=PropertyChanged}" Width="100" SelectionLength="0" SelectionStart="0" />
-                                        <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Text="{Binding AccountProxy.ProxyPort, UpdateSourceTrigger=PropertyChanged}"  Width="45" Margin="102,0,0,0"  SelectionLength="0" SelectionStart="0" />
-                                    </Canvas>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{DynamicResource LangKeyProxyUsername}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideUserPassword}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding AccountProxy.ProxyUsername, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <TextBox Text="{Binding AccountProxy.ProxyUsername, UpdateSourceTrigger=PropertyChanged}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{DynamicResource LangKeyProxyPassword}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideUserPassword}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding AccountProxy.ProxyPassword, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <TextBox Text="{Binding AccountProxy.ProxyPassword, UpdateSourceTrigger=PropertyChanged}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn  Header="{DynamicResource LangKeySocialProfiles}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideSocialProfiles}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <VirtualizingStackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding AccountsAssignedto.Count, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center"
+                            <DataGridTemplateColumn Header="{DynamicResource LangKeyProxyIpPort}" MinWidth="160"  >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Validation.ErrorTemplate="{StaticResource ErrorTemplate}" VerticalAlignment="Center"  >
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}:{1}" >
+                                                    <MultiBinding.ValidationRules>
+                                                        <validation:IPAddressValidation ValidationStep="CommittedValue" />
+                                                    </MultiBinding.ValidationRules>
+                                                    <Binding Path="AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged"/>
+                                                    <Binding Path="AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Canvas>
+                                            <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Text="{Binding AccountProxy.ProxyIp, UpdateSourceTrigger=PropertyChanged}" Width="100" SelectionLength="0" SelectionStart="0" />
+                                            <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Text="{Binding AccountProxy.ProxyPort, UpdateSourceTrigger=PropertyChanged}"  Width="45" Margin="102,0,0,0"  SelectionLength="0" SelectionStart="0" />
+                                        </Canvas>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{DynamicResource LangKeyProxyUsername}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideUserPassword}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AccountProxy.ProxyUsername, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding AccountProxy.ProxyUsername, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{DynamicResource LangKeyProxyPassword}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideUserPassword}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AccountProxy.ProxyPassword, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding AccountProxy.ProxyPassword, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn  Header="{DynamicResource LangKeySocialProfiles}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideSocialProfiles}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <VirtualizingStackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding AccountsAssignedto.Count, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center"
                                            HorizontalAlignment="Center" />
-                                    </VirtualizingStackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <VirtualizingStackPanel Orientation="Horizontal">
-                                        <Controls:DropDownButton x:Name="dropdown" Width="40" Height="20"
+                                        </VirtualizingStackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <VirtualizingStackPanel Orientation="Horizontal">
+                                            <Controls:DropDownButton x:Name="dropdown" Width="40" Height="20"
                                           ItemTemplate="{StaticResource AccountsAssignedToTemplate}" 
                                           ItemsSource="{Binding AccountsAssignedto}" 
                                           Content="{Binding Path=AccountsAssignedto.Count}"
                                           Command="{Binding DataContext.DropDownCommand,
                                           RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                                           CommandParameter="{Binding}">
-                                            <Controls:DropDownButton.Style>
-                                                <Style TargetType="{x:Type Controls:DropDownButton}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=AccountsAssignedto.Count}" Value="0">
-                                                            <Setter Property="IsEnabled" Value="False" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Controls:DropDownButton.Style>
+                                                <Controls:DropDownButton.Style>
+                                                    <Style TargetType="{x:Type Controls:DropDownButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=AccountsAssignedto.Count}" Value="0">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Controls:DropDownButton.Style>
 
-                                        </Controls:DropDownButton>
+                                            </Controls:DropDownButton>
 
-                                        <Controls:DropDownButton x:Name="AddDropdown" Width="40" Height="20" Margin="10,0"
+                                            <Controls:DropDownButton x:Name="AddDropdown" Width="40" Height="20" Margin="10,0"
                                           ItemTemplate="{StaticResource AccountsToBeAssignTemplate}" 
                                           ItemsSource="{Binding AccountsToBeAssign}"
                                           Content="{DynamicResource LangKeyAdd}"
                                           Command="{Binding DataContext.DropDownCommand,
                                           RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                                           CommandParameter="{Binding}" IsEnabled="True" Visibility="{Binding Status,Converter={StaticResource WorkingStringToVisibilityConverter},Mode=TwoWay}" >
-                                        </Controls:DropDownButton>
+                                            </Controls:DropDownButton>
 
-                                    </VirtualizingStackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="{DynamicResource LangKeyStatus}" 
+                                        </VirtualizingStackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="{DynamicResource LangKeyStatus}" 
                                             Binding="{Binding Status, Mode=OneWay}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="{DynamicResource LangKeyResponseTime}"
+                            <DataGridTextColumn Header="{DynamicResource LangKeyResponseTime}"
                                             Binding="{Binding ResponseTime, Mode=OneWay}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="{DynamicResource LangKeyFailures}"
+                            <DataGridTextColumn Header="{DynamicResource LangKeyFailures}"
                                             Binding="{Binding Failures, Mode=OneWay}" IsReadOnly="True"/>
-                        <DataGridTemplateColumn Header="{DynamicResource LangKeyAction}">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="{x:Type models:ProxyManagerModel}">
-                                    <VirtualizingStackPanel Orientation="Horizontal">
-                                        <Button Content="{DynamicResource LangKeyUpdateProxy}"
+                            <DataGridTemplateColumn Header="{DynamicResource LangKeyAction}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type models:ProxyManagerModel}">
+                                        <VirtualizingStackPanel Orientation="Horizontal">
+                                            <Button Content="{DynamicResource LangKeyUpdateProxy}"
                                         FontWeight="SemiBold" Command="{Binding DataContext.UpdateProxyCommand,
                                         RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                                         CommandParameter="{Binding}"
                                         Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                        <Button Content="{DynamicResource LangKeyDelete}"
+                                            <Button Content="{DynamicResource LangKeyDelete}"
                                         FontWeight="SemiBold" Command="{Binding DataContext.DeleteCommand,
                                         RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                                         CommandParameter="{Binding}"
                                         Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                        <Button Content="{DynamicResource LangKeyVerifyProxy}"
+                                            <Button Content="{DynamicResource LangKeyVerifyProxy}"
                                         FontWeight="SemiBold" Command="{Binding DataContext.VerifyProxyCommand,
                                         RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"  CommandParameter="{Binding}"
                                         Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
 
-                                    </VirtualizingStackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="{DynamicResource LangKeyGroup}"
+                                        </VirtualizingStackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="{DynamicResource LangKeyGroup}"
                                             Binding="{Binding AccountProxy.ProxyGroup}" />
 
 
-                    </DataGrid.Columns>
-                </DataGrid>
-                <StackPanel Grid.Row="4"  Height="40" Background="{DynamicResource BackGroundBrushReverse}" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal">
-                    <Button  Height="30"  x:Name="btnDeleteSelected" Margin="10,5"
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="4"  Height="40" Background="{DynamicResource BackGroundBrushReverse}" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal">
+                        <Button  Height="30"  x:Name="btnDeleteSelected" Margin="10,5"
                         Foreground="White" Background="Transparent" Command="{Binding DeleteCommand}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/DeleteNew.png"  />
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/DeleteNew.png"  />
 
-                                <utility:TextPath Text="{StaticResource LangKeySelectedOnly}" Margin="5,0,5,3"  HorizontalAlignment="Center"
+                                    <utility:TextPath Text="{StaticResource LangKeySelectedOnly}" Margin="5,0,5,3"  HorizontalAlignment="Center"
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
+                                                      StrokeThickness="0.5"
 		                                FontFamily="{StaticResource BuildTitleRg}" 
-		                                FontSize="18"
+		                                FontSize="14.75"
                                         FontWeight="Bold">
-                                </utility:TextPath>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
+                                    </utility:TextPath>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
 
-                    <Button  Height="30"  x:Name="btnExportSelected" Margin="5,5" 
+                        <Button  Height="30"  x:Name="btnExportSelected" Margin="5,5" 
                          Command="{Binding ExportProxyCommand}" 
                         Foreground="White" Background="Transparent" >
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Export.ico"  />
-                                <utility:TextPath Text="{StaticResource LangKeyExportSelected}" Margin="5,0,5,3"  HorizontalAlignment="Center"
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="20" Height="20" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Export.ico"  />
+                                    <utility:TextPath Text="{StaticResource LangKeyExportSelected}" Margin="5,0,5,3"  HorizontalAlignment="Center"
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
 		                                FontFamily="{StaticResource BuildTitleRg}" 
-		                                FontSize="18"
+		                                FontSize="14.75"
+                                                      StrokeThickness="0.5"
                                         FontWeight="Bold">
-                                </utility:TextPath>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <StackPanel Orientation="Horizontal">
-                        <Button  Height="30"  x:Name="btnVarifySelected" Margin="25,5" 
+                                    </utility:TextPath>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <StackPanel Orientation="Horizontal">
+                            <Button  Height="30"  x:Name="btnVarifySelected" Margin="25,5" 
                              Command="{Binding VerifyProxyCommand}" 
                              Foreground="White" Background="Transparent" 
                              IsEnabled="{Binding VerifyProxiesViewModel.IsIdle, IsAsync=True}">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_social_pocket}"></VisualBrush>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <utility:TextPath Text="{StaticResource LangKeyVerifySelected}" Margin="5,0,5,3"  HorizontalAlignment="Center"
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_social_pocket}"></VisualBrush>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <utility:TextPath Text="{StaticResource LangKeyVerifySelected}" Margin="5,0,5,3"  HorizontalAlignment="Center"
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
+                                                          StrokeThickness="0.5"
 		                                FontFamily="{StaticResource BuildTitleRg}" 
-		                                FontSize="18"
+		                                FontSize="14.75"
                                         FontWeight="Bold">
-                                    </utility:TextPath>
-                                    <utility:TextPath Margin="5,0,5,3"  HorizontalAlignment="Center"
+                                        </utility:TextPath>
+                                        <utility:TextPath Margin="5,0,5,3"  HorizontalAlignment="Center"
 		                                VerticalAlignment="Center" Visibility="{Binding VerifyProxiesViewModel.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}"
 		                                Fill="White"
 		                                Stroke="Black"
 		                                FontFamily="{StaticResource BuildTitleRg}" 
 		                                FontSize="16"
                                         FontWeight="Bold">
-                                        <utility:TextPath.Text>
-                                            <MultiBinding StringFormat="{}Verified {0} from {1}">
-                                                <Binding Path="VerifyProxiesViewModel.Verified" IsAsync="True"/>
-                                                <Binding Path="VerifyProxiesViewModel.Total" IsAsync="True"/>
-                                            </MultiBinding>
-                                        </utility:TextPath.Text>
-                                    </utility:TextPath>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button  Height="30"  x:Name="btnRefresh" Margin="10,5" 
+                                            <utility:TextPath.Text>
+                                                <MultiBinding StringFormat="{}Verified {0} from {1}">
+                                                    <Binding Path="VerifyProxiesViewModel.Verified" IsAsync="True"/>
+                                                    <Binding Path="VerifyProxiesViewModel.Total" IsAsync="True"/>
+                                                </MultiBinding>
+                                            </utility:TextPath.Text>
+                                        </utility:TextPath>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button  Height="30"  x:Name="btnRefresh" Margin="10,5" 
                              Command="{Binding RefreshProxyCommand}" 
                              Foreground="White" Background="Transparent"
                              Visibility="{Binding RefreshEnable}">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}"></VisualBrush>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <utility:TextPath Text="{StaticResource LangKeyRefresh}" Margin="5,0,5,3"  HorizontalAlignment="Center"
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}"></VisualBrush>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <utility:TextPath Text="{StaticResource LangKeyRefresh}" Margin="5,0,5,3"  HorizontalAlignment="Center"
 		                                VerticalAlignment="Center"
 		                                Fill="White"
 		                                Stroke="Black"
+                                                          StrokeThickness="0.5"
 		                                FontFamily="{StaticResource BuildTitleRg}" 
-		                                FontSize="18"
+		                                FontSize="14.75"
                                         FontWeight="Bold">
-                                    </utility:TextPath>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
+                                        </utility:TextPath>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-                <Border Grid.Row="5" Margin="0,0,0,5" VerticalAlignment="Top" Background="#FFEBEBEB" Height="9" BorderThickness="1">
-                    <Border.Effect>
-                        <DropShadowEffect ShadowDepth="2" BlurRadius="10"  Color="Gray"/>
-                    </Border.Effect>
-                </Border>
-            </Grid>
-        </Border>
-    </Grid>
+                    <Border Grid.Row="5" Margin="0,0,0,5" VerticalAlignment="Top" Background="#FFEBEBEB" Height="9" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="10"  Color="Gray"/>
+                        </Border.Effect>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+   
 
 </UserControl>
