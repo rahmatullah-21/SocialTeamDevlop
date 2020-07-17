@@ -85,7 +85,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
                 account.AccountBaseModel.AccountNetwork).Returns(jp);
 
             // act
-            _sut.RunActivity(account, template, timeRange, module);
+            _sut.RunActivity(account, template, timeRange, false, DateTime.Now, module);
 
             // assert
             _jobProcessFactory.Received(1).Create(account.AccountBaseModel.UserName, template, timeRange, module,
@@ -127,7 +127,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
                 account.AccountBaseModel.AccountNetwork).Returns(jp);
 
             // act
-            _sut.RunActivity(account, template, timeRange, module);
+            _sut.RunActivity(account, template, timeRange, false, DateTime.Now, module);
 
             // assert
             _jobProcessFactory.Received(1).Create(account.AccountBaseModel.UserName, template, timeRange, module,

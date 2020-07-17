@@ -207,7 +207,7 @@
                                                     <Button  Height="Auto"  Margin="20,1" HorizontalAlignment="Right" Width="50" ToolTip="{Binding AccountName}"
                                                      Command="{Binding DataContext.ShowMoreCommand, Source={x:Reference CampaignStatusList}}" CommandParameter="{Binding}"
                                                      Content="{Binding ShowMoreButtonText}" FontSize="10"
-                                                     Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"/>
+                                                     Foreground="Black" Background="{DynamicResource AccentBaseColorBrush}"/>
                                                 </StackPanel>
                                             </Border>
                                         </DataTemplate>

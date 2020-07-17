@@ -27,12 +27,12 @@
             </Grid.ColumnDefinitions>
             <GroupBox >
                 <GroupBox.Header>
-                    <Grid >
+                    <Grid Height="45">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{DynamicResource LangKeyWhitelistUser}" Foreground="Black" FontFamily="{StaticResource BuildTitle}"  FontSize="25" >
+                        <TextBlock Text="{DynamicResource LangKeyWhitelistUser}" VerticalAlignment="Center" Foreground="Black" FontFamily="{StaticResource BuildTitle}"  FontSize="25" >
                         <Grid Grid.Column="1" HorizontalAlignment="Right">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
@@ -85,9 +85,9 @@
 
             <GroupBox Grid.Column="1" Margin="5,0,0,0">
                 <GroupBox.Header>
-                    <Grid >
+                    <Grid Height="45">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="1.3*"/>
                         </Grid.ColumnDefinitions>
                         <Label  Content="{DynamicResource LangKeyWhitelistedUsers}" Foreground="Black"
@@ -147,11 +147,11 @@
                         Command="{Binding DeleteCommand}">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Foreground" Value="Black" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=LstWhiteListUsers.Count}" Value="0">
                                         <Setter Property="IsEnabled" Value="False" />
-                                        <Setter Property="Foreground" Value="DarkGray" />
+                                        <Setter Property="Foreground" Value="Gray" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

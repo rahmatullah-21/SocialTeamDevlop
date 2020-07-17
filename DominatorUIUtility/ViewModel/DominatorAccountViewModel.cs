@@ -992,7 +992,7 @@ namespace DominatorUIUtility.ViewModel
                                 ProxyPassword = proxypassword
                             },
                             AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork),
-                            Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), status),
+                            Status = string.IsNullOrWhiteSpace(status) ? AccountStatus.NotChecked :(AccountStatus)Enum.Parse(typeof(AccountStatus), status),
                             AlternateEmail = alternetEmail,
                             Banned = banned,
                             AccountName = nickName
@@ -2071,7 +2071,7 @@ namespace DominatorUIUtility.ViewModel
 
                         _mainViewModel.AccountList = new ObservableCollection<DominatorAccountModel>(_accountsFileManager.GetAll());
 
-                        #region Start scheduling 
+                        #region Start schedu67ling 
 
                         var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
                         runningActivityManager.Initialize(LstDominatorAccountModel);

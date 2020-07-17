@@ -18,12 +18,12 @@
             <Grid Margin="0,2,10,0">
                 <GroupBox >
                     <GroupBox.Header>
-                        <Grid >
+                        <Grid Height="45">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{DynamicResource LangKeyWhitelistUser}" FontFamily="{StaticResource BuildTitle}"  Foreground="Black"  FontSize="25"/>
+                            <TextBlock Text="{DynamicResource LangKeyWhitelistUser}" FontFamily="{StaticResource BuildTitle}" VerticalAlignment="Center"  Foreground="Black"  FontSize="25"/>
                             <Grid Grid.Column="1" HorizontalAlignment="Right">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50"/>
@@ -77,12 +77,12 @@
             <Grid Grid.Column="1" Margin="0,2,10,0">
                 <GroupBox Grid.Column="1" Margin="5,0,0,0">
                     <GroupBox.Header>
-                        <Grid >
+                        <Grid Height="45">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="1.2*"/>
                             </Grid.ColumnDefinitions>
-                            <Label  Content="{DynamicResource LangKeyWhitelistedUsers}" Margin="0,-5,0,0" FontFamily="{StaticResource BuildTitle}" Foreground="Black"
+                            <Label  Content="{DynamicResource LangKeyWhitelistedUsers}" VerticalAlignment="Center" FontFamily="{StaticResource BuildTitle}" Foreground="Black"
                                  FontSize="25"/>
                             <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" Grid.Column="1" HorizontalScrollBarVisibility="Auto">
                                 <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right">

@@ -1,3 +1,80 @@
+Version[1.0.0.89],[11th July 2020] 
+Fixed:-
+	Social:
+ 		Social ==>linkedin ==> Sociopublisher ==> Fixed issue with posting on wall.
+
+	Instagram:
+		Account manager ==> Account ==> Fixed issue with account login failed
+	
+	Linkedin :
+		Messager ==> Broadcast Message ==> Fixed issue in Skip Blaklisted User
+		Messager ==> Send Greeting To Connections ==> Fixed issue with Send old bithday Greeting.
+
+Version[1.0.0.88],[4th July 2020]  
+New features:-
+	Linkedin :
+		Grow connection ==> Now you can send pageinvitation using admin view url 		
+Fixed:-
+	Social:
+		Sociopublisher ==> Facebook ==> manage post ==> details ==> Fixed issue with view in browser
+		
+	Facebook:
+		Engage ==> postcommenter ==> Fixed issue with links on comments
+		Engage ==> postlike ==>Fixed issue with  timeline and NewsFeed
+		Broadcastmesage ==> Fixed issue with Fanpagelikers querytype
+	
+	Pinterest:
+		Account update ==>  Fixed issue in browser mode updating accouont details 
+		Pinscraper ==> customuser ==> Fixed issue with pin scraper with showing no more data.
+
+	Youtube:
+		Report video ==> Fixed issue with adding Query type
+
+	Quora:
+		Voting ==> Upvote Answers ==> Fixed issue with Upvote Answers.
+		Answers ==> Answer On Question ==> Fixed issue with Answer On Question.
+		Grow Followe r==> Follow ==> Fixed issue With Follow.
+
+Version[1.0.0.87],[22th June 2020] 
+New features:-
+	Social:
+		Socipublisher ==> Pinterest ==> Now you can Upload videos 
+   
+	Linkedin :
+		Grow connection ==> Check box added for sending connection request without visiting profile  		
+
+Fixed:-
+	Social:
+		Sociopublisher ==> Facebook ==> Fixed issue with post description with videos and photos
+		
+	Facebook:
+		Facebook ==> Fixed issue with login with new UI
+
+	Linkedin :
+		Messenger ==> Fixed issue with send greetings to connection 
+		Engage ==> Fixed issue with Like and comment 
+
+	Instagram:
+		Grow Follower ==> Follower ==> Fixed issue with user fliters 
+		Instascraper ==> post scraper ==> Fixed with issue with poster url showing no more data
+	
+	Pinterest:
+		Board ==> Create board ==> Fixed issue in create board browser mode
+		Grow follower ==> Board follower ==> Fixed issue in board follower.
+		Repin ==> Fixed issue in repin issue
+
+	Twitter:
+		Follower ==> Fixed issue with Grow Follower activity. 
+		Unfollower ==> Fixed issue with activity log showing account status failed 
+
+	Youtube:
+		Scraper ==> Channel scraper ==> Fixed issue with scrapper.
+		Enage ==> Like comment ==> Fixed issue with Like Comment.
+		Enage ==> Comment ==> Fixed issue with Comment.
+
+	Quora:
+		Answers ==> Answer on question ==> Fixed issue with Answer On Question
+
 Version[1.0.0.86],[5th june 2020]
 New features:-
 	Social:

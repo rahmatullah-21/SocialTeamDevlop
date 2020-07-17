@@ -30,12 +30,12 @@
 
             <GroupBox >
                 <GroupBox.Header>
-                    <Grid >
+                    <Grid Height="45">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{DynamicResource LangKeyBlacklistUser}" Foreground="Black"  FontFamily="{StaticResource BuildTitle}" FontSize="25" FontWeight="SemiBold"/>
+                        <TextBlock Text="{DynamicResource LangKeyBlacklistUser}" Foreground="Black"  VerticalAlignment="Center" FontFamily="{StaticResource BuildTitle}" FontSize="25" FontWeight="SemiBold"/>
                         <Grid Grid.Column="1" HorizontalAlignment="Right">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
@@ -86,14 +86,14 @@
             </GroupBox>
 
             <GroupBox Grid.Column="1" Margin="5,0,0,0">
-                <GroupBox.Header>
-                    <Grid >
+                <GroupBox.Header >
+                    <Grid Height="45">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.7*"/>
                             <ColumnDefinition Width="1.3*"/>
                         </Grid.ColumnDefinitions>
                         <Label  Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="Black"
-                                VerticalAlignment="Center" FontSize="25" FontFamily="{StaticResource BuildTitle}"/>
+                                VerticalAlignment="Center"  FontSize="25" FontFamily="{StaticResource BuildTitle}"/>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right" >
                             <CheckBox Name="SelectAll" Foreground="Black" IsChecked="{Binding IsAllBlackListUserChecked}"
@@ -146,17 +146,17 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                     <Button Grid.Row="1" Name="DeleteSelected" Content="{DynamicResource LangKeyRemoveSelectedFromBlacklist}"
-                        Background="{DynamicResource AccentBaseColorBrush}" 
+                        Background="{DynamicResource AccentBaseColorBrush}"  
                         Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
                         Command="{Binding DeleteCommand}">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Foreground" Value="Black" />
 
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=LstBlackListUsers.Count}" Value="0">
                                         <Setter Property="IsEnabled" Value="False" />
-                                        <Setter Property="Foreground" Value="DarkGray" />
+                                        <Setter Property="Foreground" Value="Gray" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

@@ -566,6 +566,12 @@ namespace DominatorHouseCore.Models
             }
         }
         public bool IsNeedToSchedule { get; set; } = true;
+
+        public string Challenge_Context { get; set; } = string.Empty;
+
+        [ProtoMember(26)]
+        public string UserAgentMobileWeb { get; set; } = string.Empty;
+
         public DominatorAccountModel Clone()
         {
             return (DominatorAccountModel)MemberwiseClone();

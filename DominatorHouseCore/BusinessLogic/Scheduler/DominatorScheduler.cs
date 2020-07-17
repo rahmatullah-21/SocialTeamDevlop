@@ -21,7 +21,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
         //void RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange,
         //    string module);
-        Task RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange,
+        Task RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange,bool shouldStop, DateTime stopTime,
            string module);
         bool Stop(string accountName, string templateId, bool isStopIfAccountLoginFail = false);
         void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart, bool isTimelimitReached = false);
@@ -114,7 +114,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         //    }
         //}
         static bool needTolock = true;
-        public async Task RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange, string module)
+        public async Task RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange, bool shouldStop, DateTime stopTime, string module)
         {
             if (_lockWithThreadLimit != null && needTolock)
             {
@@ -155,6 +155,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 if (limitInfo.ReachedLimitType != ReachedLimitType.NoLimit)
                 {
                     RescheduleifLimitReached(jobProcess, limitInfo, limitInfo.ReachedLimitType);
+                    return;
+                }
+
+                if (shouldStop && DateTime.Now >= stopTime)
+                {
+                    if (_lockWithThreadLimit?.CurrentCount != maxThreadCount)
+                        _lockWithThreadLimit?.Release();
                     return;
                 }
 
@@ -576,15 +583,22 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             _schedulerProxy.AddJob(async () =>
              {
-                 await RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                 try
+                 {
+                     await RunActivity(dominatorAccount, templateId, timing, shouldStop, stopTime, timing.Module);
+                 }
+                 catch (Exception ex) { ex.DebugLog(); }
              }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
 
             if (shouldStop)
                 _schedulerProxy.AddJob(() =>
                 {
-                    StopActivity(dominatorAccount, timing.Module, templateId, true, true);
+                    try
+                    {
+                        StopActivity(dominatorAccount, timing.Module, templateId, true, true);
+                    }
+                    catch (Exception ex) { ex.DebugLog(); }
                 }, s => s.ToRunOnceAt(stopTime));
-
         }
 
         public void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo,
