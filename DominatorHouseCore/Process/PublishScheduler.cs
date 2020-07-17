@@ -1354,12 +1354,12 @@ namespace DominatorHouseCore.Process
                         // Get the publisher Job Process factory
                         var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                         var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
-                            .GetPublisherCoreFactory()
+                            ?.GetPublisherCoreFactory()?
                             .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null,
                                 null, null, false, new CancellationTokenSource());
 
                         // Call is delete options
-                        if (publisherJobProcess.DeletePost(postDeletionModel.PublishedIdOrUrl))
+                        if (publisherJobProcess?.DeletePost(postDeletionModel.PublishedIdOrUrl)??false)
                         {
                             // If successfully deleted , update the details
                             publisherJobProcess.UpdatePostWithDeletion(postDeletionModel.DestinationUrl,
