@@ -268,10 +268,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         new PostDetailsModel();
                     tabItemsControl.PostDetailsModel = new PostDetailsModel();
 
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyPostSaved".FromResourceDictionary()} to {status} list");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Admin, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyPostSaved".FromResourceDictionary()} to {status} list");
                 }
                 else
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyFailedToSave".FromResourceDictionary()} to {status} list. {"LangKeyAddAtleastOnePost".FromResourceDictionary()}");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Admin, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyFailedToSave".FromResourceDictionary()} to {status} list. {"LangKeyAddAtleastOnePost".FromResourceDictionary()}");
 
                 _multipostWindow?.Close();
                 _multipostWindow = null;

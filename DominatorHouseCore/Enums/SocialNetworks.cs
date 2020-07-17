@@ -8,7 +8,7 @@
         Pinterest,
         LinkedIn,
         Reddit,
-        Social,
+        Admin,
         Quora,
         Gplus,
         Youtube,

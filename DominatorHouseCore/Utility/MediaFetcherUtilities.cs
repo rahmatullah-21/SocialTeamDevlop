@@ -81,7 +81,7 @@ namespace DominatorHouseCore.Utility
                     {
                         AccountBaseModel = new DominatorAccountBaseModel()
                         {
-                            AccountNetwork = Enums.SocialNetworks.Social,
+                            AccountNetwork = Enums.SocialNetworks.Admin,
                             AccountProxy = new Proxy()
                             {
 

@@ -454,7 +454,7 @@ namespace DominatorUIUtility.ViewModel
             UpdateCurrentDominatorAccountModel();
 
             // Back to AccountManager module
-            var controlToSelect = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+            var controlToSelect = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Admin);
             AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = controlToSelect;
             AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType = "AccountManager";
         }

@@ -615,7 +615,7 @@ namespace DominatorUIUtility.ViewModel
         {
             if (e.HasValue)
             {
-                var spec = (e == SocialNetworks.Social) ?
+                var spec = (e == SocialNetworks.Admin) ?
                     DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
                     SocinatorInitialize.GetSocialLibrary(e.Value)
                         .GetNetworkCoreFactory()
@@ -839,7 +839,7 @@ namespace DominatorUIUtility.ViewModel
                         var groupname = splitAccount[0];
 
                         var socialNetwork = splitAccount[1];
-                        if (socialNetwork == "AccountNetwork" || socialNetwork == SocialNetworks.Social.ToString()) continue;
+                        if (socialNetwork == "AccountNetwork" || socialNetwork == SocialNetworks.Admin.ToString()) continue;
                         var username = splitAccount[2];
                         var password = splitAccount[3];
 
@@ -1007,7 +1007,7 @@ namespace DominatorUIUtility.ViewModel
                         if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                         {
 
-                            if (SocinatorInitialize.ActiveSocialNetwork == objDominatorAccountBaseModel.AccountNetwork || SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+                            if (SocinatorInitialize.ActiveSocialNetwork == objDominatorAccountBaseModel.AccountNetwork || SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Admin)
                             {
                                 _pendingActions = _pendingActions.Enqueue(() => AddAccount(objDominatorAccountBaseModel, cookies,
                                                                               (action) =>
@@ -1645,7 +1645,7 @@ namespace DominatorUIUtility.ViewModel
         }
         List<DominatorAccountModel> GetSelectedAccount()
         {
-            return LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social || x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork)).ToList();
+            return LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Admin || x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork)).ToList();
         }
         private void DeleteAccountsExecute()
         {
@@ -1813,7 +1813,7 @@ namespace DominatorUIUtility.ViewModel
             string FourthCountHeader = SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
                               .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn4Value;
 
-            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Admin)
                 header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
 
             else if (!string.IsNullOrEmpty(FourthCountHeader))
@@ -1904,7 +1904,7 @@ namespace DominatorUIUtility.ViewModel
         public void SelectAllAccounts(bool select)
         {
             LstDominatorAccountModel
-                .Where(x => SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social || x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).ForEach(
+                .Where(x => SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Admin || x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).ForEach(
                     x =>
                     {
                         x.IsAccountManagerAccountSelected = select;
@@ -1918,7 +1918,7 @@ namespace DominatorUIUtility.ViewModel
             switch (menu)
             {
                 case "Working":
-                    if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+                    if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Admin)
                     {
                         LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == AccountStatus.Success).ForEach(x =>
                         {
@@ -1937,7 +1937,7 @@ namespace DominatorUIUtility.ViewModel
                     break;
                 case "NotWorking":
 
-                    if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+                    if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Admin)
                     {
                         LstDominatorAccountModel.ForEach(x =>
                         {
@@ -1973,7 +1973,7 @@ namespace DominatorUIUtility.ViewModel
                     }
                     break;
                 case "NotChecked":
-                    if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+                    if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Admin)
                     {
                         LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == AccountStatus.NotChecked).ForEach(x =>
                         {
@@ -2677,7 +2677,7 @@ namespace DominatorUIUtility.ViewModel
                         }
                     }
                     else
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Admin, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
                 }
                 catch (Exception)
                 {
@@ -2728,7 +2728,7 @@ namespace DominatorUIUtility.ViewModel
                         }
                     }
                     else
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Admin, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
                 }
                 catch (Exception)
                 {
@@ -2743,7 +2743,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 Groups.Clear();
                 Groups.AddRange(LstDominatorAccountModel
-                    .Where(x => SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social ||
+                    .Where(x => SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Admin ||
                                 x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork)
                     .GroupBy(a => a.AccountBaseModel.AccountGroup).Select(a => a.Key).ToList());
             }

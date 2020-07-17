@@ -64,7 +64,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 await _proxyFileManager.UpdateProxyStatusAsync(currentProxyManager, URLToUseToVerifyProxies);
-                GlobusLogHelper.log.Info(Log.ProxyVerificationCompleted, SocialNetworks.Social,
+                GlobusLogHelper.log.Info(Log.ProxyVerificationCompleted, SocialNetworks.Admin,
                     currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort);
                 ToasterNotification.ShowSuccess(currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort + "\n"+ "LangKeyProxyVerificationCompleted".FromResourceDictionary());
             }

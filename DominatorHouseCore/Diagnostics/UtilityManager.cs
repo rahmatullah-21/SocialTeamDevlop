@@ -295,7 +295,7 @@ namespace DominatorHouseCore.Diagnostics
                     {
                         {"SocinatorInitializer", true}
                     };
-                    return SocinatorInitialize.AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
+                    return SocinatorInitialize.AvailableNetworks = new[] { SocialNetworks.Admin }.ToHashSet();
                 }
 
                 fixture = GetFixtures();
@@ -364,7 +364,7 @@ namespace DominatorHouseCore.Diagnostics
             {
                 FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true } };
 
-                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
+                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Admin);
 
                 if (string.IsNullOrEmpty(details))
                     return SocinatorInitialize.AvailableNetworks;
@@ -419,7 +419,7 @@ namespace DominatorHouseCore.Diagnostics
 
                                 FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
 
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
+                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Admin);
 
                                 foreach (var token in arrInvoiceItems)
                                 {
@@ -471,7 +471,7 @@ namespace DominatorHouseCore.Diagnostics
                             {
                                 SocinatorInitialize.AvailableNetworks.Clear();
                                 FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
+                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Admin);
                                 var exemptionDescription = arrayExemptionItems[ConfigurationManager.AppSettings["ExemptionDescription"]].ToString();
                                 exemptionDescription = exemptionDescription.Replace(ConstantVariable.MarketingSoftware, string.Empty).Trim();
                                 var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), exemptionDescription);
@@ -498,7 +498,7 @@ namespace DominatorHouseCore.Diagnostics
                         {
                             SocinatorInitialize.AvailableNetworks.Clear();
                             FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
-                            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
+                            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Admin);
                             var exemptionDescription = ConfigurationManager.AppSettings[details];
                             var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), exemptionDescription);
                             SocinatorInitialize.AvailableNetworks.Add(networks);

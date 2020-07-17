@@ -52,7 +52,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 
         public DbOperations(SQLiteConnection context)
         {
-            SocialNetworks = SocialNetworks.Social;
+            SocialNetworks = SocialNetworks.Admin;
             _context = context;
             _syncObject = SyncDictionary.GetOrAdd(_context.DatabasePath, a => new object());
         }

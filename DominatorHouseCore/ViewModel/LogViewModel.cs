@@ -77,7 +77,7 @@ namespace DominatorHouseCore.ViewModel
 
         public bool NetworkIsSelected
         {
-            get { return SelectedNetwork.HasValue && SelectedNetwork != SocialNetworks.Social; }
+            get { return SelectedNetwork.HasValue && SelectedNetwork != SocialNetworks.Admin; }
         }
 
         public DelegateCommand CopyCmd { get; set; }
@@ -188,7 +188,7 @@ namespace DominatorHouseCore.ViewModel
                     }
                     : new LoggerModel
                     {
-                        Network = SocialNetworks.Social.ToString(),
+                        Network = SocialNetworks.Admin.ToString(),
                         DateTime = DateTime.Now,
                         Message = message,
                         LogType = logLevel.ToString()

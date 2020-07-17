@@ -25,7 +25,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
         [TestMethod]
         public void should_return_collection_of_all_network_Activities_if_input_contains_list_and_network_is_social()
         {
-            values = new object[] { LstActivityType, SocialNetworks.Social };
+            values = new object[] { LstActivityType, SocialNetworks.Admin };
             var result = (IEnumerable<ActivityType?>)_sut.Convert(values, values.GetType(), null, CultureInfo.CurrentUICulture);
             result.Should().NotBeEmpty().And.HaveCount(LstActivityType.Count);
         }

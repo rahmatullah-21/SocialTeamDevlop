@@ -36,7 +36,7 @@ namespace DominatorHouseCore.Converters
                         return "/DominatorUIUtility;component/Images/YoutubeNew.png";
                     case SocialNetworks.Tumblr:
                         return "/DominatorUIUtility;component/Images/TumblrNew.png";
-                    case SocialNetworks.Social:
+                    case SocialNetworks.Admin:
                         return null;
                     case SocialNetworks.TikTok:
                         var icon = Application.Current?.FindResource("TikTok_Icon");

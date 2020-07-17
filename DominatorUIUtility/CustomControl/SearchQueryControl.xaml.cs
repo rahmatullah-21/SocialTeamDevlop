@@ -508,7 +508,7 @@ namespace DominatorUIUtility.CustomControl
                     Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeySelectAtleastOneQuery".FromResourceDictionary());
                     return;
                 }
-               // var network = SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social ? SocinatorInitialize.AccountModeActiveSocialNetwork : SocinatorInitialize.ActiveSocialNetwork;
+               // var network = SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Admin ? SocinatorInitialize.AccountModeActiveSocialNetwork : SocinatorInitialize.ActiveSocialNetwork;
                 SaveFileDialog saveFiledialog = new SaveFileDialog
                 {
                     Filter = "CSV file (.csv)|*.csv",

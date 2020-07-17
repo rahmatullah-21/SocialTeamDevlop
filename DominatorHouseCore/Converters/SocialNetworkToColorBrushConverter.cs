@@ -40,7 +40,7 @@ namespace DominatorHouseCore.Converters
                         return Brushes.DimGray;
                     case SocialNetworks.TikTok:
                         return Brushes.DarkCyan;
-                    case SocialNetworks.Social:
+                    case SocialNetworks.Admin:
                         return null;
 
                     default:

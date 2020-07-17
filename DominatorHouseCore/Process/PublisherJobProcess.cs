@@ -51,7 +51,7 @@ namespace DominatorHouseCore.Process
 
             //Get the general settings from bin files
             GeneralSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
-                                       (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                       (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin))
                                        .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
             // Get the full account details from account Id
@@ -103,7 +103,7 @@ namespace DominatorHouseCore.Process
 
             //Get the general settings from bin files
             GeneralSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
-                                       (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                       (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin))
                                        .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
             // Get the full account details from account Id

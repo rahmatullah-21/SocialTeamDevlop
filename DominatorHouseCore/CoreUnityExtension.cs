@@ -64,8 +64,8 @@ namespace DominatorHouseCore
             Container.AddNewExtension<DbMigrationUnityExtension>();
             Container.AddNewExtension<ProxyManagmentUnityExtension>();
 
-            Container.RegisterSingleton<IQueryScraperFactory, DominatorScraperFactory>(SocialNetworks.Social.ToString());
-            Container.RegisterSingleton<IJobProcessFactory, DominatorJobProcessFactory>(SocialNetworks.Social.ToString());
+            Container.RegisterSingleton<IQueryScraperFactory, DominatorScraperFactory>(SocialNetworks.Admin.ToString());
+            Container.RegisterSingleton<IJobProcessFactory, DominatorJobProcessFactory>(SocialNetworks.Admin.ToString());
             Container.RegisterSingleton<IDominatorScheduler, DominatorScheduler>();
             Container.RegisterSingleton<ISchedulerProxy, SchedulerProxy>();
 

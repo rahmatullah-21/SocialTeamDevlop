@@ -38,7 +38,7 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (SyncObject)
             {
-                if (networks == SocialNetworks.Social)
+                if (networks == SocialNetworks.Admin)
                 {
                     return GetCopySync();
                 }

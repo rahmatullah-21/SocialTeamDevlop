@@ -26,7 +26,7 @@ namespace DominatorHouseCore.Converters
             var isReturnwithoutAssign = parameter as bool?;
             if (collection != null)
             {
-                if (socialNetworks.HasValue && socialNetworks.Value != SocialNetworks.Social)
+                if (socialNetworks.HasValue && socialNetworks.Value != SocialNetworks.Admin)
                 {
                     if (isReturnwithoutAssign == true)
                         return collection.Where(a => a.AccountBaseModel.AccountNetwork == socialNetworks.Value);

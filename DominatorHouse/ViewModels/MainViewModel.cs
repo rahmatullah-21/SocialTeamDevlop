@@ -445,7 +445,7 @@ namespace DominatorHouse.ViewModels
                          Task.Delay(5);
                      }
 
-                     SetActiveNetwork(SocialNetworks.Social);
+                     SetActiveNetwork(SocialNetworks.Admin);
                  });
                 ThreadFactory.Instance.Start(() =>
                 {
@@ -601,7 +601,7 @@ namespace DominatorHouse.ViewModels
                     _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
                         .LangKeyAccountsActivity))
                 {
-                    ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
+                    ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Admin);
                 }
 
                 if (itemTemplate.Title ==
@@ -621,7 +621,7 @@ namespace DominatorHouse.ViewModels
                         return;
 
                     AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
-                            AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
+                            AccountCustomControl.GetAccountCustomControl(SocialNetworks.Admin, Strategies);
                 }
 
                 if (itemTemplate.Title ==
@@ -640,7 +640,7 @@ namespace DominatorHouse.ViewModels
                 return;
 
             TabDock = Dock.Top;
-            if (network == SocialNetworks.Social)
+            if (network == SocialNetworks.Admin)
                 TabDock = Dock.Top;
 
             // if "Account details" was opened in account manager, then discard all account details changes while switching network 
@@ -689,7 +689,7 @@ namespace DominatorHouse.ViewModels
         private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
         {
             var AutoActivityViewModel = ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>();
-            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Admin)
             {
                 TabItems.SelectByIndex(index);
                 AutoActivityViewModel.NewAutoActivityObject(network, selectedAccount);
@@ -697,7 +697,7 @@ namespace DominatorHouse.ViewModels
             else
             {
                 TabItems.SelectByIndex(index);
-                AutoActivityViewModel.CallRespectiveView(SocialNetworks.Social);
+                AutoActivityViewModel.CallRespectiveView(SocialNetworks.Admin);
                 AutoActivityViewModel.NewAutoActivityObject(network, selectedAccount);
             }
         }

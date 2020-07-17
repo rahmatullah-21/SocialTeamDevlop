@@ -17,7 +17,7 @@ namespace DominatorHouseCore.Converters
             {
                 switch (network)
                 {
-                    case SocialNetworks.Social:
+                    case SocialNetworks.Admin:
                         return ConstantVariable.SocialAccountManagerVideoLink;
                     case SocialNetworks.Facebook:
                         return ConstantVariable.FbAccountManagerVideoLink;

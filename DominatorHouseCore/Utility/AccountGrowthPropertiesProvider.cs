@@ -101,7 +101,7 @@ namespace DominatorHouseCore.Utility
                     }
                 },
                 {
-                    SocialNetworks.Social, new List<GrowthProperty>()
+                    SocialNetworks.Admin, new List<GrowthProperty>()
                 }
             };
         }

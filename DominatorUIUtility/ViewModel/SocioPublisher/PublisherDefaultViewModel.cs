@@ -527,7 +527,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     // Save advanced setting of all network
                     #region Saving Advance setting
 
-                    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social);
+                    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin);
                     var generalModels = _genericFileManager.GetModuleDetails<GeneralModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (generalModels != null)
                     {
@@ -804,7 +804,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Delete the post list bin file for the campaign
                 _genericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{campaign.CampaignId}.bin");
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaign.CampaignName, "Publisher Campaign", $"{campaign.CampaignName} {"LangKeyDeletedSuccessfully".FromResourceDictionary()}");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Admin, campaign.CampaignName, "Publisher Campaign", $"{campaign.CampaignName} {"LangKeyDeletedSuccessfully".FromResourceDictionary()}");
 
                 //update campaign list in managepost
                 campaignList.Remove(campaignList.FirstOrDefault(x => x.Id == campaign.CampaignId));
@@ -856,7 +856,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 _genericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Publisher Campaign", "LangKeyCampaignDeletionCompleted".FromResourceDictionary());
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Admin, "", "Publisher Campaign", "LangKeyCampaignDeletionCompleted".FromResourceDictionary());
 
             }
             if (ListPublisherCampaignStatusModels.Count == 0 ||

@@ -74,7 +74,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
         [TestMethod]
         public void should_return_collection_of_all_network_account_if_input_contains_list_and_network_is_social()
         {
-            values = new object[] { LstDominatorAccountModel, SocialNetworks.Social };
+            values = new object[] { LstDominatorAccountModel, SocialNetworks.Admin };
             var result = (IEnumerable<DominatorAccountModel>)_sut.Convert(values, values.GetType(), null, CultureInfo.CurrentUICulture);
             result.Should().NotBeEmpty().And.HaveCount(LstDominatorAccountModel.Count);
         }

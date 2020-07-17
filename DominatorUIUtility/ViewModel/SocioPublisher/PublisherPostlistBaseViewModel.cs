@@ -714,7 +714,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Get the general settings
                     var generalModel = _genericFileManager.GetModuleDetails<GeneralModel>
-                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin))
                                                .FirstOrDefault(x => x.CampaignId == readdPost.CampaignId) ?? new GeneralModel();
 
                     // Check whether need to keep the initial create time for the posts

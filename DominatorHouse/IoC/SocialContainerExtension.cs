@@ -17,7 +17,7 @@ namespace DominatorHouse.IoC
 {
     public class SocialContainerExtension : UnityContainerExtension
     {
-        private const SocialNetworks CurrentyNetwork = SocialNetworks.Social;
+        private const SocialNetworks CurrentyNetwork = SocialNetworks.Admin;
         protected override void Initialize()
         {
             // specify name of the module (CurrentyNetwork.ToString()) when you think it will be many registration upon your interface

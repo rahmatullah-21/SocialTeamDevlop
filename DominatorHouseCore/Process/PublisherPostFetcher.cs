@@ -259,7 +259,7 @@ namespace DominatorHouseCore.Process
                     return;
 
                 //var generaldata = GenericFileManager.GetModuleDetails<GeneralModel>
-                //    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                //    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin))
                 //    .FirstOrDefault(x => x.CampaignId == publisherPostFetchModel.CampaignId) ?? new GeneralModel();
 
 
@@ -300,7 +300,7 @@ namespace DominatorHouseCore.Process
                 }
 
                 // get the post scraper object for Rss feed and monitor folder
-                var postScraper = PublisherInitialize.GetPublisherLibrary(SocialNetworks.Social).GetPublisherCoreFactory()
+                var postScraper = PublisherInitialize.GetPublisherLibrary(SocialNetworks.Admin).GetPublisherCoreFactory()
                     .PostScraper.GetPostScraperLibrary(publisherPostFetchModel.CampaignId, cancellationTokenSource, publisherPostFetchModel);
 
                 // Call the respective post scraper methods

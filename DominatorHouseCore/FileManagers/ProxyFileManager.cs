@@ -93,7 +93,7 @@ namespace DominatorHouseCore.FileManagers
                         request.Proxy.Credentials = new NetworkCredential(currentProxy.ProxyUsername, currentProxy.ProxyPassword);
                     }
 
-                    GlobusLogHelper.log.Info(Log.ProxyVerificationStarted, SocialNetworks.Social, currentProxy.ProxyIp + ":" + currentProxy.ProxyPort);
+                    GlobusLogHelper.log.Info(Log.ProxyVerificationStarted, SocialNetworks.Admin, currentProxy.ProxyIp + ":" + currentProxy.ProxyPort);
 
                     using (var response = (HttpWebResponse)request.GetResponse())
                     {
@@ -141,7 +141,7 @@ namespace DominatorHouseCore.FileManagers
                     }
 
                     stopWatch.Start();
-                    GlobusLogHelper.log.Info(Log.ProxyVerificationStarted, SocialNetworks.Social, currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort);
+                    GlobusLogHelper.log.Info(Log.ProxyVerificationStarted, SocialNetworks.Admin, currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort);
 
                     using (var response = (HttpWebResponse)await request.GetResponseAsync())
                     {

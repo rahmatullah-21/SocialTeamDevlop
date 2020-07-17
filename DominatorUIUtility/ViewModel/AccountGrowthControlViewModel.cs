@@ -75,7 +75,7 @@ namespace DominatorUIUtility.ViewModel
             GrowthPropertyCheckedCmd = new DelegateCommand<GrowthProperty>(OnGrowthPeropertyChecked);
 
             SelectedAccount = Accounts.FirstOrDefault();
-            GrowthProperties = new ObservableCollection<GrowthProperty>(_accountGrowthPropertiesProvider[SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social]);
+            GrowthProperties = new ObservableCollection<GrowthProperty>(_accountGrowthPropertiesProvider[SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Admin]);
             BindingOperations.EnableCollectionSynchronization(GrowthProperties, _syncObject);
 
             AxisXLabels = new ObservableCollection<string>();
@@ -105,7 +105,7 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (_syncObject)
             {
-                SelectedAccount = Accounts.BySocialNetwork(e ?? SocialNetworks.Social).FirstOrDefault();
+                SelectedAccount = Accounts.BySocialNetwork(e ?? SocialNetworks.Admin).FirstOrDefault();
                 UpdateGrowthProperties();
                 SetGrowthForAccount();
                 //UpdateChart();
@@ -160,7 +160,7 @@ namespace DominatorUIUtility.ViewModel
         {
             GrowthProperties.Clear();
             GrowthProperties.AddRange(
-                _accountGrowthPropertiesProvider[SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social]);
+                _accountGrowthPropertiesProvider[SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Admin]);
         }
 
         private void SetRespectiveAccounts(GrowthPeriod period)
@@ -253,7 +253,7 @@ namespace DominatorUIUtility.ViewModel
         {
             var list = new ChartValues<int>();
             var properties = _accountGrowthPropertiesProvider
-                [SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social];
+                [SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Admin];
             for (int i = 1; i <= properties.Count(); i++)
             {
                 if (growthChartProperty == properties[i - 1].PropertyName)
@@ -283,7 +283,7 @@ namespace DominatorUIUtility.ViewModel
             if (SelectedAccount != null)
             {
                 var accountUpdateFactory = SocinatorInitialize
-                    .GetSocialLibrary(SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social)
+                    .GetSocialLibrary(SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Admin)
                     .GetNetworkCoreFactory().AccountUpdateFactory;
                 GrowthList.Clear();
                 GrowthList.AddRange(accountUpdateFactory.GetDailyGrowthForAccount(SelectedAccount?.AccountId, GrowthChartPeriods.Selected ?? GrowthChartPeriod.Past30Days));

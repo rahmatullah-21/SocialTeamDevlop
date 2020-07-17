@@ -81,12 +81,12 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
                 .ReturnsForAnyArgs(new List<PublishedPostDetailsModel>() { publishedPostDetailsModel });
 
             var generalmodel = new GeneralModel();
-            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin))
             .ReturnsForAnyArgs(new List<GeneralModel> { generalmodel });
 
             var input = new PublisherCampaignStatusModel();
             PublishScheduler.StartPublishingPosts(input);
-            _genericFileManager.Received(2).GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social));
+            _genericFileManager.Received(2).GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin));
             _genericFileManager.Received(1).GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails);
             _genericFileManager.Received(1).GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile);
@@ -103,7 +103,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
                 .ReturnsForAnyArgs(new List<PublishedPostDetailsModel>() { publishedPostDetailsModel });
 
             var generalmodel = new GeneralModel();
-            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin))
             .ReturnsForAnyArgs(new List<GeneralModel> { generalmodel });
 
             var publisherCampaignStatusModel = new PublisherCampaignStatusModel
@@ -126,7 +126,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
 
             PublishScheduler.SchedulePublishNowByCampaign(campaignId);
 
-            _genericFileManager.Received(2).GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social));
+            _genericFileManager.Received(2).GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin));
             _genericFileManager.Received(1).GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails);
             _genericFileManager.Received(1).GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile);
@@ -158,7 +158,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
 
             var postDeletionModel = new PostDeletionModel()
             {
-                Networks = SocialNetworks.Social,
+                Networks = SocialNetworks.Admin,
                 CampaignId = campaignId,
                 AccountId = Guid.NewGuid().ToString(),
                 DeletionTime = DateTime.Now
@@ -166,7 +166,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             _genericFileManager.AddModule(postDeletionModel,
               ConstantVariable.GetDeletePublisherPostModel).ReturnsForAnyArgs(true);
             var generalmodel = new GeneralModel();
-            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin))
             .ReturnsForAnyArgs(new List<GeneralModel> { generalmodel });
 
             var publisherCreateCampaignModel = new PublisherCreateCampaignModel
@@ -232,7 +232,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
                 }
             };
             var generalmodel = new GeneralModel();
-            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin))
             .ReturnsForAnyArgs(new List<GeneralModel> { generalmodel });
             PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
             PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == campaignId).Should().Be(publisherCampaignStatusModel);
@@ -241,7 +241,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             PublishScheduler.ValidateCampaignsTime(specificCampaign).Should().Be(true);
 
             PublishScheduler.ScheduleTodaysPublisherByCampaign(campaignId);
-            _genericFileManager.Received(1).GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social));
+            _genericFileManager.Received(1).GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin));
         }
     }
 }

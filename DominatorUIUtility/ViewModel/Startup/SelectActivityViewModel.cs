@@ -43,7 +43,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             set
             {
                 SetProperty(ref _selectedNetwork, value);
-                if (SelectedNetwork != SocialNetworks.Social.ToString())
+                if (SelectedNetwork != SocialNetworks.Admin.ToString())
                     SetActivityTypeByNetwork(SelectedNetwork);
             }
         }

@@ -24,7 +24,7 @@ namespace Socinator.DominatorCores
         private DominatorCoreBuilder(INetworkCoreFactory networkCoreFactory)
             : base(networkCoreFactory)
         {
-            AddNetwork(SocialNetworks.Social)
+            AddNetwork(SocialNetworks.Admin)
                 .AddTabFactory(DominatorTabHandlerFactory.GetInstance(_strategies))
                 .AddAccountCounts(DominatorAccountCountFactory.Instance)
                 .AddAccountUiTools(DominatorAccountToolsFactory.Instance);

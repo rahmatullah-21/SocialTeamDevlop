@@ -14,7 +14,7 @@ namespace DominatorHouse.DominatorCores
         private SocialPublisherCoreBuilder(IPublisherCoreFactory publisherCoreFactory)
             : base(publisherCoreFactory)
         {
-            AddNetwork(SocialNetworks.Social)
+            AddNetwork(SocialNetworks.Admin)
                 .AddPostScraper(new SocialPublisherPostScraper());
         }
 

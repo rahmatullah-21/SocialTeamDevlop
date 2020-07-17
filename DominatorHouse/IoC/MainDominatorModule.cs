@@ -9,7 +9,7 @@ namespace DominatorHouse
 {
     public class MainDominatorModule : ISocialNetworkModule
     {
-        public SocialNetworks Network => SocialNetworks.Social;
+        public SocialNetworks Network => SocialNetworks.Admin;
 
         private readonly IUnityContainer _unityContainer;
 

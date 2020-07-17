@@ -59,7 +59,7 @@ namespace DominatorHouseCore.Diagnostics
             }
             catch (Exception)
             {
-                return SocialNetworks.Social;
+                return SocialNetworks.Admin;
             }
         }
 

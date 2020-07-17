@@ -64,7 +64,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
                 .PublisherCreateCampaignModel.CampaignId;
 
             var generaldata = _genericFileManager.GetModuleDetails<GeneralModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
 
             if (generaldata == null)

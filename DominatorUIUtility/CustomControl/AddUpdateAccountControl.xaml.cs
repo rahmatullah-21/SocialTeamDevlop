@@ -30,11 +30,11 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
 
-            if (socialNetwork == SocialNetworks.Social)
+            if (socialNetwork == SocialNetworks.Admin)
             {
                 foreach (var item in SocinatorInitialize.GetRegisterNetwork())
                 {
-                    if (item == SocialNetworks.Social)
+                    if (item == SocialNetworks.Admin)
                         continue;
                     ComboBoxSocialNetworks.Items.Add(item);
                 }

@@ -46,7 +46,7 @@
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>-->
 
-    <Border MouseDown="Drag_Event" BorderThickness="1,20,1,0" BorderBrush="Black" CornerRadius="10">
+    <Border  BorderThickness="1,20,1,0" BorderBrush="Black" CornerRadius="10">
         
         <Grid Name="MainGrid" >
             <Grid.Background>
@@ -63,7 +63,7 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <Border CornerRadius="0,0,5,5" Grid.Row="7" VerticalAlignment="Bottom"  Background="Black"></Border>
-            <Border BorderBrush="Gray" Grid.Row="1" Grid.ColumnSpan="2" Height="45" Background="{DynamicResource AccentLightColorBrush}">
+            <Border BorderBrush="Gray" MouseDown="Drag_Event" Grid.Row="1" Grid.ColumnSpan="2" Height="45" Background="{DynamicResource AccentLightColorBrush}">
                 <Grid Height="45" Grid.ColumnSpan="2" Background="{DynamicResource AccentLightColorBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -92,7 +92,7 @@
                                         </StackPanel>
                                     </Border>
                                     <DataTemplate.Triggers>
-                                        <DataTrigger  Binding="{Binding}" Value="{x:Static enums:SocialNetworks.Social}">
+                                        <DataTrigger  Binding="{Binding}" Value="{x:Static enums:SocialNetworks.Admin}">
                                             <Setter TargetName="NetworkIcon" Property="Visibility" Value="Collapsed"/>
                                         </DataTrigger>
                                     </DataTemplate.Triggers>

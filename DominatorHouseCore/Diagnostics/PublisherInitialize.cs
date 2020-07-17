@@ -367,7 +367,7 @@ namespace DominatorHouseCore.Diagnostics
             try
             {
                 // Check whether campaign Id is not or not
-                if (string.IsNullOrEmpty(campaignId) || network == SocialNetworks.Social)
+                if (string.IsNullOrEmpty(campaignId) || network == SocialNetworks.Admin)
                     return new List<PublishedPostDetailsModel>();
 
                 // Return published posts details

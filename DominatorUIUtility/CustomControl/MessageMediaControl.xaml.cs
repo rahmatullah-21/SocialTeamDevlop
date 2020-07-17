@@ -75,7 +75,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for Network.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty NetworkProperty =
-            DependencyProperty.Register("Network", typeof(SocialNetworks), typeof(MessageMediaControl), new PropertyMetadata(SocialNetworks.Social));
+            DependencyProperty.Register("Network", typeof(SocialNetworks), typeof(MessageMediaControl), new PropertyMetadata(SocialNetworks.Admin));
         
         private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)

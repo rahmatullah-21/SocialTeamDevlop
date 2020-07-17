@@ -373,11 +373,11 @@ namespace DominatorUIUtility.ViewModel
                 #region Update Import Proxies Status in Logger
                 if (noOfExistingProxies > 0)
                 {
-                    GlobusLogHelper.log.Info(SocialNetworks.Social + "\t" + String.Format("LangKeySkippedExistingProxies".FromResourceDictionary(), noOfExistingProxies));
+                    GlobusLogHelper.log.Info(SocialNetworks.Admin + "\t" + String.Format("LangKeySkippedExistingProxies".FromResourceDictionary(), noOfExistingProxies));
                 }
                 if (noOfProxyAdded > 0)
                 {
-                    GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t{"LangKeyAddedProxies".FromResourceDictionary()}");
+                    GlobusLogHelper.log.Info(SocialNetworks.Admin + $"\t{"LangKeyAddedProxies".FromResourceDictionary()}");
                 }
                 if (parsingResult.InvalidProxies.Any())
                 {
@@ -392,7 +392,7 @@ namespace DominatorUIUtility.ViewModel
                         });
                     }
 
-                    GlobusLogHelper.log.Info(SocialNetworks.Social + "\t" + String.Format("LangKeySkippedProxiesAsItDoesntMatchImportFormat".FromResourceDictionary(), parsingResult.InvalidProxies.Count, filename));
+                    GlobusLogHelper.log.Info(SocialNetworks.Admin + "\t" + String.Format("LangKeySkippedProxiesAsItDoesntMatchImportFormat".FromResourceDictionary(), parsingResult.InvalidProxies.Count, filename));
                 }
                 #endregion
             });
@@ -444,7 +444,7 @@ namespace DominatorUIUtility.ViewModel
                         using (var streamWriter = new StreamWriter(filename, true))
                         {
                             streamWriter.WriteLine(csvData);
-                            GlobusLogHelper.log.Info(Log.Exported, SocialNetworks.Social, proxy.AccountProxy.ProxyIp + " : " + proxy.AccountProxy.ProxyPort, "LangKeyProxy".FromResourceDictionary());
+                            GlobusLogHelper.log.Info(Log.Exported, SocialNetworks.Admin, proxy.AccountProxy.ProxyIp + " : " + proxy.AccountProxy.ProxyPort, "LangKeyProxy".FromResourceDictionary());
                         }
 
                     }
@@ -521,7 +521,7 @@ namespace DominatorUIUtility.ViewModel
 
                             });
                             Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), String.Format("LangKeyNProxiesDeleted".FromResourceDictionary(), selectedProxies.Count));
-                            GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{selectedProxies.Count} {"LangKeyProxies".FromResourceDictionary()}", "LangKeyProxy".FromResourceDictionary());
+                            GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Admin, $"{selectedProxies.Count} {"LangKeyProxies".FromResourceDictionary()}", "LangKeyProxy".FromResourceDictionary());
                         });
 
                         IsAllProxySelected = false;

@@ -376,7 +376,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 // Gettings general settings of current campaign
                 var generalSettingsModel = _genericFileManager.GetModuleDetails<GeneralModel>
-                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin))
                 .FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId) ?? new GeneralModel();
 
                 #region Saving post

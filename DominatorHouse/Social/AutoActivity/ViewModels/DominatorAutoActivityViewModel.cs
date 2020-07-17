@@ -144,7 +144,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 custAuto.ShowDialog();
 
                 if (ui.ViewModel.IsSaved)
-                    CallRespectiveView(SocialNetworks.Social);
+                    CallRespectiveView(SocialNetworks.Admin);
             }
             catch (Exception ex)
             {
@@ -191,16 +191,16 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 if (!Application.Current.Dispatcher.CheckAccess())
                 {
                     Application.Current.Dispatcher.Invoke(() =>
-                        SelectedUserControl = networks == SocialNetworks.Social ? null : accountToolsView.GetStartupToolsView());
+                        SelectedUserControl = networks == SocialNetworks.Admin ? null : accountToolsView.GetStartupToolsView());
                 }
                 else
                 {
-                    SelectedUserControl = networks == SocialNetworks.Social ? null : accountToolsView.GetStartupToolsView();
+                    SelectedUserControl = networks == SocialNetworks.Admin ? null : accountToolsView.GetStartupToolsView();
                 }
 
                 SocinatorInitialize.AccountModeActiveSocialNetwork = networks;
                 // If passed network is social then initialize the account details
-                if (networks == SocialNetworks.Social)
+                if (networks == SocialNetworks.Admin)
                     InitializeAccounts();
             }
             catch (Exception ex)
@@ -451,8 +451,8 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         {
             var returnDict = new Dictionary<SocialNetworks, Activities>();
 
-            if (networks.Contains(SocialNetworks.Social))
-                networks = networks.Where(x => x != SocialNetworks.Social);
+            if (networks.Contains(SocialNetworks.Admin))
+                networks = networks.Where(x => x != SocialNetworks.Admin);
 
             if (getCustomAuto?.NetworksActListCollection != null && getCustomAuto?.NetworksActListCollection.Count > 0)
             {

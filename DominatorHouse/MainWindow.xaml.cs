@@ -82,12 +82,12 @@ namespace Socinator
                             try
                             {
                                 activityLogWindow.Content = null;
-                                Grid.SetRow(Logger, 2);
+                                Grid.SetRow(Logger, 6);
                                 MainGrid.Children.Add(Logger);
 
                                 Logger.Children.Remove(RootLayout);
                                 Logger.Children.Add(RootLayout);
-                                MainGrid.RowDefinitions[2].Height = new GridLength(200);
+                                MainGrid.RowDefinitions[6].Height = new GridLength(200);
                                 IsClickedFromMainWindow = true;
                                 statusbar.IsEnabled = true;
                             }
@@ -99,7 +99,7 @@ namespace Socinator
                     });
                 };
 
-                MainGrid.RowDefinitions[2].Height = new GridLength(0);
+                MainGrid.RowDefinitions[6].Height = new GridLength(0);
                 MainGrid.Children.Remove(Logger);
                 activityLogWindow.Show();
 

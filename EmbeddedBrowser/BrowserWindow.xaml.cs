@@ -1416,7 +1416,7 @@ namespace EmbeddedBrowser
                     return "https://accounts.google.com/signin";
                 case SocialNetworks.Tumblr:
                     return "https://www.tumblr.com/login";
-                case SocialNetworks.Social:
+                case SocialNetworks.Admin:
                     return "https://www.google.com";
                 default:
                     throw new ArgumentOutOfRangeException();

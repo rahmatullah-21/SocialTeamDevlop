@@ -85,7 +85,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                if (SelectedNetworks == SocialNetworks.Social)
+                if (SelectedNetworks == SocialNetworks.Admin)
                 {
                     if (!string.IsNullOrEmpty(FilterText))
                         if (_filterByUserName)
@@ -156,7 +156,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Properties
 
-        private SocialNetworks _selectedNetworks = SocialNetworks.Social;
+        private SocialNetworks _selectedNetworks = SocialNetworks.Admin;
 
         public SocialNetworks SelectedNetworks
         {

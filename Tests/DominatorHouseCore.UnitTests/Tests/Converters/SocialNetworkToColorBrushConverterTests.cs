@@ -37,7 +37,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
                 var val = _sut.Convert(socialNetwork, typeof(SocialNetworks), new object(),
                     CultureInfo.CurrentUICulture);
                 // assert
-                if (((SocialNetworks)socialNetwork) == SocialNetworks.Social)
+                if (((SocialNetworks)socialNetwork) == SocialNetworks.Admin)
                 {
                     val.Should().BeNull();
                 }
@@ -59,7 +59,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
         [TestMethod]
         public void should_return_null_if_value_is_Social_network()
         {
-            value = SocialNetworks.Social;
+            value = SocialNetworks.Admin;
             object expected = null;
             var result = _sut.Convert(value, value.GetType(), null, CultureInfo.CurrentUICulture);
             result.Should().Be(expected);
