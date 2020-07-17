@@ -50,7 +50,7 @@
                                         <Button Name="BtnAction" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
                                                         VerticalAlignment="Top" Margin="10,0,0,0" Click="BtnAction_Click">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                                <Rectangle Width="15" Height="15" Fill="Black"  HorizontalAlignment="Center">
                                                     <Rectangle.OpacityMask>
                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
                                                     </Rectangle.OpacityMask>

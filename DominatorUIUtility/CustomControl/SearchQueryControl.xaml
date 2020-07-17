@@ -47,7 +47,7 @@
                             </TextBox.InputBindings>
                         </TextBox>
                         <StackPanel Orientation="Horizontal">
-                            <Button Name="BtnImportQuery"  Foreground="White"  
+                            <Button Name="BtnImportQuery"  Foreground="Black"  
                                         Height="25" Width="100" VerticalAlignment="Top" Margin="10,0" ToolTip="Import From csv/txt file" Click="BtnImportQuery_OnClick">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
@@ -60,7 +60,7 @@
                                     </Style>
                                 </Button.Style>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                    <Rectangle Width="15" Height="15" Fill="Black"  HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_upload}" />
                                         </Rectangle.OpacityMask>
@@ -80,12 +80,12 @@
                         <Button Name="BtnAddToList" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="25"  VerticalAlignment="Top" Margin="10,0,0,0" ToolTip="Add Queries To The List"                                    
                                 Command="{Binding AddQueryCommand}" CommandParameter="{Binding CommandParameter}">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                <Rectangle Width="15" Height="15" Fill="Black"  HorizontalAlignment="Center">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add_multiple}" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock VerticalAlignment="Center" Margin="5,0" Text="{DynamicResource LangKeyAdd}"/>
+                                <TextBlock VerticalAlignment="Center" Margin="5,0" Foreground="Black" Text="{DynamicResource LangKeyAdd}"/>
 
                             </StackPanel>
                         </Button>
@@ -93,7 +93,7 @@
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1" >
-                <GroupBox  FontWeight="Bold" BorderThickness="1" Foreground="white">
+                <GroupBox  FontWeight="Bold" BorderThickness="1" Foreground="Black">
                     <GroupBox.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -104,7 +104,7 @@
                                 <!--<TextBlock Text="{DynamicResource LangKeyQueriesList}" VerticalAlignment="Center" HorizontalAlignment="Left"/>-->
                                 <mah:Badged Badge="{Binding ListQueryInfo.Count}" Margin="10,15,0,0">
                                     <Label Content="{DynamicResource LangKeyQueriesList}" VerticalAlignment="Center"  FontWeight="Bold" 
-                           Foreground="GhostWhite"/>
+                           Foreground="Black"/>
                                 </mah:Badged>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="5,0" HorizontalAlignment="Right">
@@ -116,19 +116,19 @@
                                                     <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
-                                            <TextBlock Margin="5,0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" Text="{DynamicResource LangKeyDeleteSelected}"/>
+                                            <TextBlock Margin="5,0" HorizontalAlignment="Center" Foreground="Black" VerticalAlignment="Center" Text="{DynamicResource LangKeyDeleteSelected}"/>
                                         </StackPanel>
                                     </Button.Content>
                                 </Button>
                                 <Button Background="Transparent" Click="ExportSelected" VerticalAlignment="Center" Margin="5,0">
                                     <Button.Content>
                                         <StackPanel Orientation="Horizontal">
-                                            <Rectangle Fill="White" Height="17" Width="15" ToolTip="{DynamicResource LangKeyExportSelected}" >
+                                            <Rectangle Fill="Black" Height="17" Width="15" ToolTip="{DynamicResource LangKeyExportSelected}" >
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_cabinet_out}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
-                                            <TextBlock Margin="5,0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" Text="{DynamicResource LangKeyExportSelected}"/>
+                                            <TextBlock Margin="5,0" HorizontalAlignment="Center" Foreground="Black" VerticalAlignment="Center" Text="{DynamicResource LangKeyExportSelected}"/>
                                         </StackPanel>
                                     </Button.Content>
                                 </Button>
@@ -146,8 +146,8 @@
                                 <DataGridTemplateColumn.HeaderTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                           <CheckBox IsChecked="{Binding DataContext.IsAllQuerySelected,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                       </StackPanel>
+                                            <CheckBox IsChecked="{Binding DataContext.IsAllQuerySelected,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.HeaderTemplate>
                                 <DataGridTemplateColumn.CellTemplate>
@@ -159,12 +159,12 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Width="*" FontSize="12" Binding ="{Binding QueryTypeDisplayName}" IsReadOnly="True">
+                            <DataGridTextColumn FontSize="12" Binding ="{Binding QueryTypeDisplayName}" IsReadOnly="True">
                                 <DataGridTextColumn.Header>
                                     <TextBlock Text="{DynamicResource LangKeyType}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
-                            <DataGridTextColumn  Width="*"  FontSize="12"  Binding="{Binding QueryValue}" IsReadOnly="True">
+                            <DataGridTextColumn FontSize="12"  Binding="{Binding QueryValue}" IsReadOnly="True">
                                 <DataGridTextColumn.Header>
                                     <TextBlock Text="{DynamicResource LangKeyQuery}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </DataGridTextColumn.Header>
@@ -174,12 +174,12 @@
                                         <TextBlock Text="{DynamicResource LangKeyCustomFilters}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>-->
-                            <DataGridTemplateColumn Width="*" IsReadOnly="True">
+                            <DataGridTemplateColumn IsReadOnly="True">
                                 <DataGridTemplateColumn.HeaderTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                             <TextBlock Text="{DynamicResource LangKeyAction}" Margin="10,0" VerticalAlignment="Center"/>
-                                          
+
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.HeaderTemplate>

@@ -16,10 +16,10 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="30"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{DynamicResource LangKeyLoadMediaFileS}" VerticalAlignment="Center" Foreground="White"/>
+                                <TextBlock Text="{DynamicResource LangKeyLoadMediaFileS}" VerticalAlignment="Center" Foreground="Black"/>
                                 <Canvas  HorizontalAlignment="Right" Width="15"  Height="15" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" Grid.Column="1">
                                     <Path Width="15.7781" Height="15.7781"  Stretch="Fill"
-                                                  Fill="White"
+                                                  Fill="Black"
                                                   Data="F1 M 16.6668,20L 13,28.5336L 13,16L 23,16L 23,15C 23,13.8954 23.8954,13 25,13L 32,13C 33.1046,13 35,14.8954 35,16L 35,20L 16.6668,20 Z M 35,32L 28,32L 13,32L 17.5833,21L 39.5833,21L 35,32 Z " />
 
                                 </Canvas>

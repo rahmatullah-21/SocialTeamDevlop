@@ -8,7 +8,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
-    <ScrollViewer>
+    <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <StackPanel Margin="5" Name="MainGrid">
             <CheckBox Content="{DynamicResource LangKeyEnableAutomaticHashtags}" 
                   VerticalAlignment="Center" Margin="5" IsChecked="{Binding TwitterModel.IsEnableAutomaticHashTags}"/>

@@ -125,7 +125,7 @@
 
                 <Button Content="{DynamicResource LangKeyAddEventToList}" Width="200" Name="BtnAddEventToList" 
                     Command="{Binding AddEventCommand}" CommandParameter="{Binding CommandParameter,ElementName=EventCreaterManagerControl}"
-                    Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,30,0,0" x:FieldModifier="public"/>
+                    Background="{DynamicResource AccentBaseColorBrush}" Foreground="Black" Margin="10,30,0,0" x:FieldModifier="public"/>
 
             </StackPanel>
 

@@ -17,12 +17,12 @@
                         VerticalAlignment="Top" Visibility="{Binding FbMultiMediaModel.IsAddImageVisibile,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle Width="15" Height="15" Fill="White">
+                        <Rectangle Width="15" Height="15" Fill="Black">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Visual="{StaticResource appbar_image_export}" Stretch="Fill"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <TextBlock Text="{DynamicResource LangKeyPhotoVideo}" Margin="6,0"/>
+                        <TextBlock Foreground="Black" Text="{DynamicResource LangKeyPhotoVideo}" Margin="6,0"/>
 
                     </StackPanel>
                 </Button.Content>

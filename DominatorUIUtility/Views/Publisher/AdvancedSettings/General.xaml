@@ -6,7 +6,7 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" Loaded="General_OnLoaded">
     <Grid x:Name="MainGrid">
-        <ScrollViewer>
+        <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTriggerANotificationWhenPendingPostsCountReachesTo}" Margin="0,0,10,0"/>

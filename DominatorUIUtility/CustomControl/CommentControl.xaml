@@ -51,7 +51,7 @@
         </Grid>
         <Button Content="{DynamicResource LangKeyAddCommentToList}" Width="200" x:Name="btnAddCommentToList" x:FieldModifier="public"
                 Command="{Binding AddCommentsCommand}" CommandParameter="{Binding CommandParameter}"
-                    Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,30,0,0"/>
+                    Background="{DynamicResource AccentBaseColorBrush}" Foreground="Black" Margin="10,30,0,0"/>
 
     </StackPanel>
 </UserControl>

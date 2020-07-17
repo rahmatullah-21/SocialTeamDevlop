@@ -20,34 +20,34 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveMacrosCommand}"  CommandParameter="{Binding}" >
+                        <Button Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="Black" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveMacrosCommand}"  CommandParameter="{Binding}" >
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <StackPanel Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}" Width="60">
-                                            <Rectangle Width="15" Height="15" Fill="White" Margin="3">
+                                            <Rectangle Width="15" Height="15" Fill="Black" Margin="3">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
-                                            <Label Content="{DynamicResource LangKeySave}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            <Label Content="{DynamicResource LangKeySave}" Margin="0,0,0,0" Foreground="Black" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
 
-                        <Button Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding ImportMacrosCammand}"  CommandParameter="{Binding}" >
+                        <Button Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="Black" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding ImportMacrosCammand}"  CommandParameter="{Binding}" >
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <StackPanel Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}" Width="70">
-                                            <Rectangle Width="15" Height="15" Fill="White" Margin="3">
+                                            <Rectangle Width="15" Height="15" Fill="Black" Margin="3">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_in}" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
-                                            <Label Content="{DynamicResource LangKeyImport}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            <Label Content="{DynamicResource LangKeyImport}" Margin="0,0,0,0" Foreground="Black" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>

@@ -2,17 +2,28 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DominatorHouse.Social"
                     xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+                    xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
                     xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore">
     <ControlTemplate x:Key="TablifiedContentControlControlTemplate">
         
         <ControlTemplate.Resources>
             <converters:StringToResourceConverter x:Key="StringToResourceConverter"/>
         </ControlTemplate.Resources>
-        <TabControl TabStripPlacement="Top" ItemContainerStyle="{StaticResource TabItemStyle}" ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}" >
+        <TabControl TabStripPlacement="Top" ItemContainerStyle="{StaticResource TabItemStyle}" Template="{StaticResource TopTabstyle1}" ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}" >
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type viewModel:ITabViewModel}">
                     <VirtualizingStackPanel VirtualizationMode="Recycling" ScrollUnit="Pixel">
-                        <TextBlock Text="{Binding Title, Mode=OneTime}"/>
+                        <utility:TextPath Text="{Binding Title,Mode=OneTime}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="#ffffff" Margin="0,0,0,0"
+                        StrokeThickness="0.4"
+		                Stroke="Black"                                            
+		                FontFamily="{StaticResource BuildTitleRg}"
+		                FontSize="14.5">
+                            <utility:TextPath.Effect>
+                                <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="0" Color="Black" ></DropShadowEffect>
+                            </utility:TextPath.Effect>
+                        </utility:TextPath>
                     </VirtualizingStackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>

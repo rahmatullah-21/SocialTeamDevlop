@@ -11,12 +11,12 @@
                     VerticalAlignment="Center" HorizontalAlignment="Right">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle Width="15" Height="15" Fill="White">
+                        <Rectangle Width="15" Height="15" Fill="Black">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                            <AccessText Margin="6,0" Text="{DynamicResource LangKey_Save}" />
+                            <AccessText Margin="6,0" Foreground="Black" Text="{DynamicResource LangKey_Save}" />
                         </StackPanel>
                 </Button.Content>
             </Button>

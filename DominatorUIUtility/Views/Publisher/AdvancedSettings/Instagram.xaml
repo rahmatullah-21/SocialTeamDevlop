@@ -9,7 +9,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
-        <ScrollViewer>
+        <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel>
                 <!--<CheckBox Content="{DynamicResource langCropImageInsteadOfAddingWhiteBorders}" VerticalAlignment="Center" Margin="5"/>
                 <CheckBox Content="{DynamicResource langPostAsPartOfStory}" VerticalAlignment="Center" Margin="5"/>

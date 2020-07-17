@@ -9,7 +9,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
-        <ScrollViewer>
+        <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel>
                 <CheckBox Content="{DynamicResource LangKeyEnableCampaignSourceurlToAssignUrlsToPinterestPosts}"
                           VerticalAlignment="Center" Margin="5"

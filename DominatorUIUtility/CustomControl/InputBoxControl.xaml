@@ -103,7 +103,7 @@
                                 HorizontalAlignment="Right"  Height="25" Width="35" VerticalAlignment="Center" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="{DynamicResource LangKeyImportFromCsvTxt}">
 
-                        <Rectangle Width="13" Height="15" Fill="White"  HorizontalAlignment="Center">
+                        <Rectangle Width="13" Height="15" Fill="Black"  HorizontalAlignment="Center">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_upload}" />
                             </Rectangle.OpacityMask>
@@ -113,7 +113,7 @@
                 <Button Name="BtnRefereshBlacklistsText" Visibility="{Binding RefreshVisiblity}" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" HorizontalAlignment="Right"  Height="25" Width="35" VerticalAlignment="Center"
                         Command="{Binding ClearCommand}" CommandParameter="{Binding CommandParameter}" Click="BtnRefereshBlacklistsText_OnClick" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="{DynamicResource LangClear﻿﻿﻿﻿All}">
-                        <Rectangle Width="13" Height="15" Fill="White"  HorizontalAlignment="Center">
+                        <Rectangle Width="13" Height="15" Fill="Black"  HorizontalAlignment="Center">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_clean}" />
                             </Rectangle.OpacityMask>
@@ -123,7 +123,7 @@
                 <Button Name="BtnSaveBlacklistsText"  Foreground="White"  Visibility="{Binding SaveVisiblity}" Background="{DynamicResource AccentBaseColorBrush}" HorizontalAlignment="Right" 
                         Height="25" Width="35" VerticalAlignment="Center"  Command="{Binding SaveCommand}" CommandParameter="{Binding CommandParameter}" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="{DynamicResource LangKeySave}">
-                        <Rectangle Width="13" Height="15" Fill="White"  HorizontalAlignment="Center">
+                        <Rectangle Width="13" Height="15" Fill="Black"  HorizontalAlignment="Center">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                             </Rectangle.OpacityMask>

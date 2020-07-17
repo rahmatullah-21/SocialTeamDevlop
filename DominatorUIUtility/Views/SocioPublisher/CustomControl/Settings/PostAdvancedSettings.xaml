@@ -3,17 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
             <RowDefinition Height="0.8*"/>
         </Grid.RowDefinitions>
-        <TabControl x:Name="AdvancedPostSettings" Grid.Row="0"  TabStripPlacement="Top" ItemContainerStyle="{StaticResource TabItemStyle}">
+        <TabControl x:Name="AdvancedPostSettings" Grid.Row="0"  TabStripPlacement="Top" ItemContainerStyle="{StaticResource TabItemStyle}" Template="{StaticResource TopTabstyle}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding Title}"/>
+                        <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
+		                VerticalAlignment="Center"
+		                Fill="#ffffff" Margin="0,0,0,0"
+                        StrokeThickness="0.4"
+		                Stroke="Black"                                            
+		                FontFamily="{StaticResource BuildTitleRg}"
+		                FontSize="14.5">
+                            <utility:TextPath.Effect>
+                                <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="0" Color="Black" ></DropShadowEffect>
+                            </utility:TextPath.Effect>
+                        </utility:TextPath>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
@@ -30,12 +41,12 @@
             <Button x:Name="ButtonSave" x:FieldModifier="public" Height="30"  Margin="0,0,10,10" Background="Green" Foreground="White" >
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle Width="15" Height="15" Fill="White">
+                        <Rectangle Width="15" Height="15" Fill="Black">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <TextBlock Text="{DynamicResource LangKeySave}" Margin="6,0" Foreground="White"/>
+                        <TextBlock Text="{DynamicResource LangKeySave}" Margin="6,0" Foreground="Black"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -43,12 +54,12 @@
             <Button x:Name="ButtonCancel" x:FieldModifier="public" Height="30" Margin="0,0,8,10" Background="#ef1d1d" >
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle Width="15" Height="15" Fill="White">
+                        <Rectangle Width="15" Height="15" Fill="Black">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0" Foreground="White"/>
+                        <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0" Foreground="Black"/>
                     </StackPanel>
                 </Button.Content>
             </Button>

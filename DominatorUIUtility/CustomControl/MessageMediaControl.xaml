@@ -18,15 +18,15 @@
 
                 <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
                     <Button  x:Name="btnPhotos"  Background="{DynamicResource AccentBaseColorBrush}" Height="30"
-                      HorizontalAlignment="Left"   Foreground="White" Width="100" Click="btnPhotos_Click" Margin="5" >
+                      HorizontalAlignment="Left" Foreground="Black" Width="100" Click="btnPhotos_Click" Margin="5" >
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="15" Height="15" Fill="White">
+                                <Rectangle Width="15" Height="15" Fill="Black">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Visual="{StaticResource appbar_image_export}" Stretch="Fill"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock Text="{DynamicResource LangKeyPhoto}" Margin="6,0"/>
+                                <TextBlock Text="{DynamicResource LangKeyPhoto}" Foreground="Black" Margin="6,0"/>
 
                             </StackPanel>
                         </Button.Content>
@@ -35,12 +35,12 @@
                       HorizontalAlignment="Left"   Foreground="White" Width="100" Click="btnVideos_Click" Margin="5" >
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="15" Height="15" Fill="White">
+                                <Rectangle Width="15" Height="15" Fill="Black">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Visual="{StaticResource appbar_video}" Stretch="Fill"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock Text="{DynamicResource LangKeyVideo}" Margin="6,0"/>
+                                <TextBlock Text="{DynamicResource LangKeyVideo}" Foreground="Black" Margin="6,0"/>
 
                             </StackPanel>
                         </Button.Content>
@@ -110,7 +110,7 @@
         </Grid>
         <Button Content="{DynamicResource LangKeyAddMessageToList}" Width="200" Name="btnAddMessagesToList" 
                 Command="{Binding AddMessagesCommand}" CommandParameter="{Binding CommandParameter}"
-                    Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,30,0,0" x:FieldModifier="public"/>
+                    Background="{DynamicResource AccentBaseColorBrush}" Foreground="Black" Margin="10,30,0,0" x:FieldModifier="public"/>
 
     </StackPanel>
 </UserControl>
