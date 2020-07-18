@@ -1045,7 +1045,7 @@ Grid.Column="1"
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
-                    <Grid SnapsToDevicePixels="True" Margin="1">
+                    <Grid SnapsToDevicePixels="True" Margin="1,1,5,1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />

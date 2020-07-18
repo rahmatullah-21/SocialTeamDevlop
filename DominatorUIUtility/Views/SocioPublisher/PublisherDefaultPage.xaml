@@ -79,7 +79,7 @@
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
-    <Border CornerRadius="5" Padding="20">
+    <Border CornerRadius="5" Padding="7,6,7,15">
         <Border.Background>
             <ImageBrush ImageSource="/DominatorUIUtility;component/Images/funcmodulebackground.png" Stretch="Fill"/>
         </Border.Background>
@@ -90,216 +90,217 @@
             </Grid.RowDefinitions>
 
             <!--Header Sections-->
-            <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid">
+            <Border Background="{DynamicResource AccentBaseColorBrush}" CornerRadius="8,8,0,0">
+                <Grid Background="Transparent" Name="HeaderGrid">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="3*"/>
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
 
-                <!--Publisher Title Sections-->
-                <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White">
+                    <!--Publisher Title Sections-->
+                    <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White">
                     <Rectangle Width="25" Height="25" Fill="Black" Margin="0,0,0,8" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_billing}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 <utility:TextPath Text="{DynamicResource LangKeyPublisher}"  FontFamily="{StaticResource BuildTitleSbIt}" StrokeThickness="0.5" Margin="10,10,0,15" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
-                </TextBlock>
+                    </TextBlock>
 
-                <!--Menu Options-->
-                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <!--Menu Options-->
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
-                    <!--Button for navigate into managing destination-->
-                    <Button Background="Transparent" ToolTip="{DynamicResource LangKeyGoToManageDestination}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManageDestinations" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManageDestinations">
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Rectangle Width="20" Height="20" Fill="Black">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_resource_group}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                        <Label Content="{DynamicResource LangKeyManageDestinations}" Margin="5,0,0,0" FontFamily="{StaticResource RajdhaniSemiBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                    </StackPanel>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-
-                    <!--Button for navigate into managing posts-->
-                    <Button Background="Transparent" Cursor="Hand" ToolTip="{DynamicResource LangKeyGoToManagePosts}" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManagePosts" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManagePosts">
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Rectangle Width="20" Height="20" Fill="Black">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_gallery}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                        <Label Content="{DynamicResource LangKeyManagePosts}" Margin="5,0,0,0" FontFamily="{StaticResource RajdhaniSemiBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                    </StackPanel>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-
-                    <!--Button for navigate into create campaign-->
-                    <Button Background="Transparent" ToolTip="{DynamicResource LangKeyGoToCreateCampaign}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonCreateCampaigns" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="CreateCampaigns">
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Rectangle Width="20" Height="20" Fill="Black">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_calendar}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                        <Label Content="{DynamicResource LangKeyCreateCampaign}" Margin="5,0,0,0" FontFamily="{StaticResource RajdhaniSemiBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                    </StackPanel>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-
-                    <!--Button for Select/Deselect the campaigns -->
-                    <Button Name="BtnSelect" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}" Background="Transparent" ToolTip="{DynamicResource LangKeySelectMeBeforeNextAction}"  Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Margin="5" >
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <iconpack:PackIconFontAwesome Width="25" Height="25" VerticalAlignment="Center" Kind="CheckCircleSolid" Foreground="Black"/>
-                                        <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" FontFamily="{StaticResource RajdhaniSemiBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                    </StackPanel>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-
-                        <Button.ContextMenu>
-                            <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                                <!--Menu to select all campaigns-->
-                                <MenuItem Header="{DynamicResource LangKeySelectAll}" Name="MenuSelectAllCampaigns" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
-                                    <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-
-                                <!--Menu to Deselect all campaigns-->
-                                <MenuItem Header="{DynamicResource LangKeySelectNone}" Name="MenuDeselectAllCampaigns" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
-                                    <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick_unchecked}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
-
-                    <!--Button will help to do following stuff's-->
-                    <!--1.Active, 2.Pause, 3.Delete, 4.Duplicate, 5.Publish Now, 6.Export CampaignId-->
-                    <Button Background="Transparent" Name="PublisherAction" ToolTip="{DynamicResource LangKeySelectYoursAction}" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=PublisherAction}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"   Margin="5">
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Rectangle Width="20" Height="20" Fill="Black">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_list_gear}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                        <Label Content="{DynamicResource LangKeyActions}" Foreground="Black" FontFamily="{StaticResource RajdhaniSemiBold}" Margin="0,0,0,0" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                    </StackPanel>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-
-                        <Button.ContextMenu>
-                            <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-
-                                <!--Make all selected campaign to Active-->
-                                <MenuItem Header="{DynamicResource LangKeySwitchToActive}" Name="MenuSwitchToActive" Command="{Binding ActiveSelectedCampaignCommand}" CommandParameter="MakeCampaignActive" >
-                                    <MenuItem.Icon>
-                                        <StackPanel>
-                                            <Rectangle Width="15" Height="15" Fill="Green">
+                        <!--Button for navigate into managing destination-->
+                        <Button Background="Transparent" ToolTip="{DynamicResource LangKeyGoToManageDestination}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManageDestinations" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManageDestinations">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Rectangle Width="20" Height="20" Fill="Black">
                                                 <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_moon_full}" />
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_resource_group}" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
+                                            <Label Content="{DynamicResource LangKeyManageDestinations}" Margin="5,0,0,0" FontFamily="{StaticResource RajdhaniSemiBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
 
-                                <!--Make all selected campaign to Pause-->
-                                <MenuItem Header="{DynamicResource LangKeySwitchToPause}" Name="MenuSwitchToPause" Command="{Binding PauseSelectedCampaignCommand}" CommandParameter="MakeCampaignPause" >
-                                    <MenuItem.Icon>
-                                        <StackPanel>
-                                            <Rectangle Width="15" Height="15" Fill="DarkOrange">
+                        <!--Button for navigate into managing posts-->
+                        <Button Background="Transparent" Cursor="Hand" ToolTip="{DynamicResource LangKeyGoToManagePosts}" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManagePosts" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManagePosts">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Rectangle Width="20" Height="20" Fill="Black">
                                                 <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_moon_full}" />
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_gallery}" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
+                                            <Label Content="{DynamicResource LangKeyManagePosts}" Margin="5,0,0,0" FontFamily="{StaticResource RajdhaniSemiBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
 
-                                <!--Delete all selected campaign-->
-                                <MenuItem Header="{DynamicResource LangKeyDelete}" Name="MenuDelete" Command="{Binding DeleteCampaignCommand}" CommandParameter="MenuDelete">
-                                    <MenuItem.Icon>
-                                        <Rectangle Width="12" Height="15" Fill="Black">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                        <!--Button for navigate into create campaign-->
+                        <Button Background="Transparent" ToolTip="{DynamicResource LangKeyGoToCreateCampaign}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonCreateCampaigns" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="CreateCampaigns">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Rectangle Width="20" Height="20" Fill="Black">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_calendar}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                            <Label Content="{DynamicResource LangKeyCreateCampaign}" Margin="5,0,0,0" FontFamily="{StaticResource RajdhaniSemiBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
 
-                                <!--Duplicate all selected campaign-->
-                                <MenuItem Header="{DynamicResource LangKeyDuplicate}" Name="MenuDuplicate" Command="{Binding CampaignCloneCommand}" CommandParameter="MenuClone">
-                                    <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="Black">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_duplicate}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                        <!--Button for Select/Deselect the campaigns -->
+                        <Button Name="BtnSelect" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}" Background="Transparent" ToolTip="{DynamicResource LangKeySelectMeBeforeNextAction}"  Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Margin="5" >
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                        <StackPanel Orientation="Horizontal">
+                                            <iconpack:PackIconFontAwesome Width="25" Height="25" VerticalAlignment="Center" Kind="CheckCircleSolid" Foreground="Black"/>
+                                            <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" FontFamily="{StaticResource RajdhaniSemiBold}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
 
-                                <!--Publish Now all selected campaign-->
-                                <MenuItem Header="{DynamicResource LangKeyPublishNow}" Name="MenuPublishNow" Command="{Binding PublishNowSelectedCampaignCommand}" CommandParameter="PublishNow">
-                                    <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="Black">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_door_enter}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                            <Button.ContextMenu>
+                                <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                    <!--Menu to select all campaigns-->
+                                    <MenuItem Header="{DynamicResource LangKeySelectAll}" Name="MenuSelectAllCampaigns" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
+                                        <MenuItem.Icon>
+                                            <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
 
-                                <!--Export the campaign Id all selected campaign-->
-                                <MenuItem Header="{DynamicResource LangKeyExportCampaignId}" Name="MenuExportCampaignId" Command="{Binding CopyCampaignId}" CommandParameter="MultipleCopy">
-                                    <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="Black">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_out}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
+                                    <!--Menu to Deselect all campaigns-->
+                                    <MenuItem Header="{DynamicResource LangKeySelectNone}" Name="MenuDeselectAllCampaigns" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
+                                        <MenuItem.Icon>
+                                            <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick_unchecked}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+
+                        <!--Button will help to do following stuff's-->
+                        <!--1.Active, 2.Pause, 3.Delete, 4.Duplicate, 5.Publish Now, 6.Export CampaignId-->
+                        <Button Background="Transparent" Name="PublisherAction" ToolTip="{DynamicResource LangKeySelectYoursAction}" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=PublisherAction}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"   Margin="5">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Rectangle Width="20" Height="20" Fill="Black">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_list_gear}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                            <Label Content="{DynamicResource LangKeyActions}" Foreground="Black" FontFamily="{StaticResource RajdhaniSemiBold}" Margin="0,0,0,0" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+
+                            <Button.ContextMenu>
+                                <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+
+                                    <!--Make all selected campaign to Active-->
+                                    <MenuItem Header="{DynamicResource LangKeySwitchToActive}" Name="MenuSwitchToActive" Command="{Binding ActiveSelectedCampaignCommand}" CommandParameter="MakeCampaignActive" >
+                                        <MenuItem.Icon>
+                                            <StackPanel>
+                                                <Rectangle Width="15" Height="15" Fill="Green">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_moon_full}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <!--Make all selected campaign to Pause-->
+                                    <MenuItem Header="{DynamicResource LangKeySwitchToPause}" Name="MenuSwitchToPause" Command="{Binding PauseSelectedCampaignCommand}" CommandParameter="MakeCampaignPause" >
+                                        <MenuItem.Icon>
+                                            <StackPanel>
+                                                <Rectangle Width="15" Height="15" Fill="DarkOrange">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_moon_full}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <!--Delete all selected campaign-->
+                                    <MenuItem Header="{DynamicResource LangKeyDelete}" Name="MenuDelete" Command="{Binding DeleteCampaignCommand}" CommandParameter="MenuDelete">
+                                        <MenuItem.Icon>
+                                            <Rectangle Width="12" Height="15" Fill="Black">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <!--Duplicate all selected campaign-->
+                                    <MenuItem Header="{DynamicResource LangKeyDuplicate}" Name="MenuDuplicate" Command="{Binding CampaignCloneCommand}" CommandParameter="MenuClone">
+                                        <MenuItem.Icon>
+                                            <Rectangle Width="15" Height="15" Fill="Black">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_duplicate}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <!--Publish Now all selected campaign-->
+                                    <MenuItem Header="{DynamicResource LangKeyPublishNow}" Name="MenuPublishNow" Command="{Binding PublishNowSelectedCampaignCommand}" CommandParameter="PublishNow">
+                                        <MenuItem.Icon>
+                                            <Rectangle Width="15" Height="15" Fill="Black">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_door_enter}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <!--Export the campaign Id all selected campaign-->
+                                    <MenuItem Header="{DynamicResource LangKeyExportCampaignId}" Name="MenuExportCampaignId" Command="{Binding CopyCampaignId}" CommandParameter="MultipleCopy">
+                                        <MenuItem.Icon>
+                                            <Rectangle Width="15" Height="15" Fill="Black">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_out}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
 
 
-                    <!--<Button Background="Transparent" VerticalAlignment="Center"
+                        <!--<Button Background="Transparent" VerticalAlignment="Center"
                         ToolTip="{DynamicResource LangKeyTutorials}" Command="{Binding TutorialsCommand}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
@@ -312,8 +313,9 @@
                             </StackPanel>
                         </Button.Content>
                     </Button>-->
-                </StackPanel>
-            </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
 
 
             <!--Display the details of the campaign-->

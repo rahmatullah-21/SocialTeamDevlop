@@ -16,7 +16,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
     </UserControl.Resources>
     <Grid>
-        <Border Visibility="{Binding ShowSocial, Converter={StaticResource BooleanToVisibilityConverter}}" CornerRadius="10" Padding="20,20,20,10">
+        <Border  Visibility="{Binding ShowSocial, Converter={StaticResource BooleanToVisibilityConverter}}" CornerRadius="10" Padding="7,6,7,8">
             <Border.Background>
                 <ImageBrush ImageSource="/DominatorUIUtility;component/Images/funcmodulebackground.png" Stretch="Fill"/>
             </Border.Background>
@@ -28,44 +28,46 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal" VerticalAlignment="Stretch">
-                    <!--<Label   HorizontalAlignment="Left"
+                <Border Background="{DynamicResource AccentBaseColorBrush}" CornerRadius="8,8,0,0">
+                    <StackPanel Background="Transparent" Orientation="Horizontal" VerticalAlignment="Stretch">
+                        <!--<Label   HorizontalAlignment="Left"
                                    VerticalAlignment="Center" 
                                    FontSize="16"
                                    FontWeight="SemiBold" VerticalContentAlignment="Center"
                                    Foreground="Black" Margin="5,0,0,0"
                                    Content="{DynamicResource LangKeyAccountsActivity}" />-->
-                    <utility:TextPath Text="{DynamicResource LangKeyAccountsActivity}" FontFamily="{StaticResource BuildTitleSbIt}" StrokeThickness="0.5" Margin="10,8,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
-                    <Button  Height="30" Margin="10,5" HorizontalAlignment="Right"
+                        <utility:TextPath Text="{DynamicResource LangKeyAccountsActivity}" FontFamily="{StaticResource BuildTitleSbIt}" StrokeThickness="0.5" Margin="10,8,0,0" Fill="Black" Stroke="White"   FontSize="22" FontWeight="SemiBold"/>
+                        <Button  Height="30" Margin="10,5" HorizontalAlignment="Right"
                              Command="{Binding CustomizeCommand}" 
                              Foreground="White" Background="{DynamicResource AccentBaseColorBrush}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <Rectangle  Width="16" Height="15" Fill="Black" VerticalAlignment="Center">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit}"></VisualBrush>
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                                <TextBlock Text="{DynamicResource LangKeyCustomize}" Foreground="Black" FontFamily="{StaticResource RajdhaniMedium}" Margin="5,0"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle  Width="16" Height="15" Fill="Black" VerticalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit}"></VisualBrush>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <TextBlock Text="{DynamicResource LangKeyCustomize}" Foreground="Black" FontFamily="{StaticResource RajdhaniMedium}" Margin="5,0"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
 
-                    <Button  Height="30"  Margin="10,5" HorizontalAlignment="Right"
+                        <Button  Height="30"  Margin="10,5" HorizontalAlignment="Right"
                              Command="{Binding StopAllCommand}" 
                              Foreground="White" Background="{DynamicResource AccentBaseColorBrush}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <Rectangle  Width="16" Height="15" Fill="Black" VerticalAlignment="Center">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_stop}"></VisualBrush>
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                                <TextBlock Text="{DynamicResource LangKeyStopAllActivity}" Foreground="Black" FontFamily="{StaticResource RajdhaniMedium}" Margin="5,0"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                </StackPanel>
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle  Width="16" Height="15" Fill="Black" VerticalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_stop}"></VisualBrush>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <TextBlock Text="{DynamicResource LangKeyStopAllActivity}" Foreground="Black" FontFamily="{StaticResource RajdhaniMedium}" Margin="5,0"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Border>
 
                 <ScrollViewer Grid.Row="1" Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <ListView  VirtualizingPanel.IsVirtualizing="True" 
