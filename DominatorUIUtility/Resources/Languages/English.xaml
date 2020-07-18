@@ -258,7 +258,7 @@
     <system:String x:Key="LangKeyBroadcastMessages">Crucial Messages</system:String>
     <system:String x:Key="LangKeyBroadcastMessagesToSingleOrMultipleUsersUsingThisFeature">Broadcast Messages To Single Or Multiple Users Using This Feature.</system:String>
     <system:String x:Key="LangKeyBroadcastMesseges">Mass Messages</system:String>
-    <system:String x:Key="LangKeyBrodcastMessage">Broadcast MessagingPa</system:String>
+    <system:String x:Key="LangKeyBrodcastMessage">Mass Messaging</system:String>
     <system:String x:Key="LangKeyBrowseEmbedded">Browse Embedded</system:String>
     <system:String x:Key="LangKeyBrowse">Browse...</system:String>
     <system:String x:Key="LangKeyBump">Bump</system:String>

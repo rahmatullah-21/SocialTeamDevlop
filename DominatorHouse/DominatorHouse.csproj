@@ -412,6 +412,7 @@
     <Resource Include="Images\CloseButton.png" />
     <Resource Include="Images\MaximizeButton.png" />
     <Resource Include="Images\MinimizeButton.png" />
+    <Resource Include="Images\Crucial.ico" />
     <Content Include="SocinatorIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -25,7 +25,7 @@ namespace DominatorHouseCore.Converters
                     case SocialNetworks.Pinterest:
                         return "/DominatorUIUtility;component/Images/PinterestNew.png";
                     case SocialNetworks.LinkedIn:
-                        return "/DominatorUIUtility;component/Images/TwitterNew.png";
+                        return "/DominatorUIUtility;component/Images/LinkedInNew.png";
                     case SocialNetworks.Reddit:
                         return "/DominatorUIUtility;component/Images/RedditNew.png";
                     case SocialNetworks.Quora:
@@ -37,7 +37,7 @@ namespace DominatorHouseCore.Converters
                     case SocialNetworks.Tumblr:
                         return "/DominatorUIUtility;component/Images/TumblrNew.png";
                     case SocialNetworks.Admin:
-                        return null;
+                        return "/DominatorUIUtility;component/Images/AdminNew.png";
                     case SocialNetworks.TikTok:
                         var icon = Application.Current?.FindResource("TikTok_Icon");
                         return icon;

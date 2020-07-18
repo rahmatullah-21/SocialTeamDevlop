@@ -15,7 +15,7 @@
         BorderThickness="0"
         xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore" 
         ShowCloseButton="False"  ShowMinButton="False" ShowMaxRestoreButton="False" ShowTitleBar="False"
-        Name="SocinatorWindow" MinWidth="700"  MinHeight="700"
+        Name="SocinatorWindow" MinWidth="700"  MinHeight="700" 
         AllowsTransparency="True" WindowStyle="None" UseNoneWindowStyle="True" Background="Transparent"
         WindowState="Normal" >
 
@@ -91,11 +91,11 @@
                                             <TextBlock FontFamily="{StaticResource BuildTitleLt}" FontSize="22"  Text="{Binding}" />
                                         </StackPanel>
                                     </Border>
-                                    <DataTemplate.Triggers>
+                                    <!--<DataTemplate.Triggers>
                                         <DataTrigger  Binding="{Binding}" Value="{x:Static enums:SocialNetworks.Admin}">
                                             <Setter TargetName="NetworkIcon" Property="Visibility" Value="Collapsed"/>
                                         </DataTrigger>
-                                    </DataTemplate.Triggers>
+                                    </DataTemplate.Triggers>-->
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
