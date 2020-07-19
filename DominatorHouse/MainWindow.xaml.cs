@@ -7,7 +7,6 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -305,7 +305,6 @@
     <Compile Include="Support\Perf\Views\PerfCounterView.xaml.cs">
       <DependentUpon>PerfCounterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\AccountDetailsUpdation.cs" />
     <Compile Include="Utilities\Facebook\FacebookActivity.cs" />
     <Compile Include="Utilities\Facebook\FacebookCommentLikerActivity.cs" />
     <Compile Include="Utilities\Facebook\FacebookCommentScraperActivity.cs" />
@@ -317,8 +316,6 @@
     <Compile Include="Utilities\Facebook\FacebookProfileActivity.cs" />
     <Compile Include="Utilities\Facebook\FacebookUserActivity.cs" />
     <Compile Include="Utilities\Facebook\FacebookWebCommentLikerActivity.cs" />
-    <Compile Include="Utilities\ScrapAdsDetails.cs" />
-    <Compile Include="Utilities\SoftwareSettings.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PerfCounterViewModel.cs" />
     <Page Include="MainWindow.xaml">

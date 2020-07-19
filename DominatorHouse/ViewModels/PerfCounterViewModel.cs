@@ -72,18 +72,6 @@ namespace DominatorHouse.ViewModels
             CurrentDateTime = DateTime.Now;
         }
 
-        private void OnElapsed(object sender, ElapsedEventArgs e)
-        {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-            {
-                var counters = _perfCounterService.GetActualValues();
-                AvailableMemory = counters.AvailableMemory.ToString(CultureInfo.InvariantCulture);
-                CpuUsage = counters.CpuUsage.ToString(CultureInfo.InvariantCulture);
-                CurrentDateTime = DateTime.Now;
-            }));
-
-        }
-
         private void ShowHideLog()
         {
             if (LogViewHeight.Value <= 200 && LogViewHeight.Value > 45)
@@ -91,8 +79,6 @@ namespace DominatorHouse.ViewModels
             else
                 LogViewHeight = new GridLength(200);
         }
-
-
 
         public void Dispose()
         {

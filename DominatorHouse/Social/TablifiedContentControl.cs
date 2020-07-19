@@ -18,7 +18,7 @@ namespace DominatorHouse.Social
     public class TablifiedContentControl<T> : TablifiedContentControl
         where T : ITabViewModel
     {
-        public TablifiedContentControl(IUnityContainer container) : base()
+        public TablifiedContentControl(IUnityContainer container)
         {
             DataContext = container.Resolve<ITablifiedContentControlViewModel<T>>();
         }

@@ -85,7 +85,6 @@
                         <Setter Property="Height" Value="30"></Setter>
                         <Setter Property="Margin" Value="0,2,0,0"></Setter>
                     </Style>
-                    <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
                 </ListView.Resources>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">

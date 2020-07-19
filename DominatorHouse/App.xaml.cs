@@ -23,7 +23,7 @@ namespace Socinator
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : PrismApplication
+    public partial class App
     {
         //protected override void OnStartup(StartupEventArgs e)
         //{
@@ -39,7 +39,7 @@ namespace Socinator
         protected override Window CreateShell()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            MahApps.Metro.ThemeManager.AddAccent("PrussianBlue", new Uri($"pack://application:,,,/DominatorUIUtility;component/Themes/PrussianBlue.xaml"));
+            MahApps.Metro.ThemeManager.AddAccent("PrussianBlue", new Uri("pack://application:,,,/DominatorUIUtility;component/Themes/PrussianBlue.xaml"));
             InitializeAutoMapper();
             var shell = Container.Resolve<MainWindow>();
 
@@ -86,20 +86,9 @@ namespace Socinator
             return new ConfigurationModuleCatalog();
         }
 
-        private Mutex _mutex;
         bool IsAlreadyRunning()
         {
             return CheckByProcess();
-            //try   // commented this code temporarily as it was not working properly
-            //{
-            //    Mutex.OpenExisting("Socinator");
-            //}
-            //catch
-            //{
-            //    _mutex = new Mutex(true, "Socinator");
-            //    return false;
-            //}
-            //return true;
         }
 
         bool CheckByProcess()

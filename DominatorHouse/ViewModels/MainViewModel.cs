@@ -72,8 +72,8 @@ namespace DominatorHouse.ViewModels
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             SocinatorKeyHelper.InitilizeKey();
-            RemoveLocationDataFromTemplate();
-            FatalErrorDiagnosis();
+            RemoveLocationDataFromTemplate().Wait();
+            FatalErrorDiagnosis().Wait();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
             LogViewModel = logViewModel;
@@ -146,8 +146,9 @@ namespace DominatorHouse.ViewModels
                 {
                     ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Product WHERE Name LIKE '%Microsoft Visual C++%'");
                     var mosGet = mos.Get();
-                    foreach (ManagementObject mo in mosGet)
+                    foreach (var o in mosGet)
                     {
+                        var mo = (ManagementObject) o;
                         if (mo["Name"].ToString().StartsWith("Microsoft Visual C++"))
                         {
                             var version = Convert.ToInt32(mo["Version"].ToString().Substring(0, 2));
@@ -274,6 +275,7 @@ namespace DominatorHouse.ViewModels
                         }
                         catch (Exception ex)
                         {
+                            ex.DebugLog();
                         }
                     }
                 }
@@ -291,6 +293,7 @@ namespace DominatorHouse.ViewModels
                     }
                     catch (Exception ex)
                     {
+                        ex.DebugLog();
                     }
                 }
 
@@ -615,7 +618,6 @@ namespace DominatorHouse.ViewModels
                     _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
                         .LangKeyAccountsManager))
                 {
-                    var lastOne = AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType;
                     /* LastControlType will be have value "AccountManager" if last opened UserControl was "Account Manager" itselt, it won't let to change UserControl if "Account Details" was opened. */
                     if (AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType == "AccountDetail")
                         return;

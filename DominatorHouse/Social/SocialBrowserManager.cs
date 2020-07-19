@@ -34,8 +34,6 @@ namespace DominatorHouse.Social
         {
             bool isRunning = true;
 
-            var fbDtsg = string.Empty;
-
             Application.Current.Dispatcher.InvokeAsync(async () =>
             {
                 try
@@ -45,7 +43,7 @@ namespace DominatorHouse.Social
                     if (loginType == LoginType.AutomationLogin || loginType == LoginType.BrowserLogin
                           || loginType == LoginType.InitialiseBrowser || (loginType == LoginType.CheckLogin && BrowserWindow.IsDisposed))
                         BrowserWindow = new BrowserWindow(account) //, userAgent:"Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko"
-                        { Visibility = Visibility.Hidden, _isLoggedIn = false && account.CookieHelperList.Count != 0 };
+                        { Visibility = Visibility.Hidden, _isLoggedIn = false };
 
                     if (loginType == LoginType.BrowserLogin)
                         BrowserWindow.Visibility = Visibility.Visible;
@@ -149,7 +147,7 @@ namespace DominatorHouse.Social
                         pageSource = Regex.Replace(pageSource, "<scrolling-carousel(.*?)scrolling-carousel>", string.Empty);
 
                         var imageJsName = Regex.Matches(Regex.Split(pageSource, "<img")[1] ?? string.Empty,
-                            "jsname=\"(.*?)\"")[0]?.Groups[1].ToString();
+                            "jsname=\"(.*?)\"")[0].Groups[1].ToString();
 
                         await BrowserWindow.BrowserActAsync(ActType.ActByQuery,
                             AttributeType.Jsname, imageJsName, delayAfter: 2);
@@ -177,7 +175,7 @@ namespace DominatorHouse.Social
         {
             bool isRunning = true;
             var imageUrl = string.Empty;
-            var pageSource = string.Empty;
+            string pageSource;
 
             try
             {
