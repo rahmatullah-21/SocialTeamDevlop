@@ -3,17 +3,13 @@ using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
-using Socinator.Social.Settings.ViewModel;
+using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,7 +30,7 @@ namespace Socinator
     public partial class MainWindow : IMainWindow
     {
         private bool IsClickedFromMainWindow { get; set; } = true;
-        IMainViewModel mainViewModel;
+
         public MainWindow()
         {
             try
@@ -48,7 +44,7 @@ namespace Socinator
                 var interopHelper = new WindowInteropHelper(Application.Current.MainWindow);
                 var activeScreen = System.Windows.Forms.Screen.FromHandle(interopHelper.Handle);
 
-                mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
 
                 mainViewModel.ScreenResolution = new KeyValuePair<int, int>
                     (activeScreen.WorkingArea.Width, activeScreen.WorkingArea.Height);
@@ -112,51 +108,81 @@ namespace Socinator
             try
             {
                 var setThemeString = "Light\r\nDark";
-                var selected = (sender as ComboBox).SelectedItem as string;
+                var selected = (sender as ComboBox)?.SelectedItem as string;
 
                 string themeName = $"Base{selected}";
-                Accent newAccent;
-                AppTheme newAppTheme;
                 string colorName = selected == "Light" ? "PrussianBlue" : "Teal";
-                
+
                 switch (selected)
                 {
                     case "Light":
-                        {
-                            Application.Current.Resources["UserControlBackgroundBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255)); // White
-                            Application.Current.Resources["SelectedTabBorderBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 248, 255)); //Black
-                            Application.Current.Resources["TextColorBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 248, 255)); // Pure Black
-                            Application.Current.Resources["IconFillBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1,0,0)); // Black
-                            Application.Current.Resources["TextColorBrushAccordingTheme1"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(35, 49, 64)); // #233140
-                            Application.Current.Resources["ListItemsMouseHoverColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(214, 235, 242)); // LightBlue (Much Lighter)
-                            Application.Current.Resources["GreenColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 128, 0)); // Green
+                    {
+                        Application.Current.Resources["UserControlBackgroundBrush"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(255, 255, 255)); // White
+                        Application.Current.Resources["SelectedTabBorderBrush"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(240, 248, 255)); //Black
+                        Application.Current.Resources["TextColorBrushAccordingTheme"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(240, 248, 255)); // Pure Black
+                        Application.Current.Resources["IconFillBrushAccordingTheme"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(1, 0, 0)); // Black
+                        Application.Current.Resources["TextColorBrushAccordingTheme1"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(35, 49, 64)); // #233140
+                        Application.Current.Resources["ListItemsMouseHoverColorAccordingTheme"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(214, 235, 242)); // LightBlue (Much Lighter)
+                        Application.Current.Resources["GreenColorAccordingTheme"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(0, 128, 0)); // Green
 
-                        }
+                    }
                         break;
 
                     case "Dark":
-                        { //GreenColorAccordingTheme
-                            setThemeString = "Dark\r\nLight";
+                    {
+                        //GreenColorAccordingTheme
+                        setThemeString = "Dark\r\nLight";
 
-                            Application.Current.Resources["UserControlBackgroundBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(37, 37, 41)); // Black
-                            Application.Current.Resources["SelectedTabBorderBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(37, 37, 41)); // Black
-                            Application.Current.Resources["TextColorBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255)); // White
-                            Application.Current.Resources["IconFillBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1, 166, 163)); // Teal
-                            Application.Current.Resources["TextColorBrushAccordingTheme1"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1, 166, 163)); // Teal
-                            Application.Current.Resources["ListItemsMouseHoverColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(47, 79, 79)); // DarkSlateGrey
-                            Application.Current.Resources["GreenColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(144, 238, 144)); // LightGreen
+                        Application.Current.Resources["UserControlBackgroundBrush"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(37, 37, 41)); // Black
+                        Application.Current.Resources["SelectedTabBorderBrush"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(37, 37, 41)); // Black
+                        Application.Current.Resources["TextColorBrushAccordingTheme"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(255, 255, 255)); // White
+                        Application.Current.Resources["IconFillBrushAccordingTheme"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(1, 166, 163)); // Teal
+                        Application.Current.Resources["TextColorBrushAccordingTheme1"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(1, 166, 163)); // Teal
+                        Application.Current.Resources["ListItemsMouseHoverColorAccordingTheme"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(47, 79, 79)); // DarkSlateGrey
+                        Application.Current.Resources["GreenColorAccordingTheme"] =
+                            new System.Windows.Media.SolidColorBrush(
+                                System.Windows.Media.Color.FromRgb(144, 238, 144)); // LightGreen
 
-                        }
+                    }
                         break;
                 }
 
-                newAccent = ThemeManager.GetAccent(colorName);
-                newAppTheme = ThemeManager.GetAppTheme(themeName);
+                var newAccent = ThemeManager.GetAccent(colorName);
+                var newAppTheme = ThemeManager.GetAppTheme(themeName);
                 ThemeManager.ChangeAppStyle(Application.Current, newAccent, newAppTheme);
 
                 ServiceLocator.Current.GetInstance<IBinFileHelper>().SetTheme(setThemeString);
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
     }
 }

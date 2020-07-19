@@ -48,44 +48,36 @@ namespace DominatorHouse.Social.Settings.View
         {
             try
             {
-                string ThemeName;
                 Accent newAccent;
                 AppTheme newAppTheme;
-                string ColorName;
-                ColorsCollection SelectedItem;
-                string AccentColor;
+                string colorName;
+                ColorsCollection selectedItem;
+                string accentColor;
 
-                try
-                {
-                    ThemeName = "Base" + (lsttheme.SelectedItem as ThemeCollection).Name;
-                }
-                catch (Exception )
-                {
-                    ThemeName = "BaseLight";
-                }
+                var themeName = "Base" + ((lsttheme?.SelectedItem as ThemeCollection)?.Name ?? "Light");
 
-                if (sender == lstcolor || sender == lsttheme)
+                if (Equals(sender, lstcolor) || Equals(sender, lsttheme))
                 {
-                    ColorName = ((ColorsCollection)lstcolor.SelectedItem).Name;
-                    SelectedItem = (ColorsCollection)lstcolor.SelectedItem;
-                    AccentColor = objAppearanceViewModel.lstColorsCollection.SingleOrDefault(x => x.Value == SelectedItem.Value).Name;
+                    colorName = ((ColorsCollection)lstcolor.SelectedItem).Name;
+                    selectedItem = (ColorsCollection)lstcolor.SelectedItem;
+                    accentColor = objAppearanceViewModel.lstColorsCollection.SingleOrDefault(x => x.Value == selectedItem.Value)?.Name;
                 }
                 else
                 {
-                    ColorName = ((ColorsCollection)lstRecentcolor.SelectedItem).Name;
-                    SelectedItem = (ColorsCollection)lstRecentcolor.SelectedItem;
-                    AccentColor = objAppearanceViewModel.lstRecentColorsCollection.FirstOrDefault(x => x.Value == SelectedItem.Value).Name;
+                    colorName = ((ColorsCollection)lstRecentcolor.SelectedItem).Name;
+                    selectedItem = (ColorsCollection)lstRecentcolor.SelectedItem;
+                    accentColor = objAppearanceViewModel.lstRecentColorsCollection.FirstOrDefault(x => x.Value == selectedItem.Value)?.Name;
                 }
-                if (ColorName == "Default")
+                if (colorName == "Default")
                 {
                     ThemeManager.AddAccent("PrussianBlue", new Uri("pack://application:,,,/DominatorUIUtility;component/Themes/PrussianBlue.xaml"));
                     newAccent = ThemeManager.GetAccent("PrussianBlue");
-                    newAppTheme = ThemeManager.GetAppTheme(ThemeName);
+                    newAppTheme = ThemeManager.GetAppTheme(themeName);
                 }
                 else
                 {
-                    newAccent = ThemeManager.GetAccent(AccentColor);
-                    newAppTheme = ThemeManager.GetAppTheme(ThemeName);
+                    newAccent = ThemeManager.GetAccent(accentColor);
+                    newAppTheme = ThemeManager.GetAppTheme(themeName);
                 }
                 ThemeManager.ChangeAppStyle(Application.Current, newAccent, newAppTheme);
             }

@@ -5,9 +5,6 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using EmbeddedBrowser;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +25,7 @@ namespace DominatorHouse.Social
 
         }
 
-        public void AssignCancelationToken(CancellationToken cancellationToken)
+        private void AssignCancellationToken(CancellationToken cancellationToken)
         {
             this.cancellationToken = cancellationToken;
         }
@@ -71,7 +68,7 @@ namespace DominatorHouse.Social
                         await Task.Delay(5000, cancellationToken);
                     }
 
-                    AssignCancelationToken(cancellationToken);
+                    AssignCancellationToken(cancellationToken);
 
                 }
                 catch (Exception ex)
