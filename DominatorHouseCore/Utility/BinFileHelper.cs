@@ -657,11 +657,11 @@ namespace DominatorHouseCore.Utility
                         sw.WriteLine("Light\r\nDark");
                         sw.Close();
                     }
-                    return new string[] { "Light", "Dark" };
+                    return new [] { "Light", "Dark" };
                 }
 
                 var sr = new StreamReader(ConstantVariable.GetThemesFile());
-                string str = sr.ReadToEnd().Trim();
+                var str = sr.ReadToEnd().Trim();
                 sr.Close();
                 return System.Text.RegularExpressions.Regex.Split(str, "\r\n").ToArray();
             }
@@ -669,7 +669,7 @@ namespace DominatorHouseCore.Utility
             {
                 ex.ErrorLog();
             }
-            return new string[] { "Light", "Dark" };
+            return new [] { "Light", "Dark" };
         }
 
         public void SetTheme(string theme)

@@ -291,7 +291,6 @@
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionQuoraRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionRedditRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionFaceBookRegisterUnityExtension.cs" />
-    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionGplusRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionYoutubeRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTwitterRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterUnityExtension.cs" />

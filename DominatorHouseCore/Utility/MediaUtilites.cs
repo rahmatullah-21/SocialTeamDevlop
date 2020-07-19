@@ -651,7 +651,7 @@ namespace DominatorHouseCore.Utility
                 throw new ArgumentNullException("extension");
             }
 
-            var extension = System.IO.Path.GetExtension(filePath);
+            var extension = Path.GetExtension(filePath);
             return GetMimeType(extension);
         }
         public static byte[] GetImageBytesFromUrl(string url)

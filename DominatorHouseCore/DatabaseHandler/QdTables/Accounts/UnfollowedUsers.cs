@@ -1,5 +1,4 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 {

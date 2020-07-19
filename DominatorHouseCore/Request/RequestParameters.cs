@@ -368,7 +368,7 @@ namespace DominatorHouseCore.Request
                 foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
                 {
                     stringBuilder.AppendLine(strMultipartBoundary);
-                    stringBuilder.AppendLine($"Content-Type: text/plain; charset=utf-8");
+                    stringBuilder.AppendLine("Content-Type: text/plain; charset=utf-8");
                     stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{keyValuePair.Key as object}\"");
                     stringBuilder.AppendLine();
                     stringBuilder.AppendLine(keyValuePair.Value.ToString());

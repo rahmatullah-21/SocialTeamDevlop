@@ -187,23 +187,32 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 try
                 {
                     var moduleConfiguration =
-                        _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.TemplateId == templateId);
+                        _jobActivityConfigurationManager[account.AccountId]
+                            .FirstOrDefault(x => x.TemplateId == templateId);
                     moduleConfiguration = moduleConfiguration ??
-                        _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.ActivityType.ToString() == module);
+                                          _jobActivityConfigurationManager[account.AccountId]
+                                              .FirstOrDefault(x => x.ActivityType.ToString() == module);
                     if (moduleConfiguration != null)
                     {
                         if (isTimelimitReached)
                         {
                             moduleConfiguration.NextRun = DateTimeUtilities.GetNextStartTime(moduleConfiguration);
                         }
+
                         moduleConfiguration.IsEnabled = needRestart;
-                        if (moduleConfiguration.Status == null || moduleConfiguration.Status == "Active" && !moduleConfiguration.IsEnabled || moduleConfiguration.Status == "Paused" && moduleConfiguration.IsEnabled)
+                        if (moduleConfiguration.Status == null ||
+                            moduleConfiguration.Status == "Active" && !moduleConfiguration.IsEnabled ||
+                            moduleConfiguration.Status == "Paused" && moduleConfiguration.IsEnabled)
                             moduleConfiguration.Status = moduleConfiguration.IsEnabled ? "Active" : "Paused";
-                        _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+                        _jobActivityConfigurationManager.AddOrUpdate(account.AccountId,
+                            moduleConfiguration.ActivityType, moduleConfiguration);
                         _accountsCacheService.UpsertAccounts(account);
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
                 var id = JobProcess.AsId(account.AccountId, templateId);
                 _schedulerProxy.RemoveJob(id);
                 var scheduledJob = _schedulerProxy[id];
@@ -218,16 +227,14 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     }
                     if (scheduledJob == null)
                     {
-                        if (needRestart)
-                            ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
+                        ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
                         return;
                     }
                     scheduledJob.Disable();
 
                     if (!scheduledJob.Disabled)
                     {
-                        if (needRestart)
-                            ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
+                        ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
                     }
                 }
                 catch (Exception ex)
@@ -435,7 +442,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                             var runningTimes = moduleConfiguration.LstRunningTimes[index];
                             if (runningTimes.Timings.Count == 0)
                             {
-                                nextIndex = null;
                                 resetTime = true;
                                 i++;
                                 index++;
@@ -451,7 +457,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                             break;
                         }
                     }
-                    else if(nextTimings?.Count>0)
+                    else if(nextTimings.Count>0)
                     { 
                         // after first iteration we are intializing last index and timing to current index and timings
                         index = nextIndex ?? 0;

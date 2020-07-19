@@ -1,6 +1,5 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.EmailService;
-using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using System;

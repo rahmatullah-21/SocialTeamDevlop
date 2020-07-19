@@ -174,7 +174,7 @@ namespace DominatorHouseCore.Utility
             int num = date.DayOfWeek - DayOfWeek.Sunday;
             if (num < 0)
                 num += 7;
-            var nextWeekStartDate = (date.AddDays((double)(-1 * num)).Date).AddDays(dayCount);
+            var nextWeekStartDate = (date.AddDays((-1 * num)).Date).AddDays(dayCount);
 
             foreach (var runningTime in moduleConfiguration.LstRunningTimes)
             {

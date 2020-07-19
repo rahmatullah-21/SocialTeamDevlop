@@ -1,5 +1,4 @@
-﻿using DominatorHouseCore.Enums;
-using SQLite;
+﻿using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.TtdTables.Accounts
 {

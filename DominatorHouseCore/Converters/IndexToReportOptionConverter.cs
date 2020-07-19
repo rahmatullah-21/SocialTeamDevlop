@@ -44,8 +44,6 @@ namespace DominatorHouseCore.Converters
                 case 8:
                     subOption = new List<string> { "Captions are missing (CVAA)", "Captions are inaccurate", "Captions are abusive" }[subOptionIndex];
                     break;
-                default:
-                    break;
             }
             
             return string.IsNullOrEmpty(subOption) ? $"{option}" : $"{option} [ {subOption} ]";

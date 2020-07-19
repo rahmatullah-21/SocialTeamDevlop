@@ -2,53 +2,17 @@
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
-using DominatorHouseCore;
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
     public interface IUnfriendOption
     {
-        /*bool IsAddedThroughSoftware { get; set; }
-
-        bool IsAddedOutsideSoftware { get; set; }
-
-        bool CustomUserList { get; set; }
-
-        bool IsAlreadyFriends { get; set; }
-
-        bool IsPendingRequest { get; set; }
-
-        bool IsFilterApplied { get; set; }
-
-        int DaysBefore { get; set; }
-
-        int HoursBefore { get; set; }*/
-
         int Count { get; set; }
 
         int TypeCount { get; set; }
-
-//        string BySoftwareDisplayName { get; set; }
-//
-//        string OutsideSoftwareDisplayName { get; set; }
-
         string FilterText { get; set; }
 
         string SourceDisplayName { get; set; }
-
-
-//        List<string> LstFilterText { get; set; }
-//
-//        bool IsFilterByMessageText { get; set; }
-//
-//        bool IsCustomUserList { get; set; }
-//
-//        string CustomUserText { get; set; }
-//
-//        List<string> LstCustomUsers { get; set; }
-//
-//        bool IsMutualFriends { get; set; }
-
     }
 
     public class UnfriendOption : BindableBase, IUnfriendOption
@@ -90,62 +54,6 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         
-        /*private bool _customUserList;
-
-        [ProtoMember(3)]
-        public bool CustomUserList
-        {
-            get
-            {
-                return _customUserList;
-            }
-            set
-            {
-                if (value == _customUserList)
-                    return;
-                SetProperty(ref _customUserList, value);
-
-            }
-        }
-
-        private bool _isAlreadyFriends;
-
-        [ProtoMember(4)]
-        public bool IsAlreadyFriends
-        {
-            get
-            {
-                return _isAlreadyFriends;
-            }
-
-            set
-            {
-                if (value == _isAlreadyFriends)
-                    return;
-                SetProperty(ref _isAlreadyFriends, value);
-
-            }
-        }
-
-        private bool _isPendingRequest;
-
-        [ProtoMember(5)]
-        public bool IsPendingRequest
-        {
-            get
-            {
-                return _isPendingRequest;
-            }
-
-            set
-            {
-                if (value == _isPendingRequest)
-                    return;
-                SetProperty(ref _isPendingRequest, value);
-
-            }
-        }*/
-
         private bool _isFilterApplied;
 
         [ProtoMember(6)]
@@ -323,25 +231,6 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
         }
 
-        /*private bool _isFilterByMessageText ;
-
-        [ProtoMember(15)]
-        public bool IsFilterByMessageText
-        {
-            get
-            {
-                return _isFilterByMessageText;
-            }
-
-            set
-            {
-                if (value == _isFilterByMessageText)
-                    return;
-                SetProperty(ref _isFilterByMessageText, value);
-
-            }
-        }*/
-
         private string _sourceDisplayName;
 
         [ProtoMember(16)]
@@ -360,9 +249,6 @@ namespace DominatorHouseCore.Models.FacebookModels
 
             }
         }
-
-
-
 
         private string _customUserText;
 
@@ -484,40 +370,10 @@ namespace DominatorHouseCore.Models.FacebookModels
 
     public interface IAutoReplyOptionModel
     {
-        /*bool IsFriendsMessageChecked { get; set; }
-
-        bool IsMessageRequestChecked { get; set; }
-
-        bool CustomUserList { get; set; }
-
-        bool IsAlreadyFriends { get; set; }
-
-        bool IsPendingRequest { get; set; }
-
-        bool IsFilterApplied { get; set; }
-
-        int DaysBefore { get; set; }
-
-        int HoursBefore { get; set; }*/
 
         int Count { get; set; }
 
         int TypeCount { get; set; }
-
-        /*string BySoftwareDisplayName { get; set; }
-
-        string OutsideSoftwareDisplayName { get; set; }
-
-        string FilterText { get; set; }
-
-        string SourceDisplayName { get; set; }
-
-        List<string> LstFilterText { get; set; }
-
-        bool IsFilterByIncommingMessageText { get; set; }
-
-        bool IsFilterByMessageRequestText { get; set; }*/
-
         bool IsReplyToPageMessagesChecked { get; set; }
 
         string OwnPages { get; set; }
@@ -565,66 +421,6 @@ namespace DominatorHouseCore.Models.FacebookModels
 
             }
         }
-
-
-        /*private bool _customUserList;
-
-        [ProtoMember(3)]
-        public bool CustomUserList
-        {
-            get
-            {
-                return _customUserList;
-            }
-            set
-            {
-                if (value == _customUserList)
-                    return;
-                ChangeCount(value);
-                SetProperty(ref _customUserList, value);
-
-            }
-        }*/
-
-        /*private bool _isAlreadyFriends;
-
-        [ProtoMember(4)]
-        public bool IsAlreadyFriends
-        {
-            get
-            {
-                return _isAlreadyFriends;
-            }
-
-            set
-            {
-                if (value == _isAlreadyFriends)
-                    return;
-                ChangeTypeCount(value);
-                SetProperty(ref _isAlreadyFriends, value);
-
-            }
-        }
-
-        private bool _isPendingRequest;
-
-        [ProtoMember(5)]
-        public bool IsPendingRequest
-        {
-            get
-            {
-                return _isPendingRequest;
-            }
-
-            set
-            {
-                if (value == _isPendingRequest)
-                    return;
-                ChangeTypeCount(value);
-                SetProperty(ref _isPendingRequest, value);
-
-            }
-        }*/
 
         private bool _isFilterApplied;
 

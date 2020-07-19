@@ -1,8 +1,5 @@
-﻿using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
-using System.Windows;
-using CommonServiceLocator;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
@@ -17,12 +11,16 @@ using DominatorHouseCore.Models.Config;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Microsoft.Win32;
-using Registry = Microsoft.Win32.Registry;
-using DominatorHouseCore.DatabaseHandler.Utility;
-using DominatorHouseCore.Enums.FdQuery;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
-using System.Reflection;
-using System.Text.RegularExpressions;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
+using System.Windows;
+using Registry = Microsoft.Win32.Registry;
 
 namespace DominatorHouseCore.Settings
 {
@@ -41,7 +39,7 @@ namespace DominatorHouseCore.Settings
 
     public class SoftwareSettings : BindableBase, ISoftwareSettings
     {
-        public ISoftwareSettingsFileManager _softwareSettingsFileManager;
+        private readonly ISoftwareSettingsFileManager _softwareSettingsFileManager;
         private readonly IFileSystemProvider _fileSystemProvider;
         private readonly IGenericFileManager _genericFileManager;
 
@@ -466,8 +464,6 @@ namespace DominatorHouseCore.Settings
                     {
                         JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
                            s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
-
-                        return;
                     }                    
                 }
                 catch (OperationCanceledException ex)

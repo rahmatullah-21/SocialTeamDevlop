@@ -605,7 +605,7 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
-                var finalResponse = string.Empty;
+                string finalResponse;
 
                 var revisionHistoryViewModel = ServiceLocator.Current.GetInstance<IDashboardViewModel>("RevisionHistory");
                 var currentVersion = Utilities.GetBetween(revisionHistoryViewModel.CurrentVersion, "[", "]");

@@ -87,7 +87,7 @@ namespace DominatorHouseCore.Utility
                 // Get the campaigns Post details 
                 var campaignDetails = PostlistFileManager.GetAll(campaignId);
 
-                var postCount = maximumPostLimitToStore - campaignDetails.Count;
+                int postCount;
 
                 // Filter only monitor folder details
                 var monitorFolderFiles = campaignDetails

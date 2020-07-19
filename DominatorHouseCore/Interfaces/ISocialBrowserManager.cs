@@ -1,5 +1,4 @@
 ﻿using DominatorHouseCore.Models;
-using System.Collections.Generic;
 
 namespace DominatorHouseCore.Interfaces
 {

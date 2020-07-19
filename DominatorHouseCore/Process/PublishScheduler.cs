@@ -2,6 +2,7 @@
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.Extensions;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.Publisher;
@@ -15,7 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DominatorHouseCore.Extensions;
 
 namespace DominatorHouseCore.Process
 {
@@ -1100,7 +1100,7 @@ namespace DominatorHouseCore.Process
                 if (destinationCount > 1)
                     totalDestination.Shuffle();
 
-                var unProcessedDestinations = new List<string>();
+                List<string> unProcessedDestinations;
 
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
 

@@ -1,5 +1,4 @@
 ﻿using CommonServiceLocator;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using System;

@@ -167,10 +167,10 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static string ReportHeaderFromResourceDict(this List<string> resourceDictionaryKeys)
         {
-            string header = ""; 
+            string header = "";
             foreach (var each in resourceDictionaryKeys)
             {
-                string lang = "";
+                string lang;
                 try
                 {
                     lang = Application.Current?.FindResource(each)?.ToString() ?? each;
@@ -411,7 +411,7 @@ namespace DominatorHouseCore.Utility
             jobConfig.IncreaseActivityDisplayName = oldJobConfig.IncreaseActivityDisplayName;
         }
 
-        public static void ModifySavedQueries(this System.Collections.ObjectModel.ObservableCollection<Models.QueryInfo> savedQuery, List<string> listQueryTypes, List<string> oldlistQueryTypes)
+        public static void ModifySavedQueries(this ObservableCollection<Models.QueryInfo> savedQuery, List<string> listQueryTypes, List<string> oldlistQueryTypes)
         {
             savedQuery.ForEach(x =>
             {
@@ -498,7 +498,7 @@ namespace DominatorHouseCore.Utility
                     var classData = FileUtilities.ReadFile(respHandTestFileLoc).Result;
 
                     // New checking data
-                    var dateToReplace = GetClassPropertyValueForTests(hitResponseHandler, "sut");
+                    var dateToReplace = GetClassPropertyValueForTests(hitResponseHandler);
 
                     // old checking data
                     var oldData = GetBetween(classData, "#region DataChecking", "#endregion");

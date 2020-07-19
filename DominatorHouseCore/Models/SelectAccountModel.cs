@@ -1,6 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
+using System.Collections.ObjectModel;
 
 namespace DominatorHouseCore.Models
 {
@@ -82,7 +81,7 @@ namespace DominatorHouseCore.Models
 
             }
         }
-        private string _groupText = "LangKeySelectGroups".FromResourceDictionary()?.ToString();
+        private string _groupText = "LangKeySelectGroups".FromResourceDictionary();
         public string GroupText
         {
             get { return _groupText; }
