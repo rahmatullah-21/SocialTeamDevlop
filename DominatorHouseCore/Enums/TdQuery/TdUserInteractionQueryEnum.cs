@@ -31,4 +31,12 @@ namespace DominatorHouseCore.Enums.TdQuery
         [Description("LangKeySocinatorUserScraperCampaign")]
         UserScraperCampaign = 13,
     }
+
+    public enum TdUserScraperInteractionQueryEnum
+    {
+        [Description("LangKeySomeonesFollowers")]
+        SomeonesFollowers = 6,
+        [Description("LangKeySomeonesFollowings")]
+        SomeonesFollowings = 7        
+    }
 }

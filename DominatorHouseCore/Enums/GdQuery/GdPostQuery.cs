@@ -37,4 +37,14 @@ namespace DominatorHouseCore.Enums.GdQuery
         [Description("LangKeyTaggedPost")]
         TaggedPost,
     }
+
+    public enum GdPostScraperQuery
+    {
+        [Description("LangKeySpecificUsersPosts")]
+        SpecificUsersPosts,        
+        [Description("LangKeyScrapAllLikes")]
+        ScrapAllLikedPost,
+        [Description("LangKeyTaggedPost")]
+        TaggedPost,
+    }
 }

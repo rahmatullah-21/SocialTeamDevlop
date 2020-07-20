@@ -25,4 +25,12 @@ namespace DominatorHouseCore.Enums.PdQuery
         [Description("LangKeyBoardsbyKeywords")]
         BoardsbyKeywords = 10
     }
+
+    public enum PDUsersScraperQueries
+    {
+        [Description("LangKeySomeonesFollowers")]
+        SomeonesFollowers = 1,
+        [Description("LangKeySomeonesFollowings")]
+        SomeonesFollowings = 2
+    }
 }

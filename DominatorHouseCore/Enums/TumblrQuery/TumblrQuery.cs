@@ -32,8 +32,11 @@ namespace DominatorHouseCore.Enums.TumblrQuery
         //Dashboard,
         //[Description("TumlangUsername")]
         //Username,
+    }
 
-
-
+    public enum TumblrScraerPostQuery
+    {
+        [Description("LangKeyKeywords")]
+        Keyword
     }
 }

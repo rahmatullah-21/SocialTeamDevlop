@@ -13,4 +13,18 @@ namespace DominatorHouseCore.Enums.YdQuery
         [Description("LangKeyYTVideoCommenters")]
         YTVideoCommenters = 4
     }
+
+    public enum YdPostScraperParameters
+    {
+        [Description("LangKeyKeywords")]
+        Keywords = 1
+    }
+
+    public enum YdChannelScraperParameters
+    {
+        [Description("LangKeyKeywords")]
+        Keywords = 1,
+        [Description("LangKeyYTVideoCommenters")]
+        YTVideoCommenters = 4
+    }
 }

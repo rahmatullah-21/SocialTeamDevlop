@@ -35,4 +35,17 @@ namespace DominatorHouseCore.Enums.GdQuery
         [Description("LangKeyScrapUserWhomWeMessaged")]
         ScrapeUsersToWhomWeMessaged,
     }
+
+
+    public enum GdUserScraperQuery
+    {
+        [Description("LangKeyKeywords")]
+        Keywords,
+        [Description("LangKeySuggestedUsers")]
+        SuggestedUsers,
+        [Description("LangKeySomeonesFollowings")]
+        SomeonesFollowings,
+        [Description("LangKeyScrapUsersWhoMessagedUs")]
+        ScrapUserWhoMessagedUs
+    }
 }

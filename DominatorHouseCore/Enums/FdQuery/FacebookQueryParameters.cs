@@ -106,6 +106,19 @@ namespace DominatorHouseCore.Enums.FdQuery
         ConnectedPeopleInMessenger = 21,
     }
 
+    public enum FdProfileScraperQueryParameters
+    {
+       
+        [Description("LangKeyFriendOfFriend")]
+        FriendofFriend = 1,
+        [Description("LangKeyOwnFriends")]
+        OwnFriends = 2,
+        [Description("LangKeyFriendsBasicDetails")]
+        FriendsBasicDetails = 3,
+        [Description("LangKeyPeopleConnectedInMessenger")]
+        ConnectedPeopleInMessenger = 4
+    }
+
     public enum FdProfileScraperQuery
     {
         [Description("LangKeyEvents")]

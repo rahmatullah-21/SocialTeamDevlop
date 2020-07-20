@@ -17,4 +17,12 @@ namespace DominatorHouseCore.Enums.LdQuery
         [Description("LangKeyJoinedGroupUrl")]
         JoinedGroupUrl,
     }
+
+    public enum LDUserScraperQueryParameters
+    {
+        [Description("LangKeyOnly1stConnection")]
+        Only1stConnection,
+        [Description("LangKeyJoinedGroupUrl")]
+        JoinedGroupUrl,
+    }
 }

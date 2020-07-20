@@ -22,5 +22,9 @@ namespace DominatorHouseCore.Enums.QdQuery
         AnswerUpvoters
     }
 
-    
+    public enum UserScraperQueryParameters
+    {
+        [Description("LangKeyKeywords")]
+        Keywords
+    }
 }
