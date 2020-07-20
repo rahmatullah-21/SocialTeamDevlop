@@ -1085,7 +1085,7 @@
     <system:String x:Key="LangKeyLockedStatus">Locked Status</system:String>
     <system:String x:Key="LangKeyLosAngelesCalifornia">Los Angeles, California</system:String>
     <system:String x:Key="LangKeyLove">Love</system:String>
-    <system:String x:Key="LangKeyMacroS">Macro(S)</system:String>
+    <system:String x:Key="LangKeyMacroS">Macro</system:String>
     <system:String x:Key="LangKeyMakeAdmin">Make Admin</system:String>
     <system:String x:Key="LangKeyMakeAdminToMaxProfilesPerDay">Make Admin To Max Profiles Per Day</system:String>
     <system:String x:Key="LangKeyMakeAdminToNumberOfProfilesPerDay">Make Admin To Number Of Profiles Per Day</system:String>
