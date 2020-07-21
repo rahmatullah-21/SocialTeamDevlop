@@ -6,12 +6,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Crucial Connection")]
+[assembly: AssemblyTitle("Crucial Lead")]
 
-[assembly: AssemblyDescription("The Crucial Connection")]
+[assembly: AssemblyDescription("The Crucial Lead")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Crucial Connection")]
-[assembly: AssemblyProduct("Crucial Connection")]
+[assembly: AssemblyCompany("Crucial Lead")]
+[assembly: AssemblyProduct("Crucial Lead")]
 [assembly: AssemblyCopyright("Copyright © Socinator 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

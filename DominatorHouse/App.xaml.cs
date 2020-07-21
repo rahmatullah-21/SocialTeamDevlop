@@ -113,7 +113,7 @@ namespace Socinator
                 {
                     try
                     {
-                        if (item.ProcessName != "Crucial Connection")
+                        if (item.ProcessName != "Crucial Lead")
                             continue;
                         itemCount++;
                         if (itemCount <= 1) continue;

@@ -1131,7 +1131,7 @@ Grid.Column="1"
                     <Border.Background>
                         <ImageBrush ImageSource="/DominatorUIUtility;component/Images/reverse_bg.png" Stretch="Fill"/>
                     </Border.Background>
-                    <utility:TextPath Text="CHOOSE FUNCTION"   HorizontalAlignment="Center"
+                    <utility:TextPath Text="CHOOSE A Command"   HorizontalAlignment="Center"
 		                VerticalAlignment="Center"
 		                Fill="White"
                         Margin="25,0,-10,0"
