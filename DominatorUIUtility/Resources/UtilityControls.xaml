@@ -2,12 +2,9 @@
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../ConfigControl/SoftwareSettingsTemplates.xaml"/>
-        <ResourceDictionary Source="../ConfigControl/SocinatorMacrosTemplates.xaml"/>
         <ResourceDictionary Source="../ConfigControl/LinkedInTemplates.xaml"/>
-        <ResourceDictionary Source="../ConfigControl/QuoraTemplates.xaml"/>
         <ResourceDictionary Source="../ConfigControl/YoutubeTemplates.xaml"/>
         <ResourceDictionary Source="../ConfigControl/EmbeddedBrowserSettingTemplate.xaml"/>
-        <ResourceDictionary Source="../ConfigControl/PinterestTemplates.xaml"/>
         <ResourceDictionary Source="../ConfigControl/CaptchaServicesTemplates.xaml"/>
         <ResourceDictionary Source="../ConfigControl/URLShortnerServicesTemplates.xaml"/>
         <ResourceDictionary Source="../ConfigControl/ImageCaptchaServicesTemplates.xaml"/>

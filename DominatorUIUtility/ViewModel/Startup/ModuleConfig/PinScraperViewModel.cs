@@ -16,7 +16,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public PinScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.PinScraper });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.PinNiching });
 
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);

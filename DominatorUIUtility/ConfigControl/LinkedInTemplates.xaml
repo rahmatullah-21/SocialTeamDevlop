@@ -28,10 +28,10 @@
                 <StackPanel Margin="10" DataContext="{Binding LinkedInModel}">
                     <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator}"
                           IsChecked="{Binding IsEnableExportingHTMLOfDifferentConnections}"/>
-                    <CheckBox Margin="5" Content="{DynamicResource LangKeyFilterDuplicateMessageByCheckingConversationHistory}"
-                      IsChecked="{Binding IsFilterDuplicateMessageByCheckingConversationsHistory}"/>
-                    <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator}"
-                      IsChecked="{Binding IsEnableSendConnectionRequestToDifferentUsers}"/>
+                    <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyFilterDuplicateMessageByCheckingConversationHistory}"
+                      IsChecked="{Binding IsFilterDuplicateMessageByCheckingConversationsHistory}"/>-->
+                    <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator}"
+                      IsChecked="{Binding IsEnableSendConnectionRequestToDifferentUsers}"/>-->
                 </StackPanel>
             </GroupBox>
         </Border>

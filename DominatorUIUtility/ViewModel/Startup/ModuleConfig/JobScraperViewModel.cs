@@ -16,7 +16,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public JobScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.JobScraper });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.JobNiching });
 
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);

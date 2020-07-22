@@ -16,7 +16,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public TweetScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.TweetScraper });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.TweetNiching });
 
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);

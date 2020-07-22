@@ -49,7 +49,7 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <Button HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Background="{DynamicResource AccentColorBrush3}" Margin="10" x:Name="ExportReport"
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Background="{DynamicResource AccentBaseColorBrush}" Margin="10" x:Name="ExportReport"
                     x:FieldModifier="public" Click="ExportReport_Click">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -92,9 +92,9 @@
             </ComboBox>
         </StackPanel>
 
-        <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ListView ItemsSource="{Binding ReportModel.ReportCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,IsAsync=True}" 
-                  Margin="5" Name="ReportsListView" Grid.Row="2" Foreground="{DynamicResource AccentBaseColorBrush}"
+                  Margin="5" Name="ReportsListView"  Foreground="{DynamicResource AccentBaseColorBrush}"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.IsDeferredScrollingEnabled="True">

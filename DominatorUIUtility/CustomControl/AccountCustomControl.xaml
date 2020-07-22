@@ -840,10 +840,10 @@
                                     <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
                                         CommandParameter="{Binding}"
                                         Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
-                                    <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{DynamicResource GoToToolsIcon}"
+                                    <!--<MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{DynamicResource GoToToolsIcon}"
                                         CommandParameter="{Binding}"
                                         Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
-                                        Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>
+                                        Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>-->
                                     <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{DynamicResource CheckStatusIcon}"
                                         CommandParameter="{Binding}"
                                         Command="{Binding Data.CheckLoginCommand, Source={StaticResource ContextMenuBinding}}" />
@@ -909,12 +909,12 @@
                                     </MenuItem>
 
 
-                                    <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
+                                    <!--<MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
                                         <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
-                                        <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
+                                        --><!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>
-                            <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>-->
-                                    </MenuItem>
+                            <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>--><!--
+                                    </MenuItem>-->
                                 </ContextMenu>
                             </ListView.Resources>
 

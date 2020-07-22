@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EmbeddedBrowser"
         xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf" Name="WindowBrowsers"
         Title="{Binding BrowserName}"
-        Icon="Resources/SociNator.ico" Closing="Window_Closing"
+        Icon="Resources/Crucial.ico" Closing="Window_Closing"
         mc:Ignorable="d"  ResizeMode="CanResizeWithGrip" 
         WindowTransitionsEnabled="False"
         WindowState="Maximized"

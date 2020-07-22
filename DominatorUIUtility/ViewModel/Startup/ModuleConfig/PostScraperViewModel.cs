@@ -21,7 +21,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public Visibility AllVisibility { get; set; } = Visibility.Visible;
         public PostScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.PostScraper });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.PostNiching });
 
             NextCommand = new DelegateCommand(PostScraperValidate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);

@@ -16,7 +16,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public FanpageScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.FanpageScraper });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.FanpageNiching });
 
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);

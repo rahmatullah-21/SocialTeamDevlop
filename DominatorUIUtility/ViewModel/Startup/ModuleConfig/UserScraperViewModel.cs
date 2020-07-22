@@ -16,7 +16,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public UserScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.UserScraper });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.UserNiching });
 
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);

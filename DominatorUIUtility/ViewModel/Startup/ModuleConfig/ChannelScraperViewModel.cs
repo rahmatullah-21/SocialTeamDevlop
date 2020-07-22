@@ -15,7 +15,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public ChannelScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.ChannelScraper });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.ChannelNiching });
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
