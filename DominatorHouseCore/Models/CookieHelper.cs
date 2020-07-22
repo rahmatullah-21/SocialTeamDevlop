@@ -37,7 +37,7 @@ namespace DominatorHouseCore.Models
         public string Domain { get; set; }
 
 
-        private DateTime _Expires = new DateTime();
+        private DateTime _Expires;
         [ProtoMember(4)]
         public DateTime Expires
         {
@@ -50,7 +50,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _HttpOnly = false;
+        private bool _HttpOnly;
         [ProtoMember(5)]
         public bool HttpOnly
         {

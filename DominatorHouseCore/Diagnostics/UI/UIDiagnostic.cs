@@ -96,12 +96,5 @@ namespace DominatorHouseCore.Diagnostics
             var answer = MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
             return answer == MessageBoxResult.Yes;
         }
-
-        public static bool AskError(string message)
-        {
-            GlobusLogHelper.log.Error(message);
-            var answer = MessageBox.Show(message, "Run-time error", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.No);
-            return answer == MessageBoxResult.Yes;
-        }
     }
 }

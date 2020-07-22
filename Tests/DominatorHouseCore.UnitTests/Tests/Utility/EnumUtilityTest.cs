@@ -38,12 +38,12 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             var result = EnumUtility.GetDescriptionAttr(SocialNetworks.Facebook);
             result.Should().Be(null);
         }
-        [TestMethod]
-        public void should_return_list_of_description_of_given_enum()
-        {
-            var result = EnumUtility.GetListOfDescription<ActivityType>();
-            result.Should().NotBeEmpty().And.HaveCount(103);
-        }
+        //[TestMethod]
+        //public void should_return_list_of_description_of_given_enum()
+        //{
+        //    var result = EnumUtility.GetListOfDescription<ActivityType>();
+        //    result.Should().NotBeEmpty().And.HaveCount(103);
+        //}
        
     }
 }

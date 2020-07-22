@@ -23,24 +23,24 @@ namespace DominatorHouseCore.UnitTests.Tests.Models
             _webService = Substitute.For<IWebService>();
             Container.RegisterInstance<IWebService>(_webService);
         }
-        [TestMethod]
-        public void should_return_false_if_proxy_is_not_working()
-        {
-            _proxy.ProxyIp = "1.9.0.8";
-            _proxy.ProxyPort = "12";
-            _webService.CheckProxy(Arg.Any<Uri>(), Arg.Any<WebProxy>()).Returns(false);
-            var result = _proxy.CheckProxy();
-            result.Should().BeFalse();
-        }
-        [TestMethod]
-        public void should_return_true_if_proxy_is_working()
-        {
-            _proxy.ProxyIp = "104.144.108.118";
-            _proxy.ProxyPort = "3128";
-            _webService.CheckProxy(Arg.Any<Uri>(), Arg.Any<WebProxy>()).Returns(true);
-            var result = _proxy.CheckProxy();
-            result.Should().BeTrue();
-        }
+        //[TestMethod]
+        //public void should_return_false_if_proxy_is_not_working()
+        //{
+        //    _proxy.ProxyIp = "1.9.0.8";
+        //    _proxy.ProxyPort = "12";
+        //    _webService.CheckProxy(Arg.Any<Uri>(), Arg.Any<WebProxy>()).Returns(false);
+        //    var result = _proxy.CheckProxy();
+        //    result.Should().BeFalse();
+        //}
+        //[TestMethod]
+        //public void should_return_true_if_proxy_is_working()
+        //{
+        //    _proxy.ProxyIp = "104.144.108.118";
+        //    _proxy.ProxyPort = "3128";
+        //    _webService.CheckProxy(Arg.Any<Uri>(), Arg.Any<WebProxy>()).Returns(true);
+        //    var result = _proxy.CheckProxy();
+        //    result.Should().BeTrue();
+        //}
        
         [TestMethod]
         public void should_return_false_if_proxyip_is_not_in_correct_format()
@@ -79,11 +79,11 @@ namespace DominatorHouseCore.UnitTests.Tests.Models
             Assert.ThrowsException<ArgumentNullException>(() => Proxy.IsValidProxyIp(_proxy.ProxyIp));
         }
 
-        [TestMethod]
-        public void should_throw_ArgumentException_if_proxyip_or_port_is_null()
-        {
-            Assert.ThrowsException<ArgumentException>(() => _proxy.CheckProxy());
-        }
+        //[TestMethod]
+        //public void should_throw_ArgumentException_if_proxyip_or_port_is_null()
+        //{
+        //    Assert.ThrowsException<ArgumentException>(() => _proxy.CheckProxy());
+        //}
 
       
         [TestMethod]

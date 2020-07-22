@@ -88,42 +88,6 @@ namespace DominatorHouseCore.Utility
                 .ForEach(x => { lstInnerhtml.Add(x.InnerHtml.ToString()); });
             return lstInnerhtml;
         }
-        public static List<string> GetListOuterHtmlFromPartialTagName(string pageSource, string tagName, string attributeName,
-            string attributeValue)
-        {
-            var lstInnerhtml = new List<string>();
-            var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(pageSource);
-            htmlDoc.DocumentNode
-                .SelectNodes($"//{tagName}[starts-with(@{attributeName}, '{attributeValue}')]")
-                .ForEach(x => { lstInnerhtml.Add(x.OuterHtml.ToString()); });
-            return lstInnerhtml;
-        }
-        public static List<string> GetListOuterHtmlFromPartialTagNameWhereInnerTagIs(string pageSource, string tagName, string attributeName,
-            string attributeValue, string innertag)
-        {
-            var lstInnerhtml = new List<string>();
-            var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(pageSource);
-            htmlDoc.DocumentNode
-                .SelectNodes($"//{tagName}[starts-with(@{attributeName}, '{attributeValue}')]")
-                .Descendants($"{innertag}")
-                .ForEach(x => { lstInnerhtml.Add(x.OuterHtml.ToString()); });
-            return lstInnerhtml;
-        }
-
-        public static List<string> GetListInnerHtmlFromPartialTagNameWhereInnerTagIs(string pageSource, string tagName, string attributeName,
-          string attributeValue, string innertag)
-        {
-            var lstInnerhtml = new List<string>();
-            var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(pageSource);
-            htmlDoc.DocumentNode
-            .SelectNodes($"//{tagName}[starts-with(@{attributeName}, '{attributeValue}')]")
-            .Descendants($"{innertag}")
-            .ForEach(x => { lstInnerhtml.Add(x.InnerText.ToString()); });
-            return lstInnerhtml;
-        }
         public static string GetAllInnerTextFromTags(string pageSource)
         {
             var text = string.Empty;
@@ -184,31 +148,6 @@ namespace DominatorHouseCore.Utility
                 .SelectNodes($"//{tagName}[contains(@{attributeName}, '{attributeValue}')]")
                 .ForEach(x => { lstInnerhtml.Add(x.InnerText.ToString()); });
             return lstInnerhtml;
-        }
-
-        /// <summary>
-        /// Get inner text from single node by atteribute and index
-        /// </summary>
-        /// <param name="pageSource"></param>
-        /// <param name="tagName"></param>
-        /// <param name="attributeName"></param>
-        /// <param name="attributeValue"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public static string GetInnerTextWithNodeIndex(string pageSource, string tagName, string attributeName, string attributeValue, int index)
-        {
-            var text = string.Empty;
-            try
-            {
-                var htmlDoc = new HtmlDocument();
-                htmlDoc.LoadHtml(pageSource);
-                text = htmlDoc.DocumentNode.SelectNodes($"//{tagName}[@{attributeName}='{attributeValue}']")[index].InnerText;
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-            return text;
         }
     }
 }

@@ -10,37 +10,6 @@ namespace DominatorHouseCore.Utility
 {
     public static class GridViewColumns
     {
-
-        /// <summary>
-        ///   this method will take ListView and SizeChangedEventArgs as argument
-        ///   and devide all column with equal width
-        /// </summary>
-        /// <param name="list"></param>
-        /// <param name="e"></param>
-        public static void SetGridViewColumnsWidthToStartWidth(ListView list, SizeChangedEventArgs e)
-        {
-            if (e.WidthChanged)
-            {
-                GridView view = list.View as GridView;
-                Decorator border = VisualTreeHelper.GetChild(list, 0) as Decorator;
-                if (border != null)
-                {
-                    ScrollViewer scroller = border.Child as ScrollViewer;
-                    if (scroller != null)
-                    {
-                        ItemsPresenter presenter = scroller.Content as ItemsPresenter;
-                        if (presenter != null)
-                        {
-
-                            for (int i = 0; i < view.Columns.Count; i++)
-                            {
-                                view.Columns[i].Width = presenter.ActualWidth / view.Columns.Count;
-                            }
-                        }
-                    }
-                }
-            }
-        }
         [AttachedPropertyBrowsableForType(typeof(GridView))]
         public static object GetColumnValues(DependencyObject obj)
         {

@@ -163,28 +163,6 @@ namespace DominatorHouseCore.Request
             IsMultiPart = true;
         }
 
-
-        /// <summary>
-        /// To add the file description along with headers, title, image byte sequences and file name 
-        /// </summary>
-        /// <param name="headers">Specify the content-type and Content-Transfer-Encoding</param>
-        /// <param name="title">File title</param>
-        /// <param name="data">image byte sequences</param>
-        /// <param name="fileName">file name </param>
-        public void AddFileList(NameValueCollection headers, string title, byte[] data, string fileName)
-        {
-            if (fileName != null)
-            {
-                fileName = Path.GetFileName(fileName);
-                if (data != null && headers != null)
-                {
-                    var fileData = new FileData(headers, fileName, data);
-                    FileList.Add(title, fileData);
-                }
-            }
-            IsMultiPart = true;
-        }
-
         /// <summary>
         /// To Generate the request url alone with <see cref="DominatorHouseCore.Request.RequestParameters.Url"/> and stored <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/> items
         /// </summary>      
@@ -489,18 +467,6 @@ namespace DominatorHouseCore.Request
                 ContentType = $"multipart/form-data; boundary={multipartBoundary}";
                 return memoryStream.ToArray();
             }
-        }
-
-
-        /// <summary>
-        /// To generate the normal post data from json string
-        /// </summary>
-        /// <param name="jsonString">post data which will pass as bytes</param>
-        /// <returns>post data in sequences of bytes</returns>
-        public virtual byte[] GeneratePostDataFromDirectJson(string jsonString)
-        {
-            var jobject = JObject.Parse(jsonString);
-            return Encoding.UTF8.GetBytes(jobject.ToString());
         }
     }
 }

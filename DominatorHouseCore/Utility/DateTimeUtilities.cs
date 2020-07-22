@@ -26,47 +26,6 @@ namespace DominatorHouseCore.Utility
             return Convert.ToInt32(Math.Floor((date.ToUniversalTime() - DateUtc1970).TotalSeconds));
         }
 
-        public static int ConvertToEpochAsIs(this DateTime date)
-        {
-            return Convert.ToInt32(Math.Floor((date - DateUtc1970).TotalSeconds));
-        }
-
-        /// <summary>
-        /// GetDayOfWeek is used to return the current day
-        /// </summary>
-        /// <returns></returns>
-
-        //public static DayOfWeek GetDayOfWeek()
-        //{
-        //    return DateTime.Now.DayOfWeek;
-        //}
-
-        //public static TimeSpan GetTimeSpanCurrentHourMinute()
-        //{
-        //    DateTime now = DateTime.Now;
-        //    return new TimeSpan(now.Hour, now.Minute, 0);
-        //}
-
-        public static DayOfWeek GetDayOfWeek()
-        {
-            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
-            return dateProvider.Now().DayOfWeek;
-        }
-
-        public static TimeSpan GetTimeSpanCurrentHourMinute()
-        {
-            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
-            DateTime now = dateProvider.Now();
-            return new TimeSpan(now.Hour, now.Minute, 0);
-        }
-
-
-        //public static TimeSpan GetTimeSpanForGivenTime(DateTime dateTime)
-        //{
-        //    return new TimeSpan(dateTime.Hour, dateTime.Minute, 0);
-        //}
-
-
         public static DateTime EpochToDateTimeUtc(this int epoch)
         {
             return DateUtc1970.AddSeconds(epoch);
@@ -104,109 +63,12 @@ namespace DominatorHouseCore.Utility
             return (int)TimeZoneInfo.Local.GetUtcOffset(dateProvider.Now()).TotalSeconds;
         }
 
-        //public static string ReadableDateTime(this DateTime time)
-        //{
-        //    return time.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-        //}
-
-        //public static DateTime StartOfWeekOld(this DateTime date, DayOfWeek day)
-        //{
-        //    int num = date.DayOfWeek - day;
-        //    if (num < 0)
-        //        num += 7;
-        //    return date.AddDays(-1 * num).Date;
-        //}
-
         public static DateTime GetStartOfWeek(this DateTime date)
         {
             int num = date.DayOfWeek - DayOfWeek.Sunday;
             if (num < 0)
                 num += 7;
             return date.AddDays(-1 * num).Date;
-        }
-
-
-        //public static DateTime GetNextStartTime(this DateTime date, ModuleConfiguration moduleConfiguration, int dayCount)
-        //{
-        //    int num = date.DayOfWeek - DayOfWeek.Sunday;
-        //    if (num < 0)
-        //        num += 7;
-        //    var nextWeekStartDate = (date.AddDays(-1 * num).Date).AddDays(dayCount);
-        //    if (dayCount == 1)
-        //    {
-        //        var NextWeekStartDate = date.AddDays(1).Date;
-        //    }
-
-        //    foreach (var runningTime in moduleConfiguration.LstRunningTimes)
-        //    {
-        //        if (!runningTime.IsEnabled)
-        //            continue;
-
-        //        if (runningTime.Timings.Count <= 0)
-        //            continue;
-
-        //        var startTime = nextWeekStartDate.GetDateOfDateTime(runningTime.DayOfWeek);
-
-        //        var timings = runningTime.Timings.ToList();
-
-        //        timings.Sort(new RunningTimeComparer());
-
-        //        if (dayCount == 0)
-        //        {
-        //            var currentDateTime = DateTime.Now.AddSeconds(30);
-        //            var availableTimingRanges = timings.Where(x => DateTime.Today.Date.Add(x.StartTime) > currentDateTime).ToList();
-        //            availableTimingRanges.Sort(new RunningTimeComparer());
-        //            nextWeekStartDate = startTime.Add(availableTimingRanges[0].StartTime);
-        //        }
-        //        else
-        //        {
-        //            nextWeekStartDate = startTime.Add(timings[0].StartTime);
-        //        }
-
-        //        return nextWeekStartDate;
-        //    }
-
-        //    return nextWeekStartDate;
-        //}
-
-        public static DateTime GetNextStartTime(this DateTime date, ModuleConfiguration moduleConfiguration, int dayCount)
-        {
-            int num = date.DayOfWeek - DayOfWeek.Sunday;
-            if (num < 0)
-                num += 7;
-            var nextWeekStartDate = (date.AddDays((-1 * num)).Date).AddDays(dayCount);
-
-            foreach (var runningTime in moduleConfiguration.LstRunningTimes)
-            {
-                if (!runningTime.IsEnabled)
-                    continue;
-
-                if (runningTime.Timings.Count <= 0)
-                    continue;
-
-                var startTime = nextWeekStartDate.GetDateOfDateTime(runningTime.DayOfWeek);
-
-                var timings = runningTime.Timings.ToList();
-
-                timings.Sort(new RunningTimeComparer());
-
-                if (dayCount == 0)
-                {
-                    var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
-                    var currentDateTime = dateProvider.Now().AddSeconds(30);
-                    var availableTimingRanges = timings.Where(x => DateTime.Today.Date.Add(x.StartTime) > currentDateTime).ToList();
-                    availableTimingRanges.Sort(new RunningTimeComparer());
-                    nextWeekStartDate = startTime.Add(availableTimingRanges[0].StartTime);
-                }
-                else
-                {
-                    nextWeekStartDate = startTime.Add(timings[0].StartTime);
-                }
-
-                return nextWeekStartDate;
-            }
-
-            return nextWeekStartDate;
         }
 
         public static DateTime GetStartTimeOfNextWeek(ModuleConfiguration moduleConfiguration)
@@ -315,14 +177,6 @@ namespace DominatorHouseCore.Utility
             return startDate;
         }
 
-
-        public static DateTime GetStartOfWeek(this DateTime date, DayOfWeek day)
-        {
-            int num = date.DayOfWeek - day;
-            if (num < 0)
-                num += 7;
-            return date.AddDays(-1 * num).Date;
-        }
         public static Int64 GetCurrentEpochTimeMilliSeconds(this DateTime date)
         {
             return Convert.ToInt64(Math.Floor((date.ToUniversalTime() - DateUtc1970).TotalMilliseconds));
@@ -416,13 +270,6 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static bool TimeBetween(TimeSpan now, TimeSpan start, TimeSpan end)
-        {
-            if (start < end)
-                if (now <= end || start > now)
-                    return true;
-            return false;
-        }
         public static DateTime EpochToDateTimeLocal(this int epoch)
         {
             var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();

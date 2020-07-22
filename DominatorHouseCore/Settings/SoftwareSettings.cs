@@ -27,7 +27,6 @@ namespace DominatorHouseCore.Settings
     public interface ISoftwareSettings
     {
         void InitializeOnLoadConfigurations();
-        void ActivityManagerInitializer();
         void ScheduleAutoUpdation();
         Task ScheduleAdsScraping();
         Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer, DominatorAccountModel currentAccount = null
@@ -108,38 +107,6 @@ namespace DominatorHouseCore.Settings
         {
             return _softwareSettingsFileManager.SaveSoftwareSettings(Settings);
         }
-
-        private void OtherInitializers()
-        {
-            // AddDHToStartup(Settings);
-        }
-
-        private void AddDHToStartup(SoftwareSettingsModel settings)
-        {
-            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            if (settings.IsRunDHAtStartUpChecked)
-                rk.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName, System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-            else
-                rk.DeleteValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName, false);
-        }
-
-        public void ActivityManagerInitializer()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                try
-                {
-                    var lstDominatorAccountModel = _accountsFileManager.GetAll();
-                    var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
-                    runningActivityManager.Initialize(lstDominatorAccountModel);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            });
-        }
-
 
         private void CheckSocinatorIcon()
         {
@@ -416,70 +383,5 @@ namespace DominatorHouseCore.Settings
             set;
         }
             = new ConcurrentDictionary<string, CancellationTokenSource>();
-
-
-        public async Task StartAdScarperAsync()
-         {
-            try
-            {
-                var cancellationTokenSource =
-                    AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
-
-                //var postScraperConstants = ServiceLocator.Current
-                //    .GetInstance<IPostScraperConstants>();
-
-                //if ((DateTime.Now - postScraperConstants.LastLcsJobTime).TotalHours > 10000)
-                //    postScraperConstants.LastLcsJobTime = DateTime.Now.Subtract(TimeSpan.FromHours(4));
-
-                AdUpdationType currentUpdationType;
-
-                currentUpdationType = account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ? AdUpdationType.FbAds :
-                   account.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok ? AdUpdationType.Ads : AdUpdationType.QuoraAds;
-
-                var asyncAdScraperFactory =
-                    ServiceLocator.Current.GetInstance<IAdScraperFactory>(currentUpdationType.ToString());
-
-                if (asyncAdScraperFactory == null)
-                    return;
-
-                try
-                {
-                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                    var checkResult = await asyncAdScraperFactory.CheckStatusAsync(account, cancellationTokenSource.Token);
-
-                    var jobId = Guid.NewGuid().ToString();
-
-                    if (checkResult)
-                    {
-                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                        await asyncAdScraperFactory.ScrapeAdsAsync(account, cancellationTokenSource.Token);
-
-                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
-                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1)));
-
-                    }
-                    else
-                    {
-                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
-                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
-                    }                    
-                }
-                catch (OperationCanceledException ex)
-                {
-                    ex.DebugLog("Cancellation Requested!");
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
     }
 }

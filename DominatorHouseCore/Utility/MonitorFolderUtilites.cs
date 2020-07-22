@@ -124,8 +124,6 @@ namespace DominatorHouseCore.Utility
                     publisherInitialize.UpdatePostCounts(campaignId);
                 }
 
-                var mediaUtilites = new MediaUtilites();
-
                 // Calculate the post expire date time
                 DateTime? expireDate = null;
                 if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate)

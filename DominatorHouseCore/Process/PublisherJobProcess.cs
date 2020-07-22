@@ -260,13 +260,6 @@ namespace DominatorHouseCore.Process
         #region Methods
 
         /// <summary>
-        /// To validate the networks settings for each network
-        /// </summary>
-        /// <param name="campaign">Campaign details</param>
-        /// <returns></returns>
-        protected abstract bool ValidateNetworksSettings(string campaign);
-
-        /// <summary>
         /// To delete a published post after x hours
         /// </summary>
         /// <param name="postId">Published Post Id/Post Url</param>

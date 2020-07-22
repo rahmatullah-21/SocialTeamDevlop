@@ -108,13 +108,6 @@ namespace DominatorHouseCore.Utility
             return dir;
         }
 
-        public static string GetCachePathDirectory()
-        {
-            var dir = GetPlatformBaseDirectory() + @"\Cache";
-            DirectoryUtilities.CreateDirectory(dir);
-            return dir;
-        }
-
         public static string GetIndexCampaignFile() => GetIndexCampaignDir() + @"\CampaignDetails.bin";
 
         public static string GetTemplatesFile() => GetConfigurationDir() + "\\Template.bin";
@@ -169,7 +162,6 @@ namespace DominatorHouseCore.Utility
             return dir;
         }
         internal static string GetLiveChatFile() => GetChatDir() + @"\LiveChat.bin";
-        public static string GetLiveChatFile(SocialNetworks network) => GetChatDir() + $"\\{network}.bin";
         public static string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
@@ -240,14 +232,6 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherTumblrSettingsFile() => GetOtherDir() + @"\Tumblr.bin";
         public static string GetOtherTwitterSettingsFile() => GetOtherDir() + @"\Twitter.bin";
         public static string GetOtherYoutubeSettingsFile() => GetOtherDir() + @"\Youtube.bin";
-
-        public static string GetModuleConfigPath(string network)
-        {
-            string dir = $"{ GetConfigurationDir()}\\{network}";
-            DirectoryUtilities.CreateDirectory(dir);
-            return dir + "\\Config.bin";
-
-        }
 
         #endregion
 
@@ -320,8 +304,6 @@ namespace DominatorHouseCore.Utility
               "http://{0}/{1}";
 
         public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
-        public static string GetTwitterConfigFile() => GetOtherDir() + @"\Twitter.bin";
-        public static string GetTumblrConfigFile() => GetOtherDir() + @"\Tumblr.bin";
 
 
         public static string PageInviterNote => "LangKeyPageInviterNote".FromResourceDictionary();

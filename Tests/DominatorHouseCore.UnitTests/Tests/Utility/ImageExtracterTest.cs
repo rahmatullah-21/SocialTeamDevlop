@@ -31,18 +31,18 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             var result = ImageExtracter.ExtractImageUrls("http://www.yahoo.com", ref title);
             result.Should().BeEmpty();
         }
-        [TestMethod]
-        public void should_return_true_if_url_is_image_url()
-        {
-            var result = ImageExtracter.IsImageUrl("https://i.ytimg.com/vi/ZYifkcmIb-4/maxresdefault.jpg");
-            result.Should().BeTrue();
-        }
-        [TestMethod]
-        public void should_return_false_if_url_is_not_image_url()
-        {
-            var result = ImageExtracter.IsImageUrl("https://youtube.com");
-            result.Should().BeFalse();
-        }
+        //[TestMethod]
+        //public void should_return_true_if_url_is_image_url()
+        //{
+        //    var result = ImageExtracter.IsImageUrl("https://i.ytimg.com/vi/ZYifkcmIb-4/maxresdefault.jpg");
+        //    result.Should().BeTrue();
+        //}
+        //[TestMethod]
+        //public void should_return_false_if_url_is_not_image_url()
+        //{
+        //    var result = ImageExtracter.IsImageUrl("https://youtube.com");
+        //    result.Should().BeFalse();
+        //}
         [TestMethod]
         public void should_remove_invalid_url()
         {

@@ -78,7 +78,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private int _imageCount = 0;
+        private int _imageCount;
 
         public int ImageCount
         {

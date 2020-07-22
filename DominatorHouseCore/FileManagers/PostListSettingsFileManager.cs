@@ -47,13 +47,6 @@ namespace DominatorHouseCore.FileManagers
         public static List<PublisherPostlistSettingsModel> GetAll() => BinFileHelper.GetPublisherPostListSettingsModels();
 
 
-        public static PublisherPostlistSettingsModel GetSettingsByCampaignId(string campaignId)
-        {
-            var lst = GetAll();
-            return lst.FirstOrDefault(x => x.CampaignId == campaignId);
-        }
-
-
         public static void DeleteSelected(List<PublisherPostlistSettingsModel> settings)
         {
             var all = GetAll().Where(a => settings.FirstOrDefault(p => p.CampaignId == a.CampaignId) == null).ToList();

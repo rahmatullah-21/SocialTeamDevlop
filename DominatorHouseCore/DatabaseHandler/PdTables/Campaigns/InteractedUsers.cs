@@ -22,6 +22,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int FollowedBackDate
         { get; set; }
 
@@ -112,6 +114,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
         public string SinAccUsername { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 29)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public bool IsFollowedByMe { get; set; }
 
     }

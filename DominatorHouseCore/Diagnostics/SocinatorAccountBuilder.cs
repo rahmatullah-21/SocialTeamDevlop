@@ -63,12 +63,6 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
-        public SocinatorAccountBuilder AddOrUpdateMobileRequests(bool isUseOnlyMobileRequest)
-        {
-            DominatorAccountModel.UseMobileRequestOnly = isUseOnlyMobileRequest;
-            return this;
-        }
-
         public SocinatorAccountBuilder AddOrUpdateExtraParameter(Dictionary<string, string> extraProperity)
         {
             try

@@ -22,6 +22,8 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int FollowedBackDate
         { get; set; }
 

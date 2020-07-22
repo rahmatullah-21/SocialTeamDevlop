@@ -65,9 +65,13 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string CommetLikeCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string CommentTimeWithDate { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
@@ -88,11 +92,15 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string LikeAsPageId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string Mentions { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string ReplyForComment { get; set; }
     }
 }

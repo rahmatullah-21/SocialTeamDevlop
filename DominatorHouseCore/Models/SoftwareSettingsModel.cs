@@ -781,7 +781,7 @@ namespace DominatorHouseCore.Models
         }
 
 
-        private bool _doNotSortByUserNameChecked = false;
+        private bool _doNotSortByUserNameChecked;
         [ProtoMember(53)]
         public bool DoNotSortByUserNameChecked
         {

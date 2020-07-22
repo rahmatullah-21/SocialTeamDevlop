@@ -12,6 +12,8 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
+        // need to keep it to support existing data model
+        // ReSharper disable once UnusedMember.Global
         public int DetailedInfoHasBeenRetrievedAtleastOnce
         { get; set; }
 

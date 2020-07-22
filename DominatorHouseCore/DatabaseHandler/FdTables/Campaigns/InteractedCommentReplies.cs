@@ -69,6 +69,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string ReplyCommenterUrl { get; set; }
 
         /// <summary>

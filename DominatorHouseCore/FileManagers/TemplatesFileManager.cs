@@ -7,9 +7,7 @@ namespace DominatorHouseCore.FileManagers
 {
     public interface ITemplatesFileManager
     {
-        void ApplyAction(Action<TemplateModel> actionToApply);
         void ApplyFunc(Func<TemplateModel, bool> funcToApply);
-        void ApplyActionForId(string templateId, Action<TemplateModel> actionToApply);
         void UpdateActivitySettings(string templateId, string activitySettingsJson);
         List<TemplateModel> Get();
         TemplateModel GetTemplateById(string id);
@@ -33,16 +31,6 @@ namespace DominatorHouseCore.FileManagers
             _templatesCacheService = cacheService;
             _templatesCacheService.GetTemplateModels();
         }
-        // Updates Template with applying action to it and writes changes back to file
-        public void ApplyAction(Action<TemplateModel> actionToApply)
-        {
-            var templates = Get();
-
-            foreach (var t in templates)
-                actionToApply(t);
-
-            _templatesCacheService.UpsertTemplates(templates.ToArray());
-        }
 
         // Same as above, but Func must return true if file needs to be overwritten        
         public void ApplyFunc(Func<TemplateModel, bool> funcToApply)
@@ -57,7 +45,7 @@ namespace DominatorHouseCore.FileManagers
                 _templatesCacheService.UpsertTemplates(templates.ToArray());
         }
 
-        public void ApplyActionForId(string templateId, Action<TemplateModel> actionToApply)
+        private void ApplyActionForId(string templateId, Action<TemplateModel> actionToApply)
         {
             ApplyFunc(t =>
             {

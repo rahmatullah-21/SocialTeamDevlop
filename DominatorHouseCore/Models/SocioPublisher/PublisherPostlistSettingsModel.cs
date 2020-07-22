@@ -90,10 +90,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(CampaignId));
             }
         }
-
-        public void AddOrUpdateBinFile(PublisherPostlistSettingsModel publisherPostlistSettingsModel) =>
-            PostListSettingsFileManager.AddOrUpdateDestinations(publisherPostlistSettingsModel);
-
-      
     }
 }

@@ -74,8 +74,6 @@ namespace DominatorHouseCore.FileManagers
 
         public bool VerifyProxy(Proxy currentProxy, string url)
         {
-            var stopWatch = new Stopwatch();
-
             try
             {
                 var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
@@ -106,6 +104,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
                 return false;
             }
 

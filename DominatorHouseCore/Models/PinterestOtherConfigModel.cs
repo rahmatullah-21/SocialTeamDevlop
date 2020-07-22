@@ -23,7 +23,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private int _paginationCount = 0;
+        private int _paginationCount;
 
         [ProtoMember(2)]
         public int PaginationCount
@@ -40,7 +40,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _isCampainWiseUnique = false;
+        private bool _isCampainWiseUnique;
         [ProtoMember(3)]
         public bool IsCampainWiseUnique
         {

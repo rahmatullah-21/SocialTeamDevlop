@@ -7,16 +7,6 @@ namespace DominatorHouseCore.UIExtensions
 {
     public class CollectionViewSourceExtensions
     {
-
-        public static ObservableCollection<string> GetGroupBy(DependencyObject obj)
-        {
-            return (ObservableCollection<string>)obj.GetValue(GroupByProperty);
-        }
-        public static void SetGroupBy(DependencyObject obj, ObservableCollection<string> value)
-        {
-            obj.SetValue(GroupByProperty, value);
-        }
-
         public static readonly DependencyProperty GroupByProperty =
             DependencyProperty.RegisterAttached("GroupBy", typeof(ObservableCollection<string>), typeof(CollectionViewSourceExtensions), new PropertyMetadata(null, GroupByPropertyChangedCallback));
 

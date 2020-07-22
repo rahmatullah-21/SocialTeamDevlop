@@ -694,17 +694,14 @@ namespace DominatorHouseCore.Utility
                 {
                     MD5 md5 = MD5.Create();
                     byte[] inputBytes = File.ReadAllBytes(input);
-                    string oldImage = GetMd5HashCode(input, md5, inputBytes);
 
                     byte[] bArray = new byte[inputBytes.Length + 1];
                     inputBytes.CopyTo(bArray, 0);
                     bArray[bArray.Length - 1] = Convert.ToByte('\0');
 
                     File.WriteAllBytes(newImage, bArray);
-                    inputBytes = File.ReadAllBytes(newImage);
-                    string newHashCode = GetMd5HashCode(newImage, md5, inputBytes);
                 }
-                catch (Exception ex)
+                catch
                 {
                     //ignored
                 }

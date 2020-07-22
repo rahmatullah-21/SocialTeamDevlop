@@ -175,31 +175,6 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        public string QueryTypeAsDisplayName()
-        {
-            var value = (UserQueryParameters)Enum.Parse(typeof(UserQueryParameters), QueryType);
-            var descrKey = EnumUtility.GetDescriptionAttr(value);
-
-            return descrKey.FromResourceDictionary();
-        }
-
-        public string QueryTypeAsDisplayName(Type queryParameterType)
-        {
-            try
-            {
-                var value = Enum.Parse(queryParameterType, QueryType);
-
-                var descrKey = EnumUtility.GetDescriptionAttr((Enum)Enum.Parse(queryParameterType, value.ToString()));
-
-                return descrKey.FromResourceDictionary();
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-            return string.Empty;
-        }
-
 
         [ProtoMember(8)]
         public string QueryTypeDisplayName
@@ -235,28 +210,6 @@ namespace DominatorHouseCore.Models
                     return;
                 SetProperty(ref _queryTypeEnum, value);
             }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>     
-        /// <param name="template1">template1 is which holds both template's query after merge </param>
-        /// <param name="template2">template2's query are merging to template1 </param>
-        /// <returns></returns>
-        public bool MergeTemplateQuery(string template1, string template2)
-        {
-            if (string.IsNullOrEmpty(template1) && string.IsNullOrEmpty(template2))
-                return false;
-
-            //var destinationTemplateModel = JsonConvert.DeserializeObject<TemplateModel>(template1);
-
-            //var sourceTemplateModel = JsonConvert.DeserializeObject<TemplateModel>(template2);
-
-            //JsonConvert.DeserializeObject<>() destinationTemplateModel.ActivitySettings
-
-
-            return false;
         }
 
         public object Clone()

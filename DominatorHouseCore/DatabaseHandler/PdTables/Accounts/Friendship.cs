@@ -13,11 +13,15 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int DetailedInfoHasBeenRetrievedAtleastOnce
         { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int DetailedInfoWillNotBeRetrieved
         { get; set; }
 

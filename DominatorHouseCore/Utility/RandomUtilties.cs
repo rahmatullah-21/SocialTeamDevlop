@@ -53,31 +53,6 @@ namespace DominatorHouseCore.Utility
                 Select(s => s[ObjRandom.Next(s.Length)]).
                 ToArray());
         }
-
-        /// <summary>
-        /// GetRandomTexts method is used to get the random text from alphabets with required length
-        /// </summary>
-        /// <param name="outputTextLength">The required text characters count from alpha character </param>
-        /// <returns>returns random text from alphabets</returns>
-        public static string GetRandomTexts(int outputTextLength)
-        {
-            // returns random string from alphanumeric character
-            return new string
-            (Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ", outputTextLength).
-                Select(s => s[ObjRandom.Next(s.Length)]).
-                ToArray());
-        }
-
-
-        /// <summary>
-        /// Get Random string 
-        /// </summary>
-        /// <param name="length"></param>
-        /// <returns></returns>
-        public static string RandomString(int length)
-        {
-            return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length).Select(s => s[ObjRandom.Next(s.Length)]).ToArray());
-        }
        
     }
 }
