@@ -92,9 +92,9 @@
             </ComboBox>
         </StackPanel>
 
-        <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="2" Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ListView ItemsSource="{Binding ReportModel.ReportCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,IsAsync=True}" 
-                  Margin="5" Name="ReportsListView" Grid.Row="2" Foreground="{DynamicResource AccentBaseColorBrush}"
+                  Margin="5" Name="ReportsListView"  Foreground="{DynamicResource AccentBaseColorBrush}"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.IsDeferredScrollingEnabled="True">

@@ -608,6 +608,7 @@ namespace DominatorUIUtility.ViewModel
             var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
             viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
             viewModel.SelectAccount = account;
+            ModuleSetting.Instance.ShowIconOnTitleBar = false;
             ModuleSetting.Instance.Show();
         }
 
@@ -2939,7 +2940,7 @@ namespace DominatorUIUtility.ViewModel
         public void GotoTools(DominatorAccountModel account)
         {
             if (account != null && (account.AccountBaseModel.Status == AccountStatus.Success || account.AccountBaseModel.Status == AccountStatus.UpdatingDetails))
-                TabSwitcher.ChangeTabWithNetwork(3, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
+                TabSwitcher.ChangeTabWithNetwork(2, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
         }
     }
 

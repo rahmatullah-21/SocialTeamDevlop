@@ -37,11 +37,11 @@ namespace DominatorHouseCore.Enums
         //[Description("Facebook,Twitter,Instagram")]
         //Message = 10,
 
-        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit,Tumblr,Quora,TikTok")]
-        UserScraper = 11,
+        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Tumblr,TikTok")]
+        UserNiching = 11,
 
          [Description("Facebook")]
-         DownloadScraper = 12,
+         DownloadNiching = 12,
 
         [Description("Twitter,Instagram")]
         Reposter = 13,
@@ -50,10 +50,10 @@ namespace DominatorHouseCore.Enums
         Retweet = 14,
 
         [Description("Quora")]
-        QuestionsScraper = 15,
+        QuestionsNiching = 15,
 
-        [Description("Quora")]
-        AnswersScraper = 16,
+        //[Description("Quora")]
+        AnswersNiching = 16,
 
         //[Description("Quora")]
         //VoteAnswers = 17,
@@ -70,11 +70,11 @@ namespace DominatorHouseCore.Enums
         [Description("Quora")]
         ReportUsers = 21,
 
-        [Description("Pinterest")]
-        BoardScraper = 22,
+        //[Description("Pinterest")]
+        BoardNiching = 22,
 
-        [Description("Pinterest")]
-        PinScraper = 23,
+        //[Description("Pinterest")]
+        PinNiching = 23,
 
         [Description("Facebook")]
         SendFriendRequest = 24,
@@ -85,17 +85,17 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         Unfriend = 26,
 
-        [Description("Facebook")]
-        GroupScraper = 27,
+        //[Description("Facebook")]
+        GroupNiching = 27,
 
-        [Description("Facebook")]
-        FanpageScraper = 28,
+        //[Description("Facebook")]
+        FanpageNiching = 28,
 
-        [Description("Facebook,Gplus,Instagram,Reddit,Tumblr,Youtube")]
-        CommentScraper = 29,
+        //[Description("Facebook,Gplus,Instagram,Reddit,Tumblr,Youtube")]
+        CommentNiching = 29,
 
-        [Description("Facebook,Gplus,Youtube,Instagram,Tumblr,TikTok")]
-        PostScraper = 30,
+        [Description("Instagram")]
+        PostNiching = 30,
 
         [Description("Facebook,LinkedIn,LangKeyGroupJoiner")]
         GroupJoiner = 31,
@@ -122,7 +122,7 @@ namespace DominatorHouseCore.Enums
         Tweet = 39,
 
         [Description("Facebook")]
-        ProfileScraper = 40,
+        ProfileNiching = 40,
 
         [Description("Quora")]
         DownvoteQuestions = 41,
@@ -145,8 +145,8 @@ namespace DominatorHouseCore.Enums
         //[Description("Facebook")]
         WebpageLikerCommentor = 47,
 
-        [Description("Twitter")]
-        TweetScraper = 48,
+        //[Description("Twitter")]
+        TweetNiching = 48,
 
         [Description("Facebook")]
         MakeAdmin = 49,
@@ -174,8 +174,8 @@ namespace DominatorHouseCore.Enums
         [Description("Instagram,Youtube,Facebook")]
         LikeComment = 57,
 
-        [Description("Instagram,TikTok")]
-        HashtagsScraper = 58,
+        //[Description("Instagram,TikTok")]
+        HashtagsNiching = 58,
 
         [Description("Pinterest")]
         CreateBoard = 59,
@@ -190,22 +190,22 @@ namespace DominatorHouseCore.Enums
         Mute = 62,
 
         //[Description("Gplus")]
-       // CommunityScraper = 63,
+       // CommunityNiching = 63,
 
         [Description("LinkedIn")]
-        JobScraper = 64,
-
-        [Description("LinkedIn")]
-        CompanyScraper = 65,
+        JobNiching = 64,
 
         //[Description("LinkedIn")]
-        //GroupMemberScraper = 66,
+        CompanyNiching = 65,
 
-        [Description("LinkedIn")]
-        SalesNavigatorUserScraper = 67,
+        //[Description("LinkedIn")]
+        //GroupMemberNiching = 66,
+
+        //[Description("LinkedIn")]
+        SalesNavigatorUserNiching = 67,
 
         [Description("Youtube,Reddit")]
-        ChannelScraper = 68,
+        ChannelNiching = 68,
 
        // [Description("Youtube")]
         Unsubscribe = 69,
@@ -246,8 +246,8 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         SendMessageToNewConnection = 81,
 
-        [Description("Reddit")]
-        UrlScraper = 82,
+        //[Description("Reddit")]
+        UrlNiching = 82,
 
         [Description("LinkedIn")]
         SendGreetingsToConnections = 83,
@@ -268,7 +268,7 @@ namespace DominatorHouseCore.Enums
         Upvote = 88,
 
         //[Description("Reddit")]
-        //SubredditScraper = 89,
+        //SubredditNiching = 89,
 
         [Description("Pinterest")]
         DeletePin = 90,
@@ -301,8 +301,8 @@ namespace DominatorHouseCore.Enums
         AnswerOnQuestions = 101,
         [Description("Twitter")]
         WelcomeTweet = 102,
-        [Description("LinkedIn")]
-        SalesNavigatorCompanyScraper = 103,
+        //[Description("LinkedIn")]
+        SalesNavigatorCompanyNiching = 103,
         [Description("Twitter")]
         TweetTo = 104,
         [Description("Facebook")]
@@ -310,7 +310,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         WatchPartyInviter = 106,
        // [Description("Facebook")]
-        MarketPlaceScraper = 107,
+        MarketPlaceNiching = 107,
         [Description("Facebook")]
         SendGreetingsToFriends = 108,
         //[Description("Facebook")]
@@ -327,18 +327,18 @@ namespace DominatorHouseCore.Enums
         MessageToFanpages = 114,
         [Description("Facebook")]
         MessageToPlaces = 115,
-        [Description("Facebook")]
-        PlaceScraper = 116,
+        //[Description("Facebook")]
+        PlaceNiching = 116,
         [Description("Reddit")]
         EditComment = 117,
         [Description("Instagram")]
         StoryViewer = 118,
         [Description("LinkedIn,LangKeyDeleteConversations")]
         DeleteConversations = 119,
-        [Description("Facebook")]
-        CommentRepliesScraper = 120,
-        [Description("LinkedIn")]
-        AttachmnetsMessageScraper = 121,
+        //[Description("Facebook")]
+        CommentRepliesNiching = 120,
+        //[Description("LinkedIn")]
+        AttachmentsMessageNiching = 121,
         [Description("LinkedIn")]
         FollowPages = 122,
         [Description("LangKeyStopAll")]

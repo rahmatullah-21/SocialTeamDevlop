@@ -15,7 +15,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public SalesNavigatorCompanyScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SalesNavigatorCompanyScraper });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SalesNavigatorCompanyNiching });
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);

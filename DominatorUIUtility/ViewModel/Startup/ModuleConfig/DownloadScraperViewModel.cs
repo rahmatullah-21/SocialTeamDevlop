@@ -17,7 +17,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public DownloadScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.DownloadScraper });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.DownloadNiching });
             IsNonQuery = true;
             NextCommand = new DelegateCommand(DownloadScraperValidate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);

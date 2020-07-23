@@ -17,7 +17,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public HashtagsScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.HashtagsScraper });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.HashtagsNiching });
             IsNonQuery = true;
             NextCommand = new DelegateCommand(ValidateAndNevigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);

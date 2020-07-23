@@ -471,6 +471,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     all.AddRange(hide);
 
                     var newOne = hide == null ? new List<ActivityType>() : SocinatorInitialize.GetSocialLibrary(net).GetNetworkCoreFactory().AccountUserControlTools.GetOtherActivityTypes().Except(all);
+                    //hide.Clear();
                     if (newOne.Count() > 0)
                     {
                         hide.AddRange(newOne);
