@@ -44,7 +44,7 @@
                               Visibility="Collapsed"   IsChecked="{Binding IsShowToolTipToSystemTrayChecked}"/>
                                 <CheckBox Margin="5" Content="{DynamicResource LangKeyRecreateDesktopShortcutAtStartup}"
                               Visibility="Collapsed" IsChecked="{Binding IsRecreateDesktopshortcutAtStartupChecked}"/>
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
+                                <CheckBox Margin="5" HorizontalAlignment="Left" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
                               IsChecked="{Binding IsEnableParallelActivitiesChecked}"/>
                                 <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyStopAutoSynchronizeAccount}"
                               IsChecked="{Binding IsStopAutoSynchronizeAccount}"/>-->
@@ -78,7 +78,7 @@
                                     <CheckBox Margin="5" Content="{DynamicResource LangKeyAllowAccountThatSetTheirOwnNightModeToIgnoreGlobalNightMode}"
                                   IsChecked="{Binding IsIgnoreGlobalChecked}"/>
                                 </StackPanel>
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyUseTabInsteadOfComma}"
+                                <CheckBox Margin="5" HorizontalAlignment="Left" Content="{DynamicResource LangKeyUseTabInsteadOfComma}"
                          Visibility="Collapsed"     IsChecked="{Binding IsUseTabInsteadOfCommaChecked}"/>
                                 <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
                                     <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAutoRestartSocinatorAfterAMinimumOf}"
@@ -97,9 +97,9 @@
                                     <TextBlock Margin="5" Text="{DynamicResource LangKeyNumberOfAccountsToSynchronizeSimultaneously}"/>
                                     <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
                                 </StackPanel>
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
+                                <CheckBox Margin="5" HorizontalAlignment="Left" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
                               IsChecked="{Binding IsEnableAdvancedUserMode}"/>
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
+                                <CheckBox Margin="5" HorizontalAlignment="Left" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
                               IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <CheckBox Margin="5" Content="{DynamicResource LangKeyMaxThreadsToRun}"
@@ -144,11 +144,11 @@
                                     <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyBottomToTop}" IsChecked="{Binding RunQueriesBottomToTop}"/>
                                     <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyRandomly}" IsChecked="{Binding RunQueriesRandomly}"/>
                                 </StackPanel>
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyStopIfNoMoreData}"
+                                <CheckBox Margin="5" HorizontalAlignment="Left" Content="{DynamicResource LangKeyStopIfNoMoreData}"
                               IsChecked="{Binding StopIfNoMoreData}"/>
 
                                 <StackPanel Orientation="Horizontal" >
-                                    <CheckBox Margin="5" Content="{DynamicResource LangKeySelectCountriesFilter}"
+                                    <CheckBox HorizontalAlignment="Left" Margin="5" Content="{DynamicResource LangKeySelectCountriesFilter}"
                               IsChecked="{Binding IsSelectCountriesFilter}"/>
                                     <ComboBox VirtualizingPanel.IsContainerVirtualizable="True" IsEditable="True" Height="30" Width="200" Text="{Binding DataContext.SearchText,RelativeSource={RelativeSource AncestorType=GroupBox}}" ItemsSource="{Binding Path=ListLocationModelTemp}">
                                         <ComboBox.ItemTemplate>

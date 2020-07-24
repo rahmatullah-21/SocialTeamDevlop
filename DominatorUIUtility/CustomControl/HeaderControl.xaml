@@ -56,7 +56,7 @@
                     BorderBrush="Black" BorderThickness="0" Background="Transparent"  Name="btnCancelEdit" 
                     Visibility="{Binding IsCancelEditVisible}" Command="{Binding CancelEditCommand}">
                 <Button.Content>
-                    <Border Margin="5"  Background="Red" Height="30" Width="150"  BorderBrush="Red" CornerRadius="10" BorderThickness="1">
+                    <Border Margin="0"  Background="Red" Height="30" Width="150"  BorderBrush="Red" CornerRadius="10" BorderThickness="1">
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Margin="5" Width="15" Height="15" Fill="Black">
                                 <Rectangle.OpacityMask>
