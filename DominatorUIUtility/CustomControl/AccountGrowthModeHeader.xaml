@@ -70,7 +70,7 @@
                         <AccessText Margin="6,0" Text="{DynamicResource LangKey_Save}" Foreground="Black" FontFamily="{StaticResource RajdhaniBold}"/>
                     </StackPanel>
                 </Button>
-                <Button  VerticalAlignment="Center"   Background="Transparent" Foreground="White" Command="{Binding TutorialCommand}" CommandParameter="{Binding VideoTutorialLink}">
+                <!--<Button  VerticalAlignment="Center"   Background="Transparent" Foreground="White" Command="{Binding TutorialCommand}" CommandParameter="{Binding VideoTutorialLink}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Width="15" Height="15" Fill="Black">
@@ -81,7 +81,7 @@
                             <TextBlock Text="{DynamicResource LangKeyTutorials}" Foreground="Black" FontFamily="{StaticResource RajdhaniBold}" Margin="6,0"/>
                         </StackPanel>
                     </Button.Content>
-                </Button>
+                </Button>-->
             </StackPanel>
             <ComboBox Style="{StaticResource CommonComboBoxStyle}" VerticalAlignment="Center" Width="260" SelectionChanged="ComboBox_SelectionChanged"  Margin="15,0" Background="Transparent" Foreground="Black" Grid.Column="2" BorderThickness="1"
                       BorderBrush="AntiqueWhite" ItemsSource="{Binding AccountItemSource}" SelectedItem="{Binding SelectedItem}"

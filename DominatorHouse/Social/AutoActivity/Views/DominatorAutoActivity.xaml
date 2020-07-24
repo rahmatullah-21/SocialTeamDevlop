@@ -187,7 +187,7 @@
                                                         <ListBox.ItemTemplate>
                                                             <DataTemplate>
                                                                 <Border BorderThickness="0,0,0,0" Padding="1" BorderBrush="{DynamicResource AccentBaseColorBrush}">
-                                                                    <StackPanel Orientation="Horizontal" Width="180">
+                                                                    <StackPanel Orientation="Horizontal" Width="220">
                                                                         <mah:ToggleSwitchButton  Height="22" Width="55" IsChecked="{Binding Status}" Margin="1,0,0,0"
                                                                                  Style="{StaticResource CrucialToggleButton}"
                                                                                   HorizontalAlignment="Center" VerticalAlignment="Center" >

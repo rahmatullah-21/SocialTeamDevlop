@@ -38,19 +38,19 @@
 
                         <StackPanel>
                             <StackPanel Margin="10" DataContext="{Binding SoftwareSettingsModel}">
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyRunSocinatorAtSystemStartup}"
+                                <CheckBox Margin="5" Width="auto" Content="{DynamicResource LangKeyRunSocinatorAtSystemStartup}"
                              Visibility="Collapsed" IsChecked="{Binding IsRunDHAtStartUpChecked}"/>
                                 <CheckBox Margin="5" Content="{DynamicResource LangKeyShowToolTipWhenMinimizingToSystemTray}"
                               Visibility="Collapsed"   IsChecked="{Binding IsShowToolTipToSystemTrayChecked}"/>
                                 <CheckBox Margin="5" Content="{DynamicResource LangKeyRecreateDesktopShortcutAtStartup}"
                               Visibility="Collapsed" IsChecked="{Binding IsRecreateDesktopshortcutAtStartupChecked}"/>
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
+                                <CheckBox Margin="5" HorizontalAlignment="Left" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
                               IsChecked="{Binding IsEnableParallelActivitiesChecked}"/>
                                 <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyStopAutoSynchronizeAccount}"
                               IsChecked="{Binding IsStopAutoSynchronizeAccount}"/>-->
                                 <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <StackPanel  Orientation="Horizontal">
-                                        <Label Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"/>
+                                    <StackPanel Width="auto" Orientation="Horizontal">
+                                        <Label Margin="5" Width="auto" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"/>
                                         <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding ExecuteAnyActionsBetween.StartValue}"/>
                                         <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
                                         <mah:NumericUpDown  Margin="5" Minimum="{Binding ExecuteAnyActionsBetween.StartValue}"
@@ -97,9 +97,9 @@
                                     <TextBlock Margin="5" Text="{DynamicResource LangKeyNumberOfAccountsToSynchronizeSimultaneously}"/>
                                     <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
                                 </StackPanel>
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
+                                <CheckBox Margin="5" Width="Auto" HorizontalAlignment="Left" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
                               IsChecked="{Binding IsEnableAdvancedUserMode}"/>
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
+                                <CheckBox Margin="5" HorizontalAlignment="Left" Width="Auto" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
                               IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <CheckBox Margin="5" Content="{DynamicResource LangKeyMaxThreadsToRun}"
@@ -144,7 +144,7 @@
                                     <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyBottomToTop}" IsChecked="{Binding RunQueriesBottomToTop}"/>
                                     <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyRandomly}" IsChecked="{Binding RunQueriesRandomly}"/>
                                 </StackPanel>
-                                <CheckBox Margin="5" Content="{DynamicResource LangKeyStopIfNoMoreData}"
+                                <CheckBox Margin="5" HorizontalAlignment="Left" Content="{DynamicResource LangKeyStopIfNoMoreData}"
                               IsChecked="{Binding StopIfNoMoreData}"/>
 
                                 <StackPanel Orientation="Horizontal" >

@@ -4709,7 +4709,7 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyDownloadAttachments">Download  Attachments</system:String>
     <system:String x:Key="LangKeySkipAlreadyProcessedQueryValue">Skip to process already processed query value in activities [some queryTypes are specified internally to skip to process the queryValue attached with]</system:String>
     <system:String x:Key="LangKeyWithoutVisitingProfile">Without Visting profile</system:String>
-    <system:String x:Key="LangKeyCrucialCampaigns">Crucial Campaigns</system:String>
+    <system:String x:Key="LangKeyCrucialCampaigns">Campaigns</system:String>
     <system:String x:Key="LangKeyActivateSelectedCammpaigns">Activate Selected Cammpaigns</system:String>
     <system:String x:Key="LangKeySendPageInvitations">Send Page Invitation</system:String>
     <system:String x:Key="LangKeyNumberSendinvitationPerDay">Number Of Invitation Per Day</system:String>
