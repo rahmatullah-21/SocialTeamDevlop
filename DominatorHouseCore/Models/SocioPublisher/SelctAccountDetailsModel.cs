@@ -337,49 +337,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             return publisherCreateDestinationModel[0];
         }
 
-        public void UpdateNewGroup(string destinationId)
-        {
-            var publisherCreateDestinationModel = GetDestination(destinationId);
-
-            if (publisherCreateDestinationModel.IsAddedNewGroups)
-            {
-                publisherCreateDestinationModel.AccountsWithNetwork.ForEach(async x =>
-                {
-                    if (FeatureFlags.IsNetworkAvailable(x.Key))
-                    {
-                        var accountsDetailsSelector = SocinatorInitialize
-                            .GetSocialLibrary(x.Key)
-                            .GetNetworkCoreFactory().AccountDetailsSelectors;
-
-                        if (accountsDetailsSelector.IsGroupsAvailables)
-                        {
-                            try
-                            {
-                                var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
-                                var alreadyPresentedGroups =
-                                    publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
-                                foreach (var group in groups)
-                                {
-                                    if (!alreadyPresentedGroups.Contains(group))
-                                    {
-                                        publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-
-                                ex.DebugLog();
-                            }
-                        }
-                        PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId,
-                            publisherCreateDestinationModel.AccountGroupPair.Count);
-                    }
-                });
-            }
-        }
-
-
         [ProtoMember(14)]
         public List<KeyValuePair<string, string>> AccountFriendsPair
         {

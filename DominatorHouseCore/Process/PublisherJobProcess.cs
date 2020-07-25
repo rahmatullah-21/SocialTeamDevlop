@@ -1,6 +1,7 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Extensions;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
@@ -14,9 +15,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using DominatorHouseCore.Extensions;
-using System.Collections.Concurrent;
 
 namespace DominatorHouseCore.Process
 {
@@ -260,13 +258,6 @@ namespace DominatorHouseCore.Process
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// To validate the networks settings for each network
-        /// </summary>
-        /// <param name="campaign">Campaign details</param>
-        /// <returns></returns>
-        protected abstract bool ValidateNetworksSettings(string campaign);
 
         /// <summary>
         /// To delete a published post after x hours

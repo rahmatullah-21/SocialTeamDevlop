@@ -1,7 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
 using System;

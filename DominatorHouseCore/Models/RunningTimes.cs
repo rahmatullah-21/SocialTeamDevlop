@@ -95,19 +95,6 @@ namespace DominatorHouseCore.Models
         // AddTimeRange method is used to add the time range of the job configurations
         public void AddTimeRange(TimingRange range) => Timings.Add(range);
 
-        public void AddMultiTimeRange(List<TimingRange> range)
-        {
-            if (range.Count > 0)
-                IsEnabled = true;
-            range.ForEach(x => Timings.Add(x));
-        }
-
-        // Delete the time spam from job configurations
-        //public void DeleteTimeRange(string id) => Timings.RemoveWhere((Predicate<TimingRange>)(x =>
-        //    string.Equals(id, $"{(object)x.StartTime.Hours}:{(object)x.StartTime.Minutes}:{(object)x.EndTime.Hours}:{(object)x.EndTime.Minutes}", StringComparison.Ordinal)));
-
-
-
     }
 
     public class RunningTimeComparer : IComparer<TimingRange>

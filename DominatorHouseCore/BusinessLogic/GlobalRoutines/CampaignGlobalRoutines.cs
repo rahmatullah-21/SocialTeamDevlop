@@ -128,7 +128,7 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
         /// <param name="socialNetworks"></param>
         /// <param name="templateName"></param>
         /// <returns></returns>
-        private TemplateModel CreateTempale(string activitySettingsJson, string activityType, SocialNetworks socialNetworks, string templateName)
+        private void CreateTempale(string activitySettingsJson, string activityType, SocialNetworks socialNetworks, string templateName)
         {
             // Initialize and assign the values to TemplateModel for store in bin files
             TemplateModel newTemplate = new TemplateModel
@@ -143,8 +143,6 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
 
             // Serialize the template configuration to bin files
             ServiceLocator.Current.GetInstance<ITemplatesFileManager>().Add(newTemplate);
-
-            return newTemplate;
         }
 
 
@@ -190,7 +188,7 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
         {
             string activitySettingsJson = Newtonsoft.Json.JsonConvert.SerializeObject(activitySettings);
             SocialNetworks socialNetwork = SocinatorInitialize.ActiveSocialNetwork;
-            TemplateModel template = CreateTempale(activitySettingsJson, activityType.ToString(), socialNetwork, templateName: campaignName);
+            CreateTempale(activitySettingsJson, activityType.ToString(), socialNetwork, templateName: campaignName);
 
             // Check existing activities and overwrite them if selected account already has running activity with the same type
             if (!CheckExistingActivities(activityType, selectedAccounts))

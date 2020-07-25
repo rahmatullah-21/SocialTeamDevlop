@@ -87,7 +87,7 @@ namespace DominatorHouseCore.Utility
                 // Get the campaigns Post details 
                 var campaignDetails = PostlistFileManager.GetAll(campaignId);
 
-                var postCount = maximumPostLimitToStore - campaignDetails.Count;
+                int postCount;
 
                 // Filter only monitor folder details
                 var monitorFolderFiles = campaignDetails
@@ -123,8 +123,6 @@ namespace DominatorHouseCore.Utility
                     // Update the post count
                     publisherInitialize.UpdatePostCounts(campaignId);
                 }
-
-                var mediaUtilites = new MediaUtilites();
 
                 // Calculate the post expire date time
                 DateTime? expireDate = null;

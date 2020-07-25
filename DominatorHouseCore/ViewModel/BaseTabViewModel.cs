@@ -1,7 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.Utility;
-using System.Windows;
 
 namespace DominatorHouseCore.ViewModel
 {

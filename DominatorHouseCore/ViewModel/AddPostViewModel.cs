@@ -35,20 +35,5 @@ namespace DominatorHouseCore.ViewModel
                 SetProperty(ref _addPostModel, value);
             }
         }
-        private ObservableCollection<AddPostModel> _lstAddPostModel;// = new ObservableCollection<AddPostModel>(GdBinFileHelper.GetBinFileDetails<AddPostModel>());
-
-        public ObservableCollection<AddPostModel> LstAddPostModel
-        {
-            get
-            {
-                return _lstAddPostModel;
-            }
-            set
-            {
-                if (_lstAddPostModel == null & _lstAddPostModel == value)
-                    return;
-                SetProperty(ref _lstAddPostModel, value);
-            }
-        }
     }
 }

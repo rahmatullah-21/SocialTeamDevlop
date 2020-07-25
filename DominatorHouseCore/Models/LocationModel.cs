@@ -8,7 +8,7 @@ namespace DominatorHouseCore.Models
     {
         private string _countryName = string.Empty;
         private string _cityName = string.Empty;
-        private bool _iSelected = false;
+        private bool _iSelected;
 
         [ProtoMember(1)]
         public string CountryName

@@ -37,6 +37,8 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string QuoraId { get; set; }
 
         /// <summary>

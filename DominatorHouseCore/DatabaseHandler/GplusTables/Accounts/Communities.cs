@@ -24,12 +24,18 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string CommunityId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string CommunityUrl { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string CommunityName
         { get; set; }
 

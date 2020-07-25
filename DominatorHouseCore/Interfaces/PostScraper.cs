@@ -23,7 +23,7 @@ namespace DominatorHouseCore.Interfaces
 
         protected PublisherInitialize _publisherInitialize = PublisherInitialize.GetInstance;
 
-        public PostScraper(string CampaignId, CancellationTokenSource campaignCancellationToken,
+        protected PostScraper(string CampaignId, CancellationTokenSource campaignCancellationToken,
             PublisherPostFetchModel postFetcherModel)
         {
             _CampaignId = CampaignId;
@@ -32,13 +32,9 @@ namespace DominatorHouseCore.Interfaces
 
             var postList = PostlistFileManager.GetAll(_CampaignId);
             var pendingPostCount = PostlistFileManager.GetAll
-                (_CampaignId)?.Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending)?.ToList();
-            _campaignPostCount.AddOrUpdate(_CampaignId, pendingPostCount == null ? 0 : pendingPostCount.Count
-                , (id, count) =>
-               {
-                   count = pendingPostCount == null ? 0 : pendingPostCount.Count;
-                   return count;
-               });
+                (_CampaignId)?.Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
+            _campaignPostCount.AddOrUpdate(_CampaignId, pendingPostCount?.Count ?? 0
+                , (id, count) => pendingPostCount?.Count ?? 0);
 
             postList.ForEach(x =>
             {
@@ -53,7 +49,7 @@ namespace DominatorHouseCore.Interfaces
 
             lock (updatelock)
             {
-                int runningCount = 0;
+                int runningCount;
 
                 _campaignPostCount.TryGetValue(_CampaignId, out runningCount);
                 if (runningCount > 0 && runningCount >= _CurrentPostFetcher.MaximumPostLimitToStore)

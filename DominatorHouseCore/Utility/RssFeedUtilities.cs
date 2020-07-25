@@ -1,21 +1,20 @@
-﻿using System;
+﻿using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.Extensions;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Models.SocioPublisher.Settings;
+using DominatorHouseCore.Patterns;
+using DominatorHouseCore.Request;
+using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using DominatorHouseCore.Enums.SocioPublisher;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models.SocioPublisher;
-using HtmlAgilityPack;
 using System.Threading.Tasks;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Extensions;
-using DominatorHouseCore.Patterns;
-using DominatorHouseCore.Request;
-using DominatorHouseCore.Models.SocioPublisher.Settings;
 
 namespace DominatorHouseCore.Utility
 {

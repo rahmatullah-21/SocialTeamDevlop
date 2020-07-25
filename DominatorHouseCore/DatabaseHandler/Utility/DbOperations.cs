@@ -33,7 +33,6 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         bool UpdateRange<T>(List<T> data) where T : class, new();
         SocialNetworks SocialNetworks { get; }
         string AccountId { get; }
-        bool UpdateAccountBackupDetails(DominatorAccountModel dominatorAccountModel, String deviceId, String userAgent);
     }
 
     public class DbOperations : IDbOperations

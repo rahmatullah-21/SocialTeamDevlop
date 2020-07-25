@@ -1,5 +1,4 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces.StartUp;
+﻿using DominatorHouseCore.Interfaces.StartUp;
 
 namespace DominatorHouseCore.StartupActivity.Linkedin
 {

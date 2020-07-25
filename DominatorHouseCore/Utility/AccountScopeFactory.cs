@@ -27,7 +27,7 @@ namespace DominatorHouseCore.Utility
         private IUnityContainer CreateScope(string accountId)
         {
             var scope = _unityContainer.CreateChildContainer();
-            scope.RegisterInstance<string>("AccountId", accountId);
+            scope.RegisterInstance("AccountId", accountId);
             return scope;
         }
     }

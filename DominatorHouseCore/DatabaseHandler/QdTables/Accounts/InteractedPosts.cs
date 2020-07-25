@@ -15,12 +15,16 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         public ActivityType ActivityType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string PkOwner { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int TakenAt { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string UsernameOwner { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]

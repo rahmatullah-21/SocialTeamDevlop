@@ -17,6 +17,8 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int FilterTypeSql
         { get; set; }
 
