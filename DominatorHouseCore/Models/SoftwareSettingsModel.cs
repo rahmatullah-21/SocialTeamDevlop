@@ -821,5 +821,13 @@ namespace DominatorHouseCore.Models
             get { return _skipAlreadyProcessedQueryValue; }
             set { SetProperty(ref _skipAlreadyProcessedQueryValue, value); }
         }
+        
+        private bool _debugRespData;
+        [ProtoMember(57)]
+        public bool DebugRespData
+        {
+            get { return _debugRespData; }
+            set { SetProperty(ref _debugRespData, value); }
+        }
     }
 }

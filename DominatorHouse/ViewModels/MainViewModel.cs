@@ -73,7 +73,8 @@ namespace DominatorHouse.ViewModels
         {
             SocinatorKeyHelper.InitilizeKey();
             RemoveLocationDataFromTemplate().Wait();
-            FatalErrorDiagnosis().Wait();
+            //FatalErrorDiagnosis().Wait();
+            FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
             LogViewModel = logViewModel;
@@ -329,10 +330,7 @@ namespace DominatorHouse.ViewModels
                         }
 
                     }
-
-
                 }
-
                 await controller.CloseAsync();
             }
             catch (Exception ex)

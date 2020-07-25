@@ -548,7 +548,6 @@ namespace DominatorUIUtility.ViewModel
             {
                 ex.DebugLog();
             }
-
         }
 
         private MessageDialogResult ShowWarningMessage()

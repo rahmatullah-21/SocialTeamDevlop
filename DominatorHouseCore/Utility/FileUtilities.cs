@@ -362,6 +362,37 @@ namespace DominatorHouseCore.Utility
             }
         }
 
+        public static bool WriteDataIntoFile(string data, string filePath)
+        {
+            try
+            {
+                using (StreamWriter reader = new StreamWriter(filePath,true))
+                {
+                    reader.Write(data);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static void CreateFileAndAddData(string data, string filePathInDesktop)
+        {
+            try
+            {
+                using (StreamWriter write = new StreamWriter(filePathInDesktop,true))
+                {
+                    write.Write(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
         public static async Task<string> ReadFile(string fileName)
         {
             try

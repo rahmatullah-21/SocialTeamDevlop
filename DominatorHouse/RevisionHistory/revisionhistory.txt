@@ -1,3 +1,16 @@
+Version[1.0.0.90],[24th July 2020] 
+Fixed:-
+	Social:
+ 		Social ==>Reddit ==> Sociopublisher ==> Fixed issue with posting on wall.
+
+	Linkedin :
+		Linkedin ==>Engage ==> Like ==> Fixed issue in failed with error to like in browser mode .
+
+	Instagram
+		Account Manager ==> Account ==> Fixed issue with account login failed.
+		Instaposter ==> Reposter ==> Fixed issue with reposting videos.
+		Instaposter ==> Reposter ==> Fixed issue with Post filter.
+
 Version[1.0.0.89],[11th July 2020] 
 Fixed:-
 	Social:

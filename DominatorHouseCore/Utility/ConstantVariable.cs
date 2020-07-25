@@ -70,6 +70,19 @@ namespace DominatorHouseCore.Utility
             return basePath;
         }
 
+        public static string GetDesktopSocNetDirectory(SocialNetworks net = SocialNetworks.Social)
+        => CreateDirIfNot($"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\\{ApplicationName}{(net == SocialNetworks.Social ? "" : "\\" + net.ToString())}");
+        
+        public static string GetDebugResponseFile(SocialNetworks net, string username)
+        => CreateDirIfNot($"{GetDesktopSocNetDirectory(net)}\\{username}\\DebugResponses") + $"\\{DateTime.Now.Date.GetCurrentEpochTime()}.txt"; 
+
+        public static string CreateDirIfNot(string basePath)
+        {
+            if (!Directory.Exists(basePath))
+                DirectoryUtilities.CreateDirectory(basePath);
+
+            return basePath;
+        }
 
         public static string GetConfigurationDir()
         {

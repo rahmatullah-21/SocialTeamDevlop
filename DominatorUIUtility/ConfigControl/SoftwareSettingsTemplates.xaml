@@ -177,15 +177,18 @@
                                 <CheckBox Margin="5" Content="{DynamicResource LangKeySkipAlreadyProcessedQueryValue}"
                                   IsChecked="{Binding SkipAlreadyProcessedQueryValue}"/>
                             </StackPanel>
-                        </StackPanel>
+                            <Expander Foreground="{DynamicResource GreenColorAccordingTheme}" BorderThickness="1" Header="Developer options" Visibility="Collapsed" >
+                                <!--{Binding DebugVisibility}-->
+                                <StackPanel>
+                                    <!--<CheckBox Margin="5" Content="Modify response files in UnitTests as per respective http hit"
+                                  IsChecked="{Binding IsTestMode}"/>-->
 
-                        <GroupBox Background="{DynamicResource GreenColorAccordingTheme}" Header="Developer mode" Visibility="Collapsed" >
-                            <!--{Binding DebugVisibility}-->
-                            <StackPanel>
-                                <CheckBox Margin="5" Content="Modify response files in UnitTests as per respective http hit"
-                                  IsChecked="{Binding IsTestMode}"/>
-                            </StackPanel>
-                        </GroupBox>
+                                    <mah:ToggleSwitch OnLabel="Activated Debugging Response" OffLabel="Deactivated Debugging Response"
+                               FontSize="12" Margin="5" Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
+                                           IsChecked="{Binding DebugRespData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Expander>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </ScrollViewer>
