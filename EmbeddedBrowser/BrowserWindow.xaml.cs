@@ -1291,7 +1291,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<List<Tuple<int, string, string, string>>> ExpandAllAdViewOptions(int postCount, int lastCount, int lastCurrentAdCount = 0)
+        public async Task<List<Tuple<int, string, string, string, string>>> ExpandAllAdViewOptions(int postCount, int lastCount, int lastCurrentAdCount = 0)
         {
             var xCoordinate = !string.IsNullOrEmpty(await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "fbChatSidebar fixed_always _5pr2 hidden_elem")) ?
                         844 : 740;
@@ -1299,7 +1299,7 @@ namespace EmbeddedBrowser
             var adCount = 0;
 
             var dictAdViewerDetails = new Dictionary<int, string>();
-            var tupleAdsDetals = new List<Tuple<int, string, string, string>>();
+            var tupleAdsDetals = new List<Tuple<int, string, string, string, string>>();
             await Task.Delay(5000, _token);
 
             while (lastCurrentCount++ <= postCount * (lastCount + 1))
@@ -1307,7 +1307,7 @@ namespace EmbeddedBrowser
                 var adViewerDetails = string.Empty;
                 Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
                 var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueTypes.OuterHtml, clickIndex: lastCurrentCount);
-                if (!(fullAdDetails).Contains("sponsored"))
+                if (!fullAdDetails.Contains("sponsored") || !fullAdDetails.Contains("Sponsored"))
                 {
                     await Task.Delay(3000, _token);
                     continue;
@@ -1323,14 +1323,14 @@ namespace EmbeddedBrowser
                 var postId = splittedValues[3];
                 splittedValues = Regex.Split(splittedValues[4], ":");
                 var AdId = splittedValues[1];
+                var dateTime = splittedValues[0];
 
-                tupleAdsDetals.Add(new Tuple<int, string, string, string>(lastCurrentCount, postId, AdId, ownerId));
+                tupleAdsDetals.Add(new Tuple<int, string, string, string, string>(lastCurrentCount, postId, AdId, ownerId, dateTime));
 
             }
             lastCurrentAdCount = lastCurrentCount;
             return tupleAdsDetals;
         }
-
 
         public JavascriptResponse ExecuteScript(string script, int delayInSec = 2)
         {
