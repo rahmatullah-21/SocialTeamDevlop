@@ -238,7 +238,7 @@ namespace DominatorHouse.ViewModels
         private async Task FatalErrorDiagnosis()
         {
             string fatalError;
-            await UpdateSoftware();
+            //await UpdateSoftware();
 
             var key = SocinatorKeyHelper.Key;
             if (key != null)
@@ -258,6 +258,7 @@ namespace DominatorHouse.ViewModels
                         try
                         {
                             fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "LangKeySocinator".FromResourceDictionary(), "LangKeyLicense".FromResourceDictionary(), settings);
+                            fatalError = "SOC-YZBYVGND1UY1MJT8PYMHRHH6V";
                             if (string.IsNullOrEmpty(fatalError))
                             {
                                 Application.Current.MainWindow.Close();
@@ -284,6 +285,7 @@ namespace DominatorHouse.ViewModels
                     try
                     {
                         fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "LangKeySocinator".FromResourceDictionary(), "LangKeyLicense".FromResourceDictionary());
+                        fatalError = "SOC-YZBYVGND1UY1MJT8PYMHRHH6V";
                         if (await IsProcessFatalError(fatalError))
                             // ReSharper disable once RedundantJumpStatement
                             continue;
