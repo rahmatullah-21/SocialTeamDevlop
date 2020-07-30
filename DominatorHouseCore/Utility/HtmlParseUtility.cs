@@ -149,5 +149,21 @@ namespace DominatorHouseCore.Utility
                 .ForEach(x => { lstInnerhtml.Add(x.InnerText.ToString()); });
             return lstInnerhtml;
         }
+
+        public static string GetInnerTextFromTagName(string pageSource, string tagName, string attributeName,
+           string attributeValue)
+        {
+            try
+            {
+                var htmlDoc = new HtmlDocument();
+                htmlDoc.LoadHtml(pageSource);
+                return htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']")?.InnerText;
+
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
     }
 }

@@ -294,14 +294,14 @@ namespace DominatorHouseCore.Settings
 
         public async Task ScheduleAdsScraping()
         {
-            //var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-            //    async job =>
-            //    {
-            //        await job.StartAdScarperAsync();
-            //    },
-            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+            var adScraperblock = new ActionBlock<ScrapAdsDetails>(
+                async job =>
+                {
+                    await job.StartAdScarperAsync();
+                },
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 });
 
-            //await ScrapAdsProduceAsync(adScraperblock);
+            await ScrapAdsProduceAsync(adScraperblock);
 
             //var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
             //    async job =>
@@ -360,7 +360,6 @@ namespace DominatorHouseCore.Settings
             }
             return countrySet;
         }
-
     }
 
     public class ScrapAdsDetails
@@ -383,5 +382,70 @@ namespace DominatorHouseCore.Settings
             set;
         }
             = new ConcurrentDictionary<string, CancellationTokenSource>();
+
+
+        public async Task StartAdScarperAsync()
+        {
+            try
+            {
+                var cancellationTokenSource =
+                    AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
+
+                //var postScraperConstants = ServiceLocator.Current
+                //    .GetInstance<IPostScraperConstants>();
+
+                //if ((DateTime.Now - postScraperConstants.LastLcsJobTime).TotalHours > 10000)
+                //    postScraperConstants.LastLcsJobTime = DateTime.Now.Subtract(TimeSpan.FromHours(4));
+
+                AdUpdationType currentUpdationType;
+
+                currentUpdationType = account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ? AdUpdationType.FbAds :
+                   account.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok ? AdUpdationType.Ads : AdUpdationType.QuoraAds;
+
+                var asyncAdScraperFactory =
+                    ServiceLocator.Current.GetInstance<IAdScraperFactory>(currentUpdationType.ToString());
+
+                if (asyncAdScraperFactory == null)
+                    return;
+
+                try
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    var checkResult = await asyncAdScraperFactory.CheckStatusAsync(account, cancellationTokenSource.Token);
+
+                    var jobId = Guid.NewGuid().ToString();
+
+                    if (checkResult)
+                    {
+                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                        await asyncAdScraperFactory.ScrapeAdsAsync(account, cancellationTokenSource.Token);
+
+                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
+                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1)));
+
+                    }
+                    else
+                    {
+                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
+                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
+                    }
+                }
+                catch (OperationCanceledException ex)
+                {
+                    ex.DebugLog("Cancellation Requested!");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
     }
 }
