@@ -108,7 +108,6 @@ namespace DominatorUIUtility.CustomControl
                 CreateCampaign();
             else
                 UpdateCampaign();
-
         }
 
         #region Commands
