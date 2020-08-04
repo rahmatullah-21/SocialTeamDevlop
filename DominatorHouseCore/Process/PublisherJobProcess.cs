@@ -30,6 +30,14 @@ namespace DominatorHouseCore.Process
         {
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             GenericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+
+            var softwareSettings = ServiceLocator.Current.GetInstance<Settings.ISoftwareSettings>();
+            if (softwareSettings.Settings?.IsThreadLimitChecked ?? false)
+            {
+                BusinessLogic.Scheduler.DominatorScheduler.islogged = false;
+                BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount = softwareSettings.Settings.MaxThreadCount;
+                BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit = new SemaphoreSlim(BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount, BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount);
+            }
         }
         protected PublisherJobProcess(string campaignId,
             string accountId,
@@ -84,7 +92,6 @@ namespace DominatorHouseCore.Process
                 .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == CampaignId);
 
             CampaignName = campaign?.CampaignName;
-
         }
 
 
@@ -269,6 +276,19 @@ namespace DominatorHouseCore.Process
             return true;
         }
 
+        public void ThreadLimit()
+        {
+            if (BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit != null)
+            {
+                if (BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !BusinessLogic.Scheduler.DominatorScheduler.islogged)
+                {
+                    BusinessLogic.Scheduler.DominatorScheduler.islogged = true;
+                    GlobusLogHelper.log.Info($"{"LangKeyThreadLimitReachedTo".FromResourceDictionary()} {BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount} {"LangKeyPendingStartsWhenRunnningStops".FromResourceDictionary()}");
+                }
+                BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.Wait();
+            }
+        }
+
         /// <summary>
         /// To Start publishing a post for an account
         /// </summary>      
@@ -282,6 +302,8 @@ namespace DominatorHouseCore.Process
                 {
                     if (AccountModel == null)
                         return;
+
+                    ThreadLimit();
 
                     // Call with task
                     ThreadFactory.Instance.Start(() =>
@@ -301,6 +323,8 @@ namespace DominatorHouseCore.Process
                 }
                 else
                 {
+                    ThreadLimit();
+
                     // start publishing with max post count
                     StartPublish();
 
@@ -390,6 +414,11 @@ namespace DominatorHouseCore.Process
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+            finally
+            {
+                if (BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.CurrentCount != BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount)
+                    BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.Release();
             }
         }
 

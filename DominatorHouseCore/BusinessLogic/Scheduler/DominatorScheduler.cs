@@ -47,8 +47,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         private readonly IRunningJobsHolder _runningJobsHolder;
         private readonly IJobProcessScopeFactory _jobProcessScopeFactory;
         public static SemaphoreSlim _lockWithThreadLimit;
-        static int maxThreadCount;
-        static bool islogged;
+        public static int maxThreadCount;
+        public static bool islogged;
         public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy, IJobLimitsHolder jobLimitsHolder, IJobProcessScopeFactory jobProcessScopeFactory, IAccountsCacheService accountsCacheService, IJobCountersManager jobCountersManager, IJobActivityConfigurationManager jobActivityConfigurationManager, IRunningJobsHolder runningJobsHolder)
         {
             _runningActivityManager = runningActivityManager;

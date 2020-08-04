@@ -423,13 +423,13 @@ namespace DominatorHouseCore.Settings
                         await asyncAdScraperFactory.ScrapeAdsAsync(account, cancellationTokenSource.Token);
 
                         JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
-                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1)));
+                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(4)));
 
                     }
                     else
                     {
                         JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
-                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
+                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(4)));
                     }
                 }
                 catch (OperationCanceledException ex)
