@@ -50,7 +50,7 @@
         
         <Grid Name="MainGrid" >
             <Grid.Background>
-                <ImageBrush   ImageSource="Images/crucial-background.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="Images/crucial-background.png"  Stretch="UniformToFill"/>
             </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="0"/>
@@ -75,9 +75,9 @@
                     </Grid.ColumnDefinitions>
                     <Border  VerticalAlignment="Top" Height="3" Grid.ColumnSpan="6" BorderThickness="0,0,0,0" Background="Black"/>
                     <Border BorderBrush="Gray" VerticalAlignment="Bottom" Height="5" Grid.ColumnSpan="6" BorderThickness="1" Background="{StaticResource AccentColorBrush}"/>
-                    <Grid Margin="40,0,0,-5">
+                    <Grid Margin="40,0,0,-3">
 
-                        <Image VerticalAlignment="Center" Height="40" Source="Images/CrucialLogo.png"/>
+                        <Image VerticalAlignment="Center" Height="40" Width="220" Source="Images/CrucialLogo.png"/>
 
                     </Grid>
                     <Grid Grid.Column="1" Margin="20,0,0,0">
@@ -87,10 +87,11 @@
                                 <DataTemplate>
                                     <Border Background="Transparent" HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <Image Name="NetworkIcon" Margin="0,0,10,0"  Height="25" Width="30" Source="{Binding Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
-                                            <TextBlock FontFamily="{StaticResource BuildTitleLt}" FontSize="22"  Text="{Binding}" />
+                                            <Image Name="NetworkIcon" Margin="10,0,10,0"  Height="20" Width="20" VerticalAlignment="Center" Source="{Binding Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
+                                            <TextBlock FontFamily="{StaticResource BuildTitleLt}" VerticalAlignment="Center" FontSize="20"  Text="{Binding}" />
                                         </StackPanel>
                                     </Border>
+                                   
                                     <!--<DataTemplate.Triggers>
                                         <DataTrigger  Binding="{Binding}" Value="{x:Static enums:SocialNetworks.Admin}">
                                             <Setter TargetName="NetworkIcon" Property="Visibility" Value="Collapsed"/>
@@ -122,7 +123,7 @@
                         </Button>
                     </StackPanel>
                     <Grid Grid.Column="4" Margin="0,0,12,0">
-                        <ComboBox Style="{StaticResource ComboBoxStyle}" Width="100"  HorizontalContentAlignment="Center" FontFamily="{StaticResource BuildTitleLt}"  HorizontalAlignment="Center" FontSize="22" DataContext="{Binding Languages}" Grid.Column="3"  BorderThickness="1" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}">
+                        <ComboBox Style="{StaticResource ComboBoxStyle}" Width="100"  HorizontalContentAlignment="Center" FontFamily="{StaticResource BuildTitleLt}"  HorizontalAlignment="Center" FontSize="20" DataContext="{Binding Languages}" Grid.Column="3"  BorderThickness="1" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border>

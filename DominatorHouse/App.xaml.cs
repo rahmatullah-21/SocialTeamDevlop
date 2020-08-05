@@ -33,6 +33,7 @@ namespace Socinator
         //}
         public void CheckAllforExpand(object sender, RoutedEventArgs e)
         {
+            HeaderHelper.UpdateCollapse?.Invoke(sender);
             HeaderHelper.UpdateToggleButtonInCampaignMode?.Invoke();
             HeaderHelper.UpdateToggleButtonInAccountActivityMode?.Invoke();
         }

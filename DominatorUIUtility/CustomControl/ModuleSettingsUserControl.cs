@@ -71,15 +71,24 @@ namespace DominatorUIUtility.CustomControl
             globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
             HeaderHelper.UpdateToggleButtonInCampaignMode += UpdateCampaignModeToggleButton;
             HeaderHelper.UpdateToggleButtonInAccountActivityMode += UpdateAccountActivityModeToggleButton;
+            HeaderHelper.UpdateCollapse += UpdateCollapse;
 
         }
 
         #endregion
+        bool UpdateCollapse(object sender)
+        {
+            var curr = HeaderHelper.GetCurrentExpander(sender, this);
+            if (curr.IsExpanded)
+                HeaderHelper.CollapseExcept(sender, this);
 
+            return true;
+        }
         void UpdateCampaignModeToggleButton()
         {
             if (_headerControl != null)
             {
+
                 var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(this);
 
                 if (isAllCollapsed)
@@ -567,7 +576,7 @@ namespace DominatorUIUtility.CustomControl
             if (_cancelEditVisibility == Visibility.Visible)
             {
                 var mainCampaignDetails = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == originalTemplateId);
-                
+
                 if (mainCampaignDetails.SelectedAccountList.Count == 0)
                     mainCampaignDetails.Status = "Pause";
 
@@ -1817,7 +1826,7 @@ namespace DominatorUIUtility.CustomControl
 
         public void ClearQueryCollection()
         {
-            if(_queryControl.QueryCollection != null && _queryControl.QueryCollection.Count() > 0)
+            if (_queryControl.QueryCollection != null && _queryControl.QueryCollection.Count() > 0)
                 _queryControl.QueryCollection.Clear();
         }
 

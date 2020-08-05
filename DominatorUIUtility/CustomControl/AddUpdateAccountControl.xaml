@@ -374,7 +374,7 @@
                                         <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0" Foreground="White"/>
+                                <TextBlock Text="Close" Margin="6,0" Foreground="White"/>
                             </StackPanel>
                         </Button.Content>
                     </Button>

@@ -26,7 +26,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Expander}">
                             <Border BorderBrush="DarkGray" Background="LightGray" BorderThickness="2" MinHeight="25" CornerRadius="8" Padding="1">
-                                <Expander Style="{StaticResource MetroExpander}" Content="{TemplateBinding Content}" IsExpanded="{TemplateBinding IsExpanded}" Background="LightGray" Foreground="White" BorderThickness="0" Header="{TemplateBinding Header}">
+                                <Expander Style="{StaticResource MetroExpander}" Content="{TemplateBinding Content}"  Background="LightGray" Foreground="White" BorderThickness="0" Header="{TemplateBinding Header}">
                                     <Expander.ContentTemplate>
                                         <DataTemplate>
                                             <Border Background="White" CornerRadius="6" Padding="2">
@@ -44,7 +44,6 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="IsExpanded" Value="False" />
                 <EventSetter Event="Expanded" Handler="CheckAllforExpand"/>
                 <EventSetter Event="Collapsed" Handler="CheckAllforExpand"/>
             </Style>
