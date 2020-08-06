@@ -33,18 +33,70 @@ namespace DominatorUIUtility.Behaviours
         {
             var currentcontrol = ((FrameworkElement)((FrameworkElement)sender).DataContext).DataContext;
 
-            foreach (Expander expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
-                expander.IsExpanded = IsExpanded;
+           
+            if (IsExpanded)
+            {
+                var element = FindVisualChildren<Expander>(currentcontrol as UserControl).Where(x => !x.IsExpanded).FirstOrDefault();
+                //element.IsExpanded = IsExpanded;
+                foreach (Expander expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
+                    if (expander.Header == element.Header)
+                        expander.IsExpanded = IsExpanded;
+            }
+            else
+            {
+                foreach (Expander expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
+                    expander.IsExpanded = IsExpanded;
+            }
+            //foreach (Expander expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
+            //{
+            //    if (!expander.IsExpanded && IsExpanded)
+            //        expander.IsExpanded = IsExpanded;
+            //    else if (expander.IsExpanded && !IsExpanded)
+            //        expander.IsExpanded = IsExpanded;
+            //}
 
+        }
+        public static void CollapseExcept(object obj, object sender)
+        {
+            var current = obj as Expander;
+            foreach (Expander expander in FindVisualChildren<Expander>(sender as UserControl))
+            {
+                if (current.Header != expander.Header)
+                    expander.IsExpanded = false;
+            }
+
+        }
+        public static Expander GetCurrentExpander(object obj, object sender)
+        {
+            var current = obj as Expander;
+            foreach (Expander expander in FindVisualChildren<Expander>(sender as UserControl))
+            {
+                if (current.Header == expander.Header)
+                    current = expander;
+            }
+            return current;
         }
         public static void ExpandCollapseAllExpanderForActivity(object sender, bool IsExpanded)
         {
             var currentcontrol = (FrameworkElement)sender;
-
-            foreach (Expander expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
-                expander.IsExpanded = IsExpanded;
-
+            if (IsExpanded)
+            {
+                var element = FindVisualChildren<Expander>(currentcontrol as UserControl).Where(x => !x.IsExpanded).FirstOrDefault();
+                //element.IsExpanded = IsExpanded;
+                foreach (Expander expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
+                    if (expander.Header == element.Header)
+                        expander.IsExpanded = IsExpanded;
+            }
+            else
+            {
+                foreach (Expander expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
+                    expander.IsExpanded = IsExpanded;
+            }
+            //foreach (Expander expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
+            //    expander.IsExpanded = IsExpanded;
+            
         }
+        
         public static bool IsAllExpanderCollapseOrNot(object sender)
         {
             var allExpander = FindVisualChildren<Expander>(sender as UserControl);
@@ -57,6 +109,7 @@ namespace DominatorUIUtility.Behaviours
                 return false;
             }
         }
+        public static Func<object, bool> UpdateCollapse;
         public static Action UpdateToggleButtonInCampaignMode;
         public static Action UpdateToggleButtonInAccountActivityMode;
         public static Action UpdateToggleForQuery;

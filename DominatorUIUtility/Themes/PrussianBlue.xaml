@@ -13,7 +13,7 @@
 
     <Color x:Key="AccentColor2">#00308f</Color>
 
-    <Color x:Key="AccentColor3">#3897F0</Color>
+    <Color x:Key="AccentColor3">#CBCBCB</Color>
 
     <Color x:Key="AccentColor4">#003569</Color>
 

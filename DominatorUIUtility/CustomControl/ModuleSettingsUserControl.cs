@@ -71,11 +71,19 @@ namespace DominatorUIUtility.CustomControl
             globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
             HeaderHelper.UpdateToggleButtonInCampaignMode += UpdateCampaignModeToggleButton;
             HeaderHelper.UpdateToggleButtonInAccountActivityMode += UpdateAccountActivityModeToggleButton;
+            HeaderHelper.UpdateCollapse += UpdateCollapse;
 
         }
 
         #endregion
+        bool UpdateCollapse(object sender)
+        {
+            var curr = HeaderHelper.GetCurrentExpander(sender, this);
+            if (curr.IsExpanded)
+                HeaderHelper.CollapseExcept(sender, this);
 
+            return true;
+        }
         void UpdateCampaignModeToggleButton()
         {
             if (_headerControl != null)

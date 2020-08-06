@@ -75,9 +75,9 @@
                     </Grid.ColumnDefinitions>
                     <Border  VerticalAlignment="Top" Height="3" Grid.ColumnSpan="6" BorderThickness="0,0,0,0" Background="Black"/>
                     <Border BorderBrush="Gray" VerticalAlignment="Bottom" Height="5" Grid.ColumnSpan="6" BorderThickness="1" Background="{StaticResource AccentColorBrush}"/>
-                    <Grid Margin="40,3,0,5">
+                    <Grid Margin="30,3,0,5">
 
-                        <Image VerticalAlignment="Center" Height="35" Source="Images/CrucialLogo.png"/>
+                        <Image VerticalAlignment="Center" Width="220" Height="35" Source="Images/CrucialLogo.png"/>
 
                     </Grid>
                     <Grid Grid.Column="1" Margin="20,0,0,0">
@@ -87,8 +87,8 @@
                                 <DataTemplate>
                                     <Border Background="Transparent" HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <Image Name="NetworkIcon" Margin="0,0,10,0"  Height="25" Width="30" Source="{Binding Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
-                                            <TextBlock FontFamily="{StaticResource BuildTitleLt}" FontSize="22"  Text="{Binding}" />
+                                            <Image Name="NetworkIcon" Margin="0,0,10,0"  Height="20" Width="20" Source="{Binding Converter={StaticResource SocialNetworkToVisualBrushConverter}}" HorizontalAlignment="Center"/>
+                                            <TextBlock FontFamily="{StaticResource BuildTitleLt}" FontSize="20"  Text="{Binding}" />
                                         </StackPanel>
                                     </Border>
                                     <!--<DataTemplate.Triggers>
@@ -128,7 +128,7 @@
                                     <Border>
                                         <Border Background="Transparent" HorizontalAlignment="Center">
                                             <StackPanel Margin="15,0,0,0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <TextBlock FontFamily="{StaticResource BuildTitleLt}" HorizontalAlignment="Center" Text="{Binding}" />
+                                                <TextBlock FontFamily="{StaticResource BuildTitleLt}" FontSize="20" HorizontalAlignment="Center" Text="{Binding}" />
                                             </StackPanel>
                                         </Border>
                                     </Border>

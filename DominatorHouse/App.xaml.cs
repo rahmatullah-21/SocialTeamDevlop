@@ -33,6 +33,7 @@ namespace Socinator
         //}
         public void CheckAllforExpand(object sender, RoutedEventArgs e)
         {
+            HeaderHelper.UpdateCollapse?.Invoke(sender);
             HeaderHelper.UpdateToggleButtonInCampaignMode?.Invoke();
             HeaderHelper.UpdateToggleButtonInAccountActivityMode?.Invoke();
         }
@@ -113,7 +114,7 @@ namespace Socinator
                 {
                     try
                     {
-                        if (item.ProcessName != "Crucial Lead")
+                        if (item.ProcessName != "Crucial Lead$")
                             continue;
                         itemCount++;
                         if (itemCount <= 1) continue;

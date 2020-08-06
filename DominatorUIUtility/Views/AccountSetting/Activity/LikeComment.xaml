@@ -54,7 +54,7 @@
                     </Expander>
 
                     <Expander Header="{DynamicResource LangKeyReactionType}" Margin="5,5"
-                                   IsExpanded="true">
+                                   >
                         <customControl1:LikerCommentorConfiguration Margin="0,5" x:Name="LikerCommentorConfig" IsLikeTypeFilterRequired="True"  IsLikeOptionVisible="True" LikerCommentorConfig="{Binding LikerCommentorConfigModel}"/>
                     </Expander>
 
