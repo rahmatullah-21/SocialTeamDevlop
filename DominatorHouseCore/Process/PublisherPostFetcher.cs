@@ -2,6 +2,7 @@
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.Extensions;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -14,8 +15,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using DominatorHouseCore.Extensions;
 
 namespace DominatorHouseCore.Process
 {

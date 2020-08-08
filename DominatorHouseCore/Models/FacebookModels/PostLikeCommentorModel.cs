@@ -1,40 +1,13 @@
-﻿using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Enums.FdQuery;
+using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
-using DominatorHouseCore;
-using DominatorHouseCore.Enums.FdQuery;
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
     public interface IPostLikerCommentor
     {
-        /*        bool IsOwnWallChecked { get; set; }
-
-                bool IsNewsfeedChecked { get; set; }
-
-                bool IsFriendTimeLineChecked { get; set; }
-
-                bool IsCustomPostListChecked { get; set; }
-
-                bool IsCampaignChecked { get; set; }
-
-                bool IsGroupChecked { get; set; }
-
-                bool IsPageChecked { get; set; }
-
-
-                List<string> ListFriendProfileUrl { get; set; }
-
-                List<string> ListCustomPostList { get; set; }
-
-                List<string> ListPageUrl { get; set; }
-
-                List<string> ListGroupUrl { get; set; }
-
-                List<string> ListFaceDominatorCampaign { get; set; }
-
-                string FriendProfileUrl { get; set; }*/
 
         string CustomPostList { get; set; }
 
@@ -46,18 +19,6 @@ namespace DominatorHouseCore.Models.FacebookModels
 
 
         int Count { get; set; }
-
-        //        Dictionary<PostOptions, bool> LstPostOptions { get; set; }
-        //
-        //        List<string> ListAlbums { get; set; }
-        //
-        //        string Albums { get; set; }
-        //
-        //        bool IsAlbumsChecked { get; set; }
-        //
-        //        bool IsKeywordChecked { get; set; }
-        //
-        //        List<string> ListKeywords { get; set; }
 
         string Keyword { get; set; }
     }

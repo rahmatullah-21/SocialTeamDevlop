@@ -2,6 +2,7 @@
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.Extensions;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.Publisher;
@@ -15,7 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DominatorHouseCore.Extensions;
 
 namespace DominatorHouseCore.Process
 {
@@ -1100,7 +1100,7 @@ namespace DominatorHouseCore.Process
                 if (destinationCount > 1)
                     totalDestination.Shuffle();
 
-                var unProcessedDestinations = new List<string>();
+                List<string> unProcessedDestinations;
 
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
 
@@ -1354,12 +1354,12 @@ namespace DominatorHouseCore.Process
                         // Get the publisher Job Process factory
                         var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                         var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
-                            .GetPublisherCoreFactory()
+                            ?.GetPublisherCoreFactory()?
                             .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null,
                                 null, null, false, new CancellationTokenSource());
 
                         // Call is delete options
-                        if (publisherJobProcess.DeletePost(postDeletionModel.PublishedIdOrUrl))
+                        if (publisherJobProcess?.DeletePost(postDeletionModel.PublishedIdOrUrl)??false)
                         {
                             // If successfully deleted , update the details
                             publisherJobProcess.UpdatePostWithDeletion(postDeletionModel.DestinationUrl,

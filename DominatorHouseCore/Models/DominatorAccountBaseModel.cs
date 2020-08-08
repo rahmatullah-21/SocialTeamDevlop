@@ -3,7 +3,6 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using ProtoBuf;
 using System.Collections.Generic;
-using System.Windows;
 
 namespace DominatorHouseCore.Models
 {

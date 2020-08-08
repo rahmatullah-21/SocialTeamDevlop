@@ -37,6 +37,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         //Time when the Pin has been posted in TimeStamp
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public double PinnedTimeStamp { get; set; }
 
         //Duration of the video Pins

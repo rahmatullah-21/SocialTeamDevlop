@@ -25,7 +25,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
             else
             {
-                foreach (var entity in data)
+                foreach (var unused in data)
                 {
                     _entityCountersManager.IncrementFor<T>(accountId, networks, null);
                 }

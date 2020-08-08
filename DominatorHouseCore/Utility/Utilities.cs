@@ -66,44 +66,6 @@ namespace DominatorHouseCore.Utility
             return !isDashesNeed ? getGuid.Replace('-', Char.MinValue) : getGuid;
         }
 
-
-        /// <summary>
-        /// ValidJsonChecker is used to verify the inputstring is valid json or not
-        /// </summary>
-        /// <param name="inputJsonValue">Pass the string which is going to check valid json</param>
-        /// <returns>return true if the given input is parsed successfully, else return false</returns>
-        public static bool ValidJsonChecker(this string inputJsonValue)
-        {
-            // Validate the input contains null or whitespace
-            if (String.IsNullOrWhiteSpace(inputJsonValue))
-                return false;
-
-            // Remove the leading and trailing character from the input
-            inputJsonValue = inputJsonValue.Trim();
-
-            // If the given input is not started with {,},[,] then it will return false
-            if ((!inputJsonValue.StartsWith("{") || !inputJsonValue.EndsWith("}"))
-                && (!inputJsonValue.StartsWith("[") || !inputJsonValue.EndsWith("]")))
-                return false;
-
-            try
-            {
-                // try to parse the inputstring if successfully parsed it will return true. else false
-                JToken.Parse(inputJsonValue);
-                return true;
-            }
-            catch (JsonReaderException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                return false;
-            }
-        }
-
         /// <summary>
         /// Get the text from source string Between two pattern of characters
         /// </summary>
@@ -167,10 +129,10 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static string ReportHeaderFromResourceDict(this List<string> resourceDictionaryKeys)
         {
-            string header = ""; 
+            string header = "";
             foreach (var each in resourceDictionaryKeys)
             {
-                string lang = "";
+                string lang;
                 try
                 {
                     lang = Application.Current?.FindResource(each)?.ToString() ?? each;
@@ -411,7 +373,7 @@ namespace DominatorHouseCore.Utility
             jobConfig.IncreaseActivityDisplayName = oldJobConfig.IncreaseActivityDisplayName;
         }
 
-        public static void ModifySavedQueries(this System.Collections.ObjectModel.ObservableCollection<Models.QueryInfo> savedQuery, List<string> listQueryTypes, List<string> oldlistQueryTypes)
+        public static void ModifySavedQueries(this ObservableCollection<Models.QueryInfo> savedQuery, List<string> listQueryTypes, List<string> oldlistQueryTypes)
         {
             savedQuery.ForEach(x =>
             {
@@ -451,16 +413,6 @@ namespace DominatorHouseCore.Utility
             return $"\"{data?.Replace("\"", "\"\"")}\""/* + (!isLast ? "," : "")*/;
         }
 
-        public static ObservableCollection<GridViewColumnDescriptor> CampaignReportViewColumn(List<KeyValuePair<string,string>> listResourceKeyBindingId)
-        {
-            var returnIt = new ObservableCollection<GridViewColumnDescriptor>();
-            foreach(var each in listResourceKeyBindingId)
-            {
-                returnIt.Add(new GridViewColumnDescriptor { ColumnHeaderText = each.Key.FromResourceDictionary(), ColumnBindingText = each.Value});
-            }
-            return returnIt;
-        }
-
         public static void UpdateTestResponseDataFile(string hitResponse, string respDataFileLoc, Models.SoftwareSettingsModel softwareSettings = null)
         {
             try
@@ -498,7 +450,7 @@ namespace DominatorHouseCore.Utility
                     var classData = FileUtilities.ReadFile(respHandTestFileLoc).Result;
 
                     // New checking data
-                    var dateToReplace = GetClassPropertyValueForTests(hitResponseHandler, "sut");
+                    var dateToReplace = GetClassPropertyValueForTests(hitResponseHandler);
 
                     // old checking data
                     var oldData = GetBetween(classData, "#region DataChecking", "#endregion");

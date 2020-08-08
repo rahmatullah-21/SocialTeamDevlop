@@ -1,10 +1,9 @@
-﻿using System;
+﻿using DominatorHouseCore.LogHelper;
+using Microsoft.Win32;
+using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
-using Microsoft.Win32;
-using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Diagnostics.Exceptions
 {

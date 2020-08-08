@@ -70,6 +70,19 @@ namespace DominatorHouseCore.Utility
             return basePath;
         }
 
+        public static string GetDesktopSocNetDirectory(SocialNetworks net = SocialNetworks.Admin)
+        => CreateDirIfNot($"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\\{ApplicationName}{(net == SocialNetworks.Admin ? "" : "\\" + net.ToString())}");
+        
+        public static string GetDebugResponseFile(SocialNetworks net, string username)
+        => CreateDirIfNot($"{GetDesktopSocNetDirectory(net)}\\{username}\\DebugResponses") + $"\\{DateTime.Now.Date.GetCurrentEpochTime()}.txt"; 
+
+        public static string CreateDirIfNot(string basePath)
+        {
+            if (!Directory.Exists(basePath))
+                DirectoryUtilities.CreateDirectory(basePath);
+
+            return basePath;
+        }
 
         public static string GetConfigurationDir()
         {
@@ -104,13 +117,6 @@ namespace DominatorHouseCore.Utility
         public static string GetIndexCampaignDir()
         {
             string dir = GetPlatformBaseDirectory() + @"\Index\CP";
-            DirectoryUtilities.CreateDirectory(dir);
-            return dir;
-        }
-
-        public static string GetCachePathDirectory()
-        {
-            var dir = GetPlatformBaseDirectory() + @"\Cache";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
@@ -169,7 +175,6 @@ namespace DominatorHouseCore.Utility
             return dir;
         }
         internal static string GetLiveChatFile() => GetChatDir() + @"\LiveChat.bin";
-        public static string GetLiveChatFile(SocialNetworks network) => GetChatDir() + $"\\{network}.bin";
         public static string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
@@ -240,14 +245,6 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherTumblrSettingsFile() => GetOtherDir() + @"\Tumblr.bin";
         public static string GetOtherTwitterSettingsFile() => GetOtherDir() + @"\Twitter.bin";
         public static string GetOtherYoutubeSettingsFile() => GetOtherDir() + @"\Youtube.bin";
-
-        public static string GetModuleConfigPath(string network)
-        {
-            string dir = $"{ GetConfigurationDir()}\\{network}";
-            DirectoryUtilities.CreateDirectory(dir);
-            return dir + "\\Config.bin";
-
-        }
 
         #endregion
 
@@ -320,8 +317,6 @@ namespace DominatorHouseCore.Utility
               "http://{0}/{1}";
 
         public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
-        public static string GetTwitterConfigFile() => GetOtherDir() + @"\Twitter.bin";
-        public static string GetTumblrConfigFile() => GetOtherDir() + @"\Tumblr.bin";
 
 
         public static string PageInviterNote => "LangKeyPageInviterNote".FromResourceDictionary();

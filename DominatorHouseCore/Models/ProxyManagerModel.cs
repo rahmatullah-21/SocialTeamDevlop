@@ -1,7 +1,6 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace DominatorHouseCore.Models

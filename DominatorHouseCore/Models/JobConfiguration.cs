@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using DominatorHouseCore.Interfaces;
+﻿using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System;
-using DominatorHouseCore.Enums;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace DominatorHouseCore.Models
 {

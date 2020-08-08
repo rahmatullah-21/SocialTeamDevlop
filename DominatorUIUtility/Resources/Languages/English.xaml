@@ -4717,4 +4717,5 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyNumberOfSendinvitationPerJob">Number Of Invitation Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfSendinvitationPerWeek">Number Of Invitation Per Week</system:String>
     <system:String x:Key="LangKeyMaxConnectionsToSendinvitationPerDay">Max Connections To SendInvitation Per Day</system:String>
+    <system:String x:Key="LangKeyReplyToAllUserMessageWhodidnotreply">Reply To All User Messages Who didn't reply</system:String>
 </ResourceDictionary>

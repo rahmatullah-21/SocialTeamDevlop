@@ -4,7 +4,6 @@
     {
         Follower,
         Following,
-        FollowingBack,
         UnFollowed,
         Blocked,
         Requested

@@ -10,6 +10,8 @@ using DominatorHouse.Social;
 
 namespace DominatorHouse.IoC
 {
+    // ReSharper disable once UnusedMember.Global
+    // the class is used through the configuration (see app.config)
     public class MainContainerExtension : UnityContainerExtension
     {
         protected override void Initialize()

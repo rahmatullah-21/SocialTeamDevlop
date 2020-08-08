@@ -605,7 +605,7 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
-                var finalResponse = string.Empty;
+                string finalResponse;
 
                 var revisionHistoryViewModel = ServiceLocator.Current.GetInstance<IDashboardViewModel>("RevisionHistory");
                 var currentVersion = Utilities.GetBetween(revisionHistoryViewModel.CurrentVersion, "[", "]");
@@ -636,7 +636,6 @@ namespace DominatorHouseCore.Diagnostics
 
                 Type type = Type.GetTypeFromProgID("WindowsInstaller.Installer");
                 Installer installer = (Installer)Activator.CreateInstance(type);
-                string GetDesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     installer.InstallProduct(string.Format(ConstantVariable.UpdateVersionLink

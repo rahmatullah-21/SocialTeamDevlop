@@ -52,7 +52,7 @@ namespace DominatorHouseCore.FileManagers
 
         public bool UpsertAccounts(params DominatorAccountModel[] accounts)
         {
-            bool result = false;
+            bool result;
             IEnumerable<DominatorAccountModel> cachedAccounts = new DominatorAccountModel[0];
             lock (_syncContext)
             {

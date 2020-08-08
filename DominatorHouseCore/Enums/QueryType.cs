@@ -44,42 +44,6 @@ namespace DominatorHouseCore.Enums
                 return value.HaveActivity(activityType);
             return false;
         }
-        public static bool IsFacebookActivity(this Enum value, string activityType)
-        {
-            return value.HasNetworkAndActivity<FacebookAttribute>(activityType);
-        }
-        public static bool IsInstagramActivity(this Enum value, string activityType)
-        {
-            return value.HasNetworkAndActivity<InstagramAttribute>(activityType);
-        }
-        public static bool IsTwitterActivity(this Enum value, string activityType)
-        {
-            return value.HasNetworkAndActivity<TwitterAttribute>(activityType);
-        }
-        public static bool IsPinterestActivity(this Enum value, string activityType)
-        {
-            return value.HasNetworkAndActivity<PinterestAttribute>(activityType);
-        }
-        public static bool IsLinkedInActivity(this Enum value, string activityType)
-        {
-            return value.HasNetworkAndActivity<LinkedInAttribute>(activityType);
-        }
-        public static bool IsRedditActivity(this Enum value, string activityType)
-        {
-            return value.HasNetworkAndActivity<RedditAttribute>(activityType);
-        }
-        public static bool IsYoutubeActivity(this Enum value, string activityType)
-        {
-            return value.HasNetworkAndActivity<YoutubeAttribute>(activityType);
-        }
-        public static bool IsTumblrActivity(this Enum value, string activityType)
-        {
-            return value.HasNetworkAndActivity<TumblrAttribute>(activityType);
-        }
-        public static bool IsQuoraActivity(this Enum value, string activityType)
-        {
-            return value.HasNetworkAndActivity<QuoraAttribute>(activityType);
-        }
 
         public static bool HaveActivity(this Enum value, string activityType)
         {

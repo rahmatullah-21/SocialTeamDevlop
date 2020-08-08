@@ -1,5 +1,4 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models.SocioPublisher;
+﻿using DominatorHouseCore.Models.SocioPublisher;
 using System.Threading;
 
 namespace DominatorHouseCore.Interfaces

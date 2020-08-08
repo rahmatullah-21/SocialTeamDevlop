@@ -131,29 +131,12 @@ namespace DominatorHouseCore.Models
 
         #region Methods
 
-        public void SetProxyCredentials(string proxyUsername, string proxyPassword)
-        {
-            ProxyUsername = proxyUsername;
-            ProxyPassword = proxyPassword;
-            HasCredentials = true;
-        }
         public string GetProxy()
         {
             if (!string.IsNullOrWhiteSpace(ProxyIp))
                 return ProxyIp + ":" + ProxyPort;
 
             return Resources.UserAccountEditPasswordNotValue;
-        }
-        public bool CheckProxy()
-        {
-            var webService = ServiceLocator.Current.GetInstance<IWebService>();
-            if (ProxyIp == null || ProxyPort == null)
-                throw new ArgumentException("Need to set proxies first");
-
-            var webProxy = new WebProxy(GetProxy(), true);
-            if (HasCredentials)
-                webProxy.Credentials = new NetworkCredential(ProxyUsername, ProxyPassword);
-            return webService.CheckProxy(new Uri("http://google.com/"), webProxy);
         }
         public static bool IsValidProxy(string ip, string port)
         {

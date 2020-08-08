@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Converters
         {
             try
             {
-                string interval = string.Empty;
+                string interval;
 
                 if (value.ToString().Length > 13)
                     interval = value.ToString().Substring(0, 13);
@@ -21,9 +21,9 @@ namespace DominatorHouseCore.Converters
                     interval = value.ToString();
 
                 if (value.ToString().Length == 10)
-                    return DateTimeUtilities.EpochToDateTimeLocal(int.Parse(interval.ToString()));
-                else if (value.ToString().Length > 10)
-                    return DateTimeUtilities.EpochToDateTimeLocal(Int64.Parse(interval.ToString()));
+                    return int.Parse(interval).EpochToDateTimeLocal();
+                if (value.ToString().Length > 10)
+                    return Int64.Parse(interval).EpochToDateTimeLocal();
                 return value;
             }
             catch (Exception ex)

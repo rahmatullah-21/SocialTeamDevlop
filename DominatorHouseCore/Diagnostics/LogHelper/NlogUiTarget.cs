@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Threading;
-using CommonServiceLocator;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.ViewModel;
 using NLog;
-using NLog.Common;
 using NLog.Targets;
 
 namespace DominatorHouseCore.Diagnostics.LogHelper

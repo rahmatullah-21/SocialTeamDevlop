@@ -18,8 +18,6 @@ namespace DominatorHouseCore.Interfaces
 
         RangeUtilities ActivitiesPerWeek { get; set; }
 
-        IncreaseActivityRange IncreaseActivitiesEachDay { get; set; }
-
         List<RunningTimes> RunningTime { get; set; }
 
         string ActivitiesPerJobDisplayName { get; set; }

@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
+using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Converters
 {
@@ -54,7 +55,7 @@ namespace DominatorHouseCore.Converters
             {
                 collection = new ObservableCollection<ProxyManagerModel>(collection);
                 if (IsAllProxySelected ?? false)
-                    collection.Select(x => { x.IsProxySelected = IsAllProxySelected ?? false; return x; }).ToList();
+                    collection.ForEach(x => { x.IsProxySelected = true; });
             }
 
             return collection;

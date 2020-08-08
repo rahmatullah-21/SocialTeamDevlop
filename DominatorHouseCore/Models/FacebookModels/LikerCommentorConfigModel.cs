@@ -1,5 +1,4 @@
 ﻿using DominatorHouseCore.Enums.FdQuery;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 
 using ProtoBuf;

@@ -10,7 +10,7 @@ namespace DominatorHouse.OtherConfiguration
     /// <summary>
     /// Interaction logic for MigrationFromOldDominator.xaml
     /// </summary>
-    public partial class MigrationFromOldDominator : UserControl
+    public partial class MigrationFromOldDominator
     {
         public MigrationFromOldDominator()
         {

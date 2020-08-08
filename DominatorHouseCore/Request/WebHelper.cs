@@ -5,15 +5,6 @@ namespace DominatorHouseCore.Requests
 {
     public static class WebHelper
     {
-        public static string ConvertValidHttpsUrl(this string value)
-        {
-            value = value.Replace(" ", string.Empty);
-            if (value.StartsWith("https://"))
-                return value;
-            value = value.StartsWith("http://") ? value.Replace("http://", "https://") : value.Insert(0, "https://");
-            return value;
-        }
-
         public static WebExceptionIssue GetErrorMsgWebrequest(this WebException ex)
         {
             switch (ex.Status)
@@ -211,14 +202,6 @@ namespace DominatorHouseCore.Requests
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        public static bool IsValidUriString(this string uri)
-        {
-            Uri result;
-            if (uri == "N/A" || !Uri.TryCreate(uri, UriKind.Absolute, out result))
-                return false;
-            return result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps;
         }
 
         public class WebExceptionIssue

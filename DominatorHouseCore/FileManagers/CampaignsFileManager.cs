@@ -17,7 +17,6 @@ namespace DominatorHouseCore.FileManagers
         void Add(CampaignDetails campaign);
         void Delete(CampaignDetails campaign);
         void Edit(CampaignDetails campaign);
-        List<CampaignDetails> GetCampaignByNetwork(SocialNetworks network);
     }
 
     public class CampaignsFileManager : ICampaignsFileManager
@@ -93,11 +92,6 @@ namespace DominatorHouseCore.FileManagers
                 _campaignDetailses.Value[index] = campaign;
                 Save(_campaignDetailses.Value);
             }
-        }
-
-        public List<CampaignDetails> GetCampaignByNetwork(SocialNetworks network)
-        {
-            return _campaignDetailses.Value.Where(x => x.SocialNetworks == network).ToList();
         }
 
         public IEnumerator<CampaignDetails> GetEnumerator()

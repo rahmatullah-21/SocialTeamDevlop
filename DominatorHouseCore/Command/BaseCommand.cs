@@ -50,10 +50,6 @@ namespace DominatorHouseCore.Command
         {
             return CanExecuteMethod2 != null && CanExecuteMethod2(parameter1,parameter2);
         }
-        public void NotifyCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
 
         public void Execute(object parameter)
         {

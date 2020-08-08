@@ -41,19 +41,6 @@ namespace DominatorHouseCore.FileManagers
             }
           
         }
-        public static FatalErrorHandler GetKey()
-        {
-            try
-            {
-                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
-                return genericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-            return null;
-        }
 
     }
 }

@@ -67,50 +67,9 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         protected virtual void StartProcessForMediaCommenters(QueryInfo queryInfo) { }
 
 
-        #region Scrape with no queries methods
-
-        protected virtual void ScrapeToUnfollow() { }
-
-        #endregion
-
-
         // Call this method inside override methods of derived class for ignored queries
         protected void Ignore(QueryInfo queryInfo) =>
             GlobusLogHelper.log.Info($"Scrape for '{queryInfo.QueryType}' query ignored");
-
-        /// <summary>
-        /// Used from DominatorHouseInitializer for certain library
-        /// </summary>
-        public void ScrapeWithQueries()
-        {
-            Debug.Assert(_jobProcess.SavedQueries.Count > 0);
-
-            foreach (var query in _jobProcess.SavedQueries)
-            {
-                try
-                {
-                    var type = (UserQueryParameters)Enum.Parse(typeof(UserQueryParameters), query.QueryType);
-                    _queryToActionTable[type](query);
-                }
-                catch (KeyNotFoundException ex)
-                {
-                    ex.ErrorLog($"Unable to find key for query type - {query.QueryType}. {ex.Message}");
-                }
-            }
-        }
-
-        public virtual void ScrapeNoQueries()
-        {
-            switch (_jobProcess.ActivityType)
-            {
-                case ActivityType.Unfollow:
-                    ScrapeToUnfollow();
-                    break;
-
-                default:
-                    throw new NotImplementedException();
-            }
-        }
     }
 }
 

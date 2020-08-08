@@ -59,17 +59,6 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAllManageDestination(all);
         }
 
-
-        public static void FillList<T>(ObservableCollection<T> destinationList) where T : class
-        {
-            destinationList.Clear();
-            ApplyFunc(a =>
-            {
-                destinationList.Add((T)(object)a);
-                return false;
-            });
-        }
-
         public static List<PublisherManageDestinationModel> GetAll() => BinFileHelper.GetPublisherManageDestinationModels();
 
         public static PublisherManageDestinationModel GetByDestinationId(string destinationId)

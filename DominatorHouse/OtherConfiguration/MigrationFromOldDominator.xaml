@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
+             xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
              mc:Ignorable="d" >
     <TabControl x:Name="MigrationFromOldDominatorTab" TabStripPlacement="Top" ItemContainerStyle="{StaticResource TabItemStyle}" Template="{StaticResource TopTabstyle1}">
         <TabControl.ItemTemplate>
-            <DataTemplate>
+            <DataTemplate DataType="{x:Type models:TabItemTemplates}">
                 <StackPanel>
                     <utility:TextPath Text="{Binding Title}"   HorizontalAlignment="Center"
 		                VerticalAlignment="Center"
