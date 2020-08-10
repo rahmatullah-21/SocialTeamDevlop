@@ -1,5 +1,4 @@
 ﻿using CommonServiceLocator;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using System;
@@ -46,13 +45,6 @@ namespace DominatorHouseCore.FileManagers
 
 
         public static List<PublisherPostlistSettingsModel> GetAll() => BinFileHelper.GetPublisherPostListSettingsModels();
-
-
-        public static PublisherPostlistSettingsModel GetSettingsByCampaignId(string campaignId)
-        {
-            var lst = GetAll();
-            return lst.FirstOrDefault(x => x.CampaignId == campaignId);
-        }
 
 
         public static void DeleteSelected(List<PublisherPostlistSettingsModel> settings)

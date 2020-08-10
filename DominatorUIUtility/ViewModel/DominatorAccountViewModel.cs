@@ -1137,7 +1137,8 @@ namespace DominatorUIUtility.ViewModel
 
             List<ProxyManagerModel> oldproxies = _proxyFileManager.GetAllProxy();
 
-            dominatorAccountModel.IsRunProcessThroughBrowser = isBrowserAutomationActive;
+            //facebook accounts getting banned due to httpAutomation, So setting value to IsRunProcessThroughBrowser as true by default for fb accounts only.
+            dominatorAccountModel.IsRunProcessThroughBrowser = dominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ? true : isBrowserAutomationActive;
 
             //var cancel = secondaryTaskStrategyReturningCancellation(() => UpdateProxy(objDominatorAccountBaseModel));
             //dominatorAccountModel.Token.Register(cancel);

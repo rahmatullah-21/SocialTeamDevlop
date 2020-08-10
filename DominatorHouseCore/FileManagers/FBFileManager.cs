@@ -1,8 +1,7 @@
-﻿using System;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
 
 namespace DominatorHouseCore.FileManagers
 {

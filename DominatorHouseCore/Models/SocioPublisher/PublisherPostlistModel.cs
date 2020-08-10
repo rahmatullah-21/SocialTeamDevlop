@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading;
-using DominatorHouseCore.Enums.SocioPublisher;
+﻿using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
+using System.Collections.ObjectModel;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {

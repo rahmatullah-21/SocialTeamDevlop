@@ -60,7 +60,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private int _destinationCount = 0;
+        private int _destinationCount;
 
         [ProtoMember(4)]
         public int DestinationCount

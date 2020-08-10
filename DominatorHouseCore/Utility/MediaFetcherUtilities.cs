@@ -9,10 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Utility
 {
@@ -57,7 +55,7 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                int totalCount = 1;
+                int totalCount;
                 int descriptionCount = 1;
                 var pageTitle = string.Empty;
                 DateTime? expireDate = DateTime.Now.AddYears(2);
@@ -167,8 +165,6 @@ namespace DominatorHouseCore.Utility
                         return;
                     }
 
-                    postCount -= postCollection.Count;
-
                     postCollection.Clear();
 
                     if (totalCount >= postDetailsModel.ScrapeCount)
@@ -194,7 +190,6 @@ namespace DominatorHouseCore.Utility
             try
             {
                 int totalCount = 1;
-                int failedCount = 0;
                 int descriptionCount = 1;
                 var pageTitle = string.Empty;
                 var description = string.Empty;
@@ -206,7 +201,7 @@ namespace DominatorHouseCore.Utility
 
                 if (campaignDetails.Count > 0 && campaignDetails.Any(x => x.PostSource == PostSource.ScrapeImages))
                     int.TryParse(campaignDetails.LastOrDefault(x => x.PostSource == PostSource.ScrapeImages
-                            && x.PostDescription.Contains("_"))?.PostDescription?.Split('_')?.LastOrDefault(), out descriptionCount);
+                            && x.PostDescription.Contains("_"))?.PostDescription?.Split('_').LastOrDefault(), out descriptionCount);
 
                 var postCount = maximumPostLimitToStore - campaignDetails.Count;
 
@@ -216,7 +211,7 @@ namespace DominatorHouseCore.Utility
                 {
                     try
                     {
-                        failedCount = 0;
+                        var failedCount = 0;
 
                         cancellationTokenSource.Token.ThrowIfCancellationRequested();
 

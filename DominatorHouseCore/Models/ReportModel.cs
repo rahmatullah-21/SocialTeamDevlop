@@ -38,7 +38,7 @@ namespace DominatorHouseCore.Models
         public List<KeyValuePair<string, string>> LstCurrentQueries = new List<KeyValuePair<string, string>>();
 
         public string CampaignId { get; set; } = string.Empty;
-        private bool _FollowRate = false;
+        private bool _FollowRate;
         public bool FollowRate
         {
             get

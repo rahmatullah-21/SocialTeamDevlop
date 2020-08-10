@@ -42,24 +42,6 @@ namespace DominatorHouseCore.Enums.FdQuery
         PagesLikedByFriends = 4
     }
 
-    public enum FdFanpageLikerQuery
-    {
-        [Description("LangKeyKeywords")]
-        Keywords = 1,
-        [Description("LangKeyGraphSearchUrl")]
-        GraphSearchUrl = 2,
-        [Description("LangKeyCustomPageList")]
-        CustomPageList = 3
-    }
-
-    public enum FdGroupJoinerQuery
-    {
-        [Description("LangKeyKeywords")]
-        Keywords = 1,
-        [Description("LangKeyCustomGroupUrlS")]
-        CustomGroupUrl = 2
-    }
-
     public enum FdProfileQueryParameters
     {
         [Description("LangKeyKeywords")]
@@ -105,7 +87,7 @@ namespace DominatorHouseCore.Enums.FdQuery
         [Description("LangKeyPeopleConnectedInMessenger")]
         ConnectedPeopleInMessenger = 21,
     }
-
+    
     public enum FdProfileScraperQueryParameters
     {
        
@@ -140,7 +122,7 @@ namespace DominatorHouseCore.Enums.FdQuery
         [Description("LangKeyCustomUsersList")]
         CustomUserList = 9
     }
-
+    
     public enum WebCommentLikerParameter
     {
         [Description("LangKeywebpagecomment")]

@@ -5,12 +5,6 @@ namespace DominatorHouseCore.Utility
 {
     public static class MoreEnumerable
     {
-
-        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
-        {
-            return source.MinBy(selector, null);
-        }
-
         public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
         {
             if (source == null)

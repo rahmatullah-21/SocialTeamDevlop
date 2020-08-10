@@ -1,3 +1,41 @@
+Version[1.0.0.91],[5th August 2020] 
+New Features:
+	Linkedin :
+		Messanger ==> Auto replay to new message ==> Now you can replay to all user massages who don't replay.
+
+Fixed:-
+	Social:
+ 		Publisher=> Facebook ==> Fixed issue with scrape from facebok page and post into wall
+		Publisher ==> Reddit ==> Rss feeds ==> Fixed issue with failed to post.
+
+	Linkedin:
+		Messager  ==> Send Greeting to connection ==> Fixed issue with no more data.
+		Account ==> Account manager ==> Fixed issue with update account on Http.
+
+	Facebook:
+		Account manager ==> Fixed issue with updating account details of New UI
+		Engage ==> Fan page liker ==> Fixed issue with Graph search URL
+		Broadcast Message ==> Fixed issue with send greeting to friend
+
+  	Reddit:
+		Grow Follow ==> Follow ==> Fixed issue with failed to follow in HTTP.
+
+	Quora:
+		Answer ==> Answer On Question ==> Fixed issue with Answer On Question.
+		
+Version[1.0.0.90],[24th July 2020] 
+Fixed:-
+	Social:
+ 		Social ==>Reddit ==> Sociopublisher ==> Fixed issue with posting on wall.
+
+	Linkedin :
+		Linkedin ==>Engage ==> Like ==> Fixed issue in failed with error to like in browser mode .
+
+	Instagram
+		Account Manager ==> Account ==> Fixed issue with account login failed.
+		Instaposter ==> Reposter ==> Fixed issue with reposting videos.
+		Instaposter ==> Reposter ==> Fixed issue with Post filter.
+
 Version[1.0.0.89],[11th July 2020] 
 Fixed:-
 	Social:

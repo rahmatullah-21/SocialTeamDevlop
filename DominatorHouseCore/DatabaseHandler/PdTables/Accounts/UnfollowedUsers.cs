@@ -11,6 +11,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int FilterTypeSql
         { get; set; }
 
@@ -21,6 +23,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int FollowedBackDate
         { get; set; }
 

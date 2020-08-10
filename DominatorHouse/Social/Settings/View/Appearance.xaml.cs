@@ -14,23 +14,23 @@ namespace DominatorHouse.Social.Settings.View
     /// <summary>
     /// Interaction logic for Appearance.xaml
     /// </summary>
-    public partial class Appearance : UserControl
+    public partial class Appearance
     {
+        private readonly AppearanceViewModel _objAppearanceViewModel = new AppearanceViewModel();
+
         public Appearance()
         {
             InitializeComponent();
-            MainGrid.DataContext = objAppearanceViewModel;
+            MainGrid.DataContext = _objAppearanceViewModel;
         }
-
-        AppearanceViewModel objAppearanceViewModel = new AppearanceViewModel();
        
         private void lstcolor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var SelectedItem = (ColorsCollection)lstcolor.SelectedItem;
-            objAppearanceViewModel.SelectedRecentColor = null;
-            var AccentColor = objAppearanceViewModel.lstColorsCollection.SingleOrDefault(x => x.Value == SelectedItem.Value);
-            objAppearanceViewModel.lstRecentColorsCollection.Add(AccentColor);
-            objAppearanceViewModel.lstRecentColorsCollection = new ObservableCollection<ColorsCollection>(objAppearanceViewModel.lstRecentColorsCollection.Distinct());
+            var selectedItem = (ColorsCollection)lstcolor.SelectedItem;
+            _objAppearanceViewModel.SelectedRecentColor = null;
+            var accentColor = _objAppearanceViewModel.lstColorsCollection.SingleOrDefault(x => x.Value == selectedItem.Value);
+            _objAppearanceViewModel.lstRecentColorsCollection.Add(accentColor);
+            _objAppearanceViewModel.lstRecentColorsCollection = new ObservableCollection<ColorsCollection>(_objAppearanceViewModel.lstRecentColorsCollection.Distinct());
 
             ChangeAppearance(sender);
         }
@@ -48,44 +48,36 @@ namespace DominatorHouse.Social.Settings.View
         {
             try
             {
-                string ThemeName;
                 Accent newAccent;
                 AppTheme newAppTheme;
-                string ColorName;
-                ColorsCollection SelectedItem;
-                string AccentColor;
+                string colorName;
+                ColorsCollection selectedItem;
+                string accentColor;
 
-                try
-                {
-                    ThemeName = "Base" + (lsttheme.SelectedItem as ThemeCollection).Name;
-                }
-                catch (Exception )
-                {
-                    ThemeName = "BaseLight";
-                }
+                var themeName = "Base" + ((lsttheme?.SelectedItem as ThemeCollection)?.Name ?? "Light");
 
-                if (sender == lstcolor || sender == lsttheme)
+                if (Equals(sender, lstcolor) || Equals(sender, lsttheme))
                 {
-                    ColorName = ((ColorsCollection)lstcolor.SelectedItem).Name;
-                    SelectedItem = (ColorsCollection)lstcolor.SelectedItem;
-                    AccentColor = objAppearanceViewModel.lstColorsCollection.SingleOrDefault(x => x.Value == SelectedItem.Value).Name;
+                    colorName = ((ColorsCollection)lstcolor.SelectedItem).Name;
+                    selectedItem = (ColorsCollection)lstcolor.SelectedItem;
+                    accentColor = _objAppearanceViewModel.lstColorsCollection.SingleOrDefault(x => x.Value == selectedItem.Value)?.Name;
                 }
                 else
                 {
-                    ColorName = ((ColorsCollection)lstRecentcolor.SelectedItem).Name;
-                    SelectedItem = (ColorsCollection)lstRecentcolor.SelectedItem;
-                    AccentColor = objAppearanceViewModel.lstRecentColorsCollection.FirstOrDefault(x => x.Value == SelectedItem.Value).Name;
+                    colorName = ((ColorsCollection)lstRecentcolor.SelectedItem).Name;
+                    selectedItem = (ColorsCollection)lstRecentcolor.SelectedItem;
+                    accentColor = _objAppearanceViewModel.lstRecentColorsCollection.FirstOrDefault(x => x.Value == selectedItem.Value)?.Name;
                 }
-                if (ColorName == "Default")
+                if (colorName == "Default")
                 {
                     ThemeManager.AddAccent("PrussianBlue", new Uri("pack://application:,,,/DominatorUIUtility;component/Themes/PrussianBlue.xaml"));
                     newAccent = ThemeManager.GetAccent("PrussianBlue");
-                    newAppTheme = ThemeManager.GetAppTheme(ThemeName);
+                    newAppTheme = ThemeManager.GetAppTheme(themeName);
                 }
                 else
                 {
-                    newAccent = ThemeManager.GetAccent(AccentColor);
-                    newAppTheme = ThemeManager.GetAppTheme(ThemeName);
+                    newAccent = ThemeManager.GetAccent(accentColor);
+                    newAppTheme = ThemeManager.GetAppTheme(themeName);
                 }
                 ThemeManager.ChangeAppStyle(Application.Current, newAccent, newAppTheme);
             }
@@ -101,12 +93,12 @@ namespace DominatorHouse.Social.Settings.View
             Configuration configuration = new Configuration();
             configuration.ConfigurationDate = DateTime.Now;
             configuration.ConfigurationType = "Theme";
-            var Theme = new Themes
+            var theme = new Themes
             {
-                SelectedAccentColor = new AccentColors(objAppearanceViewModel.SelectedAccentColor.Name, objAppearanceViewModel.SelectedAccentColor.Value),
-                SelectedTheme = new Theme(objAppearanceViewModel.SelectedTheme.Name, objAppearanceViewModel.SelectedTheme.Value)
+                SelectedAccentColor = new AccentColors(_objAppearanceViewModel.SelectedAccentColor.Name, _objAppearanceViewModel.SelectedAccentColor.Value),
+                SelectedTheme = new Theme(_objAppearanceViewModel.SelectedTheme.Name, _objAppearanceViewModel.SelectedTheme.Value)
             };
-            configuration.ConfigurationSetting = Newtonsoft.Json.JsonConvert.SerializeObject(Theme);
+            configuration.ConfigurationSetting = Newtonsoft.Json.JsonConvert.SerializeObject(theme);
             ConfigFileManager.SaveConfig(configuration);
         }
     }

@@ -123,7 +123,6 @@ namespace DominatorHouseCore.Utility
                     url = "https://" + url;
 
                 var scrapeUrl = new Uri(url);
-                var host = scrapeUrl.Host;
 
                 var webClient = new WebClient();
                 webClient.Encoding = System.Text.Encoding.UTF8;
@@ -215,37 +214,6 @@ namespace DominatorHouseCore.Utility
                 ex.DebugLog();
             }
             return imageUrl;
-        }
-
-        /// <summary>
-        /// To Check whether give url is proper image or not
-        /// </summary>
-        /// <param name="url">image url</param>
-        /// <returns>returns true, if url is valid image otherwise false</returns>
-        public static bool IsImageUrl(string url)
-        {
-            // Create a web request for url
-            var req = (HttpWebRequest)WebRequest.Create(url);
-
-            // Request method as HEAD
-            req.Method = "HEAD";
-            using (var resp = req.GetResponse())
-            {
-                // Check the content type contains image/ type or not
-                return resp.ContentType.ToLower(CultureInfo.InvariantCulture)
-                    .StartsWith("image/");
-            }
-        }
-
-        public static async Task<bool> IsImageUrlAsync(string url)
-        {
-            var req = (HttpWebRequest)WebRequest.Create(url);
-            req.Method = "HEAD";
-            using (var resp = await req.GetResponseAsync())
-            {
-                return resp.ContentType.ToLower(CultureInfo.InvariantCulture)
-                    .StartsWith("image/");
-            }
         }
 
         /// <summary>

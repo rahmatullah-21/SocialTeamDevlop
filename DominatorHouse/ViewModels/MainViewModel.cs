@@ -72,7 +72,8 @@ namespace DominatorHouse.ViewModels
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             SocinatorKeyHelper.InitilizeKey();
-            RemoveLocationDataFromTemplate();
+            RemoveLocationDataFromTemplate().Wait();
+            //FatalErrorDiagnosis().Wait();
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
@@ -146,8 +147,9 @@ namespace DominatorHouse.ViewModels
                 {
                     ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Product WHERE Name LIKE '%Microsoft Visual C++%'");
                     var mosGet = mos.Get();
-                    foreach (ManagementObject mo in mosGet)
+                    foreach (var o in mosGet)
                     {
+                        var mo = (ManagementObject) o;
                         if (mo["Name"].ToString().StartsWith("Microsoft Visual C++"))
                         {
                             var version = Convert.ToInt32(mo["Version"].ToString().Substring(0, 2));
@@ -258,7 +260,7 @@ namespace DominatorHouse.ViewModels
                         try
                         {
                             fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "LangKeySocinator".FromResourceDictionary(), "LangKeyLicense".FromResourceDictionary(), settings);
-                            //fatalError = "SOC-YZBYVGND1UY1MJT8PYMHRHH6V";
+                            fatalError = "SOC-YZBYVGND1UY1MJT8PYMHRHH6V";
                             if (string.IsNullOrEmpty(fatalError))
                             {
                                 Application.Current.MainWindow.Close();
@@ -275,6 +277,7 @@ namespace DominatorHouse.ViewModels
                         }
                         catch (Exception ex)
                         {
+                            ex.DebugLog();
                         }
                     }
                 }
@@ -285,7 +288,7 @@ namespace DominatorHouse.ViewModels
                     try
                     {
                         fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "LangKeySocinator".FromResourceDictionary(), "LangKeyLicense".FromResourceDictionary());
-                        //fatalError = "SOC-YZBYVGND1UY1MJT8PYMHRHH6V";
+                        fatalError = "SOC-YZBYVGND1UY1MJT8PYMHRHH6V";
                         if (await IsProcessFatalError(fatalError))
                             // ReSharper disable once RedundantJumpStatement
                             continue;
@@ -293,6 +296,7 @@ namespace DominatorHouse.ViewModels
                     }
                     catch (Exception ex)
                     {
+                        ex.DebugLog();
                     }
                 }
 
@@ -328,10 +332,7 @@ namespace DominatorHouse.ViewModels
                         }
 
                     }
-
-
                 }
-
                 await controller.CloseAsync();
             }
             catch (Exception ex)
@@ -617,7 +618,6 @@ namespace DominatorHouse.ViewModels
                     _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
                         .LangKeyAccountsManager))
                 {
-                    var lastOne = AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType;
                     /* LastControlType will be have value "AccountManager" if last opened UserControl was "Account Manager" itselt, it won't let to change UserControl if "Account Details" was opened. */
                     if (AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType == "AccountDetail")
                         return;

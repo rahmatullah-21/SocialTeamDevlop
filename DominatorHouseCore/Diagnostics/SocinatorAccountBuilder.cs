@@ -1,6 +1,5 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.EmailService;
-using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using System;
@@ -61,12 +60,6 @@ namespace DominatorHouseCore.Diagnostics
         public SocinatorAccountBuilder AddOrUpdateMobileAgentWeb(string webAgent)
         {
             DominatorAccountModel.UserAgentMobile = webAgent;
-            return this;
-        }
-
-        public SocinatorAccountBuilder AddOrUpdateMobileRequests(bool isUseOnlyMobileRequest)
-        {
-            DominatorAccountModel.UseMobileRequestOnly = isUseOnlyMobileRequest;
             return this;
         }
 

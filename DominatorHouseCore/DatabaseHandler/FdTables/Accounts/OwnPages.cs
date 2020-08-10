@@ -50,7 +50,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        //[Unique]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string CoverPicUrl { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]

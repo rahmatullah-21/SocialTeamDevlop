@@ -36,6 +36,8 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
+        // need to keep it to support existing data model
+        // ReSharper disable once UnusedMember.Global
         public int FollowedBackDate
         { get; set; }
 

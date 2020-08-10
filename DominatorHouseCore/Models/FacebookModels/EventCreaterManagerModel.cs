@@ -1,7 +1,6 @@
 ﻿using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
 using System;
-using System.Collections.ObjectModel;
 
 namespace DominatorHouseCore.Models.FacebookModels
 {

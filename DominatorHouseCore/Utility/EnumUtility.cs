@@ -83,17 +83,6 @@ namespace DominatorHouseCore.Utility
             return null;
         }
 
-        public static List<string> GetListOfDescription<T>() where T : struct
-        {
-            Type t = typeof(T);
-            return !t.IsEnum ? null : Enum.GetValues(t).Cast<Enum>().Select(x => x.GetDescriptionAttr() ?? x.ToString()).ToList();
-        }
-
-        public static List<string> ResourceDictionaryKeysToStrings(List<string> langResourceKeys)
-        {
-            return langResourceKeys.Select(l => Application.Current.FindResource(l)?.ToString() ?? l).ToList();
-        }
-
         public static string GetQueryFromEnum(Enum queryType)
         {
             return Application.Current?.FindResource(queryType.GetDescriptionAttr())?.ToString();

@@ -55,6 +55,8 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string Biography
         { get; set; }
 
@@ -67,6 +69,8 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int BlockedStatus
         { get; set; }
     }

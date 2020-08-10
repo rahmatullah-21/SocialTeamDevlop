@@ -15,6 +15,8 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Describes if Detailed UserInfo has been stored atlest once or not
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public bool IsDetailedUserInfoStored
         { get; set; }
 

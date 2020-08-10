@@ -24,9 +24,6 @@ namespace DominatorHouseCore.Diagnostics.Helpers
         [DllImport(Kernel32_DllName)]
         private static extern IntPtr GetConsoleWindow();
 
-        [DllImport(Kernel32_DllName)]
-        private static extern int GetConsoleOutputCP();
-
         public static bool HasConsole => GetConsoleWindow() != IntPtr.Zero;
 
         /// <summary>

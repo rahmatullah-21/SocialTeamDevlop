@@ -33,26 +33,13 @@ namespace DominatorHouseCore.FileManagers
             {
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 Key= genericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
-                //Key.FatalErrorMessage=  "SOC-YZBYVGND1UY1MJT8PYMHRHH6V";
+                Key.FatalErrorMessage=  "SOC-YZBYVGND1UY1MJT8PYMHRHH6V";
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
           
-        }
-        public static FatalErrorHandler GetKey()
-        {
-            try
-            {
-                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
-                return genericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-            return null;
         }
 
     }

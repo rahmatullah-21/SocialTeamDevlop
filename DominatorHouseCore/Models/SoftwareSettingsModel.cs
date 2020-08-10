@@ -1,8 +1,5 @@
-﻿using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -784,7 +781,7 @@ namespace DominatorHouseCore.Models
         }
 
 
-        private bool _doNotSortByUserNameChecked = false;
+        private bool _doNotSortByUserNameChecked;
         [ProtoMember(53)]
         public bool DoNotSortByUserNameChecked
         {
@@ -820,6 +817,14 @@ namespace DominatorHouseCore.Models
         {
             get { return _skipAlreadyProcessedQueryValue; }
             set { SetProperty(ref _skipAlreadyProcessedQueryValue, value); }
+        }
+        
+        private bool _debugRespData;
+        [ProtoMember(57)]
+        public bool DebugRespData
+        {
+            get { return _debugRespData; }
+            set { SetProperty(ref _debugRespData, value); }
         }
     }
 }

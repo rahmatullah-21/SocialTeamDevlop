@@ -66,60 +66,6 @@ namespace DominatorHouseCore.Utility
             return fileData;
         }
 
-
-        /// <summary>
-        /// FileBrowseAndReader() is used to browse and read the file data from OpenFileDialog
-        /// </summary>
-        /// <returns>Returns unique list of item from all files</returns>
-        public static async Task<List<string>> FileBrowseAndReaderAsync()
-        {
-            var fileData = new List<string>();
-
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
-            {
-                Multiselect = true,
-                Filter = "Text documents (.txt)|*.txt|CSV files (*.csv)|*.csv|All files (*.*)|*.*"
-            };
-
-            var openFileDialogResult = openFileDialog.ShowDialog();
-
-            if (openFileDialogResult != true) return new List<string>();
-
-            foreach (var fileName in openFileDialog.FileNames)
-            {
-                try
-                {
-                    var extension = Path.GetExtension(fileName);
-                    if (!string.IsNullOrEmpty(extension))
-                    {
-                        if (extension.Contains(".xls") || extension.Contains(".xlsx"))
-                        {
-                            var value = await Task.Factory.StartNew(() => GetExcelFileContent(fileName));
-                            fileData.AddRange(value);
-                        }
-                        else if (extension.Contains(".csv"))
-                            fileData.AddRange(GetCsvFileContent(fileName));
-                        else if (extension.Contains(".txt"))
-                            fileData.AddRange(GetTextFileContent(fileName));
-                        // ReSharper disable once RedundantJumpStatement
-                        else continue;
-
-                        //if (!extension.Contains(".txt") && !extension.Contains(".csv"))
-                        //        continue;
-
-                        //fileData.AddRange(GetFileContent(fileName));
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                }
-            }
-            return fileData;
-        }
-
-
         /// <summary>
         /// Read the file data from specified files
         /// </summary>
@@ -359,6 +305,37 @@ namespace DominatorHouseCore.Utility
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        public static bool WriteDataIntoFile(string data, string filePath)
+        {
+            try
+            {
+                using (StreamWriter reader = new StreamWriter(filePath,true))
+                {
+                    reader.Write(data);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static void CreateFileAndAddData(string data, string filePathInDesktop)
+        {
+            try
+            {
+                using (StreamWriter write = new StreamWriter(filePathInDesktop,true))
+                {
+                    write.Write(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
 

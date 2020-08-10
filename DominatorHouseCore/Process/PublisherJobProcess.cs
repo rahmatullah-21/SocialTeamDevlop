@@ -1,6 +1,7 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Extensions;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
@@ -14,9 +15,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using DominatorHouseCore.Extensions;
-using System.Collections.Concurrent;
 
 namespace DominatorHouseCore.Process
 {
@@ -32,6 +30,14 @@ namespace DominatorHouseCore.Process
         {
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             GenericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+
+            var softwareSettings = ServiceLocator.Current.GetInstance<Settings.ISoftwareSettings>();
+            if (softwareSettings.Settings?.IsThreadLimitChecked ?? false)
+            {
+                BusinessLogic.Scheduler.DominatorScheduler.islogged = false;
+                BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount = softwareSettings.Settings.MaxThreadCount;
+                BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit = new SemaphoreSlim(BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount, BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount);
+            }
         }
         protected PublisherJobProcess(string campaignId,
             string accountId,
@@ -86,7 +92,6 @@ namespace DominatorHouseCore.Process
                 .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == CampaignId);
 
             CampaignName = campaign?.CampaignName;
-
         }
 
 
@@ -262,13 +267,6 @@ namespace DominatorHouseCore.Process
         #region Methods
 
         /// <summary>
-        /// To validate the networks settings for each network
-        /// </summary>
-        /// <param name="campaign">Campaign details</param>
-        /// <returns></returns>
-        protected abstract bool ValidateNetworksSettings(string campaign);
-
-        /// <summary>
         /// To delete a published post after x hours
         /// </summary>
         /// <param name="postId">Published Post Id/Post Url</param>
@@ -276,6 +274,19 @@ namespace DominatorHouseCore.Process
         public virtual bool DeletePost(string postId)
         {
             return true;
+        }
+
+        public void ThreadLimit()
+        {
+            if (BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit != null)
+            {
+                if (BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !BusinessLogic.Scheduler.DominatorScheduler.islogged)
+                {
+                    BusinessLogic.Scheduler.DominatorScheduler.islogged = true;
+                    GlobusLogHelper.log.Info($"{"LangKeyThreadLimitReachedTo".FromResourceDictionary()} {BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount} {"LangKeyPendingStartsWhenRunnningStops".FromResourceDictionary()}");
+                }
+                BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.Wait();
+            }
         }
 
         /// <summary>
@@ -291,6 +302,8 @@ namespace DominatorHouseCore.Process
                 {
                     if (AccountModel == null)
                         return;
+
+                    ThreadLimit();
 
                     // Call with task
                     ThreadFactory.Instance.Start(() =>
@@ -310,6 +323,8 @@ namespace DominatorHouseCore.Process
                 }
                 else
                 {
+                    ThreadLimit();
+
                     // start publishing with max post count
                     StartPublish();
 
@@ -399,6 +414,11 @@ namespace DominatorHouseCore.Process
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+            finally
+            {
+                if (BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.CurrentCount != BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount)
+                    BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.Release();
             }
         }
 

@@ -281,11 +281,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             PagesOrBoardsSelectorText = IsPagesOrBoardsAvailable ? SelectedPagesOrBoards + "/" + TotalPagesOrBoards : "LangKeyNA".FromResourceDictionary();
 
 
-        public void UpdateFriendsText() =>
-            PagesOrBoardsSelectorText = IsFriendsAvailable ? SelectedFriends + "/" + TotalFriends : "LangKeyNA".FromResourceDictionary();
-
-
-
         [ProtoMember(16)]
         public bool IsFriendsAvailable { get; set; }
 

@@ -228,7 +228,6 @@
     <Compile Include="BusinessLogic\Scheduler\RunningActivityManager.cs" />
     <Compile Include="BusinessLogic\Scheduler\SchedulerProxy.cs" />
     <Compile Include="BusinessLogic\Scraper\IQueryScraperFactory.cs" />
-    <Compile Include="BusinessLogic\Scraper\NotImplementedQueryScraper.cs" />
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
     <Compile Include="BusinessLogic\Scraper\QueryScraper.cs" />
     <Compile Include="Command\BaseCommand.cs" />
@@ -237,7 +236,6 @@
     <Compile Include="Converters\BooleanToAutomationStatusConverter.cs" />
     <Compile Include="Converters\BooleanToStringSelectConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Converters\BooleanToWidthConverter.cs" />
     <Compile Include="Converters\BoolToValueConverter.cs" />
     <Compile Include="Converters\BrowserAutomationConverter.cs" />
     <Compile Include="Converters\ChatImageCountToColumnConverter.cs" />
@@ -252,15 +250,12 @@
     <Compile Include="Converters\IntToDateTimeConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\IsPositiveValueConvertor.cs" />
-    <Compile Include="Converters\ListCountBoolConverter.cs" />
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
     <Compile Include="Converters\ListViewItemIndexConverter.cs" />
     <Compile Include="Converters\ActivityTypesSourceConverter.cs" />
-    <Compile Include="Converters\LogViewItemsSourceConverter.cs" />
     <Compile Include="Converters\MessageTypeToColorConverter.cs" />
     <Compile Include="Converters\MessageTypeTovisibilityConverter.cs" />
     <Compile Include="Converters\MessegeTypeToHorizontalAlignmentConverter.cs" />
-    <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\PinterestAccountTypeToStatusConverter.cs" />
     <Compile Include="Converters\PinterestAccountTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\PositiveValueConvertor.cs" />
@@ -270,10 +265,8 @@
     <Compile Include="Converters\SocialNetworkToColorBrushConverter.cs" />
     <Compile Include="Converters\SocialNetworkToVisualBrushConverter.cs" />
     <Compile Include="Converters\StringLengthToBooleanConverter.cs" />
-    <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
-    <Compile Include="Converters\TwoListSynchronizer.cs" />
     <Compile Include="Converters\VisibleIfEqualConverter.cs" />
     <Compile Include="Converters\WorkingStringToVisibilityConverter.cs" />
     <Compile Include="CoreUnityExtension.cs" />
@@ -291,7 +284,6 @@
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionQuoraRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionRedditRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionFaceBookRegisterUnityExtension.cs" />
-    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionGplusRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionYoutubeRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTwitterRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterUnityExtension.cs" />
@@ -348,17 +340,13 @@
     <Compile Include="DatabaseHandler\GdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Communities.cs" />
-    <Compile Include="DatabaseHandler\GplusTables\Accounts\DailyStatitics.cs" />
-    <Compile Include="DatabaseHandler\GplusTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Friendship.cs" />
-    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedCommunities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedGplusComments.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\UnfollowedUsers.cs" />
-    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedCommunitiesReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedGplusCommentsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedPostsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedUsersReport.cs" />
@@ -430,7 +418,6 @@
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedSubreddit.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\UnfollowedUsers.cs" />
-    <Compile Include="DatabaseHandler\TdTables\Accounts\DailyGrowth.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\Friendship.cs" />
@@ -509,9 +496,6 @@
     <Compile Include="Enums\FdQuery\EventType.cs" />
     <Compile Include="Enums\FdQuery\FacebookQueryParameters.cs" />
     <Compile Include="Enums\FdQuery\FbEntityTypes.cs" />
-    <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
     <Compile Include="Enums\FdQuery\PlaceQueryParameters.cs" />
     <Compile Include="Enums\FdQuery\PostOptions.cs" />
     <Compile Include="Enums\FdQuery\ReactionType.cs" />
@@ -573,7 +557,6 @@
     <Compile Include="Interfaces\IGlobalInteractionDetails.cs" />
     <Compile Include="Interfaces\IHashTag.cs" />
     <Compile Include="Interfaces\IJob.cs" />
-    <Compile Include="Interfaces\IModuleConfiguration.cs" />
     <Compile Include="Interfaces\INetworkCollectionFactory.cs" />
     <Compile Include="Interfaces\INetworkCoreFactory.cs" />
     <Compile Include="Diagnostics\SocinatorInitialize.cs" />
@@ -590,7 +573,6 @@
     <Compile Include="FileManagers\AccountsFileManager.cs" />
     <Compile Include="FileManagers\CampaignsFileManager.cs" />
     <Compile Include="FileManagers\ConfigFileManager.cs" />
-    <Compile Include="FileManagers\LiveChatFileManager.cs" />
     <Compile Include="FileManagers\PostFileManager.cs" />
     <Compile Include="FileManagers\ProxyFileManager.cs" />
     <Compile Include="FileManagers\TemplatesFileManager.cs" />
@@ -619,15 +601,12 @@
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
     <Compile Include="Interfaces\IViewCampaignsFactory.cs" />
     <Compile Include="Interfaces\PostScraper.cs" />
-    <Compile Include="Interfaces\SocioPublisher\IFdScrapePosts.cs" />
     <Compile Include="Interfaces\SocioPublisher\IGeneralPostSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\IRedditSettings.cs" />
-    <Compile Include="Interfaces\SocioPublisher\ITdScrapePosts.cs" />
     <Compile Include="Interfaces\StartUp\INetwork.cs" />
     <Compile Include="Interfaces\StartUp\IStartupJobConfiguration.cs" />
     <Compile Include="Interfaces\StartUp\IStartUpSearchQuery.cs" />
     <Compile Include="Models\AccessorStrategies.cs" />
-    <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
     <Compile Include="Models\FacebookModels\EventCreaterManagerModel.cs" />
@@ -742,7 +721,6 @@
     <Compile Include="Utility\AccountScopeFactory.cs" />
     <Compile Include="Utility\AutoItTool.cs" />
     <Compile Include="Utility\CacheText.cs" />
-    <Compile Include="Utility\CaptchaSolverUtilities\ImageTypersHelper.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\DateProvider.cs" />
     <Compile Include="Utility\EnumExtensions.cs" />
@@ -779,7 +757,6 @@
     <Compile Include="Utility\NonStaticUtilities.cs" />
     <Compile Include="Utility\ObjectComparer.cs" />
     <Compile Include="Utility\PerfCounterService.cs" />
-    <Compile Include="Utility\PublisherHelper.cs" />
     <Compile Include="Utility\ReachedLimitType.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
@@ -841,7 +818,6 @@
     <Compile Include="Models\SocioPublisher\PublisherDestinationDetails.cs" />
     <Compile Include="Models\SocioPublisher\PublisherHomeModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManageDestinationModel.cs" />
-    <Compile Include="Models\SocioPublisher\PublisherManagePostsModel.cs" />
     <Compile Include="ViewModel\Common\SynchronizedViewModel.cs" />
     <Compile Include="ViewModel\Common\SelectableViewModel.cs" />
     <Compile Include="ViewModel\DashboardVms\IDashboardViewModel.cs" />
@@ -1005,6 +981,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utility\CaptchaSolverUtilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

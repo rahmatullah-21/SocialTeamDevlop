@@ -26,19 +26,6 @@ namespace DominatorHouseCore.StartupActivity.Linkedin
             return listQueryType;
         }
     }
-
-    class LinkedinCompanyScraperActivity : BaseActivity
-    {
-        public override Type GetEnumType()
-        {
-            return typeof(LDScraperUserQueryParameters);
-        }
-
-        public override List<string> GetQueryType()
-        {
-            return new List<string> { "Search Url" };
-        }
-    }
     class LinkedinUserScraperActivity : BaseActivity
     {
         public override Type GetEnumType()

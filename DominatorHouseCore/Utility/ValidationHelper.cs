@@ -194,59 +194,6 @@ namespace DominatorHouseCore.Utility
             return new ValidationResult(true, string.Empty);
         }
     }
-
-    public class EndTimeValidator : ValidationRule
-    {
-
-        public TimeSpan Min { get; set; }
-      
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-        {
-            if (value != null)
-            {
-
-                TimeSpan time = (TimeSpan)value;
-
-                if (TimeSpan.Compare(time, Min) == -1 )
-                {
-                    return new ValidationResult(false, $"{"LangKeyEnterTimeMoreThan".FromResourceDictionary()} {Min}.");
-                }
-                else
-                {
-                    return new ValidationResult(true, null);
-                }
-            }
-            else
-                return new ValidationResult(true, null);
-        }
-
-
-    }
-    public class StartTimeValidator: ValidationRule
-    {
-    public TimeSpan Max { get; set; }
-
-    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-    {
-        if (value != null)
-        {
-
-            TimeSpan time = (TimeSpan)value;
-
-            if (TimeSpan.Compare(time, Max) == 1)
-            {
-                return new ValidationResult(false, $"{"LangKeyEnterTimeLessThan".FromResourceDictionary()} {Max}.");
-            }
-            else
-            {
-                return new ValidationResult(true, null);
-            }
-        }
-        else
-            return new ValidationResult(true, null);
-    }
-
-    }
     public class ValidationBinding : FrameworkElement
     {
         public static readonly DependencyProperty InProperty;

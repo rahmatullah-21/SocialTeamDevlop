@@ -15,11 +15,15 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int DetailedInfoHasBeenRetrievedAtleastOnce
         { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int DetailedInfoWillNotBeRetrieved
         { get; set; }
 
@@ -100,6 +104,8 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public bool IsFollowBySoftware
         { get; set; }
     }

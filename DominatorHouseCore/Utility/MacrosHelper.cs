@@ -37,18 +37,5 @@ namespace DominatorHouseCore.Utility
             // Check an empty value, and replace with actual value
             return string.IsNullOrEmpty(matchReplaceValue) ? match.Value : matchReplaceValue;
         }
-
-        /// <summary>
-        /// To get all macros from the given text
-        /// </summary>
-        /// <param name="text">post descriptions</param>
-        /// <returns></returns>
-        public static List<string> GetAvailableMacroLists(string text)
-        {
-            // Finds the matches
-            var matches = MacrosParser.Matches(text);
-            // Return all available macros
-            return matches.Count==0 ? new List<string>() : (from Match match in matches select match.Value).ToList();
-        }
     }
 }

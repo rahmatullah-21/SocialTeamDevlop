@@ -20,6 +20,8 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int FilterTypeSql
         { get; set; }
 
@@ -30,6 +32,8 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int FollowedBackDate
         { get; set; }
 

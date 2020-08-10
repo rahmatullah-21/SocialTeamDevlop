@@ -55,33 +55,47 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string PinterestUserSender { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string PinterestUserRecipient { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public bool IsFollowed { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string BoardCreatedAt { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public string CreatedAt { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string BoardOrderModifiedAt { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string CollaboratedByMe { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public bool? IsCollaborative { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string FollowedByMe { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string ImageThumbnailUrl { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string ContactRequestId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]

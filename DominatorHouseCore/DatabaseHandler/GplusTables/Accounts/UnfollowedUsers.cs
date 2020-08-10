@@ -10,6 +10,8 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int FilterTypeSql
         { get; set; }
 
@@ -20,6 +22,8 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int FollowedBackDate
         { get; set; }
 
@@ -47,6 +51,8 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int BlockedStatus
         { get; set; }
 

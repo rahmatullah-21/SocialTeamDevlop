@@ -35,6 +35,8 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Describe Connection Type If FirstDegree,SecondDegree Or ThirdPlusDegree
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public string UniversalPageName
         { get; set; }
         /// <summary>

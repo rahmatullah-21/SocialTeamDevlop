@@ -16,6 +16,8 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public int FollowedBackDate
         { get; set; }
 
@@ -65,6 +67,8 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        // ReSharper disable once UnusedMember.Global
+        // need to keep it to support existing data model
         public bool? IsProfilePicAvailable
         { get; set; }
 

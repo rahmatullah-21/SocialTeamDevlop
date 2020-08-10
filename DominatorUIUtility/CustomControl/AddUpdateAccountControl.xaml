@@ -280,7 +280,24 @@
                     </PasswordBox>
                 </Grid>
                 <Grid Grid.Row="5">
-                    <CheckBox Margin="15,5,0,0" x:Name="RunThroughBrowserAutomation"  Content="{StaticResource LangKeyRunAllActivityThroughBrowser}" />
+                    <CheckBox Margin="15,5,0,0" x:Name="RunThroughBrowserAutomation"  Content="{StaticResource LangKeyRunAllActivityThroughBrowser}">
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}" >
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.TikTok}" >
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}" >
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
                 </Grid>
                 <Grid Grid.Row="6" x:Name="CopyJsonCookieGrid">
                     <StackPanel Margin="15,5,0,0" Orientation="Vertical" HorizontalAlignment="Left">

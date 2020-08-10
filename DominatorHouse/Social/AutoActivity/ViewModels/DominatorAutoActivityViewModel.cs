@@ -434,7 +434,6 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         /// <returns></returns>
         Dictionary<SocialNetworks, Activities> AvailableNetworksActivity(IEnumerable<SocialNetworks> networks, bool getImportants = true, bool getOthers = true)
         {
-            var returnDict = new Dictionary<SocialNetworks, Activities>();
             var getCustomAuto = GetCustomizeUiModel();
             return AvailableNetworksActivity(getCustomAuto, networks, getImportants, getOthers);
         }
@@ -454,7 +453,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             if (networks.Contains(SocialNetworks.Admin))
                 networks = networks.Where(x => x != SocialNetworks.Admin);
 
-            if (getCustomAuto?.NetworksActListCollection != null && getCustomAuto?.NetworksActListCollection.Count > 0)
+            if (getCustomAuto?.NetworksActListCollection != null && getCustomAuto.NetworksActListCollection.Count > 0)
             {
                 var newAdded = false;
                 foreach (var net in networks)
@@ -468,13 +467,12 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
                     var all = show.DeepCloneObject() ?? new List<ActivityType>();
                     if(hide!=null)
-                    all.AddRange(hide);
+                        all.AddRange(hide);
 
                     var newOne = hide == null ? new List<ActivityType>() : SocinatorInitialize.GetSocialLibrary(net).GetNetworkCoreFactory().AccountUserControlTools.GetOtherActivityTypes().Except(all);
-                    //hide.Clear();
-                    if (newOne.Count() > 0)
+                    if (newOne.Any())
                     {
-                        hide.AddRange(newOne);
+                        if (hide != null) hide.AddRange(newOne);
                         newAdded = true;
                         if (getCustomAuto != null)
                             newOne.ForEach(x =>

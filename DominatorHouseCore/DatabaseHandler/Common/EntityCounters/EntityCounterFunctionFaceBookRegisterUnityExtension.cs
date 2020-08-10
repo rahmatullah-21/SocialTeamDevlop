@@ -2,7 +2,6 @@
 using DominatorHouseCore.Enums;
 using Unity;
 using Unity.Extension;
-using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
