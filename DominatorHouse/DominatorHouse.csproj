@@ -111,7 +111,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\Crucial.ico</ApplicationIcon>
+    <ApplicationIcon>Crucial.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -410,6 +410,8 @@
     <Resource Include="Images\MaximizeButton.png" />
     <Resource Include="Images\MinimizeButton.png" />
     <Resource Include="Images\Crucial.ico" />
+    <Resource Include="Images\Crucial.png" />
+    <Resource Include="Crucial.ico" />
     <Content Include="SocinatorIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
