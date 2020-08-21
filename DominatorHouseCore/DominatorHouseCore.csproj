@@ -385,6 +385,7 @@
     <Compile Include="DatabaseHandler\PdTables\Accounts\ScrapBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\ScrapPins.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Campaigns\CreateAccount.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedUsers.cs" />

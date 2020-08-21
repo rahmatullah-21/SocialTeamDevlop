@@ -298,7 +298,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var dominatorAccountModel = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync()
                 .FirstOrDefault(x => x.AccountId == currentPost.AccountId);
             BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link, true);
-            browserWindow.SetCookie();
+            if (dominatorAccountModel.BrowserCookies?.Count > 0)
+                browserWindow.BrowserSetCookie();
+            else
+                browserWindow.SetCookie();
             browserWindow.Show();
         }
 
