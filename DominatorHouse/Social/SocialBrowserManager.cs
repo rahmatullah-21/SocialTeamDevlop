@@ -20,10 +20,6 @@ namespace DominatorHouse.Social
 
         public BrowserWindow BrowserWindow { get; set; }
 
-        public SocialBrowserManager()
-        {
-
-        }
 
         private void AssignCancellationToken(CancellationToken cancellationToken)
         {

@@ -576,7 +576,6 @@
     <Compile Include="FileManagers\PostFileManager.cs" />
     <Compile Include="FileManagers\ProxyFileManager.cs" />
     <Compile Include="FileManagers\TemplatesFileManager.cs" />
-    <Compile Include="BusinessLogic\Scraper\AbstractQueryScraper.cs" />
     <Compile Include="Interfaces\IAccountCountFactory.cs" />
     <Compile Include="Interfaces\IAccountGrowthModeHeader.cs" />
     <Compile Include="Interfaces\IAccountUpdateFactory.cs" />

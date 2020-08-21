@@ -14,16 +14,6 @@
                           ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingPanel.IsContainerVirtualizable="True"
                           VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                           VirtualizingPanel.ScrollUnit="Pixel" ItemsSource="{Binding SourceCollection}">
-                    <!--<ListView.ItemsSource>
-                        <MultiBinding UpdateSourceTrigger="Explicit"  Mode="TwoWay" Converter="{StaticResource LogViewItemsSourceConverter}">
-                            <Binding Path="SyncObject" RelativeSource="{RelativeSource TemplatedParent}"></Binding>
-                            <Binding Path="Logs" RelativeSource="{RelativeSource TemplatedParent}"/>
-                            <Binding Path="NetworkFilter" RelativeSource="{RelativeSource TemplatedParent}"/>
-                            <Binding Path="ActivityTypeFilter" RelativeSource="{RelativeSource TemplatedParent}"/>
-                            <Binding Path="LogTypeFilter" RelativeSource="{RelativeSource TemplatedParent}"/>
-                            <Binding Path="Logs.Count" RelativeSource="{RelativeSource TemplatedParent}"/>
-                        </MultiBinding>
-                    </ListView.ItemsSource>-->
                     <ListView.InputBindings>
                         <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCmd}"/>
                     </ListView.InputBindings>

@@ -280,9 +280,6 @@
     <Compile Include="IoC\MainDominatorModule.cs" />
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Modules\SocialPrismModule.cs" />
-    <Compile Include="OtherConfiguration\MigrationFromOldDominator.xaml.cs">
-      <DependentUpon>MigrationFromOldDominator.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Social\AutoActivity\ViewModels\DominatorAutoActivityViewModel.cs" />
     <Compile Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml.cs">
       <DependentUpon>DominatorAutoActivity.xaml</DependentUpon>
@@ -329,10 +326,6 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="OtherConfiguration\MigrationFromOldDominator.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
