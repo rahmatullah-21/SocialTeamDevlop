@@ -1,14 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using System.Windows;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for OtherConfig.xaml
     /// </summary>
-    public partial class OtherConfig : UserControl
+    public partial class OtherConfig
     {
         public MultiMessage MultiMessageForUserHasNotReplied = new MultiMessage();
         public MultiMessage MultiMessageForUserHasReplied = new MultiMessage();
@@ -28,15 +27,10 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for UserFilter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OtherConfigProperty =
-            DependencyProperty.Register("OtherConfigFilter", typeof(OtherConfigModel), typeof(OtherConfig), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("OtherConfigFilter", typeof(OtherConfigModel), typeof(OtherConfig), new FrameworkPropertyMetadata
             {
                 BindsTwoWayByDefault = true
             });
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
 
         private void BtnSendIfUserHasReplied_OnClick(object sender, RoutedEventArgs e)
         {

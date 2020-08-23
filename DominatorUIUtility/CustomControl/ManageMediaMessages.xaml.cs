@@ -1,18 +1,18 @@
-﻿using DominatorHouseCore.Models;
+﻿using DominatorHouseCore;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for ManageMediaMessages.xaml
     /// </summary>
-    public partial class ManageMediaMessages : UserControl
+    public partial class ManageMediaMessages
     {
         public ManageMediaMessages()
         {
@@ -27,12 +27,8 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LstManageMessagesModelProperty =
-            DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(ManageMediaMessages), new PropertyMetadata(OnAvailableItemsChanged));
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
-
+            DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(ManageMediaMessages), new PropertyMetadata());
+       
         private void BtnAction_Click(object sender, RoutedEventArgs e)
         {
             try

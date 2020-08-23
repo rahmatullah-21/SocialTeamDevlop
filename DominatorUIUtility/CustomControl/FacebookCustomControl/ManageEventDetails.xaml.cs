@@ -12,7 +12,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
     /// <summary>
     /// Interaction logic for ManageEventDetails.xaml
     /// </summary>
-    public partial class ManageEventDetails : UserControl
+    public partial class ManageEventDetails
     {
         public ManageEventDetails()
         {
@@ -29,11 +29,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
         // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LstManageEventModelProperty =
             DependencyProperty.Register("LstManageEventModel", typeof(ObservableCollection<EventCreaterManagerModel>),
-                typeof(ManageEventDetails), new PropertyMetadata(OnAvailableItemsChanged));
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
+                typeof(ManageEventDetails), new PropertyMetadata());
 
         public ICommand EditValueCommand
         {

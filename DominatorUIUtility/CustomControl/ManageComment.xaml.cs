@@ -12,7 +12,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for ManageComment.xaml
     /// </summary>
-    public partial class ManageComment : UserControl
+    public partial class ManageComment
     {
         public ManageComment()
         {
@@ -30,12 +30,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LstManageCommentModelProperty =
-            DependencyProperty.Register("LstManageCommentModel", typeof(ObservableCollection<ManageCommentModel>), typeof(ManageComment), new PropertyMetadata(OnAvailableItemsChanged));
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
-
+            DependencyProperty.Register("LstManageCommentModel", typeof(ObservableCollection<ManageCommentModel>), typeof(ManageComment), new PropertyMetadata());
 
         private void BtnAction_Click(object sender, RoutedEventArgs e)
         {

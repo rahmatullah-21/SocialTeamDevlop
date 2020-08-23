@@ -1,15 +1,14 @@
-﻿using System.Windows.Controls;
-using System.ComponentModel;
+﻿using DominatorHouseCore.Annotations;
 using DominatorUIUtility.ViewModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using DominatorHouseCore.Annotations;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for WhitelistuserControl.xaml
     /// </summary>
-    public partial class WhitelistuserControl : UserControl
+    public partial class WhitelistuserControl
     {
         public WhitelistuserControl()
         {

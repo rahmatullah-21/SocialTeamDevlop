@@ -1,9 +1,5 @@
-﻿using DominatorHouseCore;
-using DominatorHouseCore.Utility;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -12,7 +8,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for FooterControl.xaml
     /// </summary>
-    public partial class FooterControl : UserControl
+    public partial class FooterControl
     {
 
         public FooterControl()
@@ -34,7 +30,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty list_SelectedAccountsProperty =
-            DependencyProperty.Register("list_SelectedAccounts", typeof(List<string>), typeof(FooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("list_SelectedAccounts", typeof(List<string>), typeof(FooterControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -53,7 +49,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty NoOfAccountsSelectedProperty =
-           DependencyProperty.Register("NoOfAccountsSelected", typeof(string), typeof(FooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+           DependencyProperty.Register("NoOfAccountsSelected", typeof(string), typeof(FooterControl), new FrameworkPropertyMetadata()
            {
                BindsTwoWayByDefault = true
            });
@@ -72,7 +68,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly DependencyProperty AccountsSelectedColorProperty =
-           DependencyProperty.Register("AccountsSelectedColor", typeof(Brush), typeof(FooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+           DependencyProperty.Register("AccountsSelectedColor", typeof(Brush), typeof(FooterControl), new FrameworkPropertyMetadata()
            {
                BindsTwoWayByDefault = true
            });
@@ -91,7 +87,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly DependencyProperty IsStatCampaignNowVisibleProperty =
-           DependencyProperty.Register("IsStatCampaignNowVisible", typeof(Visibility), typeof(FooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+           DependencyProperty.Register("IsStatCampaignNowVisible", typeof(Visibility), typeof(FooterControl), new FrameworkPropertyMetadata()
            {
                BindsTwoWayByDefault = true
            });
@@ -108,7 +104,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty CampaignManagerProperty =
-         DependencyProperty.Register("CampaignManager", typeof(string), typeof(FooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+         DependencyProperty.Register("CampaignManager", typeof(string), typeof(FooterControl), new FrameworkPropertyMetadata()
          {
              BindsTwoWayByDefault = true
          });
@@ -167,38 +163,6 @@ namespace DominatorUIUtility.CustomControl
         {
             RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(UpdateCampaignChangedRoutedEvent);
             RaiseEvent(objRoutedEventArgs);
-        }
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            // Breakpoint here to see if the new value is being set
-            var newValue = e.NewValue;
-        }
-
-        private void btnSelectAccount_Click(object sender, RoutedEventArgs e)
-        {
-            SelectAccountChangedEventHandler();
-        }
-
-        private void btnCampaignManager_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (CampaignManager.Equals(ConstantVariable.CreateCampaign(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    CreateCampaignChangedEventHandler();
-                }
-                else
-                {
-                    UpdateCampaignChangedEventHandler();
-
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog(ex.StackTrace);
-
-            }
         }
 
 

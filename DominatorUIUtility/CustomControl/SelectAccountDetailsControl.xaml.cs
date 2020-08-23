@@ -2,20 +2,17 @@
 using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorUIUtility.ViewModel.SocioPublisher;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for SelectAccountDetailsControl.xaml
     /// </summary>
-    public partial class SelectAccountDetailsControl : UserControl, INotifyPropertyChanged
+    public partial class SelectAccountDetailsControl : INotifyPropertyChanged
     {
         public SelectAccountDetailsControl()
         {

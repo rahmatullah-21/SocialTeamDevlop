@@ -23,7 +23,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for JobConfigControl.xaml
     /// </summary>
-    public partial class JobConfigControl : UserControl, INotifyPropertyChanged
+    public partial class JobConfigControl : INotifyPropertyChanged
     {
         private readonly IGenericFileManager _genericFileManager;
         public JobConfigControl()
@@ -180,11 +180,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-        }
-
-        private void ChkAdvance_OnChecked(object sender, RoutedEventArgs e)
-        {
-            Speed.SelectedIndex = -1;
         }
 
         private void BtnCreateFavorite_OnClick(object sender, RoutedEventArgs e)

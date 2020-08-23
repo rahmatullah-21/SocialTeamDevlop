@@ -1,19 +1,18 @@
-﻿using DominatorHouseCore.Models;
+﻿using DominatorHouseCore;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.Utility;
-using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Input;
-using DominatorHouseCore.Command;
-using DominatorHouseCore;
-using System;
-using System.Collections.Generic;
 
 namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
 {
-    public partial class VideoReportContentControl : UserControl
+    public partial class VideoReportContentControl
     {
         public VideoReportContentControl()
         {
@@ -55,12 +54,7 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
 
         // Using a DependencyProperty as the backing store for ReportDetails.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ReportDetailsProperty =
-            DependencyProperty.Register("ReportDetails", typeof(ManageReportVideosContentModel), typeof(VideoReportContentControl), new PropertyMetadata(OnAvailableItemsChanged));
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
+            DependencyProperty.Register("ReportDetails", typeof(ManageReportVideosContentModel), typeof(VideoReportContentControl), new PropertyMetadata());
 
         public ObservableCollection<ManageReportVideosContentModel> ListReportDetailsModel
         {
@@ -194,7 +188,7 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(VideoReportContentControl), new PropertyMetadata(OnAvailableItemsChanged));
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(VideoReportContentControl), new PropertyMetadata());
 
         private void CmbReportOption_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

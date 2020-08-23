@@ -1,14 +1,13 @@
-﻿using DominatorHouseCore.Utility;
-using MahApps.Metro.Controls.Dialogs;
+﻿using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using System.Windows;
-using DominatorHouseCore.Models;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for SingleAccountControl.xaml
     /// </summary>
-    public partial class SingleAccountControl : CustomDialog
+    public partial class SingleAccountControl
     {
         public SingleAccountControl()
         {

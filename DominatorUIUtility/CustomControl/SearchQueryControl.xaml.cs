@@ -1,26 +1,26 @@
-﻿using System;
+﻿using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.LogHelper;
-using Microsoft.Win32;
-using System.IO;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Diagnostics;
 
 namespace DominatorUIUtility.CustomControl
 {
-    public partial class SearchQueryControl : UserControl, INotifyPropertyChanged
+    public partial class SearchQueryControl : INotifyPropertyChanged
     {
         public SearchQueryControl()
         {
@@ -107,7 +107,7 @@ namespace DominatorUIUtility.CustomControl
         // Using a DependencyProperty as the backing store for LstQueryType.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LstQueryTypeProperty =
             DependencyProperty.Register("LstQueryType", typeof(List<Enum>),
-                typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                typeof(SearchQueryControl), new FrameworkPropertyMetadata()
 
                 {
                     BindsTwoWayByDefault = true
@@ -122,7 +122,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for ListQueryType.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ListQueryTypeProperty =
-            DependencyProperty.Register("ListQueryType", typeof(IEnumerable<string>), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("ListQueryType", typeof(IEnumerable<string>), typeof(SearchQueryControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -136,7 +136,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for CurrentQuery.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurrentQueryProperty =
-            DependencyProperty.Register("CurrentQuery", typeof(QueryInfo), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("CurrentQuery", typeof(QueryInfo), typeof(SearchQueryControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -151,16 +151,11 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for ListQueryInfo.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ListQueryInfoProperty =
-            DependencyProperty.Register("ListQueryInfo", typeof(ObservableCollection<QueryInfo>), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("ListQueryInfo", typeof(ObservableCollection<QueryInfo>), typeof(SearchQueryControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
 
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
 
         public List<string> QueryCollection { get; set; } = new List<string>();
 
@@ -239,11 +234,6 @@ namespace DominatorUIUtility.CustomControl
             RaiseEvent(routedEventArgs);
         }
 
-        private void btnFilter_Click(object sender, RoutedEventArgs e)
-        {
-            CustomFilterEventHandler();
-        }
-
         #endregion
 
         #region Add current query to query list 
@@ -255,11 +245,6 @@ namespace DominatorUIUtility.CustomControl
         {
             add { AddHandler(AddQueryEvent, value); }
             remove { RemoveHandler(AddQueryEvent, value); }
-        }
-        void AddQueryEventHandler()
-        {
-            var routedEventArgs = new RoutedEventArgs(AddQueryEvent);
-            RaiseEvent(routedEventArgs);
         }
 
         private static readonly DependencyProperty AddQueryCommandProperty
@@ -287,7 +272,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(SearchQueryControl), new FrameworkPropertyMetadata());
 
 
         #region Delete the query from query list
@@ -307,43 +292,6 @@ namespace DominatorUIUtility.CustomControl
             RaiseEvent(routedEventArgs);
         }
 
-        private void DeleteSingle_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            CurrentQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
-            DeleteQueryEventHandler();
-            if (ListQueryInfo.Any(x => CurrentQuery != null && x.Id == CurrentQuery.Id))
-            {
-                QueryCollection.Remove(CurrentQuery.QueryValue);
-                ListQueryInfo.Remove(CurrentQuery);
-            }
-        }
-
-        #endregion
-
-        #region Selected Query Type Changed
-        private void CmbboxQueryTypeLists_OnDropDownClosed(object sender, EventArgs e)
-        {
-            try
-            {
-                CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
-                if (LstNonQueryType.Contains(CurrentQuery.QueryType))
-                {
-                    TxtInputQuery.Text = "NA";
-                    TxtInputQuery.IsEnabled = false;
-                }
-                else
-                {
-                    TxtInputQuery.IsEnabled = true;
-                    TxtInputQuery.Clear();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
         #endregion
 
         public bool IsExpanded
@@ -354,7 +302,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for IsExpanded.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsExpandedProperty =
-            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SearchQueryControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -556,12 +504,6 @@ namespace DominatorUIUtility.CustomControl
         // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectionChangedCommandParameterProperty =
             DependencyProperty.Register("SelectionChangedCommandParameter", typeof(object), typeof(SearchQueryControl));
-
-        private void SearchQueries_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            if (ListQueryInfo.Count > 0)
-                SearchQueries.ScrollIntoView(ListQueryInfo[0]);
-        }
     }
 
 

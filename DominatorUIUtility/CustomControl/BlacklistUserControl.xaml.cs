@@ -1,15 +1,14 @@
-﻿using System.Windows.Controls;
-using DominatorHouseCore.Annotations;
+﻿using DominatorHouseCore.Annotations;
+using DominatorUIUtility.ViewModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for BlacklistUserControl.xaml
     /// </summary>
-    public partial class BlacklistUserControl : UserControl, INotifyPropertyChanged
+    public partial class BlacklistUserControl : INotifyPropertyChanged
     {
         public BlacklistUserControl()
         {

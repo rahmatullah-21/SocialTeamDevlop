@@ -1,15 +1,11 @@
-﻿using System.Windows.Controls;
-using DominatorHouseCore.Annotations;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using DominatorUIUtility.ViewModel;
+﻿using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for BlacklistUserControl.xaml
     /// </summary>
-    public partial class PrivateBlacklistUserControl : UserControl
+    public partial class PrivateBlacklistUserControl
     {
         public PrivateBlacklistUserControl(IPrivateBlickListViewModel privateBlickListViewModel)
         {

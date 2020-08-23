@@ -1,9 +1,7 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.Startup;
-using MahApps.Metro.Controls;
 using Prism.Regions;
-using System;
 using System.Windows;
 
 namespace DominatorUIUtility
@@ -11,7 +9,7 @@ namespace DominatorUIUtility
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ModuleSetting : MetroWindow
+    public partial class ModuleSetting
     {
         IRegionManager _regionManager;
         public ModuleSetting(IRegionManager regionManager)

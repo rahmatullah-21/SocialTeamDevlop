@@ -1,20 +1,18 @@
-﻿using System;
+﻿using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums.FdQuery;
+using DominatorHouseCore.Models.FacebookModels;
+using DominatorHouseCore.Utility;
+using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Command;
-using MahApps.Metro.Controls.Dialogs;
-using Microsoft.Win32;
-using System.Collections.ObjectModel;
-using System.Linq;
-using DominatorHouseCore.Utility;
-using System.Collections.Generic;
-using DominatorHouseCore.Models.FacebookModels;
-using DominatorHouseCore.Enums.FdQuery;
 
 namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 {
@@ -230,7 +228,6 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            var newValue = e.NewValue;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

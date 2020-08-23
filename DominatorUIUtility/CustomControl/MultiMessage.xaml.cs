@@ -1,13 +1,13 @@
-﻿using System.Windows;
+﻿using DominatorHouseCore.Models;
+using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.Models;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for MultiMessage.xaml
     /// </summary>
-    public partial class MultiMessage : UserControl
+    public partial class MultiMessage
     { 
         public MultiMessagesModel MultiMessagesModel { get; set; } = new MultiMessagesModel();
 

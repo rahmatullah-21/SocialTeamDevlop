@@ -17,7 +17,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for MessageMediaControl.xaml
     /// </summary>
-    public partial class MessageMediaControl : UserControl
+    public partial class MessageMediaControl
     {
         public bool Isupdated { get; set; }
         public MessageMediaControl()
@@ -52,11 +52,8 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for ManageComments.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ManageMessagesProperty =
-            DependencyProperty.Register("Messages", typeof(ManageMessagesModel), typeof(MessageMediaControl), new PropertyMetadata(OnAvailableItemsChanged));
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
+            DependencyProperty.Register("Messages", typeof(ManageMessagesModel), typeof(MessageMediaControl), new PropertyMetadata());
+        
         public ObservableCollection<ManageMessagesModel> LstManageMessagesModel
         {
             get { return (ObservableCollection<ManageMessagesModel>)GetValue(LstManageMessagesModelProperty); }
@@ -220,7 +217,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessageMediaControl), new PropertyMetadata(OnAvailableItemsChanged));
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessageMediaControl), new PropertyMetadata());
 
 
 

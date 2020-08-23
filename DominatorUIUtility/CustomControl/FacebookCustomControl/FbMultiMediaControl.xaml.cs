@@ -1,17 +1,16 @@
 ﻿using DominatorHouseCore;
+using DominatorHouseCore.Models.FacebookModels;
+using DominatorHouseCore.Utility;
 using Microsoft.Win32;
 using System;
 using System.Windows;
-using System.Windows.Controls;
-using DominatorHouseCore.Utility;
-using DominatorHouseCore.Models.FacebookModels;
 
 namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
     /// Interaction logic for FbMultiMediaControl.xaml
     /// </summary>
-    public partial class FbMultiMediaControl : UserControl
+    public partial class FbMultiMediaControl
     {
         public FbMultiMediaControl()
         {

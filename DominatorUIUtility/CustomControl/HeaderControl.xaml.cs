@@ -1,6 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using DominatorUIUtility.Behaviours;
+﻿using DominatorUIUtility.Behaviours;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
@@ -8,7 +7,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for HeaderControl.xaml
     /// </summary>
-    public partial class HeaderControl : UserControl
+    public partial class HeaderControl
     {
 
         public HeaderControl()
@@ -32,7 +31,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty IsCancelEditVisibleProperty =
-         DependencyProperty.Register("IsCancelEditVisible", typeof(Visibility), typeof(HeaderControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+         DependencyProperty.Register("IsCancelEditVisible", typeof(Visibility), typeof(HeaderControl), new FrameworkPropertyMetadata()
          {
              BindsTwoWayByDefault = true
          });
@@ -50,7 +49,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty CampaignNameProperty =
-        DependencyProperty.Register("CampaignName", typeof(string), typeof(HeaderControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+        DependencyProperty.Register("CampaignName", typeof(string), typeof(HeaderControl), new FrameworkPropertyMetadata()
         {
             BindsTwoWayByDefault = true
         });
@@ -69,18 +68,10 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty IsCampaignNameEditableProperty =
-        DependencyProperty.Register("IsCampaignNameEditable", typeof(bool), typeof(HeaderControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+        DependencyProperty.Register("IsCampaignNameEditable", typeof(bool), typeof(HeaderControl), new FrameworkPropertyMetadata()
         {
             BindsTwoWayByDefault = true
         });
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            // Breakpoint here to see if the new value is being set
-            var newValue = e.NewValue;
-        }
-
-
 
 
         static readonly RoutedEvent InfoRoutedEvent = EventManager.RegisterRoutedEvent("InfoChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(HeaderControl));
@@ -105,16 +96,6 @@ namespace DominatorUIUtility.CustomControl
             remove { RemoveHandler(CancelEditRoutedEvent, value); }
         }
 
-        void CancelEditClickHandler()
-        {
-            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(CancelEditRoutedEvent);
-            RaiseEvent(objRoutedEventArgs);
-        }
-
-        private void BtnCancelEdit_OnClick(object sender, RoutedEventArgs e)
-        {
-            CancelEditClickHandler();
-        }
         public bool IsExpanded
         {
             get { return (bool)GetValue(IsExpandedProperty); }
@@ -123,16 +104,11 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for IsExpanded.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsExpandedProperty =
-            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(HeaderControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(HeaderControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
-
-        private void Info_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            RaiseInfoEventHandler();
-        }
-
+        
         private void ClpsExpnd_OnClick(object sender, RoutedEventArgs e)
         {
             HeaderHelper.ExpandCollapseAllExpander(sender, IsExpanded);

@@ -1,16 +1,14 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
+using System.Windows;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for Migration.xaml
     /// </summary>
-    public partial class Migration : UserControl
+    public partial class Migration
     {
         private MigrationProgress MigrationProgress;
         private Window window;
@@ -42,17 +40,6 @@ namespace DominatorUIUtility.CustomControl
                 }
             });
            
-        }
-
-        private void MigratingCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            MigrationProgress.ProgressRing.IsActive = false;
-            
-        }
-
-        private void Migrating(object sender, DoWorkEventArgs e)
-        {
-            
         }
     }
 }

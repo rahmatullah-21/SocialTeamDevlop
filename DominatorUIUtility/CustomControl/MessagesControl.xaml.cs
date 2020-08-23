@@ -1,19 +1,18 @@
-﻿using System.Collections.ObjectModel;
+﻿using DominatorHouseCore.Command;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Input;
-using DominatorHouseCore.Command;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for MessagesControl.xaml
     /// </summary>
-    public partial class MessagesControl : UserControl
+    public partial class MessagesControl
     {
         public MessagesControl()
         {
@@ -40,11 +39,8 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for ManageComments.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ManageMessagesProperty =
-            DependencyProperty.Register("Messages", typeof(ManageMessagesModel), typeof(MessagesControl), new PropertyMetadata(OnAvailableItemsChanged));
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
+            DependencyProperty.Register("Messages", typeof(ManageMessagesModel), typeof(MessagesControl), new PropertyMetadata());
+       
         public ObservableCollection<ManageMessagesModel> LstManageMessagesModel
         {
             get { return (ObservableCollection<ManageMessagesModel>)GetValue(LstManageMessagesModelProperty); }
@@ -165,6 +161,6 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessagesControl), new PropertyMetadata(OnAvailableItemsChanged));
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessagesControl), new PropertyMetadata());
     }
 }

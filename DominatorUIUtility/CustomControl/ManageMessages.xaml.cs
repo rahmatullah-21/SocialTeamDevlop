@@ -12,7 +12,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for ManageMessages.xaml
     /// </summary>
-    public partial class ManageMessages : UserControl
+    public partial class ManageMessages
     {
         public ManageMessages()
         {
@@ -27,12 +27,8 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LstManageMessagesModelProperty =
-            DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(ManageMessages), new PropertyMetadata(OnAvailableItemsChanged));
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
-
+            DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(ManageMessages), new PropertyMetadata());
+      
         private void BtnAction_Click(object sender, RoutedEventArgs e)
         {
             try

@@ -1,29 +1,27 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.LogHelper;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using CommonServiceLocator;
-using DominatorHouseCore.Interfaces;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for Reports.xaml
     /// </summary>
-    public partial class Reports : UserControl, INotifyPropertyChanged
+    public partial class Reports : INotifyPropertyChanged
     {
         public Reports()
         {

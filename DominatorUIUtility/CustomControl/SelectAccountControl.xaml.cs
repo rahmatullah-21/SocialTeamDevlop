@@ -20,7 +20,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     ///     Interaction logic for SelectAccountControl.xaml
     /// </summary>
-    public partial class SelectAccountControl : UserControl, INotifyPropertyChanged
+    public partial class SelectAccountControl : INotifyPropertyChanged
     {
         private bool IsUnCheckedFromAccountDetails { get; set; }
 
@@ -39,7 +39,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        public SelectAccountControl(ICollection<string> lstSelectedAccount, bool filterForActiveSocialNetwork = true)
+        public SelectAccountControl(ICollection<string> lstSelectedAccount)
         {
             InitializeComponent();
 
@@ -186,28 +186,6 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
             return false;
-        }
-
-        /// <summary>
-        ///     SelectDeselectAllAccount method take a boolean value.
-        ///     pass true if you want to select all account.
-        ///     pass false if you want to deselect all account.
-        /// </summary>
-        /// <param name="isChecked"></param>
-        private void SelectDeselectAllAccount(bool isChecked)
-        {
-            try
-            {
-                ObjAccountViewModel.LstSelectAccount.Select(x =>
-                {
-                    x.IsAccountSelected = isChecked;
-                    return x;
-                }).ToList();
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
         }
 
         public ObservableCollectionBase<string> GetSelectedAccount()

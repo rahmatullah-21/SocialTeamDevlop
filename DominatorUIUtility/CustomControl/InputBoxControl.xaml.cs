@@ -1,20 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
-using DominatorHouseCore.Utility;
-using System.Windows.Input;
-using DominatorHouseCore;
-using System;
-using System.Windows.Threading;
+﻿using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Utility;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for InputBoxControl.xaml
     /// </summary>
-    public partial class InputBoxControl : UserControl
+    public partial class InputBoxControl
     {
         public InputBoxControl()
         {
@@ -40,7 +40,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly DependencyProperty InputTextProperty =
-            DependencyProperty.Register("InputText", typeof(string), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("InputText", typeof(string), typeof(InputBoxControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -58,12 +58,6 @@ namespace DominatorUIUtility.CustomControl
             DependencyProperty.Register("InputCollection", typeof(List<string>), typeof(InputBoxControl), new PropertyMetadata(new List<string>()));
 
 
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-
-            var newValue = e.NewValue;
-        }
         private static readonly RoutedEvent GetInputClickEvent = EventManager.RegisterRoutedEvent("GetInputClick",
             RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(InputBoxControl));
 
@@ -149,12 +143,6 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        private void BtnSaveBlacklistsText_OnClick(object sender, RoutedEventArgs e)
-        {
-            GetInputClickEventHandler();
-            InputCollection.Add(InputText);
-        }
-
         private void BtnRefereshBlacklistsText_OnClick(object sender, RoutedEventArgs e)
         {
             InputCollection.Clear();
@@ -173,7 +161,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly DependencyProperty SaveVisiblityProperty =
-            DependencyProperty.Register("SaveVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("SaveVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -190,7 +178,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly DependencyProperty ImportVisiblityProperty =
-            DependencyProperty.Register("ImportVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("ImportVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -207,7 +195,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly DependencyProperty RefreshVisiblityProperty =
-            DependencyProperty.Register("RefreshVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("RefreshVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -224,7 +212,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly DependencyProperty WaterMarkProperty =
-            DependencyProperty.Register("WaterMarkText", typeof(string), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("WaterMarkText", typeof(string), typeof(InputBoxControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -259,7 +247,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(InputBoxControl), new FrameworkPropertyMetadata());
 
         private void OnClick(object sender, RoutedEventArgs e)
         {

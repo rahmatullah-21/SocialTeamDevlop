@@ -1,14 +1,13 @@
-﻿using System.ComponentModel;
+﻿using DominatorHouseCore.Utility;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for MigrationProgress.xaml
     /// </summary>
-    public partial class MigrationProgress : UserControl
+    public partial class MigrationProgress
     {
         public MigrationProgress()
         {
@@ -36,7 +35,6 @@ namespace DominatorUIUtility.CustomControl
         {
             for (int i = 0; i < 2000000000; i++)
             {
-                int a = i;
             }
         }
     }

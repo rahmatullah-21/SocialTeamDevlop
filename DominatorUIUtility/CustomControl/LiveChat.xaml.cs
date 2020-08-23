@@ -19,7 +19,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for LiveChat.xaml
     /// </summary>
-    public partial class LiveChat : UserControl, INotifyPropertyChanged
+    public partial class LiveChat : INotifyPropertyChanged
     {
       
         public LiveChat(SocialNetworks network)

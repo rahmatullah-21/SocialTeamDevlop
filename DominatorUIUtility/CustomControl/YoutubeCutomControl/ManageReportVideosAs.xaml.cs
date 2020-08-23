@@ -1,18 +1,18 @@
-﻿using System;
-using System.Linq;
+﻿using DominatorHouseCore;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore;
-using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
 {
-    // <summary>
+    /// <summary>
     /// Interaction logic for ManageReportVideosAs.xaml
     /// </summary>
-    public partial class ManageReportVideosAs : UserControl
+    public partial class ManageReportVideosAs
     {
         public ManageReportVideosAs()
         {
@@ -27,14 +27,9 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
             set { SetValue(ListReportDetailsModelProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ListReportDetailsModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ListReportDetailsModelProperty =
-            DependencyProperty.Register("ListReportDetailsModel", typeof(ObservableCollection<ManageReportVideosContentModel>), typeof(ManageReportVideosAs), new PropertyMetadata(OnAvailableItemsChanged));
+            DependencyProperty.Register("ListReportDetailsModel", typeof(ObservableCollection<ManageReportVideosContentModel>), typeof(ManageReportVideosAs), new PropertyMetadata());
 
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
         
         private void BtnAction_Click(object sender, RoutedEventArgs e)
         {

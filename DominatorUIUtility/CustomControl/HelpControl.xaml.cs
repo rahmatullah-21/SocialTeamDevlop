@@ -1,16 +1,15 @@
-﻿using System;
+﻿using DominatorHouseCore;
+using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Navigation;
-using DominatorHouseCore;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for HelpControl.xaml
     /// </summary>
-    public partial class HelpControl : UserControl
+    public partial class HelpControl
     {
 
         public HelpControl()
@@ -35,7 +34,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly DependencyProperty ModuleDescriptionProperty =
-             DependencyProperty.Register("ModuleDescription", typeof(string), typeof(HelpControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+             DependencyProperty.Register("ModuleDescription", typeof(string), typeof(HelpControl), new FrameworkPropertyMetadata()
              {
                  BindsTwoWayByDefault = true
              });
@@ -57,7 +56,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty VideoTutorialProperty =
-              DependencyProperty.Register("VideoTutorial", typeof(string), typeof(HelpControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+              DependencyProperty.Register("VideoTutorial", typeof(string), typeof(HelpControl), new FrameworkPropertyMetadata()
               {
                   BindsTwoWayByDefault = true
               });
@@ -79,7 +78,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty KnowledgeBaseLinkProperty =
-               DependencyProperty.Register("KnowledgeBaseLink", typeof(string), typeof(HelpControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+               DependencyProperty.Register("KnowledgeBaseLink", typeof(string), typeof(HelpControl), new FrameworkPropertyMetadata()
                {
                    BindsTwoWayByDefault = true
                });
@@ -100,21 +99,10 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty ContactSupportLinkProperty =
-              DependencyProperty.Register("ContactSupportLink", typeof(string), typeof(HelpControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+              DependencyProperty.Register("ContactSupportLink", typeof(string), typeof(HelpControl), new FrameworkPropertyMetadata()
               {
                   BindsTwoWayByDefault = true
               });
-
-
-        /// <summary>
-        /// OnAvailableItemsChanged is used to update the value of the particular dependency property
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        private static void OnAvailableItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {          
-            var newValue = e.NewValue;
-        }
 
 
         /// <summary>
