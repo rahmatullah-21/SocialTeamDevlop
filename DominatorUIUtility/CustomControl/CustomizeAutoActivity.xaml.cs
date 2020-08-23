@@ -7,7 +7,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for CustomizeAutoActivity.xaml
     /// </summary>
-    public partial class CustomizeAutoActivity : UserControl
+    public partial class CustomizeAutoActivity
     {
         public CustomizeAutoActivity(NetworksActivityCustomizeModel model)
         {

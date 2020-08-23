@@ -12,7 +12,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for AddUpdateAccountControl.xaml
     /// </summary>
-    public partial class AddUpdateAccountControl : UserControl
+    public partial class AddUpdateAccountControl
     {
         public DominatorAccountBaseModel DominatorAccountBaseModel { get; set; }
         public string JsonCookies { get; set; }
@@ -66,8 +66,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 if (string.IsNullOrWhiteSpace(CopiedJsonCookies.Text?.Trim()))
                     return;
-
-                var jsonHand = new JsonHandler("{\"object\" :" + CopiedJsonCookies.Text + "}");
 
                 JsonCookies = CopiedJsonCookies.Text;
                 if (DominatorAccountBaseModel.AccountNetwork == SocialNetworks.Facebook)

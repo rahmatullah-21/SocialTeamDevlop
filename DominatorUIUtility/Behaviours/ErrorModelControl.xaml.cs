@@ -12,7 +12,7 @@ namespace DominatorUIUtility.Behaviours
     /// <summary>
     /// Interaction logic for ErrorModelControl.xaml
     /// </summary>
-    public partial class ErrorModelControl : UserControl, INotifyPropertyChanged
+    public partial class ErrorModelControl : INotifyPropertyChanged
     {
         public ErrorModelControl()
         {
@@ -132,12 +132,6 @@ namespace DominatorUIUtility.Behaviours
             EventManager.RegisterRoutedEvent("SaveEventHandler", RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler), typeof(ErrorModelControl));
 
-        public event RoutedEventHandler SaveEventHandler
-        {
-            add { AddHandler(SaveEvent, value); }
-            remove { RemoveHandler(SaveEvent, value); }
-        }
-
         void SaveEventArgsHandler()
         {
             var rountedargs = new RoutedEventArgs(SaveEvent);
@@ -156,12 +150,6 @@ namespace DominatorUIUtility.Behaviours
         private static readonly RoutedEvent CancelEvent =
             EventManager.RegisterRoutedEvent("CancelEventHandler", RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler), typeof(ErrorModelControl));
-
-        public event RoutedEventHandler CancelEventHandler
-        {
-            add { AddHandler(CancelEvent, value); }
-            remove { RemoveHandler(CancelEvent, value); }
-        }
 
 
         void CancelEventArgsHandler()

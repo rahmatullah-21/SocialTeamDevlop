@@ -13,7 +13,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for AccountCustomControl.xaml
     /// </summary>
-    public partial class AccountCustomControl : UserControl, INotifyPropertyChanged
+    public partial class AccountCustomControl : INotifyPropertyChanged
     {
         private DominatorAccountViewModel _dominatorAccountViewModel;
 

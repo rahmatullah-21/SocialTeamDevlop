@@ -27,14 +27,6 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static string IG_VERSION
-        {
-            get
-            {
-                return "107.0.0.27.121";
-            }
-        }
-
         public static string INSTAGRAM_BASE_URL
         {
             get
@@ -56,38 +48,6 @@ namespace DominatorHouseCore.Utility
             get
             {
                 return "4";
-            }
-        }
-
-        public static string STATUS_OK_RESPONSE
-        {
-            get
-            {
-                return "{\"status\": \"ok\"}";
-            }
-        }
-
-        public static string USERAGENT_FORMAT
-        {
-            get
-            {
-                return "Instagram {0} Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})";
-            }
-        }
-
-        public static string USERAGENT_LOCALE
-        {
-            get
-            {
-                return "en_US";
-            }
-        }
-
-        public static string X_FB_HTTP_Engine
-        {
-            get
-            {
-                return "Liger";
             }
         }
 
@@ -120,47 +80,6 @@ namespace DominatorHouseCore.Utility
             get
             {
                 return "https://i.instagram.com";
-            }
-        }
-
-        public static string USER_AGENT_LOCALE
-        {
-            get
-            {
-                return "en_US";
-            }
-        }
-
-        public static string ACCEPT_LANGUAGE
-        {
-            get
-            {
-                return "en_US";
-            }
-        }
-
-        public static string ACCEPT_ENCODING
-        {
-            get
-            {
-                return "gzip,deflate";
-            }
-        }
-
-        public static int AppVersion
-        {
-            get
-            {
-                try
-                {
-                    string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                    return Int32.Parse(version.Substring(version.LastIndexOf(".") + 1));
-                }
-                catch (Exception e)
-                {
-                    e.DebugLog();
-                }
-                return 0;
             }
         }
 

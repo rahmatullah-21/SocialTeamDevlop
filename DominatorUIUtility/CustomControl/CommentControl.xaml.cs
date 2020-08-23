@@ -15,7 +15,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for CommentControl.xaml
     /// </summary>
-    public partial class CommentControl : UserControl
+    public partial class CommentControl
     {
         public CommentControl()
         {
@@ -49,11 +49,8 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for ManageComments.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ManageCommentsProperty =
-            DependencyProperty.Register("Comments", typeof(ManageCommentModel), typeof(CommentControl), new PropertyMetadata(OnAvailableItemsChanged));
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
+            DependencyProperty.Register("Comments", typeof(ManageCommentModel), typeof(CommentControl), new PropertyMetadata());
+      
         public ObservableCollection<ManageCommentModel> LstManageCommentModel
         {
             get { return (ObservableCollection<ManageCommentModel>)GetValue(LstManageCommentModelProperty); }
@@ -172,6 +169,6 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(CommentControl), new PropertyMetadata(OnAvailableItemsChanged));
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(CommentControl), new PropertyMetadata());
     }
 }

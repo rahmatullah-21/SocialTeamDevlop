@@ -502,9 +502,6 @@
     <Compile Include="Enums\FdQuery\ReactionType.cs" />
     <Compile Include="Enums\GdQuery\GdPostQuery.cs" />
     <Compile Include="Enums\GdQuery\GdUserQuery.cs" />
-    <Compile Include="Enums\GpDQuery\GplusCommunitiesQueries.cs" />
-    <Compile Include="Enums\GpDQuery\GplusPostsQueries.cs" />
-    <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
     <Compile Include="Enums\KeyboardKeys.cs" />
     <Compile Include="Enums\LdQuery\LDEngageQueryParameters.cs" />
     <Compile Include="Enums\LdQuery\LDMessengerQueryParameters.cs" />
@@ -633,7 +630,8 @@
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\ManageReportVideosContentModel.cs" />
     <Compile Include="Models\MenuHandlerModel.cs" />
-    <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
+    <Compile Include="Models\NetworkActivitySetting\ActivityChecked.cs" />
+    <Compile Include="Models\NetworkActivitySetting\SelectActivityModel.cs" />
     <Compile Include="Models\NetworksActivityCustomizeModel.cs" />
     <Compile Include="Models\PinterestOtherConfigModel.cs" />
     <Compile Include="Models\PrivateBlacklistUserModel.cs" />
@@ -777,7 +775,6 @@
     <Compile Include="Models\DominatorAccountBaseModel.cs" />
     <Compile Include="Models\DominatorAccountModel.cs" />
     <Compile Include="Models\EmailNotificationsModel.cs" />
-    <Compile Include="Models\EmbeddedBrowserSettingsFileManager.cs" />
     <Compile Include="Models\EmbeddedBrowserSettingsModel.cs" />
     <Compile Include="Models\ConfigFacebookModel.cs" />
     <Compile Include="Models\GenderFilter.cs" />
@@ -830,7 +827,6 @@
     <Compile Include="ViewModel\ITabViewModel.cs" />
     <Compile Include="ViewModel\DashboardVms\RevisionHistoryViewModel.cs" />
     <Compile Include="Converters\ProxyManagerSourceConverter.cs" />
-    <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistSettingsModel.cs" />
     <Compile Include="Models\SoftwareSettingsModel.cs" />
@@ -874,7 +870,6 @@
     <Compile Include="Utility\Dialog.cs" />
     <Compile Include="Utility\EnumUtility.cs" />
     <Compile Include="Utility\FeatureFlags.cs" />
-    <Compile Include="Utility\GridViewBehaviors.cs" />
     <Compile Include="Utility\GridViewColumns.cs" />
     <Compile Include="Utility\HtmlParseUtility.cs" />
     <Compile Include="Utility\IEnumerableExtensions.cs" />
@@ -914,7 +909,6 @@
     <Compile Include="ViewModel\DailyStatisticsViewModel.cs" />
     <Compile Include="ViewModel\BaseTabViewModel.cs" />
     <Compile Include="ViewModel\TablifiedContentControlViewModel.cs" />
-    <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
     <Compile Include="ViewModel\LogViewModel.cs" />
     <Compile Include="ViewModel\ViewModelUnityExtension.cs" />
   </ItemGroup>
@@ -983,6 +977,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utility\CaptchaSolverUtilities\" />
+    <Folder Include="ViewModel\SocioPublisher\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

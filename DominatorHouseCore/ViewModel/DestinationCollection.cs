@@ -12,9 +12,5 @@ namespace DominatorHouseCore.ViewModel
 
         public DestinationSelectionList GroupsCollection { get; set; }
 
-        public DestinationSelectionList PagesOrBoardsCollections { get; set; }
-
-        public bool IsWallOrProfileSelected { get; set; }
-
     }
 }

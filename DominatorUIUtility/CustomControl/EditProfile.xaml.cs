@@ -11,7 +11,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for EditProfile.xaml
     /// </summary>
-    public partial class EditProfile : UserControl,INotifyPropertyChanged
+    public partial class EditProfile : INotifyPropertyChanged
     {
         public EditProfile()
         {

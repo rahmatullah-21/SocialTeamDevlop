@@ -14,7 +14,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for AddUpdateAccountControl.xaml
     /// </summary>
-    public partial class AccountDetail : UserControl, INotifyPropertyChanged
+    public partial class AccountDetail : INotifyPropertyChanged
     {
 
         private AccountDetailsViewModel _accountDetailsViewModel;
@@ -65,11 +65,6 @@ namespace DominatorUIUtility.CustomControl
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void TextBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            
         }
     }
 }

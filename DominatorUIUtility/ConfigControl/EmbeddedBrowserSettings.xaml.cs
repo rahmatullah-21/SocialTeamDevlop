@@ -10,7 +10,7 @@ namespace DominatorUIUtility.ConfigControl
     /// <summary>
     /// Interaction logic for EmbeddedBrowserSettings.xaml
     /// </summary>
-    public partial class EmbeddedBrowserSettings : UserControl
+    public partial class EmbeddedBrowserSettings
     {
         private EmbeddedBrowserSettingsModel EmbeddedBrowserSettingsModel { get; set; } = new EmbeddedBrowserSettingsModel();
         IOtherConfigFileManager embeddedBrowserSettings;
@@ -20,12 +20,6 @@ namespace DominatorUIUtility.ConfigControl
             embeddedBrowserSettings = ServiceLocator.Current.GetInstance<IOtherConfigFileManager>();
             EmbeddedBrowserSettingsModel = embeddedBrowserSettings.GetOtherConfig<EmbeddedBrowserSettingsModel>() ?? EmbeddedBrowserSettingsModel;
             MainGrid.DataContext = EmbeddedBrowserSettingsModel;
-        }
-        private static EmbeddedBrowserSettings ObjEmbeddedBrowserSettings;
-
-        public static EmbeddedBrowserSettings GetSingeltonObjectEmbeddedBrowserSettings()
-        {
-            return ObjEmbeddedBrowserSettings ?? (ObjEmbeddedBrowserSettings = new EmbeddedBrowserSettings());
         }
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)

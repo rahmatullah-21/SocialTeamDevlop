@@ -19,19 +19,6 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
         }
 
-        // Same as above, but Func must return true if file needs to be overwritten        
-        public static void ApplyFunc(Func<PublisherManageDestinationModel, bool> funcToApply)
-        {
-            bool updated = false;
-            var destinations = BinFileHelper.GetPublisherManageDestinationModels();
-
-            foreach (var a in destinations)
-                updated |= funcToApply(a);
-
-            if (updated)
-                BinFileHelper.UpdateAllManageDestination(destinations);
-        }
-
         // Saves all destinations. Have to work Only in Social library. Otherwise use UpdateDestinations() method to update PublisherDestinations.bin
         // NOTE: make sure lstPublisherDetails contains all destinations
         internal static void SaveAll(List<PublisherManageDestinationModel> lstPublisherDetails)

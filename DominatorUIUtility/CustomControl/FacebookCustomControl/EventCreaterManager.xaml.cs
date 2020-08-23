@@ -21,7 +21,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
     /// <summary>
     /// Interaction logic for EventCreaterManager.xaml
     /// </summary>
-    public partial class EventCreaterManager : UserControl, INotifyPropertyChanged
+    public partial class EventCreaterManager : INotifyPropertyChanged
     {
         List<KeyValuePair<string, string>> ListKeyValuePair;
         public EventCreaterManager()

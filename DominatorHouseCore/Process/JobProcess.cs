@@ -36,7 +36,6 @@ namespace DominatorHouseCore.Process
         string TemplateId { get; }
         string AccountId { get; }
         string AccountName { get; }
-        bool IsNeedToSchedule { get; set; }
         List<QueryInfo> SavedQueries { get; }
         SocialNetworks SocialNetworks { get; }
         void DelayBeforeNextActivity();
@@ -496,22 +495,6 @@ namespace DominatorHouseCore.Process
             GlobusLogHelper.log.Info(Log.DelayBetweenActivity, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, seconds);
             Task.Delay(seconds * 1000, JobCancellationTokenSource.Token).Wait();
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-        }
-
-        public void DelayBeforeNextJob()
-        {
-            if (IsStopped()) return;
-
-            var minutes = JobConfiguration.DelayBetweenJobs.GetRandom();
-
-            GlobusLogHelper.log.Info($"{minutes} minutes Delay before next job ({ActivityType})");
-
-#if SKIP_DELAYS
-            minutes = 0;
-#endif
-
-            Thread.Sleep(minutes * 60 * 1000);
         }
 
         #endregion

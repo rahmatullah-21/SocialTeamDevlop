@@ -19,7 +19,7 @@ namespace DominatorUIUtility.Views.AccountSetting
     /// <summary>
     /// Interaction logic for JobConfig.xaml
     /// </summary>
-    public partial class JobConfig : UserControl
+    public partial class JobConfig
     {
         public JobConfig(IJobConfigViewModel viewModel)
         {

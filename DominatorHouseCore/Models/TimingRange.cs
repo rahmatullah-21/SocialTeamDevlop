@@ -19,10 +19,6 @@ namespace DominatorHouseCore.Models
             Module = string.Empty;
         }
 
-        private TimingRange()
-        {
-
-        }
 
         [ProtoMember(1)]
         // Ending time

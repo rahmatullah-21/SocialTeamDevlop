@@ -13,7 +13,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for AccountGrowthChartControl.xaml
     /// </summary>
-    public partial class AccountGrowthChartControl : UserControl
+    public partial class AccountGrowthChartControl
     {
         public static Func<double, string> YFormatter => value => value.ToString();
 

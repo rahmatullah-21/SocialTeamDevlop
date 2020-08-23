@@ -19,7 +19,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for AddOrUpdateProxyControl.xaml
     /// </summary>
-    public partial class AddOrUpdateProxyControl : UserControl
+    public partial class AddOrUpdateProxyControl
     {
         private readonly IProxyFileManager _proxyFileManager;
         public ProxyManagerModel ProxyManagerModel { get; set; }

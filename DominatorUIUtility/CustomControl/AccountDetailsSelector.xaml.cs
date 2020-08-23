@@ -1,19 +1,18 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using DominatorHouseCore.Annotations;
+﻿using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorUIUtility.ViewModel.SocioPublisher;
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for AccountDetailsSelector.xaml
     /// </summary>
-    public partial class AccountDetailsSelector : UserControl, INotifyPropertyChanged
+    public partial class AccountDetailsSelector : INotifyPropertyChanged
     {
         public AccountDetailsSelector(Func<string, string, AccountDetailsSelector, Task> updateUiData,
               string accountId, string accountName, bool isPageOptionVisible = false)
@@ -82,12 +81,6 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public void UpdateUi() => ThreadFactory.Instance.Start(() =>
-        {
-            _updateUiDetails.Invoke(_accountId, _accountName, this);           
-        });
-
 
         public void UpdateUiAllData() => ThreadFactory.Instance.Start(() =>
         {

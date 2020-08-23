@@ -60,16 +60,6 @@
         /// </summary>
         public static string ActivityFailed { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyFailedTo".FromResourceDictionary() + " {2} " + "LangKeyWithError".FromResourceDictionary() + " {3}\t" + CodeConstants.ActivityFailed;
 
-        public static string ImportFailed { get; set; } = "{0}\t {1}\t "+ "LangKeyImport".FromResourceDictionary() + " \t " + "LangKeyFailedBecauseOf".FromResourceDictionary() + " {2} " + "LangKeyIsAreNotCorrect".FromResourceDictionary() + "\t" + CodeConstants.ImportFailed;
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username
-        /// 2 = ActivityType
-        /// 3 = ReasonToPause 
-        /// </summary>
-        public static string JobPaused { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyStoppedCurrentJobTo".FromResourceDictionary() + " {2} " + "LangKeyAs".FromResourceDictionary() + "\t" + CodeConstants.JobPaused;
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = CampaignName
@@ -117,8 +107,6 @@
         /// </summary>
         public static string DelayBetweenActivity { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyNextOperationTo".FromResourceDictionary() + " {2} " + "LangKeyWillPerformIn".FromResourceDictionary() + " {3} " + "LangKeySeconds".FromResourceDictionary() + "\t" + CodeConstants.DelayBetweenActivity;
 
-        public static string NextScheduledJob { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyNextJobTo".FromResourceDictionary() + " {2} " + "LangKeyIsScheduledToRunBy".FromResourceDictionary() + " {3}\t" + CodeConstants.NextScheduledJob;
-
         public static string NextJobExpectedToStartBy { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyNextJobTo".FromResourceDictionary() + " {2} " + "LangKeyIsExpectedToStartBy".FromResourceDictionary() + " {3}\t" + CodeConstants.NextJobExpectedToStartBy;
 
         public static string JobLimitReached { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyHasReachedPerJobLimitOf".FromResourceDictionary() + " {3}. \t" + CodeConstants.JobLimitReached;
@@ -143,8 +131,6 @@
         public static string FilterApplied { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyAppliedFilterTo".FromResourceDictionary() + " {2} " + "LangKeySearchResults".FromResourceDictionary() + " {3}\t" + CodeConstants.FilterApplied;
 
         public static string DetailsScraped { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyFound".FromResourceDictionary() + " {2} " + "LangKeyScrapetypeToActivity".FromResourceDictionary() + " {3}\t" + CodeConstants.DetailsScraped;
-        public static string ManagedBlacklist { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyRemoved".FromResourceDictionary() + " {2} " + "LangKeyUsersBelongingToBlacklistToProcess".FromResourceDictionary() + " {3}\t" + CodeConstants.ManagedBlacklist;
-        public static string AddedToBlacklist { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeySuccessfullyAdded".FromResourceDictionary() + " {2} " + "LangKeyToBlacklist".FromResourceDictionary() + " {3}\t" + CodeConstants.AddedToBlacklist;
         public static string NoMoreDataToPerform { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyNoMoreDataAvailableToPerform".FromResourceDictionary() + "\t" + CodeConstants.NoMoreDataToPerform;
         public static string FoundXResults { get; set; } = "{0}\t {1}\t {5}\t" + "LangKeyFound".FromResourceDictionary() + " {2} " + "LangKeyResultsByQueryType".FromResourceDictionary() + " {3} " + "LangKeyAndQueryValue".FromResourceDictionary() + " {4} " + "LangKeyTo".FromResourceDictionary() + " {5}\t" + CodeConstants.FoundXResults;
 
@@ -183,7 +169,6 @@
         /// </summary>
         public static string ProcessStopped { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyStoppedProcessTo".FromResourceDictionary() + " {2}\t" + CodeConstants.ProcessStopped;
 
-        public static string CampaignNotSet { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyStoppedProcessTo".FromResourceDictionary() + " {2}\t" + CodeConstants.ProcessStopped;
 
         /// <summary>
         /// 0 = SocialNetwork
@@ -214,12 +199,6 @@
         /// 1 = Account's Username
         /// </summary>
         public static string AlreadyAddedAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccounts".FromResourceDictionary() + "\t" + "LangKeyAlreadyAdded".FromResourceDictionary() + "\t" + CodeConstants.AlreadyAddedAccount;
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username
-        /// </summary>
-        public static string AlreadyStoppedUpdatingAccount { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyAlreadyStopped".FromResourceDictionary() + "\t" + CodeConstants.AlreadyStoppedUpdatingAccount;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -259,20 +238,6 @@
         /// 2 = delay in seconds 
         /// </summary>
         public static string DelayBetweenMultiPost { get; set; } = "{0}\t {1}\t" + "LangKeyPublish".FromResourceDictionary() + "\t" + "Next post will start publishing in {2} minutes" + "\t" + CodeConstants.DelayBetweenMultiPost;
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username          
-        /// </summary>
-        public static string AlreadyPublishedOnOwnWall { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPostHasAlreadyPostedOnOwnWallProfile".FromResourceDictionary() + "\t" + CodeConstants.AlreadyPublishedOnOwnWall;
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username  
-        /// 2 = Destination Type
-        /// 3 = Destination Url        
-        /// </summary>
-        public static string AlreadyPublishedOnDestination { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPostHasAlreadyPostedWithDestintion".FromResourceDictionary() + " {2}-{3}\t" + CodeConstants.AlreadyPublishedOnDestination;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -339,12 +304,7 @@
         /// 2 = Failed reason
         /// </summary>
         public static string UploadingMediaFailedReason { get; set; } = "{0}\t {1}\t" + "LangKeyMedia".FromResourceDictionary() + "\t" + "LangKeyFailedDueTo".FromResourceDictionary() + " [{2}]\t" + CodeConstants.UploadingMediaFailedReason;
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = CampaignName
-        /// </summary>
-        public static string PublisherCampaignPaused { get; set; } = "LangKeyCampaignPaused".FromResourceDictionary();
-
+        
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username  

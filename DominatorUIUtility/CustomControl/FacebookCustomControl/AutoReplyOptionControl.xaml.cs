@@ -11,30 +11,13 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
     /// <summary>
     /// Interaction logic for AutoReplyOptionControl.xaml
     /// </summary>
-    public partial class AutoReplyOptionControl : UserControl, INotifyPropertyChanged
+    public partial class AutoReplyOptionControl : INotifyPropertyChanged
     {
         public AutoReplyOptionControl()
         {       
             InitializeComponent();
-            //AutoReplyOptionModel = AutoReplyOptionModel == null ? new AutoReplyOptionModel() : AutoReplyOptionModel;
-            //AutoReplyOptionControlViewModel.AutoReplyOptionModel = AutoReplyOptionModel;
             MainGrid.DataContext = this;
         }
-
-
-        //private AutoReplyOptionControlViewModel _autoReplyOptionControlViewModel = new AutoReplyOptionControlViewModel();
-        //public AutoReplyOptionControlViewModel AutoReplyOptionControlViewModel
-        //{
-        //    get
-        //    {
-        //        return _autoReplyOptionControlViewModel;
-        //    }
-        //    set
-        //    {
-        //        _autoReplyOptionControlViewModel = value;
-        //        OnPropertyChanged(nameof(AutoReplyOptionControlViewModel));
-        //    }
-        //}
 
 
         public AutoReplyOptionModel AutoReplyOptionModel
@@ -45,19 +28,10 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
         // Using a DependencyProperty as the backing store for PostFilter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UnfriendOptionProperty =
-            DependencyProperty.Register("AutoReplyOptionModel", typeof(AutoReplyOptionModel), typeof(AutoReplyOptionControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("AutoReplyOptionModel", typeof(AutoReplyOptionModel), typeof(AutoReplyOptionControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
-
-
-
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
-
         
        
         public ICommand CheckedChangedCommand
@@ -79,7 +53,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(AutoReplyOptionControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(AutoReplyOptionControl), new FrameworkPropertyMetadata());
 
         public event PropertyChangedEventHandler PropertyChanged;
 

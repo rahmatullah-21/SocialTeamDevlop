@@ -9,8 +9,6 @@ namespace DominatorHouseCore.Interfaces
     {
         bool IsGroupsAvailables { get; set; }
 
-        bool IsPagesOrBoardsAvailable { get; set; }
-
         string DisplayAsPageOrBoards { get; set; }
 
         Task<List<AccountDetailsSelectorModel>> GetGroupsDetails(string accountId, string accountName,

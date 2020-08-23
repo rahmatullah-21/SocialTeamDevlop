@@ -106,14 +106,4 @@ namespace DominatorHouseCore.Models
             return x.StartTime.CompareTo(y.StartTime);
         }
     }
-
-    public class RunningTimeComparerDescending : IComparer<TimingRange>
-    {
-        public int Compare(TimingRange x, TimingRange y)
-        {
-            if (x == null || y == null)
-                return -1;
-            return y.StartTime.CompareTo(x.StartTime);
-        }
-    }
 }

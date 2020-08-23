@@ -11,7 +11,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for ExtraFooterControl.xaml
     /// </summary>
-    public partial class ExtraFooterControl : UserControl
+    public partial class ExtraFooterControl
     {
         public ExtraFooterControl()
         {
@@ -31,7 +31,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty listSelectedAccountsProperty =
-            DependencyProperty.Register("listSelectedAccounts", typeof(List<string>), typeof(ExtraFooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("listSelectedAccounts", typeof(List<string>), typeof(ExtraFooterControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -48,7 +48,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty listExtraSelectedProperty =
-            DependencyProperty.Register("listExtraSelected", typeof(List<string>), typeof(ExtraFooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("listExtraSelected", typeof(List<string>), typeof(ExtraFooterControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -66,7 +66,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty NoOfAccountsSelectedProperty =
-           DependencyProperty.Register("NoOfAccountsSelected", typeof(string), typeof(ExtraFooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+           DependencyProperty.Register("NoOfAccountsSelected", typeof(string), typeof(ExtraFooterControl), new FrameworkPropertyMetadata()
            {
                BindsTwoWayByDefault = true
            });
@@ -83,7 +83,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty NoOfExtraSelectedProperty =
-            DependencyProperty.Register("NoOfExtraSelected", typeof(string), typeof(ExtraFooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("NoOfExtraSelected", typeof(string), typeof(ExtraFooterControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -100,7 +100,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly DependencyProperty AccountsSelectedColorProperty =
-           DependencyProperty.Register("AccountsSelectedColor", typeof(Brush), typeof(ExtraFooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+           DependencyProperty.Register("AccountsSelectedColor", typeof(Brush), typeof(ExtraFooterControl), new FrameworkPropertyMetadata()
            {
                BindsTwoWayByDefault = true
            });
@@ -119,7 +119,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly DependencyProperty IsStatCampaignNowVisibleProperty =
-           DependencyProperty.Register("IsStatCampaignNowVisible", typeof(Visibility), typeof(ExtraFooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+           DependencyProperty.Register("IsStatCampaignNowVisible", typeof(Visibility), typeof(ExtraFooterControl), new FrameworkPropertyMetadata()
            {
                BindsTwoWayByDefault = true
            });
@@ -136,7 +136,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty CampaignManagerProperty =
-         DependencyProperty.Register("CampaignManager", typeof(string), typeof(ExtraFooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+         DependencyProperty.Register("CampaignManager", typeof(string), typeof(ExtraFooterControl), new FrameworkPropertyMetadata()
          {
              BindsTwoWayByDefault = true
          });
@@ -152,7 +152,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public static readonly DependencyProperty ButtonContentProperty =
-            DependencyProperty.Register("ButtonContent", typeof(string), typeof(ExtraFooterControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("ButtonContent", typeof(string), typeof(ExtraFooterControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -223,13 +223,6 @@ namespace DominatorUIUtility.CustomControl
             RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(UpdateCampaignChangedRoutedEvent);
             RaiseEvent(objRoutedEventArgs);
         }
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-           
-            var newValue = e.NewValue;
-        }
-
         private void btnSelectAccount_Click(object sender, RoutedEventArgs e)
         {
             SelectAccountChangedEventHandler();

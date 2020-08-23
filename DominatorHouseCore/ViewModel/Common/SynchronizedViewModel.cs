@@ -40,36 +40,5 @@ namespace DominatorHouseCore.ViewModel.Common
                 _asyncSyncContext.Release();
             }
         }
-
-        public async Task ExecuteSynchronized<T1, T2>(Func<T1, T2, Task> asyncOperation, T1 input1, T2 input2)
-        {
-            await _asyncSyncContext.WaitAsync();
-            try
-            {
-                IsRunning = true;
-                await asyncOperation(input1, input2);
-            }
-            finally
-            {
-                IsRunning = false;
-                _asyncSyncContext.Release();
-            }
-        }
-
-        public void ExecuteSynchronized(Action action)
-        {
-            lock (_syncContext)
-            {
-                try
-                {
-                    IsRunning = true;
-                    action();
-                }
-                finally
-                {
-                    IsRunning = false;
-                }
-            }
-        }
     }
 }

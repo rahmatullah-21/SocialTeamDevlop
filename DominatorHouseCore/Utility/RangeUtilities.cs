@@ -52,13 +52,7 @@ namespace DominatorHouseCore.Utility
                 SetProperty(ref _endValue, value);
             }
         }
-
-        /// <summary>
-        /// IsValidRange Property is return true if endrange is greater that begin range
-        /// </summary>
-        public bool IsValidRange => EndValue >= StartValue;
-
-
+        
         /// <summary>
         /// GetRandom is used to get the random numbers between the Begin and EndValue
         /// </summary>

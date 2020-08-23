@@ -25,12 +25,6 @@ namespace DominatorHouseCore.Utility
 
         public static string InstagramBaseUrl { get; } = "https://i.instagram.com/";
 
-        public static string XFbHttpEngine { get; } = "Liger";
-
-        public static int WebrequestTimeout { get; } = 20000;
-
-        public static bool UseSystemProxy { get; } = true;
-
         public static string ApplicationName { get; } =/* "Socinator";*/"LangKeySocinator".FromResourceDictionary();
 
         public static string BitlyApiKey { get; set; } = string.Empty;
@@ -73,9 +67,6 @@ namespace DominatorHouseCore.Utility
         public static string GetDesktopSocNetDirectory(SocialNetworks net = SocialNetworks.Social)
         => CreateDirIfNot($"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\\{ApplicationName}{(net == SocialNetworks.Social ? "" : "\\" + net.ToString())}");
         
-        public static string GetDebugResponseFile(SocialNetworks net, string username)
-        => CreateDirIfNot($"{GetDesktopSocNetDirectory(net)}\\{username}\\DebugResponses") + $"\\{DateTime.Now.Date.GetCurrentEpochTime()}.txt"; 
-
         public static string CreateDirIfNot(string basePath)
         {
             if (!Directory.Exists(basePath))
@@ -174,7 +165,6 @@ namespace DominatorHouseCore.Utility
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        internal static string GetLiveChatFile() => GetChatDir() + @"\LiveChat.bin";
         public static string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
@@ -288,9 +278,6 @@ namespace DominatorHouseCore.Utility
 
         public static string DebugLogExemptions { get; set; }
             = "https://dominatorhouse.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
-
-        public static string LogDebugExemption { get; set; }
-            = "https://socinator.com/amember/softsale/api/deactivate?key={0}&request[hardware-id]={1}";
 
         public static string DebugPower = "https://powerof7.io/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 

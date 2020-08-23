@@ -11,7 +11,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for Campaigns.xaml
     /// </summary>
-    public partial class Campaigns : UserControl, INotifyPropertyChanged
+    public partial class Campaigns : INotifyPropertyChanged
     {
         private CampaignViewModel _campaignViewModel = new CampaignViewModel();
 

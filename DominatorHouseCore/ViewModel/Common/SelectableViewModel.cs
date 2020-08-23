@@ -16,7 +16,6 @@ namespace DominatorHouseCore.ViewModel.Common
         void Renew(IEnumerable<T> items);
         void Remove(T item);
         bool Contains(T socialNetworks);
-        void SelectByIndex(int index);
         void SetSelected(T selected);
 
         event EventHandler<T> ItemSelected;

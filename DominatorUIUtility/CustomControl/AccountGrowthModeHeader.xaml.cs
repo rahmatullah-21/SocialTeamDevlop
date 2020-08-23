@@ -12,7 +12,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for AccountGrowthModeHeader.xaml
     /// </summary>
-    public partial class AccountGrowthModeHeader : UserControl
+    public partial class AccountGrowthModeHeader
     {
         public AccountGrowthModeHeader()
         {

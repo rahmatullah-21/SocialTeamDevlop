@@ -14,10 +14,6 @@ namespace DominatorHouseCore.Utility
         [ProtoMember(1)]
         public List<T> List { get; set; } = new List<T>();
 
-        public ListWrapper()
-        {
-        }
-
         public ListWrapper(List<T> list)
         {
             List = list;

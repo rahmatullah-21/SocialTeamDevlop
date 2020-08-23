@@ -10,7 +10,7 @@ namespace DominatorUIUtility.ConfigControl
     /// <summary>
     /// Interaction logic for EmailNotifications.xaml
     /// </summary>
-    public partial class EmailNotifications : UserControl
+    public partial class EmailNotifications
     {
         private EmailNotificationsModel EmailNotificationsModel { get; set; } = new EmailNotificationsModel();
         IOtherConfigFileManager emailNotifications;
@@ -20,12 +20,6 @@ namespace DominatorUIUtility.ConfigControl
             emailNotifications = ServiceLocator.Current.GetInstance<IOtherConfigFileManager>();
             EmailNotificationsModel = emailNotifications.GetOtherConfig<EmailNotificationsModel>() ?? EmailNotificationsModel;
             MainGrid.DataContext = EmailNotificationsModel;
-        }
-        private static EmailNotifications ObjEmailNotifications;
-
-        public static EmailNotifications GetSingeltonObjectEmailNotifications()
-        {
-            return ObjEmailNotifications ?? (ObjEmailNotifications = new EmailNotifications());
         }
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)

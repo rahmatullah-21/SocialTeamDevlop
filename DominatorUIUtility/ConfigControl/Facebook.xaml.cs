@@ -11,7 +11,7 @@ namespace DominatorUIUtility.ConfigControl
     /// <summary>
     /// Interaction logic for Facebook.xaml
     /// </summary>
-    public partial class Facebook : UserControl
+    public partial class Facebook
     {
         private ConfigFacebookModel ConfigFacebookModel { get; set; } = new ConfigFacebookModel();
         private readonly IFBFileManager fbFilemanager;
@@ -21,13 +21,6 @@ namespace DominatorUIUtility.ConfigControl
             fbFilemanager = ServiceLocator.Current.GetInstance<IFBFileManager>();
             ConfigFacebookModel = fbFilemanager.GetFacebookConfig() ?? ConfigFacebookModel;
             MainGrid.DataContext = ConfigFacebookModel;
-        }
-
-        private static Facebook ObjFacebook;
-
-        public static Facebook GetSingeltonObjectFacebook()
-        {
-            return ObjFacebook ?? (ObjFacebook = new Facebook());
         }
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)

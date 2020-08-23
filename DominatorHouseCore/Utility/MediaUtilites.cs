@@ -692,7 +692,6 @@ namespace DominatorHouseCore.Utility
             {
                 try
                 {
-                    MD5 md5 = MD5.Create();
                     byte[] inputBytes = File.ReadAllBytes(input);
 
                     byte[] bArray = new byte[inputBytes.Length + 1];
@@ -709,20 +708,6 @@ namespace DominatorHouseCore.Utility
             return newImage;
         }
 
-        public static string GetMd5HashCode(string input, MD5 md5, byte[] inputBytes)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            byte[] hash1 = md5.ComputeHash(inputBytes);
-
-            // step 2, convert byte array to hex string
-
-            for (int i = 0; i < hash1.Length; i++)
-            {
-                sb.Append(hash1[i].ToString("X2"));
-            }
-            return sb.ToString();
-        }
 
         public static bool DownloadMediaFromUrl(string url, string filePath)
         {

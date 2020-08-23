@@ -11,7 +11,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for DayTimerControl.xaml
     /// </summary>
-    public partial class DayTimerControl : UserControl
+    public partial class DayTimerControl
     {
         public DayTimerControl()
         {
@@ -28,16 +28,10 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for RunningTimes.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RunningTimesProperty =
-            DependencyProperty.Register("RunningTimes", typeof(RunningTimes), typeof(DayTimerControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("RunningTimes", typeof(RunningTimes), typeof(DayTimerControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
-
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
 
         private void AddTimer_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

@@ -9,7 +9,7 @@ namespace DominatorUIUtility.ConfigControl
     /// <summary>
     /// Interaction logic for Twitter.xaml
     /// </summary>
-    public partial class Twitter : UserControl
+    public partial class Twitter
     {
         IOtherConfigFileManager _otherConfigFileManager;
         private TwitterModel TwitterModel { get; set; } = new TwitterModel();
@@ -19,12 +19,6 @@ namespace DominatorUIUtility.ConfigControl
             _otherConfigFileManager = ServiceLocator.Current.GetInstance<IOtherConfigFileManager>();
             TwitterModel = _otherConfigFileManager.GetOtherConfig<TwitterModel>() ?? TwitterModel;
             MainGrid.DataContext = TwitterModel;
-        }
-        private static Twitter ObjTwitter;
-
-        public static Twitter GetSingeltonObjectTwitter()
-        {
-            return ObjTwitter ?? (ObjTwitter = new Twitter());
         }
 
         private void BtnSave_OnClick(object sender, System.Windows.RoutedEventArgs e)

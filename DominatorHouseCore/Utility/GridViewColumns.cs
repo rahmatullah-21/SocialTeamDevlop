@@ -10,12 +10,6 @@ namespace DominatorHouseCore.Utility
 {
     public static class GridViewColumns
     {
-        [AttachedPropertyBrowsableForType(typeof(GridView))]
-        public static object GetColumnValues(DependencyObject obj)
-        {
-            return obj.GetValue(ColumnValuesProperty);
-        }
-
         public static void SetColumnValues(DependencyObject obj, object value)
         {
             obj.SetValue(ColumnValuesProperty, value);

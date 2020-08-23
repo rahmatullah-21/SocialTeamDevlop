@@ -166,51 +166,5 @@ namespace DominatorHouseCore.Utility
                  "28/9; 480dpi; 1080x2175; samsung; SM-G960F; starlte; samsungexynos9810; en_US;",
             }.GetRandomItem();
         }
-
-
-        /// <summary>
-        /// Generate a unique id for each device
-        /// </summary>
-        /// <returns></returns>
-        //public static string GenerateGuid()
-        //{
-        //    var rand = new System.Random();
-        //    return string.Format("{0}{1}-{2}-{3}-{4}-{5}{6}{7}",
-        //        rand.Next(0, 65535).ToString("x4"),
-        //        rand.Next(0, 65535).ToString("x4"),
-        //        rand.Next(0, 65535).ToString("x4"),
-        //        rand.Next(16384, 20479).ToString("x4"),
-        //        rand.Next(32768, 49151).ToString("x4"),
-        //        rand.Next(0, 65535).ToString("x4"),
-        //        rand.Next(0, 65535).ToString("x4"),
-        //        rand.Next(0, 65535).ToString("x4"));
-        //}
-
-
-        /// <summary>
-        /// Generate Signature
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-
-        public static string GenerateSignature(string data)
-        {
-            string secret = Constants.IG_SIG_KEY;
-            var secretBytes = Encoding.UTF8.GetBytes(secret);
-            var dataBytes = Encoding.UTF8.GetBytes(data);
-            string signature = "";
-
-            using (var hmac = new System.Security.Cryptography.HMACSHA256(secretBytes))
-            {
-                var hash = hmac.ComputeHash(dataBytes);
-                for (int i = 0; i < hash.Length; i++)
-                {
-                    signature += hash[i].ToString("x2");
-                }
-                //    signature = Convert.ToBase64String(hash);
-            }
-            return signature;
-        }
-
     }
 }

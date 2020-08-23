@@ -28,11 +28,6 @@ namespace DominatorUIUtility.Behaviours
             return NumberOf + " " + GetlangActivity(activityType) + " " + PerWeek;
 
         }
-        public static string GetMaxActivityDay(ActivityType activityType)
-        {
-            string maxDay = "LangKeyMax".FromResourceDictionary();
-            return maxDay + " " + GetlangActivity(activityType) + " " + PerDay;
-        }
         public static string GetlangActivity(ActivityType activityType)
         {
             return $"LangKey{activityType}".FromResourceDictionary();

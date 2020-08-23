@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,7 +8,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for ChatImageContainer.xaml
     /// </summary>
-    public partial class ChatImageContainer : UserControl
+    public partial class ChatImageContainer
     {
         public ChatImageContainer()
         {
@@ -33,7 +30,7 @@ namespace DominatorUIUtility.CustomControl
 
 
         public static readonly DependencyProperty list_SelectedImagesProperty =
-            DependencyProperty.Register("List_SelectedImages", typeof(ObservableCollection<string>), typeof(ChatImageContainer), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("List_SelectedImages", typeof(ObservableCollection<string>), typeof(ChatImageContainer), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -52,7 +49,7 @@ namespace DominatorUIUtility.CustomControl
 
 
         public static readonly DependencyProperty ImageWidthProperty =
-            DependencyProperty.Register("ImageWidth", typeof(int), typeof(ChatImageContainer), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("ImageWidth", typeof(int), typeof(ChatImageContainer), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -71,7 +68,7 @@ namespace DominatorUIUtility.CustomControl
 
 
         public static readonly DependencyProperty ImageHeightProperty =
-            DependencyProperty.Register("ImageHeight", typeof(int), typeof(ChatImageContainer), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("ImageHeight", typeof(int), typeof(ChatImageContainer), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -91,7 +88,7 @@ namespace DominatorUIUtility.CustomControl
 
 
         public static readonly DependencyProperty ContolBackgroundProperty =
-            DependencyProperty.Register("ContolBackground", typeof(Brush), typeof(ChatImageContainer), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("ContolBackground", typeof(Brush), typeof(ChatImageContainer), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -110,7 +107,7 @@ namespace DominatorUIUtility.CustomControl
 
 
         public static readonly DependencyProperty RadiusXProperty =
-            DependencyProperty.Register("RadiusX", typeof(int), typeof(ChatImageContainer), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("RadiusX", typeof(int), typeof(ChatImageContainer), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
@@ -129,19 +126,10 @@ namespace DominatorUIUtility.CustomControl
 
 
         public static readonly DependencyProperty RadiusYProperty =
-            DependencyProperty.Register("RadiusY", typeof(int), typeof(ChatImageContainer), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("RadiusY", typeof(int), typeof(ChatImageContainer), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true
             });
-
-
-      
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            // Breakpoint here to see if the new value is being set
-            var newValue = e.NewValue;
-        }
 
         private void RemoveImageFromList(object sender, RoutedEventArgs e)
         {

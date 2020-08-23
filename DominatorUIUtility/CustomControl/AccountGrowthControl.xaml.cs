@@ -6,7 +6,7 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for AccountGrowthControl.xaml
     /// </summary>
-    public partial class AccountGrowthControl : UserControl
+    public partial class AccountGrowthControl
     {
 
         public AccountGrowthControl(IAccountGrowthControlViewModel accountGrowthControlViewModel)

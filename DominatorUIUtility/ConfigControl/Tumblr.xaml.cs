@@ -10,7 +10,7 @@ namespace DominatorUIUtility.ConfigControl
     /// <summary>
     /// Interaction logic for Tumblr.xaml
     /// </summary>
-    public partial class Tumblr : UserControl
+    public partial class Tumblr
     {
         private TumblrModel TumblrModel { get; set; } = new TumblrModel();
         IOtherConfigFileManager _otherConfigFileManager;
@@ -20,12 +20,6 @@ namespace DominatorUIUtility.ConfigControl
             _otherConfigFileManager = ServiceLocator.Current.GetInstance<IOtherConfigFileManager>();
             TumblrModel = _otherConfigFileManager.GetOtherConfig<TumblrModel>() ?? TumblrModel;
             MainGrid.DataContext = TumblrModel;
-        }
-        private static Tumblr ObjTumblr;
-
-        public static Tumblr GetSingeltonObjectTumblr()
-        {
-            return ObjTumblr ?? (ObjTumblr = new Tumblr());
         }
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)

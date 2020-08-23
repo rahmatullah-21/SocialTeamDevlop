@@ -12,9 +12,7 @@
         public static string ActivityFailed { get; } = "I1008";
         public static string ImportFailed { get; } = "I1009";
         public static string JobPaused { get; } = "I1010";
-        public static string SavedCampaign { get; } = "I1011";
         public static string CampaignDeleted { get; } = "I1012";
-        public static string CampaignUpdated { get; } = "I1013";
         public static string CampaignPaused { get; } = "I1014";
         public static string ActivatedCampaign { get; } = "I1015";
         public static string UpdatingDetails { get; } = "I1016";

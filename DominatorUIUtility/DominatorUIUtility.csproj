@@ -217,7 +217,6 @@
     <Compile Include="Behaviours\Lang.cs" />
     <Compile Include="Behaviours\NetworkAvailablity.cs" />
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
-    <Compile Include="Behaviours\ReportManager.cs" />
     <Compile Include="Behaviours\SelectionChangedBehaviour.cs" />
     <Compile Include="Behaviours\UserFilterAction.cs" />
     <Compile Include="Behaviours\Utilities.cs" />
@@ -263,14 +262,8 @@
     <Compile Include="CustomControl\AddUpdateAccountControl.xaml.cs">
       <DependentUpon>AddUpdateAccountControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControl\AutoReplyMessege.xaml.cs">
-      <DependentUpon>AutoReplyMessege.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CustomControl\ChatImageContainer.xaml.cs">
       <DependentUpon>ChatImageContainer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl\ChatImageViewer.xaml.cs">
-      <DependentUpon>ChatImageViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\ChatMediaContainer.xaml.cs">
       <DependentUpon>ChatMediaContainer.xaml</DependentUpon>
@@ -1194,15 +1187,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomControl\AutoReplyMessege.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="CustomControl\ChatImageContainer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\ChatImageViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

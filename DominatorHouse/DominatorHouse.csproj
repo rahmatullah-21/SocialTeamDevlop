@@ -120,7 +120,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>B7EB2305FB56220BF55A0B312DE907F5DC6498B4</ManifestCertificateThumbprint>
