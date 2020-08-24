@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.DatabaseHandler.LdTables.Account;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.LdTables.Account;
 using DominatorHouseCore.Enums;
 using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
@@ -74,16 +78,16 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<RemovedConnections>(SocialNetworks.LinkedIn, true));
 
             Container
-               .RegisterInstance<IEntityCounterFunction<InteractedPage>>(
-                   new EntityCounterFunction<InteractedPage>(
-                       new DateFilterPredicate<InteractedPage>(
-                           a => a.InteractionDatetime),
-                       new ActivityTypeAsStringFilterPredicate<InteractedPage>(
-                           a => a.ActivityType)));
+                .RegisterInstance<IEntityCounterFunction<InteractedPage>>(
+                    new EntityCounterFunction<InteractedPage>(
+                        new DateFilterPredicate<InteractedPage>(
+                            a => a.InteractionDatetime),
+                        new ActivityTypeAsStringFilterPredicate<InteractedPage>(
+                            a => a.ActivityType)));
 
             Container
-               .RegisterInstance<ICounterKeyFactory<InteractedPage>>(
-                   new CounterKeyFactory<InteractedPage>(SocialNetworks.LinkedIn, true));
+                .RegisterInstance<ICounterKeyFactory<InteractedPage>>(
+                    new CounterKeyFactory<InteractedPage>(SocialNetworks.LinkedIn, true));
         }
     }
 }

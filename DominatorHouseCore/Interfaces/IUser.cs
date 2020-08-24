@@ -8,6 +8,6 @@
 
         string FullName { get; set; }
 
-        string ProfilePicUrl { get; set;}
+        string ProfilePicUrl { get; set; }
     }
 }

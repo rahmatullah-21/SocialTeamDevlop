@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.ViewModel.DashboardVms;
+﻿#region
+
+using DominatorHouseCore.ViewModel.DashboardVms;
 using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {

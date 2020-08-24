@@ -1,23 +1,24 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Settings
 {
     [ProtoContract]
     public class UserFilterModel : BindableBase
     {
-
         private int _minimumCharacterInBio = 5;
+
         [ProtoMember(1)]
         public int MinimumCharacterInBio
         {
-            get
-            {
-                return _minimumCharacterInBio;
-            }
+            get => _minimumCharacterInBio;
             set
             {
                 if (value == _minimumCharacterInBio)
@@ -28,13 +29,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _filterBioRestrictedWords;
+
         [ProtoMember(2)]
         public bool FilterBioRestrictedWords
         {
-            get
-            {
-                return _filterBioRestrictedWords;
-            }
+            get => _filterBioRestrictedWords;
             set
             {
                 if (value == _filterBioRestrictedWords)
@@ -45,10 +44,11 @@ namespace DominatorHouseCore.Settings
 
 
         private ObservableCollection<string> _bioRestrictedWords = new ObservableCollection<string>();
+
         [ProtoMember(3)]
         public ObservableCollection<string> BioRestrictedWords
         {
-            get { return _bioRestrictedWords; }
+            get => _bioRestrictedWords;
             set
             {
                 if (value == _bioRestrictedWords)
@@ -59,13 +59,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _filterFollowersCount;
+
         [ProtoMember(4)]
         public bool FilterFollowersCount
         {
-            get
-            {
-                return _filterFollowersCount;
-            }
+            get => _filterFollowersCount;
             set
             {
                 if (value == _filterFollowersCount) return;
@@ -74,15 +72,12 @@ namespace DominatorHouseCore.Settings
         }
 
 
-
         private RangeUtilities _followersCount = new RangeUtilities(100, 200);
+
         [ProtoMember(5)]
         public RangeUtilities FollowersCount
         {
-            get
-            {
-                return _followersCount;
-            }
+            get => _followersCount;
             set
             {
                 if (value == _followersCount) return;
@@ -92,13 +87,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _filterFollowingsCount;
+
         [ProtoMember(6)]
         public bool FilterFollowingsCount
         {
-            get
-            {
-                return _filterFollowingsCount;
-            }
+            get => _filterFollowingsCount;
             set
             {
                 if (value == _filterFollowingsCount) return;
@@ -107,13 +100,11 @@ namespace DominatorHouseCore.Settings
         }
 
         private RangeUtilities _followingsCount = new RangeUtilities(100, 200);
+
         [ProtoMember(7)]
         public RangeUtilities FollowingsCount
         {
-            get
-            {
-                return _followingsCount;
-            }
+            get => _followingsCount;
             set
             {
                 if (value == _followingsCount) return;
@@ -122,15 +113,12 @@ namespace DominatorHouseCore.Settings
         }
 
 
-
         private bool _filterPostedInRecentDays;
+
         [ProtoMember(8)]
         public bool FilterPostedInRecentDays
         {
-            get
-            {
-                return _filterPostedInRecentDays;
-            }
+            get => _filterPostedInRecentDays;
             set
             {
                 if (value == _filterPostedInRecentDays) return;
@@ -140,13 +128,11 @@ namespace DominatorHouseCore.Settings
 
 
         private int _postedInRecentDays = 10;
+
         [ProtoMember(9)]
         public int PostedInRecentDays
         {
-            get
-            {
-                return _postedInRecentDays;
-            }
+            get => _postedInRecentDays;
             set
             {
                 if (value == _postedInRecentDays) return;
@@ -156,13 +142,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _filterMaximumFollowRatio;
+
         [ProtoMember(10)]
         public bool FilterMaximumFollowRatio
         {
-            get
-            {
-                return _filterMaximumFollowRatio;
-            }
+            get => _filterMaximumFollowRatio;
             set
             {
                 if (value == _filterMaximumFollowRatio) return;
@@ -172,13 +156,11 @@ namespace DominatorHouseCore.Settings
 
 
         private double _maximumFollowRatio = 2f;
+
         [ProtoMember(11)]
         public double MaximumFollowRatio
         {
-            get
-            {
-                return _maximumFollowRatio;
-            }
+            get => _maximumFollowRatio;
             set
             {
                 if (value == _maximumFollowRatio) return;
@@ -188,13 +170,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _filterMinimumFollowRatio;
+
         [ProtoMember(12)]
         public bool FilterMinimumFollowRatio
         {
-            get
-            {
-                return _filterMinimumFollowRatio;
-            }
+            get => _filterMinimumFollowRatio;
             set
             {
                 if (value == _filterMinimumFollowRatio) return;
@@ -203,14 +183,11 @@ namespace DominatorHouseCore.Settings
         }
 
         private double _minimumFollowRatio = 1f;
-        [ProtoMember(13)]
 
+        [ProtoMember(13)]
         public double MinimumFollowRatio
         {
-            get
-            {
-                return _minimumFollowRatio;
-            }
+            get => _minimumFollowRatio;
             set
             {
                 if (value == _minimumFollowRatio) return;
@@ -220,13 +197,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _filterSpecificFollowRatio;
+
         [ProtoMember(14)]
         public bool FilterSpecificFollowRatio
         {
-            get
-            {
-                return _filterSpecificFollowRatio;
-            }
+            get => _filterSpecificFollowRatio;
             set
             {
                 if (value == _filterSpecificFollowRatio) return;
@@ -236,13 +211,11 @@ namespace DominatorHouseCore.Settings
 
 
         private RangeUtilities _specificFollowRatio = new RangeUtilities(1, 2);
+
         [ProtoMember(15)]
         public RangeUtilities SpecificFollowRatio
         {
-            get
-            {
-                return _specificFollowRatio;
-            }
+            get => _specificFollowRatio;
             set
             {
                 if (value == _specificFollowRatio) return;
@@ -252,13 +225,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _filterPostCounts;
+
         [ProtoMember(16)]
         public bool FilterPostCounts
         {
-            get
-            {
-                return _filterPostCounts;
-            }
+            get => _filterPostCounts;
             set
             {
                 if (value == _filterPostCounts) return;
@@ -268,14 +239,11 @@ namespace DominatorHouseCore.Settings
 
 
         private RangeUtilities _postCounts = new RangeUtilities(10, 20);
-        [ProtoMember(17)]
 
+        [ProtoMember(17)]
         public RangeUtilities PostCounts
         {
-            get
-            {
-                return _postCounts;
-            }
+            get => _postCounts;
             set
             {
                 if (value == _postCounts) return;
@@ -285,13 +253,11 @@ namespace DominatorHouseCore.Settings
 
 
         private GenderFilter _genderFilters = new GenderFilter();
+
         [ProtoMember(18)]
         public GenderFilter GenderFilters
         {
-            get
-            {
-                return _genderFilters;
-            }
+            get => _genderFilters;
             set
             {
                 if (value == _genderFilters) return;
@@ -301,13 +267,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _ignoreCurrentUsersFollowers;
+
         [ProtoMember(19)]
         public bool IgnoreCurrentUsersFollowers
         {
-            get
-            {
-                return _ignoreCurrentUsersFollowers;
-            }
+            get => _ignoreCurrentUsersFollowers;
             set
             {
                 if (value == _ignoreCurrentUsersFollowers) return;
@@ -316,13 +280,11 @@ namespace DominatorHouseCore.Settings
         }
 
         private bool _ignoreNoProfilePicUsers;
+
         [ProtoMember(20)]
         public bool IgnoreNoProfilePicUsers
         {
-            get
-            {
-                return _ignoreNoProfilePicUsers;
-            }
+            get => _ignoreNoProfilePicUsers;
             set
             {
                 if (value == _ignoreNoProfilePicUsers) return;
@@ -332,13 +294,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _ignorePrivateUser;
+
         [ProtoMember(21)]
         public bool IgnorePrivateUser
         {
-            get
-            {
-                return _ignorePrivateUser;
-            }
+            get => _ignorePrivateUser;
             set
             {
                 if (value == _ignorePrivateUser) return;
@@ -348,13 +308,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _ignoreNonEnglishUser;
+
         [ProtoMember(22)]
         public bool IgnoreNonEnglishUser
         {
-            get
-            {
-                return _ignoreNonEnglishUser;
-            }
+            get => _ignoreNonEnglishUser;
             set
             {
                 if (value == _ignoreNonEnglishUser) return;
@@ -364,13 +322,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _ignoreBusinessUser;
+
         [ProtoMember(23)]
         public bool IgnoreBusinessUser
         {
-            get
-            {
-                return _ignoreBusinessUser;
-            }
+            get => _ignoreBusinessUser;
             set
             {
                 if (value == _ignoreBusinessUser) return;
@@ -380,13 +336,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _ignoreVerifiedUser;
+
         [ProtoMember(24)]
         public bool IgnoreVerifiedUser
         {
-            get
-            {
-                return _ignoreVerifiedUser;
-            }
+            get => _ignoreVerifiedUser;
             set
             {
                 if (value == _ignoreVerifiedUser) return;
@@ -396,13 +350,11 @@ namespace DominatorHouseCore.Settings
 
 
         private BlacklistSettings _restrictedGrouplist = new BlacklistSettings();
+
         [ProtoMember(25)]
         public BlacklistSettings RestrictedGrouplist
         {
-            get
-            {
-                return _restrictedGrouplist;
-            }
+            get => _restrictedGrouplist;
             set
             {
                 if (value == _restrictedGrouplist) return;
@@ -412,13 +364,11 @@ namespace DominatorHouseCore.Settings
 
 
         private BlacklistSettings _restrictedProfilelist = new BlacklistSettings();
+
         [ProtoMember(26)]
         public BlacklistSettings RestrictedProfilelist
         {
-            get
-            {
-                return _restrictedProfilelist;
-            }
+            get => _restrictedProfilelist;
             set
             {
                 if (value == _restrictedProfilelist) return;
@@ -428,13 +378,11 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _userHasInvalidWord;
+
         [ProtoMember(27)]
         public bool UserHasInvalidWord
         {
-            get
-            {
-                return _userHasInvalidWord;
-            }
+            get => _userHasInvalidWord;
             set
             {
                 if (value == _userHasInvalidWord) return;
@@ -444,13 +392,11 @@ namespace DominatorHouseCore.Settings
 
 
         private List<string> _lstInvalidWord = new List<string>();
+
         [ProtoMember(28)]
         public List<string> LstInvalidWord
         {
-            get
-            {
-                return _lstInvalidWord;
-            }
+            get => _lstInvalidWord;
             set
             {
                 if (value == _lstInvalidWord) return;
@@ -460,13 +406,11 @@ namespace DominatorHouseCore.Settings
 
 
         private List<string> _lstPostCaption = new List<string>();
+
         [ProtoMember(29)]
         public List<string> LstPostCaption
         {
-            get
-            {
-                return _lstPostCaption;
-            }
+            get => _lstPostCaption;
             set
             {
                 if (value == _lstPostCaption) return;
@@ -475,17 +419,12 @@ namespace DominatorHouseCore.Settings
         }
 
 
-
-
-
         private bool _filterMinimumCharacterInBio;
+
         [ProtoMember(30)]
         public bool FilterMinimumCharacterInBio
         {
-            get
-            {
-                return _filterMinimumCharacterInBio;
-            }
+            get => _filterMinimumCharacterInBio;
             set
             {
                 if (value == _filterMinimumCharacterInBio) return;
@@ -494,28 +433,24 @@ namespace DominatorHouseCore.Settings
         }
 
         private bool _filterInvaildWord;
+
         [ProtoMember(31)]
         public bool FilterInvaildWord
         {
-            get
-            {
-                return _filterInvaildWord;
-            }
+            get => _filterInvaildWord;
             set
             {
                 if (value == _filterInvaildWord) return;
                 SetProperty(ref _filterInvaildWord, value);
             }
         }
+
         private string _invalidWords;
 
         [ProtoMember(32)]
         public string InvalidWords
         {
-            get
-            {
-                return _invalidWords;
-            }
+            get => _invalidWords;
             set
             {
                 if (value == _invalidWords)
@@ -523,15 +458,13 @@ namespace DominatorHouseCore.Settings
                 SetProperty(ref _invalidWords, value);
             }
         }
+
         private string _captionPosts;
 
         [ProtoMember(33)]
         public string CaptionPosts
         {
-            get
-            {
-                return _captionPosts;
-            }
+            get => _captionPosts;
             set
             {
                 if (value == _captionPosts)
@@ -539,11 +472,12 @@ namespace DominatorHouseCore.Settings
                 SetProperty(ref _captionPosts, value);
             }
         }
+
         private bool _saveCloseButtonVisible;
 
         public bool SaveCloseButtonVisible
         {
-            get { return _saveCloseButtonVisible; }
+            get => _saveCloseButtonVisible;
             set
             {
                 if (value == _saveCloseButtonVisible) return;

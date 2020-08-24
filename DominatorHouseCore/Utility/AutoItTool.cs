@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Threading;
 using AutoIt;
 using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
     public class AutoItTool
     {
-        public double WidthRatio=1;
-        public double HeightRatio=1;
+        public double WidthRatio = 1;
+        public double HeightRatio = 1;
 
         //public AutoItTool()
         //{
@@ -40,10 +44,18 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public string GetLastCopied() => AutoItX.ClipGet();
-        public void CopyToClip(string text) => AutoItX.ClipPut(text);
+        public string GetLastCopied()
+        {
+            return AutoItX.ClipGet();
+        }
 
-        public void MouseClick(MouseKeys key = MouseKeys.Left, int count = 1, double delayBetween = 0.5, double delayBefore = 0, double delayAfter = 0)
+        public void CopyToClip(string text)
+        {
+            AutoItX.ClipPut(text);
+        }
+
+        public void MouseClick(MouseKeys key = MouseKeys.Left, int count = 1, double delayBetween = 0.5,
+            double delayBefore = 0, double delayAfter = 0)
         {
             Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
             var iteration = 0;
@@ -53,6 +65,7 @@ namespace DominatorHouseCore.Utility
                 AutoItX.MouseClick($"{key.ToString().ToUpper()}");
                 iteration++;
             }
+
             Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
         }
 

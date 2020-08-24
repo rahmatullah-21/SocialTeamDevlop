@@ -1,16 +1,18 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
-    public class MultiMediaValueModel: BindableBase
+    public class MultiMediaValueModel : BindableBase
     {
-        private string _id=Utilities.GetGuid();
+        private string _id = Utilities.GetGuid();
+
         public string Id
         {
-            get
-            {
-                return _id;
-            }
+            get => _id;
             set
             {
                 if (value == _id)
@@ -19,11 +21,11 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
         }
 
-        private string _mediaPath=string.Empty;
+        private string _mediaPath = string.Empty;
+
         public string MediaPath
         {
-            get
-            { return _mediaPath; }
+            get => _mediaPath;
             set
             {
                 if (value == _mediaPath)
@@ -33,12 +35,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private double _mediaHeight = 150;
+
         public double MediaHeight
         {
-            get
-            {
-                return _mediaHeight;
-            }
+            get => _mediaHeight;
             set
             {
                 if (value == _mediaHeight)
@@ -48,12 +48,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private double _closeButtonHeight = 150;
+
         public double CloseButtonHeight
         {
-            get
-            {
-                return _closeButtonHeight;
-            }
+            get => _closeButtonHeight;
             set
             {
                 if (value == _closeButtonHeight)
@@ -61,6 +59,5 @@ namespace DominatorHouseCore.Models.FacebookModels
                 SetProperty(ref _closeButtonHeight, value);
             }
         }
-
     }
 }

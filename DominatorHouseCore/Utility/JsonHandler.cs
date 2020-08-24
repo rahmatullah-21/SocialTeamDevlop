@@ -1,11 +1,16 @@
-﻿using Newtonsoft.Json.Linq;
+﻿#region
+
 using System;
+using Newtonsoft.Json.Linq;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
     public class JsonHandler
     {
-        readonly JObject _jObject;
+        private readonly JObject _jObject;
+
         public JsonHandler(string jsonString)
         {
             _jObject = JObject.Parse(jsonString);
@@ -13,18 +18,16 @@ namespace DominatorHouseCore.Utility
 
         public JsonHandler(JToken jToken)
         {
-            _jObject = (JObject)jToken;
+            _jObject = (JObject) jToken;
         }
 
         public string GetElementValue(params object[] elementsNameList)
         {
             try
             {
-                JToken tempToken = _jObject[elementsNameList[0]];
+                var tempToken = _jObject[elementsNameList[0]];
                 for (var index = 1; index < elementsNameList.Length; index++)
-                {
                     tempToken = tempToken[elementsNameList[index]];
-                }
 
                 return tempToken == null ? "" : tempToken.ToString();
             }
@@ -32,6 +35,7 @@ namespace DominatorHouseCore.Utility
             {
                 // Ignored  ex.DebugLog();
             }
+
             return string.Empty;
         }
 
@@ -51,6 +55,7 @@ namespace DominatorHouseCore.Utility
             {
                 // Ignored ex.DebugLog();
             }
+
             return elementValue;
         }
 
@@ -60,15 +65,14 @@ namespace DominatorHouseCore.Utility
             {
                 var tempToken = _jObject[elementsNameList[0]];
                 for (var index = 1; index < elementsNameList.Length && tempToken != null; index++)
-                {
                     tempToken = tempToken[elementsNameList[index]];
-                }
                 return tempToken ?? new JArray();
             }
             catch (Exception)
             {
                 // Ignored  ex.DebugLog();
             }
+
             return new JArray();
         }
 
@@ -82,14 +86,15 @@ namespace DominatorHouseCore.Utility
                     if (returnToken == null) break;
                     returnToken = returnToken[element];
                 }
+
                 return returnToken ?? new JArray();
             }
             catch (Exception)
             {
                 // Ignored ex.DebugLog();
             }
+
             return new JArray();
         }
-
     }
 }

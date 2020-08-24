@@ -1,4 +1,13 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using CommonServiceLocator;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Extensions;
@@ -9,12 +18,10 @@ using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
+
+#endregion
 
 namespace DominatorHouseCore.Process
 {
@@ -31,14 +38,16 @@ namespace DominatorHouseCore.Process
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             GenericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
 
-            var softwareSettings = ServiceLocator.Current.GetInstance<Settings.ISoftwareSettings>();
+            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
             if (softwareSettings.Settings?.IsThreadLimitChecked ?? false)
             {
-                BusinessLogic.Scheduler.DominatorScheduler.islogged = false;
-                BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount = softwareSettings.Settings.MaxThreadCount;
-                BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit = new SemaphoreSlim(BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount, BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount);
+                DominatorScheduler.islogged = false;
+                DominatorScheduler.maxThreadCount = softwareSettings.Settings.MaxThreadCount;
+                DominatorScheduler._lockWithThreadLimit = new SemaphoreSlim(DominatorScheduler.maxThreadCount,
+                    DominatorScheduler.maxThreadCount);
             }
         }
+
         protected PublisherJobProcess(string campaignId,
             string accountId,
             SocialNetworks network,
@@ -48,7 +57,6 @@ namespace DominatorHouseCore.Process
             bool isPublishOnOwnWall,
             CancellationTokenSource campaignCancellationToken) : this()
         {
-
             // assign campaign Id
             CampaignId = campaignId;
 
@@ -57,7 +65,7 @@ namespace DominatorHouseCore.Process
 
             //Get the general settings from bin files
             GeneralSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
-                                       (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                           (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                        .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
             // Get the full account details from account Id
@@ -85,7 +93,8 @@ namespace DominatorHouseCore.Process
             CurrentJobCancellationToken = new CancellationTokenSource();
 
             //Linked the job configuration's cancellation token source with campaign's cancellation token
-            CombinedCancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CampaignCancellationToken.Token, CurrentJobCancellationToken.Token);
+            CombinedCancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CampaignCancellationToken.Token,
+                CurrentJobCancellationToken.Token);
 
             // Get the fetcher details, its useful for getting campaigns Name
             var campaign = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
@@ -99,7 +108,6 @@ namespace DominatorHouseCore.Process
             IEnumerable<PublisherDestinationDetailsModel> destinationDetails,
             CancellationTokenSource campaignCancellationToken) : this()
         {
-
             // assign campaign Id
             CampaignId = campaignId;
 
@@ -108,7 +116,7 @@ namespace DominatorHouseCore.Process
 
             //Get the general settings from bin files
             GeneralSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
-                                       (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                           (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                        .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
             // Get the full account details from account Id
@@ -130,7 +138,8 @@ namespace DominatorHouseCore.Process
             CurrentJobCancellationToken = new CancellationTokenSource();
 
             //Linked the job configuration's cancellation token source with campaign's cancellation token
-            CombinedCancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CampaignCancellationToken.Token, CurrentJobCancellationToken.Token);
+            CombinedCancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CampaignCancellationToken.Token,
+                CurrentJobCancellationToken.Token);
 
             CampaignName = campaignName;
         }
@@ -140,53 +149,53 @@ namespace DominatorHouseCore.Process
         #region Properties
 
         /// <summary>
-        /// To specify the campaign Id
+        ///     To specify the campaign Id
         /// </summary>
         public string CampaignId { get; set; }
 
         /// <summary>
-        /// To Specify the campaign Name
+        ///     To Specify the campaign Name
         /// </summary>
         public string CampaignName { get; set; }
 
         /// <summary>
-        /// To Specify the social network
+        ///     To Specify the social network
         /// </summary>
         public SocialNetworks Network { get; set; }
 
         /// <summary>
-        /// To Hold Job's configuration settings
+        ///     To Hold Job's configuration settings
         /// </summary>
         public JobConfigurationModel JobConfigurations { get; set; }
 
         /// <summary>
-        /// To holds other configurations settings
+        ///     To holds other configurations settings
         /// </summary>
         public OtherConfigurationModel OtherConfiguration { get; set; }
 
         /// <summary>
-        /// To holds advanced general settings of the campaign
+        ///     To holds advanced general settings of the campaign
         /// </summary>
         public GeneralModel GeneralSettingsModel { get; set; }
 
         /// <summary>
-        /// lock for job process
+        ///     lock for job process
         /// </summary>
         private static readonly object SyncJobProcess = new object();
 
 
         /// <summary>
-        /// Current account details
+        ///     Current account details
         /// </summary>
         public DominatorAccountModel AccountModel { get; set; }
 
         /// <summary>
-        /// Groups destinations Collection
+        ///     Groups destinations Collection
         /// </summary>
         public List<string> GroupDestinationList { get; set; }
 
         /// <summary>
-        /// Pages destination collections
+        ///     Pages destination collections
         /// </summary>
         public List<string> PageDestinationList { get; set; }
 
@@ -194,71 +203,89 @@ namespace DominatorHouseCore.Process
         public List<PublisherDestinationDetailsModel> PublisherDestinationDetailsModels { get; set; }
 
         /// <summary>
-        /// Custom destination collections
+        ///     Custom destination collections
         /// </summary>
         public List<PublisherCustomDestinationModel> CustomDestinationList { get; set; }
 
         /// <summary>
-        /// Is need to publish on own wall
+        ///     Is need to publish on own wall
         /// </summary>
         public bool IsPublishOnOwnWall { get; set; }
 
         /// <summary>
-        /// Campaign's cancellation token
+        ///     Campaign's cancellation token
         /// </summary>
         public CancellationTokenSource CampaignCancellationToken { get; set; }
 
         /// <summary>
-        /// Job's cancellation token
+        ///     Job's cancellation token
         /// </summary>
         public CancellationTokenSource CurrentJobCancellationToken { get; set; }
 
         /// <summary>
-        /// Combined cancellation token source for campaigns and jobs
+        ///     Combined cancellation token source for campaigns and jobs
         /// </summary>
         public CancellationTokenSource CombinedCancellationToken { get; set; }
 
         /// <summary>
-        /// The method for override to publishing to group for an accounts
+        ///     The method for override to publishing to group for an accounts
         /// </summary>
         /// <param name="accountId">Account Id</param>
         /// <param name="groupUrl">Group Url</param>
-        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel"/></param>
+        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel" /></param>
         /// <param name="isDelayNeed">Specify is delay needed after success/failed post</param>
         /// <returns></returns>
-        public virtual bool PublishOnGroups(string accountId, string groupUrl, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
+        public virtual bool PublishOnGroups(string accountId, string groupUrl, PublisherPostlistModel postDetails,
+            bool isDelayNeed = true)
+        {
+            return false;
+        }
 
 
         /// <summary>
-        /// The method for override to publishing to page for an accounts
+        ///     The method for override to publishing to page for an accounts
         /// </summary>
         /// <param name="accountId">Account Id</param>
         /// <param name="pageUrl">Page Url</param>
-        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel"/></param>
+        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel" /></param>
         /// <param name="isDelayNeed">Specify is delay needed after success/failed post</param>
-        public virtual bool PublishOnPages(string accountId, string pageUrl, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
+        public virtual bool PublishOnPages(string accountId, string pageUrl, PublisherPostlistModel postDetails,
+            bool isDelayNeed = true)
+        {
+            return false;
+        }
 
 
         /// <summary>
-        /// The method for override to publishing to own profile for an accounts
+        ///     The method for override to publishing to own profile for an accounts
         /// </summary>
         /// <param name="accountId">Account Id</param>
-        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel"/></param>
+        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel" /></param>
         /// <param name="isDelayNeed">Specify is delay needed after success/failed post</param>
-        public virtual bool PublishOnOwnWall(string accountId, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
+        public virtual bool PublishOnOwnWall(string accountId, PublisherPostlistModel postDetails,
+            bool isDelayNeed = true)
+        {
+            return false;
+        }
 
         /// <summary>
-        /// The method for override to publishing to custom destination for an accounts
+        ///     The method for override to publishing to custom destination for an accounts
         /// </summary>
         /// <param name="accountId">Account Id</param>
-        /// <param name="customDestinationModel">custom destination tyoe and Url <see cref="PublisherCustomDestinationModel"/></param>
-        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel"/></param>
+        /// <param name="customDestinationModel">
+        ///     custom destination tyoe and Url <see cref="PublisherCustomDestinationModel" />
+        /// </param>
+        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel" /></param>
         /// <param name="isDelayNeed">Specify is delay needed after success/failed post</param>
         public virtual bool PublishOnCustomDestination(string accountId,
-            PublisherCustomDestinationModel customDestinationModel, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
+            PublisherCustomDestinationModel customDestinationModel, PublisherPostlistModel postDetails,
+            bool isDelayNeed = true)
+        {
+            return false;
+        }
 
         /// <summary>
-        /// To specify already published count
+        ///     To specify already published count
         /// </summary>
         public int PublishedCount { get; set; }
 
@@ -267,7 +294,7 @@ namespace DominatorHouseCore.Process
         #region Methods
 
         /// <summary>
-        /// To delete a published post after x hours
+        ///     To delete a published post after x hours
         /// </summary>
         /// <param name="postId">Published Post Id/Post Url</param>
         /// <returns></returns>
@@ -278,20 +305,22 @@ namespace DominatorHouseCore.Process
 
         public void ThreadLimit()
         {
-            if (BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit != null)
+            if (DominatorScheduler._lockWithThreadLimit != null)
             {
-                if (BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !BusinessLogic.Scheduler.DominatorScheduler.islogged)
+                if (DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !DominatorScheduler.islogged)
                 {
-                    BusinessLogic.Scheduler.DominatorScheduler.islogged = true;
-                    GlobusLogHelper.log.Info($"{"LangKeyThreadLimitReachedTo".FromResourceDictionary()} {BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount} {"LangKeyPendingStartsWhenRunnningStops".FromResourceDictionary()}");
+                    DominatorScheduler.islogged = true;
+                    GlobusLogHelper.log.Info(
+                        $"{"LangKeyThreadLimitReachedTo".FromResourceDictionary()} {DominatorScheduler.maxThreadCount} {"LangKeyPendingStartsWhenRunnningStops".FromResourceDictionary()}");
                 }
-                BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.Wait();
+
+                DominatorScheduler._lockWithThreadLimit?.Wait();
             }
         }
 
         /// <summary>
-        /// To Start publishing a post for an account
-        /// </summary>      
+        ///     To Start publishing a post for an account
+        /// </summary>
         /// <param name="isRunParallel">Specify whether need to run on parallely or not</param>
         public void StartPublishingPosts(bool isRunParallel)
         {
@@ -312,13 +341,15 @@ namespace DominatorHouseCore.Process
                         StartPublish();
 
                         // check any action waiting to perform
-                        PublishScheduler.RunAndRemovePublisherAction($"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
+                        PublishScheduler.RunAndRemovePublisherAction(
+                            $"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
 
                         // after completion of publishing, decrease a publishing count
                         PublishScheduler.DecreasePublishingCount(CampaignId);
 
-                        GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
-
+                        GlobusLogHelper.log.Info(Log.PublishingProcessCompleted,
+                            AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName,
+                            CampaignName);
                     }, CampaignCancellationToken.Token);
                 }
                 else
@@ -329,27 +360,30 @@ namespace DominatorHouseCore.Process
                     StartPublish();
 
                     // check any action waiting to perform
-                    PublishScheduler.RunAndRemovePublisherAction($"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
+                    PublishScheduler.RunAndRemovePublisherAction(
+                        $"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
 
                     // after completion of publishing, decrease a publishing count
                     PublishScheduler.DecreasePublishingCount(CampaignId);
 
-                    GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
+                    GlobusLogHelper.log.Info(Log.PublishingProcessCompleted,
+                        AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName,
+                        CampaignName);
                 }
-
             }
         }
 
         /// <summary>
-        /// Starting a post for a current accounts with selected destinations
-        /// </summary>     
+        ///     Starting a post for a current accounts with selected destinations
+        /// </summary>
         private void StartPublish()
         {
             PublishedCount = 0;
             try
             {
                 // Getting the delay while running after a x posts completions
-                var multipostDelayCount = RandomUtilties.GetRandomNumber(JobConfigurations.PostRange.EndValue, JobConfigurations.PostRange.StartValue);
+                var multipostDelayCount = RandomUtilties.GetRandomNumber(JobConfigurations.PostRange.EndValue,
+                    JobConfigurations.PostRange.StartValue);
 
                 foreach (var destination in PublisherDestinationDetailsModels)
                 {
@@ -367,18 +401,22 @@ namespace DominatorHouseCore.Process
                     if (destination.DestinationType == ConstantVariable.Group)
                     {
                         // call networks to publishing on groups 
-                        PublishOnGroups(AccountModel.AccountId, destination.DestinationUrl, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
-
+                        PublishOnGroups(AccountModel.AccountId, destination.DestinationUrl,
+                            destination.PublisherPostlistModel,
+                            destination != PublisherDestinationDetailsModels.Last());
                     }
                     else if (destination.DestinationType == ConstantVariable.PageOrBoard)
                     {
                         // call networks to publishing on pages
-                        PublishOnPages(AccountModel.AccountId, destination.DestinationUrl, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
+                        PublishOnPages(AccountModel.AccountId, destination.DestinationUrl,
+                            destination.PublisherPostlistModel,
+                            destination != PublisherDestinationDetailsModels.Last());
                     }
                     else if (destination.DestinationType == ConstantVariable.OwnWall)
                     {
                         // call networks to publishing on own wall of an account
-                        PublishOnOwnWall(AccountModel.AccountId, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
+                        PublishOnOwnWall(AccountModel.AccountId, destination.PublisherPostlistModel,
+                            destination != PublisherDestinationDetailsModels.Last());
                     }
                     else
                     {
@@ -389,7 +427,8 @@ namespace DominatorHouseCore.Process
                         };
 
                         // call networks to publishing on custom destinations 
-                        PublishOnCustomDestination(AccountModel.AccountId, customList, destination.PublisherPostlistModel,
+                        PublishOnCustomDestination(AccountModel.AccountId, customList,
+                            destination.PublisherPostlistModel,
                             destination != PublisherDestinationDetailsModels.Last());
                     }
 
@@ -417,17 +456,17 @@ namespace DominatorHouseCore.Process
             }
             finally
             {
-                if (BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.CurrentCount != BusinessLogic.Scheduler.DominatorScheduler.maxThreadCount)
-                    BusinessLogic.Scheduler.DominatorScheduler._lockWithThreadLimit?.Release();
+                if (DominatorScheduler._lockWithThreadLimit?.CurrentCount != DominatorScheduler.maxThreadCount)
+                    DominatorScheduler._lockWithThreadLimit?.Release();
             }
         }
 
 
         /// <summary>
-        /// Update Post with specified success status
+        ///     Update Post with specified success status
         /// </summary>
         /// <param name="destinationUrl">>Destination Url</param>
-        /// <param name="posts">Post model <see cref="PublisherPostlistModel"/></param>
+        /// <param name="posts">Post model <see cref="PublisherPostlistModel" /></param>
         /// <param name="publishedUrl">Published Post Id/ Url</param>
         public void UpdatePostWithSuccessful(string destinationUrl, PublisherPostlistModel posts, string publishedUrl)
         {
@@ -442,7 +481,9 @@ namespace DominatorHouseCore.Process
                 var post = PostlistFileManager.GetByPostId(CampaignId, posts.PostId);
 
                 // get the post index where current destination present
-                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl && y.AccountId == AccountModel.AccountId));
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(
+                    post.LstPublishedPostDetailsModels.FirstOrDefault(y =>
+                        y.DestinationUrl == destinationUrl && y.AccountId == AccountModel.AccountId));
 
                 // if post index is not present,then return
                 if (postIndex == -1)
@@ -462,16 +503,17 @@ namespace DominatorHouseCore.Process
                 PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
                 // Add into success details
-                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
+                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex],
+                    ConstantVariable.GetPublishedSuccessDetails);
             }
         }
 
 
         /// <summary>
-        /// Update Post with specified failed status
+        ///     Update Post with specified failed status
         /// </summary>
         /// <param name="destinationUrl">Destination Url</param>
-        /// <param name="posts">Post model <see cref="PublisherPostlistModel"/></param>
+        /// <param name="posts">Post model <see cref="PublisherPostlistModel" /></param>
         /// <param name="errorMessage">Pass the error message</param>
         public void UpdatePostWithFailed(string destinationUrl, PublisherPostlistModel posts, string errorMessage)
         {
@@ -485,7 +527,8 @@ namespace DominatorHouseCore.Process
 
                 // get the post index where current destination present
                 var postIndex = post.LstPublishedPostDetailsModels.IndexOf(
-                    post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl && y.AccountId == AccountModel.AccountId));
+                    post.LstPublishedPostDetailsModels.FirstOrDefault(y =>
+                        y.DestinationUrl == destinationUrl && y.AccountId == AccountModel.AccountId));
 
                 // if post index is not present,then return
                 if (postIndex == -1)
@@ -505,7 +548,7 @@ namespace DominatorHouseCore.Process
         }
 
         /// <summary>
-        /// Update Post for successful deletion after specified time
+        ///     Update Post for successful deletion after specified time
         /// </summary>
         /// <param name="destinationUrl">Destination url</param>
         /// <param name="postId">Post Id</param>
@@ -522,7 +565,8 @@ namespace DominatorHouseCore.Process
                 var post = PostlistFileManager.GetByPostId(CampaignId, postId);
 
                 // get the post index where current destination present
-                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(
+                    post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
 
                 // if post index is not present,then return
                 if (postIndex == -1)
@@ -538,15 +582,15 @@ namespace DominatorHouseCore.Process
                 PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
                 // Add into success details
-                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
-
+                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex],
+                    ConstantVariable.GetPublishedSuccessDetails);
             }
         }
 
         /// <summary>
-        /// To apply user selected general settings for campaigns
+        ///     To apply user selected general settings for campaigns
         /// </summary>
-        /// <param name="givenPostModel">post list model <see cref="PublisherPostlistModel"/></param>
+        /// <param name="givenPostModel">post list model <see cref="PublisherPostlistModel" /></param>
         /// <returns></returns>
         public PublisherPostlistModel PerformGeneralSettings(PublisherPostlistModel givenPostModel)
         {
@@ -565,7 +609,8 @@ namespace DominatorHouseCore.Process
                     var randomNumber = RandomUtilties.GetRandomNumber(postModelWithGeneralSettings.MediaList.Count - 1);
 
                     // Fetch the media
-                    postModelWithGeneralSettings.MediaList = new ObservableCollection<string> { givenPostModel.MediaList[randomNumber] };
+                    postModelWithGeneralSettings.MediaList = new ObservableCollection<string>
+                        {givenPostModel.MediaList[randomNumber]};
                 }
             }
             // If user need first image 
@@ -574,7 +619,8 @@ namespace DominatorHouseCore.Process
                 // Validate media list atleast contains a single post
                 if (givenPostModel.MediaList.Count > 0)
                     //Get the first image
-                    postModelWithGeneralSettings.MediaList = new ObservableCollection<string> { givenPostModel.MediaList[0] };
+                    postModelWithGeneralSettings.MediaList = new ObservableCollection<string>
+                        {givenPostModel.MediaList[0]};
             }
             // If user needs select between random no of images
             else if (GeneralSettingsModel.IsChooseBetweenChecked)
@@ -583,23 +629,24 @@ namespace DominatorHouseCore.Process
                 if (givenPostModel.MediaList.Count > 0)
                 {
                     // get the random no of counts for fetching medias
-                    var randomNumber = RandomUtilties.GetRandomNumber(GeneralSettingsModel.ChooseBetween.EndValue, GeneralSettingsModel.ChooseBetween.StartValue);
+                    var randomNumber = RandomUtilties.GetRandomNumber(GeneralSettingsModel.ChooseBetween.EndValue,
+                        GeneralSettingsModel.ChooseBetween.StartValue);
                     if (randomNumber < givenPostModel.MediaList.Count)
                     {
                         // shuffle the image media lists
                         givenPostModel.MediaList.Shuffle();
-                        postModelWithGeneralSettings.MediaList = new ObservableCollection<string>(givenPostModel.MediaList.Take(randomNumber));
+                        postModelWithGeneralSettings.MediaList =
+                            new ObservableCollection<string>(givenPostModel.MediaList.Take(randomNumber));
                     }
                 }
             }
+
             // In socinator we are appending "_SOCINATORIMAGE.jpg" text for video url, before publishing we need to remove those constant text
             var removeVideoExtension = new ObservableCollection<string>();
 
             // Removing extra added media lists
             foreach (var media in postModelWithGeneralSettings.MediaList)
-            {
                 removeVideoExtension.Add(media.Replace(ConstantVariable.VideoToImageConvertFileName, string.Empty));
-            }
 
             postModelWithGeneralSettings.MediaList = removeVideoExtension;
 
@@ -631,10 +678,8 @@ namespace DominatorHouseCore.Process
 
             // Check user need to remove the links from post descriptions
             if (GeneralSettingsModel.IsRemoveLinkFromPostsChecked)
-            {
                 // Call to remove urls from post descriptions
                 postModelWithGeneralSettings.PostDescription = Utilities.RemoveUrls(givenPostModel.PostDescription);
-            }
 
             #endregion
 
@@ -642,10 +687,9 @@ namespace DominatorHouseCore.Process
 
             // Check user needs to make shorten url for long url
             if (OtherConfiguration.IsShortenURLsChecked)
-            {
                 // call to replace the long url to shorten rul by using Bitly 
-                postModelWithGeneralSettings.PostDescription = Utilities.ReplaceWithShortenUrl(postModelWithGeneralSettings.PostDescription);
-            }
+                postModelWithGeneralSettings.PostDescription =
+                    Utilities.ReplaceWithShortenUrl(postModelWithGeneralSettings.PostDescription);
 
             #endregion
 
@@ -653,21 +697,18 @@ namespace DominatorHouseCore.Process
 
             // Check user needs to append signature to post descriptions 
             if (OtherConfiguration.IsEnableSignatureChecked)
-            {
                 // Append the post signatures
                 postModelWithGeneralSettings.PostDescription = postModelWithGeneralSettings.PostDescription + "\r\n" +
-                                                  OtherConfiguration.SignatureText;
-            }
+                                                               OtherConfiguration.SignatureText;
 
             #endregion
 
 
             return postModelWithGeneralSettings;
-
         }
 
         /// <summary>
-        /// To stop the current running jobs
+        ///     To stop the current running jobs
         /// </summary>
         public void Stop()
         {
@@ -683,28 +724,32 @@ namespace DominatorHouseCore.Process
         }
 
         /// <summary>
-        /// Apply the delay for next publish
+        ///     Apply the delay for next publish
         /// </summary>
         public void DelayBeforeNextPublish()
         {
             // Fetching delay seconds count
-            var delay = RandomUtilties.GetRandomNumber(JobConfigurations.DelayBetweenPost.EndValue, JobConfigurations.DelayBetweenPost.StartValue);
+            var delay = RandomUtilties.GetRandomNumber(JobConfigurations.DelayBetweenPost.EndValue,
+                JobConfigurations.DelayBetweenPost.StartValue);
 
-            GlobusLogHelper.log.Info(Log.DelayBetweenPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, delay);
+            GlobusLogHelper.log.Info(Log.DelayBetweenPublishing, AccountModel.AccountBaseModel.AccountNetwork,
+                AccountModel.AccountBaseModel.UserName, delay);
 
             // Apply the delay to current campaign specifically for current account to next post in seconds
             Thread.Sleep(delay * 1000);
         }
 
         /// <summary>
-        /// Make a delay between every x to y posts for specified minutes
+        ///     Make a delay between every x to y posts for specified minutes
         /// </summary>
         public void DelayBetweenMultiPublish()
         {
             // Fetching delay minute count
-            var delay = RandomUtilties.GetRandomNumber(JobConfigurations.DelayBetween.EndValue, JobConfigurations.DelayBetween.StartValue);
+            var delay = RandomUtilties.GetRandomNumber(JobConfigurations.DelayBetween.EndValue,
+                JobConfigurations.DelayBetween.StartValue);
 
-            GlobusLogHelper.log.Info(Log.DelayBetweenMultiPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, delay);
+            GlobusLogHelper.log.Info(Log.DelayBetweenMultiPost, AccountModel.AccountBaseModel.AccountNetwork,
+                AccountModel.AccountBaseModel.UserName, delay);
 
             // Apply the delay to current campaign specifically for current account to next post in minutes
             Thread.Sleep(delay * 1000 * 60);
@@ -727,14 +772,12 @@ namespace DominatorHouseCore.Process
                 var mediaCount = postDetails.MediaList.Count;
 
                 foreach (var media in postDetails.MediaList.DeepCloneObject())
-                {
                     lock (downloadLock)
                     {
-
                         var fileName = $"{folderPath}\\{postDetails.CampaignId}_{postDetails.PostId}_{mediaCount--}" +
-                            $"{MediaUtilites.GetExtensionList().FirstOrDefault(x => System.Text.RegularExpressions.Regex.IsMatch(media, $@"\b{x}\b"))}";
+                                       $"{MediaUtilites.GetExtensionList().FirstOrDefault(x => Regex.IsMatch(media, $@"\b{x}\b"))}";
 
-                        if ((!media.Contains("https://") && !media.Contains("http://")))
+                        if (!media.Contains("https://") && !media.Contains("http://"))
                             continue;
 
                         if (DirectoryUtilities.CheckExistingFie(fileName))
@@ -753,7 +796,6 @@ namespace DominatorHouseCore.Process
                             return;
                         }
                     }
-                }
             }
             catch (Exception ex)
             {
@@ -768,10 +810,10 @@ namespace DominatorHouseCore.Process
                 var lstTemprorayFolderList = DirectoryUtilities.GetSubDirectories(ConstantVariable.MediaTempFolder);
 
                 lstTemprorayFolderList.RemoveAll(x => x.Contains($@"[{DateTime.Now.ToString("MM-dd-yyyy")}]") ||
-                                 x.Contains($@"[{ DateTime.Now.AddDays(-1).ToString("MM-dd-yyyy")}]"));
+                                                      x.Contains(
+                                                          $@"[{DateTime.Now.AddDays(-1).ToString("MM-dd-yyyy")}]"));
 
                 DirectoryUtilities.DeleteFolder(lstTemprorayFolderList, true);
-
             }
             catch (Exception ex)
             {
@@ -785,16 +827,19 @@ namespace DominatorHouseCore.Process
             {
                 if (postDetails.MediaList.Count == 0)
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName
+                    GlobusLogHelper.log.Info(Log.CustomMessage, AccountModel.AccountBaseModel.AccountNetwork,
+                        AccountModel.AccountBaseModel.UserName
                         , "", $"Post with Id {postDetails.PostId} dosen't contain any media! Failed to publish");
                     return false;
                 }
 
-                if(postDetails.MediaList.Any(x => x.StartsWith("https://") ||
-                    postDetails.MediaList.Any(y => y.StartsWith("http://"))))
+                if (postDetails.MediaList.Any(x => x.StartsWith("https://") ||
+                                                   postDetails.MediaList.Any(y => y.StartsWith("http://"))))
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName
-                        , "", $"Post with Id {postDetails.PostId} has media in \"Incorrect Format\"! Failed to publish");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, AccountModel.AccountBaseModel.AccountNetwork,
+                        AccountModel.AccountBaseModel.UserName
+                        , "",
+                        $"Post with Id {postDetails.PostId} has media in \"Incorrect Format\"! Failed to publish");
                     return false;
                 }
             }

@@ -1,12 +1,15 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {
-    public class CreateDestination 
+    public class CreateDestination
     {
-       
-        public int  DestinationId { get; set; }
+        public int DestinationId { get; set; }
 
         public string DestinationName { get; set; }
 
@@ -15,6 +18,5 @@ namespace DominatorHouseCore.ViewModel
         public IEnumerable<DestinationCollection> DestinationCollections { get; set; }
 
         public bool IsDestinationSelected { get; set; }
-
     }
 }

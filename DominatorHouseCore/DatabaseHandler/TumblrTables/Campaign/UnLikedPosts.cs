@@ -1,10 +1,13 @@
-﻿using SQLite;
+﻿#region
+
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
 {
     public class UnLikedPosts
     {
-
         [PrimaryKey]
         [AutoIncrement]
         [Indexed]
@@ -12,16 +15,14 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         public int Id { get; set; }
 
 
-
         /// <summary>
-        /// Contains QueryType For Interaction
+        ///     Contains QueryType For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         /// <summary>
-        /// Contains QueryValue For Interaction
+        ///     Contains QueryValue For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryValue { get; set; }
@@ -33,27 +34,23 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         public string UserName { get; set; }
 
         /// <summary>
-        /// Describes Activity 
+        ///     Describes Activity
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public string ActivityType
-        { get; set; }
+        public string ActivityType { get; set; }
 
 
         /// <summary>
-        /// Contains TimeStamp when interacted with the User
+        ///     Contains TimeStamp when interacted with the User
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int InteractionTimeStamp { get; set; }
 
 
         /// <summary>
-        /// Contains whom we are unfollowing 
+        ///     Contains whom we are unfollowing
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string PostUrl { get; set; }
-
-
-
     }
 }

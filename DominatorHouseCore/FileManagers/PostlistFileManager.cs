@@ -1,9 +1,13 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonServiceLocator;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -31,7 +35,7 @@ namespace DominatorHouseCore.FileManagers
             var all = BinFileHelper.GetPublisherPostListModels(campaignId);
 
             // Update all entries that exists in libraryDestinations, and add that does not exists
-            for (int i = 0; i < libraryposts.Count; i++)
+            for (var i = 0; i < libraryposts.Count; i++)
             {
                 var acc = libraryposts[i];
                 var ix = all.FindIndex(a => acc.PostId == a.PostId);
@@ -40,6 +44,7 @@ namespace DominatorHouseCore.FileManagers
                 else
                     all[ix] = acc;
             }
+
             BinFileHelper.UpdateAllPostlists(campaignId, all);
         }
 
@@ -56,7 +61,10 @@ namespace DominatorHouseCore.FileManagers
         }
 
 
-        public static List<PublisherPostlistModel> GetAll(string campaignId) => BinFileHelper.GetPublisherPostListModels(campaignId);
+        public static List<PublisherPostlistModel> GetAll(string campaignId)
+        {
+            return BinFileHelper.GetPublisherPostListModels(campaignId);
+        }
 
         public static PublisherPostlistModel GetByPostId(string campaignId, string postId)
         {
@@ -82,7 +90,8 @@ namespace DominatorHouseCore.FileManagers
 
         public static void DeleteSelected(string campaignId, List<PublisherPostlistModel> postlistModels)
         {
-            var all = GetAll(campaignId).Where(a => postlistModels.FirstOrDefault(p => p.PostId == a.PostId) == null).ToList();
+            var all = GetAll(campaignId).Where(a => postlistModels.FirstOrDefault(p => p.PostId == a.PostId) == null)
+                .ToList();
             SaveAll(campaignId, all);
         }
 
@@ -92,6 +101,5 @@ namespace DominatorHouseCore.FileManagers
             postList.RemoveAll(match);
             BinFileHelper.UpdateAllPostlists(campaignId, postList);
         }
-
     }
 }

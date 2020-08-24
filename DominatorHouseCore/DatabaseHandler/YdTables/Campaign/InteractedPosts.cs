@@ -1,4 +1,8 @@
-﻿using SQLite;
+﻿#region
+
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
 {
@@ -65,18 +69,20 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         public bool IsSubscribed { get; set; }
 
         /// <summary>
-        /// use it as CommentText/ReplyCommentText/LikedCommentText/ReportText
+        ///     use it as CommentText/ReplyCommentText/LikedCommentText/ReportText
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
         public string MyCommentedText { get; set; }
-        
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public string CommentId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
         public string MyChannelId { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
         public string MyChannelPageId { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
         public int ViewingCountPerAccount { get; set; }
 

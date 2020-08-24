@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region
+
+using System;
 using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
     [Serializable]
     [ProtoContract]
-    public class FdPostSettings : BindableBase, IFdPostSettings 
+    public class FdPostSettings : BindableBase, IFdPostSettings
     {
         private bool _isPostAsStoryPost;
         private bool _sellPostSelected;
@@ -21,15 +25,12 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(1)]
         public bool SellPostSelected
         {
-            get
-            {
-                return _sellPostSelected;
-            }
+            get => _sellPostSelected;
             set
             {
                 if (_sellPostSelected == value)
                     return;
-               
+
                 SetProperty(ref _sellPostSelected, value);
             }
         }
@@ -37,16 +38,12 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(2)]
         public string ProductName
         {
-            get
-            {
-                return _productName;
-            }
+            get => _productName;
             set
             {
-               
                 if (_productName == value)
                     return;
-              
+
                 SetProperty(ref _productName, value);
             }
         }
@@ -54,29 +51,19 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(3)]
         public int ProductPrice
         {
-            get
-            {
-                return _productPrice;
-            }
-            set
-            {               
-                
-                SetProperty(ref _productPrice, value);
-            }
+            get => _productPrice;
+            set => SetProperty(ref _productPrice, value);
         }
 
         [ProtoMember(4)]
         public string ProductAvailableLocation
         {
-            get
-            {
-                return _productAvailableLocation;
-            }
+            get => _productAvailableLocation;
             set
-            {             
+            {
                 if (_productAvailableLocation == value)
                     return;
-               
+
                 SetProperty(ref _productAvailableLocation, value);
             }
         }
@@ -84,15 +71,12 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(5)]
         public bool SellPostTurnOffComment
         {
-            get
-            {
-                return _sellPostTurnOffComment;
-            }
+            get => _sellPostTurnOffComment;
             set
-            {              
+            {
                 if (_sellPostTurnOffComment == value)
                     return;
-              
+
                 SetProperty(ref _sellPostTurnOffComment, value);
             }
         }
@@ -100,15 +84,12 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(6)]
         public bool IsReplaceDescriptionSelected
         {
-            get
-            {
-                return _isReplaceDescriptionSelected;
-            }
+            get => _isReplaceDescriptionSelected;
             set
-            {              
+            {
                 if (_isReplaceDescriptionSelected == value)
                     return;
-              
+
                 SetProperty(ref _isReplaceDescriptionSelected, value);
             }
         }
@@ -116,14 +97,11 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(7)]
         public string PostReplaceDescription
         {
-            get
-            {
-                return _postReplaceDescription;
-            }
+            get => _postReplaceDescription;
             set
             {
                 if (_postReplaceDescription == value)
-                    return;             
+                    return;
                 SetProperty(ref _postReplaceDescription, value);
             }
         }
@@ -131,10 +109,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(8)]
         public bool IsPostAsStoryPost
         {
-            get
-            {
-                return _isPostAsStoryPost;
-            }
+            get => _isPostAsStoryPost;
             set
             {
                 if (_isPostAsStoryPost == value)

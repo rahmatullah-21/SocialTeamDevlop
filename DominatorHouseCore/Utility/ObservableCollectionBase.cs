@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -8,18 +10,20 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 
+#endregion
+
 namespace DominatorHouseCore.Utility
 {
-    public class ObservableCollectionBase<TType> : IList, IList<TType>, INotifyPropertyChanged, INotifyCollectionChanged, IReadOnlyCollection<TType>
+    public class ObservableCollectionBase<TType> : IList, IList<TType>, INotifyPropertyChanged,
+        INotifyCollectionChanged, IReadOnlyCollection<TType>
     {
-
         /// <summary>
-        /// _listLocker is used to lock the current collection object
+        ///     _listLocker is used to lock the current collection object
         /// </summary>
         private readonly object _listLocker = new object();
 
         /// <summary>
-        /// _inputCollection is the source where the operations takes place
+        ///     _inputCollection is the source where the operations takes place
         /// </summary>
         private readonly IList<TType> _inputCollection;
 
@@ -47,14 +51,16 @@ namespace DominatorHouseCore.Utility
 
 
         /// <summary>
-        /// Count property is used get the count of the input collection items
+        ///     Count property is used get the count of the input collection items
         /// </summary>
         public int Count
         {
             get
             {
                 lock (_listLocker)
+                {
                     return _inputCollection.Count;
+                }
             }
         }
 
@@ -86,6 +92,7 @@ namespace DominatorHouseCore.Utility
                     else
                         Interlocked.CompareExchange<object>(ref _syncRoot, new object(), null);
                 }
+
                 return _syncRoot;
             }
         }
@@ -97,25 +104,23 @@ namespace DominatorHouseCore.Utility
             get
             {
                 lock (_listLocker)
+                {
                     return _inputCollection[index];
+                }
             }
             set
             {
                 lock (_listLocker)
+                {
                     _inputCollection[index] = value;
+                }
             }
         }
 
         object IList.this[int index]
         {
-            get
-            {
-                return this[index];
-            }
-            set
-            {
-                this[index] = (TType)value;
-            }
+            get => this[index];
+            set => this[index] = (TType) value;
         }
 
         public void Add(TType item)
@@ -133,41 +138,52 @@ namespace DominatorHouseCore.Utility
         {
             lock (_listLocker)
             {
-                ((List<TType>)_inputCollection).AddRange(objects);
+                ((List<TType>) _inputCollection).AddRange(objects);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, objects));
+                OnCollectionChangedMultiItem(
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, objects));
             }
         }
 
         public void Clear()
         {
             lock (_listLocker)
+            {
                 _inputCollection.Clear();
+            }
         }
 
         public bool Contains(TType item)
         {
             lock (_listLocker)
+            {
                 return _inputCollection.Contains(item);
+            }
         }
 
         public void CopyTo(TType[] array, int arrayIndex)
         {
             lock (_listLocker)
+            {
                 _inputCollection.CopyTo(array, arrayIndex);
+            }
         }
 
         public int IndexOf(TType item)
         {
             lock (_listLocker)
+            {
                 return _inputCollection.IndexOf(item);
+            }
         }
 
         public void Insert(int index, TType item)
         {
             lock (_listLocker)
+            {
                 _inputCollection.Insert(index, item);
+            }
         }
 
         public bool Remove(TType item)
@@ -187,14 +203,15 @@ namespace DominatorHouseCore.Utility
         {
             lock (_listLocker)
             {
-                var collection = (List<TType>)_inputCollection;
-                var predicate1 = (Func<TType, bool>)(x => predicate(x));
+                var collection = (List<TType>) _inputCollection;
+                var predicate1 = (Func<TType, bool>) (x => predicate(x));
                 var objs = collection.Where(predicate1);
                 var match = predicate;
                 collection.RemoveAll(match);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, objs));
+                OnCollectionChangedMultiItem(
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, objs));
             }
         }
 
@@ -214,7 +231,7 @@ namespace DominatorHouseCore.Utility
         {
             lock (_listLocker)
             {
-                var collection = (List<TType>)_inputCollection;
+                var collection = (List<TType>) _inputCollection;
                 var index1 = begin;
                 var count1 = end;
                 collection.RemoveRange(index1, count1);
@@ -223,19 +240,20 @@ namespace DominatorHouseCore.Utility
                 var range = collection.GetRange(index2, count2);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, range));
+                OnCollectionChangedMultiItem(
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, range));
             }
         }
 
         int IList.Add(object value)
         {
-            Add((TType)value);
+            Add((TType) value);
             return Count - 1;
         }
 
         bool IList.Contains(object value)
         {
-            return Contains((TType)value);
+            return Contains((TType) value);
         }
 
         void ICollection.CopyTo(Array inputArray, int index)
@@ -260,36 +278,37 @@ namespace DominatorHouseCore.Utility
         IEnumerator IEnumerable.GetEnumerator()
         {
             lock (_listLocker)
+            {
                 return _inputCollection.GetEnumerator();
+            }
         }
 
         int IList.IndexOf(object value)
         {
-            return IndexOf((TType)value);
+            return IndexOf((TType) value);
         }
 
         void IList.Insert(int index, object value)
         {
-            var obj = (TType)value;
+            var obj = (TType) value;
             Insert(index, obj);
         }
 
         void IList.Remove(object value)
         {
-            Remove((TType)value);
+            Remove((TType) value);
         }
 
         IEnumerator<TType> IEnumerable<TType>.GetEnumerator()
         {
-
             lock (_listLocker)
+            {
                 return _inputCollection.GetEnumerator();
-
+            }
         }
 
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
-           
             var handler = CollectionChanged;
             if (handler == null)
                 return;
@@ -297,15 +316,13 @@ namespace DominatorHouseCore.Utility
             if (Application.Current.Dispatcher.Thread != Thread.CurrentThread)
                 Application.Current.Dispatcher.BeginInvoke(new Action(delegate { handler(this, args); }));
 
-               // Application.Current.Dispatcher.BeginInvoke((Delegate)(() => handler((object)this, args)));
+            // Application.Current.Dispatcher.BeginInvoke((Delegate)(() => handler((object)this, args)));
             else
                 handler(this, args);
-
         }
 
         private void OnCollectionChangedMultiItem(NotifyCollectionChangedEventArgs e)
-        {        
-                
+        {
             var collectionChanged = CollectionChanged;
 
             if (collectionChanged == null)
@@ -319,10 +336,7 @@ namespace DominatorHouseCore.Utility
                     Application.Current.Dispatcher.BeginInvoke
                     (view != null
                         ? delegate { view.Refresh(); }
-                        : new Action(delegate
-                        {
-                            collectionChanged(this, e);
-                        }));
+                        : new Action(delegate { collectionChanged(this, e); }));
                 // Application.Current.Dispatcher.BeginInvoke(view != null ? (Delegate)(() => view.Refresh()) : (Delegate)(() => collectionChanged((object)this, e)));
                 else if (view != null)
                     view.Refresh();
@@ -332,7 +346,7 @@ namespace DominatorHouseCore.Utility
         }
 
         private void OnPropertyChanged(string propertyName = null)
-        {          
+        {
             var propertyChanged = PropertyChanged;
             if (propertyChanged == null)
                 return;

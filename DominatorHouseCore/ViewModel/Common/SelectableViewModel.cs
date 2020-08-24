@@ -1,10 +1,14 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel.Common
 {
@@ -31,7 +35,7 @@ namespace DominatorHouseCore.ViewModel.Common
 
         public T Selected
         {
-            get { return _selected; }
+            get => _selected;
             set
             {
                 SetProperty(ref _selected, value, nameof(Selected));
@@ -44,7 +48,9 @@ namespace DominatorHouseCore.ViewModel.Common
             get
             {
                 lock (_syncContext)
+                {
                     return _itemsCollection;
+                }
             }
         }
 
@@ -53,7 +59,9 @@ namespace DominatorHouseCore.ViewModel.Common
             get
             {
                 lock (_syncContext)
+                {
                     return _itemsCollection;
+                }
             }
         }
 
@@ -90,10 +98,7 @@ namespace DominatorHouseCore.ViewModel.Common
             lock (_syncContext)
             {
                 _itemsCollection.Remove(item);
-                if (item.Equals(Selected))
-                {
-                    Selected = default(T);
-                }
+                if (item.Equals(Selected)) Selected = default(T);
             }
         }
 
@@ -104,10 +109,7 @@ namespace DominatorHouseCore.ViewModel.Common
                 foreach (var item in items)
                 {
                     _itemsCollection.Remove(item);
-                    if (item.Equals(Selected))
-                    {
-                        Selected = default(T);
-                    }
+                    if (item.Equals(Selected)) Selected = default(T);
                 }
             }
         }
@@ -121,17 +123,16 @@ namespace DominatorHouseCore.ViewModel.Common
         public bool Contains(T socialNetworks)
         {
             lock (_syncContext)
+            {
                 return _itemsCollection.Contains(socialNetworks);
+            }
         }
 
         public void SelectByIndex(int index)
         {
             lock (_syncContext)
             {
-                if (_itemsCollection.Count > index)
-                {
-                    Selected = _itemsCollection[index];
-                }
+                if (_itemsCollection.Count > index) Selected = _itemsCollection[index];
             }
         }
 

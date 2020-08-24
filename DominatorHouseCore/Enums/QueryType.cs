@@ -1,13 +1,14 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.ComponentModel;
-using System.Linq;
+
+#endregion
 
 namespace DominatorHouseCore.Enums
 {
     public enum QueryType
     {
-
         //[Description("Facebook, Instagram,Twitter, Pinterest, LinkedIn, Reddit, Quora,Youtube,Tumblr")]
         [Facebook]
         [Instagram]
@@ -21,17 +22,42 @@ namespace DominatorHouseCore.Enums
         [Description("Follow")]
         Keyword,
 
-        [Quora]
-        [Description("Follow")]
-        SomeOneFollower
+        [Quora] [Description("Follow")] SomeOneFollower
     }
-    class FacebookAttribute : Attribute { }
-    class InstagramAttribute : Attribute { }
-    class TwitterAttribute : Attribute { }
-    class QuoraAttribute : Attribute { }
-    class PinterestAttribute : Attribute { }
-    class LinkedInAttribute : Attribute { }
-    class RedditAttribute : Attribute { }
-    class YoutubeAttribute : Attribute { }
-    class TumblrAttribute : Attribute { }
+
+    internal class FacebookAttribute : Attribute
+    {
+    }
+
+    internal class InstagramAttribute : Attribute
+    {
+    }
+
+    internal class TwitterAttribute : Attribute
+    {
+    }
+
+    internal class QuoraAttribute : Attribute
+    {
+    }
+
+    internal class PinterestAttribute : Attribute
+    {
+    }
+
+    internal class LinkedInAttribute : Attribute
+    {
+    }
+
+    internal class RedditAttribute : Attribute
+    {
+    }
+
+    internal class YoutubeAttribute : Attribute
+    {
+    }
+
+    internal class TumblrAttribute : Attribute
+    {
+    }
 }

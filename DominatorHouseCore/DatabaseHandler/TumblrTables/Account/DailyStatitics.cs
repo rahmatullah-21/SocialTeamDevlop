@@ -1,5 +1,9 @@
-﻿using SQLite;
+﻿#region
+
 using System;
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 {
@@ -10,41 +14,37 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         [Indexed]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
-        
+
         /// <summary>
-        /// Date when statistics are entered in Unix Timestamp
+        ///     Date when statistics are entered in Unix Timestamp
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        public DateTime Date
-        { get; set; }
+        public DateTime Date { get; set; }
 
         /// <summary>
-        /// Connections count of the DB owner when the statistics has got updated
+        ///     Connections count of the DB owner when the statistics has got updated
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public int Followers
-        { get; set; }
+        public int Followers { get; set; }
 
         /// <summary>
-        /// LinkedinGroups count of the DB owner when the statistics has got updated
+        ///     LinkedinGroups count of the DB owner when the statistics has got updated
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public int Followings
-        { get; set; }
+        public int Followings { get; set; }
 
         /// <summary>
-        /// Posts count of the DB owner when the statistics has got updated
+        ///     Posts count of the DB owner when the statistics has got updated
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public int PostsCount
-        { get; set; }
+        public int PostsCount { get; set; }
 
         /// <summary>
-        /// Likes count of the DB owner when the statistics has got updated
+        ///     Likes count of the DB owner when the statistics has got updated
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]

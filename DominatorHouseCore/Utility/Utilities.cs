@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿#region
+
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,25 +14,32 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
+using CommonServiceLocator;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+using Newtonsoft.Json;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
     public static class Utilities
     {
-
         /// <summary>
-        /// GetMobileDeviceId is used to get the mobile device id with 16 Digits
+        ///     GetMobileDeviceId is used to get the mobile device id with 16 Digits
         /// </summary>
         /// <returns>return the 16 digit unique mobile device ID</returns>
         public static string GetMobileDeviceId(string Guid = "")
         {
             // Collect the random inputString with five character, convert those character to byte array with help of the MD5
-            return "android-" + (String.IsNullOrEmpty(Guid) ? RandomUtilties.GetRandomString(5).GetHexFromString().Substring(0, 16) : Guid);
+            return "android-" + (string.IsNullOrEmpty(Guid)
+                       ? RandomUtilties.GetRandomString(5).GetHexFromString().Substring(0, 16)
+                       : Guid);
         }
 
 
         /// <summary>
-        /// GetHexFromString is used to get the hexadecimal value of the given input inputString
+        ///     GetHexFromString is used to get the hexadecimal value of the given input inputString
         /// </summary>
         /// <param name="inputString">inputString which is convert into hexadecimal</param>
         /// <returns>Required Hexa decimal value from the inputString</returns>
@@ -48,13 +57,13 @@ namespace DominatorHouseCore.Utility
 
                 //Compute the hash values of bytes with the help of MD5 then convert those to base datatype(here string),
                 //finally convert the string to lower
-                return BitConverter.ToString(md5.ComputeHash(bytes)).Replace("-", String.Empty).ToLower();
+                return BitConverter.ToString(md5.ComputeHash(bytes)).Replace("-", string.Empty).ToLower();
             }
         }
 
 
         /// <summary>
-        /// GetGuid is used to get the GUID values
+        ///     GetGuid is used to get the GUID values
         /// </summary>
         /// <param name="isDashesNeed">This parameter is used to decide whether keep the dashes in the GUID or not</param>
         /// <returns>Return the GUID</returns>
@@ -63,11 +72,11 @@ namespace DominatorHouseCore.Utility
             // Generate the GUID 
             var getGuid = Guid.NewGuid().ToString();
             // return the GUID without dashes if isDashesNeed is true 
-            return !isDashesNeed ? getGuid.Replace('-', Char.MinValue) : getGuid;
+            return !isDashesNeed ? getGuid.Replace('-', char.MinValue) : getGuid;
         }
 
         /// <summary>
-        /// Get the text from source string Between two pattern of characters
+        ///     Get the text from source string Between two pattern of characters
         /// </summary>
         /// <param name="strSource"></param>
         /// <param name="strStart"></param>
@@ -87,6 +96,7 @@ namespace DominatorHouseCore.Utility
 
                     return strSource.Substring(start, end - start);
                 }
+
                 return string.Empty;
             }
             catch
@@ -97,14 +107,14 @@ namespace DominatorHouseCore.Utility
 
 
         /// <summary>
-        /// Calculates percentage
+        ///     Calculates percentage
         /// </summary>
         /// <param name="value"></param>
         /// <param name="percentage"></param>
         /// <returns></returns>
         public static int PercentageCalculator(int value, int percentage)
         {
-            return (value * percentage) / 100;
+            return value * percentage / 100;
         }
 
         // Returns string from resource dictionary
@@ -112,7 +122,8 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                var lang = Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;
+                var lang = Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ??
+                           resourceDictionaryKey;
                 return lang;
             }
             catch (Exception)
@@ -123,13 +134,13 @@ namespace DominatorHouseCore.Utility
         }
 
         /// <summary>
-        /// Get Report Header as string
+        ///     Get Report Header as string
         /// </summary>
         /// <param name="resourceDictionaryKey">List of resourceDictionary key. It should be sequential.</param>
         /// <returns></returns>
         public static string ReportHeaderFromResourceDict(this List<string> resourceDictionaryKeys)
         {
-            string header = "";
+            var header = "";
             foreach (var each in resourceDictionaryKeys)
             {
                 string lang;
@@ -142,8 +153,10 @@ namespace DominatorHouseCore.Utility
                     lang = each.Substring("LangKey".Length);
                     lang = Regex.Replace(lang, "(\\B[A-Z])", " $1");
                 }
+
                 header += $"{lang},";
             }
+
             return header.TrimEnd(',');
         }
 
@@ -151,20 +164,23 @@ namespace DominatorHouseCore.Utility
         public static void ExportReports(string fileName, string csvHeader, List<string> csvData)
         {
             using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
+            {
                 streamWriter.WriteLine(csvHeader);
+            }
+
             try
             {
                 Task.Factory.StartNew(async () =>
                 {
                     ToasterNotification.ShowWarning("LangKeyExportingStarted".FromResourceDictionary());
                     foreach (var item in csvData)
-                    {
                         using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
                         {
                             await streamWriter.WriteLineAsync(item);
                         }
-                    }
-                    ToasterNotification.ShowSuccess($"{"LangKeySucessfullyExportedTo".FromResourceDictionary()} {fileName} ");
+
+                    ToasterNotification.ShowSuccess(
+                        $"{"LangKeySucessfullyExportedTo".FromResourceDictionary()} {fileName} ");
                 });
             }
             catch (Exception ex)
@@ -178,8 +194,8 @@ namespace DominatorHouseCore.Utility
 
         public static string GetUrlFormPostData(object obj)
         {
-            string urlFormData = String.Empty;
-            string serializedPostData = JsonConvert.SerializeObject(obj, new JsonSerializerSettings()
+            var urlFormData = string.Empty;
+            var serializedPostData = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore
             });
@@ -187,22 +203,22 @@ namespace DominatorHouseCore.Utility
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(serializedPostData);
 
             foreach (var dictKey in dict.Keys)
-            {
-                urlFormData += (urlFormData == String.Empty ? String.Empty : "&") + dictKey + "=" + dict[dictKey];
-            }
+                urlFormData += (urlFormData == string.Empty ? string.Empty : "&") + dictKey + "=" + dict[dictKey];
             return urlFormData;
         }
 
         /// <summary>
-        /// Remove the url from given text
+        ///     Remove the url from given text
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static string RemoveUrls(string text) =>
-            Regex.Replace(text, @"\b(?:https?://|www\.)\S+\b", string.Empty).Trim();
+        public static string RemoveUrls(string text)
+        {
+            return Regex.Replace(text, @"\b(?:https?://|www\.)\S+\b", string.Empty).Trim();
+        }
 
         /// <summary>
-        /// Replace the url with their shorten url
+        ///     Replace the url with their shorten url
         /// </summary>
         /// <param name="text">text</param>
         /// <returns></returns>
@@ -215,14 +231,17 @@ namespace DominatorHouseCore.Utility
         }
 
         /// <summary>
-        /// Apply the shorten url for all matches
+        ///     Apply the shorten url for all matches
         /// </summary>
-        /// <param name="match"><see cref="Match"/> match objects</param>
+        /// <param name="match"><see cref="Match" /> match objects</param>
         /// <returns></returns>
-        public static string ReplaceMatchEvaluator(Match match) => Shorten(match.Value);
+        public static string ReplaceMatchEvaluator(Match match)
+        {
+            return Shorten(match.Value);
+        }
 
         /// <summary>
-        /// Get a shorten url for give url
+        ///     Get a shorten url for give url
         /// </summary>
         /// <param name="longUrl"></param>
         /// <returns></returns>
@@ -239,10 +258,11 @@ namespace DominatorHouseCore.Utility
                 return longUrl;
 
             // base url
-            var url = $"http://api.bit.ly/shorten?format=json&version=2.0.1&longUrl={HttpUtility.UrlEncode(longUrl)}&login={login}&apiKey={apikey}";
+            var url =
+                $"http://api.bit.ly/shorten?format=json&version=2.0.1&longUrl={HttpUtility.UrlEncode(longUrl)}&login={login}&apiKey={apikey}";
 
             // make a get requests
-            var request = (HttpWebRequest)WebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(url);
             try
             {
                 var response = request.GetResponse();
@@ -267,16 +287,16 @@ namespace DominatorHouseCore.Utility
             {
                 ex.DebugLog();
             }
+
             return longUrl;
         }
 
 
         /// <summary>
-        /// Extract integer only value from string
+        ///     Extract integer only value from string
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-
         public static string GetIntegerOnlyString(string data)
         {
             if (data.Contains("null"))
@@ -295,30 +315,35 @@ namespace DominatorHouseCore.Utility
         public static bool DownloadNotFound()
         {
             var webclient = new WebClient();
-            webclient.DownloadFile("https://cdn.browshot.com/static/images/not-found.png", $"{ConstantVariable.GetNotFoundImage()}");
+            webclient.DownloadFile("https://cdn.browshot.com/static/images/not-found.png",
+                $"{ConstantVariable.GetNotFoundImage()}");
             return true;
         }
 
         public static bool DownloadSocinatorIcon()
         {
             var webclient = new WebClient();
-            webclient.DownloadFile("https://socinator.com/wp-content/uploads/2018/07/fav_64.png", $"{ConstantVariable.GetSocinatorIcon()}");
+            webclient.DownloadFile("https://socinator.com/wp-content/uploads/2018/07/fav_64.png",
+                $"{ConstantVariable.GetSocinatorIcon()}");
             return true;
         }
+
         public static string ReplaceUniCode(string messeges)
         {
             messeges = HttpUtility.HtmlDecode(messeges);
-            Regex _regex = new Regex(@"\\u(?<Value>[a-zA-Z0-9]{4})", RegexOptions.Compiled);
+            var _regex = new Regex(@"\\u(?<Value>[a-zA-Z0-9]{4})", RegexOptions.Compiled);
             messeges = _regex.Replace(messeges,
-                m => ((char)int.Parse(m.Groups["Value"].Value, System.Globalization.NumberStyles.HexNumber)).ToString()
+                m => ((char) int.Parse(m.Groups["Value"].Value, NumberStyles.HexNumber)).ToString()
             );
             return messeges;
         }
 
         public static bool AppClosing;
         public static readonly object LockOpeningBrowser = new object();
+
         public static List<Tuple<int, DateTime, DateTime>> RunningWebDrivers =
             new List<Tuple<int, DateTime, DateTime>>();
+
         public static void KillGecko()
         {
             try
@@ -337,26 +362,31 @@ namespace DominatorHouseCore.Utility
                             System.Diagnostics.Process.GetProcessById(geckoProcessId.Item1).Kill();
                         }
                         catch (Exception ex)
-                        { ex.DebugLog(); }
+                        {
+                            ex.DebugLog();
+                        }
 
                         if (listOfFirefox.Count == 0) return;
                         var processFirefox = listOfFirefox.Where(x => !x.HasExited &&
-                                                                      x.StartTime >= geckoProcessId.Item2 && x.StartTime < geckoProcessId.Item3);
+                                                                      x.StartTime >= geckoProcessId.Item2 &&
+                                                                      x.StartTime < geckoProcessId.Item3);
                         try
                         {
                             foreach (var each in processFirefox)
-                            {
                                 if (!each.HasExited)
                                     each.Kill();
-                            }
                         }
                         catch (Exception ex)
-                        { /*Ignore*/ }
+                        {
+                            /*Ignore*/
+                        }
                     }
                 }
             }
             catch (Exception ex)
-            { ex.DebugLog(); }
+            {
+                ex.DebugLog();
+            }
         }
 
         public static T DeepCloneObject<T>(this T instance)
@@ -364,7 +394,7 @@ namespace DominatorHouseCore.Utility
             return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(instance));
         }
 
-        public static void CopyJobConfigWith(this Models.JobConfiguration jobConfig, Models.JobConfiguration oldJobConfig)
+        public static void CopyJobConfigWith(this JobConfiguration jobConfig, JobConfiguration oldJobConfig)
         {
             jobConfig.ActivitiesPerJobDisplayName = oldJobConfig.ActivitiesPerJobDisplayName;
             jobConfig.ActivitiesPerHourDisplayName = oldJobConfig.ActivitiesPerHourDisplayName;
@@ -373,7 +403,8 @@ namespace DominatorHouseCore.Utility
             jobConfig.IncreaseActivityDisplayName = oldJobConfig.IncreaseActivityDisplayName;
         }
 
-        public static void ModifySavedQueries(this ObservableCollection<Models.QueryInfo> savedQuery, List<string> listQueryTypes, List<string> oldlistQueryTypes)
+        public static void ModifySavedQueries(this ObservableCollection<QueryInfo> savedQuery,
+            List<string> listQueryTypes, List<string> oldlistQueryTypes)
         {
             savedQuery.ForEach(x =>
             {
@@ -388,64 +419,69 @@ namespace DominatorHouseCore.Utility
             dynamic getModel = JsonConvert.DeserializeObject<T>(activitySettings);
 
             if ("LangKeySocinator".FromResourceDictionary() == "Tunto Socianator")
-            {
                 try
                 {
-                    Utilities.CopyJobConfigWith(getModel.JobConfiguration, lastModel.JobConfiguration);
+                    CopyJobConfigWith(getModel.JobConfiguration, lastModel.JobConfiguration);
 
                     if (!isNonQuery)
                     {
                         var listOldQuery = getModel.ListQueryType;
                         getModel.ListQueryType = lastModel.ListQueryType;
 
-                        Utilities.ModifySavedQueries(getModel.SavedQueries, getModel.ListQueryType, listOldQuery);
+                        ModifySavedQueries(getModel.SavedQueries, getModel.ListQueryType, listOldQuery);
                     }
                 }
                 catch (Exception ex)
-                { ex.DebugLog(); }
+                {
+                    ex.DebugLog();
+                }
 
-            }
             return getModel;
         }
 
-        public static string AsCsvData(this string data/*, bool isLast = false*/)
+        public static string AsCsvData(this string data /*, bool isLast = false*/)
         {
-            return $"\"{data?.Replace("\"", "\"\"")}\""/* + (!isLast ? "," : "")*/;
+            return $"\"{data?.Replace("\"", "\"\"")}\"" /* + (!isLast ? "," : "")*/;
         }
 
-        public static void UpdateTestResponseDataFile(string hitResponse, string respDataFileLoc, Models.SoftwareSettingsModel softwareSettings = null)
+        public static void UpdateTestResponseDataFile(string hitResponse, string respDataFileLoc,
+            SoftwareSettingsModel softwareSettings = null)
         {
             try
             {
                 if (softwareSettings == null)
                 {
-                    var softwareSettingsFileManager = CommonServiceLocator.ServiceLocator.Current.GetInstance<FileManagers.ISoftwareSettingsFileManager>();
+                    var softwareSettingsFileManager =
+                        ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
                     softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
                 }
+
                 if (softwareSettings.IsTestMode)
-                {
                     // Update data in TestResponseFile(json, html etc.)
                     FileUtilities.ReWriteDataIntoFile(hitResponse, respDataFileLoc);
-                }
             }
             catch (Exception ex)
-            { }
+            {
+            }
         }
 
-        public static void UpdateResponseHandlerTest(string hitResponse, object hitResponseHandler, string respDataFileLoc, string respHandTestFileLoc, Models.SoftwareSettingsModel softwareSettings = null)
+        public static void UpdateResponseHandlerTest(string hitResponse, object hitResponseHandler,
+            string respDataFileLoc, string respHandTestFileLoc, SoftwareSettingsModel softwareSettings = null)
         {
             try
             {
                 if (softwareSettings == null)
                 {
-                    var softwareSettingsFileManager = CommonServiceLocator.ServiceLocator.Current.GetInstance<FileManagers.ISoftwareSettingsFileManager>();
+                    var softwareSettingsFileManager =
+                        ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
                     softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
                 }
+
                 if (softwareSettings.IsTestMode)
                 {
                     // Update data in TestResponseFile(json, html etc.)
                     FileUtilities.ReWriteDataIntoFile(hitResponse, respDataFileLoc);
-                    
+
                     // get text content from the ResponseHandler class file to update the content in it 
                     var classData = FileUtilities.ReadFile(respHandTestFileLoc).Result;
 
@@ -462,8 +498,9 @@ namespace DominatorHouseCore.Utility
                     FileUtilities.ReWriteDataIntoFile(classData, respHandTestFileLoc);
                 }
             }
-            catch(Exception ex)
-            { }
+            catch (Exception ex)
+            {
+            }
         }
 
         public static string GetClassPropertyValueForTests(object obj, string startingObjStringName = "sut",
@@ -542,12 +579,13 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static string GetStringFromListObj(object obj, string startingObjStringName, int numberOfDataFromList = 0)
+        public static string GetStringFromListObj(object obj, string startingObjStringName,
+            int numberOfDataFromList = 0)
         {
             try
             {
                 var sb = new StringBuilder();
-                var value = (System.Collections.IList)obj;
+                var value = (IList) obj;
                 var iteration = 0;
                 if (numberOfDataFromList == 0)
                     numberOfDataFromList = value.Count;
@@ -572,7 +610,5 @@ namespace DominatorHouseCore.Utility
             value = isInt ? value : $"\"{value}\"";
             return $"\n{startingObjStringName}.{name}.Should().Be({value});";
         }
-
-
     }
 }

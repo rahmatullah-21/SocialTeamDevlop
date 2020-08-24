@@ -1,5 +1,9 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using CommonServiceLocator;
 using DominatorHouseCore.Process;
+
+#endregion
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -7,7 +11,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
     {
         public QueryScraper Create(JobProcess jobProcess)
         {
-            var scrapeProcess = ServiceLocator.Current.GetInstance<IQueryScraperFactory>(jobProcess.SocialNetworks.ToString());
+            var scrapeProcess =
+                ServiceLocator.Current.GetInstance<IQueryScraperFactory>(jobProcess.SocialNetworks.ToString());
             return scrapeProcess.Create(jobProcess);
         }
     }

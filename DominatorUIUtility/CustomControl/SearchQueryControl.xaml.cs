@@ -505,6 +505,4 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty SelectionChangedCommandParameterProperty =
             DependencyProperty.Register("SelectionChangedCommandParameter", typeof(object), typeof(SearchQueryControl));
     }
-
-
 }

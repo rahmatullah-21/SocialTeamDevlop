@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Converters;
+﻿#region
+
+using DominatorHouseCore.Converters;
+
+#endregion
 
 namespace DominatorHouseCore.Enums
 {

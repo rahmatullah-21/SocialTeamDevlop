@@ -1,9 +1,13 @@
-﻿using DominatorHouseCore.BusinessLogic.Scheduler;
+﻿#region
+
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Process.ExecutionCounters;
 using DominatorHouseCore.Process.JobConfigurations;
 using DominatorHouseCore.Process.JobLimits;
 using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.Process
 {
@@ -18,7 +22,6 @@ namespace DominatorHouseCore.Process
             Container.RegisterSingleton<IJobConfigurationProvider, JobConfigurationProvider>();
             Container.RegisterSingleton<IRunningActivityManager, RunningActivityManager>();
             Container.RegisterSingleton<IJobProcessScopeFactory, JobProcessScopeFactory>();
-
         }
     }
 }

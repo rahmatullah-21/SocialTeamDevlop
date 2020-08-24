@@ -4,6 +4,6 @@
     {
         Beginner,
         Pro,
-        Advanced,
+        Advanced
     }
 }

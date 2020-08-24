@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel.Common
 {
@@ -13,7 +17,7 @@ namespace DominatorHouseCore.ViewModel.Common
 
         public bool IsRunning
         {
-            get { return _isRunning; }
+            get => _isRunning;
             set
             {
                 SetProperty(ref _isRunning, value);
@@ -21,10 +25,7 @@ namespace DominatorHouseCore.ViewModel.Common
             }
         }
 
-        public bool IsIdle
-        {
-            get { return !_isRunning; }
-        }
+        public bool IsIdle => !_isRunning;
 
         public async Task ExecuteSynchronized<T1>(Func<T1, Task> asyncOperation, T1 input1)
         {

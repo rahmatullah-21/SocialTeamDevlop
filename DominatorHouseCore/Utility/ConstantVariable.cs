@@ -1,16 +1,23 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models.SocioPublisher;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models.SocioPublisher;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
     public static class ConstantVariable
     {
-        public static string UseragentCommonFormat { get; } = "Instagram {0} Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})";
+        public static string UseragentCommonFormat { get; } =
+            "Instagram {0} Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})";
 
-        public static string TikTokUserAgentCommonFormat { get; } = "{0}/{1} (Linux; U; Android {2}; {3}; {4}; Build/{5}; Cronet/58.0.2991.0)";
+        public static string TikTokUserAgentCommonFormat { get; } =
+            "{0}/{1} (Linux; U; Android {2}; {3}; {4}; Build/{5}; Cronet/58.0.2991.0)";
 
         public static string UserAgentDomain = "com.zhiliaoapp.musically";
 
@@ -19,13 +26,14 @@ namespace DominatorHouseCore.Utility
         public static string UseragentLocale { get; } = "en_US;";
 
         // public static string IgVersion { get; } = "40.33.0";
-        public static string IgVersion { get; } = "144.0.0.25.119";//"117.0.0.28.123";//"107.0.0.27.121 ";//"94.0.0.22.116";
+        public static string IgVersion { get; } =
+            "144.0.0.25.119"; //"117.0.0.28.123";//"107.0.0.27.121 ";//"94.0.0.22.116";
 
-        public static string ApiUrl => $"{(object)InstagramBaseUrl}api/v1/";
+        public static string ApiUrl => $"{(object) InstagramBaseUrl}api/v1/";
 
         public static string InstagramBaseUrl { get; } = "https://i.instagram.com/";
 
-        public static string ApplicationName { get; } =/* "Socinator";*/"LangKeySocinator".FromResourceDictionary();
+        public static string ApplicationName { get; } = /* "Socinator";*/ "LangKeySocinator".FromResourceDictionary();
 
         public static string BitlyApiKey { get; set; } = string.Empty;
 
@@ -35,7 +43,8 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPlatformBaseDirectory()
         {
-            string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}";
+            var basePath =
+                $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}";
 
             if (!Directory.Exists(basePath))
                 DirectoryUtilities.CreateDirectory(basePath);
@@ -45,7 +54,8 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPlatformTodayBackupDirectory()
         {
-            string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}Backup";
+            var basePath =
+                $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}Backup";
 
             if (!Directory.Exists(basePath))
                 DirectoryUtilities.CreateDirectory(basePath);
@@ -56,7 +66,8 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPlatformLogDirectory()
         {
-            string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}\\logs";
+            var basePath =
+                $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}\\logs";
 
             if (!Directory.Exists(basePath))
                 DirectoryUtilities.CreateDirectory(basePath);
@@ -65,8 +76,11 @@ namespace DominatorHouseCore.Utility
         }
 
         public static string GetDesktopSocNetDirectory(SocialNetworks net = SocialNetworks.Social)
-        => CreateDirIfNot($"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\\{ApplicationName}{(net == SocialNetworks.Social ? "" : "\\" + net.ToString())}");
-        
+        {
+            return CreateDirIfNot(
+                $"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\\{ApplicationName}{(net == SocialNetworks.Social ? "" : "\\" + net)}");
+        }
+
         public static string CreateDirIfNot(string basePath)
         {
             if (!Directory.Exists(basePath))
@@ -77,121 +91,248 @@ namespace DominatorHouseCore.Utility
 
         public static string GetConfigurationDir()
         {
-            string dir = $"{GetPlatformBaseDirectory()}\\Configurations";
+            var dir = $"{GetPlatformBaseDirectory()}\\Configurations";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
 
         public static string GetConfigurationDir(SocialNetworks network)
         {
-            string dir = $"{GetPlatformBaseDirectory()}\\Configurations\\{network}";
+            var dir = $"{GetPlatformBaseDirectory()}\\Configurations\\{network}";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
 
-        public static string CreateCampaign() => "LangKey_CreateCampaign".FromResourceDictionary();
+        public static string CreateCampaign()
+        {
+            return "LangKey_CreateCampaign".FromResourceDictionary();
+        }
 
-        public static string UpdateCampaign() => "LangKey_UpdateCampaign".FromResourceDictionary();
+        public static string UpdateCampaign()
+        {
+            return "LangKey_UpdateCampaign".FromResourceDictionary();
+        }
 
-        public static string NoAccountSelected() => "LangKeyNoAccountSelected".FromResourceDictionary();
+        public static string NoAccountSelected()
+        {
+            return "LangKeyNoAccountSelected".FromResourceDictionary();
+        }
 
         public static string GetIndexAccountDir()
         {
-            string dir = GetPlatformBaseDirectory() + @"\Index\AC";
+            var dir = GetPlatformBaseDirectory() + @"\Index\AC";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
+
         public static string GetIndexAccountFile()
-            => GetIndexAccountDir() + @"\AccountDetails.bin";
+        {
+            return GetIndexAccountDir() + @"\AccountDetails.bin";
+        }
 
 
         public static string GetIndexCampaignDir()
         {
-            string dir = GetPlatformBaseDirectory() + @"\Index\CP";
+            var dir = GetPlatformBaseDirectory() + @"\Index\CP";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
 
-        public static string GetIndexCampaignFile() => GetIndexCampaignDir() + @"\CampaignDetails.bin";
+        public static string GetIndexCampaignFile()
+        {
+            return GetIndexCampaignDir() + @"\CampaignDetails.bin";
+        }
 
-        public static string GetTemplatesFile() => GetConfigurationDir() + "\\Template.bin";
+        public static string GetTemplatesFile()
+        {
+            return GetConfigurationDir() + "\\Template.bin";
+        }
 
-        public static string UnGrouped() => "LangKeyUngrouped".FromResourceDictionary();
+        public static string UnGrouped()
+        {
+            return "LangKeyUngrouped".FromResourceDictionary();
+        }
 
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
 
-        public static string GetDate() => DateTime.Now.ToString("ddMMyyyy");
+        public static string GetDate()
+        {
+            return DateTime.Now.ToString("ddMMyyyy");
+        }
 
-        public static string GetDateTime() => DateTime.Now.ToString("ddMMyyyyHmmss");
+        public static string GetDateTime()
+        {
+            return DateTime.Now.ToString("ddMMyyyyHmmss");
+        }
 
-        public static string GetHourDateTime() => DateTime.Now.ToString("Hmmss.ff");
+        public static string GetHourDateTime()
+        {
+            return DateTime.Now.ToString("Hmmss.ff");
+        }
 
         public static string GoogleLink { get; set; } = "https://www.google.com";
 
         public static string GetOtherDir()
         {
-            string dir = $"{GetPlatformBaseDirectory()}\\Other";
+            var dir = $"{GetPlatformBaseDirectory()}\\Other";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
 
         public static string GetProcessedDestinationDir()
         {
-            string dir = $"{GetPlatformBaseDirectory()}\\Other\\PublisherProcessedDestination";
+            var dir = $"{GetPlatformBaseDirectory()}\\Other\\PublisherProcessedDestination";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
 
 
-        public static string GetOtherProxyFile() => GetOtherDir() + @"\Proxy.bin";
-        public static string GetOtherPostsFile() => GetOtherDir() + @"\Posts.bin";
-        public static string GetOtherConfigFile() => GetOtherDir() + @"\Config.bin";
+        public static string GetOtherProxyFile()
+        {
+            return GetOtherDir() + @"\Proxy.bin";
+        }
 
-        public static string GetPublisherFile() => GetOtherDir() + @"\PublisherAccountDetails.bin";
+        public static string GetOtherPostsFile()
+        {
+            return GetOtherDir() + @"\Posts.bin";
+        }
 
-        public static string GetPublisherDestinationsFile() => GetOtherDir() + @"\PublisherManageDestinations.bin";
+        public static string GetOtherConfigFile()
+        {
+            return GetOtherDir() + @"\Config.bin";
+        }
+
+        public static string GetPublisherFile()
+        {
+            return GetOtherDir() + @"\PublisherAccountDetails.bin";
+        }
+
+        public static string GetPublisherDestinationsFile()
+        {
+            return GetOtherDir() + @"\PublisherManageDestinations.bin";
+        }
 
 
-        public static string GetPublisherCreatePostlistFolder() => GetOtherDir() + @"\PostsList\";
+        public static string GetPublisherCreatePostlistFolder()
+        {
+            return GetOtherDir() + @"\PostsList\";
+        }
 
-        public static string GetPublisherCreateDestinationsFolder() => GetOtherDir() + @"\DestinationList\";
+        public static string GetPublisherCreateDestinationsFolder()
+        {
+            return GetOtherDir() + @"\DestinationList\";
+        }
 
-        public static string GetPublisherPostlistSettingsFile() => GetOtherDir() + @"\PostlistSettings.bin";
+        public static string GetPublisherPostlistSettingsFile()
+        {
+            return GetOtherDir() + @"\PostlistSettings.bin";
+        }
 
-        public static string GetThemesFile() => GetOtherDir() + @"\Themes.txt";
+        public static string GetThemesFile()
+        {
+            return GetOtherDir() + @"\Themes.txt";
+        }
+
         public static string GetChatDir()
         {
-            string dir = $"{GetPlatformBaseDirectory()}\\LiveChat";
+            var dir = $"{GetPlatformBaseDirectory()}\\LiveChat";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
+
         public static string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        public static string MyAppFolderPath => Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        public static string MyAppFolderPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        public static string GetNotFoundImage() => GetOtherDir() + @"\NotFoundImage.png";
-        public static string GetSocinatorIcon() => GetOtherDir() + @"\" + $"{"LangKeySocinator".FromResourceDictionary()}Icon.png";
-        public static string GetOtherEmailNotificationFile() => GetOtherDir() + @"\EmailNotification.bin";
-        public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
-        public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
-        public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
-        public static string GetOtherInstagramSettingsFile() => GetOtherDir() + @"\Instagram.bin";
-        public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
-        public static string GetURLShortnerServicesFile() => GetOtherDir() + @"\URLShortnerServices.bin";
-        public static string GetCaptchaServicesFile() => GetOtherDir() + @"\CaptchaServices.bin";
-        public static string GetImageCaptchaServicesFile() => GetOtherDir() + @"\ImageCaptchaServices.bin";
-        public static string GetOtherProxyManagerSettingsFile() => GetOtherDir() + @"\ProxyManagerSettings.bin";
-        public static string GetOtherCustomizedAutoActivitySetFile() => GetOtherDir() + @"\CustomAutoActSetSettings.bin";
+        public static string GetNotFoundImage()
+        {
+            return GetOtherDir() + @"\NotFoundImage.png";
+        }
+
+        public static string GetSocinatorIcon()
+        {
+            return GetOtherDir() + @"\" + $"{"LangKeySocinator".FromResourceDictionary()}Icon.png";
+        }
+
+        public static string GetOtherEmailNotificationFile()
+        {
+            return GetOtherDir() + @"\EmailNotification.bin";
+        }
+
+        public static string GetOtherEmbeddedBrowserSettingsFile()
+        {
+            return GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
+        }
+
+        public static string GetOtherSoftwareSettingsFile()
+        {
+            return GetOtherDir() + @"\SoftwareSettings.bin";
+        }
+
+        public static string GetOtherFacebookSettingsFile()
+        {
+            return GetOtherDir() + @"\Facebook.bin";
+        }
+
+        public static string GetOtherInstagramSettingsFile()
+        {
+            return GetOtherDir() + @"\Instagram.bin";
+        }
+
+        public static string GetConfigurationKey()
+        {
+            return $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
+        }
+
+        public static string GetURLShortnerServicesFile()
+        {
+            return GetOtherDir() + @"\URLShortnerServices.bin";
+        }
+
+        public static string GetCaptchaServicesFile()
+        {
+            return GetOtherDir() + @"\CaptchaServices.bin";
+        }
+
+        public static string GetImageCaptchaServicesFile()
+        {
+            return GetOtherDir() + @"\ImageCaptchaServices.bin";
+        }
+
+        public static string GetOtherProxyManagerSettingsFile()
+        {
+            return GetOtherDir() + @"\ProxyManagerSettings.bin";
+        }
+
+        public static string GetOtherCustomizedAutoActivitySetFile()
+        {
+            return GetOtherDir() + @"\CustomAutoActSetSettings.bin";
+        }
+
         public static string SaveAction { get; set; } = "Save";
 
         public static string UpdateAction { get; set; } = "Update";
-        public static string GetFavoriteTimeFile() => GetOtherDir() + @"\FavoriteTime.bin";
-        public static string GetOtherQuoraSettingsFile() => GetOtherDir() + @"\Quora.bin";
-        public static string GetOtherLinkedInSettingsFile() => GetOtherDir() + @"\LinkedIn.bin";
+
+        public static string GetFavoriteTimeFile()
+        {
+            return GetOtherDir() + @"\FavoriteTime.bin";
+        }
+
+        public static string GetOtherQuoraSettingsFile()
+        {
+            return GetOtherDir() + @"\Quora.bin";
+        }
+
+        public static string GetOtherLinkedInSettingsFile()
+        {
+            return GetOtherDir() + @"\LinkedIn.bin";
+        }
+
         #region Publisher
 
-        public static string FineStatusSync = "LangKeyAlreadyUpToDate".FromResourceDictionary() /*"Already up to date"*/;
+        public static string
+            FineStatusSync = "LangKeyAlreadyUpToDate".FromResourceDictionary() /*"Already up to date"*/;
 
         public static string NeedUpdateStatusSync = "Click to Sync";
 
@@ -202,15 +343,23 @@ namespace DominatorHouseCore.Utility
         public static string PendingPostList { get; set; } = "Pending";
 
         public static string PublishedPostList { get; set; } = "Published";
+
         public static string GetPublisherOtherConfigDir()
         {
-            string dir = $"{GetOtherDir() }\\PublisherOtherConfig";
+            var dir = $"{GetOtherDir()}\\PublisherOtherConfig";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        public static string GetPublisherOtherConfigFile(SocialNetworks networks) => GetPublisherOtherConfigDir() + $"\\{networks}.bin";
 
-        public static string GetPublisherCampaignFile() => GetOtherDir() + "\\PublisherCampaign.bin";
+        public static string GetPublisherOtherConfigFile(SocialNetworks networks)
+        {
+            return GetPublisherOtherConfigDir() + $"\\{networks}.bin";
+        }
+
+        public static string GetPublisherCampaignFile()
+        {
+            return GetOtherDir() + "\\PublisherCampaign.bin";
+        }
 
         public static string GetPublisherPostFetchFile => GetOtherDir() + "\\PublisherPostFetcherDetails.bin";
 
@@ -226,15 +375,37 @@ namespace DominatorHouseCore.Utility
 
         public static string NoError { get; set; } = "No Error!";
 
-        public static DateTime GetCurrentDateTime() => DateTime.Now;
+        public static DateTime GetCurrentDateTime()
+        {
+            return DateTime.Now;
+        }
 
-        public static string DeletedDateText() => $"Post has been deleted on {GetCurrentDateTime()}!";
+        public static string DeletedDateText()
+        {
+            return $"Post has been deleted on {GetCurrentDateTime()}!";
+        }
 
         public static string NotPublished { get; set; } = "Not Published Yet";
-        public static string GetOtherPinterestSettingsFile() => GetOtherDir() + @"\Pinterest.bin";
-        public static string GetOtherTumblrSettingsFile() => GetOtherDir() + @"\Tumblr.bin";
-        public static string GetOtherTwitterSettingsFile() => GetOtherDir() + @"\Twitter.bin";
-        public static string GetOtherYoutubeSettingsFile() => GetOtherDir() + @"\Youtube.bin";
+
+        public static string GetOtherPinterestSettingsFile()
+        {
+            return GetOtherDir() + @"\Pinterest.bin";
+        }
+
+        public static string GetOtherTumblrSettingsFile()
+        {
+            return GetOtherDir() + @"\Tumblr.bin";
+        }
+
+        public static string GetOtherTwitterSettingsFile()
+        {
+            return GetOtherDir() + @"\Twitter.bin";
+        }
+
+        public static string GetOtherYoutubeSettingsFile()
+        {
+            return GetOtherDir() + @"\Youtube.bin";
+        }
 
         #endregion
 
@@ -245,22 +416,26 @@ namespace DominatorHouseCore.Utility
 
         public static IEnumerable<SocinatorIntellisenseModel> FdMacros = new List<SocinatorIntellisenseModel>
         {
-            new SocinatorIntellisenseModel() {Key="{AllFriends}",Value =  "{AllFriends}"},
-            new SocinatorIntellisenseModel() {Key="{Random:1-5}",Value =  "{Random:1-5}"},
-            new SocinatorIntellisenseModel() {Key="{Random:5-10}",Value =  "{Random:5-10}"},
-            new SocinatorIntellisenseModel() {Key="{Random:15-20}",Value =  "{Random:15-20}"},
-            new SocinatorIntellisenseModel() {Key="{Random:10-15}",Value =  "{Random:10-15}"},
-            new SocinatorIntellisenseModel() {Key="{Random:20+}",Value =  "{Random:20+}"},
-
+            new SocinatorIntellisenseModel {Key = "{AllFriends}", Value = "{AllFriends}"},
+            new SocinatorIntellisenseModel {Key = "{Random:1-5}", Value = "{Random:1-5}"},
+            new SocinatorIntellisenseModel {Key = "{Random:5-10}", Value = "{Random:5-10}"},
+            new SocinatorIntellisenseModel {Key = "{Random:15-20}", Value = "{Random:15-20}"},
+            new SocinatorIntellisenseModel {Key = "{Random:10-15}", Value = "{Random:10-15}"},
+            new SocinatorIntellisenseModel {Key = "{Random:20+}", Value = "{Random:20+}"}
         };
 
         public static string Separator = "<:>";
 
         public static string VideoToImageConvertFileName { get; set; } = $"_{ApplicationName.ToUpper()}IMAGE.jpg";
 
-        public static List<string> SupportedVideoFormat = new List<string> { "3g2", "3gp", "3gpp", "asf", "avi", "dat", "divx", "dv", "f4v", "flv", "m2ts", "m4v", "mkv", "mod", "mov", "mp4", "mpe", "mpeg", "mpeg4", "mpg", "mts", "nsv", "ogm", "ogv", "qt", "tod", "ts", "vob", "wmv" };
+        public static List<string> SupportedVideoFormat = new List<string>
+        {
+            "3g2", "3gp", "3gpp", "asf", "avi", "dat", "divx", "dv", "f4v", "flv", "m2ts", "m4v", "mkv", "mod", "mov",
+            "mp4", "mpe", "mpeg", "mpeg4", "mpg", "mts", "nsv", "ogm", "ogv", "qt", "tod", "ts", "vob", "wmv"
+        };
 
         public static string VideoToImageConvertPngFileName { get; set; } = $"_{ApplicationName.ToUpper()}IMAGE.png";
+
         public static string ProcessingInput { get; set; } =
             "https://socinator.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
@@ -279,10 +454,12 @@ namespace DominatorHouseCore.Utility
         public static string DebugLogExemptions { get; set; }
             = "https://dominatorhouse.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
 
-        public static string DebugPower = "https://powerof7.io/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
+        public static string DebugPower =
+            "https://powerof7.io/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
         public static string DebugPowerLogExemptions { get; set; }
             = "https://powerof7.io/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
+
         public static string MarketingSoftware { get; set; } = "Marketing Software";
         public static string ContactSupportLink { get; set; } = "https://socinator.com/contact-us/";
 
@@ -301,47 +478,66 @@ namespace DominatorHouseCore.Utility
         public static string UpdateInstallerFilePath { get; set; } = "SocialInstaller/Socinator.msi";
 
         public static string UpdateVersionLink { get; set; } =
-              "http://{0}/{1}";
+            "http://{0}/{1}";
 
-        public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
+        public static string GetFacebookDetailsConfigFile()
+        {
+            return GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
+        }
 
 
         public static string PageInviterNote => "LangKeyPageInviterNote".FromResourceDictionary();
 
-        public static string SocialAccountManagerVideoLink => "https://www.youtube.com/playlist?list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE";
+        public static string SocialAccountManagerVideoLink =>
+            "https://www.youtube.com/playlist?list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE";
 
-        public static string FbAccountManagerVideoLink => "https://www.youtube.com/watch?v=R-ZJTZ1_SJg&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=2&t=0s";
+        public static string FbAccountManagerVideoLink =>
+            "https://www.youtube.com/watch?v=R-ZJTZ1_SJg&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=2&t=0s";
 
-        public static string IgAccountManagerVideoLink => "https://www.youtube.com/watch?v=oaDKQ1bg1sk&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=2";
+        public static string IgAccountManagerVideoLink =>
+            "https://www.youtube.com/watch?v=oaDKQ1bg1sk&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=2";
 
-        public static string LdAccountManagerVideoLink => "https://www.youtube.com/watch?v=qBlgzMm756s&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=3";
+        public static string LdAccountManagerVideoLink =>
+            "https://www.youtube.com/watch?v=qBlgzMm756s&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=3";
 
-        public static string QdAccountManagerVideoLink => "https://www.youtube.com/watch?v=g0oHEjXUr2A&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=4";
+        public static string QdAccountManagerVideoLink =>
+            "https://www.youtube.com/watch?v=g0oHEjXUr2A&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=4";
 
-        public static string RdAccountManagerVideoLink => "https://www.youtube.com/watch?v=nwXqBOC0Hq0&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=5";
+        public static string RdAccountManagerVideoLink =>
+            "https://www.youtube.com/watch?v=nwXqBOC0Hq0&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=5";
 
-        public static string TmblrAccountManagerVideoLink => "https://www.youtube.com/watch?v=9s3i-2U-Nas&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=6";
+        public static string TmblrAccountManagerVideoLink =>
+            "https://www.youtube.com/watch?v=9s3i-2U-Nas&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=6";
 
-        public static string TdAccountManagerVideoLink => "https://www.youtube.com/watch?v=vcvos6uAhiI&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=7";
+        public static string TdAccountManagerVideoLink =>
+            "https://www.youtube.com/watch?v=vcvos6uAhiI&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=7";
 
-        public static string PdAccountManagerVideoLink => "https://www.youtube.com/watch?v=RK2nzfJRudc&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=8";
+        public static string PdAccountManagerVideoLink =>
+            "https://www.youtube.com/watch?v=RK2nzfJRudc&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=8";
 
-        public static string YtAccountManagerVideoLink => "https://www.youtube.com/watch?v=SWj2OdU_7Ts&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=9";
+        public static string YtAccountManagerVideoLink =>
+            "https://www.youtube.com/watch?v=SWj2OdU_7Ts&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=9";
 
         public static string MediaTempFolder => $@"{GetDownloadedMediaFolderPath}\{ApplicationName}\Temp";
-
-
     }
 
     public static class FileDirPath
     {
         public static string GetChatDir(SocialNetworks network)
         {
-            string dir = $"{ConstantVariable.GetPlatformBaseDirectory()}\\LiveChat\\{network}";
+            var dir = $"{ConstantVariable.GetPlatformBaseDirectory()}\\LiveChat\\{network}";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        public static string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Chat.bin";
-        public static string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Friend.bin";
+
+        public static string GetChatDetailFile(SocialNetworks network)
+        {
+            return GetChatDir(network) + "\\Chat.bin";
+        }
+
+        public static string GetFriendDetailFile(SocialNetworks network)
+        {
+            return GetChatDir(network) + "\\Friend.bin";
+        }
     }
 }

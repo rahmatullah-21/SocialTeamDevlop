@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.DatabaseHandler.YdTables.Accounts;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.YdTables.Accounts;
 using DominatorHouseCore.Enums;
 using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
@@ -32,6 +36,4 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedChannels>(SocialNetworks.Youtube, true));
         }
     }
-
-
 }

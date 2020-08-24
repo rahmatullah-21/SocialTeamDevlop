@@ -1,14 +1,17 @@
-﻿using DominatorHouseCore.Enums.FdQuery;
-using DominatorHouseCore.Utility;
-using ProtoBuf;
+﻿#region
+
 using System;
 using System.Collections.Generic;
+using DominatorHouseCore.Enums.FdQuery;
+using DominatorHouseCore.Utility;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
     public interface IPostLikerCommentor
     {
-
         string CustomPostList { get; set; }
 
         string PageUrl { get; set; }
@@ -25,13 +28,12 @@ namespace DominatorHouseCore.Models.FacebookModels
 
     public class PostLikeCommentorModel : BindableBase, IPostLikerCommentor
     {
-
         private bool _isOwnWallChecked;
 
         [ProtoMember(1)]
         public bool IsOwnWallChecked
         {
-            get { return _isOwnWallChecked; }
+            get => _isOwnWallChecked;
             set
             {
                 if (value == _isOwnWallChecked)
@@ -46,7 +48,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(2)]
         public bool IsNewsfeedChecked
         {
-            get { return _isNewsfeedChecked; }
+            get => _isNewsfeedChecked;
             set
             {
                 if (value == _isNewsfeedChecked)
@@ -61,7 +63,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(3)]
         public bool IsFriendTimeLineChecked
         {
-            get { return _isFriendTimeLineChecked; }
+            get => _isFriendTimeLineChecked;
             set
             {
                 if (value == _isFriendTimeLineChecked)
@@ -76,7 +78,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(4)]
         public bool IsCustomPostListChecked
         {
-            get { return _isCustomPostListChecked; }
+            get => _isCustomPostListChecked;
             set
             {
                 if (value == _isCustomPostListChecked)
@@ -91,7 +93,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(5)]
         public bool IsCampaignChecked
         {
-            get { return _isCampaignChecked; }
+            get => _isCampaignChecked;
             set
             {
                 if (value == _isCampaignChecked)
@@ -106,7 +108,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(6)]
         public bool IsGroupChecked
         {
-            get { return _isGroupChecked; }
+            get => _isGroupChecked;
             set
             {
                 if (value == _isGroupChecked)
@@ -121,7 +123,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(7)]
         public bool IsPageChecked
         {
-            get { return _isPageChecked; }
+            get => _isPageChecked;
             set
             {
                 if (value == _isPageChecked)
@@ -132,13 +134,12 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
 
-
         private List<string> _listFriendProfileUrl = new List<string>();
 
         [ProtoMember(8)]
         public List<string> ListFriendProfileUrl
         {
-            get { return _listFriendProfileUrl; }
+            get => _listFriendProfileUrl;
             set
             {
                 if (value == _listFriendProfileUrl)
@@ -152,7 +153,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(9)]
         public List<string> ListCustomPostList
         {
-            get { return _listCustomPostList; }
+            get => _listCustomPostList;
             set
             {
                 if (value == _listCustomPostList)
@@ -167,7 +168,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(10)]
         public List<string> ListFaceDominatorCampaign
         {
-            get { return _listFaceDominatorCampaign; }
+            get => _listFaceDominatorCampaign;
             set
             {
                 if (value == _listFaceDominatorCampaign)
@@ -181,7 +182,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(11)]
         public List<string> ListGroupUrl
         {
-            get { return _listGroupUrl; }
+            get => _listGroupUrl;
             set
             {
                 if (value == _listGroupUrl)
@@ -196,7 +197,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(12)]
         public List<string> ListPageUrl
         {
-            get { return _listPageUrl; }
+            get => _listPageUrl;
             set
             {
                 if (value == _listPageUrl)
@@ -210,7 +211,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(13)]
         public string FriendProfileUrl
         {
-            get { return _friendProfileUrl; }
+            get => _friendProfileUrl;
             set
             {
                 if (value == _friendProfileUrl)
@@ -224,7 +225,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(14)]
         public string CustomPostList
         {
-            get { return _customPostList; }
+            get => _customPostList;
             set
             {
                 if (value == _customPostList)
@@ -238,7 +239,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(15)]
         public string PageUrl
         {
-            get { return _pageUrl; }
+            get => _pageUrl;
             set
             {
                 if (value == _pageUrl)
@@ -253,7 +254,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(16)]
         public string GroupUrl
         {
-            get { return _groupUrl; }
+            get => _groupUrl;
             set
             {
                 if (value == _groupUrl)
@@ -267,7 +268,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(17)]
         public string Campaign
         {
-            get { return _campaign; }
+            get => _campaign;
             set
             {
                 if (value == _campaign)
@@ -282,7 +283,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(18)]
         public List<string> ListAlbums
         {
-            get { return _listAlbums; }
+            get => _listAlbums;
             set
             {
                 if (value == _listAlbums)
@@ -296,7 +297,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(19)]
         public bool IsAlbumsChecked
         {
-            get { return _isAlbumsChecked; }
+            get => _isAlbumsChecked;
             set
             {
                 if (value == _isAlbumsChecked)
@@ -307,13 +308,12 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
 
-
         private int _count;
 
         [ProtoMember(20)]
         public int Count
         {
-            get { return _count; }
+            get => _count;
             set
             {
                 if (value == _count)
@@ -323,14 +323,12 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
 
-
-
         private string _albums = string.Empty;
 
         [ProtoMember(21)]
         public string Albums
         {
-            get { return _albums; }
+            get => _albums;
             set
             {
                 if (value == _albums)
@@ -340,25 +338,24 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
 
-        private Dictionary<PostOptions, bool> _lstPostOptions = new Dictionary<PostOptions, bool>()
+        private Dictionary<PostOptions, bool> _lstPostOptions = new Dictionary<PostOptions, bool>
         {
-            { PostOptions.OwnWall,false },
-            { PostOptions.NewsFeed,false},
-            { PostOptions.Group,false},
-            { PostOptions.Pages,false},
-            { PostOptions.Campaign,false},
-            { PostOptions.FriendWall,false},
-            { PostOptions.CustomPostList,false},
-            { PostOptions.Albums,false},
-            { PostOptions.Keyword,false},
-            { PostOptions.ProfileScraper,false}
-
+            {PostOptions.OwnWall, false},
+            {PostOptions.NewsFeed, false},
+            {PostOptions.Group, false},
+            {PostOptions.Pages, false},
+            {PostOptions.Campaign, false},
+            {PostOptions.FriendWall, false},
+            {PostOptions.CustomPostList, false},
+            {PostOptions.Albums, false},
+            {PostOptions.Keyword, false},
+            {PostOptions.ProfileScraper, false}
         };
 
         [ProtoMember(22)]
         public Dictionary<PostOptions, bool> LstPostOptions
         {
-            get { return _lstPostOptions; }
+            get => _lstPostOptions;
             set
             {
                 if (value == _lstPostOptions)
@@ -372,7 +369,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(23)]
         public bool IsKeywordChecked
         {
-            get { return _isKeywordChecked; }
+            get => _isKeywordChecked;
             set
             {
                 if (value == _isKeywordChecked)
@@ -383,13 +380,12 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
 
-
         private List<string> _listKeywords = new List<string>();
 
         [ProtoMember(24)]
         public List<string> ListKeywords
         {
-            get { return _listKeywords; }
+            get => _listKeywords;
             set
             {
                 if (value == _listKeywords)
@@ -403,7 +399,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(25)]
         public string Keyword
         {
-            get { return _keyword; }
+            get => _keyword;
             set
             {
                 if (value == _keyword)
@@ -413,10 +409,11 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private bool _isCampaignChked;
+
         [ProtoMember(26)]
         public bool IsCampaignChked
         {
-            get { return _isCampaignChked; }
+            get => _isCampaignChked;
             set
             {
                 if (value == _isCampaignChked)
@@ -428,10 +425,11 @@ namespace DominatorHouseCore.Models.FacebookModels
 
 
         private List<string> _listCampaign = new List<string>();
+
         [ProtoMember(27)]
         public List<string> ListCampaign
         {
-            get { return _listCampaign; }
+            get => _listCampaign;
             set
             {
                 if (value == _listCampaign)
@@ -445,7 +443,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(28)]
         public string NrlCampaign
         {
-            get { return _nrlcampaign; }
+            get => _nrlcampaign;
             set
             {
                 if (value == _nrlcampaign)
@@ -477,7 +475,5 @@ namespace DominatorHouseCore.Models.FacebookModels
                 ex.DebugLog();
             }
         }
-
-
     }
 }

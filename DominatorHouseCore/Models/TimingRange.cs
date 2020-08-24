@@ -1,15 +1,18 @@
-﻿using System;
+﻿#region
+
+using System;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     /// <summary>
-    /// TimingRange is used to specify the time range such as start time and end time
+    ///     TimingRange is used to specify the time range such as start time and end time
     /// </summary>
     [ProtoContract]
     public class TimingRange
     {
-
         // Constructor for initialize the start time and end time to local property
         public TimingRange(TimeSpan startTime, TimeSpan endTime)
         {

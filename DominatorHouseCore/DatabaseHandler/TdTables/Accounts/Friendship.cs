@@ -1,4 +1,8 @@
-﻿using SQLite;
+﻿#region
+
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 {
@@ -14,49 +18,40 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         // need to keep it to support existing data model
         // ReSharper disable once UnusedMember.Global
-        public int DetailedInfoHasBeenRetrievedAtleastOnce
-        { get; set; }
+        public int DetailedInfoHasBeenRetrievedAtleastOnce { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public int DetailedInfoWillNotBeRetrieved
-        { get; set; }
+        public int DetailedInfoWillNotBeRetrieved { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public string Username
-        { get; set; }
+        public string Username { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         //[Unique]
-        public string UserId
-        { get; set; }
+        public string UserId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public string FullName
-        { get; set; }
+        public string FullName { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public int FollowersCount
-        { get; set; }
+        public int FollowersCount { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public int FollowingsCount
-        { get; set; }
-
+        public int FollowingsCount { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public int TweetsCount
-        { get; set; }
+        public int TweetsCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public int LikesCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public int  HasAnonymousProfilePicture { get; set; }
+        public int HasAnonymousProfilePicture { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public int IsPrivate { get; set; }
@@ -71,8 +66,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         public int Time { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
-        public FollowType FollowType
-        { get; set; }
+        public FollowType FollowType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public int JoinedDate { get; set; }
@@ -93,11 +87,11 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         public int FirstMessageStatus { get; set; }
     }
 
-    
+
     public enum FollowType
     {
         Following = 1,
-        Followers  = 2,
+        Followers = 2,
         Mutual = 3
-    }       
+    }
 }

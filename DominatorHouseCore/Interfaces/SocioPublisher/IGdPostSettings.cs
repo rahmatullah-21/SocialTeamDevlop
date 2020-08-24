@@ -3,6 +3,5 @@
     public interface IGdPostSettings
     {
         string PostTitle { get; set; }
-
     }
 }

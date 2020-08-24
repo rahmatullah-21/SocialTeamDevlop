@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
 using System;
 using System.Collections.Generic;
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.Process.ExecutionCounters
 {

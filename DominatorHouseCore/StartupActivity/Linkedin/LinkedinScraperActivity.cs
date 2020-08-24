@@ -1,12 +1,16 @@
-﻿using DominatorHouseCore.Enums.LdQuery;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DominatorHouseCore.Enums.LdQuery;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Linkedin
 {
-    class LinkedinScraperActivity : BaseActivity
+    internal class LinkedinScraperActivity : BaseActivity
     {
         public override Type GetEnumType()
         {
@@ -19,14 +23,13 @@ namespace DominatorHouseCore.StartupActivity.Linkedin
             Enum.GetValues(typeof(LDScraperUserQueryParameters)).Cast<LDScraperUserQueryParameters>().ForEach(query =>
             {
                 if (query != LDScraperUserQueryParameters.Input)
-                {
                     listQueryType.Add(query.GetDescriptionAttr()?.FromResourceDictionary());
-                }
             });
             return listQueryType;
         }
     }
-    class LinkedinUserScraperActivity : BaseActivity
+
+    internal class LinkedinUserScraperActivity : BaseActivity
     {
         public override Type GetEnumType()
         {

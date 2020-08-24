@@ -1,15 +1,19 @@
-﻿using System;
+﻿#region
+
 using System.Collections.Generic;
 using DominatorHouseCore.Utility;
 
+#endregion
+
 namespace DominatorHouseCore.Models
 {
-   public class RevisionHistoryModel:BindableBase
+    public class RevisionHistoryModel : BindableBase
     {
-        private string _version=String.Empty;
+        private string _version = string.Empty;
+
         public string Version
         {
-            get { return _version; }
+            get => _version;
             set
             {
                 if (_version != null && value == _version)
@@ -17,10 +21,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _version, value);
             }
         }
-        private string _revisionDate = String.Empty;
+
+        private string _revisionDate = string.Empty;
+
         public string RevisionDate
         {
-            get { return _revisionDate; }
+            get => _revisionDate;
             set
             {
                 if (_revisionDate != null && value == _revisionDate)
@@ -28,10 +34,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _revisionDate, value);
             }
         }
+
         private List<string> _lstContent = new List<string>();
+
         public List<string> LstContent
         {
-            get { return _lstContent; }
+            get => _lstContent;
             set
             {
                 if (_lstContent != null && value == _lstContent)

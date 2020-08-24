@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using HtmlAgilityPack;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -56,7 +60,6 @@ namespace DominatorHouseCore.Utility
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(pageSource);
             return htmlDoc.GetElementbyId(idValue).GetAttributeValue(attributeName, NotFound);
-
         }
 
         public static string GetAttributeValueFromTagName(string pageSource, string tagName, string attributeName,
@@ -66,7 +69,6 @@ namespace DominatorHouseCore.Utility
             htmlDoc.LoadHtml(pageSource);
             return htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']")
                 .GetAttributeValue(searchByAttribute, NotFound);
-
         }
 
         public static string GetOuterHtmlFromTagName(string pageSource, string tagName, string attributeName,
@@ -77,7 +79,8 @@ namespace DominatorHouseCore.Utility
             return htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']").OuterHtml;
         }
 
-        public static List<string> GetListInnerHtmlFromPartialTagName(string pageSource, string tagName, string attributeName,
+        public static List<string> GetListInnerHtmlFromPartialTagName(string pageSource, string tagName,
+            string attributeName,
             string attributeValue)
         {
             var lstInnerhtml = new List<string>();
@@ -88,6 +91,7 @@ namespace DominatorHouseCore.Utility
                 .ForEach(x => { lstInnerhtml.Add(x.InnerHtml.ToString()); });
             return lstInnerhtml;
         }
+
         public static string GetAllInnerTextFromTags(string pageSource)
         {
             var text = string.Empty;
@@ -96,49 +100,51 @@ namespace DominatorHouseCore.Utility
             {
                 htmlDoc.LoadHtml(pageSource);
                 text = htmlDoc.DocumentNode.InnerText;
-
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-            return text;
 
+            return text;
         }
 
         /// <summary>
-        /// Get inner text from single node by atteribute
+        ///     Get inner text from single node by atteribute
         /// </summary>
         /// <param name="pageSource"></param>
         /// <param name="tagName"></param>
         /// <param name="attributeName"></param>
         /// <param name="attributeValue"></param>
         /// <returns></returns>
-        public static string GetInnerTextFromSingleNode(string pageSource, string tagName, string attributeName, string attributeValue)
+        public static string GetInnerTextFromSingleNode(string pageSource, string tagName, string attributeName,
+            string attributeValue)
         {
             var text = string.Empty;
             try
             {
                 var htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(pageSource);
-                text = htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']").InnerText;
+                text = htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']")
+                    .InnerText;
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+
             return text;
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="pageSource"></param>
         /// <param name="tagName"></param>
         /// <param name="attributeName"></param>
         /// <param name="attributeValue"></param>
         /// <returns></returns>
-        public static List<string> GetListInnerHtmlFromPartialTagNamecontains(string pageSource, string tagName, string attributeName,
+        public static List<string> GetListInnerHtmlFromPartialTagNamecontains(string pageSource, string tagName,
+            string attributeName,
             string attributeValue)
         {
             var lstInnerhtml = new List<string>();
@@ -151,14 +157,14 @@ namespace DominatorHouseCore.Utility
         }
 
         public static string GetInnerTextFromTagName(string pageSource, string tagName, string attributeName,
-           string attributeValue)
+            string attributeValue)
         {
             try
             {
                 var htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(pageSource);
-                return htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']")?.InnerText;
-
+                return htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']")
+                    ?.InnerText;
             }
             catch (Exception)
             {

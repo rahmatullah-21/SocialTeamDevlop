@@ -1,18 +1,21 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
     [ProtoContract]
     public class SharePostModel : BindableBase
     {
-
         private bool _isShareCustomPostList;
 
         [ProtoMember(1)]
         public bool IsShareCustomPostList
         {
-            get { return _isShareCustomPostList; }
+            get => _isShareCustomPostList;
             set
             {
                 if (_isShareCustomPostList == value)
@@ -21,14 +24,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsShareCustomPostList));
             }
         }
+
         private string _shareAddCustomPostList = string.Empty;
+
         [ProtoMember(2)]
         public string ShareAddCustomPostList
         {
-            get
-            {
-                return _shareAddCustomPostList;
-            }
+            get => _shareAddCustomPostList;
             set
             {
                 if (_shareAddCustomPostList == value)
@@ -37,12 +39,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(ShareAddCustomPostList));
             }
         }
+
         private bool _isShareFdPagePost;
 
         [ProtoMember(3)]
         public bool IsShareFdPagePost
         {
-            get { return _isShareFdPagePost; }
+            get => _isShareFdPagePost;
             set
             {
                 if (_isShareFdPagePost == value)
@@ -51,14 +54,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsShareFdPagePost));
             }
         }
+
         private string _addFdPageUrl = string.Empty;
+
         [ProtoMember(4)]
         public string AddFdPageUrl
         {
-            get
-            {
-                return _addFdPageUrl;
-            }
+            get => _addFdPageUrl;
             set
             {
                 if (_addFdPageUrl == value)
@@ -67,12 +69,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(AddFdPageUrl));
             }
         }
+
         private bool _isNewPagePost;
 
         [ProtoMember(5)]
         public bool IsNewPagePost
         {
-            get { return _isNewPagePost; }
+            get => _isNewPagePost;
             set
             {
                 if (_isNewPagePost == value)
@@ -81,12 +84,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsNewPagePost));
             }
         }
+
         private int _postPerMinute;
 
         [ProtoMember(6)]
         public int PostPerMinute
         {
-            get { return _postPerMinute; }
+            get => _postPerMinute;
             set
             {
                 if (_postPerMinute == value)
@@ -95,12 +99,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PostPerMinute));
             }
         }
+
         private bool _isExtractMinimumPost;
 
         [ProtoMember(7)]
         public bool IsExtractMinimumPost
         {
-            get { return _isExtractMinimumPost; }
+            get => _isExtractMinimumPost;
             set
             {
                 if (_isExtractMinimumPost == value)
@@ -109,12 +114,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsExtractMinimumPost));
             }
         }
+
         private int _maxPost;
 
         [ProtoMember(8)]
         public int MaxPost
         {
-            get { return _maxPost; }
+            get => _maxPost;
             set
             {
                 if (_maxPost == value)
@@ -129,7 +135,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(9)]
         public bool IsKeywords
         {
-            get { return _isKeywords; }
+            get => _isKeywords;
             set
             {
                 if (_isKeywords == value)
@@ -138,14 +144,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsKeywords));
             }
         }
+
         private string _addKeywords = string.Empty;
+
         [ProtoMember(10)]
         public string AddKeywords
         {
-            get
-            {
-                return _addKeywords;
-            }
+            get => _addKeywords;
             set
             {
                 if (_addKeywords == value)
@@ -160,7 +165,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(11)]
         public bool IsMinimumDays
         {
-            get { return _isMinimumDays; }
+            get => _isMinimumDays;
             set
             {
                 if (_isMinimumDays == value)
@@ -169,12 +174,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsMinimumDays));
             }
         }
+
         private int _minimumDays;
 
         [ProtoMember(12)]
         public int MinimumDays
         {
-            get { return _minimumDays; }
+            get => _minimumDays;
             set
             {
                 if (_minimumDays == value)
@@ -189,7 +195,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(13)]
         public bool IsPostBetween
         {
-            get { return _isPostBetween; }
+            get => _isPostBetween;
             set
             {
                 if (_isPostBetween == value)
@@ -198,12 +204,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsPostBetween));
             }
         }
+
         private RangeUtilities _postBetween = new RangeUtilities();
 
         [ProtoMember(14)]
         public RangeUtilities PostBetween
         {
-            get { return _postBetween; }
+            get => _postBetween;
             set
             {
                 if (_postBetween == value)
@@ -214,13 +221,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private int _scrapeCount = 1;
+
         [ProtoMember(15)]
         public int ScrapeCount
         {
-            get
-            {
-                return _scrapeCount;
-            }
+            get => _scrapeCount;
             set
             {
                 if (_scrapeCount == value)
@@ -231,13 +236,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private int _startScrapeOnXminute = 30;
+
         [ProtoMember(16)]
         public int StartScrapeOnXminute
         {
-            get
-            {
-                return _startScrapeOnXminute;
-            }
+            get => _startScrapeOnXminute;
             set
             {
                 if (_startScrapeOnXminute == value)
@@ -245,8 +248,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _startScrapeOnXminute, value);
             }
         }
-
     }
-
-    
 }

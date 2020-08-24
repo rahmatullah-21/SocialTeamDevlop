@@ -4,6 +4,5 @@
     {
         Campaign = 1,
         Account = 2
-        
     }
 }

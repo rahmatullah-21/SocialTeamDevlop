@@ -1,10 +1,13 @@
-﻿using SQLite;
+﻿#region
+
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
     public class InteractedGplusComments
     {
-
         [PrimaryKey]
         [AutoIncrement]
         [Indexed]
@@ -12,32 +15,28 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public int Id { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryType { get; set; }
 
         /// <summary>
-        /// Contains QueryValue For Interaction
+        ///     Contains QueryValue For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string QueryValue { get; set; }
 
         /// <summary>
-        /// 
-        /// </summary>        
+        /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string ActivityType { get; set; }
 
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string CommentText { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string CommentId { get; set; }
@@ -46,13 +45,11 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public string CommenterName { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string CommenterUserId { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string PostUrl { get; set; }
@@ -68,7 +65,6 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public string Mentions { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public int CommentLikeCount { get; set; }
@@ -84,10 +80,8 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public string PostOwnerId { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public long InteractionTimeStamp { get; set; }
-
     }
 }

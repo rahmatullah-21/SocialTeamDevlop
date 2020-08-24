@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region
+
 using DominatorHouseCore.Utility;
 using OpenPop.Pop3;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.EmailService
 {
@@ -16,10 +19,10 @@ namespace DominatorHouseCore.EmailService
         [ProtoMember(1)]
         public string Hostname
         {
-            get { return _hostname; }
+            get => _hostname;
             set
             {
-                if( _hostname == value)return;
+                if (_hostname == value) return;
                 SetProperty(ref _hostname, value);
             }
         }
@@ -27,10 +30,10 @@ namespace DominatorHouseCore.EmailService
         [ProtoMember(2)]
         public int? Port
         {
-            get { return _port; }
+            get => _port;
             set
             {
-                if (_port == value)return;
+                if (_port == value) return;
                 SetProperty(ref _port, value);
             }
         }
@@ -38,7 +41,7 @@ namespace DominatorHouseCore.EmailService
         [ProtoMember(3)]
         public string Username
         {
-            get { return _username; }
+            get => _username;
             set
             {
                 if (_username == value) return;
@@ -49,7 +52,7 @@ namespace DominatorHouseCore.EmailService
         [ProtoMember(4)]
         public string Password
         {
-            get { return _password; }
+            get => _password;
             set
             {
                 if (_password == value) return;
@@ -72,13 +75,11 @@ namespace DominatorHouseCore.EmailService
             string senderEmail)
         {
             if (mailCredentials.Username.ToLower().Contains("gmail.com"))
-            {
                 mailCredentials.Username = $"recent:{mailCredentials.Username}";
-            }
-            using (Pop3Client client = new Pop3Client())
+            using (var client = new Pop3Client())
             {
-                int messageCount = ConnectAndGetMessageCount(mailCredentials, sslRequired, client);
-                for (int i = messageCount; i > 0; i--)
+                var messageCount = ConnectAndGetMessageCount(mailCredentials, sslRequired, client);
+                for (var i = messageCount; i > 0; i--)
                 {
                     var a = client.GetMessage(i);
                     var mailData = new IncomingData();
@@ -86,19 +87,24 @@ namespace DominatorHouseCore.EmailService
                     mailData.From = senderEmail;
                     mailData.Date = a.Headers.Date;
                     mailData.Subject = a.Headers.Subject;
-                    mailData.Message = a.MessagePart.Body == null ? a.MessagePart.MessageParts[0].GetBodyAsText() : a.MessagePart.GetBodyAsText();
+                    mailData.Message = a.MessagePart.Body == null
+                        ? a.MessagePart.MessageParts[0].GetBodyAsText()
+                        : a.MessagePart.GetBodyAsText();
 
                     return mailData;
                 }
             }
+
             return null;
         }
-        private static int ConnectAndGetMessageCount(MailCredentials mailCredentials, bool sslRequired, Pop3Client client)
+
+        private static int ConnectAndGetMessageCount(MailCredentials mailCredentials, bool sslRequired,
+            Pop3Client client)
         {
             ConnectToMailServer(mailCredentials, sslRequired, client);
 
             // Get the number of messages in the inbox
-            int messageCount = client.GetMessageCount();
+            var messageCount = client.GetMessageCount();
             return messageCount;
         }
 
@@ -109,8 +115,8 @@ namespace DominatorHouseCore.EmailService
                 client.Connect(mailCredentials.Hostname, mailCredentials.Port.Value, sslRequired);
 
             // Authenticate ourselves towards the server
-            client.Authenticate(mailCredentials.Username, mailCredentials.Password, AuthenticationMethod.UsernameAndPassword);
+            client.Authenticate(mailCredentials.Username, mailCredentials.Password,
+                AuthenticationMethod.UsernameAndPassword);
         }
     }
-
 }

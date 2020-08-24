@@ -1,5 +1,8 @@
-﻿using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+﻿#region
+
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel.AdvancedSettings
 {

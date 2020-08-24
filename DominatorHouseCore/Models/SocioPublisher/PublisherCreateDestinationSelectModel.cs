@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -8,13 +12,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
     public class PublisherCreateDestinationSelectModel : BindableBase
     {
         private bool _isAccountSelected;
+
         [ProtoMember(1)]
         public bool IsAccountSelected
         {
-            get
-            {
-                return _isAccountSelected;
-            }
+            get => _isAccountSelected;
             set
             {
                 if (_isAccountSelected == value)
@@ -23,21 +25,16 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsAccountSelected));
                 if (!IsAccountSelected)
                     PublishonOwnWall = IsAccountSelected;
-                  
-                
             }
         }
 
 
         private string _accountId;
-        [ProtoMember(2)]
 
+        [ProtoMember(2)]
         public string AccountId
         {
-            get
-            {
-                return _accountId;
-            }
+            get => _accountId;
             set
             {
                 _accountId = value;
@@ -46,14 +43,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private string _accountName;
-        [ProtoMember(3)]
 
+        [ProtoMember(3)]
         public string AccountName
         {
-            get
-            {
-                return _accountName;
-            }
+            get => _accountName;
             set
             {
                 _accountName = value;
@@ -61,27 +55,19 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        [ProtoMember(4)]
+        [ProtoMember(4)] public SocialNetworks SocialNetworks { get; set; }
 
-        public SocialNetworks SocialNetworks { get; set; }
+        [ProtoMember(5)] public bool IsGroupsAvailable { get; set; }
 
-        [ProtoMember(5)]
-
-        public bool IsGroupsAvailable { get; set; }
-
-        [ProtoMember(6)]
-
-        public bool IsPagesOrBoardsAvailable { get; set; }
+        [ProtoMember(6)] public bool IsPagesOrBoardsAvailable { get; set; }
 
 
         private string _groupSelectorText = "LangKeyNA".FromResourceDictionary();
+
         [ProtoMember(7)]
         public string GroupSelectorText
         {
-            get
-            {
-                return _groupSelectorText;
-            }
+            get => _groupSelectorText;
             set
             {
                 if (_groupSelectorText == value)
@@ -93,13 +79,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private string _pagesOrBoardsSelectorText = "LangKeyNA".FromResourceDictionary();
+
         [ProtoMember(8)]
         public string PagesOrBoardsSelectorText
         {
-            get
-            {
-                return _pagesOrBoardsSelectorText;
-            }
+            get => _pagesOrBoardsSelectorText;
             set
             {
                 if (_pagesOrBoardsSelectorText == value)
@@ -110,13 +94,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private string _customDestinationSelectorText = "0";
+
         [ProtoMember(14)]
         public string CustomDestinationSelectorText
         {
-            get
-            {
-                return _customDestinationSelectorText;
-            }
+            get => _customDestinationSelectorText;
             set
             {
                 if (_customDestinationSelectorText == value)
@@ -128,13 +110,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private int _totalGroups;
+
         [ProtoMember(9)]
         public int TotalGroups
         {
-            get
-            {
-                return _totalGroups;
-            }
+            get => _totalGroups;
             set
             {
                 if (_totalGroups == value)
@@ -146,14 +126,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private int _selectedGroups;
-        [ProtoMember(10)]
 
+        [ProtoMember(10)]
         public int SelectedGroups
         {
-            get
-            {
-                return _selectedGroups;
-            }
+            get => _selectedGroups;
             set
             {
                 if (_selectedGroups == value)
@@ -166,14 +143,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private int _totalPagesOrBoards;
-        [ProtoMember(11)]
 
+        [ProtoMember(11)]
         public int TotalPagesOrBoards
         {
-            get
-            {
-                return _totalPagesOrBoards;
-            }
+            get => _totalPagesOrBoards;
             set
             {
                 if (_totalPagesOrBoards == value)
@@ -184,33 +158,26 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private int _selectedPagesOrBoards;
-        [ProtoMember(12)]
 
+        [ProtoMember(12)]
         public int SelectedPagesOrBoards
         {
-            get
-            {
-                return _selectedPagesOrBoards;
-            }
+            get => _selectedPagesOrBoards;
             set
             {
                 if (_selectedPagesOrBoards == value)
                     return;
                 _selectedPagesOrBoards = value;
                 OnPropertyChanged(nameof(SelectedPagesOrBoards));
-
             }
         }
 
         private bool _publishonOwnWall;
-        [ProtoMember(13)]
 
+        [ProtoMember(13)]
         public bool PublishonOwnWall
         {
-            get
-            {
-                return _publishonOwnWall;
-            }
+            get => _publishonOwnWall;
             set
             {
                 if (_publishonOwnWall == value || !IsOwnWallAvailable)
@@ -224,10 +191,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public bool IsEnableStatusSync
         {
-            get
-            {
-                return _isEnableStatusSync;
-            }
+            get => _isEnableStatusSync;
             set
             {
                 if (_isEnableStatusSync == value)
@@ -241,10 +205,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public string StatusSyncContent
         {
-            get
-            {
-                return _statusSyncContent;
-            }
+            get => _statusSyncContent;
             set
             {
                 if (_statusSyncContent == value)
@@ -256,13 +217,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private bool _isOwnWallAvailable;
+
         [ProtoMember(15)]
         public bool IsOwnWallAvailable
         {
-            get
-            {
-                return _isOwnWallAvailable;
-            }
+            get => _isOwnWallAvailable;
             set
             {
                 if (_isOwnWallAvailable == value)
@@ -272,27 +231,31 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-       
 
-        public void UpdateGroupText() =>
-            GroupSelectorText = IsGroupsAvailable ? SelectedGroups + "/" + TotalGroups : "LangKeyNA".FromResourceDictionary();
+        public void UpdateGroupText()
+        {
+            GroupSelectorText = IsGroupsAvailable
+                ? SelectedGroups + "/" + TotalGroups
+                : "LangKeyNA".FromResourceDictionary();
+        }
 
-        public void UpdatePagesOrBoardsText() =>
-            PagesOrBoardsSelectorText = IsPagesOrBoardsAvailable ? SelectedPagesOrBoards + "/" + TotalPagesOrBoards : "LangKeyNA".FromResourceDictionary();
+        public void UpdatePagesOrBoardsText()
+        {
+            PagesOrBoardsSelectorText = IsPagesOrBoardsAvailable
+                ? SelectedPagesOrBoards + "/" + TotalPagesOrBoards
+                : "LangKeyNA".FromResourceDictionary();
+        }
 
 
-        [ProtoMember(16)]
-        public bool IsFriendsAvailable { get; set; }
+        [ProtoMember(16)] public bool IsFriendsAvailable { get; set; }
 
 
         private string _friendsSelectorText = "LangKeyNA".FromResourceDictionary();
+
         [ProtoMember(17)]
         public string FriendsSelectorText
         {
-            get
-            {
-                return _friendsSelectorText;
-            }
+            get => _friendsSelectorText;
             set
             {
                 if (_friendsSelectorText == value)
@@ -303,16 +266,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-
         private int _totalFriends;
-        [ProtoMember(18)]
 
+        [ProtoMember(18)]
         public int TotalFriends
         {
-            get
-            {
-                return _totalFriends;
-            }
+            get => _totalFriends;
             set
             {
                 if (_totalFriends == value)
@@ -323,51 +282,45 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private int _selectedFriends;
-        [ProtoMember(19)]
 
+        [ProtoMember(19)]
         public int SelectedFriends
         {
-            get
-            {
-                return _selectedFriends;
-            }
+            get => _selectedFriends;
             set
             {
                 if (_selectedFriends == value)
                     return;
                 _selectedFriends = value;
                 OnPropertyChanged(nameof(SelectedFriends));
-
             }
         }
 
         private bool _isCustomDestinationInNetworks;
+
         [ProtoMember(20)]
         public bool IsCustomDestinationInNetworks
         {
-            get { return _isCustomDestinationInNetworks; }
-            set { SetProperty(ref _isCustomDestinationInNetworks, value); }
+            get => _isCustomDestinationInNetworks;
+            set => SetProperty(ref _isCustomDestinationInNetworks, value);
         }
 
         private string _accountGroupName;
+
         [ProtoMember(21)]
         public string AccountGroupName
         {
-            get { return _accountGroupName; }
-            set { SetProperty(ref _accountGroupName, value); }
+            get => _accountGroupName;
+            set => SetProperty(ref _accountGroupName, value);
         }
-
-        
 
 
         private bool _isScrapingAvailableInNetworks;
+
         [ProtoMember(23)]
         public bool IsScrapingAvailableInNetworks
         {
-            get
-            {
-                return _isScrapingAvailableInNetworks;
-            }
+            get => _isScrapingAvailableInNetworks;
             set
             {
                 if (_isScrapingAvailableInNetworks == value)
@@ -378,13 +331,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private bool _isForScrapingOnly;
+
         [ProtoMember(24)]
         public bool IsScrapeFromAccount
         {
-            get
-            {
-                return _isForScrapingOnly;
-            }
+            get => _isForScrapingOnly;
             set
             {
                 if (_isForScrapingOnly == value || !IsScrapingAvailableInNetworks)

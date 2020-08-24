@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.Linq;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
     internal class ColumnSpecificationAdapter : IColumnSpecificationProvider
     {
-        private List<string> names;
+        private readonly List<string> names;
 
         public ColumnSpecificationAdapter(IAccountCountFactory misnamed_factory)
         {

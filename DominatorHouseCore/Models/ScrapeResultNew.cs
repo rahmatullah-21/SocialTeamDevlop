@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Interfaces;
+﻿#region
+
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {

@@ -10,7 +10,5 @@
         string Id { get; set; }
         string Caption { get; set; }
         string Code { get; set; }
-
     }
-
 }

@@ -1,12 +1,16 @@
-﻿using DominatorHouseCore.Enums.RdQuery;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DominatorHouseCore.Enums.RdQuery;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Reddit
 {
-    class RedditPostActivity : BaseActivity
+    internal class RedditPostActivity : BaseActivity
     {
         public override Type GetEnumType()
         {
@@ -23,7 +27,8 @@ namespace DominatorHouseCore.StartupActivity.Reddit
             return listQueryType;
         }
     }
-    class RedditRemoveVoteActivity : BaseActivity
+
+    internal class RedditRemoveVoteActivity : BaseActivity
     {
         public override Type GetEnumType()
         {
@@ -37,7 +42,8 @@ namespace DominatorHouseCore.StartupActivity.Reddit
             return listQueryType;
         }
     }
-    class RedditCommentScraperActivity : BaseActivity
+
+    internal class RedditCommentScraperActivity : BaseActivity
     {
         public override Type GetEnumType()
         {

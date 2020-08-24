@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
@@ -23,10 +27,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(1)]
         public string PostTitle
         {
-            get
-            {
-                return _postTitle;
-            }
+            get => _postTitle;
             set
             {
                 if (_postTitle == value)
@@ -38,13 +39,9 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(2)]
         public bool IsPostAsStoryPost
         {
-            get
-            {
-                return _isPostAsStoryPost;
-            }
+            get => _isPostAsStoryPost;
             set
             {
-
                 if (_isPostAsStoryPost == value)
                     return;
                 SetProperty(ref _isPostAsStoryPost, value);
@@ -54,10 +51,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(3)]
         public bool IsDeletePostAfterHours
         {
-            get
-            {
-                return _isDeletePostAfterHours;
-            }
+            get => _isDeletePostAfterHours;
             set
             {
                 if (_isDeletePostAfterHours == value)
@@ -70,10 +64,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(4)]
         public int DeletePostAfterHours
         {
-            get
-            {
-                return _deletePostAfterHours;
-            }
+            get => _deletePostAfterHours;
             set
             {
                 if (_deletePostAfterHours == value)
@@ -86,10 +77,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(5)]
         public bool IsGeoLocation
         {
-            get
-            {
-                return _isGeoLocation;
-            }
+            get => _isGeoLocation;
             set
             {
                 if (_isGeoLocation == value)
@@ -102,13 +90,9 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(6)]
         public string GeoLocationList
         {
-            get
-            {
-                return _geoLocationList;
-            }
+            get => _geoLocationList;
             set
             {
-
                 if (_geoLocationList == value)
                     return;
 
@@ -119,10 +103,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(7)]
         public bool IsTagUser
         {
-            get
-            {
-                return _isTagUser;
-            }
+            get => _isTagUser;
             set
             {
                 if (_isTagUser == value)
@@ -135,10 +116,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(8)]
         public string TagUserList
         {
-            get
-            {
-                return _tagUserList;
-            }
+            get => _tagUserList;
             set
             {
                 if (_tagUserList == value)
@@ -147,13 +125,11 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 SetProperty(ref _tagUserList, value);
             }
         }
+
         [ProtoMember(9)]
         public bool IsGeoLocationName
         {
-            get
-            {
-                return _isLocationName;
-            }
+            get => _isLocationName;
             set
             {
                 if (value)
@@ -162,13 +138,11 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 SetProperty(ref _isLocationName, value);
             }
         }
+
         [ProtoMember(10)]
         public bool IsGeoLocationId
         {
-            get
-            {
-                return _isLocationId;
-            }
+            get => _isLocationId;
             set
             {
                 if (value)
@@ -177,14 +151,13 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 SetProperty(ref _isLocationId, value);
             }
         }
+
         private bool _IsMentionUser;
+
         [ProtoMember(11)]
         public bool IsMentionUser
         {
-            get
-            {
-                return _IsMentionUser;
-            }
+            get => _IsMentionUser;
             set
             {
                 if (value)
@@ -195,13 +168,11 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         }
 
         private string _MentionUserList;
+
         [ProtoMember(12)]
         public string MentionUserList
         {
-            get
-            {
-                return _MentionUserList;
-            }
+            get => _MentionUserList;
             set
             {
                 if (_MentionUserList == value)

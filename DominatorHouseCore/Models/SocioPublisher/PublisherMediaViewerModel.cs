@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
     [Serializable]
     [ProtoContract]
-    public class PublisherMediaViewerModel : BindableBase,IDisposable
-    {     
+    public class PublisherMediaViewerModel : BindableBase, IDisposable
+    {
         private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
         private int _currentItem;
         private int _totalItem;
@@ -18,15 +22,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private bool _isPostDetailsPresent;
 
         /// <summary>
-        /// To specify the all media items 
+        ///     To specify the all media items
         /// </summary>
         [ProtoMember(1)]
         public ObservableCollection<string> MediaList
         {
-            get
-            {
-                return _mediaList;
-            }
+            get => _mediaList;
             set
             {
                 if (_mediaList == value)
@@ -40,23 +41,19 @@ namespace DominatorHouseCore.Models.SocioPublisher
                     IsEnablePreviousNext = false;
                     IsEnableGoNext = _mediaList.Count > 1;
                     IsPostDetailsPresent = true;
-                   
                 }
             }
         }
 
         /// <summary>
-        /// To specify the current item index with respective to media lists
+        ///     To specify the current item index with respective to media lists
         /// </summary>
         public int CurrentItem
         {
-            get
-            {
-                return _currentItem;
-            }
+            get => _currentItem;
             set
             {
-                if(_currentItem == value)
+                if (_currentItem == value)
                     return;
                 _currentItem = value;
                 OnPropertyChanged(nameof(CurrentItem));
@@ -64,17 +61,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify the total item index with respective to media lists
+        ///     To specify the total item index with respective to media lists
         /// </summary>
         public int TotalItem
         {
-            get
-            {
-                return _totalItem;
-            }
+            get => _totalItem;
             set
             {
-                if(_totalItem == value)
+                if (_totalItem == value)
                     return;
                 _totalItem = value;
                 OnPropertyChanged(nameof(TotalItem));
@@ -82,14 +76,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To hold current media item
+        ///     To hold current media item
         /// </summary>
         public string MediaUrl
         {
-            get
-            {
-                return _mediaUrl;
-            }
+            get => _mediaUrl;
             set
             {
                 if (_mediaUrl.Equals(value))
@@ -100,14 +91,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify whether button enable for go to next
+        ///     To specify whether button enable for go to next
         /// </summary>
         public bool IsEnableGoNext
         {
-            get
-            {
-                return _isEnableGoNext;
-            }
+            get => _isEnableGoNext;
             set
             {
                 if (_isEnableGoNext == value)
@@ -118,14 +106,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify whether button enable for go to previous
+        ///     To specify whether button enable for go to previous
         /// </summary>
         public bool IsEnablePreviousNext
         {
-            get
-            {
-                return _isEnablePreviousNext;
-            }
+            get => _isEnablePreviousNext;
             set
             {
                 if (_isEnablePreviousNext == value)
@@ -136,17 +121,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To Specify whether post detail are present or not 
+        ///     To Specify whether post detail are present or not
         /// </summary>
         public bool IsPostDetailsPresent
         {
-            get
-            {
-                return _isPostDetailsPresent;
-            }
+            get => _isPostDetailsPresent;
             set
             {
-                if(_isPostDetailsPresent == value)
+                if (_isPostDetailsPresent == value)
                     return;
                 _isPostDetailsPresent = value;
                 OnPropertyChanged(nameof(IsPostDetailsPresent));

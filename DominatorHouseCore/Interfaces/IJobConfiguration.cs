@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -29,6 +33,5 @@ namespace DominatorHouseCore.Interfaces
         string ActivitiesPerWeekDisplayName { get; set; }
 
         string IncreaseActivityDisplayName { get; set; }
-
     }
 }

@@ -1,30 +1,34 @@
-﻿using CommonServiceLocator;
-using CsvHelper;
-using DominatorHouseCore.FileManagers;
-using ExcelDataReader;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using CommonServiceLocator;
+using CsvHelper;
+using DominatorHouseCore.FileManagers;
+using ExcelDataReader;
+using Microsoft.Win32;
+using WPFFolderBrowser;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
     public class FileUtilities
     {
-
         /// <summary>
-        /// FileBrowseAndReader() is used to browse and read the file data from OpenFileDialog
+        ///     FileBrowseAndReader() is used to browse and read the file data from OpenFileDialog
         /// </summary>
         /// <returns>Returns unique list of item from all files</returns>
         public static List<string> FileBrowseAndReader()
         {
             var fileData = new List<string>();
 
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            var openFileDialog = new OpenFileDialog
             {
                 Multiselect = true,
                 Filter = "Text documents (.txt)|*.txt|CSV files (*.csv)|*.csv|All files (*.*)|*.*"
@@ -35,13 +39,13 @@ namespace DominatorHouseCore.Utility
             if (openFileDialogResult != true) return new List<string>();
 
             foreach (var fileName in openFileDialog.FileNames)
-            {
                 try
                 {
                     var extension = Path.GetExtension(fileName);
                     if (!string.IsNullOrEmpty(extension))
                     {
-                        if (extension.Equals(".xls", StringComparison.CurrentCultureIgnoreCase) || extension.Equals(".xlsx", StringComparison.CurrentCultureIgnoreCase))
+                        if (extension.Equals(".xls", StringComparison.CurrentCultureIgnoreCase) ||
+                            extension.Equals(".xlsx", StringComparison.CurrentCultureIgnoreCase))
                             fileData.AddRange(GetExcelFileContent(fileName));
                         else if (extension.Equals(".csv", StringComparison.CurrentCultureIgnoreCase))
                             fileData.AddRange(GetCsvFileContent(fileName));
@@ -54,20 +58,20 @@ namespace DominatorHouseCore.Utility
                         //        continue;
 
                         //fileData.AddRange(GetFileContent(fileName));
-
                     }
                 }
                 catch (Exception ex)
                 {
-                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), ex.Message + $" {"LangKeyCloseFileRetry".FromResourceDictionary()}");
+                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(),
+                        ex.Message + $" {"LangKeyCloseFileRetry".FromResourceDictionary()}");
                     Console.WriteLine(ex.StackTrace);
                 }
-            }
+
             return fileData;
         }
 
         /// <summary>
-        /// Read the file data from specified files
+        ///     Read the file data from specified files
         /// </summary>
         /// <param name="fileName">given input file</param>
         /// <returns>Unique file details</returns>
@@ -114,24 +118,23 @@ namespace DominatorHouseCore.Utility
             }
 
             return listFileContent.Distinct().ToList();
-
         }
 
         /// <summary>
-        /// GetExportPath is used to get the selected path
+        ///     GetExportPath is used to get the selected path
         /// </summary>
         /// <returns></returns>
         public static string GetExportPath(bool clickedFromSetting = false)
         {
-
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
-            if (!clickedFromSetting && (softwareSettings.IsDefaultExportPathSelected && !string.IsNullOrEmpty(softwareSettings.ExportPath)))
+            if (!clickedFromSetting && softwareSettings.IsDefaultExportPathSelected &&
+                !string.IsNullOrEmpty(softwareSettings.ExportPath))
                 return softwareSettings.ExportPath;
 
             var exportPath = string.Empty;
 
-            var openBrowserDialog = new WPFFolderBrowser.WPFFolderBrowserDialog
+            var openBrowserDialog = new WPFFolderBrowserDialog
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
@@ -139,30 +142,24 @@ namespace DominatorHouseCore.Utility
             var result = openBrowserDialog.ShowDialog(Application.Current.MainWindow);
 
             if (result == true)
-            {
                 exportPath = openBrowserDialog.FileName;
-              //  softwareSettings.ExportPath = exportPath;
-            }
+            //  softwareSettings.ExportPath = exportPath;
 
             return exportPath;
         }
 
         public static string GetExportPath(Window OwnerWindow)
         {
-
             var exportPath = string.Empty;
 
-            var openBrowserDialog = new WPFFolderBrowser.WPFFolderBrowserDialog
+            var openBrowserDialog = new WPFFolderBrowserDialog
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
 
             var result = openBrowserDialog.ShowDialog(OwnerWindow);
 
-            if (result == true)
-            {
-                exportPath = openBrowserDialog.FileName;
-            }
+            if (result == true) exportPath = openBrowserDialog.FileName;
 
             return exportPath;
         }
@@ -177,8 +174,7 @@ namespace DominatorHouseCore.Utility
 
         public static dynamic GetImageOrVideo(bool multiselect, string filter)
         {
-
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            var openFileDialog = new OpenFileDialog
             {
                 Multiselect = multiselect,
                 Filter = filter
@@ -188,13 +184,12 @@ namespace DominatorHouseCore.Utility
                 return null;
             if (multiselect)
                 return openFileDialog.FileNames.ToList();
-            else
-                return openFileDialog.FileNames[0];
+            return openFileDialog.FileNames[0];
         }
 
         public static List<string> GetExcelFileContent(string fileName)
         {
-            List<string> content = new List<string>();
+            var content = new List<string>();
             using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
@@ -203,21 +198,22 @@ namespace DominatorHouseCore.Utility
                     {
                         while (reader.Read())
                         {
-                            string rowContent = String.Empty;
+                            var rowContent = string.Empty;
 
-                            for (int i = 0; i < reader.FieldCount; i++)
+                            for (var i = 0; i < reader.FieldCount; i++)
                             {
                                 var val = reader.GetValue(i);
-                                rowContent += (String.IsNullOrEmpty(val?.ToString()) ? String.Empty : val) + "\t";
+                                rowContent += (string.IsNullOrEmpty(val?.ToString()) ? string.Empty : val) + "\t";
                             }
+
                             if (string.IsNullOrEmpty(rowContent.Trim()))
                                 break;
                             content.Add(rowContent);
-
                         }
                     } while (reader.NextResult());
                 }
             }
+
             return content;
         }
 
@@ -228,14 +224,14 @@ namespace DominatorHouseCore.Utility
                 try
                 {
                     var csv = new CsvReader(reader);
-                    List<string> csvSplitList = new List<string>();
+                    var csvSplitList = new List<string>();
                     csv.Configuration.BadDataFound = null;
 
                     while (csv.Read())
                     {
-                        string rowContent = String.Empty;
-                        int columnCount = 0;
-                        bool hasColumn = true;
+                        var rowContent = string.Empty;
+                        var columnCount = 0;
+                        var hasColumn = true;
                         string columnValue;
 
                         while (hasColumn)
@@ -247,11 +243,12 @@ namespace DominatorHouseCore.Utility
                                 rowContent += columnValue + "\t";
                             }
                         }
+
                         var data = rowContent.Trim();
                         if (!string.IsNullOrEmpty(data))
                             csvSplitList.Add(rowContent.Substring(0, rowContent.Length - 1));
-
                     }
+
                     return csvSplitList;
                 }
                 catch (Exception ex)
@@ -264,42 +261,45 @@ namespace DominatorHouseCore.Utility
 
         public static List<string> GetTextFileContent(string fileName)
         {
-            using (StreamReader file = new StreamReader(fileName))
+            using (var file = new StreamReader(fileName))
             {
-                List<string> csvSplitList = new List<string>();
+                var csvSplitList = new List<string>();
                 string line;
                 while ((line = file.ReadLine()) != null)
                 {
                     var data = line.Trim();
                     if (!string.IsNullOrEmpty(data))
                         //csvSplitList.Add(ImageExtracter.CheckUrlValid(data) ? data : data.Replace(":", "\t"));
-                        csvSplitList.Add(ImageExtracter.CheckUrlValid(data.Split('\t').Last()) ? data : data.Replace(":", "\t"));
+                        csvSplitList.Add(ImageExtracter.CheckUrlValid(data.Split('\t').Last())
+                            ? data
+                            : data.Replace(":", "\t"));
                 }
+
                 return csvSplitList;
             }
         }
-        
+
         public static void Copy(string fileToCopy, string destinationFileName)
         {
             try
             {
                 if (File.Exists(fileToCopy) && !File.Exists(destinationFileName))
-                {
                     File.Copy(fileToCopy, destinationFileName);
-                }
             }
             catch (Exception ex)
-            { }
+            {
+            }
         }
 
         public static bool ReWriteDataIntoFile(string data, string filePath)
         {
             try
             {
-                using (StreamWriter reader = new StreamWriter(filePath))
+                using (var reader = new StreamWriter(filePath))
                 {
                     reader.Write(data);
                 }
+
                 return true;
             }
             catch (Exception ex)
@@ -312,10 +312,10 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                using (StreamReader file = new StreamReader(fileName))
+                using (var file = new StreamReader(fileName))
                 {
                     var data = await file.ReadToEndAsync();
-                    
+
                     return data;
                 }
             }

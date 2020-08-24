@@ -1,14 +1,18 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using CommonServiceLocator;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -16,27 +20,38 @@ namespace DominatorHouseCore.Interfaces
     public abstract class ChatFactory
     {
         private readonly IGenericFileManager _genericFileManager;
+
         protected ChatFactory()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
         }
 
-        public virtual void UpdateFriendList(LiveChatModel liveChatModel, CancellationToken cancellation) { }
+        public virtual void UpdateFriendList(LiveChatModel liveChatModel, CancellationToken cancellation)
+        {
+        }
 
-        public virtual void CloseBrowser(LiveChatModel liveChatModel, CancellationToken cancellation) { }
+        public virtual void CloseBrowser(LiveChatModel liveChatModel, CancellationToken cancellation)
+        {
+        }
 
-        public virtual void UpdateCurrentChat(LiveChatModel liveChatModel, CancellationToken cancellation) { }
+        public virtual void UpdateCurrentChat(LiveChatModel liveChatModel, CancellationToken cancellation)
+        {
+        }
 
-        public virtual async Task<bool> SendMessageToUser(LiveChatModel liveChatModel, string message, List<string> lstImages,
-            ChatMessageType messageType, CancellationToken cancellation) =>
-            true;
+        public virtual async Task<bool> SendMessageToUser(LiveChatModel liveChatModel, string message,
+            List<string> lstImages,
+            ChatMessageType messageType, CancellationToken cancellation)
+        {
+            return true;
+        }
 
-        public void SaveChatDetails(LiveChatModel liveChatModel, ChatDetails chatDetails, CancellationToken cancellation)
+        public void SaveChatDetails(LiveChatModel liveChatModel, ChatDetails chatDetails,
+            CancellationToken cancellation)
         {
             var oldData = _genericFileManager.GetModuleDetails<ChatDetails>(
                 FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
-            bool isPresent = false;
-            bool requireUpdate = false;
+            var isPresent = false;
+            var requireUpdate = false;
             foreach (var chat in oldData)
             {
                 cancellation.ThrowIfCancellationRequested();
@@ -66,9 +81,9 @@ namespace DominatorHouseCore.Interfaces
                             chat.MessegesId = chatDetails.MessegesId;
                             requireUpdate = true;
                         }
+
                         break;
                     }
-
                 }
                 catch (OperationCanceledException)
                 {
@@ -78,8 +93,6 @@ namespace DominatorHouseCore.Interfaces
                 {
                     ex.DebugLog();
                 }
-
-
             }
 
             try
@@ -90,39 +103,40 @@ namespace DominatorHouseCore.Interfaces
                     var item = liveChatModel.LstChat.LastOrDefault(x => x.MessageTime < chatDetails.MessageTime);
                     var indexCurrentItem = item == null ? 0 : liveChatModel.LstChat.IndexOf(item) + 1;
 
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         liveChatModel.LstChat.Insert(indexCurrentItem, chatDetails);
                     });
                     //liveChatModel.LstChat.Add(chatDetails);
                     _genericFileManager.AddModule(chatDetails,
-                        FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+                        FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel
+                            .AccountNetwork));
                 }
                 else if (requireUpdate)
                 {
                     _genericFileManager.UpdateModuleDetails(oldData,
-                        FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+                        FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel
+                            .AccountNetwork));
                 }
             }
             catch (OperationCanceledException)
             {
-
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
         }
-        public void SaveFriendDetails(LiveChatModel liveChatModel, SenderDetails friendDetail, CancellationToken cancellation)
+
+        public void SaveFriendDetails(LiveChatModel liveChatModel, SenderDetails friendDetail,
+            CancellationToken cancellation)
         {
             cancellation.ThrowIfCancellationRequested();
             var oldData = _genericFileManager.GetModuleDetails<SenderDetails>(
                 FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
-            bool isPresent = false;
-            bool requireUpdate = false;
+            var isPresent = false;
+            var requireUpdate = false;
             foreach (var friends in oldData)
-            {
                 try
                 {
                     cancellation.ThrowIfCancellationRequested();
@@ -133,7 +147,8 @@ namespace DominatorHouseCore.Interfaces
                         {
                             #region Update UI
 
-                            var oldFriendDetail = liveChatModel.LstSender.IndexOf(liveChatModel.LstSender.FirstOrDefault(x => x.ThreadId == friends.ThreadId));
+                            var oldFriendDetail = liveChatModel.LstSender.IndexOf(
+                                liveChatModel.LstSender.FirstOrDefault(x => x.ThreadId == friends.ThreadId));
 
                             liveChatModel.LstSender[oldFriendDetail].SenderImage = friendDetail.SenderImage;
                             liveChatModel.LstSender[oldFriendDetail].SenderId = friendDetail.SenderId;
@@ -154,33 +169,36 @@ namespace DominatorHouseCore.Interfaces
                             friends.AccountId = friendDetail.AccountId;
                             requireUpdate = true;
                         }
+
                         break;
                     }
-
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
                 }
 
-            }
             try
             {
                 if (!isPresent)
                 {
-                    if (liveChatModel.LstSender.Count() > 0 && liveChatModel.LstSender.FirstOrDefault().AccountId != friendDetail.AccountId)
+                    if (liveChatModel.LstSender.Count() > 0 &&
+                        liveChatModel.LstSender.FirstOrDefault().AccountId != friendDetail.AccountId)
                         return;
-                    var item = liveChatModel.LstSender.FirstOrDefault(x => x.LastMessegeDateTime < friendDetail.LastMessegeDateTime);
-                    var indexCurrentItem = item == null ? liveChatModel.LstSender.Count : liveChatModel.LstSender.IndexOf(item);
+                    var item = liveChatModel.LstSender.FirstOrDefault(x =>
+                        x.LastMessegeDateTime < friendDetail.LastMessegeDateTime);
+                    var indexCurrentItem =
+                        item == null ? liveChatModel.LstSender.Count : liveChatModel.LstSender.IndexOf(item);
 
                     cancellation.ThrowIfCancellationRequested();
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         liveChatModel.LstSender.Insert(indexCurrentItem, friendDetail);
                     });
 
                     _genericFileManager.AddModule(friendDetail,
-                        FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+                        FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel
+                            .AccountNetwork));
 
                     Thread.Sleep(5000);
                 }
@@ -188,15 +206,14 @@ namespace DominatorHouseCore.Interfaces
                 {
                     cancellation.ThrowIfCancellationRequested();
                     _genericFileManager.UpdateModuleDetails(oldData,
-                        FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+                        FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel
+                            .AccountNetwork));
                 }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
         }
     }
-
 }

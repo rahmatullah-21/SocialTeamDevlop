@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Windows.Controls;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {

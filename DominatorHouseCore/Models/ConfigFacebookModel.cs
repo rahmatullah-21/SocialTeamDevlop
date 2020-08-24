@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -7,13 +11,11 @@ namespace DominatorHouseCore.Models
     public class ConfigFacebookModel : BindableBase
     {
         private int _waitMinimumOf;
+
         [ProtoMember(1)]
         public int WaitMinimumOf
         {
-            get
-            {
-                return _waitMinimumOf;
-            }
+            get => _waitMinimumOf;
             set
             {
                 if (value == _waitMinimumOf)
@@ -21,14 +23,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _waitMinimumOf, value);
             }
         }
+
         private bool _isDisableSyncForNewAccountsChecked;
+
         [ProtoMember(2)]
         public bool IsDisableSyncForNewAccountsChecked
         {
-            get
-            {
-                return _isDisableSyncForNewAccountsChecked;
-            }
+            get => _isDisableSyncForNewAccountsChecked;
             set
             {
                 if (value == _isDisableSyncForNewAccountsChecked)
@@ -36,14 +37,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isDisableSyncForNewAccountsChecked, value);
             }
         }
+
         private int _maxOfFbAccount;
+
         [ProtoMember(3)]
         public int MaxOfFbAccount
         {
-            get
-            {
-                return _maxOfFbAccount;
-            }
+            get => _maxOfFbAccount;
             set
             {
                 if (value == _maxOfFbAccount)

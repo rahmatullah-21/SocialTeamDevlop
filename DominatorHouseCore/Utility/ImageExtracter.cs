@@ -1,42 +1,48 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Web;
 using HtmlAgilityPack;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
     public class ImageExtracter
     {
         /// <summary>
-        /// Extract the images url from the url
+        ///     Extract the images url from the url
         /// </summary>
         /// <param name="url">url for fetching image</param>
         /// <param name="isBackgroundImageNeed">pass true for fetching css, backgroud images need from the website</param>
         /// <returns></returns>
-        public static IEnumerable<string> ExtractImageUrls(string url, ref string title, bool isBackgroundImageNeed = false)
+        public static IEnumerable<string> ExtractImageUrls(string url, ref string title,
+            bool isBackgroundImageNeed = false)
         {
             var imageUrl = new List<string>();
-           
+
             var scrapeUrl = new Uri(url);
             var host = scrapeUrl.Host;
 
             if (host.Contains("google"))
             {
-
                 var objwebclient = new WebClient();
 
                 objwebclient.Headers.Add("Host", "www.google.co.in");
                 //  objwebclient.Headers.Add("User-Agent", " Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");                   
-                objwebclient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
-                objwebclient.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                objwebclient.Headers.Add("User-Agent",
+                    "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
+                objwebclient.Headers.Add("Accept",
+                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
                 objwebclient.Headers.Add("Accept-Language", "en-US,en;q=0.8");
                 objwebclient.Headers.Add("Upgrade-Insecure-Requests", "1");
-                ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+                ServicePointManager.ServerCertificateValidationCallback +=
+                    (sender, certificate, chain, sslPolicyErrors) => true;
 
                 var googlePageResult = objwebclient.DownloadString(scrapeUrl);
 
@@ -55,7 +61,6 @@ namespace DominatorHouseCore.Utility
                     image = Regex.Unescape(image);
                     imageUrl.Add(image);
                 });
-
             }
             else
             {
@@ -81,7 +86,8 @@ namespace DominatorHouseCore.Utility
 
                 // Fetching Src values from response
                 if (htmlNodeCollection != null)
-                    imageUrl.AddRange(RemoveInvalidUrls(htmlNodeCollection.Select(node => node.Attributes["src"].Value)));
+                    imageUrl.AddRange(
+                        RemoveInvalidUrls(htmlNodeCollection.Select(node => node.Attributes["src"].Value)));
 
 
                 // Check if background images are needed from the website 
@@ -100,7 +106,8 @@ namespace DominatorHouseCore.Utility
                     {
                         // Getting the background images
                         var input = enumerator.Current?.Attributes["style"].Value;
-                        var regex = new Regex(".*?background:url\\('?(?<bgpath>.*)'?\\).*?", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+                        var regex = new Regex(".*?background:url\\('?(?<bgpath>.*)'?\\).*?",
+                            RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
                         if (input != null && regex.IsMatch(input))
                             imageUrl.Add(regex.Match(input).Groups["bgpath"].Value);
                     }
@@ -113,7 +120,8 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static IEnumerable<string> ExtractLinkDetails(string url, ref string title, ref string description, bool isBackgroundImageNeed = false)
+        public static IEnumerable<string> ExtractLinkDetails(string url, ref string title, ref string description,
+            bool isBackgroundImageNeed = false)
         {
             var imageUrl = new List<string>();
 
@@ -125,29 +133,33 @@ namespace DominatorHouseCore.Utility
                 var scrapeUrl = new Uri(url);
 
                 var webClient = new WebClient();
-                webClient.Encoding = System.Text.Encoding.UTF8;
+                webClient.Encoding = Encoding.UTF8;
                 var googlePageResult = webClient.DownloadString(scrapeUrl);
 
                 googlePageResult = Regex.Replace(googlePageResult, "\\\\([^u])", "\\\\$1").Replace("\\", "");
                 googlePageResult = WebUtility.HtmlDecode(googlePageResult);
 
 
-                title = googlePageResult.Contains("\"og_title\"") ?
-                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "name"
-                    , "og_title", "content") : Utilities.GetBetween(googlePageResult, "<title>", "</title>");
+                title = googlePageResult.Contains("\"og_title\"")
+                    ? HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "name"
+                        , "og_title", "content")
+                    : Utilities.GetBetween(googlePageResult, "<title>", "</title>");
 
 
-                description = googlePageResult.Contains("\"og:description\"") ?
-                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
-                    , "og:description", "content") : string.Empty;
+                description = googlePageResult.Contains("\"og:description\"")
+                    ? HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
+                        , "og:description", "content")
+                    : string.Empty;
 
-                var image = googlePageResult.Contains("\"og:image\"") ?
-                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
-                    , "og:image", "content") : string.Empty;
+                var image = googlePageResult.Contains("\"og:image\"")
+                    ? HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
+                        , "og:image", "content")
+                    : string.Empty;
 
-                var siteUrl = googlePageResult.Contains("\"og:url\"") ?
-                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
-                    , "og:url", "content") : string.Empty;
+                var siteUrl = googlePageResult.Contains("\"og:url\"")
+                    ? HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
+                        , "og:url", "content")
+                    : string.Empty;
 
                 if (!image.Contains("https:") && !string.IsNullOrEmpty(image) && !image.StartsWith("//"))
                     image = siteUrl + image;
@@ -156,7 +168,6 @@ namespace DominatorHouseCore.Utility
                 {
                     var matchCollection = Regex.Matches(googlePageResult, "href=\"(.*?)\"");
                     if (matchCollection.Count > 0)
-                    {
                         foreach (Match match in matchCollection)
                         {
                             var imageData = match.Groups[1].ToString();
@@ -165,9 +176,7 @@ namespace DominatorHouseCore.Utility
                                 image = match.Groups[1].ToString();
                                 break;
                             }
-
                         }
-                    }
                 }
 
 
@@ -175,12 +184,10 @@ namespace DominatorHouseCore.Utility
                 {
                     var splitResponse = Regex.Split(googlePageResult, "\"logo\":").Skip(1).ToList();
                     foreach (var response in splitResponse)
-                    {
                         try
                         {
                             var matchCollection = Regex.Matches(response, ":\"(.*?)\"");
                             if (matchCollection.Count > 0)
-                            {
                                 foreach (Match match in matchCollection)
                                 {
                                     var imageData = match.Groups[1].ToString();
@@ -189,9 +196,7 @@ namespace DominatorHouseCore.Utility
                                         image = imageData;
                                         break;
                                     }
-
                                 }
-                            }
 
                             if (!string.IsNullOrEmpty(image))
                                 break;
@@ -200,24 +205,23 @@ namespace DominatorHouseCore.Utility
                         {
                             ex.DebugLog();
                         }
-                    }
                 }
 
                 if (!image.Contains("https:") && !string.IsNullOrEmpty(image) && image.StartsWith("//"))
                     image = "https:" + image;
 
                 imageUrl.Add(image);
-
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+
             return imageUrl;
         }
 
         /// <summary>
-        /// Remove invalid image url from given collections
+        ///     Remove invalid image url from given collections
         /// </summary>
         /// <param name="urls"></param>
         /// <returns></returns>
@@ -236,10 +240,12 @@ namespace DominatorHouseCore.Utility
         }
 
         public static string DecodeHtml(string text)
-            => HttpUtility.HtmlDecode(text);
+        {
+            return HttpUtility.HtmlDecode(text);
+        }
 
         /// <summary>
-        /// Check whether url in valid or not
+        ///     Check whether url in valid or not
         /// </summary>
         /// <param name="sourceUrl"></param>
         /// <returns></returns>
@@ -251,7 +257,7 @@ namespace DominatorHouseCore.Utility
         }
 
         /// <summary>
-        /// Is give url is valid or not
+        ///     Is give url is valid or not
         /// </summary>
         /// <param name="source">url</param>
         /// <returns></returns>
@@ -260,9 +266,8 @@ namespace DominatorHouseCore.Utility
             Uri result;
             // Check whether Url is based on http or https schema
             if (Uri.TryCreate(source, UriKind.Absolute, out result))
-                return result.Scheme == Uri.UriSchemeHttp | result.Scheme == Uri.UriSchemeHttps;
+                return (result.Scheme == Uri.UriSchemeHttp) | (result.Scheme == Uri.UriSchemeHttps);
             return false;
         }
-
     }
 }

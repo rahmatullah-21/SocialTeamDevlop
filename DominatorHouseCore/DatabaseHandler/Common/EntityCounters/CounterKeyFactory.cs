@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
@@ -6,6 +10,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
     {
         string Create(string accountId, object activityType);
     }
+
     public class CounterKeyFactory<TSource> : ICounterKeyFactory<TSource> where TSource : class, new()
     {
         private readonly SocialNetworks _socialNetworks;

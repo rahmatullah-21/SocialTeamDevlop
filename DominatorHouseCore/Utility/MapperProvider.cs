@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿#region
+
+using AutoMapper;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -9,7 +13,7 @@ namespace DominatorHouseCore.Utility
 
     public class MapperProvider : IMapperProvider
     {
-        public IMapper Mapper { get; } 
+        public IMapper Mapper { get; }
 
         public MapperProvider(Profile mapperProfiles)
         {
@@ -17,6 +21,6 @@ namespace DominatorHouseCore.Utility
                 cfg.AddProfile(mapperProfiles)
             );
             Mapper = config.CreateMapper();
-        } 
-    } 
+        }
+    }
 }

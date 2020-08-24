@@ -1,6 +1,10 @@
-﻿using System.Windows;
+﻿#region
+
+using System.Windows;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -8,13 +12,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
     public class PublisherMonitorFolderModel : BindableBase
     {
         private string _folderPath = string.Empty;
+
         [ProtoMember(1)]
         public string FolderPath
         {
-            get
-            {
-                return _folderPath;
-            }
+            get => _folderPath;
             set
             {
                 if (value == _folderPath)
@@ -22,14 +24,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _folderPath, value);
             }
         }
+
         private string _folderTemplate = Application.Current.FindResource("LangKeyFolderPathTemplate").ToString();
+
         [ProtoMember(2)]
         public string FolderTemplate
         {
-            get
-            {
-                return _folderTemplate;
-            }
+            get => _folderTemplate;
             set
             {
                 if (value == _folderTemplate)
@@ -37,14 +38,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _folderTemplate, value);
             }
         }
+
         private string _buttonContent = "LangKeySaveFolderPath".FromResourceDictionary();
+
         [ProtoIgnore]
         public string ButtonContent
         {
-            get
-            {
-                return _buttonContent;
-            }
+            get => _buttonContent;
             set
             {
                 if (value == _buttonContent)
@@ -52,14 +52,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _buttonContent, value);
             }
         }
+
         private PostDetailsModel _postDetailsModel = new PostDetailsModel();
+
         [ProtoMember(3)]
         public PostDetailsModel PostDetailsModel
         {
-            get
-            {
-                return _postDetailsModel;
-            }
+            get => _postDetailsModel;
             set
             {
                 if (value == _postDetailsModel)

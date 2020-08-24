@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Models;
+﻿#region
+
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces.StartUp
 {

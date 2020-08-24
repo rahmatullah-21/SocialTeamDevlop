@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
+
+#endregion
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -8,6 +12,7 @@ namespace DominatorHouseCore.Diagnostics
         public NetworkCoreLibraryBuilder()
         {
         }
+
         public NetworkCoreLibraryBuilder(INetworkCoreFactory networkCoreFactory)
         {
             NetworkCoreFactory = networkCoreFactory;
@@ -81,11 +86,13 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.AccountVerificationFactory = accountVerification;
             return this;
         }
+
         public NetworkCoreLibraryBuilder AddProfileFactory(ProfileFactory profileFactory)
         {
             NetworkCoreFactory.ProfileFactory = profileFactory;
             return this;
         }
+
         public NetworkCoreLibraryBuilder AddChatFactory(ChatFactory chatFactory)
         {
             NetworkCoreFactory.ChatFactory = chatFactory;

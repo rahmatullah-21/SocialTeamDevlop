@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Models;
+﻿#region
+
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -9,13 +13,10 @@ namespace DominatorHouseCore.ViewModel
 
         public ManageDestinationModel ManageDestinationModel
         {
-            get
-            {
-                return _manageDestinationModel;
-            }
+            get => _manageDestinationModel;
             set
             {
-                if (_manageDestinationModel == null & _manageDestinationModel == value)
+                if ((_manageDestinationModel == null) & (_manageDestinationModel == value))
                     return;
                 SetProperty(ref _manageDestinationModel, value);
             }

@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿#region
+
+using System.Text;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -29,11 +33,10 @@ namespace DominatorHouseCore.Utility
 
         public string GetCacheText()
         {
-            string tmpSbText = _sb.ToString();
+            var tmpSbText = _sb.ToString();
             _sb.Clear();
             Counter = 0;
             return tmpSbText;
         }
-
     }
 }

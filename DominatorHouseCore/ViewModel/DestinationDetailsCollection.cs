@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -15,10 +19,7 @@ namespace DominatorHouseCore.ViewModel
 
         public bool IsSelected
         {
-            get
-            {
-                return _isSelected;
-            }
+            get => _isSelected;
             set
             {
                 if (_isSelected == value)

@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DominatorHouseCore.Models.SocioPublisher;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -15,7 +19,7 @@ namespace DominatorHouseCore.Interfaces
             List<string> alreadySelectedList);
 
         Task<List<AccountDetailsSelectorModel>> GetFriendsDetails(string accountId, string accountName,
-           List<string> alreadySelectedList);
+            List<string> alreadySelectedList);
 
         Task<List<AccountDetailsSelectorModel>> GetPagesDetails(string accountId, string accountName,
             List<string> alreadySelectedList);
@@ -25,7 +29,5 @@ namespace DominatorHouseCore.Interfaces
         Task<List<string>> GetGroupUrls(string accountId, DateTime addedAfter);
 
         Task<List<string>> GetPageOrBoardUrls(string accountId, string accountName);
-
-
     }
 }

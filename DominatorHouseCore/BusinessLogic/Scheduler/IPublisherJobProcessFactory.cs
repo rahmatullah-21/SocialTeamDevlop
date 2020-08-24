@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.Threading;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
+
+#endregion
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public interface IPublisherJobProcessFactory
     {
         /// <summary>
-        /// To create the Publisher job process objects from each networks
+        ///     To create the Publisher job process objects from each networks
         /// </summary>
         /// <param name="campaignId">Campaign Id for job process resposible</param>
         /// <param name="accountId">Account Id which is running currently</param>
@@ -18,7 +22,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="customDestinationModels">custom destinations</param>
         /// <param name="isPublishOnOwnWall">Is need to publish on own wall</param>
         /// <param name="campaignCancellationToken">Cancellation token</param>
-        /// <returns><see cref="PublisherJobProcess"/></returns>
+        /// <returns>
+        ///     <see cref="PublisherJobProcess" />
+        /// </returns>
         PublisherJobProcess Create(string campaignId,
             string accountId,
             List<string> groupLists,
@@ -27,10 +33,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             bool isPublishOnOwnWall,
             CancellationTokenSource campaignCancellationToken);
 
-     
 
         /// <summary>
-        /// To create the Publisher job process objects from each networks
+        ///     To create the Publisher job process objects from each networks
         /// </summary>
         /// <param name="campaignId">Campaign Id</param>
         /// <param name="campaignName">Campaign Name</param>
@@ -42,8 +47,5 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         PublisherJobProcess Create(string campaignId, string campaignName, string accountId, SocialNetworks network,
             IEnumerable<PublisherDestinationDetailsModel> destinationDetails,
             CancellationTokenSource campaignCancellationToken);
-
     }
-
-   
 }

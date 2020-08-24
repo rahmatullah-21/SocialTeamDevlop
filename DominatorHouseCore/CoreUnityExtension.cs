@@ -1,4 +1,6 @@
-﻿using DominatorHouse.ThreadUtils;
+﻿#region
+
+using DominatorHouse.ThreadUtils;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
@@ -18,6 +20,8 @@ using DominatorHouseCore.ViewModel;
 using Unity;
 using Unity.Extension;
 using Unity.Injection;
+
+#endregion
 
 namespace DominatorHouseCore
 {
@@ -64,20 +68,21 @@ namespace DominatorHouseCore
             Container.AddNewExtension<DbMigrationUnityExtension>();
             Container.AddNewExtension<ProxyManagmentUnityExtension>();
 
-            Container.RegisterSingleton<IQueryScraperFactory, DominatorScraperFactory>(SocialNetworks.Social.ToString());
-            Container.RegisterSingleton<IJobProcessFactory, DominatorJobProcessFactory>(SocialNetworks.Social.ToString());
+            Container.RegisterSingleton<IQueryScraperFactory, DominatorScraperFactory>(SocialNetworks.Social
+                .ToString());
+            Container.RegisterSingleton<IJobProcessFactory, DominatorJobProcessFactory>(
+                SocialNetworks.Social.ToString());
             Container.RegisterSingleton<IDominatorScheduler, DominatorScheduler>();
             Container.RegisterSingleton<ISchedulerProxy, SchedulerProxy>();
 
-            Container.RegisterType<IDbOperations, DbOperations>(new InjectionConstructor(typeof(string), typeof(SocialNetworks), typeof(string)));
+            Container.RegisterType<IDbOperations, DbOperations>(new InjectionConstructor(typeof(string),
+                typeof(SocialNetworks), typeof(string)));
 
-            
 
             Container.AddNewExtension<JobProcessUnityExtension>();
             Container.AddNewExtension<EntityCounterUnityExtension>();
 
             Container.RegisterSingleton<IDelayService, DelayService>();
-
         }
     }
 }

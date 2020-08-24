@@ -1,12 +1,15 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
     public class EditProfileModel : BindableBase
     {
-
         private string _profilePicPath;
         private string _fullname;
         private string _username;
@@ -17,130 +20,110 @@ namespace DominatorHouseCore.Models
         private bool _isMaleChecked;
         private bool _isFemaleChecked;
         private bool _isNonSpecifiedChecked;
+
         [ProtoMember(1)]
         public string ProfilePicPath
         {
-            get
-            {
-                return _profilePicPath;
-            }
+            get => _profilePicPath;
             set
             {
                 _profilePicPath = value;
                 OnPropertyChanged();
             }
         }
+
         [ProtoMember(2)]
         public string Fullname
         {
-            get
-            {
-                return _fullname;
-            }
+            get => _fullname;
             set
             {
                 _fullname = value;
                 OnPropertyChanged("FullName");
             }
         }
+
         [ProtoMember(3)]
         public string Username
         {
-            get
-            {
-                return _username;
-            }
+            get => _username;
             set
             {
                 _username = value;
                 OnPropertyChanged();
             }
         }
+
         [ProtoMember(4)]
         public string ExternalUrl
         {
-            get
-            {
-                return _externalUrl;
-            }
+            get => _externalUrl;
             set
             {
                 _externalUrl = value;
                 OnPropertyChanged();
             }
         }
+
         [ProtoMember(5)]
         public string Bio
         {
-            get
-            {
-                return _bio;
-            }
+            get => _bio;
             set
             {
                 _bio = value;
                 OnPropertyChanged();
             }
         }
+
         [ProtoMember(6)]
         public string Email
         {
-            get
-            {
-                return _email;
-            }
+            get => _email;
             set
             {
                 _email = value;
                 OnPropertyChanged();
             }
         }
+
         [ProtoMember(7)]
         public string PhoneNumber
         {
-            get
-            {
-                return _phoneNumber;
-            }
+            get => _phoneNumber;
             set
             {
                 _phoneNumber = value;
                 OnPropertyChanged();
             }
         }
+
         [ProtoMember(8)]
         public bool IsMaleChecked
         {
-            get
-            {
-                return _isMaleChecked;
-            }
+            get => _isMaleChecked;
             set
             {
                 _isMaleChecked = value;
                 OnPropertyChanged();
             }
         }
+
         [ProtoMember(9)]
         public bool IsFemaleChecked
         {
-            get
-            {
-                return _isFemaleChecked;
-            }
+            get => _isFemaleChecked;
             set
             {
                 _isFemaleChecked = value;
                 OnPropertyChanged();
             }
         }
+
         [ProtoMember(10)]
         public bool IsNonSpecifiedChecked
         {
-            get
-            {
-                return _isNonSpecifiedChecked;
-            }
+            get => _isNonSpecifiedChecked;
             set
             {
                 _isNonSpecifiedChecked = value;

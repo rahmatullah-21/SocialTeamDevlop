@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -13,42 +17,22 @@ namespace DominatorHouseCore.Models
         [ProtoMember(1)]
         public string CountryName
         {
-            get
-            {
-                return _countryName;
-            }
-            set
-            {
-                SetProperty(ref _countryName, value, nameof(CountryName));
-            }
+            get => _countryName;
+            set => SetProperty(ref _countryName, value, nameof(CountryName));
         }
 
         [ProtoMember(2)]
         public string CityName
         {
-            get
-            {
-                return _cityName;
-            }
-            set
-            {
-                SetProperty(ref _cityName, value, nameof(CityName));
-            }
+            get => _cityName;
+            set => SetProperty(ref _cityName, value, nameof(CityName));
         }
 
         [ProtoMember(3)]
         public bool IsSelected
         {
-            get
-            {
-                return _iSelected;
-            }
-            set
-            {
-                SetProperty(ref _iSelected, value, nameof(IsSelected));
-            }
+            get => _iSelected;
+            set => SetProperty(ref _iSelected, value, nameof(IsSelected));
         }
-        
-
     }
 }

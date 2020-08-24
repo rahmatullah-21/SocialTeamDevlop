@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -9,13 +13,13 @@ namespace DominatorHouseCore.Utility
         {
             return source.ToHashSet(null);
         }
-        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
+
+        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source,
+            IEqualityComparer<TSource> comparer)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
             return new HashSet<TSource>(source, comparer);
         }
-
-
     }
 }

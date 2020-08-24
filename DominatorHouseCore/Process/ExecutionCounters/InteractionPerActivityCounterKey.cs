@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
 using System;
 using System.Collections.Generic;
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.Process.ExecutionCounters
 {
@@ -8,7 +12,8 @@ namespace DominatorHouseCore.Process.ExecutionCounters
     {
         public string ActivityType { get; }
 
-        public InteractionPerActivityCounterKey(Type interactedEntityType, SocialNetworks socialNetworks, string accountId,
+        public InteractionPerActivityCounterKey(Type interactedEntityType, SocialNetworks socialNetworks,
+            string accountId,
             string activityType) : base(interactedEntityType, socialNetworks, accountId)
         {
             ActivityType = activityType;

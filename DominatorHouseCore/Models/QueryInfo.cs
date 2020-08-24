@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.ComponentModel;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
+#endregion
+
 namespace DominatorHouseCore.Models
 {
-
     /// <summary>
-    /// QueryInfo is used to save the user query value 
+    ///     QueryInfo is used to save the user query value
     /// </summary>
     [ProtoContract]
     public class QueryInfo : BindableBase, ICloneable
@@ -23,25 +26,21 @@ namespace DominatorHouseCore.Models
 
         public static readonly QueryInfo NoQuery = new QueryInfo();
         private int _index;
+
         [ProtoMember(10)]
         public int Index
         {
-            get { return _index; }
-            set
-            {
-                SetProperty(ref _index, value);
-            }
+            get => _index;
+            set => SetProperty(ref _index, value);
         }
+
         /// <summary>
-        /// Id is the unique id for the query, which contains guid without dashes
+        ///     Id is the unique id for the query, which contains guid without dashes
         /// </summary>
         [ProtoMember(1)]
         public string Id
         {
-            get
-            {
-                return _id;
-            }
+            get => _id;
             set
             {
                 if (_id != null && _id == value)
@@ -51,53 +50,45 @@ namespace DominatorHouseCore.Models
         }
 
         private string _queryType;
+
         /// <summary>
-        /// QueryType holds the index value of QueryParameters 
+        ///     QueryType holds the index value of QueryParameters
         /// </summary>
         [ProtoMember(2)]
         public string QueryType
         {
-            get
-            {
-                return _queryType;
-            }
+            get => _queryType;
             set
             {
                 if (_queryType == value)
                     return;
-                SetProperty(ref _queryType, value);                
+                SetProperty(ref _queryType, value);
             }
         }
 
         /// <summary>
-        /// QueryValue holds the input value for selected query type
+        ///     QueryValue holds the input value for selected query type
         /// </summary>
         [ProtoMember(3)]
         public string QueryValue
         {
-            get
-            {
-                return _queryValue;
-            }
+            get => _queryValue;
             set
             {
                 if (_queryValue != null && _queryValue == value)
                     return;
-                SetProperty(ref _queryValue, value);                
+                SetProperty(ref _queryValue, value);
             }
         }
 
 
         /// <summary>
-        /// IsCustomFilterSelected holds whether the Query contains custom filters
+        ///     IsCustomFilterSelected holds whether the Query contains custom filters
         /// </summary>
         [ProtoMember(4)]
         public bool IsCustomFilterSelected
         {
-            get
-            {
-                return _isCustomFilterSelected;
-            }
+            get => _isCustomFilterSelected;
             set
             {
                 if (_isCustomFilterSelected == value)
@@ -110,10 +101,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(5)]
         public string CustomFilters
         {
-            get
-            {
-                return _customFilters;
-            }
+            get => _customFilters;
             set
             {
                 if (_customFilters != null && _customFilters == value)
@@ -124,15 +112,12 @@ namespace DominatorHouseCore.Models
 
 
         /// <summary>
-        /// AddedDateTime holds when the query added datetime 
+        ///     AddedDateTime holds when the query added datetime
         /// </summary>
         [ProtoMember(6)]
         public int AddedDateTime
         {
-            get
-            {
-                return _addedDateTime;
-            }
+            get => _addedDateTime;
             set
             {
                 if (_addedDateTime == value)
@@ -143,15 +128,12 @@ namespace DominatorHouseCore.Models
 
 
         /// <summary>
-        /// QueryPriority defines the order which query are going to execute in business logic
+        ///     QueryPriority defines the order which query are going to execute in business logic
         /// </summary>
         [ProtoMember(7)]
         public int QueryPriority
         {
-            get
-            {
-                return _queryPriority;
-            }
+            get => _queryPriority;
             set
             {
                 if (_queryPriority == value)
@@ -159,14 +141,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _queryPriority, value);
             }
         }
+
         private bool _isQuerySlected;
 
         public bool IsQuerySelected
         {
-            get
-            {
-                return _isQuerySlected;
-            }
+            get => _isQuerySlected;
             set
             {
                 if (_isQuerySlected == value)
@@ -179,31 +159,26 @@ namespace DominatorHouseCore.Models
         [ProtoMember(8)]
         public string QueryTypeDisplayName
         {
-            get
-            {
-                return _queryTypeDisplayName;
-            }
+            get => _queryTypeDisplayName;
             set
             {
                 if (_queryTypeDisplayName != null && _queryTypeDisplayName == value)
                     return;
 
-                var displayName = value;            // ConvertToDisplayName(value)
+                var displayName = value; // ConvertToDisplayName(value)
                 SetProperty(ref _queryTypeDisplayName, displayName);
             }
         }
 
         private string _queryTypeEnum;
+
         /// <summary>
-        /// It holds the QueryType Enum Name 
+        ///     It holds the QueryType Enum Name
         /// </summary>
         [ProtoMember(9)]
         public string QueryTypeEnum
         {
-            get
-            {
-                return _queryTypeEnum;
-            }
+            get => _queryTypeEnum;
             set
             {
                 if (_queryTypeEnum == value)
@@ -214,56 +189,54 @@ namespace DominatorHouseCore.Models
 
         public object Clone()
         {
-            return (QueryInfo)MemberwiseClone();
+            return (QueryInfo) MemberwiseClone();
         }
     }
 
 
     public enum UserQueryParameters
     {
-        [Description("LangKeyHashtagPostS")]
-        HashtagPost = 1,
-        [Description("LangKeyHashtagUsers")]
-        HashtagUsers = 2,
-        [Description("LangKeyKeywords")]
-        Keywords = 3,
+        [Description("LangKeyHashtagPostS")] HashtagPost = 1,
+        [Description("LangKeyHashtagUsers")] HashtagUsers = 2,
+        [Description("LangKeyKeywords")] Keywords = 3,
+
         [Description("LangKeySomeonesFollowers")]
         SomeonesFollowers = 4,
+
         [Description("LangKeySomeonesFollowings")]
         SomeonesFollowings = 5,
+
         [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfFollowings = 6,
+
         [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfFollowers = 7,
-        [Description("LangKeyLocationUsers")]
-        LocationUsers = 8,
-        [Description("LangKeyLocationPosts")]
-        LocationPosts = 9,
+        [Description("LangKeyLocationUsers")] LocationUsers = 8,
+        [Description("LangKeyLocationPosts")] LocationPosts = 9,
+
         [Description("LangKeyCustomUsersList")]
         CustomUsers = 10,
-        [Description("LangKeySuggestedUsers")]
-        SuggestedUsers = 11,
-        [Description("LangKeyCustomPhotos")]
-        CustomPhotos =12,
+        [Description("LangKeySuggestedUsers")] SuggestedUsers = 11,
+        [Description("LangKeyCustomPhotos")] CustomPhotos = 12,
+
         [Description("LangKeyUsersWhoLikedPosts")]
         UsersWhoLikedPost = 13,
+
         [Description("LangKeyUsersWhoCommentedOnPosts")]
         UsersWhoCommentedOnPost = 14,
+
         [Description("LangKeyFromSomeonesCircle")]
-        FromSomeonesCircle=15,
+        FromSomeonesCircle = 15,
+
         [Description("LangKeyFromCircleOfFollowers")]
-        FromCircleOfFollowers=16,
+        FromCircleOfFollowers = 16,
+
         [Description("LangKeyFromCircleOfFollowings")]
-        FromCircleOfFollowings=17,
-        [Description("LangKeyBoardFollowers")]
-        BoardFollowers = 18,
-        [Description("LangKeyCustomBoard")]
-        CustomBoard = 19,
-        [Description("LangKeyCustomPin")]
-        CustomPin = 20,
-        [Description("LangKeyNewsfeed")]
-        NewsFeedPins = 21,
-        [Description("LangKeyCustomurl")]
-        CustomUrl = 22
+        FromCircleOfFollowings = 17,
+        [Description("LangKeyBoardFollowers")] BoardFollowers = 18,
+        [Description("LangKeyCustomBoard")] CustomBoard = 19,
+        [Description("LangKeyCustomPin")] CustomPin = 20,
+        [Description("LangKeyNewsfeed")] NewsFeedPins = 21,
+        [Description("LangKeyCustomurl")] CustomUrl = 22
     }
 }

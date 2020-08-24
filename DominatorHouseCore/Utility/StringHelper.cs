@@ -1,11 +1,15 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿#region
+
 using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -24,7 +28,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GenerateGuid(bool keepDashes = true)
         {
-            string str = Guid.NewGuid().ToString();
+            var str = Guid.NewGuid().ToString();
             if (!keepDashes)
                 return str.Replace('-', char.MinValue);
             return str;
@@ -34,7 +38,7 @@ namespace DominatorHouseCore.Utility
         {
             if (string.IsNullOrWhiteSpace(value))
                 return null;
-            Match match = Regex.Match(value, patern);
+            var match = Regex.Match(value, patern);
             if (!match.Success)
                 return null;
             return match.Value;
@@ -42,7 +46,7 @@ namespace DominatorHouseCore.Utility
 
         public static byte[] GetSha256Raw(string randomString, byte[] key = null)
         {
-            using (HMACSHA256 hmacshA256 = key == null ? new HMACSHA256() : new HMACSHA256(key))
+            using (var hmacshA256 = key == null ? new HMACSHA256() : new HMACSHA256(key))
             {
                 hmacshA256.ComputeHash(Encoding.UTF8.GetBytes(randomString));
                 return hmacshA256.Hash;
@@ -54,7 +58,8 @@ namespace DominatorHouseCore.Utility
             if (string.IsNullOrWhiteSpace(strInput))
                 return false;
             strInput = strInput.Trim();
-            if ((!strInput.StartsWith("{") || !strInput.EndsWith("}")) && (!strInput.StartsWith("[") || !strInput.EndsWith("]")))
+            if ((!strInput.StartsWith("{") || !strInput.EndsWith("}")) &&
+                (!strInput.StartsWith("[") || !strInput.EndsWith("]")))
                 return false;
             try
             {

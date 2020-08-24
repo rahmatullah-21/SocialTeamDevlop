@@ -1,4 +1,8 @@
-﻿using System.Net;
+﻿#region
+
+using System.Net;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -13,7 +17,7 @@ namespace DominatorHouseCore.Utility
         {
             using (var webClient = new WebClient())
             {
-               return webClient.DownloadData(url);
+                return webClient.DownloadData(url);
             }
         }
     }

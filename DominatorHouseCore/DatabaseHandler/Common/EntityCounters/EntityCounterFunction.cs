@@ -1,18 +1,22 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using System;
+using System.Linq.Expressions;
+using CommonServiceLocator;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Extensions;
 using DominatorHouseCore.Process.ExecutionCounters;
 using DominatorHouseCore.Utility;
-using System;
-using System.Linq.Expressions;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
-
     public interface IEntityCounterFunction<T> where T : class, new()
     {
         EntityCounter GetCounter(string accountId, SocialNetworks networks, ActivityType? activityType);
     }
+
     public class EntityCounterFunction<T> : IEntityCounterFunction<T> where T : class, new()
     {
         private readonly IFilterPredicate<T> _datePredicate;
@@ -23,6 +27,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
         {
             _datePredicate = datePredicate;
         }
+
         public EntityCounterFunction(IFilterPredicate<T> datePredicate, IFilterPredicate<T> activityTypePredicate) :
             this(datePredicate)
         {
@@ -38,9 +43,13 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             var today = now.Date;
 
             var lastHour = today.AddHours(now.Hour);
-            var countLastWeek = dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, startOfWeek, activityType));
-            var countLastDay = dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, today, activityType));
-            var countLastHour = dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, lastHour, activityType));
+            var countLastWeek =
+                dbOperations.Count(
+                    BuildExpressionFor(_datePredicate, _activityTypePredicate, startOfWeek, activityType));
+            var countLastDay =
+                dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, today, activityType));
+            var countLastHour =
+                dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, lastHour, activityType));
 
             return new EntityCounter(countLastWeek, countLastDay, countLastHour);
         }
@@ -49,20 +58,16 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             IFilterPredicate<T> activityFilter, DateTime filter, ActivityType? activityType)
         {
             var dateExpression = dateFilter.GetFilterExpression(filter);
-            if (activityFilter == null)
-            {
-                return dateExpression;
-            }
+            if (activityFilter == null) return dateExpression;
 
             if (!activityType.HasValue)
-            {
-                throw new InvalidOperationException($"Filter by activity type is set, but no activity type provided. EntityCounter:{this.GetType()}");
-            }
+                throw new InvalidOperationException(
+                    $"Filter by activity type is set, but no activity type provided. EntityCounter:{GetType()}");
 
             var activityExpression = activityFilter.GetFilterExpression(activityType.Value);
             var paramExpr = Expression.Parameter(typeof(T));
             var exprBody = Expression.AndAlso(dateExpression.Body, activityExpression.Body);
-            exprBody = (BinaryExpression)new ParameterReplacer(paramExpr).Visit(exprBody);
+            exprBody = (BinaryExpression) new ParameterReplacer(paramExpr).Visit(exprBody);
             return Expression.Lambda<Func<T, bool>>(exprBody, paramExpr);
         }
 

@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.Config
 {
@@ -11,10 +15,7 @@ namespace DominatorHouseCore.Models.Config
         [ProtoMember(1)]
         public bool IsTwoCaptcha
         {
-            get
-            {
-                return _isTwoCaptcha;
-            }
+            get => _isTwoCaptcha;
             set
             {
                 if (_isTwoCaptcha == value)
@@ -28,10 +29,7 @@ namespace DominatorHouseCore.Models.Config
         [ProtoMember(2)]
         public string TwoCaptchaApiKey
         {
-            get
-            {
-                return _twoCaptchaApiKey;
-            }
+            get => _twoCaptchaApiKey;
             set
             {
                 if (value == _twoCaptchaApiKey)
@@ -41,13 +39,11 @@ namespace DominatorHouseCore.Models.Config
         }
 
         private bool _isAntiCaptcha;
+
         [ProtoMember(3)]
         public bool IsAntiCaptcha
         {
-            get
-            {
-                return _isAntiCaptcha;
-            }
+            get => _isAntiCaptcha;
             set
             {
                 if (_isAntiCaptcha == value)
@@ -55,14 +51,13 @@ namespace DominatorHouseCore.Models.Config
                 SetProperty(ref _isAntiCaptcha, value);
             }
         }
+
         private string _antiCaptchaApiKey;
+
         [ProtoMember(4)]
         public string AntiCaptchaApiKey
         {
-            get
-            {
-                return _antiCaptchaApiKey;
-            }
+            get => _antiCaptchaApiKey;
             set
             {
                 if (value == _antiCaptchaApiKey)

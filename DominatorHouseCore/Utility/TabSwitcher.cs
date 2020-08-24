@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.LogHelper;
+﻿#region
+
 using System;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {

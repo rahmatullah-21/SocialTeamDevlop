@@ -1,28 +1,31 @@
-﻿using System.Collections.ObjectModel;
+﻿#region
+
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+
+#endregion
 
 namespace DominatorHouseCore.UIExtensions
 {
     public class CollectionViewSourceExtensions
     {
         public static readonly DependencyProperty GroupByProperty =
-            DependencyProperty.RegisterAttached("GroupBy", typeof(ObservableCollection<string>), typeof(CollectionViewSourceExtensions), new PropertyMetadata(null, GroupByPropertyChangedCallback));
+            DependencyProperty.RegisterAttached("GroupBy", typeof(ObservableCollection<string>),
+                typeof(CollectionViewSourceExtensions), new PropertyMetadata(null, GroupByPropertyChangedCallback));
 
-        private static void GroupByPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        private static void GroupByPropertyChangedCallback(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs args)
         {
-
-            var collectionSource = (CollectionViewSource)dependencyObject;
-            var newValue = (ObservableCollection<string>)args.NewValue;
+            var collectionSource = (CollectionViewSource) dependencyObject;
+            var newValue = (ObservableCollection<string>) args.NewValue;
             if (newValue != null)
-            {
                 newValue.CollectionChanged += (sender, eventArgs) =>
                 {
                     collectionSource.GroupDescriptions.Clear();
                     collectionSource.GroupDescriptions.AddRange(newValue.Select(a => new PropertyGroupDescription(a)));
                 };
-            }
         }
     }
 }

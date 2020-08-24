@@ -1,12 +1,15 @@
-﻿using System.ComponentModel;
+﻿#region
+
+using System.ComponentModel;
 using System.Globalization;
 using System.Resources;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
     internal class Resources
     {
-
         private static ResourceManager _resourceMan;
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -23,6 +26,7 @@ namespace DominatorHouseCore.Utility
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         internal static CultureInfo Culture { get; set; }
 
-        internal static string UserAccountEditPasswordNotValue => ResourceManager.GetString(nameof(UserAccountEditPasswordNotValue), Culture);
+        internal static string UserAccountEditPasswordNotValue =>
+            ResourceManager.GetString(nameof(UserAccountEditPasswordNotValue), Culture);
     }
 }

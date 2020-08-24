@@ -1,8 +1,12 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.ComponentModel;
-using System.Reflection;
+using System.Globalization;
 using System.Windows.Data;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -11,9 +15,8 @@ namespace DominatorHouseCore.Converters
         //static EnumDescriptionConverter _instance;
         //static EnumDescriptionConverter Instance => _instance ?? (_instance = new EnumDescriptionConverter());
 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
             if (value == null || !(value is Enum))
                 return null;
 
@@ -25,7 +28,7 @@ namespace DominatorHouseCore.Converters
             return discription;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try
             {
@@ -36,18 +39,17 @@ namespace DominatorHouseCore.Converters
                 return value;
             }
         }
+
         public static string GetDescription(Enum en)
         {
-            Type type = en.GetType();
-            MemberInfo[] memInfo = type.GetMember(en.ToString());
+            var type = en.GetType();
+            var memInfo = type.GetMember(en.ToString());
             if (memInfo.Length > 0)
             {
-                object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if (attrs.Length > 0)
-                {
-                    return ((DescriptionAttribute)attrs[0]).Description;
-                }
+                var attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (attrs.Length > 0) return ((DescriptionAttribute) attrs[0]).Description;
             }
+
             return en.ToString();
         }
     }

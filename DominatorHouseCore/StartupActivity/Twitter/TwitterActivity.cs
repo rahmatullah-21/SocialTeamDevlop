@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Interfaces.StartUp;
+﻿#region
+
+using DominatorHouseCore.Interfaces.StartUp;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Twitter
 {
@@ -17,6 +21,5 @@ namespace DominatorHouseCore.StartupActivity.Twitter
                     return new TwitterTweetActivity();
             }
         }
-
     }
 }

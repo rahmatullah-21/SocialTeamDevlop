@@ -1,12 +1,15 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using DominatorHouseCore.Utility;
 
+#endregion
+
 namespace DominatorHouseCore.Converters
 {
     [ValueConversion(typeof(int), typeof(DateTime))]
-
     public class EpochToDateTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -23,7 +26,7 @@ namespace DominatorHouseCore.Converters
                 if (value.ToString().Length == 10)
                     return int.Parse(interval).EpochToDateTimeLocal();
                 if (value.ToString().Length > 10)
-                    return Int64.Parse(interval).EpochToDateTimeLocal();
+                    return long.Parse(interval).EpochToDateTimeLocal();
                 return value;
             }
             catch (Exception ex)
@@ -31,7 +34,6 @@ namespace DominatorHouseCore.Converters
                 ex.DebugLog();
                 return value;
             }
-
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

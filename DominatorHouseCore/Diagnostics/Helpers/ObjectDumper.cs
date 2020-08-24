@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 
+#endregion
+
 namespace DominatorHouseCore.Diagnostics.Helpers
 {
     /// <summary>
-    /// Uses to dump object to string with name=value. Uses for diagnostics.
+    ///     Uses to dump object to string with name=value. Uses for diagnostics.
     /// </summary>
     public class ObjectDumper
     {
@@ -44,7 +48,7 @@ namespace DominatorHouseCore.Diagnostics.Helpers
             }
 
             var objectType = element.GetType();
-            bool bIsObjectNotEnnumerable = !typeof(IEnumerable).IsAssignableFrom(objectType);
+            var bIsObjectNotEnnumerable = !typeof(IEnumerable).IsAssignableFrom(objectType);
             if (bIsObjectNotEnnumerable)
             {
                 Write("{{{0}}}", objectType.FullName);
@@ -59,22 +63,18 @@ namespace DominatorHouseCore.Diagnostics.Helpers
             }
             else
             {
-                MemberInfo[] members = element.GetType().GetMembers(BindingFlags.Public | BindingFlags.Instance);
+                var members = element.GetType().GetMembers(BindingFlags.Public | BindingFlags.Instance);
                 RecursivelyEnumerateMemberInfoAndDumpElements(members, element);
             }
 
-            if (bIsObjectNotEnnumerable)
-            {
-                _level--;
-            }
+            if (bIsObjectNotEnnumerable) _level--;
 
             return _stringBuilder.ToString();
         }
 
         private void RecursivelyEnumerateAndDumpElements(IEnumerable enumerableElement)
         {
-            foreach (object item in enumerableElement)
-            {
+            foreach (var item in enumerableElement)
                 if (item is IEnumerable && !(item is string))
                 {
                     _level++;
@@ -88,7 +88,6 @@ namespace DominatorHouseCore.Diagnostics.Helpers
                     else
                         Write("{{{0}}} <-- bidirectional reference found", item.GetType().FullName);
                 }
-            }
         }
 
         private void RecursivelyEnumerateMemberInfoAndDumpElements(MemberInfo[] members, object element)
@@ -100,7 +99,7 @@ namespace DominatorHouseCore.Diagnostics.Helpers
 
                 var Info = GetTypeAndValue(memberInfo, element);
                 var type = Info.Item1;
-                object value = Info.Item2;
+                var value = Info.Item2;
 
                 if (type.IsValueType || type == typeof(string))
                 {
@@ -136,15 +135,15 @@ namespace DominatorHouseCore.Diagnostics.Helpers
             return false;
         }
 
-        private Tuple<Type, Object> GetTypeAndValue(MemberInfo memberInfo, object element)
+        private Tuple<Type, object> GetTypeAndValue(MemberInfo memberInfo, object element)
         {
             var fieldInfo = memberInfo as FieldInfo;
             var propertyInfo = memberInfo as PropertyInfo;
 
             var type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
-            object value = fieldInfo != null
-                               ? fieldInfo.GetValue(element)
-                               : propertyInfo.GetValue(element, null);
+            var value = fieldInfo != null
+                ? fieldInfo.GetValue(element)
+                : propertyInfo.GetValue(element, null);
             return new Tuple<Type, object>(type, value);
         }
 
@@ -155,10 +154,8 @@ namespace DominatorHouseCore.Diagnostics.Helpers
 
             var hash = value.GetHashCode();
             for (var i = 0; i < _hashListOfFoundElements.Count; i++)
-            {
                 if (_hashListOfFoundElements[i] == hash)
                     return true;
-            }
             return false;
         }
 
@@ -175,24 +172,24 @@ namespace DominatorHouseCore.Diagnostics.Helpers
         private string FormatValue(object o)
         {
             if (o == null)
-                return ("null");
+                return "null";
 
             if (o is DateTime)
-                return (((DateTime)o).ToShortDateString());
+                return ((DateTime) o).ToShortDateString();
 
             if (o is string)
                 return string.Format("\"{0}\"", o);
 
-            if (o is char && (char)o == '\0')
+            if (o is char && (char) o == '\0')
                 return string.Empty;
 
             if (o is ValueType)
-                return (o.ToString());
+                return o.ToString();
 
             if (o is IEnumerable)
-                return ("...");
+                return "...";
 
-            return ("{ }");
+            return "{ }";
         }
     }
 }

@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.Models;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -16,10 +20,7 @@ namespace DominatorHouseCore.FileManagers
         void Delete(TemplateModel template);
         void Delete(Func<TemplateModel, bool> match);
         void Edit(TemplateModel template);
-        TemplateModel this[string template]
-        {
-            get;
-        }
+        TemplateModel this[string template] { get; }
     }
 
     public class TemplatesFileManager : ITemplatesFileManager
@@ -36,7 +37,7 @@ namespace DominatorHouseCore.FileManagers
         public void ApplyFunc(Func<TemplateModel, bool> funcToApply)
         {
             var templates = Get();
-            bool updated = false;
+            var updated = false;
 
             foreach (var t in templates)
                 updated |= funcToApply(t);
@@ -54,8 +55,8 @@ namespace DominatorHouseCore.FileManagers
                     actionToApply(t);
                     return true;
                 }
-                else
-                    return false;
+
+                return false;
             });
         }
 
@@ -84,7 +85,10 @@ namespace DominatorHouseCore.FileManagers
         }
 
 
-        public void Add(TemplateModel template) => _templatesCacheService.UpsertTemplates(template);
+        public void Add(TemplateModel template)
+        {
+            _templatesCacheService.UpsertTemplates(template);
+        }
 
         // finds by id and delete
         public void Delete(TemplateModel template)
@@ -97,6 +101,7 @@ namespace DominatorHouseCore.FileManagers
                 Save(templates);
             }
         }
+
         public void Delete(Func<TemplateModel, bool> match)
         {
             var templates = Get();

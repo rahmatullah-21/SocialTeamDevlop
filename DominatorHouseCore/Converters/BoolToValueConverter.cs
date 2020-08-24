@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Data;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -14,10 +18,7 @@ namespace DominatorHouseCore.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var boolValue = value as bool?;
-            if (!boolValue.HasValue)
-            {
-                return NullValue;
-            }
+            if (!boolValue.HasValue) return NullValue;
 
             return boolValue.Value ? TrueValue : FalseValue;
         }

@@ -1,7 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿#region
+
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -9,13 +13,11 @@ namespace DominatorHouseCore.Models
     public class ManageDestinationModel : BindableBase
     {
         private bool _isItemChecked;
+
         [ProtoMember(1)]
         public bool IsItemChecked
         {
-            get
-            {
-                return _isItemChecked;
-            }
+            get => _isItemChecked;
             set
             {
                 if (value == _isItemChecked)
@@ -23,14 +25,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isItemChecked, value);
             }
         }
+
         private string _name;
+
         [ProtoMember(2)]
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get => _name;
             set
             {
                 if (value == _name)
@@ -38,14 +39,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _name, value);
             }
         }
+
         private string _profiles;
+
         [ProtoMember(3)]
         public string Profiles
         {
-            get
-            {
-                return _profiles;
-            }
+            get => _profiles;
             set
             {
                 if (value == _profiles)
@@ -53,14 +53,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _profiles, value);
             }
         }
+
         private string _pagesBoards;
+
         [ProtoMember(4)]
         public string PagesBoards
         {
-            get
-            {
-                return _pagesBoards;
-            }
+            get => _pagesBoards;
             set
             {
                 if (value == _pagesBoards)
@@ -68,14 +67,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _pagesBoards, value);
             }
         }
+
         private string _groups;
+
         [ProtoMember(5)]
         public string Groups
         {
-            get
-            {
-                return _groups;
-            }
+            get => _groups;
             set
             {
                 if (value == _groups)
@@ -83,14 +81,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _groups, value);
             }
         }
+
         private string _wallsProfiles;
+
         [ProtoMember(6)]
         public string WallsProfiles
         {
-            get
-            {
-                return _wallsProfiles;
-            }
+            get => _wallsProfiles;
             set
             {
                 if (value == _wallsProfiles)
@@ -98,14 +95,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _wallsProfiles, value);
             }
         }
+
         private int _order;
+
         [ProtoMember(7)]
         public int Order
         {
-            get
-            {
-                return _order;
-            }
+            get => _order;
             set
             {
                 if (value == _order)
@@ -113,14 +109,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _order, value);
             }
         }
+
         private int _noOfCampaigns;
+
         [ProtoMember(8)]
         public int NoOfCampaigns
         {
-            get
-            {
-                return _noOfCampaigns;
-            }
+            get => _noOfCampaigns;
             set
             {
                 if (value == _noOfCampaigns)
@@ -130,13 +125,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isAutoSelectNewGroupsChecked;
+
         [ProtoMember(9)]
         public bool IsAutoSelectNewGroupsChecked
         {
-            get
-            {
-                return _isAutoSelectNewGroupsChecked;
-            }
+            get => _isAutoSelectNewGroupsChecked;
             set
             {
                 if (value == _isAutoSelectNewGroupsChecked)
@@ -144,14 +137,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isAutoSelectNewGroupsChecked, value);
             }
         }
+
         private bool _isUncheckGroupsChecked;
+
         [ProtoMember(10)]
         public bool IsUncheckGroupsChecked
         {
-            get
-            {
-                return _isUncheckGroupsChecked;
-            }
+            get => _isUncheckGroupsChecked;
             set
             {
                 if (value == _isUncheckGroupsChecked)
@@ -159,14 +151,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isUncheckGroupsChecked, value);
             }
         }
+
         private ObservableCollection<string> _lstDestinationTags = new ObservableCollection<string>();
 
         public ObservableCollection<string> LstDestinationTags
         {
-            get
-            {
-                return _lstDestinationTags;
-            }
+            get => _lstDestinationTags;
             set
             {
                 if (_lstDestinationTags != null && value == _lstDestinationTags)
@@ -174,14 +164,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _lstDestinationTags, value);
             }
         }
+
         private string _filter;
+
         [ProtoMember(11)]
         public string Filter
         {
-            get
-            {
-                return _filter;
-            }
+            get => _filter;
             set
             {
                 if (value == _filter)
@@ -189,14 +178,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _filter, value);
             }
         }
+
         private bool _isFilterByTagChecked;
+
         [ProtoMember(12)]
         public bool IsFilterByTagChecked
         {
-            get
-            {
-                return _isFilterByTagChecked;
-            }
+            get => _isFilterByTagChecked;
             set
             {
                 if (value == _isFilterByTagChecked)
@@ -204,14 +192,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isFilterByTagChecked, value);
             }
         }
+
         private string _pages;
+
         [ProtoMember(13)]
         public string Pages
         {
-            get
-            {
-                return _pages;
-            }
+            get => _pages;
             set
             {
                 if (value == _pages)
@@ -221,13 +208,11 @@ namespace DominatorHouseCore.Models
         }
 
         private string _walls;
+
         [ProtoMember(14)]
         public string Walls
         {
-            get
-            {
-                return _walls;
-            }
+            get => _walls;
             set
             {
                 if (value == _walls)
@@ -237,13 +222,11 @@ namespace DominatorHouseCore.Models
         }
 
         private string _platform;
+
         [ProtoMember(15)]
         public string Platform
         {
-            get
-            {
-                return _platform;
-            }
+            get => _platform;
             set
             {
                 if (value == _platform)
@@ -251,14 +234,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _platform, value);
             }
         }
+
         private ICollectionView _destinationCollection;
 
         public ICollectionView DestinationCollection
         {
-            get
-            {
-                return _destinationCollection;
-            }
+            get => _destinationCollection;
             set
             {
                 if (value == _destinationCollection)
@@ -266,6 +247,5 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _destinationCollection, value);
             }
         }
-
     }
 }
