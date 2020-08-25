@@ -2,6 +2,8 @@
 
 using System.Reflection;
 using NLog;
+using NLog.Config;
+using NLog.Targets;
 
 #endregion
 
