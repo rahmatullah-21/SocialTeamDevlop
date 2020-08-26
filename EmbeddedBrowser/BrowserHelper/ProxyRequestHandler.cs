@@ -90,5 +90,10 @@ namespace EmbeddedBrowser.BrowserHelper
         {
 
         }
+
+        public void OnDocumentAvailableInMainFrame(IWebBrowser chromiumWebBrowser, IBrowser browser)
+        {
+            
+        }
     }
 }

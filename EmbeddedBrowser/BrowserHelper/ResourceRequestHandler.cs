@@ -129,5 +129,10 @@ namespace EmbeddedBrowser.BrowserHelper
         {
             return false;
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }
