@@ -47,6 +47,6 @@ namespace DominatorHouseCore.Utility
 
         public static string ApiUrlV2 => $"{INSTAGRAM_BASE_URL}api/v2/";
 
-        public static object X_FB_HTTP_Engine => "Liger";
+        public static string X_FB_HTTP_Engine => "Liger";
     }
 }
