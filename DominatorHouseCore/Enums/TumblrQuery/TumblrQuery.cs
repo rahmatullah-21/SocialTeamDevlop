@@ -30,6 +30,7 @@ namespace DominatorHouseCore.Enums.TumblrQuery
     {
         [Description("LangKeyKeywords")] Keyword,
 
+        // ReSharper disable once UnusedMember.Global
         [Description("LangKeyHashtagUserS")] HashtagUsers
         //TODO
         //[Description("TumlangNewsFeed")]

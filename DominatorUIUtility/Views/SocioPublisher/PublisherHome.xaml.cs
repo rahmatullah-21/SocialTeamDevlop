@@ -4,10 +4,12 @@ using DominatorUIUtility.ViewModel.SocioPublisher;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherHome.xaml
+    ///     Interaction logic for PublisherHome.xaml
     /// </summary>
-    public partial class PublisherHome : UserControl 
+    public partial class PublisherHome : UserControl
     {
+        private static PublisherHome _indexPage;
+
         private PublisherHome()
         {
             InitializeComponent();
@@ -15,12 +17,9 @@ namespace DominatorUIUtility.Views.SocioPublisher
             UserControlPublisherHome.DataContext = PublisherHomeViewModel.PublisherHomeModel;
         }
 
-        private static PublisherHome _indexPage;
-
         public static PublisherHome Instance { get; set; }
             = _indexPage ?? (_indexPage = new PublisherHome());
 
         public PublisherHomeViewModel PublisherHomeViewModel { get; set; } = new PublisherHomeViewModel();
-
     }
 }

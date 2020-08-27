@@ -12,12 +12,10 @@ using DominatorHouseCore.Utility;
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
     /// <summary>
-    /// Interaction logic for PublisherUpdateMultiPost.xaml
+    ///     Interaction logic for PublisherUpdateMultiPost.xaml
     /// </summary>
     public partial class PublisherUpdateMultiPost : UserControl
     {
-        public ObservableCollection<PublisherPostlistModel> LstPostDetail { get; set; }
-
         public PublisherUpdateMultiPost()
         {
             InitializeComponent();
@@ -29,6 +27,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             MainGrid.DataContext = this;
         }
 
+        public ObservableCollection<PublisherPostlistModel> LstPostDetail { get; set; }
+
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -39,6 +39,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 ex.DebugLog();
             }
+
             Dialog.CloseDialog(sender);
         }
 

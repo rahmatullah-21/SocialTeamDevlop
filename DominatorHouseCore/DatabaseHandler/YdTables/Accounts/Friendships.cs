@@ -16,10 +16,12 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
+        // ReSharper disable once UnusedMember.Global
         public int DetailedInfoHasBeenRetrievedAtleastOnce { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
+        // ReSharper disable once UnusedMember.Global
         public int DetailedInfoWillNotBeRetrieved { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]

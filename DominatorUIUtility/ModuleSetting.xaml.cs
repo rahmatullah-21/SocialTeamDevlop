@@ -1,25 +1,27 @@
-﻿using CommonServiceLocator;
+﻿using System.ComponentModel;
+using System.Windows;
+using CommonServiceLocator;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.Startup;
 using Prism.Regions;
-using System.Windows;
 
 namespace DominatorUIUtility
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class ModuleSetting
     {
-        IRegionManager _regionManager;
+        private static ModuleSetting _instance;
+        private readonly IRegionManager _regionManager;
+
         public ModuleSetting(IRegionManager regionManager)
         {
             InitializeComponent();
             _regionManager = regionManager;
-            this.SetValue(RegionManager.RegionManagerProperty, regionManager);
-           
+            SetValue(RegionManager.RegionManagerProperty, regionManager);
         }
-        private static ModuleSetting _instance;
+
         public static ModuleSetting Instance
         {
             get
@@ -27,12 +29,13 @@ namespace DominatorUIUtility
                 if (_instance == null)
                     _instance = new ModuleSetting(ServiceLocator.Current.GetInstance<IRegionManager>());
                 var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-                _instance.Title = $"{"LangKeySocinator".FromResourceDictionary()} - {{ {viewModel.SelectedNetwork} }} ( {  viewModel.SelectAccount.UserName} )";
+                _instance.Title =
+                    $"{"LangKeySocinator".FromResourceDictionary()} - {{ {viewModel.SelectedNetwork} }} ( {viewModel.SelectAccount.UserName} )";
                 return _instance;
             }
         }
 
-        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             e.Cancel = true;
             Instance.Visibility = Visibility.Collapsed;

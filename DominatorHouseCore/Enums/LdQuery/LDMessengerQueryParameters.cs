@@ -10,6 +10,7 @@ namespace DominatorHouseCore.Enums.LdQuery
     {
         [Description("LangKeyKeyword")] Keyword,
         [Description("LangKeyNotification")] Notification,
+        // ReSharper disable once UnusedMember.Global
         [Description("LangKeyJoinedGroupUrl")] JoinedGroupUrl
     }
 }

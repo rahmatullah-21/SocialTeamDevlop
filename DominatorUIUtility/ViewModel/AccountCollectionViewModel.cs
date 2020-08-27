@@ -1,14 +1,15 @@
-﻿using DominatorHouseCore.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using SocialNetworks = DominatorHouseCore.Enums.SocialNetworks;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
 
 namespace DominatorUIUtility.ViewModel
 {
-    public interface IAccountCollectionViewModel : IList<DominatorAccountModel>, INotifyCollectionChanged, INotifyPropertyChanged
+    public interface IAccountCollectionViewModel : IList<DominatorAccountModel>, INotifyCollectionChanged,
+        INotifyPropertyChanged
     {
         List<DominatorAccountModel> GetCopySync();
         List<DominatorAccountModel> BySocialNetwork(SocialNetworks networks);
@@ -18,6 +19,7 @@ namespace DominatorUIUtility.ViewModel
     public class AccountCollectionViewModel : ObservableCollection<DominatorAccountModel>, IAccountCollectionViewModel
     {
         public static readonly object SyncObject = new object();
+
         public List<DominatorAccountModel> GetCopySync()
         {
             lock (SyncObject)
@@ -38,10 +40,7 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (SyncObject)
             {
-                if (networks == SocialNetworks.Social)
-                {
-                    return GetCopySync();
-                }
+                if (networks == SocialNetworks.Social) return GetCopySync();
                 return this.Where(a => a.AccountBaseModel.AccountNetwork == networks).ToList();
             }
         }

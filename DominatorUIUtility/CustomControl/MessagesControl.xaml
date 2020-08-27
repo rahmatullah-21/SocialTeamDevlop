@@ -1,36 +1,39 @@
 ﻿<UserControl x:Class="DominatorUIUtility.CustomControl.MessagesControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <StackPanel Name="MainGrid">
-        <Grid >
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel>
-                <TextBlock FontWeight="Bold" Margin="0,10" FontSize="16" Text="{DynamicResource LangKeyMessageText}" VerticalAlignment="Center"/>
-                <local:InputBoxControl  InputText="{Binding Messages.MessagesText,Mode=TwoWay}" SaveVisiblity="Collapsed"/>
+                <TextBlock FontWeight="Bold" Margin="0,10" FontSize="16" Text="{DynamicResource LangKeyMessageText}"
+                           VerticalAlignment="Center" />
+                <local:InputBoxControl InputText="{Binding Messages.MessagesText,Mode=TwoWay}"
+                                       SaveVisiblity="Collapsed" />
             </StackPanel>
             <Grid Margin="10,30" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource LangKeyQueries}" VerticalAlignment="Center"/>
-                <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries"  x:FieldModifier="public" ItemsSource="{Binding Messages.LstQueries,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                <TextBlock Text="{DynamicResource LangKeyQueries}" VerticalAlignment="Center" />
+                <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries" x:FieldModifier="public"
+                          ItemsSource="{Binding Messages.LstQueries,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox  x:Name="chkQuery"
-                                       IsChecked="{Binding IsContentSelected,Mode=TwoWay}" Checked="chkQuery_Checked" 
-                                       Unchecked="chkQuery_Unchecked">
+                            <CheckBox x:Name="chkQuery"
+                                      IsChecked="{Binding IsContentSelected,Mode=TwoWay}" Checked="chkQuery_Checked"
+                                      Unchecked="chkQuery_Unchecked">
                                 <TextBlock>
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0} [ {1} ]">
@@ -43,13 +46,13 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-               
+
             </Grid>
 
         </Grid>
         <Button Content="{DynamicResource LangKeyAddMessageToList}" Width="200" x:Name="btnAddMessagesToList"
                 Command="{Binding AddMessagesCommand}" CommandParameter="{Binding CommandParameter}"
-                Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,30,0,0"/>
+                Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,30,0,0" />
 
     </StackPanel>
 </UserControl>

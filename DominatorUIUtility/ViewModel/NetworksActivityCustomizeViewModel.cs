@@ -1,13 +1,16 @@
-﻿using DominatorHouseCore.Models;
+﻿using System.Linq;
+using System.Windows.Input;
+using CommonServiceLocator;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
-using System.Linq;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel
 {
     public class NetworksActivityCustomizeViewModel : BindableBase
     {
+        private NetworksActivityCustomizeModel _model;
+
         public NetworksActivityCustomizeViewModel()
         {
             ChangeActivityStatusCmd = new DelegateCommand<NetworkCustomizeActivityTypeModel>(ChangeActivityStatus);
@@ -19,11 +22,10 @@ namespace DominatorUIUtility.ViewModel
             Model = model;
         }
 
-        NetworksActivityCustomizeModel _model;
         public NetworksActivityCustomizeModel Model
         {
             get => _model;
-            set { SetProperty(ref _model, value); }
+            set => SetProperty(ref _model, value);
         }
 
         public ICommand SaveCommand { get; }
@@ -32,31 +34,37 @@ namespace DominatorUIUtility.ViewModel
 
         private void ChangeActivityStatus(NetworkCustomizeActivityTypeModel currentDataContext)
         {
-            var getOne = Model.NetworksActListCollection.ToList().FirstOrDefault(x => x.SocialNetwork == currentDataContext.Network);
+            var getOne = Model.NetworksActListCollection.ToList()
+                .FirstOrDefault(x => x.SocialNetwork == currentDataContext.Network);
 
             if (currentDataContext.IsSelected)
             {
                 if (getOne.NetworkActivityTypeModelCollections.Count(x => x.IsSelected) > 6)
                 {
-                    var lastOne = getOne.NetworkActivityTypeModelCollections.Last(x => x.IsSelected && x.Title != currentDataContext.Title);
+                    var lastOne =
+                        getOne.NetworkActivityTypeModelCollections.Last(x =>
+                            x.IsSelected && x.Title != currentDataContext.Title);
                     lastOne.IsSelected = false;
                 }
             }
             else if (getOne.NetworkActivityTypeModelCollections.Count(x => x.IsSelected) == 0)
+            {
                 currentDataContext.IsSelected = true;
+            }
         }
-        
-        void Save()
+
+        private void Save()
         {
-            var binFileHelper = CommonServiceLocator.ServiceLocator.Current.GetInstance<IBinFileHelper>();
+            var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
             if (binFileHelper.SaveAutoActivityCustomized(Model))
             {
                 ToasterNotification.ShowSuccess("LangKeySucceededInSaving".FromResourceDictionary());
                 IsSaved = true;
             }
             else
+            {
                 ToasterNotification.ShowError("LangKeyOopsAnErrorOccured".FromResourceDictionary());
+            }
         }
-        
     }
 }

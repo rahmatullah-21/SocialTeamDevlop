@@ -1,21 +1,22 @@
 ﻿<UserControl x:Class="DominatorUIUtility.CustomControl.YoutubeCutomControl.VideoReportContentControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <StackPanel Name="MainGrid" x:FieldModifier="public">
         <StackPanel Orientation="Horizontal" Margin="7,0">
-            <TextBlock Text="{DynamicResource LangKeyQueries}" VerticalAlignment="Center"/>
-            <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries"  x:FieldModifier="public" 
-                          ItemsSource="{Binding ReportDetails.LstQueries,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+            <TextBlock Text="{DynamicResource LangKeyQueries}" VerticalAlignment="Center" />
+            <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries" x:FieldModifier="public"
+                      ItemsSource="{Binding ReportDetails.LstQueries,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox  x:Name="chkQuery"
-                                          IsChecked="{Binding IsContentSelected}" Checked="chkQuery_Checked" Unchecked="chkQuery_Unchecked">
-                            <TextBlock >
+                        <CheckBox x:Name="chkQuery"
+                                  IsChecked="{Binding IsContentSelected}" Checked="chkQuery_Checked"
+                                  Unchecked="chkQuery_Unchecked">
+                            <TextBlock>
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0} [ {1} ]">
                                         <Binding Path="Content.QueryValue" />
@@ -29,39 +30,51 @@
             </ComboBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Label Content="Report Options" FontWeight="SemiBold"/>
-            <ComboBox Name="CmbReportOption" x:FieldModifier="public" SelectionChanged="CmbReportOption_SelectionChanged" SelectedIndex="0" Width="200"/>
-            <Label Content="Sub Options" Visibility="{Binding ElementName=CmbReportSubOption,Path=Visibility}" FontWeight="SemiBold"/>
-            <ComboBox Name="CmbReportSubOption"  x:FieldModifier="public" SelectedIndex="0" Width="200"/>
+            <Label Content="Report Options" FontWeight="SemiBold" />
+            <ComboBox Name="CmbReportOption" x:FieldModifier="public"
+                      SelectionChanged="CmbReportOption_SelectionChanged" SelectedIndex="0" Width="200" />
+            <Label Content="Sub Options" Visibility="{Binding ElementName=CmbReportSubOption,Path=Visibility}"
+                   FontWeight="SemiBold" />
+            <ComboBox Name="CmbReportSubOption" x:FieldModifier="public" SelectedIndex="0" Width="200" />
         </StackPanel>
         <Expander Margin="5,10" Header="Optional report details" IsExpanded="False">
             <StackPanel Orientation="Vertical">
-                <Grid >
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBlock FontWeight="Bold" Margin="0,5" FontSize="16" Text="{DynamicResource LangKeyProvideAdditionalDetails}" VerticalAlignment="Center"/>
-                        <customControl:InputBoxControl x:Name="InputComment" InputText="{Binding ReportDetails.CommentText}" SaveVisiblity="Collapsed"/>
+                        <TextBlock FontWeight="Bold" Margin="0,5" FontSize="16"
+                                   Text="{DynamicResource LangKeyProvideAdditionalDetails}" VerticalAlignment="Center" />
+                        <customControl:InputBoxControl x:Name="InputComment"
+                                                       InputText="{Binding ReportDetails.CommentText}"
+                                                       SaveVisiblity="Collapsed" />
                     </StackPanel>
-                    <StackPanel Margin="10,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1">
-                        <TextBlock FontWeight="Bold" Margin="0,5" FontSize="16" Text="Timestamp (in percentage of video length)" VerticalAlignment="Center"/>
-                        <controls:NumericUpDown Minimum="0" Maximum="100" HorizontalAlignment="Left" Width="60" Margin="5,2,0,0" Value="{Binding ReportDetails.VideoTimestampPercentage}" />
+                    <StackPanel Margin="10,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Grid.Column="1">
+                        <TextBlock FontWeight="Bold" Margin="0,5" FontSize="16"
+                                   Text="Timestamp (in percentage of video length)" VerticalAlignment="Center" />
+                        <controls:NumericUpDown Minimum="0" Maximum="100" HorizontalAlignment="Left" Width="60"
+                                                Margin="5,2,0,0"
+                                                Value="{Binding ReportDetails.VideoTimestampPercentage}" />
                     </StackPanel>
 
                 </Grid>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource LangKeySpintax}" IsChecked="{Binding ReportDetails.IsSpinTax}" Margin="15,2" ToolTip="{DynamicResource LangKeyTextSpintaxFormat}" FontSize="15" FontWeight="Bold" />
-                    <CheckBox Name="SplitByNextLine" Content="{DynamicResource LangKeyAddMultipleTextsSeparatedByNewLine}" Margin="15,2" IsChecked="{Binding SplitTextByNextLine}"/>
+                    <CheckBox Content="{DynamicResource LangKeySpintax}" IsChecked="{Binding ReportDetails.IsSpinTax}"
+                              Margin="15,2" ToolTip="{DynamicResource LangKeyTextSpintaxFormat}" FontSize="15"
+                              FontWeight="Bold" />
+                    <CheckBox Name="SplitByNextLine"
+                              Content="{DynamicResource LangKeyAddMultipleTextsSeparatedByNewLine}" Margin="15,2"
+                              IsChecked="{Binding SplitTextByNextLine}" />
                 </StackPanel>
             </StackPanel>
         </Expander>
-        <Button Content="{DynamicResource LangKeyAddDetailsToList}" Width="200" x:Name="btnAddCommentToList" x:FieldModifier="public"
+        <Button Content="{DynamicResource LangKeyAddDetailsToList}" Width="200" x:Name="btnAddCommentToList"
+                x:FieldModifier="public"
                 Command="{Binding AddReportDetailsCommand}" CommandParameter="{Binding CommandParameter}"
-                    Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,0,0,0"/>
+                Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,0,0,0" />
 
     </StackPanel>
 </UserControl>
-
-

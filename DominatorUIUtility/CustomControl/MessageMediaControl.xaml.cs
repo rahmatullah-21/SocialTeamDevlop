@@ -3,62 +3,87 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using DominatorHouseCore;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
-using System.Windows.Input;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.Enums;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for MessageMediaControl.xaml
+    ///     Interaction logic for MessageMediaControl.xaml
     /// </summary>
     public partial class MessageMediaControl
     {
-        public bool Isupdated { get; set; }
+        // Using a DependencyProperty as the backing store for ManageComments.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ManageMessagesProperty =
+            DependencyProperty.Register("Messages", typeof(ManageMessagesModel), typeof(MessageMediaControl),
+                new PropertyMetadata());
+
+        // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LstManageMessagesModelProperty =
+            DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>),
+                typeof(MessageMediaControl), new PropertyMetadata(new ObservableCollection<ManageMessagesModel>()));
+
+        // Using a DependencyProperty as the backing store for Network.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty NetworkProperty =
+            DependencyProperty.Register("Network", typeof(SocialNetworks), typeof(MessageMediaControl),
+                new PropertyMetadata(SocialNetworks.Social));
+
+        // Using a DependencyProperty as the backing store for AddMessagesCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AddMessagesCommandProperty =
+            DependencyProperty.Register("AddMessagesCommand", typeof(ICommand), typeof(MessageMediaControl));
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessageMediaControl),
+                new PropertyMetadata());
+
+        private bool _isUncheckfromList;
+
         public MessageMediaControl()
         {
             InitializeComponent();
             MainGrid.DataContext = this;
-            AddMessagesCommand = new BaseCommand<object>((sender) => true, AddMessagesExecute);
-
+            AddMessagesCommand = new BaseCommand<object>(sender => true, AddMessagesExecute);
         }
+
+        public bool Isupdated { get; set; }
 
         public ManageMessagesModel Messages
         {
-            get { return (ManageMessagesModel)GetValue(ManageMessagesProperty); }
-            set { SetValue(ManageMessagesProperty, value); }
+            get => (ManageMessagesModel) GetValue(ManageMessagesProperty);
+            set => SetValue(ManageMessagesProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for ManageComments.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ManageMessagesProperty =
-            DependencyProperty.Register("Messages", typeof(ManageMessagesModel), typeof(MessageMediaControl), new PropertyMetadata());
-        
         public ObservableCollection<ManageMessagesModel> LstManageMessagesModel
         {
-            get { return (ObservableCollection<ManageMessagesModel>)GetValue(LstManageMessagesModelProperty); }
-            set { SetValue(LstManageMessagesModelProperty, value); }
+            get => (ObservableCollection<ManageMessagesModel>) GetValue(LstManageMessagesModelProperty);
+            set => SetValue(LstManageMessagesModelProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LstManageMessagesModelProperty =
-            DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(MessageMediaControl), new PropertyMetadata(new ObservableCollection<ManageMessagesModel>()));
 
         public SocialNetworks Network
         {
-            get { return (SocialNetworks)GetValue(NetworkProperty); }
-            set { SetValue(NetworkProperty, value); }
+            get => (SocialNetworks) GetValue(NetworkProperty);
+            set => SetValue(NetworkProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for Network.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty NetworkProperty =
-            DependencyProperty.Register("Network", typeof(SocialNetworks), typeof(MessageMediaControl), new PropertyMetadata(SocialNetworks.Social));
-        
-        private bool _isUncheckfromList;
+        public ICommand AddMessagesCommand
+        {
+            get => (ICommand) GetValue(AddMessagesCommandProperty);
+            set => SetValue(AddMessagesCommandProperty, value);
+        }
+
+        public object CommandParameter
+        {
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
+        }
+
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
             var dataContext = (sender as CheckBox)?.DataContext;
@@ -66,18 +91,18 @@ namespace DominatorUIUtility.CustomControl
             {
                 var currentQuery = ((QueryContent) dataContext).Content.QueryValue;
                 if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
-                {
                     if (!IsChecked)
                     {
                         _isUncheckfromList = true;
                         Messages.LstQueries[0].IsContentSelected = false;
                     }
-                }
+
                 if (Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
                 {
                     _isUncheckfromList = false;
                     Messages.LstQueries[0].IsContentSelected = IsChecked;
                 }
+
                 if (_isUncheckfromList)
                 {
                     _isUncheckfromList = false;
@@ -95,6 +120,7 @@ namespace DominatorUIUtility.CustomControl
                 }
             }
         }
+
         private void AddCheckedQueryToList()
         {
             Messages.SelectedQuery.Clear();
@@ -119,13 +145,10 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                OpenFileDialog opf = new OpenFileDialog();
-                opf.Filter = "Image Files |*.jpg;*.jpeg;*.png;*.gif";//"Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
-                if (opf.ShowDialog().Value)
-                {
-                    Messages.MediaPath = opf.FileName;
-                }
-
+                var opf = new OpenFileDialog();
+                opf.Filter =
+                    "Image Files |*.jpg;*.jpeg;*.png;*.gif"; //"Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
+                if (opf.ShowDialog().Value) Messages.MediaPath = opf.FileName;
             }
             catch (Exception ex)
             {
@@ -137,16 +160,6 @@ namespace DominatorUIUtility.CustomControl
         {
             Messages.MediaPath = "";
         }
-
-        public ICommand AddMessagesCommand
-        {
-            get { return (ICommand)GetValue(AddMessagesCommandProperty); }
-            set { SetValue(AddMessagesCommandProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for AddMessagesCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AddMessagesCommandProperty =
-            DependencyProperty.Register("AddMessagesCommand", typeof(ICommand), typeof(MessageMediaControl));
 
         private void AddMessagesExecute(object sender)
         {
@@ -164,11 +177,13 @@ namespace DominatorUIUtility.CustomControl
                     "Please add atleast one query!!");
                 return;
             }
+
             if (!Messages.LstQueries.Any(x => x.IsContentSelected))
             {
                 Dialog.ShowDialog("Warning", "Please select atleast one query.");
                 return;
             }
+
             if (btnAddMessagesToList.Content.ToString() == "Update Message")
             {
                 LstManageMessagesModel.Select(x =>
@@ -180,38 +195,29 @@ namespace DominatorUIUtility.CustomControl
                         x.MediaPath = Messages.MediaPath;
                         x.SelectedQuery = Messages.SelectedQuery;
                     }
+
                     return x;
                 }).ToList();
-                Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
-                Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
+                Messages.SelectedQuery.Remove(
+                    Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+                Messages.LstQueries.Select(x =>
+                {
+                    x.IsContentSelected = false;
+                    return x;
+                }).ToList();
                 Isupdated = true;
                 Dialog.CloseDialog(this);
             }
         }
-
-        public object CommandParameter
-        {
-            get { return GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessageMediaControl), new PropertyMetadata());
-
 
 
         private void btnVideos_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                OpenFileDialog opf = new OpenFileDialog();
-                opf.Filter = "Video Files |*.mp4;";//"Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
-                if (opf.ShowDialog().Value)
-                {
-                    Messages.MediaPath = opf.FileName;
-                }
-
+                var opf = new OpenFileDialog();
+                opf.Filter = "Video Files |*.mp4;"; //"Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
+                if (opf.ShowDialog().Value) Messages.MediaPath = opf.FileName;
             }
             catch (Exception ex)
             {

@@ -1,21 +1,22 @@
-﻿using CommonServiceLocator;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
 using DominatorUIUtility.ViewModel.SocioPublisher;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherCreateCampaigns.xaml
+    ///     Interaction logic for PublisherCreateCampaigns.xaml
     /// </summary>
     public partial class PublisherCreateCampaigns : UserControl, INotifyPropertyChanged
     {
+        private static PublisherCreateCampaigns _currentObject;
         private PublisherCreateCampaignViewModel _publisherCreateCampaignViewModel;
 
         private PublisherCreateCampaigns()
@@ -25,19 +26,9 @@ namespace DominatorUIUtility.Views.SocioPublisher
             CreateCampaign.DataContext = PublisherCreateCampaignViewModel;
         }
 
-        private static PublisherCreateCampaigns _currentObject;
-
-        public static PublisherCreateCampaigns GetSingeltonPublisherCreateCampaigns()
-        {
-            return _currentObject ?? (_currentObject = new PublisherCreateCampaigns());
-        }
-      
         public PublisherCreateCampaignViewModel PublisherCreateCampaignViewModel
         {
-            get
-            {
-                return _publisherCreateCampaignViewModel;
-            }
+            get => _publisherCreateCampaignViewModel;
             set
             {
                 if (_publisherCreateCampaignViewModel == value)
@@ -49,6 +40,11 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public static PublisherCreateCampaigns GetSingeltonPublisherCreateCampaigns()
+        {
+            return _currentObject ?? (_currentObject = new PublisherCreateCampaigns());
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -57,23 +53,35 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void ToggleCampaignStatus_OnClick(object sender, RoutedEventArgs e)
         {
-            string onLabel = ToggleCampaignStatus.OnLabel;
+            var onLabel = ToggleCampaignStatus.OnLabel;
             switch (onLabel)
             {
                 case "Completed":
-                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Active;
-                    PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId);
-                    PublisherInitialize.GetInstance.UpdateCampaignStatus(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId, PublisherCampaignStatus.Active);
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus =
+                        PublisherCampaignStatus.Active;
+                    PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignViewModel
+                        .PublisherCreateCampaignModel.CampaignId);
+                    PublisherInitialize.GetInstance.UpdateCampaignStatus(
+                        PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId,
+                        PublisherCampaignStatus.Active);
                     break;
                 case "Active":
-                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Paused;
-                    PublishScheduler.StopPublishingPosts(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId);
-                    PublisherInitialize.GetInstance.UpdateCampaignStatus(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId, PublisherCampaignStatus.Paused);
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus =
+                        PublisherCampaignStatus.Paused;
+                    PublishScheduler.StopPublishingPosts(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel
+                        .CampaignId);
+                    PublisherInitialize.GetInstance.UpdateCampaignStatus(
+                        PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId,
+                        PublisherCampaignStatus.Paused);
                     break;
                 case "Paused":
-                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Completed;
-                    PublishScheduler.StopPublishingPosts(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId);
-                    PublisherInitialize.GetInstance.UpdateCampaignStatus(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId, PublisherCampaignStatus.Completed);
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus =
+                        PublisherCampaignStatus.Completed;
+                    PublishScheduler.StopPublishingPosts(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel
+                        .CampaignId);
+                    PublisherInitialize.GetInstance.UpdateCampaignStatus(
+                        PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId,
+                        PublisherCampaignStatus.Completed);
                     break;
             }
         }

@@ -1,71 +1,43 @@
-﻿using DominatorHouseCore.Enums.DHEnum;
-using DominatorHouseCore.ViewModel;
-using LiveCharts;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
+using DominatorHouseCore.Enums.DHEnum;
+using DominatorHouseCore.ViewModel;
+using LiveCharts;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for AccountGrowthChartControl.xaml
+    ///     Interaction logic for AccountGrowthChartControl.xaml
     /// </summary>
     public partial class AccountGrowthChartControl
     {
-        public static Func<double, string> YFormatter => value => value.ToString();
-
-        public string AxisXTitle
-        {
-            get { return (string)GetValue(AxisXTitleProperty); }
-            set { SetValue(AxisXTitleProperty, value); }
-        }
-
-        public GrowthChartPeriod GrowthChartPeriod
-        {
-            get { return (GrowthChartPeriod)GetValue(GrowthChartPeriodProperty); }
-            set { SetValue(GrowthChartPeriodProperty, value); }
-        }
-
-        public ObservableCollection<DailyStatisticsViewModel> GrowthList
-        {
-            get { return (ObservableCollection<DailyStatisticsViewModel>)GetValue(GrowthListProperty); }
-            set { SetValue(GrowthListProperty, value); }
-        }
-
-        public string[] AxisXLabels
-        {
-            get { return (string[])GetValue(AxisXLabelsProperty); }
-            set { SetValue(AxisXLabelsProperty, value); }
-        }
-
-        public SeriesCollection SeriesCollection
-        {
-            get { return (SeriesCollection)GetValue(SeriesCollectionProperty); }
-            set { SetValue(SeriesCollectionProperty, value); }
-        }
-
         public static readonly DependencyProperty SeriesCollectionProperty =
-            DependencyProperty.Register("SeriesCollection", typeof(SeriesCollection), typeof(AccountGrowthChartControl), new PropertyMetadata(null));
+            DependencyProperty.Register("SeriesCollection", typeof(SeriesCollection), typeof(AccountGrowthChartControl),
+                new PropertyMetadata(null));
 
 
         public static readonly DependencyProperty AxisXLabelsProperty =
-            DependencyProperty.Register("AxisXLabels", typeof(string[]), typeof(AccountGrowthChartControl), new PropertyMetadata(null));
+            DependencyProperty.Register("AxisXLabels", typeof(string[]), typeof(AccountGrowthChartControl),
+                new PropertyMetadata(null));
 
 
         public static readonly DependencyProperty GrowthListProperty =
-            DependencyProperty.Register("GrowthList", typeof(ObservableCollection<DailyStatisticsViewModel>), typeof(AccountGrowthChartControl), new PropertyMetadata(null, GrowthListChanged));
-
+            DependencyProperty.Register("GrowthList", typeof(ObservableCollection<DailyStatisticsViewModel>),
+                typeof(AccountGrowthChartControl), new PropertyMetadata(null, GrowthListChanged));
 
 
         public static readonly DependencyProperty GrowthChartPeriodProperty =
-            DependencyProperty.Register("GrowthChartPeriod", typeof(GrowthChartPeriod), typeof(AccountGrowthChartControl), new PropertyMetadata(GrowthChartPeriod.Past30Days, GrowthCartPeriodChanged));
+            DependencyProperty.Register("GrowthChartPeriod", typeof(GrowthChartPeriod),
+                typeof(AccountGrowthChartControl),
+                new PropertyMetadata(GrowthChartPeriod.Past30Days, GrowthCartPeriodChanged));
 
 
         public static readonly DependencyProperty AxisXTitleProperty =
-            DependencyProperty.Register("AxisXTitle", typeof(string), typeof(AccountGrowthChartControl), new PropertyMetadata("Month"));
+            DependencyProperty.Register("AxisXTitle", typeof(string), typeof(AccountGrowthChartControl),
+                new PropertyMetadata("Month"));
 
 
         public AccountGrowthChartControl()
@@ -73,12 +45,46 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
         }
 
-        private static void GrowthCartPeriodChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        public static Func<double, string> YFormatter => value => value.ToString();
+
+        public string AxisXTitle
+        {
+            get => (string) GetValue(AxisXTitleProperty);
+            set => SetValue(AxisXTitleProperty, value);
+        }
+
+        public GrowthChartPeriod GrowthChartPeriod
+        {
+            get => (GrowthChartPeriod) GetValue(GrowthChartPeriodProperty);
+            set => SetValue(GrowthChartPeriodProperty, value);
+        }
+
+        public ObservableCollection<DailyStatisticsViewModel> GrowthList
+        {
+            get => (ObservableCollection<DailyStatisticsViewModel>) GetValue(GrowthListProperty);
+            set => SetValue(GrowthListProperty, value);
+        }
+
+        public string[] AxisXLabels
+        {
+            get => (string[]) GetValue(AxisXLabelsProperty);
+            set => SetValue(AxisXLabelsProperty, value);
+        }
+
+        public SeriesCollection SeriesCollection
+        {
+            get => (SeriesCollection) GetValue(SeriesCollectionProperty);
+            set => SetValue(SeriesCollectionProperty, value);
+        }
+
+        private static void GrowthCartPeriodChanged(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             SetTitleAndLabels(dependencyObject);
         }
 
-        private static void GrowthListChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        private static void GrowthListChanged(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             SetTitleAndLabels(dependencyObject);
         }
@@ -87,8 +93,9 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var period = (GrowthChartPeriod)dependencyObject.GetValue(GrowthChartPeriodProperty);
-                var growthList = (ObservableCollection<DailyStatisticsViewModel>)dependencyObject.GetValue(GrowthListProperty);
+                var period = (GrowthChartPeriod) dependencyObject.GetValue(GrowthChartPeriodProperty);
+                var growthList =
+                    (ObservableCollection<DailyStatisticsViewModel>) dependencyObject.GetValue(GrowthListProperty);
 
 
                 switch (period)

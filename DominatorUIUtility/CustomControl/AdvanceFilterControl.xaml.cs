@@ -1,9 +1,7 @@
-﻿using System.Windows.Controls;
-
-namespace DominatorUIUtility.CustomControl
+﻿namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for AdvanceFilterControl.xaml
+    ///     Interaction logic for AdvanceFilterControl.xaml
     /// </summary>
     public partial class AdvanceFilterControl
     {

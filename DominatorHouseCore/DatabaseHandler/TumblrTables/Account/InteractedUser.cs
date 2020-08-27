@@ -78,6 +78,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        // ReSharper disable once UnusedMember.Global
         public bool IsFollowingback { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]

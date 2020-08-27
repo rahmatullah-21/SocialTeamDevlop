@@ -3,14 +3,14 @@
 namespace DominatorUIUtility.Views.Publisher.AdvancedOptions
 {
     /// <summary>
-    /// Interaction logic for AdvancedOption.xaml
+    ///     Interaction logic for AdvancedOption.xaml
     /// </summary>
     public partial class AdvancedOption : UserControl
     {
         public AdvancedOption()
         {
             InitializeComponent();
-            AddPosts ObjAddPosts = AddPosts.GetSingeltonAddPosts();
+            var ObjAddPosts = AddPosts.GetSingeltonAddPosts();
             MainGrid.DataContext = ObjAddPosts.AddPostViewModel.AddPostModel;
         }
     }

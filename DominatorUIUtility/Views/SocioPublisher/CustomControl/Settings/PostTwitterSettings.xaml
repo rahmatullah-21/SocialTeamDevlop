@@ -1,22 +1,27 @@
 ﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings.PostTwitterSettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" 
-            >
+             mc:Ignorable="d">
     <Grid x:Name="MainGrid">
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <CheckBox Name="CheckBoxDeletePost" Margin="2" Content="{DynamicResource LangKeyDeleteThePostAfter}" IsChecked="{Binding IsDeletePostAfterHours}"/>
-                <mah:NumericUpDown Width="40" Height="25" Minimum="0" IsEnabled="{Binding IsDeletePostAfterHours}" Value="{Binding DeletePostAfterHours}" Margin="2"/>
-                <TextBlock Text="{DynamicResource LangKeyHours}"  VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Name="CheckBoxDeletePost" Margin="2" Content="{DynamicResource LangKeyDeleteThePostAfter}"
+                          IsChecked="{Binding IsDeletePostAfterHours}" />
+                <mah:NumericUpDown Width="40" Height="25" Minimum="0" IsEnabled="{Binding IsDeletePostAfterHours}"
+                                   Value="{Binding DeletePostAfterHours}" Margin="2" />
+                <TextBlock Text="{DynamicResource LangKeyHours}" VerticalAlignment="Center" Margin="5" />
             </StackPanel>
             <StackPanel Orientation="Vertical">
-                <CheckBox Margin="2" Content="{DynamicResource LangKeyMentionUsers}" IsChecked="{Binding IsMentionUser}" />
-                <TextBox VerticalAlignment="Center" Text="{Binding MentionUserList}" IsEnabled="{Binding IsMentionUser}" AcceptsReturn="True"
-                         HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddMentionUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <CheckBox Margin="2" Content="{DynamicResource LangKeyMentionUsers}"
+                          IsChecked="{Binding IsMentionUser}" />
+                <TextBox VerticalAlignment="Center" Text="{Binding MentionUserList}"
+                         IsEnabled="{Binding IsMentionUser}" AcceptsReturn="True"
+                         HorizontalAlignment="Left"
+                         mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddMentionUsers}" Margin="2"
+                         TextWrapping="Wrap" Height="60" Width="404" />
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -1,23 +1,20 @@
-﻿using DominatorHouseCore;
+﻿using System.Windows.Controls;
 using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
-    /// Interaction logic for AutoReplyToNewMessage.xaml
+    ///     Interaction logic for AutoReplyToNewMessage.xaml
     /// </summary>
     public partial class AutoReplyToNewMessage : UserControl
     {
-        IAutoReplyToNewMessageViewModel ObjViewModel;
+        private IAutoReplyToNewMessageViewModel ObjViewModel;
+
         public AutoReplyToNewMessage(IAutoReplyToNewMessageViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;
             ObjViewModel = viewModel;
         }
-      
     }
 }

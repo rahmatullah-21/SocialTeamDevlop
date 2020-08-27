@@ -9,10 +9,6 @@ namespace DominatorHouseCore.Diagnostics
 {
     public class NetworkCoreLibraryBuilder
     {
-        public NetworkCoreLibraryBuilder()
-        {
-        }
-
         public NetworkCoreLibraryBuilder(INetworkCoreFactory networkCoreFactory)
         {
             NetworkCoreFactory = networkCoreFactory;

@@ -1,15 +1,8 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.ViewModel;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -17,32 +10,24 @@ namespace DominatorUIUtility.CustomControl
     ///     <cref></cref>
     /// </inheritdoc>
     /// <summary>
-    /// Interaction logic for LiveChat.xaml
+    ///     Interaction logic for LiveChat.xaml
     /// </summary>
     public partial class LiveChat : INotifyPropertyChanged
     {
-      
+        private LiveChatViewModel _liveChatViewModel;
+
         public LiveChat(SocialNetworks network)
         {
-
             InitializeComponent();
 
             LiveChatViewModel = new LiveChatViewModel(network);
-            
+
             MainGrid.DataContext = LiveChatViewModel;
-            
         }
-
-        
-
-        private LiveChatViewModel _liveChatViewModel;
 
         public LiveChatViewModel LiveChatViewModel
         {
-            get
-            {
-                return _liveChatViewModel;
-            }
+            get => _liveChatViewModel;
             set
             {
                 _liveChatViewModel = value;
@@ -58,6 +43,5 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

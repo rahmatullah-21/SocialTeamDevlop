@@ -12,10 +12,13 @@ using DominatorUIUtility.Views.SocioPublisher.CustomControl;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherDirectPosts.xaml
+    ///     Interaction logic for PublisherDirectPosts.xaml
     /// </summary>
     public partial class PublisherDirectPosts : UserControl, INotifyPropertyChanged
     {
+        private static PublisherDirectPosts instance;
+
+        private PublisherDirectPostsViewModel _publisherDirectPostsViewModel;
         private PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
 
         public PublisherDirectPosts()
@@ -32,21 +35,9 @@ namespace DominatorUIUtility.Views.SocioPublisher
             DirectPost.DataContext = PublisherDirectPostsViewModel;
         }
 
-        private static PublisherDirectPosts instance;
-
-        public static PublisherDirectPosts GetPublisherDirectPosts(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl)
-        {
-            return instance ?? (instance = new PublisherDirectPosts(tabItemsControl));
-        }
-
-        private PublisherDirectPostsViewModel _publisherDirectPostsViewModel;
-
         public PublisherDirectPostsViewModel PublisherDirectPostsViewModel
         {
-            get
-            {
-                return _publisherDirectPostsViewModel;
-            }
+            get => _publisherDirectPostsViewModel;
             set
             {
                 _publisherDirectPostsViewModel = value;
@@ -55,8 +46,13 @@ namespace DominatorUIUtility.Views.SocioPublisher
         }
 
 
-
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public static PublisherDirectPosts GetPublisherDirectPosts(
+            PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl)
+        {
+            return instance ?? (instance = new PublisherDirectPosts(tabItemsControl));
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -68,10 +64,11 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             try
             {
-                var mediaViewer = (MediaViewer)sender;
+                var mediaViewer = (MediaViewer) sender;
 
-                var postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                       .PublisherCreateCampaignModel.LstPostDetailsModels;
+                var postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                    .PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels;
 
                 var notAvailableMedias = PublisherDirectPostsViewModel.MediaList.Except(mediaViewer.MediaList).ToList();
 
@@ -88,8 +85,5 @@ namespace DominatorUIUtility.Views.SocioPublisher
                 ex.DebugLog();
             }
         }
-
-
-      
     }
 }

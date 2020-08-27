@@ -1,15 +1,17 @@
-﻿using DominatorHouseCore.Annotations;
-using DominatorUIUtility.ViewModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using DominatorHouseCore.Annotations;
+using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for BlacklistUserControl.xaml
+    ///     Interaction logic for BlacklistUserControl.xaml
     /// </summary>
     public partial class BlacklistUserControl : INotifyPropertyChanged
     {
+        private BlackListViewModel _blackListViewModel = new BlackListViewModel();
+
         public BlacklistUserControl()
         {
             InitializeComponent();
@@ -17,14 +19,9 @@ namespace DominatorUIUtility.CustomControl
             BlackListViewModel.InitializeData();
         }
 
-        private BlackListViewModel _blackListViewModel = new BlackListViewModel();
-
         public BlackListViewModel BlackListViewModel
         {
-            get
-            {
-                return _blackListViewModel;
-            }
+            get => _blackListViewModel;
             set
             {
                 if (_blackListViewModel == value)
@@ -42,6 +39,5 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

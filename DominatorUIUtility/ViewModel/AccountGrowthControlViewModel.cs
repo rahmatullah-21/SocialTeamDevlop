@@ -1,4 +1,9 @@
-﻿using DominatorHouseCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Data;
+using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.DHEnum;
@@ -9,47 +14,88 @@ using DominatorHouseCore.ViewModel.Common;
 using LiveCharts;
 using LiveCharts.Wpf;
 using Prism.Commands;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Data;
+using BindableBase = Prism.Mvvm.BindableBase;
 
 namespace DominatorUIUtility.ViewModel
 {
     public interface IAccountGrowthControlViewModel
     {
-
     }
 
-    public class AccountGrowthControlViewModel : Prism.Mvvm.BindableBase, IAccountGrowthControlViewModel
+    public class AccountGrowthControlViewModel : BindableBase, IAccountGrowthControlViewModel
     {
+        private readonly IAccountGrowthPropertiesProvider _accountGrowthPropertiesProvider;
         private readonly object _syncObject = new object();
+        private string _axisXTitle;
+        private DominatorAccountModel _selectedAccount;
+        private SeriesCollection _seriesCollection;
+
+
+        public AccountGrowthControlViewModel(IAccountCollectionViewModel accountCollectionViewModel,
+            IAccountGrowthPropertiesProvider accountGrowthPropertiesProvider,
+            ISelectedNetworkViewModel selectedNetworkViewModel)
+        {
+            Accounts = accountCollectionViewModel;
+            SelectedNetworkViewModel = selectedNetworkViewModel;
+            SelectedNetworkViewModel.ItemSelected += NetworkItemSelected;
+            _accountGrowthPropertiesProvider = accountGrowthPropertiesProvider;
+            AccountSelectionChangedCmd = new DelegateCommand(OnAccountSelectionChanged);
+            GrowthPropertyCheckedCmd = new DelegateCommand<GrowthProperty>(OnGrowthPeropertyChecked);
+
+            SelectedAccount = Accounts.FirstOrDefault();
+            GrowthProperties = new ObservableCollection<GrowthProperty>(
+                _accountGrowthPropertiesProvider[
+                    SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social]);
+            BindingOperations.EnableCollectionSynchronization(GrowthProperties, _syncObject);
+
+            AxisXLabels = new ObservableCollection<string>();
+            BindingOperations.EnableCollectionSynchronization(AxisXLabels, _syncObject);
+
+            GrowthList = new ObservableCollection<DailyStatisticsViewModel>();
+            BindingOperations.EnableCollectionSynchronization(GrowthList, _syncObject);
+
+            GrowthPeriods =
+                new SelectableViewModel<GrowthPeriod?>(Enum.GetValues(typeof(GrowthPeriod)).Cast<GrowthPeriod?>(),
+                    GrowthPeriod.Daily);
+            GrowthPeriods.ItemSelected += GrowthPeriodsOnItemSelectionChanged;
+
+            GrowthChartPeriods = new SelectableViewModel<GrowthChartPeriod?>(
+                Enum.GetValues(typeof(GrowthChartPeriod)).Cast<GrowthChartPeriod?>(), GrowthChartPeriod.Past30Days);
+            GrowthChartPeriods.ItemSelected += GrowthChartPeriodsSelectionChanged;
+
+            GrowthChartTypes =
+                new SelectableViewModel<GrowthChartType?>(
+                    Enum.GetValues(typeof(GrowthChartType)).Cast<GrowthChartType?>(), GrowthChartType.Total);
+            GrowthChartTypes.ItemSelected += GrowthChartTypesSelectionChanged;
+
+
+            SeriesCollection = new SeriesCollection();
+            SetRespectiveAccounts(GrowthPeriods.Selected ?? GrowthPeriod.Daily);
+            SetGrowthForAccount();
+            UpdateChart();
+        }
+
         public IAccountCollectionViewModel Accounts { get; }
         public ISelectedNetworkViewModel SelectedNetworkViewModel { get; }
-        private readonly IAccountGrowthPropertiesProvider _accountGrowthPropertiesProvider;
-        private SeriesCollection _seriesCollection;
-        private DominatorAccountModel _selectedAccount;
-        private string _axisXTitle;
 
         public ObservableCollection<DailyStatisticsViewModel> GrowthList { get; set; }
 
         public string AxisXTitle
         {
-            get { return _axisXTitle; }
-            set { SetProperty(ref _axisXTitle, value); }
+            get => _axisXTitle;
+            set => SetProperty(ref _axisXTitle, value);
         }
 
         public SeriesCollection SeriesCollection
         {
-            get { return _seriesCollection; }
-            set { SetProperty(ref _seriesCollection, value); }
+            get => _seriesCollection;
+            set => SetProperty(ref _seriesCollection, value);
         }
 
         public DominatorAccountModel SelectedAccount
         {
-            get { return _selectedAccount; }
-            set { SetProperty(ref _selectedAccount, value); }
+            get => _selectedAccount;
+            set => SetProperty(ref _selectedAccount, value);
         }
 
         public ObservableCollection<GrowthProperty> GrowthProperties { get; }
@@ -60,46 +106,12 @@ namespace DominatorUIUtility.ViewModel
         public SelectableViewModel<GrowthChartPeriod?> GrowthChartPeriods { get; }
         public SelectableViewModel<GrowthChartType?> GrowthChartTypes { get; }
         public SelectableViewModel<GrowthPeriod?> GrowthPeriods { get; }
-        public string GrowthChartProperty => string.Join(",", GrowthProperties.Where(a => a.IsChecked).Select(x => x.PropertyName));
+
+        public string GrowthChartProperty =>
+            string.Join(",", GrowthProperties.Where(a => a.IsChecked).Select(x => x.PropertyName));
+
         public DelegateCommand AccountSelectionChangedCmd { get; }
         public DelegateCommand<GrowthProperty> GrowthPropertyCheckedCmd { get; }
-
-
-        public AccountGrowthControlViewModel(IAccountCollectionViewModel accountCollectionViewModel, IAccountGrowthPropertiesProvider accountGrowthPropertiesProvider, ISelectedNetworkViewModel selectedNetworkViewModel)
-        {
-            Accounts = accountCollectionViewModel;
-            SelectedNetworkViewModel = selectedNetworkViewModel;
-            SelectedNetworkViewModel.ItemSelected += NetworkItemSelected;
-            _accountGrowthPropertiesProvider = accountGrowthPropertiesProvider;
-            AccountSelectionChangedCmd = new DelegateCommand(OnAccountSelectionChanged);
-            GrowthPropertyCheckedCmd = new DelegateCommand<GrowthProperty>(OnGrowthPeropertyChecked);
-
-            SelectedAccount = Accounts.FirstOrDefault();
-            GrowthProperties = new ObservableCollection<GrowthProperty>(_accountGrowthPropertiesProvider[SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social]);
-            BindingOperations.EnableCollectionSynchronization(GrowthProperties, _syncObject);
-
-            AxisXLabels = new ObservableCollection<string>();
-            BindingOperations.EnableCollectionSynchronization(AxisXLabels, _syncObject);
-
-            GrowthList = new ObservableCollection<DailyStatisticsViewModel>();
-            BindingOperations.EnableCollectionSynchronization(GrowthList, _syncObject);
-
-            GrowthPeriods = new SelectableViewModel<GrowthPeriod?>(Enum.GetValues(typeof(GrowthPeriod)).Cast<GrowthPeriod?>(), GrowthPeriod.Daily);
-            GrowthPeriods.ItemSelected += GrowthPeriodsOnItemSelectionChanged;
-
-            GrowthChartPeriods = new SelectableViewModel<GrowthChartPeriod?>(Enum.GetValues(typeof(GrowthChartPeriod)).Cast<GrowthChartPeriod?>(), GrowthChartPeriod.Past30Days);
-            GrowthChartPeriods.ItemSelected += GrowthChartPeriodsSelectionChanged;
-
-            GrowthChartTypes = new SelectableViewModel<GrowthChartType?>(Enum.GetValues(typeof(GrowthChartType)).Cast<GrowthChartType?>(), GrowthChartType.Total);
-            GrowthChartTypes.ItemSelected += GrowthChartTypesSelectionChanged;
-
-
-
-            SeriesCollection = new SeriesCollection();
-            SetRespectiveAccounts(GrowthPeriods.Selected ?? GrowthPeriod.Daily);
-            SetGrowthForAccount();
-            UpdateChart();
-        }
 
         private void NetworkItemSelected(object sender, SocialNetworks? e)
         {
@@ -160,7 +172,8 @@ namespace DominatorUIUtility.ViewModel
         {
             GrowthProperties.Clear();
             GrowthProperties.AddRange(
-                _accountGrowthPropertiesProvider[SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social]);
+                _accountGrowthPropertiesProvider[
+                    SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social]);
         }
 
         private void SetRespectiveAccounts(GrowthPeriod period)
@@ -171,7 +184,6 @@ namespace DominatorUIUtility.ViewModel
                 {
                     UpdateGrowthProperties();
                     if (period == GrowthPeriod.NoPeriod)
-                    {
                         Accounts.GetCopySync().ForEach(x =>
                         {
                             x.IsAccountManagerAccountSelected = false;
@@ -181,9 +193,7 @@ namespace DominatorUIUtility.ViewModel
                             x.DisplayColumnValue9 = 0;
                             x.DisplayColumnValue10 = 0;
                         });
-                    }
                     else
-                    {
                         Accounts.GetCopySync().ForEach(x =>
                         {
                             var accountUpdateFactory = SocinatorInitialize
@@ -191,7 +201,8 @@ namespace DominatorUIUtility.ViewModel
                                 .GetNetworkCoreFactory().AccountUpdateFactory;
                             x.IsAccountManagerAccountSelected = false;
 
-                            var accoutGrowth = accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
+                            var accoutGrowth =
+                                accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
 
                             x.DisplayColumnValue6 = accoutGrowth?.GrowthColumnValue1 ?? 0;
                             x.DisplayColumnValue7 = accoutGrowth?.GrowthColumnValue2 ?? 0;
@@ -199,26 +210,22 @@ namespace DominatorUIUtility.ViewModel
                             x.DisplayColumnValue9 = accoutGrowth?.GrowthColumnValue4 ?? 0;
                             x.DisplayColumnValue10 = accoutGrowth?.GrowthColumnValue5 ?? 0;
                         });
-                    }
                 }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
         }
 
         private void UpdateSeriesCollectionFor(List<string> chartProperties, GrowthChartType type)
         {
             foreach (var property in chartProperties)
-            {
                 SeriesCollection.Add(new LineSeries
                 {
                     Title = $"{property} {type.GetDescriptionAttr().FromResourceDictionary()}",
                     Values = GetGrowthValueList(GrowthList, property, type)
                 });
-            }
         }
 
 
@@ -227,7 +234,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 var selectedGrowthChartType = GrowthChartTypes.Selected ?? GrowthChartType.Total;
-                List<string> chartProperties = GrowthProperties.Where(a => a.IsChecked).Select(x => x.PropertyName).ToList();
+                var chartProperties = GrowthProperties.Where(a => a.IsChecked).Select(x => x.PropertyName).ToList();
                 SeriesCollection.Clear();
                 switch (selectedGrowthChartType)
                 {
@@ -249,29 +256,26 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private ChartValues<int> GetGrowthValueList(ObservableCollection<DailyStatisticsViewModel> growthList, string growthChartProperty, GrowthChartType type)
+        private ChartValues<int> GetGrowthValueList(ObservableCollection<DailyStatisticsViewModel> growthList,
+            string growthChartProperty, GrowthChartType type)
         {
             var list = new ChartValues<int>();
             var properties = _accountGrowthPropertiesProvider
                 [SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social];
-            for (int i = 1; i <= properties.Count(); i++)
-            {
+            for (var i = 1; i <= properties.Count(); i++)
                 if (growthChartProperty == properties[i - 1].PropertyName)
-                {
                     list.AddRange(growthList.Select(a => a[i]));
-                }
-            }
 
 
             if (type == GrowthChartType.Gain)
             {
                 var gainList = new ChartValues<int>();
-                for (int i = 0; i < list.Count; i++)
+                for (var i = 0; i < list.Count; i++)
                 {
-
-                    var value = i == 0 ? 0 : (list[i] - list[i - 1]);
+                    var value = i == 0 ? 0 : list[i] - list[i - 1];
                     gainList.Add(value);
                 }
+
                 list = gainList;
             }
 
@@ -286,7 +290,8 @@ namespace DominatorUIUtility.ViewModel
                     .GetSocialLibrary(SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social)
                     .GetNetworkCoreFactory().AccountUpdateFactory;
                 GrowthList.Clear();
-                GrowthList.AddRange(accountUpdateFactory.GetDailyGrowthForAccount(SelectedAccount?.AccountId, GrowthChartPeriods.Selected ?? GrowthChartPeriod.Past30Days));
+                GrowthList.AddRange(accountUpdateFactory.GetDailyGrowthForAccount(SelectedAccount?.AccountId,
+                    GrowthChartPeriods.Selected ?? GrowthChartPeriod.Past30Days));
             }
         }
     }

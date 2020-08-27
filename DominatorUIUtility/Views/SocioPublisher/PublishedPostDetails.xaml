@@ -1,30 +1,35 @@
 ﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.PublishedPostDetails"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
     <UserControl.Resources>
-        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter" />
     </UserControl.Resources>
     <Grid>
-        <ListView  ItemContainerStyle="{DynamicResource ListViewItems}" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding PublisherPostlist.LstPublishedPostDetailsModels}">
+        <ListView ItemContainerStyle="{DynamicResource ListViewItems}"
+                  AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
+                  ItemsSource="{Binding PublisherPostlist.LstPublishedPostDetailsModels}">
             <ListView.CommandBindings>
                 <CommandBinding Command="ApplicationCommands.Copy"
                                 CanExecute="CopyCanExecute" Executed="CopyExecuted" />
             </ListView.CommandBindings>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{DynamicResource LangKeySrNo}"  DisplayMemberBinding="{Binding (ItemsControl.AlternationIndex),
+                    <GridViewColumn Header="{DynamicResource LangKeySrNo}"
+                                    DisplayMemberBinding="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
-                                                  Converter={StaticResource IndexToRowNoConverter}}"/>
-                    <GridViewColumn Header="{DynamicResource LangKeyAccounts}" DisplayMemberBinding="{Binding AccountName}"/>
+                                                  Converter={StaticResource IndexToRowNoConverter}}" />
+                    <GridViewColumn Header="{DynamicResource LangKeyAccounts}"
+                                    DisplayMemberBinding="{Binding AccountName}" />
                     <GridViewColumn Header="{DynamicResource LangKeyDestination}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Destination}" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"  Width="250"/>
+                                <TextBox Text="{Binding Destination}" BorderThickness="0" IsReadOnly="True"
+                                         AcceptsReturn="True" TextWrapping="Wrap" Width="250" />
                                 <!--<TextBlock Text="{Binding Destination}" TextTrimming="CharacterEllipsis"/>-->
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -32,37 +37,44 @@
                     <behaviours:FixedWidthGridViewColumn Header="{DynamicResource LangKeyDescription}" FixedWidth="300">
                         <behaviours:FixedWidthGridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Description}" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"  Width="250"/>
+                                <TextBox Text="{Binding Description}" BorderThickness="0" IsReadOnly="True"
+                                         AcceptsReturn="True" TextWrapping="Wrap" Width="250" />
                             </DataTemplate>
                         </behaviours:FixedWidthGridViewColumn.CellTemplate>
                     </behaviours:FixedWidthGridViewColumn>
-                    <GridViewColumn Header="{DynamicResource LangKeyPublished}" DisplayMemberBinding="{Binding IsPublished}"/>
-                    <GridViewColumn Header="{DynamicResource LangKeySuccessful}" DisplayMemberBinding="{Binding Successful}"/>
-                    <GridViewColumn Header="{DynamicResource LangKeyPublishedDate}" DisplayMemberBinding="{Binding PublishedDate}"/>
-                    <GridViewColumn Header="{DynamicResource LangKeyLink}" >
+                    <GridViewColumn Header="{DynamicResource LangKeyPublished}"
+                                    DisplayMemberBinding="{Binding IsPublished}" />
+                    <GridViewColumn Header="{DynamicResource LangKeySuccessful}"
+                                    DisplayMemberBinding="{Binding Successful}" />
+                    <GridViewColumn Header="{DynamicResource LangKeyPublishedDate}"
+                                    DisplayMemberBinding="{Binding PublishedDate}" />
+                    <GridViewColumn Header="{DynamicResource LangKeyLink}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Link}" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Text="{Binding Link}" TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource LangKeyDestinationURL}" >
+                    <GridViewColumn Header="{DynamicResource LangKeyDestinationURL}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding DestinationUrl}" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Text="{Binding DestinationUrl}" TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource LangKeyErrorDetails}" DisplayMemberBinding="{Binding ErrorDetails}"/>
-                    <GridViewColumn  Header="{DynamicResource LangKeyActions}">
+                    <GridViewColumn Header="{DynamicResource LangKeyErrorDetails}"
+                                    DisplayMemberBinding="{Binding ErrorDetails}" />
+                    <GridViewColumn Header="{DynamicResource LangKeyActions}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Cursor="Hand" 
-                                        Content="{DynamicResource LangKeyViewInBrowser}" 
-                                        x:Name="BtnViewInBrowser" 
-                                        FontWeight="SemiBold"       
-                                        Command="{Binding Path=DataContext.ViewInBrowserCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                        Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme1}"/>
+                                <Button Cursor="Hand"
+                                        Content="{DynamicResource LangKeyViewInBrowser}"
+                                        x:Name="BtnViewInBrowser"
+                                        FontWeight="SemiBold"
+                                        Command="{Binding Path=DataContext.ViewInBrowserCommand,  RelativeSource={RelativeSource AncestorType=ListView}}"
+                                        CommandParameter="{Binding}"
+                                        Background="Transparent"
+                                        Foreground="{DynamicResource TextColorBrushAccordingTheme1}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

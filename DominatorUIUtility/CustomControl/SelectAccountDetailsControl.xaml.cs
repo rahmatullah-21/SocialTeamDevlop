@@ -1,26 +1,37 @@
-﻿using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Enums.FdQuery;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorUIUtility.ViewModel.SocioPublisher;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums.FdQuery;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for SelectAccountDetailsControl.xaml
+    ///     Interaction logic for SelectAccountDetailsControl.xaml
     /// </summary>
     public partial class SelectAccountDetailsControl : INotifyPropertyChanged
     {
+        private static SelectAccountDetailsControl _indexPage;
+
+        public static readonly RoutedEvent SaveDetailsChangedRoutedEvent =
+            EventManager.RegisterRoutedEvent("SaveDetailsChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
+                typeof(SelectAccountDetailsControl));
+
+        private SelectAccountDetailsViewModel _selectAccountDetailsViewModel = new SelectAccountDetailsViewModel();
+        private List<FbEntityTypes> hiddenColumnList;
+        private SelectAccountDetailsModel model;
+
         public SelectAccountDetailsControl()
         {
             InitializeComponent();
             SelectDetails.DataContext = SelectAccountDetailsViewModel;
         }
 
-        public SelectAccountDetailsControl(List<FbEntityTypes> listColumnName, string selectedAccount, bool isSingleAccount, string pageHeaderText, bool isFanpage = false)
+        public SelectAccountDetailsControl(List<FbEntityTypes> listColumnName, string selectedAccount,
+            bool isSingleAccount, string pageHeaderText, bool isFanpage = false)
         {
             InitializeComponent();
 
@@ -29,6 +40,7 @@ namespace DominatorUIUtility.CustomControl
                 SelectAccountDetailsViewModel.IsSelectedSingleAccount = true;
                 SelectAccountDetailsViewModel.DisplayAccount = selectedAccount;
             }
+
             SelectAccountDetailsViewModel.InitializeDestinationList();
 
             if (listColumnName.Contains(FbEntityTypes.Group))
@@ -56,9 +68,7 @@ namespace DominatorUIUtility.CustomControl
             }
 
             if (!string.IsNullOrEmpty(pageHeaderText))
-            {
                 SelectAccountDetailsViewModel.InviteForPagesText = "Select Pages";
-            }
 
             SelectAccountDetailsViewModel.IsFanpage = isFanpage;
 
@@ -112,7 +122,6 @@ namespace DominatorUIUtility.CustomControl
             SelectAccountDetailsViewModel.InviteForPagesText = "Select Pages";
 
 
-
             SelectAccountDetailsViewModel.IsFanpage = isFanpage;
             SelectAccountDetailsViewModel.EditDestination();
             SelectAccountDetailsViewModel.IsSelectedSingleAccount = false;
@@ -122,19 +131,13 @@ namespace DominatorUIUtility.CustomControl
 
         public SelectAccountDetailsViewModel SelectAccountDetailsViewModel
         {
-            get
-            {
-                return _selectAccountDetailsViewModel;
-            }
+            get => _selectAccountDetailsViewModel;
             set
             {
                 _selectAccountDetailsViewModel = value;
                 OnPropertyChanged(nameof(SelectAccountDetailsViewModel));
             }
         }
-
-        private static SelectAccountDetailsControl _indexPage;
-        private SelectAccountDetailsViewModel _selectAccountDetailsViewModel = new SelectAccountDetailsViewModel();
 
         public static SelectAccountDetailsControl Instance { get; set; }
             = _indexPage ?? (_indexPage = new SelectAccountDetailsControl());
@@ -154,19 +157,15 @@ namespace DominatorUIUtility.CustomControl
                 return;
         }
 
-        public static readonly RoutedEvent SaveDetailsChangedRoutedEvent = EventManager.RegisterRoutedEvent("SaveDetailsChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SelectAccountDetailsControl));
-        private List<FbEntityTypes> hiddenColumnList;
-        private SelectAccountDetailsModel model;
-
         public event RoutedEventHandler SaveDetailsChanged
         {
-            add { AddHandler(SaveDetailsChangedRoutedEvent, value); }
-            remove { RemoveHandler(SaveDetailsChangedRoutedEvent, value); }
+            add => AddHandler(SaveDetailsChangedRoutedEvent, value);
+            remove => RemoveHandler(SaveDetailsChangedRoutedEvent, value);
         }
 
         public void SaveDetailsChangedEventHandler()
         {
-            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(SaveDetailsChangedRoutedEvent);
+            var objRoutedEventArgs = new RoutedEventArgs(SaveDetailsChangedRoutedEvent);
             RaiseEvent(objRoutedEventArgs);
         }
 
@@ -174,7 +173,7 @@ namespace DominatorUIUtility.CustomControl
         {
             SaveDetailsChangedEventHandler();
         }
-        
+
 
         public SelectAccountDetailsModel GetSelectAccountModel()
         {

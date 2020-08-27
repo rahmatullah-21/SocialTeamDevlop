@@ -3,7 +3,7 @@
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for SchedulerControl.xaml
+    ///     Interaction logic for SchedulerControl.xaml
     /// </summary>
     public partial class SchedulerControl
     {

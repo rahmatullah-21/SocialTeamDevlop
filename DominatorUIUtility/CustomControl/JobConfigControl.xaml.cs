@@ -1,13 +1,4 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using MahApps.Metro.Controls.Dialogs;
-using ProtoBuf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -17,15 +8,72 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using MahApps.Metro.Controls.Dialogs;
+using ProtoBuf;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for JobConfigControl.xaml
+    ///     Interaction logic for JobConfigControl.xaml
     /// </summary>
     public partial class JobConfigControl : INotifyPropertyChanged
     {
+        // Using a DependencyProperty as the backing store for JobConfiguration.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty JobConfigurationProperty =
+            DependencyProperty.Register("JobConfiguration", typeof(JobConfiguration), typeof(JobConfigControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true,
+                    DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                });
+
+        // Using a DependencyProperty as the backing store for PerJobActivity.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PerJobActivityProperty =
+            DependencyProperty.Register("PerJobActivity", typeof(string), typeof(JobConfigControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true,
+                    DefaultValue = "LangKeyUsers".FromResourceDictionary()
+                });
+
+        // Using a DependencyProperty as the backing store for PerHourActivity.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PerHourActivityProperty =
+            DependencyProperty.Register("PerHourActivity", typeof(string), typeof(JobConfigControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true,
+                    DefaultValue = "LangKeyUsers".FromResourceDictionary()
+                });
+
+        // Using a DependencyProperty as the backing store for PerDayActivity.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PerDayActivityProperty =
+            DependencyProperty.Register("PerDayActivity", typeof(string), typeof(JobConfigControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true,
+                    DefaultValue = "LangKeyUsers".FromResourceDictionary()
+                });
+
+        // Using a DependencyProperty as the backing store for PerWeekActivity.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PerWeekActivityProperty =
+            DependencyProperty.Register("PerWeekActivity", typeof(string), typeof(JobConfigControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true,
+                    DefaultValue = "LangKeyUsers".FromResourceDictionary()
+                });
+
         private readonly IGenericFileManager _genericFileManager;
+
+        private ObservableCollection<FavoriteTime> _lstFavoriteTime = new ObservableCollection<FavoriteTime>();
+
         public JobConfigControl()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
@@ -33,93 +81,64 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
             MainGrid.DataContext = this;
             InitilizeFavoriteTime();
-            SelectFavoriteTime = new BaseCommand<object>((sender) => true, SelectFavoriteTimeExecute);
-            RemoveFavoriteTimeCommand = new BaseCommand<object>((sender) => true, RemoveFavoriteTimeExecute);
+            SelectFavoriteTime = new BaseCommand<object>(sender => true, SelectFavoriteTimeExecute);
+            RemoveFavoriteTimeCommand = new BaseCommand<object>(sender => true, RemoveFavoriteTimeExecute);
         }
+
+        public JobConfiguration JobConfiguration
+        {
+            get => (JobConfiguration) GetValue(JobConfigurationProperty);
+            set => SetValue(JobConfigurationProperty, value);
+        }
+
+
+        public string PerJobActivity
+        {
+            get => (string) GetValue(PerJobActivityProperty);
+            set => SetValue(PerJobActivityProperty, value);
+        }
+
+
+        public string PerHourActivity
+        {
+            get => (string) GetValue(PerHourActivityProperty);
+            set => SetValue(PerHourActivityProperty, value);
+        }
+
+
+        public string PerDayActivity
+        {
+            get => (string) GetValue(PerDayActivityProperty);
+            set => SetValue(PerDayActivityProperty, value);
+        }
+
+
+        public string PerWeekActivity
+        {
+            get => (string) GetValue(PerWeekActivityProperty);
+            set => SetValue(PerWeekActivityProperty, value);
+        }
+
+        public ObservableCollection<FavoriteTime> LstFavoriteTime
+        {
+            get => _lstFavoriteTime;
+            set
+            {
+                _lstFavoriteTime = value;
+                OnPropertyChanged(nameof(LstFavoriteTime));
+            }
+        }
+
+        public ICommand SelectFavoriteTime { get; set; }
+        public ICommand RemoveFavoriteTimeCommand { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void RemoveFavoriteTimeExecute(object sender)
         {
             var itemTodelete = sender as string;
             LstFavoriteTime.Remove(LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == itemTodelete));
             _genericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
-
         }
-
-        public JobConfiguration JobConfiguration
-        {
-            get { return (JobConfiguration)GetValue(JobConfigurationProperty); }
-            set { SetValue(JobConfigurationProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for JobConfiguration.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty JobConfigurationProperty =
-            DependencyProperty.Register("JobConfiguration", typeof(JobConfiguration), typeof(JobConfigControl), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true,
-                DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            });
-
-
-        public string PerJobActivity
-        {
-            get { return (string)GetValue(PerJobActivityProperty); }
-            set { SetValue(PerJobActivityProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for PerJobActivity.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PerJobActivityProperty =
-            DependencyProperty.Register("PerJobActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true,
-                DefaultValue = "LangKeyUsers".FromResourceDictionary()
-            });
-
-
-
-        public string PerHourActivity
-        {
-            get { return (string)GetValue(PerHourActivityProperty); }
-            set { SetValue(PerHourActivityProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for PerHourActivity.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PerHourActivityProperty =
-            DependencyProperty.Register("PerHourActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true,
-                DefaultValue = "LangKeyUsers".FromResourceDictionary()
-            });
-
-
-        public string PerDayActivity
-        {
-            get { return (string)GetValue(PerDayActivityProperty); }
-            set { SetValue(PerDayActivityProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for PerDayActivity.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PerDayActivityProperty =
-            DependencyProperty.Register("PerDayActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true,
-                DefaultValue = "LangKeyUsers".FromResourceDictionary()
-            });
-
-
-
-        public string PerWeekActivity
-        {
-            get { return (string)GetValue(PerWeekActivityProperty); }
-            set { SetValue(PerWeekActivityProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for PerWeekActivity.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PerWeekActivityProperty =
-            DependencyProperty.Register("PerWeekActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true,
-                DefaultValue = "LangKeyUsers".FromResourceDictionary()
-            });
 
 
         public void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -128,7 +147,7 @@ namespace DominatorUIUtility.CustomControl
                 return;
             try
             {
-                var model = ((dynamic)((FrameworkElement)((FrameworkElement)sender).DataContext).DataContext).Model;
+                var model = ((dynamic) ((FrameworkElement) ((FrameworkElement) sender).DataContext).DataContext).Model;
 
                 if (JobConfiguration.SelectedItem == "Slow")
                 {
@@ -170,7 +189,6 @@ namespace DominatorUIUtility.CustomControl
                     JobConfiguration.DelayBetweenJobs = superfastSpeed.DelayBetweenJobs;
                     JobConfiguration.DelayBetweenActivity = superfastSpeed.DelayBetweenActivity;
                 }
-
             }
             catch (Exception ex)
             {
@@ -180,18 +198,18 @@ namespace DominatorUIUtility.CustomControl
 
         private void BtnCreateFavorite_OnClick(object sender, RoutedEventArgs e)
         {
-            string favoriteTimeName = "LangKeyFavoriteTime".FromResourceDictionary();
+            var favoriteTimeName = "LangKeyFavoriteTime".FromResourceDictionary();
             while (true)
-            {
                 try
                 {
-
-                    favoriteTimeName = Dialog.GetInputDialog("LangKeyFavoriteTime".FromResourceDictionary(), "LangKeyEnterFavoriteTime".FromResourceDictionary(), favoriteTimeName, "LangKeySave".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+                    favoriteTimeName = Dialog.GetInputDialog("LangKeyFavoriteTime".FromResourceDictionary(),
+                        "LangKeyEnterFavoriteTime".FromResourceDictionary(), favoriteTimeName,
+                        "LangKeySave".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                     if (!string.IsNullOrEmpty(favoriteTimeName?.Trim()))
                     {
                         if (!LstFavoriteTime.Any(x => x.FavoriteTimeName == favoriteTimeName))
                         {
-                            FavoriteTime favoriteTime = new FavoriteTime
+                            var favoriteTime = new FavoriteTime
                             {
                                 FavoriteTimeName = favoriteTimeName,
                                 LstFavoriteTimes = JobConfiguration.RunningTime.DeepCloneObject()
@@ -201,23 +219,30 @@ namespace DominatorUIUtility.CustomControl
 
                             break;
                         }
-                        else
+
+                        var result = Dialog.ShowCustomDialog("LangKeyWarning".FromResourceDictionary(),
+                            string.Format("LangKeyFavoriteTimeWithNameExistWannaOverride".FromResourceDictionary(),
+                                favoriteTimeName), "LangKeyYes".FromResourceDictionary(),
+                            "LangKeyNo".FromResourceDictionary());
+                        if (result == MessageDialogResult.Affirmative)
                         {
-                            var result = Dialog.ShowCustomDialog("LangKeyWarning".FromResourceDictionary(),String.Format("LangKeyFavoriteTimeWithNameExistWannaOverride".FromResourceDictionary(), favoriteTimeName), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary());
-                            if (result == MessageDialogResult.Affirmative)
-                            {
-                                var oldLstFavoriteTime = LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == favoriteTimeName);
-                                oldLstFavoriteTime.LstFavoriteTimes = JobConfiguration.RunningTime;
-                                _genericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
-                                break;
-                            }
+                            var oldLstFavoriteTime =
+                                LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == favoriteTimeName);
+                            oldLstFavoriteTime.LstFavoriteTimes = JobConfiguration.RunningTime;
+                            _genericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(),
+                                ConstantVariable.GetFavoriteTimeFile());
+                            break;
                         }
                     }
                     else if (favoriteTimeName == null)
+                    {
                         break;
+                    }
                     else
                     {
-                        var result = Dialog.ShowCustomDialog("LangKeyError".FromResourceDictionary(), "LangKeyFavoriteTimeShountBeEmpty".FromResourceDictionary(), "LangKeyOk".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+                        var result = Dialog.ShowCustomDialog("LangKeyError".FromResourceDictionary(),
+                            "LangKeyFavoriteTimeShountBeEmpty".FromResourceDictionary(),
+                            "LangKeyOk".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                         if (result == MessageDialogResult.Affirmative)
                             continue;
                         break;
@@ -227,9 +252,6 @@ namespace DominatorUIUtility.CustomControl
                 {
                     ex.DebugLog();
                 }
-            }
-
-
         }
 
         private void SelectFavoriteTimeExecute(object sender)
@@ -245,70 +267,48 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
-        void InitilizeFavoriteTime()
+
+        private void InitilizeFavoriteTime()
         {
             try
             {
-                var lstFavoriteTimes = _genericFileManager.GetModuleDetails<FavoriteTime>(ConstantVariable.GetFavoriteTimeFile());
+                var lstFavoriteTimes =
+                    _genericFileManager.GetModuleDetails<FavoriteTime>(ConstantVariable.GetFavoriteTimeFile());
 
                 Application.Current.Dispatcher.Invoke(delegate
                 {
                     LstFavoriteTime.Clear();
-                    lstFavoriteTimes.ForEach(x =>
-                    {
-                        LstFavoriteTime.Add(x);
-                    });
-
+                    lstFavoriteTimes.ForEach(x => { LstFavoriteTime.Add(x); });
                 });
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
         }
+
         private void JobConfigControl_Loaded(object sender, RoutedEventArgs e)
         {
             InitilizeFavoriteTime();
         }
-
-        private ObservableCollection<FavoriteTime> _lstFavoriteTime = new ObservableCollection<FavoriteTime>();
-
-        public ObservableCollection<FavoriteTime> LstFavoriteTime
-        {
-            get
-            {
-                return _lstFavoriteTime;
-            }
-            set
-            {
-                _lstFavoriteTime = value;
-                OnPropertyChanged(nameof(LstFavoriteTime));
-            }
-        }
-        public ICommand SelectFavoriteTime { get; set; }
-        public ICommand RemoveFavoriteTimeCommand { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 
     [ProtoContract]
     public class FavoriteTime : INotifyPropertyChanged
     {
-        [ProtoMember(1)]
-        private string favoriteTimeName = String.Empty;
+        [ProtoMember(2)] public List<RunningTimes> _lstFavoriteTimes = new List<RunningTimes>();
+
+        [ProtoMember(1)] private string favoriteTimeName = string.Empty;
+
         public string FavoriteTimeName
         {
-            get
-            {
-                return favoriteTimeName;
-            }
+            get => favoriteTimeName;
 
             set
             {
@@ -317,14 +317,10 @@ namespace DominatorUIUtility.CustomControl
                 OnPropertyChanged(nameof(FavoriteTimeName));
             }
         }
-        [ProtoMember(2)]
-        public List<RunningTimes> _lstFavoriteTimes = new List<RunningTimes>();
+
         public List<RunningTimes> LstFavoriteTimes
         {
-            get
-            {
-                return _lstFavoriteTimes;
-            }
+            get => _lstFavoriteTimes;
 
             set
             {
@@ -335,6 +331,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

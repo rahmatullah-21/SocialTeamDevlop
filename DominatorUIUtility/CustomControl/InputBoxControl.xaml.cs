@@ -1,21 +1,80 @@
-﻿using DominatorHouseCore;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
+using DominatorHouseCore;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for InputBoxControl.xaml
+    ///     Interaction logic for InputBoxControl.xaml
     /// </summary>
     public partial class InputBoxControl
     {
+        public static readonly DependencyProperty InputTextProperty =
+            DependencyProperty.Register("InputText", typeof(string), typeof(InputBoxControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        // Using a DependencyProperty as the backing store for InputCollection.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty InputCollectionProperty =
+            DependencyProperty.Register("InputCollection", typeof(List<string>), typeof(InputBoxControl),
+                new PropertyMetadata(new List<string>()));
+
+
+        private static readonly RoutedEvent GetInputClickEvent = EventManager.RegisterRoutedEvent("GetInputClick",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(InputBoxControl));
+
+        public static readonly DependencyProperty SaveVisiblityProperty =
+            DependencyProperty.Register("SaveVisiblity", typeof(Visibility), typeof(InputBoxControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        public static readonly DependencyProperty ImportVisiblityProperty =
+            DependencyProperty.Register("ImportVisiblity", typeof(Visibility), typeof(InputBoxControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        public static readonly DependencyProperty RefreshVisiblityProperty =
+            DependencyProperty.Register("RefreshVisiblity", typeof(Visibility), typeof(InputBoxControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        public static readonly DependencyProperty WaterMarkProperty =
+            DependencyProperty.Register("WaterMarkText", typeof(string), typeof(InputBoxControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        // Using a DependencyProperty as the backing store for SaveCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SaveCommandProperty =
+            DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(InputBoxControl));
+
+        // Using a DependencyProperty as the backing store for SaveCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ClearCommandProperty =
+            DependencyProperty.Register("ClearCommand", typeof(ICommand), typeof(InputBoxControl));
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(InputBoxControl),
+                new FrameworkPropertyMetadata());
+
         public InputBoxControl()
         {
             InitializeComponent();
@@ -29,45 +88,67 @@ namespace DominatorUIUtility.CustomControl
 
         public string InputText
         {
-            get
-            {
-                return (string)GetValue(InputTextProperty);
-            }
-            set
-            {
-                SetValue(InputTextProperty, value);
-            }
+            get => (string) GetValue(InputTextProperty);
+            set => SetValue(InputTextProperty, value);
         }
-
-        public static readonly DependencyProperty InputTextProperty =
-            DependencyProperty.Register("InputText", typeof(string), typeof(InputBoxControl), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true
-            });
-
 
 
         public List<string> InputCollection
         {
-            get { return (List<string>)GetValue(InputCollectionProperty); }
-            set { SetValue(InputCollectionProperty, value); }
+            get => (List<string>) GetValue(InputCollectionProperty);
+            set => SetValue(InputCollectionProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for InputCollection.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty InputCollectionProperty =
-            DependencyProperty.Register("InputCollection", typeof(List<string>), typeof(InputBoxControl), new PropertyMetadata(new List<string>()));
+        public Visibility SaveVisiblity
+        {
+            get => (Visibility) GetValue(SaveVisiblityProperty);
+            set => SetValue(SaveVisiblityProperty, value);
+        }
+
+        public Visibility ImportVisiblity
+        {
+            get => (Visibility) GetValue(ImportVisiblityProperty);
+            set => SetValue(ImportVisiblityProperty, value);
+        }
+
+        public Visibility RefreshVisiblity
+        {
+            get => (Visibility) GetValue(RefreshVisiblityProperty);
+            set => SetValue(RefreshVisiblityProperty, value);
+        }
+
+        public string WaterMarkText
+        {
+            get => (string) GetValue(WaterMarkProperty);
+            set => SetValue(WaterMarkProperty, value);
+        }
 
 
-        private static readonly RoutedEvent GetInputClickEvent = EventManager.RegisterRoutedEvent("GetInputClick",
-            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(InputBoxControl));
+        public ICommand SaveCommand
+        {
+            get => (ICommand) GetValue(SaveCommandProperty);
+            set => SetValue(SaveCommandProperty, value);
+        }
+
+        public ICommand ClearCommand
+        {
+            get => (ICommand) GetValue(ClearCommandProperty);
+            set => SetValue(ClearCommandProperty, value);
+        }
+
+        public object CommandParameter
+        {
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
+        }
 
         /// <summary>
-        /// Create a RoutedEventHandler for query clicks
+        ///     Create a RoutedEventHandler for query clicks
         /// </summary>
         public event RoutedEventHandler GetInputClick
         {
-            add { AddHandler(GetInputClickEvent, value); }
-            remove { RemoveHandler(GetInputClickEvent, value); }
+            add => AddHandler(GetInputClickEvent, value);
+            remove => RemoveHandler(GetInputClickEvent, value);
         }
 
         private void BtnImportBlacklistsText_OnClick(object sender, RoutedEventArgs e)
@@ -77,30 +158,27 @@ namespace DominatorUIUtility.CustomControl
                 var list = FileUtilities.FileBrowseAndReader();
                 if (list.Count == 0)
                     return;
-                if(string.IsNullOrWhiteSpace(InputText))
+                if (string.IsNullOrWhiteSpace(InputText))
                     InputCollection.Clear();
                 foreach (var text in list)
-                {
                     if (!InputCollection.Contains(text))
                         InputCollection.Add(text);
 
-                }
-
                 InputText = string.Empty;
 
-                List<string> tmpLstInputs = InputCollection;
+                var tmpLstInputs = InputCollection;
 
 
                 ThreadFactory.Instance.Start(() =>
                 {
-                    CacheText cache = new CacheText
+                    var cache = new CacheText
                     {
                         Limit = tmpLstInputs.Count
                     };
 
-                    for (int counter = 0; counter < tmpLstInputs.Count; counter++)
+                    for (var counter = 0; counter < tmpLstInputs.Count; counter++)
                     {
-                        string input = tmpLstInputs[counter];
+                        var input = tmpLstInputs[counter];
                         input = counter == 0 ? input : "\r\n" + input;
 
                         cache.AddToCache(input);
@@ -123,19 +201,13 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
+
         public void AddTextToInputBox(string inputText)
         {
             if (!Application.Current.Dispatcher.CheckAccess())
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    InputText += inputText;
-                }, DispatcherPriority.Background);
-            }
+                Application.Current.Dispatcher.Invoke(() => { InputText += inputText; }, DispatcherPriority.Background);
             else
-            {
                 InputText += inputText;
-            }
         }
 
         private void BtnRefereshBlacklistsText_OnClick(object sender, RoutedEventArgs e)
@@ -143,141 +215,42 @@ namespace DominatorUIUtility.CustomControl
             InputCollection.Clear();
             InputText = string.Empty;
         }
-        public Visibility SaveVisiblity
-        {
-            get
-            {
-                return (Visibility)GetValue(SaveVisiblityProperty);
-            }
-            set
-            {
-                SetValue(SaveVisiblityProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty SaveVisiblityProperty =
-            DependencyProperty.Register("SaveVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true
-            });
-        public Visibility ImportVisiblity
-        {
-            get
-            {
-                return (Visibility)GetValue(ImportVisiblityProperty);
-            }
-            set
-            {
-                SetValue(ImportVisiblityProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty ImportVisiblityProperty =
-            DependencyProperty.Register("ImportVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true
-            });
-        public Visibility RefreshVisiblity
-        {
-            get
-            {
-                return (Visibility)GetValue(RefreshVisiblityProperty);
-            }
-            set
-            {
-                SetValue(RefreshVisiblityProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty RefreshVisiblityProperty =
-            DependencyProperty.Register("RefreshVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true
-            });
-        public string WaterMarkText
-        {
-            get
-            {
-                return (string)GetValue(WaterMarkProperty);
-            }
-            set
-            {
-                SetValue(WaterMarkProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty WaterMarkProperty =
-            DependencyProperty.Register("WaterMarkText", typeof(string), typeof(InputBoxControl), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true
-            });
-
-
-
-        public ICommand SaveCommand
-        {
-            get { return (ICommand)GetValue(SaveCommandProperty); }
-            set { SetValue(SaveCommandProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SaveCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SaveCommandProperty =
-            DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(InputBoxControl));
-
-        public ICommand ClearCommand
-        {
-            get { return (ICommand)GetValue(ClearCommandProperty); }
-            set { SetValue(ClearCommandProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SaveCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ClearCommandProperty =
-            DependencyProperty.Register("ClearCommand", typeof(ICommand), typeof(InputBoxControl));
-
-        public object CommandParameter
-        {
-            get { return GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(InputBoxControl), new FrameworkPropertyMetadata());
 
         private void OnClick(object sender, RoutedEventArgs e)
         {
             return;
             if (!mainRTB.IsFocused)
                 return;
-            
-            var start = mainRTB.CaretPosition;  // this is the variable we will advance to the left until a non-letter character is found
-            var end = mainRTB.CaretPosition;    // this is the variable we will advance to the right until a non-letter character is found
-           
-            String stringBeforeCaret = start.GetTextInRun(System.Windows.Documents.LogicalDirection.Backward);   // extract the text in the current run from the caret to the left
-            String stringAfterCaret = start.GetTextInRun(System.Windows.Documents.LogicalDirection.Forward);     // extract the text in the current run from the caret to the left
 
-            if (((sender as Button).Background as System.Windows.Media.SolidColorBrush).Color == System.Windows.Media.Colors.LightGreen)
-            {
-                ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Transparent);
-            }
-            else if (((sender as Button).Background as System.Windows.Media.SolidColorBrush).Color == System.Windows.Media.Colors.Transparent)
-            {
-                ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.LightGreen);
-            }
+            var start = mainRTB
+                .CaretPosition; // this is the variable we will advance to the left until a non-letter character is found
+            var end = mainRTB
+                .CaretPosition; // this is the variable we will advance to the right until a non-letter character is found
+
+            var stringBeforeCaret =
+                start.GetTextInRun(LogicalDirection
+                    .Backward); // extract the text in the current run from the caret to the left
+            var stringAfterCaret =
+                start.GetTextInRun(LogicalDirection
+                    .Forward); // extract the text in the current run from the caret to the left
+
+            if (((sender as Button).Background as SolidColorBrush).Color == Colors.LightGreen)
+                ((Button) sender).Background = new SolidColorBrush(Colors.Transparent);
+            if (((sender as Button).Background as SolidColorBrush).Color == Colors.Transparent)
+                ((Button) sender).Background = new SolidColorBrush(Colors.LightGreen);
 
             InputText = StringFromRichTextBox(mainRTB);
         }
 
-        string StringFromRichTextBox(RichTextBox rtb)
+        private string StringFromRichTextBox(RichTextBox rtb)
         {
-
             //var tr = new System.Windows.Documents.TextRange(mainRTB.Document.ContentStart,
             //                     mainRTB.Document.ContentEnd);
             //var ms = new System.IO.MemoryStream();
             //tr.Save(ms, DataFormats.Xaml);
             //string xamlText = System.Text.ASCIIEncoding.Default.GetString(ms.ToArray());
 
-            var textRange = new System.Windows.Documents.TextRange(
+            var textRange = new TextRange(
                 // TextPointer to the start of content in the RichTextBox.
                 rtb.Document.ContentStart,
                 // TextPointer to the end of content in the RichTextBox.

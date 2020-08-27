@@ -8,7 +8,7 @@ using DominatorHouseCore.ViewModel;
 namespace DominatorUIUtility.Views.Publisher
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    ///     Interaction logic for Home.xaml
     /// </summary>
     public partial class Home : UserControl
     {
@@ -26,13 +26,16 @@ namespace DominatorUIUtility.Views.Publisher
 
         private static Home ObjHome { get; set; }
 
-        public static Home GetSingletonHome() 
-            => ObjHome ?? (ObjHome = new Home());
+        public static Home GetSingletonHome()
+        {
+            return ObjHome ?? (ObjHome = new Home());
+        }
 
-        private void btnCreateCampaign_Click(object sender,RoutedEventArgs e) 
-            => PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = new Campaigns();
+        private void btnCreateCampaign_Click(object sender, RoutedEventArgs e)
+        {
+            PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = new Campaigns();
+        }
 
-        
 
         private void btnManageDestination_Click(object sender, RoutedEventArgs e)
         {
@@ -43,12 +46,10 @@ namespace DominatorUIUtility.Views.Publisher
 
         private void btnManagePosts_Click(object sender, RoutedEventArgs e)
         {
-
             var managePosts = new ManagePosts();
-            AddPostViewModel ObjAddPostViewModel = new AddPostViewModel();
+            var ObjAddPostViewModel = new AddPostViewModel();
             managePosts.MainGrid.DataContext = ObjAddPostViewModel.AddPostModel;
             PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = new ManagePosts();
-
         }
     }
 }

@@ -5,15 +5,50 @@ using System.Windows;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 using MahApps.Metro.Controls.Dialogs;
-using System;
 
 namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
-    /// Interaction logic for SelectOptionControl.xaml
+    ///     Interaction logic for SelectOptionControl.xaml
     /// </summary>
     public partial class SelectOptionControl
     {
+        public static readonly DependencyProperty SelectedInputOptionProperty =
+            DependencyProperty.Register("SelectedInputOption", typeof(string), typeof(SelectOptionControl),
+                new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        public static readonly DependencyProperty InputTextProperty =
+            DependencyProperty.Register("InputText", typeof(string), typeof(SelectOptionControl),
+                new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        public static readonly DependencyProperty SelectedOptionDisplayNameProperty =
+            DependencyProperty.Register("SelectedOptionDisplayName", typeof(string), typeof(SelectOptionControl),
+                new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        // Using a DependencyProperty as the backing store for ListQueryType.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LstSelectedInputProperty =
+            DependencyProperty.Register("LstSelectedInput", typeof(IEnumerable<string>), typeof(SelectOptionControl),
+                new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        public static readonly DependencyProperty IsSelectButtonVisibleProperty =
+            DependencyProperty.Register("IsSelectButtonVisible", typeof(bool), typeof(SelectOptionControl),
+                new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                {
+                    BindsTwoWayByDefault = true
+                });
+
         public SelectOptionControl()
         {
             InitializeComponent();
@@ -22,34 +57,6 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
             SaveCommandBinding = new BaseCommand<object>(sender => true, UserInputOnSaveExecute);
             SelectOptionCommandBinding = new BaseCommand<object>(sender => true, SelectOptionCommandExecute);
             LoadTextBoxes();
-        }
-
-        /*private SelectOptionModel _selectOptionModel = new SelectOptionModel();
-
-        public SelectOptionModel SelectOptionModel
-        {
-            get
-            {
-                return _selectOptionModel;
-            }
-            set
-            {
-                if(_selectOptionModel != null && _selectOptionModel==value)
-                    return;
-                _selectOptionModel = value;
-            }
-        }*/
-
-        private void SelectOptionCommandExecute(object obj)
-        {
-            ////if (SelectedInputOption == Application.Current.FindResource("LangKeySelectFriends")?.ToString())
-            ////{
-            ////    LoadFriends();
-            ////}
-            ////else if (SelectedInputOption == Application.Current.FindResource("LangKeySelectPages")?.ToString())
-            ////{
-            ////    LoadPages();
-            ////}
         }
 
         //private void LoadPages()
@@ -206,22 +213,11 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
         public ICommand SelectOptionCommandBinding { get; set; }
 
-        private void LoadTextBoxes()
-        {
-            if (LstSelectedInput != null)
-            {
-                foreach (var str in LstSelectedInput)
-                {
-                    InputText = InputText + str + "\r\n";
-                }
-            }
-        }
-
         //        private static readonly RoutedEvent SelectInputClickEvent = EventManager.RegisterRoutedEvent("SelectInputClick",
         //            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SelectOptionControl));
 
         /// <summary>
-        /// Create a RoutedEventHandler for query clicks
+        ///     Create a RoutedEventHandler for query clicks
         /// </summary>
 
         //        public event RoutedEventHandler SelectInputClick
@@ -238,106 +234,81 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
         public string SelectedInputOption
         {
-            get
-            {
-                return (string)GetValue(SelectedInputOptionProperty);
-            }
-            set
-            {
-                SetValue(SelectedInputOptionProperty, value);
-            }
+            get => (string) GetValue(SelectedInputOptionProperty);
+            set => SetValue(SelectedInputOptionProperty, value);
         }
-
-        public static readonly DependencyProperty SelectedInputOptionProperty =
-            DependencyProperty.Register("SelectedInputOption", typeof(string), typeof(SelectOptionControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
 
         public string InputText
         {
-            get
-            {
-                return (string)GetValue(InputTextProperty);
-            }
-            set
-            {
-                SetValue(InputTextProperty, value);
-            }
+            get => (string) GetValue(InputTextProperty);
+            set => SetValue(InputTextProperty, value);
         }
-
-        public static readonly DependencyProperty InputTextProperty =
-            DependencyProperty.Register("InputText", typeof(string), typeof(SelectOptionControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
 
         public string SelectedOptionDisplayName
         {
+            get => (string) GetValue(SelectedOptionDisplayNameProperty);
+            set => SetValue(SelectedOptionDisplayNameProperty, value);
+        }
+
+        public IEnumerable<string> LstSelectedInput
+        {
+            get => (IEnumerable<string>) GetValue(LstSelectedInputProperty);
+            set => SetValue(LstSelectedInputProperty, value);
+        }
+
+        public bool IsSelectButtonVisible
+        {
+            get => (bool) GetValue(IsSelectButtonVisibleProperty);
+            set => SetValue(IsSelectButtonVisibleProperty, value);
+        }
+
+        /*private SelectOptionModel _selectOptionModel = new SelectOptionModel();
+
+        public SelectOptionModel SelectOptionModel
+        {
             get
             {
-                return (string)GetValue(SelectedOptionDisplayNameProperty);
+                return _selectOptionModel;
             }
             set
             {
-                SetValue(SelectedOptionDisplayNameProperty, value);
+                if(_selectOptionModel != null && _selectOptionModel==value)
+                    return;
+                _selectOptionModel = value;
             }
+        }*/
+
+        private void SelectOptionCommandExecute(object obj)
+        {
+            ////if (SelectedInputOption == Application.Current.FindResource("LangKeySelectFriends")?.ToString())
+            ////{
+            ////    LoadFriends();
+            ////}
+            ////else if (SelectedInputOption == Application.Current.FindResource("LangKeySelectPages")?.ToString())
+            ////{
+            ////    LoadPages();
+            ////}
         }
 
-        public static readonly DependencyProperty SelectedOptionDisplayNameProperty =
-            DependencyProperty.Register("SelectedOptionDisplayName", typeof(string), typeof(SelectOptionControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
+        private void LoadTextBoxes()
+        {
+            if (LstSelectedInput != null)
+                foreach (var str in LstSelectedInput)
+                    InputText = InputText + str + "\r\n";
+        }
 
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
         }
 
-        public IEnumerable<string> LstSelectedInput
-        {
-            get { return (IEnumerable<string>)GetValue(LstSelectedInputProperty); }
-            set { SetValue(LstSelectedInputProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ListQueryType.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LstSelectedInputProperty =
-            DependencyProperty.Register("LstSelectedInput", typeof(IEnumerable<string>), typeof(SelectOptionControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
-
-        public bool IsSelectButtonVisible
-        {
-            get
-            {
-                return (bool)GetValue(IsSelectButtonVisibleProperty);
-            }
-            set
-            {
-                SetValue(IsSelectButtonVisibleProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty IsSelectButtonVisibleProperty =
-            DependencyProperty.Register("IsSelectButtonVisible", typeof(bool), typeof(SelectOptionControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
-
         private void UserInputOnSaveExecute(object sender)
         {
-
             if (!string.IsNullOrEmpty(InputText))
-            {
-                LstSelectedInput = Regex.Split(InputText,"\r\n").Where(x => !String.IsNullOrWhiteSpace(x.Trim())).Select(y => y.Trim()).Distinct().ToList();
-                //LstSelectedInput = Regex.Split(InputText, "\r\n").ToList();
-            }
+                LstSelectedInput = Regex.Split(InputText, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x.Trim()))
+                    .Select(y => y.Trim()).Distinct().ToList();
+            //LstSelectedInput = Regex.Split(InputText, "\r\n").ToList();
             else
-            {
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "There is no data to save.");
-            }
-
         }
 
         //private void SavePages()

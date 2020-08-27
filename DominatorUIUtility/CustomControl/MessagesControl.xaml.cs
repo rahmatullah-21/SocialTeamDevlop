@@ -1,73 +1,101 @@
-﻿using DominatorHouseCore.Command;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for MessagesControl.xaml
+    ///     Interaction logic for MessagesControl.xaml
     /// </summary>
     public partial class MessagesControl
     {
+        private static readonly RoutedEvent AddMessagesToListEvent =
+            EventManager.RegisterRoutedEvent("AddMessagesToListChanged", RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(MessagesControl));
+
+        // Using a DependencyProperty as the backing store for ManageComments.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ManageMessagesProperty =
+            DependencyProperty.Register("Messages", typeof(ManageMessagesModel), typeof(MessagesControl),
+                new PropertyMetadata());
+
+        // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LstManageMessagesModelProperty =
+            DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>),
+                typeof(MessagesControl), new PropertyMetadata(new ObservableCollection<ManageMessagesModel>()));
+
+        // Using a DependencyProperty as the backing store for AddMessagesCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AddMessagesCommandProperty =
+            DependencyProperty.Register("AddMessagesCommand", typeof(ICommand), typeof(MessagesControl));
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessagesControl),
+                new PropertyMetadata());
+
+        private bool _isUncheckfromList;
+
         public MessagesControl()
         {
             InitializeComponent();
             MainGrid.DataContext = this;
-            AddMessagesCommand = new BaseCommand<object>((sender) => true, AddMessagesExecute);
-        }
-        
-        private static readonly RoutedEvent AddMessagesToListEvent =
-     EventManager.RegisterRoutedEvent("AddMessagesToListChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
-         typeof(MessagesControl));
-
-        public event RoutedEventHandler AddMessagesToListChanged
-        {
-            add { AddHandler(AddMessagesToListEvent, value); }
-            remove { RemoveHandler(AddMessagesToListEvent, value); }
+            AddMessagesCommand = new BaseCommand<object>(sender => true, AddMessagesExecute);
         }
 
         public ManageMessagesModel Messages
         {
-            get { return (ManageMessagesModel)GetValue(ManageMessagesProperty); }
-            set { SetValue(ManageMessagesProperty, value); }
+            get => (ManageMessagesModel) GetValue(ManageMessagesProperty);
+            set => SetValue(ManageMessagesProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for ManageComments.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ManageMessagesProperty =
-            DependencyProperty.Register("Messages", typeof(ManageMessagesModel), typeof(MessagesControl), new PropertyMetadata());
-       
         public ObservableCollection<ManageMessagesModel> LstManageMessagesModel
         {
-            get { return (ObservableCollection<ManageMessagesModel>)GetValue(LstManageMessagesModelProperty); }
-            set { SetValue(LstManageMessagesModelProperty, value); }
+            get => (ObservableCollection<ManageMessagesModel>) GetValue(LstManageMessagesModelProperty);
+            set => SetValue(LstManageMessagesModelProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LstManageMessagesModelProperty =
-            DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(MessagesControl), new PropertyMetadata(new ObservableCollection<ManageMessagesModel>()));
+        public bool Isupdated { get; set; }
 
-        private bool _isUncheckfromList;
+        public ICommand AddMessagesCommand
+        {
+            get => (ICommand) GetValue(AddMessagesCommandProperty);
+            set => SetValue(AddMessagesCommandProperty, value);
+        }
+
+
+        public object CommandParameter
+        {
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
+        }
+
+        public event RoutedEventHandler AddMessagesToListChanged
+        {
+            add => AddHandler(AddMessagesToListEvent, value);
+            remove => RemoveHandler(AddMessagesToListEvent, value);
+        }
+
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
-            var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
+            var currentQuery = ((QueryContent) (sender as CheckBox).DataContext).Content.QueryValue;
             if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
-            {
                 if (!IsChecked)
                 {
                     _isUncheckfromList = true;
                     Messages.LstQueries[0].IsContentSelected = false;
                 }
-            }
+
             if (Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
             {
                 _isUncheckfromList = false;
                 Messages.LstQueries[0].IsContentSelected = IsChecked;
             }
+
             if (_isUncheckfromList)
             {
                 _isUncheckfromList = false;
@@ -77,9 +105,14 @@ namespace DominatorUIUtility.CustomControl
             if (currentQuery == "All")
             {
                 _isUncheckfromList = false;
-                Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+                Messages.LstQueries.ToList().Select(query =>
+                {
+                    query.IsContentSelected = IsChecked;
+                    return query;
+                }).ToList();
             }
         }
+
         private void AddCheckedQueryToList()
         {
             Messages.SelectedQuery.Clear();
@@ -101,17 +134,6 @@ namespace DominatorUIUtility.CustomControl
             CheckUncheckAll(sender, false);
         }
 
-        public bool Isupdated { get; set; }
-        public ICommand AddMessagesCommand
-        {
-            get { return (ICommand)GetValue(AddMessagesCommandProperty); }
-            set { SetValue(AddMessagesCommandProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for AddMessagesCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AddMessagesCommandProperty =
-            DependencyProperty.Register("AddMessagesCommand", typeof(ICommand), typeof(MessagesControl));
-
         private void AddMessagesExecute(object sender)
         {
             if (string.IsNullOrEmpty(Messages.MessagesText))
@@ -119,6 +141,7 @@ namespace DominatorUIUtility.CustomControl
                 Dialog.ShowDialog("Warning", "Please type some message !!");
                 return;
             }
+
             if (!Messages.LstQueries.Any(x => x.IsContentSelected))
             {
                 Dialog.ShowDialog("Warning", "Please select atleast one query.");
@@ -131,6 +154,7 @@ namespace DominatorUIUtility.CustomControl
                 Dialog.ShowDialog("Warning", "Please add atleast one query!!");
                 return;
             }
+
             if (btnAddMessagesToList.Content.ToString() == "Update Message")
             {
                 LstManageMessagesModel.Select(x =>
@@ -141,26 +165,20 @@ namespace DominatorUIUtility.CustomControl
                         x.LstQueries = Messages.LstQueries;
                         x.SelectedQuery = Messages.SelectedQuery;
                     }
+
                     return x;
                 }).ToList();
-                Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
-                Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
+                Messages.SelectedQuery.Remove(
+                    Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+                Messages.LstQueries.Select(x =>
+                {
+                    x.IsContentSelected = false;
+                    return x;
+                }).ToList();
                 Isupdated = true;
 
                 Dialog.CloseDialog(this);
             }
         }
-
-
-
-        public object CommandParameter
-        {
-            get { return GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessagesControl), new PropertyMetadata());
     }
 }

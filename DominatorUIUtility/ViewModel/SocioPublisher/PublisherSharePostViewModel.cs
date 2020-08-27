@@ -5,20 +5,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherSharePostViewModel : BindableBase
     {
+        private SharePostModel _sharePostModel = new SharePostModel();
+
         public PublisherSharePostViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl)
         {
-
             SharePostModel = tabItemsControl.SharePostModel;
-
         }
-        private SharePostModel _sharePostModel = new SharePostModel();
 
         public SharePostModel SharePostModel
         {
-            get
-            {
-                return _sharePostModel;
-            }
+            get => _sharePostModel;
             set
             {
                 if (value == _sharePostModel)

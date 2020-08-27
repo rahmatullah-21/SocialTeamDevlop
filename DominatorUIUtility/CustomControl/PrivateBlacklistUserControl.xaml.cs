@@ -3,7 +3,7 @@
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for BlacklistUserControl.xaml
+    ///     Interaction logic for BlacklistUserControl.xaml
     /// </summary>
     public partial class PrivateBlacklistUserControl
     {

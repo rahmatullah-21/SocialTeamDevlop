@@ -1,20 +1,18 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using CommonServiceLocator;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ConfigControl
 {
     /// <summary>
-    /// Interaction logic for Facebook.xaml
+    ///     Interaction logic for Facebook.xaml
     /// </summary>
     public partial class Facebook
     {
-        private ConfigFacebookModel ConfigFacebookModel { get; set; } = new ConfigFacebookModel();
         private readonly IFBFileManager fbFilemanager;
+
         private Facebook()
         {
             InitializeComponent();
@@ -23,10 +21,13 @@ namespace DominatorUIUtility.ConfigControl
             MainGrid.DataContext = ConfigFacebookModel;
         }
 
+        private ConfigFacebookModel ConfigFacebookModel { get; } = new ConfigFacebookModel();
+
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
             if (fbFilemanager.SaveFacebookConfig(ConfigFacebookModel))
-                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeyFacebookConfigurationSaved".FromResourceDictionary());
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(),
+                    "LangKeyFacebookConfigurationSaved".FromResourceDictionary());
         }
     }
 }

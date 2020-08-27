@@ -7,29 +7,25 @@ using DominatorUIUtility.ViewModel.SocioPublisher;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherManagePostDrafts.xaml
+    ///     Interaction logic for PublisherManagePostDrafts.xaml
     /// </summary>
     public partial class PublisherManagePostDrafts : UserControl, INotifyPropertyChanged
     {
+        private static PublisherManagePostDrafts _publisherManagePostDrafts;
+
+
+        private PublisherManagePostDraftsViewModel _publisherManagePostDraftsViewModel =
+            new PublisherManagePostDraftsViewModel();
+
         private PublisherManagePostDrafts()
         {
             InitializeComponent();
             DraftPostList.DataContext = PublisherManagePostDraftsViewModel;
         }
 
-        private static PublisherManagePostDrafts _publisherManagePostDrafts;
-
-        public static PublisherManagePostDrafts GetPublisherManagePostDrafts() 
-            => _publisherManagePostDrafts ?? (_publisherManagePostDrafts = new PublisherManagePostDrafts());
-
-
-        private PublisherManagePostDraftsViewModel _publisherManagePostDraftsViewModel = new PublisherManagePostDraftsViewModel();
         public PublisherManagePostDraftsViewModel PublisherManagePostDraftsViewModel
         {
-            get
-            {
-                return _publisherManagePostDraftsViewModel;
-            }
+            get => _publisherManagePostDraftsViewModel;
             set
             {
                 if (_publisherManagePostDraftsViewModel == value)
@@ -43,11 +39,15 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public static PublisherManagePostDrafts GetPublisherManagePostDrafts()
+        {
+            return _publisherManagePostDrafts ?? (_publisherManagePostDrafts = new PublisherManagePostDrafts());
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

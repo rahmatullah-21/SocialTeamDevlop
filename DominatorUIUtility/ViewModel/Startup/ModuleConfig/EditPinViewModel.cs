@@ -1,4 +1,9 @@
-﻿using CommonServiceLocator;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
@@ -9,24 +14,28 @@ using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public class PinInfo : BindableBase
     {
+        private string _account;
         private string _board;
+
+        private string _pinDescription;
+
+        private string _pinToBeEdit;
+
+
+        private string _section;
+
+        private int _selectedIndex;
+
+        private string _websiteUrl;
 
         public string Board
         {
-            get
-            {
-                return _board;
-            }
+            get => _board;
             set
             {
                 if (_board != null && _board == value)
@@ -35,14 +44,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private string _pinDescription;
-
         public string PinDescription
         {
-            get
-            {
-                return _pinDescription;
-            }
+            get => _pinDescription;
             set
             {
                 if (_pinDescription != null && _pinDescription == value)
@@ -51,15 +55,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-
-        private string _section;
-
         public string Section
         {
-            get
-            {
-                return _section;
-            }
+            get => _section;
             set
             {
                 if (_section != null && _section == value)
@@ -68,14 +66,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private string _websiteUrl;
-
         public string WebsiteUrl
         {
-            get
-            {
-                return _websiteUrl;
-            }
+            get => _websiteUrl;
             set
             {
                 if (_websiteUrl != null && _websiteUrl == value)
@@ -84,14 +77,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private string _pinToBeEdit;
-
         public string PinToBeEdit
         {
-            get
-            {
-                return _pinToBeEdit;
-            }
+            get => _pinToBeEdit;
             set
             {
                 if (_pinToBeEdit != null && _pinToBeEdit == value)
@@ -100,14 +88,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private string _account;
-
         public string Account
         {
-            get
-            {
-                return _account;
-            }
+            get => _account;
             set
             {
                 if (_account != null && _account == value)
@@ -116,14 +99,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private int _selectedIndex;
-
         public int SelectedIndex
         {
-            get
-            {
-                return _selectedIndex;
-            }
+            get => _selectedIndex;
             set
             {
                 if (_selectedIndex != 0 && _selectedIndex == value)
@@ -136,15 +114,25 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public string Caption { get; set; }
         public string Code { get; set; }
     }
+
     public interface IEditPinViewModel
     {
     }
+
     public class EditPinViewModel : StartupBaseViewModel, IEditPinViewModel
     {
+        private PinInfo _currentPin = new PinInfo();
+
+        private List<string> _listPins = new List<string>();
+
+        private List<PinInfo> _listPinsDetails = new List<PinInfo>();
+
+        private ObservableCollectionBase<PinInfo> _pinDetails = new ObservableCollectionBase<PinInfo>();
+
         public EditPinViewModel(IRegionManager region) : base(region)
         {
             IsNonQuery = true;
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.EditPin });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.EditPin});
             NextCommand = new DelegateCommand(ValidateAndNevigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -159,25 +147,66 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes,
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
-            AddPinCommand = new BaseCommand<object>((sender) => true, AddPin);
-            DeletePinCommand = new BaseCommand<object>((sender) => true, DeletePin);
-            ImportFromCsvCommand = new BaseCommand<object>((sender) => true, ImportFromCsv);
-        }
-
-        private void ValidateAndNevigate()
-        {
-            if (PinDetails.Count == 0)
-            {
-                Dialog.ShowDialog("Error", "Please add at least one pin.");
-                return;
-            }
-            else
-                NavigateNext();
+            AddPinCommand = new BaseCommand<object>(sender => true, AddPin);
+            DeletePinCommand = new BaseCommand<object>(sender => true, DeletePin);
+            ImportFromCsvCommand = new BaseCommand<object>(sender => true, ImportFromCsv);
         }
 
         public ICommand AddPinCommand { get; set; }
         public ICommand DeletePinCommand { get; set; }
         public ICommand ImportFromCsvCommand { get; set; }
+
+        public ObservableCollectionBase<PinInfo> PinDetails
+        {
+            get => _pinDetails;
+            set
+            {
+                if (_pinDetails != null && _pinDetails == value)
+                    return;
+                SetProperty(ref _pinDetails, value);
+            }
+        }
+
+        public PinInfo CurrentPin
+        {
+            get => _currentPin;
+            set
+            {
+                if (_currentPin != null && _currentPin == value)
+                    return;
+                SetProperty(ref _currentPin, value);
+            }
+        }
+
+        public List<PinInfo> listDetails
+        {
+            get => _listPinsDetails;
+            set
+            {
+                if (_listPinsDetails != null && _listPinsDetails == value)
+                    return;
+                SetProperty(ref _listPinsDetails, value);
+            }
+        }
+
+        public List<string> listPins
+        {
+            get => _listPins;
+            set
+            {
+                if (_listPins != null && _listPins == value)
+                    return;
+                SetProperty(ref _listPins, value);
+            }
+        }
+
+        private void ValidateAndNevigate()
+        {
+            if (PinDetails.Count == 0)
+                Dialog.ShowDialog("Error", "Please add at least one pin.");
+            else
+                NavigateNext();
+        }
 
         private void AddPin(object sender)
         {
@@ -197,19 +226,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 editPinControl.WebsiteUrl = editPinControl.WebsiteUrl.Trim();
 
 
-
                 if (string.IsNullOrEmpty(editPinControl.PinToBeEdit) || string.IsNullOrEmpty(editPinControl.Account) ||
-                (string.IsNullOrEmpty(editPinControl.Board) && string.IsNullOrEmpty(editPinControl.PinDescription) &&
-                string.IsNullOrEmpty(editPinControl.Section) && string.IsNullOrEmpty(editPinControl.WebsiteUrl)))
+                    string.IsNullOrEmpty(editPinControl.Board) && string.IsNullOrEmpty(editPinControl.PinDescription) &&
+                    string.IsNullOrEmpty(editPinControl.Section) && string.IsNullOrEmpty(editPinControl.WebsiteUrl))
                     return;
                 if (listDetails.Count > 0)
-                {
                     listDetails.ForEach(pin =>
                     {
-                        if (!PinDetails.Any(info => (info.Account == pin.Account && info.PinToBeEdit.ToLower() == "all") ||
-                        info.PinToBeEdit.Contains(editPinControl.PinToBeEdit)))
-                        {
-                            PinDetails.Add(new PinInfo()
+                        if (!PinDetails.Any(info =>
+                            info.Account == pin.Account && info.PinToBeEdit.ToLower() == "all" ||
+                            info.PinToBeEdit.Contains(editPinControl.PinToBeEdit)))
+                            PinDetails.Add(new PinInfo
                             {
                                 Board = pin.Board,
                                 PinDescription = pin.PinDescription,
@@ -218,13 +245,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                                 PinToBeEdit = pin.PinToBeEdit,
                                 Account = pin.Account
                             });
-                        }
                     });
-                }
-                else if (!PinDetails.Any(info => (info.Account == editPinControl.Account && info.PinToBeEdit.ToLower() == "all")
-                || info.PinToBeEdit.Contains(editPinControl.PinToBeEdit)))
-                {
-                    PinDetails.Add(new PinInfo()
+                else if (!PinDetails.Any(info =>
+                    info.Account == editPinControl.Account && info.PinToBeEdit.ToLower() == "all"
+                    || info.PinToBeEdit.Contains(editPinControl.PinToBeEdit)))
+                    PinDetails.Add(new PinInfo
                     {
                         Board = editPinControl.Board,
                         PinDescription = editPinControl.PinDescription,
@@ -233,7 +258,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         PinToBeEdit = editPinControl.PinToBeEdit,
                         Account = editPinControl.Account
                     });
-                }
                 else
                     return;
 
@@ -272,21 +296,18 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 listPins.Clear();
                 listPins.AddRange(FileUtilities.FileBrowseAndReader());
                 var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-                var accounts = accountFileManager.GetAll(SocialNetworks.Pinterest).Where(x => x.AccountBaseModel.Status == AccountStatus.Success).
-                    Select(x => x.AccountBaseModel.UserName).ToList();
+                var accounts = accountFileManager.GetAll(SocialNetworks.Pinterest)
+                    .Where(x => x.AccountBaseModel.Status == AccountStatus.Success)
+                    .Select(x => x.AccountBaseModel.UserName).ToList();
 
                 if (listPins.Count != 0)
                 {
-                    foreach (string pin in listPins)
-                    {
+                    foreach (var pin in listPins)
                         try
                         {
-                            string[] pindetails = pin.Split('\t');
-                            if (pindetails[0] == "Board")
-                            {
-                                continue;
-                            }
-                            PinInfo pinInfo = new PinInfo();
+                            var pindetails = pin.Split('\t');
+                            if (pindetails[0] == "Board") continue;
+                            var pinInfo = new PinInfo();
                             pinInfo.Board = pindetails[0];
                             pinInfo.PinDescription = pindetails[1];
                             pinInfo.Section = pindetails[2];
@@ -306,78 +327,20 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         {
                             ex.DebugLog();
                         }
-                    }
+
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
                         "Pins are ready to add !!");
                     GlobusLogHelper.log.Info("Pins sucessfully uploaded !!");
                 }
                 else
+                {
                     GlobusLogHelper.log.Info("You did not upload any pins !!");
+                }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
                 GlobusLogHelper.log.Info("There is error in uploading pins !!");
-            }
-        }
-
-        private ObservableCollectionBase<PinInfo> _pinDetails = new ObservableCollectionBase<PinInfo>();
-        public ObservableCollectionBase<PinInfo> PinDetails
-        {
-            get
-            {
-                return _pinDetails;
-            }
-            set
-            {
-                if (_pinDetails != null && _pinDetails == value)
-                    return;
-                SetProperty(ref _pinDetails, value);
-            }
-        }
-
-        private PinInfo _currentPin = new PinInfo();
-        public PinInfo CurrentPin
-        {
-            get
-            {
-                return _currentPin;
-            }
-            set
-            {
-                if (_currentPin != null && _currentPin == value)
-                    return;
-                SetProperty(ref _currentPin, value);
-            }
-        }
-
-        private List<PinInfo> _listPinsDetails = new List<PinInfo>();
-        public List<PinInfo> listDetails
-        {
-            get
-            {
-                return _listPinsDetails;
-            }
-            set
-            {
-                if (_listPinsDetails != null && _listPinsDetails == value)
-                    return;
-                SetProperty(ref _listPinsDetails, value);
-            }
-        }
-
-        private List<string> _listPins = new List<string>();
-        public List<string> listPins
-        {
-            get
-            {
-                return _listPins;
-            }
-            set
-            {
-                if (_listPins != null && _listPins == value)
-                    return;
-                SetProperty(ref _listPins, value);
             }
         }
     }

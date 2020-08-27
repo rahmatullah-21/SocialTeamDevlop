@@ -22,6 +22,7 @@ namespace DominatorHouseCore.Enums
         [Description("Follow")]
         Keyword,
 
+        // ReSharper disable once UnusedMember.Global
         [Quora] [Description("Follow")] SomeOneFollower
     }
 

@@ -1,12 +1,4 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,6 +6,14 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -22,21 +22,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class SelectAccountControl : INotifyPropertyChanged
     {
-        private bool IsUnCheckedFromAccountDetails { get; set; }
-
         private SelectAccountViewModel _objAccountViewModel = new SelectAccountViewModel();
-
-        public SelectAccountViewModel ObjAccountViewModel
-        {
-            get { return _objAccountViewModel; }
-            set
-            {
-                if (_objAccountViewModel == value)
-                    return;
-                _objAccountViewModel = value;
-                OnPropertyChanged(nameof(ObjAccountViewModel));
-            }
-        }
 
 
         public SelectAccountControl(ICollection<string> lstSelectedAccount)
@@ -51,10 +37,10 @@ namespace DominatorUIUtility.CustomControl
             ObjAccountViewModel.LstSelectAccount.Clear();
             savedAccounts.ForEach(x =>
             {
-
                 //add only account status should be success/UpdatingDetails
 
-                if (x.AccountBaseModel.Status == AccountStatus.Success || x.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
+                if (x.AccountBaseModel.Status == AccountStatus.Success ||
+                    x.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
                 {
                     ObjAccountViewModel.LstSelectAccount.Add(new SelectAccountModel
                     {
@@ -63,7 +49,8 @@ namespace DominatorUIUtility.CustomControl
                         AccountNikeName = x.AccountBaseModel.AccountName,
                         BrowserAutomation = x.IsRunProcessThroughBrowser
                     });
-                    if (ObjAccountViewModel.SelectAccountModel.Groups.Any(group => group.Content == x.AccountBaseModel.AccountGroup.Content) == false)
+                    if (ObjAccountViewModel.SelectAccountModel.Groups.Any(group =>
+                            group.Content == x.AccountBaseModel.AccountGroup.Content) == false)
                         ObjAccountViewModel.SelectAccountModel.Groups.Add(
                             new ContentSelectGroup
                             {
@@ -83,6 +70,22 @@ namespace DominatorUIUtility.CustomControl
                 CollectionViewSource.GetDefaultView(ObjAccountViewModel.LstSelectAccount);
         }
 
+        private bool IsUnCheckedFromAccountDetails { get; set; }
+
+        public SelectAccountViewModel ObjAccountViewModel
+        {
+            get => _objAccountViewModel;
+            set
+            {
+                if (_objAccountViewModel == value)
+                    return;
+                _objAccountViewModel = value;
+                OnPropertyChanged(nameof(ObjAccountViewModel));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void chkgroup_Checked(object sender, RoutedEventArgs e)
         {
             ObjAccountViewModel.SelectDeselectAccountByGroup(true);
@@ -91,7 +94,6 @@ namespace DominatorUIUtility.CustomControl
 
         private void chkgroup_Unchecked(object sender, RoutedEventArgs e)
         {
-
             if (IsUnCheckedFromAccountDetails)
                 return;
 
@@ -169,6 +171,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
+
             return false;
         }
 
@@ -185,6 +188,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
+
             return false;
         }
 
@@ -198,8 +202,6 @@ namespace DominatorUIUtility.CustomControl
         {
             FilterAccount();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -1,10 +1,10 @@
-﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 
 namespace DominatorUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
-    /// Interaction logic for Repin.xaml
+    ///     Interaction logic for Repin.xaml
     /// </summary>
     public partial class Repin : UserControl
     {

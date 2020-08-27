@@ -1,23 +1,25 @@
 ﻿using System;
+using System.Linq;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-   
     public interface IHashtagsScraperViewModel
     {
         string Keyword { get; set; }
     }
+
     public class HashtagsScraperViewModel : StartupBaseViewModel, IHashtagsScraperViewModel
     {
+        private string _Keyword;
+
         public HashtagsScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.HashtagsScraper });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.HashtagsScraper});
             IsNonQuery = true;
             NextCommand = new DelegateCommand(ValidateAndNevigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -35,6 +37,18 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListQueryType.Clear();
         }
 
+        public string Keyword
+        {
+            get => _Keyword;
+
+            set
+            {
+                if (_Keyword == value)
+                    return;
+                SetProperty(ref _Keyword, value);
+            }
+        }
+
         private void ValidateAndNevigate()
         {
             if (string.IsNullOrEmpty(Keyword))
@@ -42,23 +56,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Dialog.ShowDialog("Input Error", "Please enter atleast one keyword");
                 return;
             }
-           NavigateNext();
-        }
 
-        private string _Keyword;
-        public string Keyword
-        {
-            get
-            {
-                return _Keyword;
-            }
-
-            set
-            {
-                if (_Keyword == value)
-                    return ;
-                SetProperty(ref _Keyword,value);
-            }
+            NavigateNext();
         }
     }
 }

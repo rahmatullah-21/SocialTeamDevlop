@@ -3,7 +3,7 @@
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for WhitelistuserControl.xaml
+    ///     Interaction logic for WhitelistuserControl.xaml
     /// </summary>
     public partial class PrivateWhitelistUserControl
     {
@@ -12,6 +12,5 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
             MainGrid.DataContext = privateWhiteListViewModel;
         }
-
     }
 }

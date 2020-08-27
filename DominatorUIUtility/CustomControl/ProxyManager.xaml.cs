@@ -3,7 +3,7 @@
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for ProxyManager.xaml
+    ///     Interaction logic for ProxyManager.xaml
     /// </summary>
     public partial class ProxyManager
     {

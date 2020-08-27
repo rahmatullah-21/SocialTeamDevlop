@@ -1,25 +1,31 @@
 ﻿using System;
+using System.Linq;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface IDeletePostViewModel
     {
         bool IsCheckedDeleteAllPosts { get; set; }
         bool ChkDeletePostWhichIsPostedBySoftware { get; set; }
         bool ChkDeletePostWhichIsPostedByOutsideSoftware { get; set; }
     }
+
     public class DeletePostViewModel : StartupBaseViewModel, IDeletePostViewModel
     {
+        private bool _ChkDeletePostWhichIsPostedByOutsideSoftware;
+
+        private bool _ChkDeletePostWhichIsPostedBySoftware;
+
+        private bool _IsCheckedDeleteAllPosts = true;
+
         public DeletePostViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.DeletePost });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.DeletePost});
             IsNonQuery = true;
             NextCommand = new DelegateCommand(ValidateAndNavigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -37,23 +43,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListQueryType.Clear();
         }
 
-        private void ValidateAndNavigate()
-        {
-            if (!ChkDeletePostWhichIsPostedBySoftware && !ChkDeletePostWhichIsPostedByOutsideSoftware)
-            {
-                Dialog.ShowDialog("Input Error", "Please select atleast one option");
-                return;
-            }
-            NavigateNext();
-        }
-
-        private bool _IsCheckedDeleteAllPosts = true;
         public bool IsCheckedDeleteAllPosts
         {
-            get
-            {
-                return _IsCheckedDeleteAllPosts;
-            }
+            get => _IsCheckedDeleteAllPosts;
 
             set
             {
@@ -63,13 +55,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private bool _ChkDeletePostWhichIsPostedBySoftware = false;
         public bool ChkDeletePostWhichIsPostedBySoftware
         {
-            get
-            {
-                return _ChkDeletePostWhichIsPostedBySoftware;
-            }
+            get => _ChkDeletePostWhichIsPostedBySoftware;
 
             set
             {
@@ -79,13 +67,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private bool _ChkDeletePostWhichIsPostedByOutsideSoftware = false;
         public bool ChkDeletePostWhichIsPostedByOutsideSoftware
         {
-            get
-            {
-                return _ChkDeletePostWhichIsPostedByOutsideSoftware;
-            }
+            get => _ChkDeletePostWhichIsPostedByOutsideSoftware;
 
             set
             {
@@ -93,6 +77,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     return;
                 SetProperty(ref _ChkDeletePostWhichIsPostedByOutsideSoftware, value);
             }
+        }
+
+        private void ValidateAndNavigate()
+        {
+            if (!ChkDeletePostWhichIsPostedBySoftware && !ChkDeletePostWhichIsPostedByOutsideSoftware)
+            {
+                Dialog.ShowDialog("Input Error", "Please select atleast one option");
+                return;
+            }
+
+            NavigateNext();
         }
     }
 }

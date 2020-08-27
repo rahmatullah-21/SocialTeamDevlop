@@ -1,20 +1,18 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
+using CommonServiceLocator;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
-using MahApps.Metro.Controls.Dialogs;
-using CommonServiceLocator;
 using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.ConfigControl
 {
     /// <summary>
-    /// Interaction logic for Instagram.xaml
+    ///     Interaction logic for Instagram.xaml
     /// </summary>
     public partial class Instagram
     {
-        IOtherConfigFileManager InstagramConfig;
-        private InstagramModel InstagramModel { get; set; } = new InstagramModel();
+        private readonly IOtherConfigFileManager InstagramConfig;
+
         private Instagram()
         {
             InitializeComponent();
@@ -22,6 +20,9 @@ namespace DominatorUIUtility.ConfigControl
             InstagramModel = InstagramConfig.GetOtherConfig<InstagramModel>() ?? InstagramModel;
             MainGrid.DataContext = InstagramModel;
         }
+
+        private InstagramModel InstagramModel { get; } = new InstagramModel();
+
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
             if (InstagramConfig.SaveOtherConfig(InstagramModel))

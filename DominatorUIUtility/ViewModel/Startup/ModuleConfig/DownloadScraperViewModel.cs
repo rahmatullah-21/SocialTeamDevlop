@@ -9,15 +9,17 @@ using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-   
     public interface IDownloadScraperViewModel
     {
     }
+
     public class DownloadScraperViewModel : StartupBaseViewModel, IDownloadScraperViewModel
     {
+        private PostLikeCommentorModel _postLikeCommentorModel = new PostLikeCommentorModel();
+
         public DownloadScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.DownloadScraper });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.DownloadScraper});
             IsNonQuery = true;
             NextCommand = new DelegateCommand(DownloadScraperValidate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -35,13 +37,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListQueryType.Clear();
         }
 
-        private PostLikeCommentorModel _postLikeCommentorModel=new PostLikeCommentorModel();
         public PostLikeCommentorModel PostLikeCommentorModel
         {
-            get { return _postLikeCommentorModel; }
+            get => _postLikeCommentorModel;
             set
             {
-                if (_postLikeCommentorModel == null & _postLikeCommentorModel == value)
+                if ((_postLikeCommentorModel == null) & (_postLikeCommentorModel == value))
                     return;
                 SetProperty(ref _postLikeCommentorModel, value);
             }
@@ -50,11 +51,13 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public void DownloadScraperValidate()
         {
-            if (PostLikeCommentorModel.IsFriendTimeLineChecked && PostLikeCommentorModel.ListFriendProfileUrl.Count == 0)
+            if (PostLikeCommentorModel.IsFriendTimeLineChecked &&
+                PostLikeCommentorModel.ListFriendProfileUrl.Count == 0)
             {
                 Dialog.ShowDialog("Error", "Please add at least one query.");
                 return;
             }
+
             if (PostLikeCommentorModel.IsGroupChecked && PostLikeCommentorModel.ListGroupUrl.Count == 0)
             {
                 Dialog.ShowDialog("Error", "Please add at least one query.");
@@ -66,26 +69,31 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Dialog.ShowDialog("Error", "Please add at least one query.");
                 return;
             }
+
             if (PostLikeCommentorModel.IsCampaignChecked && PostLikeCommentorModel.ListFaceDominatorCampaign.Count == 0)
             {
                 Dialog.ShowDialog("Error", "Please add at least one query.");
                 return;
             }
+
             if (PostLikeCommentorModel.IsCustomPostListChecked && PostLikeCommentorModel.ListCustomPostList.Count == 0)
             {
                 Dialog.ShowDialog("Error", "Please add at least one query.");
                 return;
             }
+
             if (PostLikeCommentorModel.IsAlbumsChecked && PostLikeCommentorModel.ListAlbums.Count == 0)
             {
                 Dialog.ShowDialog("Error", "Please add at least one query.");
                 return;
             }
+
             if (PostLikeCommentorModel.IsKeywordChecked && PostLikeCommentorModel.ListKeywords.Count == 0)
             {
                 Dialog.ShowDialog("Error", "Please add at least one query.");
                 return;
             }
+
             if (!PostLikeCommentorModel.IsOwnWallChecked && !PostLikeCommentorModel.IsNewsfeedChecked &&
                 !PostLikeCommentorModel.IsFriendTimeLineChecked && !PostLikeCommentorModel.IsCustomPostListChecked
                 && !PostLikeCommentorModel.IsCampaignChecked && !PostLikeCommentorModel.IsGroupChecked
@@ -97,6 +105,5 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             NavigateNext();
         }
-
     }
 }

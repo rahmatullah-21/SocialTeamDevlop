@@ -9,15 +9,19 @@ using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface IWatchPartyInviterViewModel
     {
     }
+
     public class WatchPartyInviterViewModel : StartupBaseViewModel, IWatchPartyInviterViewModel
     {
+        private InviterDetails _inviterDetails = new InviterDetails();
+
+        private InviterOptions _inviterOptions = new InviterOptions();
+
         public WatchPartyInviterViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.WatchPartyInviter });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.WatchPartyInviter});
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -35,29 +39,26 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
         }
 
-        private InviterDetails _inviterDetails = new InviterDetails();
         public InviterDetails InviterDetailsModel
         {
-            get { return _inviterDetails; }
+            get => _inviterDetails;
             set
             {
-                if (_inviterDetails == null & _inviterDetails == value)
+                if ((_inviterDetails == null) & (_inviterDetails == value))
                     return;
                 SetProperty(ref _inviterDetails, value);
             }
         }
 
-        private InviterOptions _inviterOptions = new InviterOptions();
         public InviterOptions InviterOptionsModel
         {
-            get { return _inviterOptions; }
+            get => _inviterOptions;
             set
             {
-                if (_inviterOptions == value & _inviterOptions == null)
+                if ((_inviterOptions == value) & (_inviterOptions == null))
                     return;
                 SetProperty(ref _inviterOptions, value);
             }
         }
-
     }
 }

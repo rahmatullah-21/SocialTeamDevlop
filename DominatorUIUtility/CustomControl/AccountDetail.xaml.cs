@@ -1,8 +1,6 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
@@ -12,25 +10,14 @@ using DominatorUIUtility.ViewModel;
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for AddUpdateAccountControl.xaml
+    ///     Interaction logic for AddUpdateAccountControl.xaml
     /// </summary>
     public partial class AccountDetail : INotifyPropertyChanged
     {
-
         private AccountDetailsViewModel _accountDetailsViewModel;
 
-        public AccountDetailsViewModel AccountDetailsViewModel
-        {
-            get { return _accountDetailsViewModel; }
-            set
-            {
-                _accountDetailsViewModel = value;
-                OnPropertyChanged(nameof(AccountDetailsViewModel));
-            }
-        }
-
         /// <summary>
-        /// Constructor with default data context
+        ///     Constructor with default data context
         /// </summary>
         public AccountDetail()
         {
@@ -41,25 +28,34 @@ namespace DominatorUIUtility.CustomControl
         {
             AccountDetailsViewModel = new AccountDetailsViewModel(dataContext);
             DataContext = AccountDetailsViewModel;
-            AccountDetailsViewModel.CodeSectionVisibility= dataContext.AccountBaseModel.Status == AccountStatus.TwoFactorLoginAttempt ? Visibility.Visible : Visibility.Collapsed;
+            AccountDetailsViewModel.CodeSectionVisibility =
+                dataContext.AccountBaseModel.Status == AccountStatus.TwoFactorLoginAttempt
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
         }
-        private void OnKeyDown(object sender, KeyEventArgs e)
+
+        public AccountDetailsViewModel AccountDetailsViewModel
         {
-            if (e.Key == Key.Enter)
+            get => _accountDetailsViewModel;
+            set
             {
-                btnSave.IsDefault = true;
-            }
-        }
-        private void OnVerificationKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                btnVerifyAccount.IsDefault = true;
+                _accountDetailsViewModel = value;
+                OnPropertyChanged(nameof(AccountDetailsViewModel));
             }
         }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) btnSave.IsDefault = true;
+        }
+
+        private void OnVerificationKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) btnVerifyAccount.IsDefault = true;
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -68,4 +64,3 @@ namespace DominatorUIUtility.CustomControl
         }
     }
 }
-

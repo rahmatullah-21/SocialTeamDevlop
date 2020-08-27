@@ -7,22 +7,19 @@ namespace DominatorUIUtility.Behaviours
 {
     public class SelectionChangedBehaviour
     {
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command", typeof(ICommand),
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command",
+            typeof(ICommand),
             typeof(SelectionChangedBehaviour), new PropertyMetadata(PropertyChangedCallback));
 
         public static void PropertyChangedCallback(DependencyObject depObj, DependencyPropertyChangedEventArgs args)
         {
-            Selector selector = (Selector)depObj;
-            if (selector != null)
-            {
-                selector.SelectionChanged += SelectionChanged;
-            }
-
+            var selector = (Selector) depObj;
+            if (selector != null) selector.SelectionChanged += SelectionChanged;
         }
 
         public static ICommand GetCommand(UIElement element)
         {
-            return (ICommand)element.GetValue(CommandProperty);
+            return (ICommand) element.GetValue(CommandProperty);
         }
 
         public static void SetCommand(UIElement element, ICommand command)
@@ -32,14 +29,11 @@ namespace DominatorUIUtility.Behaviours
 
         private static void SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Selector selector = (Selector)sender;
+            var selector = (Selector) sender;
             if (selector != null)
             {
-                ICommand command = selector.GetValue(CommandProperty) as ICommand;
-                if (command != null)
-                {
-                    command.Execute(selector.SelectedItem);
-                }
+                var command = selector.GetValue(CommandProperty) as ICommand;
+                if (command != null) command.Execute(selector.SelectedItem);
             }
         }
     }

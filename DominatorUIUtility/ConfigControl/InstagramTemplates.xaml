@@ -5,14 +5,16 @@
         <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
             <GroupBox.Header>
                 <Grid>
-                    <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
-                    <Button Command="{Binding SaveCmd}"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
+                    <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left"
+                           Foreground="White" />
+                    <Button Command="{Binding SaveCmd}" Background="{DynamicResource AccentBaseColorBrush}"
+                            Foreground="White"
                             VerticalAlignment="Center" HorizontalAlignment="Right">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="15" Height="15" Fill="White">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
+                                        <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <AccessText Margin="6,0" Text="{DynamicResource LangKey_Save}" />
@@ -22,8 +24,9 @@
                 </Grid>
             </GroupBox.Header>
             <StackPanel Margin="10" DataContext="{Binding InstagramUserModel}">
-                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableScrapeDifferentUsersAcrossAllInstagramAccountsConfiguredInInstagram}"
-                          IsChecked="{Binding IsEnableScrapeDiffrentUserChecked}"/>
+                <CheckBox Margin="5"
+                          Content="{DynamicResource LangKeyEnableScrapeDifferentUsersAcrossAllInstagramAccountsConfiguredInInstagram}"
+                          IsChecked="{Binding IsEnableScrapeDiffrentUserChecked}" />
             </StackPanel>
         </GroupBox>
     </ControlTemplate>

@@ -1,15 +1,11 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using Prism.Commands;
-using Prism.Regions;
+﻿using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-   
     public interface IUnjoinViewModel
     {
     }
+
     public class UnjoinViewModel : StartupBaseViewModel, IUnjoinViewModel
     {
         public UnjoinViewModel(IRegionManager region) : base(region)

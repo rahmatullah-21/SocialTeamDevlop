@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
-using System.Text.RegularExpressions;
 
 namespace DominatorUIUtility.ViewModel
 {
     public class AccountsActivityDetailModel : BindableBase
     {
+        private string _showMoreButtonText = "LangKeyMore".FromResourceDictionary();
         public string AccountName { get; set; }
 
         public string AccountId { get; set; }
@@ -15,21 +16,25 @@ namespace DominatorUIUtility.ViewModel
 
         public ObservableCollection<ActivityDetailsModel> ActivityDetailsCollections { get; set; }
 
-        string _showMoreButtonText = "LangKeyMore".FromResourceDictionary();
-        public string ShowMoreButtonText { get=> _showMoreButtonText; set { SetProperty(ref _showMoreButtonText, value); } }
+        public string ShowMoreButtonText
+        {
+            get => _showMoreButtonText;
+            set => SetProperty(ref _showMoreButtonText, value);
+        }
     }
 
     public class ActivityDetailsModel : BindableBase
     {
-
         private string _accountId = string.Empty;
+        private string _activityTitle;
+
+        private bool _status;
+
+        private ActivityType _title;
 
         public string AccountId
         {
-            get
-            {
-                return _accountId;
-            }
+            get => _accountId;
             set
             {
                 if (_accountId == value)
@@ -38,13 +43,9 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private ActivityType _title;
         public ActivityType Title
         {
-            get
-            {
-                return _title;
-            }
+            get => _title;
             set
             {
                 if (_title == value)
@@ -52,14 +53,13 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _title, value);
             }
         }
-        private string _activityTitle;
 
         public string ActivityTitle
         {
             get
             {
                 _activityTitle = Regex.Replace(Title.ToString(), "(\\B[A-Z])", " $1");
-                    return _activityTitle;
+                return _activityTitle;
             }
             set
             {
@@ -67,16 +67,11 @@ namespace DominatorUIUtility.ViewModel
                     return;
                 SetProperty(ref _activityTitle, value);
             }
-
         }
 
-        private bool _status;
         public bool Status
         {
-            get
-            {
-                return _status;
-            }
+            get => _status;
             set
             {
                 if (_status == value)

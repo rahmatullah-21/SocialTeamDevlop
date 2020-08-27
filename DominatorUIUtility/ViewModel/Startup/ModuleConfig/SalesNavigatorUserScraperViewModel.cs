@@ -1,22 +1,23 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface ISalesNavigatorUserScraperViewModel
     {
     }
+
     public class SalesNavigatorUserScraperViewModel : StartupBaseViewModel, ISalesNavigatorUserScraperViewModel
     {
         public SalesNavigatorUserScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SalesNavigatorUserScraper });
+            ViewModelToSave.Add(
+                new ActivityConfig {Model = this, ActivityType = ActivityType.SalesNavigatorUserScraper});
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);

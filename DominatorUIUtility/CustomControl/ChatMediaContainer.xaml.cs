@@ -4,10 +4,17 @@ using System.Windows;
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for ChatMediaContainer.xaml
+    ///     Interaction logic for ChatMediaContainer.xaml
     /// </summary>
     public partial class ChatMediaContainer
     {
+        public static readonly DependencyProperty ListMediaUrlsProperty =
+            DependencyProperty.Register("ListMediaUrls", typeof(ObservableCollection<string>),
+                typeof(ChatMediaContainer), new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
         public ChatMediaContainer()
         {
             InitializeComponent();
@@ -15,21 +22,8 @@ namespace DominatorUIUtility.CustomControl
 
         public ObservableCollection<string> ListMediaUrls
         {
-            get
-            {
-                return (ObservableCollection<string>)GetValue(ListMediaUrlsProperty);
-            }
-            set
-            {
-                SetValue(ListMediaUrlsProperty, value);
-            }
+            get => (ObservableCollection<string>) GetValue(ListMediaUrlsProperty);
+            set => SetValue(ListMediaUrlsProperty, value);
         }
-
-
-        public static readonly DependencyProperty ListMediaUrlsProperty =
-            DependencyProperty.Register("ListMediaUrls", typeof(ObservableCollection<string>), typeof(ChatMediaContainer), new FrameworkPropertyMetadata()
-            {
-                BindsTwoWayByDefault = true
-            });
     }
 }

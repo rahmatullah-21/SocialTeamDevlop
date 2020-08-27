@@ -477,7 +477,6 @@
     <Compile Include="Diagnostics\Exceptions\GlobusExceptionHandler.cs" />
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
-    <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
     <Compile Include="Diagnostics\NetworkCoreLibraryBuilder.cs" />
     <Compile Include="Diagnostics\PublisherInitialize.cs" />
     <Compile Include="Diagnostics\SocinatorAccountBuilder.cs" />

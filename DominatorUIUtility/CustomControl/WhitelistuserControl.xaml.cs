@@ -1,31 +1,28 @@
-﻿using DominatorHouseCore.Annotations;
-using DominatorUIUtility.ViewModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using DominatorHouseCore.Annotations;
+using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for WhitelistuserControl.xaml
+    ///     Interaction logic for WhitelistuserControl.xaml
     /// </summary>
     public partial class WhitelistuserControl
     {
+        private WhiteListViewModel _whiteListViewModel = new WhiteListViewModel();
+
         public WhitelistuserControl()
         {
             InitializeComponent();
-           
+
             MainGrid.DataContext = WhiteListViewModel;
             WhiteListViewModel.InitializeData();
         }
 
-        private WhiteListViewModel _whiteListViewModel = new WhiteListViewModel();
-
         public WhiteListViewModel WhiteListViewModel
         {
-            get
-            {
-                return _whiteListViewModel;
-            }
+            get => _whiteListViewModel;
             set
             {
                 if (_whiteListViewModel == value)
@@ -44,7 +41,6 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-      
 
         //private void BtnAddtoWhitelist_OnClick(object sender, RoutedEventArgs e)
         //{

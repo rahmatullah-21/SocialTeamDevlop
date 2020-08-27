@@ -1,47 +1,46 @@
-﻿using DominatorHouseCore.Models;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for ManageComment.xaml
+    ///     Interaction logic for ManageComment.xaml
     /// </summary>
     public partial class ManageComment
     {
+        // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LstManageCommentModelProperty =
+            DependencyProperty.Register("LstManageCommentModel", typeof(ObservableCollection<ManageCommentModel>),
+                typeof(ManageComment), new PropertyMetadata());
+
         public ManageComment()
         {
             InitializeComponent();
             MainGrid.DataContext = this;
-
         }
 
 
         public ObservableCollection<ManageCommentModel> LstManageCommentModel
         {
-            get { return (ObservableCollection<ManageCommentModel>)GetValue(LstManageCommentModelProperty); }
-            set { SetValue(LstManageCommentModelProperty, value); }
+            get => (ObservableCollection<ManageCommentModel>) GetValue(LstManageCommentModelProperty);
+            set => SetValue(LstManageCommentModelProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LstManageCommentModelProperty =
-            DependencyProperty.Register("LstManageCommentModel", typeof(ObservableCollection<ManageCommentModel>), typeof(ManageComment), new PropertyMetadata());
 
         private void BtnAction_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                ((Button)sender).ContextMenu.DataContext = ((Button)sender).DataContext;
-                ((Button)sender).ContextMenu.IsOpen = true;
+                ((Button) sender).ContextMenu.DataContext = ((Button) sender).DataContext;
+                ((Button) sender).ContextMenu.IsOpen = true;
             }
             catch (Exception)
             {
-
             }
         }
 
@@ -49,13 +48,13 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var currentItem = ((FrameworkElement)sender).DataContext as ManageCommentModel;
+                var currentItem = ((FrameworkElement) sender).DataContext as ManageCommentModel;
                 if (currentItem == null)
                     return;
 
                 var editComment = new CommentControl
                 {
-                    btnAddCommentToList = { Content = "Update Comment" },
+                    btnAddCommentToList = {Content = "Update Comment"},
                     Comments = new ManageCommentModel
                     {
                         CommentText = currentItem.CommentText,
@@ -70,12 +69,13 @@ namespace DominatorUIUtility.CustomControl
                 editComment.Comments.LstQueries.ToList().ForEach(x =>
                 {
                     x.IsContentSelected = false;
-                    if (editComment.Comments.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType))
+                    if (editComment.Comments.SelectedQuery.Any(y =>
+                        y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType))
                         x.IsContentSelected = true;
                 });
                 editComment.MainGrid.Margin = new Thickness(20);
-                Dialog dialog = new Dialog();
-                Window window = dialog.GetMetroWindow(editComment, "Edit comment");
+                var dialog = new Dialog();
+                var window = dialog.GetMetroWindow(editComment, "Edit comment");
                 window.Closed += (s, evnt) =>
                 {
                     if (editComment.Isupdated)
@@ -87,7 +87,6 @@ namespace DominatorUIUtility.CustomControl
                     currentItem.LstQueries.Select(query => query.IsContentSelected = false).ToList();
                 };
                 window.ShowDialog();
-              
             }
             catch (Exception ex)
             {
@@ -97,7 +96,7 @@ namespace DominatorUIUtility.CustomControl
 
         private void DeleteSingleComment_Click(object sender, RoutedEventArgs e)
         {
-            var currentItem = ((FrameworkElement)sender).DataContext as ManageCommentModel;
+            var currentItem = ((FrameworkElement) sender).DataContext as ManageCommentModel;
             LstManageCommentModel.Remove(currentItem);
         }
     }

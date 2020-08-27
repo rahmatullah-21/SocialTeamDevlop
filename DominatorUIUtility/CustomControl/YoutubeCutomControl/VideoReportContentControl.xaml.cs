@@ -1,25 +1,61 @@
-﻿using DominatorHouseCore;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DominatorHouseCore;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
 {
     public partial class VideoReportContentControl
     {
+        private static readonly RoutedEvent AddCommentToListEvent =
+            EventManager.RegisterRoutedEvent("AddCommentToListChanged", RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(VideoReportContentControl));
+
+        // Using a DependencyProperty as the backing store for ReportDetails.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ReportDetailsProperty =
+            DependencyProperty.Register("ReportDetails", typeof(ManageReportVideosContentModel),
+                typeof(VideoReportContentControl), new PropertyMetadata());
+
+        // Using a DependencyProperty as the backing store for ListReportDetailsModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ListReportDetailsModelProperty =
+            DependencyProperty.Register("ListReportDetailsModel",
+                typeof(ObservableCollection<ManageReportVideosContentModel>), typeof(VideoReportContentControl),
+                new PropertyMetadata(new ObservableCollection<ManageReportVideosContentModel>()));
+
+        public static readonly DependencyProperty SplitTextByNextLineProperty =
+            DependencyProperty.Register("SplitTextByNextLine", typeof(bool), typeof(VideoReportContentControl),
+                new PropertyMetadata(new bool()));
+
+        // Using a DependencyProperty as the backing store for AddReportDetailsCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AddReportDetailsCommandProperty =
+            DependencyProperty.Register("AddReportDetailsCommand", typeof(ICommand), typeof(VideoReportContentControl));
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(VideoReportContentControl),
+                new PropertyMetadata());
+
+        private bool _isUncheckfromList;
+
         public VideoReportContentControl()
         {
             InitializeComponent();
             MainGrid.DataContext = this;
-            AddReportDetailsCommand = new BaseCommand<object>((sender) => true, AddCommentsExecute);
-            CmbReportOption.ItemsSource = new List<string>() { "Sexual content", "Violent or repulsive content", "Hateful or abusive content", "Harmful dangerous acts", "Child abuse", "Promotes terrorism", "Spam or misleading", "Infringes my rights", "Captions issue" };
+            AddReportDetailsCommand = new BaseCommand<object>(sender => true, AddCommentsExecute);
+            CmbReportOption.ItemsSource = new List<string>
+            {
+                "Sexual content", "Violent or repulsive content", "Hateful or abusive content",
+                "Harmful dangerous acts", "Child abuse", "Promotes terrorism", "Spam or misleading",
+                "Infringes my rights", "Captions issue"
+            };
         }
 
         public VideoReportContentControl(int optionIndex, int subOptionIndex) : this()
@@ -29,52 +65,50 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
             SplitByNextLine.Visibility = Visibility.Collapsed;
         }
 
-        private static readonly RoutedEvent AddCommentToListEvent =
-       EventManager.RegisterRoutedEvent("AddCommentToListChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
-           typeof(VideoReportContentControl));
+
+        public ManageReportVideosContentModel ReportDetails
+        {
+            get => (ManageReportVideosContentModel) GetValue(ReportDetailsProperty);
+            set => SetValue(ReportDetailsProperty, value);
+        }
+
+        public ObservableCollection<ManageReportVideosContentModel> ListReportDetailsModel
+        {
+            get => (ObservableCollection<ManageReportVideosContentModel>) GetValue(ListReportDetailsModelProperty);
+            set => SetValue(ListReportDetailsModelProperty, value);
+        }
+
+        public bool SplitTextByNextLine
+        {
+            get => (bool) GetValue(SplitTextByNextLineProperty);
+            set => SetValue(SplitTextByNextLineProperty, value);
+        }
+
+        public bool Isupdated { get; set; }
+
+        public ICommand AddReportDetailsCommand
+        {
+            get => (ICommand) GetValue(AddReportDetailsCommandProperty);
+            set => SetValue(AddReportDetailsCommandProperty, value);
+        }
+
+        public object CommandParameter
+        {
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
+        }
 
         public event RoutedEventHandler AddCommentToListChanged
         {
-            add { AddHandler(AddCommentToListEvent, value); }
-            remove { RemoveHandler(AddCommentToListEvent, value); }
+            add => AddHandler(AddCommentToListEvent, value);
+            remove => RemoveHandler(AddCommentToListEvent, value);
         }
 
-        void AddCommentToListEventHandler()
+        private void AddCommentToListEventHandler()
         {
             var routedEventArgs = new RoutedEventArgs(AddCommentToListEvent);
             RaiseEvent(routedEventArgs);
         }
-
-
-        public ManageReportVideosContentModel ReportDetails
-        {
-            get { return (ManageReportVideosContentModel)GetValue(ReportDetailsProperty); }
-            set { SetValue(ReportDetailsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ReportDetails.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ReportDetailsProperty =
-            DependencyProperty.Register("ReportDetails", typeof(ManageReportVideosContentModel), typeof(VideoReportContentControl), new PropertyMetadata());
-
-        public ObservableCollection<ManageReportVideosContentModel> ListReportDetailsModel
-        {
-            get { return (ObservableCollection<ManageReportVideosContentModel>)GetValue(ListReportDetailsModelProperty); }
-            set { SetValue(ListReportDetailsModelProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ListReportDetailsModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ListReportDetailsModelProperty =
-            DependencyProperty.Register("ListReportDetailsModel", typeof(ObservableCollection<ManageReportVideosContentModel>), typeof(VideoReportContentControl), new PropertyMetadata(new ObservableCollection<ManageReportVideosContentModel>()));
-        
-        public bool SplitTextByNextLine
-        {
-            get { return (bool)GetValue(SplitTextByNextLineProperty); }
-            set { SetValue(SplitTextByNextLineProperty, value); }
-        }
-
-        public static readonly DependencyProperty SplitTextByNextLineProperty =
-            DependencyProperty.Register("SplitTextByNextLine", typeof(bool), typeof(VideoReportContentControl), new PropertyMetadata(new bool()));
-
 
 
         private void chkQuery_Checked(object sender, RoutedEventArgs e)
@@ -86,25 +120,25 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
         {
             CheckUncheckAll(sender, false);
         }
-        private bool _isUncheckfromList;
+
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
             try
             {
-                var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
+                var currentQuery = ((QueryContent) (sender as CheckBox).DataContext).Content.QueryValue;
                 if (!ReportDetails.LstQueries.Skip(1).All(x => x.IsContentSelected))
-                {
                     if (!IsChecked)
                     {
                         _isUncheckfromList = true;
                         ReportDetails.LstQueries[0].IsContentSelected = false;
                     }
-                }
+
                 if (ReportDetails.LstQueries.Skip(1).All(x => x.IsContentSelected))
                 {
                     _isUncheckfromList = false;
                     ReportDetails.LstQueries[0].IsContentSelected = IsChecked;
                 }
+
                 if (_isUncheckfromList)
                 {
                     _isUncheckfromList = false;
@@ -114,11 +148,19 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                 if (currentQuery == "All" || currentQuery == "Default")
                 {
                     _isUncheckfromList = false;
-                    ReportDetails.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+                    ReportDetails.LstQueries.ToList().Select(query =>
+                    {
+                        query.IsContentSelected = IsChecked;
+                        return query;
+                    }).ToList();
                 }
             }
-            catch (Exception ex) { ex.DebugLog(); }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
+
         private void AddCheckedQueryToList()
         {
             ReportDetails.SelectedQuery.Clear();
@@ -128,17 +170,6 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                     ReportDetails.SelectedQuery.Add(query);
             });
         }
-        public bool Isupdated { get; set; }
-
-        public ICommand AddReportDetailsCommand
-        {
-            get { return (ICommand)GetValue(AddReportDetailsCommandProperty); }
-            set { SetValue(AddReportDetailsCommandProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for AddReportDetailsCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AddReportDetailsCommandProperty =
-            DependencyProperty.Register("AddReportDetailsCommand", typeof(ICommand), typeof(VideoReportContentControl));
 
         private void AddCommentsExecute(object sender)
         {
@@ -152,6 +183,7 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                 Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "Please select atleast one query.");
                 return;
             }
+
             AddCheckedQueryToList();
             if (btnAddCommentToList.Content.ToString() == "LangKeyUpdate".FromResourceDictionary())
             {
@@ -165,10 +197,16 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                         x.ReportOption = CmbReportOption.SelectedIndex;
                         x.ReportSubOption = CmbReportSubOption.SelectedIndex;
                     }
+
                     return x;
                 }).ToList();
-                ReportDetails.SelectedQuery.Remove(ReportDetails.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
-                ReportDetails.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
+                ReportDetails.SelectedQuery.Remove(
+                    ReportDetails.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+                ReportDetails.LstQueries.Select(x =>
+                {
+                    x.IsContentSelected = false;
+                    return x;
+                }).ToList();
                 ReportDetails.ReportOption = CmbReportOption.SelectedIndex;
                 ReportDetails.ReportSubOption = CmbReportSubOption.SelectedIndex;
                 Isupdated = true;
@@ -180,16 +218,6 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
             }
         }
 
-        public object CommandParameter
-        {
-            get { return GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(VideoReportContentControl), new PropertyMetadata());
-
         private void CmbReportOption_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -199,26 +227,41 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                 if (getList != null)
                     CmbReportSubOption.SelectedIndex = 0;
             }
-            catch (Exception ex) { ex.DebugLog(); }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
-        List<string> SetSubOptions(int optionIndex)
+        private List<string> SetSubOptions(int optionIndex)
         {
             CmbReportSubOption.Visibility = Visibility.Visible;
             var list = new List<string>();
-            switch(optionIndex)
+            switch (optionIndex)
             {
                 case 0:
-                    list = new List<string> { "Graphic sexual activity", "Nudity", "Suggestive, but without nudity", "Content involving minors", "Abusive title or description", "Other sexual content" };
+                    list = new List<string>
+                    {
+                        "Graphic sexual activity", "Nudity", "Suggestive, but without nudity",
+                        "Content involving minors", "Abusive title or description", "Other sexual content"
+                    };
                     break;
                 case 1:
-                    list = new List<string> { "Adults fighting", "Physical attack", "Youth violence", "Animal abuse" };
+                    list = new List<string> {"Adults fighting", "Physical attack", "Youth violence", "Animal abuse"};
                     break;
                 case 2:
-                    list = new List<string> { "Promotes hatred or violence", "Abusing vulnerable individuals", "Bullying", "Abusive title or description" };
+                    list = new List<string>
+                    {
+                        "Promotes hatred or violence", "Abusing vulnerable individuals", "Bullying",
+                        "Abusive title or description"
+                    };
                     break;
                 case 3:
-                    list = new List<string> { "Pharmaceutical or drug abuse", "Abuse of fire or explosives", "Suicide or self injury", "Other dangerous acts" };
+                    list = new List<string>
+                    {
+                        "Pharmaceutical or drug abuse", "Abuse of fire or explosives", "Suicide or self injury",
+                        "Other dangerous acts"
+                    };
                     break;
                 case 4:
                 case 5:
@@ -226,17 +269,21 @@ namespace DominatorUIUtility.CustomControl.YoutubeCutomControl
                     list?.Clear();
                     return null;
                 case 6:
-                    list = new List<string> { "Mass advertising", "Pharmaceutical drugs for sale", "Misleading text", "Misleading thumbnail", "Scams/fraud" };
+                    list = new List<string>
+                    {
+                        "Mass advertising", "Pharmaceutical drugs for sale", "Misleading text", "Misleading thumbnail",
+                        "Scams/fraud"
+                    };
                     break;
                 case 7:
-                    list = new List<string> { "Infringes my copyright", "Invades my privacy", "Other legal claim" };
+                    list = new List<string> {"Infringes my copyright", "Invades my privacy", "Other legal claim"};
                     break;
                 case 8:
-                    list = new List<string> { "Captions are missing (CVAA)", "Captions are inaccurate", "Captions are abusive" };
-                    break;
-                default:
+                    list = new List<string>
+                        {"Captions are missing (CVAA)", "Captions are inaccurate", "Captions are abusive"};
                     break;
             }
+
             return list;
         }
     }

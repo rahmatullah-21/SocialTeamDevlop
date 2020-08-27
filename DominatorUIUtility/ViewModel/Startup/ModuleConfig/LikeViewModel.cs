@@ -1,21 +1,22 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface ILikeViewModel
     {
     }
+
     public class LikeViewModel : StartupBaseViewModel, ILikeViewModel
     {
         public LikeViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Like });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.Like});
 
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);

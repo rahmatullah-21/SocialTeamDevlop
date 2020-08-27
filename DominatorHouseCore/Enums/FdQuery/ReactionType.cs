@@ -42,6 +42,7 @@ namespace DominatorHouseCore.Enums.FdQuery
 
         [Description("Sad")] Sad = 5,
 
+        // ReSharper disable once UnusedMember.Global
         [Description("Angry")] Angry = 6,
 
         [Description("Share")] Share = 7,

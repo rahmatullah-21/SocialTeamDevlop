@@ -2,35 +2,39 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Input;
 using DominatorHouseCore;
+using DominatorHouseCore.Command;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using System.Windows;
-using System.Windows.Input;
-using DominatorHouseCore.Command;
 
 namespace DominatorUIUtility.ViewModel
 {
     public class SelectAccountViewModel : BindableBase
     {
-        public SelectAccountViewModel()
-        {
-            SelectSingle = new BaseCommand<object>((sender) => true, SingleAccountSelector);
-        }
-        public ICommand SelectSingle { get; set; }
-        private bool _isUncheckFromList;
+        private ICollectionView _accountCollectionView;
 
 
         private bool _isAllAccountSelected;
+        private bool _isUncheckFromList;
+
+        private ObservableCollection<SelectAccountModel> _lstSelectAccount =
+            new ObservableCollection<SelectAccountModel>();
+
+        private SelectAccountModel _selectAccountModel = new SelectAccountModel();
+
+        public SelectAccountViewModel()
+        {
+            SelectSingle = new BaseCommand<object>(sender => true, SingleAccountSelector);
+        }
+
+        public ICommand SelectSingle { get; set; }
+
         public bool IsAllAccountSelected
         {
-            get
-            {
-                return _isAllAccountSelected;
-            }
+            get => _isAllAccountSelected;
             set
             {
-
                 if (_isAllAccountSelected == value)
                     return;
                 SetProperty(ref _isAllAccountSelected, value);
@@ -38,36 +42,28 @@ namespace DominatorUIUtility.ViewModel
                 _isUncheckFromList = false;
             }
         }
-        private SelectAccountModel _selectAccountModel = new SelectAccountModel();
 
         public SelectAccountModel SelectAccountModel
         {
-            get { return _selectAccountModel; }
-            set { SetProperty(ref _selectAccountModel, value); }
+            get => _selectAccountModel;
+            set => SetProperty(ref _selectAccountModel, value);
         }
-
-        private ICollectionView _accountCollectionView;
 
         public ICollectionView AccountCollectionView
         {
-            get
-            {
-                return _accountCollectionView;
-            }
+            get => _accountCollectionView;
             set
             {
                 if (_accountCollectionView != null && _accountCollectionView == value)
                     return;
                 SetProperty(ref _accountCollectionView, value);
-
             }
         }
 
-        private ObservableCollection<SelectAccountModel> _lstSelectAccount = new ObservableCollection<SelectAccountModel>();
         public ObservableCollection<SelectAccountModel> LstSelectAccount
         {
-            get { return _lstSelectAccount; }
-            set { SetProperty(ref _lstSelectAccount, value); }
+            get => _lstSelectAccount;
+            set => SetProperty(ref _lstSelectAccount, value);
         }
 
         /// <summary>
@@ -97,18 +93,20 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
+
         public void AccountGroupSelected()
         {
             try
             {
                 var selectedGroups = SelectAccountModel.Groups.Count(x => x.IsContentSelected);
-                SelectAccountModel.GroupText = $"{selectedGroups} {"LangKeyGroupSSelected".FromResourceDictionary()?.ToString()}";
+                SelectAccountModel.GroupText = $"{selectedGroups} {"LangKeyGroupSSelected".FromResourceDictionary()}";
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
         }
+
         /// <summary>
         ///     SelectDeselectAllAccount method take a boolean value.
         ///     pass true if you want to select all account.
@@ -124,7 +122,8 @@ namespace DominatorUIUtility.ViewModel
 
                 var list = AccountCollectionView.Cast<SelectAccountModel>();
                 var selectFromlist = LstSelectAccount.Count == list.Count()
-                                     ? LstSelectAccount.ToList() : LstSelectAccount.Intersect(list).ToList();
+                    ? LstSelectAccount.ToList()
+                    : LstSelectAccount.Intersect(list).ToList();
 
 
                 selectFromlist.Select(x =>
@@ -145,7 +144,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        void CompareModelAndSelectionList()
+        private void CompareModelAndSelectionList()
         {
             var collectionList = AccountCollectionView.Cast<SelectAccountModel>();
             if (collectionList.Count().Equals(0))

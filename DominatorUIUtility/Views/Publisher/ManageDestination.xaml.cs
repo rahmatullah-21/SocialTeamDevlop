@@ -5,13 +5,13 @@ using DominatorUIUtility.Behaviours;
 namespace DominatorUIUtility.Views.Publisher
 {
     /// <summary>
-    /// Interaction logic for ManageDestination.xaml
+    ///     Interaction logic for ManageDestination.xaml
     /// </summary>
     public partial class ManageDestination : UserControl
-    {       
+    {
         public ManageDestination()
         {
-            InitializeComponent();                    
+            InitializeComponent();
         }
 
         private void ButtonCreateDestination_OnClick(object sender, RoutedEventArgs e)
@@ -24,7 +24,9 @@ namespace DominatorUIUtility.Views.Publisher
             PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
         }
 
-        private void OpenContextMenu_OnClick(object sender, RoutedEventArgs e) 
-            => ViewUtilites.OpenContextMenu(sender);
+        private void OpenContextMenu_OnClick(object sender, RoutedEventArgs e)
+        {
+            ViewUtilites.OpenContextMenu(sender);
+        }
     }
 }
