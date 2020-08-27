@@ -13,6 +13,11 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class TimingRange
     {
+        public TimingRange()
+        {
+
+        }
+
         // Constructor for initialize the start time and end time to local property
         public TimingRange(TimeSpan startTime, TimeSpan endTime)
         {
