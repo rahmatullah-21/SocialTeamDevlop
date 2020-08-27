@@ -19,8 +19,6 @@ namespace DominatorHouseCore.Utility
 
         public static int FloodWait => 60000;
 
-        public static string IG_SIG_KEY => "SIGNATURE";
-
         public static string INSTAGRAM_BASE_URL => "https://i.instagram.com/";
 
         public static string INSTAGRAM_B_BASE_URL => "https://b.i.instagram.com/";
