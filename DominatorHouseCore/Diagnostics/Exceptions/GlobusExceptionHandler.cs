@@ -40,61 +40,6 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
             }
         }
 
-        // Call to disable error report dialogs over System
-        public static void DisableErrorDialogForSystem()
-        {
-            //[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting]
-            //"ForceQueue"=dword:00000001
-            try
-            {
-                var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting", true);
-                key.SetValue("ForceQueue", 1);
-
-                key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting", true);
-                key.SetValue("ForceQueue", 1);
-            }
-            catch
-            {
-            }
-
-            //[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\Consent]
-            //"DefaultConsent"=dword:00000001
-            try
-            {
-                var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting\Consent",
-                    true);
-                if (key != null)
-                    key.SetValue("DefaultConsent", 1);
-
-                key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting\Consent",
-                    true);
-                if (key != null)
-                    key.SetValue("DefaultConsent", 1);
-            }
-            catch
-            {
-            }
-
-            // [HKLM|HKCU]\Software\Microsoft\Windows\Windows Error Reporting\DontShowUI
-            try
-            {
-                var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting", true);
-                key.SetValue("DontShowUI", 1);
-            }
-            catch
-            {
-            }
-
-            try
-            {
-                var key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting", true);
-                key.SetValue("DontShowUI", 1);
-            }
-            catch
-            {
-            }
-        }
-
         public static void SetupGlobalExceptionHandlers()
         {
             AppDomain.CurrentDomain.UnhandledException += (o, e) =>

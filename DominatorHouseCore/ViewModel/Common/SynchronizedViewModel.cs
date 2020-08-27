@@ -12,7 +12,6 @@ namespace DominatorHouseCore.ViewModel.Common
     public abstract class SynchronizedViewModel : BindableBase
     {
         private readonly SemaphoreSlim _asyncSyncContext = new SemaphoreSlim(1, 1);
-        private readonly object _syncContext = new object();
         private bool _isRunning;
 
         public bool IsRunning

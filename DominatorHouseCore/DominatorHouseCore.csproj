@@ -341,13 +341,11 @@
     <Compile Include="DatabaseHandler\GdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Communities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Friendship.cs" />
-    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedGplusComments.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\UnfollowedUsers.cs" />
-    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedGplusCommentsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedPostsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedUsersReport.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\Connections.cs" />
@@ -502,7 +500,6 @@
     <Compile Include="Enums\FdQuery\ReactionType.cs" />
     <Compile Include="Enums\GdQuery\GdPostQuery.cs" />
     <Compile Include="Enums\GdQuery\GdUserQuery.cs" />
-    <Compile Include="Enums\KeyboardKeys.cs" />
     <Compile Include="Enums\LdQuery\LDEngageQueryParameters.cs" />
     <Compile Include="Enums\LdQuery\LDMessengerQueryParameters.cs" />
     <Compile Include="Enums\LoginType.cs" />
@@ -605,7 +602,6 @@
     <Compile Include="Interfaces\StartUp\IStartUpSearchQuery.cs" />
     <Compile Include="Models\AccessorStrategies.cs" />
     <Compile Include="Models\AddPostModel.cs" />
-    <Compile Include="Models\AutoReplyMessegeModel.cs" />
     <Compile Include="Models\FacebookModels\EventCreaterManagerModel.cs" />
     <Compile Include="Models\FacebookModels\FbMultiMediaModel.cs" />
     <Compile Include="Models\FacebookModels\InviterDetails.cs" />
@@ -713,7 +709,6 @@
     <Compile Include="StartupActivity\Twitter\TwitterUserActivity.cs" />
     <Compile Include="StartupActivity\Youtube\YoutubeActivity.cs" />
     <Compile Include="StartupActivity\Youtube\YoutubeChannelActivity.cs" />
-    <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
     <Compile Include="UIExtensions\GridViewExtension.cs" />
     <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
     <Compile Include="Utility\AccountScopeFactory.cs" />
@@ -726,7 +721,6 @@
     <Compile Include="Utility\JsonHandler.cs" />
     <Compile Include="Utility\LockFileConfigProvider.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
-    <Compile Include="Utility\MapperProvider.cs" />
     <Compile Include="Utility\MediaFetcherUtilities.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
@@ -905,7 +899,6 @@
     <Compile Include="ViewModel\DestinationDetailsCollection.cs" />
     <Compile Include="ViewModel\DestinationSelectionList.cs" />
     <Compile Include="ViewModel\LiveChatViewModel.cs" />
-    <Compile Include="ViewModel\ManageDestinationViewModel.cs" />
     <Compile Include="ViewModel\DailyStatisticsViewModel.cs" />
     <Compile Include="ViewModel\BaseTabViewModel.cs" />
     <Compile Include="ViewModel\TablifiedContentControlViewModel.cs" />

@@ -15,6 +15,7 @@ namespace DominatorHouseCore.DatabaseHandler.TtdTables.Accounts
 
         [Column(Order = 4)] public int FollowedBack { get; set; }
 
+        // ReSharper disable once UnusedMember.Global
         [Column(Order = 5)] public int FollowedBackDate { get; set; }
 
         [Column(Order = 6)] public int Date { get; set; }

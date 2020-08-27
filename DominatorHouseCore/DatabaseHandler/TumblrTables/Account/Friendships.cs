@@ -16,6 +16,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
+        // ReSharper disable once UnusedMember.Global
         public int DetailedInfoHasBeenRetrievedAtleastOnce { get; set; }
 
 

@@ -413,10 +413,6 @@ namespace DominatorHouseCore.Diagnostics
     {
         #region Constructors
 
-        public PublisherCoreLibraryBuilder()
-        {
-        }
-
         public PublisherCoreLibraryBuilder(IPublisherCoreFactory publisherCoreFactory)
         {
             PublisherCoreFactory = publisherCoreFactory;

@@ -82,12 +82,6 @@ namespace DominatorUIUtility.CustomControl
             remove { RemoveHandler(InfoRoutedEvent, value); }
         }
 
-        void RaiseInfoEventHandler()
-        {
-            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(InfoRoutedEvent);
-            RaiseEvent(objRoutedEventArgs);
-        }
-
         static readonly RoutedEvent CancelEditRoutedEvent = EventManager.RegisterRoutedEvent("CancelEditClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(HeaderControl));
 
         public event RoutedEventHandler CancelEditClick

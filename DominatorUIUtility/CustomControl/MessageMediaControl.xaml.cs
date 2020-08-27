@@ -27,22 +27,6 @@ namespace DominatorUIUtility.CustomControl
             AddMessagesCommand = new BaseCommand<object>((sender) => true, AddMessagesExecute);
 
         }
-        private static readonly RoutedEvent AddMessagesToListEvent =
-                EventManager.RegisterRoutedEvent("AddMessagesToListChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
-      typeof(MessageMediaControl));
-
-        public event RoutedEventHandler AddMessagesToListChanged
-        {
-            add { AddHandler(AddMessagesToListEvent, value); }
-            remove { RemoveHandler(AddMessagesToListEvent, value); }
-        }
-
-        void AddCommentToListEventHandler()
-        {
-            var routedEventArgs = new RoutedEventArgs(AddMessagesToListEvent);
-            RaiseEvent(routedEventArgs);
-        }
-
 
         public ManageMessagesModel Messages
         {
@@ -202,10 +186,6 @@ namespace DominatorUIUtility.CustomControl
                 Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
                 Isupdated = true;
                 Dialog.CloseDialog(this);
-            }
-            else
-            {
-                AddCommentToListEventHandler();
             }
         }
 

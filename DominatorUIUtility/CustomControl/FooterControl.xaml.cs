@@ -121,12 +121,6 @@ namespace DominatorUIUtility.CustomControl
             remove { RemoveHandler(SelectAccountChangedRoutedEvent, value); }
         }
 
-        void SelectAccountChangedEventHandler()
-        {
-            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(SelectAccountChangedRoutedEvent);
-            RaiseEvent(objRoutedEventArgs);
-        }
-
         /// <summary>
         /// Create campaign event registeration
         /// </summary>
@@ -137,12 +131,6 @@ namespace DominatorUIUtility.CustomControl
         {
             add { AddHandler(CreateCampaignChangedRoutedEvent, value); }
             remove { RemoveHandler(CreateCampaignChangedRoutedEvent, value); }
-        }
-
-        void CreateCampaignChangedEventHandler()
-        {
-            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(CreateCampaignChangedRoutedEvent);
-            RaiseEvent(objRoutedEventArgs);
         }
 
         /// <summary>
@@ -158,13 +146,6 @@ namespace DominatorUIUtility.CustomControl
             add { AddHandler(UpdateCampaignChangedRoutedEvent, value); }
             remove { RemoveHandler(UpdateCampaignChangedRoutedEvent, value); }
         }
-
-        void UpdateCampaignChangedEventHandler()
-        {
-            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(UpdateCampaignChangedRoutedEvent);
-            RaiseEvent(objRoutedEventArgs);
-        }
-
 
         public ICommand CreateCampaignCommand
         {

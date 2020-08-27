@@ -25,6 +25,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
         [Column(Order = 8)] public int UploadedDate { get; set; }
 
+        // ReSharper disable once UnusedMember.Global
         [Column(Order = 9)] public string PostOwnerId { get; set; }
 
         [Column(Order = 10)] public string PostOwnerName { get; set; }

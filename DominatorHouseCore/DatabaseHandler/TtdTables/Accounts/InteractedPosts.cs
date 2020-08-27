@@ -45,6 +45,7 @@ namespace DominatorHouseCore.DatabaseHandler.TtdTables.Accounts
 
         [Column(Order = 12)] public string CommentCount { get; set; }
 
+        // ReSharper disable once UnusedMember.Global
         [Column(Order = 13)] public string DiggCount { get; set; }
 
         [Column(Order = 14)] public string DownloadCount { get; set; }

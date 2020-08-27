@@ -37,6 +37,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Campaigns
         public int UploadedDate { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
+        // ReSharper disable once UnusedMember.Global
         public string PostOwnerId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]

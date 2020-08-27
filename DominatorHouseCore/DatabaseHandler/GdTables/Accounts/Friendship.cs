@@ -22,6 +22,7 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
+        // ReSharper disable once UnusedMember.Global
         public int DetailedInfoWillNotBeRetrieved { get; set; }
 
 

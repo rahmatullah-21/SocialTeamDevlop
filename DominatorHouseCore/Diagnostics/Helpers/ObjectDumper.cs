@@ -28,17 +28,6 @@ namespace DominatorHouseCore.Diagnostics.Helpers
             _hashListOfFoundElements = new List<int>();
         }
 
-        public static string Dump(object element)
-        {
-            return Dump(element, 2);
-        }
-
-        public static string Dump(object element, int indentSize)
-        {
-            var instance = new ObjectDumper(indentSize);
-            return instance.DumpElement(element);
-        }
-
         private string DumpElement(object element)
         {
             if (element == null || element is ValueType || element is string)

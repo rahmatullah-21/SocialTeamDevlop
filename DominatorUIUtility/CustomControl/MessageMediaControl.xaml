@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
              mc:Ignorable="d" >
     <StackPanel  x:Name="MainGrid">
         <Grid >
@@ -88,7 +89,7 @@
                 <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries"  x:FieldModifier="public"
                           ItemsSource="{Binding Messages.LstQueries,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="models:QueryContent">
                             <CheckBox  x:Name="chkQuery"
                                           IsChecked="{Binding IsContentSelected}" Checked="chkQuery_Checked" 
                                        Unchecked="chkQuery_Unchecked">

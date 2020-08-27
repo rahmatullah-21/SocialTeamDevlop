@@ -53,7 +53,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for JobConfiguration.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty JobConfigurationProperty =
-            DependencyProperty.Register("JobConfiguration", typeof(JobConfiguration), typeof(JobConfigControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("JobConfiguration", typeof(JobConfiguration), typeof(JobConfigControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true,
                 DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -68,7 +68,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for PerJobActivity.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PerJobActivityProperty =
-            DependencyProperty.Register("PerJobActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("PerJobActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true,
                 DefaultValue = "LangKeyUsers".FromResourceDictionary()
@@ -84,7 +84,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for PerHourActivity.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PerHourActivityProperty =
-            DependencyProperty.Register("PerHourActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("PerHourActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true,
                 DefaultValue = "LangKeyUsers".FromResourceDictionary()
@@ -99,7 +99,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for PerDayActivity.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PerDayActivityProperty =
-            DependencyProperty.Register("PerDayActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("PerDayActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true,
                 DefaultValue = "LangKeyUsers".FromResourceDictionary()
@@ -115,16 +115,12 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for PerWeekActivity.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PerWeekActivityProperty =
-            DependencyProperty.Register("PerWeekActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("PerWeekActivity", typeof(string), typeof(JobConfigControl), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true,
                 DefaultValue = "LangKeyUsers".FromResourceDictionary()
             });
 
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
 
         public void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {

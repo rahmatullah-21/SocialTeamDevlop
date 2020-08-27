@@ -220,9 +220,6 @@
     <Compile Include="Behaviours\SelectionChangedBehaviour.cs" />
     <Compile Include="Behaviours\UserFilterAction.cs" />
     <Compile Include="Behaviours\Utilities.cs" />
-    <Compile Include="ConfigControl\EmailNotifications.xaml.cs">
-      <DependentUpon>EmailNotifications.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ConfigControl\EmbeddedBrowserSettings.xaml.cs">
       <DependentUpon>EmbeddedBrowserSettings.xaml</DependentUpon>
     </Compile>
@@ -1086,10 +1083,6 @@
     <Page Include="ConfigControl\ImageCaptchaServicesTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ConfigControl\EmailNotifications.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="ConfigControl\EmbeddedBrowserSettings.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -1,13 +1,12 @@
 ﻿#region
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -76,11 +75,6 @@ namespace DominatorHouseCore.Utility
                 Console.WriteLine(ex.ToString());
                 return false;
             }
-        }
-
-        private static string ByteToString(byte[] buff)
-        {
-            return buff.Aggregate(string.Empty, (current, t) => current + t.ToString("X2"));
         }
     }
 }

@@ -70,11 +70,6 @@ namespace DominatorUIUtility.CustomControl
             remove { RemoveHandler(GetInputClickEvent, value); }
         }
 
-        void GetInputClickEventHandler()
-        {
-            var routedEventArgs = new RoutedEventArgs(GetInputClickEvent);
-            RaiseEvent(routedEventArgs);
-        }
         private void BtnImportBlacklistsText_OnClick(object sender, RoutedEventArgs e)
         {
             try

@@ -351,8 +351,6 @@ namespace DominatorUIUtility.CustomControl
 
         public virtual void SaveDetails(List<string> lstSelectedAccounts, ActivityType moduleType) { }
 
-        public virtual void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType) { }
-
         protected virtual void SetModuleValues(bool isToggleButtonActive, TemplateModel templateModel) { }
         bool ValidateCampaignName()
         {
