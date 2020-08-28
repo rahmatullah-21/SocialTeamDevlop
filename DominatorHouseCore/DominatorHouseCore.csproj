@@ -371,6 +371,7 @@
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedPage.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\CreateAccount.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\Friendship.cs" />
