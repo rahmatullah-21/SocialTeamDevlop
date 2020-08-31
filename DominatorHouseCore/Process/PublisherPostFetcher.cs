@@ -70,16 +70,14 @@ namespace DominatorHouseCore.Process
             {
                 try
                 {
-                    if (allCampaign.FirstOrDefault(x => x.CampaignId == postFetchModel.CampaignId).CampaignStatus ==
-                        PublisherCampaignStatus.Active)
-                    {
-                        // Register the campaign its running from current fetcher with respective post source and get the cancellation token
-                        var cancellationTokenSource =
-                            RegisterPostFetcher(postFetchModel.CampaignId, postFetchModel.PostSource);
+                    if (allCampaign.FirstOrDefault(x => x.CampaignId == postFetchModel.CampaignId).CampaignStatus !=
+                        PublisherCampaignStatus.Active) return;
+                    // Register the campaign its running from current fetcher with respective post source and get the cancellation token
+                    var cancellationTokenSource =
+                        RegisterPostFetcher(postFetchModel.CampaignId, postFetchModel.PostSource);
 
-                        // Call the fetch methods with passing respective cancellation source
-                        FetchPosts(postFetchModel, cancellationTokenSource);
-                    }
+                    // Call the fetch methods with passing respective cancellation source
+                    FetchPosts(postFetchModel, cancellationTokenSource);
                 }
                 catch (Exception ex)
                 {
@@ -415,61 +413,34 @@ namespace DominatorHouseCore.Process
                             {
                                 destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
                                 {
-                                    if (destinationDetails != null && (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key)
-                                                                       && destinationDetails.ListSelectDestination
-                                                                           .FirstOrDefault(x => x.AccountId == networkWithAccount.Value)
-                                                                           .IsScrapeFromAccount))
+                                    var destinationSelectModel = destinationDetails.ListSelectDestination
+                                        .FirstOrDefault(x => x.AccountId == networkWithAccount.Value);
+                                    if (!SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key) ||
+                                        destinationSelectModel == null || !destinationSelectModel.IsScrapeFromAccount) return;
+                                    try
+                                    {
+                                        var networkPostScraper = PublisherInitialize
+                                            .GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
+                                            .PostScraper.GetPostScraperLibrary(publisherPostFetchModel.CampaignId,
+                                                cancellationTokenSource, publisherPostFetchModel);
 
-                                        // Get the proper library for publisher
-
-
-                                        try
+                                        if (publisherPostFetchModel.PostSource == PostSource.SharePost)
                                         {
-                                            var networkPostScraper = PublisherInitialize
-                                                .GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
-                                                .PostScraper.GetPostScraperLibrary(publisherPostFetchModel.CampaignId,
-                                                    cancellationTokenSource, publisherPostFetchModel);
-
-                                            if (publisherPostFetchModel.PostSource == PostSource.SharePost)
+                                            // Call Share post from facebook
+                                            if (networkWithAccount.Key == SocialNetworks.Facebook)
                                             {
-                                                // Call Share post from facebook
-                                                if (networkWithAccount.Key == SocialNetworks.Facebook)
-                                                {
-                                                    var scrapeJobName =
-                                                        $"{publisherPostFetchModel.CampaignId}-{PostSource.SharePost.ToString()}";
-
-                                                    // Register to sorted set
-                                                    JobFetcherId.Add(scrapeJobName);
-
-                                                    // Add the Job for scrape 
-                                                    JobManager.AddJob(
-                                                        () =>
-                                                        {
-                                                            networkPostScraper.ScrapeFdPagePostUrl(
-                                                                networkWithAccount.Value,
-                                                                publisherPostFetchModel.CampaignId, postFetchDetails,
-                                                                cancellationTokenSource,
-                                                                publisherPostFetchModel.ScrapeCount);
-                                                        },
-                                                        s => s.WithName(scrapeJobName)
-                                                            .ToRunOnceAt(DateTime.Now.AddSeconds(2))
-                                                            .AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
-                                                }
-                                            }
-                                            // Scarpe the posts from Facebook, Twitter, Pinterest
-                                            else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
-                                            {
-                                                // Get the proper name for scrape job process
                                                 var scrapeJobName =
-                                                    $"{publisherPostFetchModel.CampaignId}-{PostSource.ScrapedPost.ToString()}";
+                                                    $"{publisherPostFetchModel.CampaignId}-{PostSource.SharePost.ToString()}";
 
                                                 // Register to sorted set
                                                 JobFetcherId.Add(scrapeJobName);
 
                                                 // Add the Job for scrape 
-                                                JobManager.AddJob(() =>
+                                                JobManager.AddJob(
+                                                    () =>
                                                     {
-                                                        networkPostScraper.ScrapePosts(networkWithAccount.Value,
+                                                        networkPostScraper.ScrapeFdPagePostUrl(
+                                                            networkWithAccount.Value,
                                                             publisherPostFetchModel.CampaignId, postFetchDetails,
                                                             cancellationTokenSource,
                                                             publisherPostFetchModel.ScrapeCount);
@@ -479,18 +450,41 @@ namespace DominatorHouseCore.Process
                                                         .AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
                                             }
                                         }
-                                        catch (OperationCanceledException ex)
+                                        // Scarpe the posts from Facebook, Twitter, Pinterest
+                                        else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
                                         {
-                                            ex.DebugLog("Cancellation Requested!");
+                                            // Get the proper name for scrape job process
+                                            var scrapeJobName =
+                                                $"{publisherPostFetchModel.CampaignId}-{PostSource.ScrapedPost.ToString()}";
+
+                                            // Register to sorted set
+                                            JobFetcherId.Add(scrapeJobName);
+
+                                            // Add the Job for scrape 
+                                            JobManager.AddJob(() =>
+                                                {
+                                                    networkPostScraper.ScrapePosts(networkWithAccount.Value,
+                                                        publisherPostFetchModel.CampaignId, postFetchDetails,
+                                                        cancellationTokenSource,
+                                                        publisherPostFetchModel.ScrapeCount);
+                                                },
+                                                s => s.WithName(scrapeJobName)
+                                                    .ToRunOnceAt(DateTime.Now.AddSeconds(2))
+                                                    .AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
                                         }
-                                        catch (AggregateException ae)
-                                        {
-                                            ae.HandleOperationCancellation();
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            ex.DebugLog();
-                                        }
+                                    }
+                                    catch (OperationCanceledException ex)
+                                    {
+                                        ex.DebugLog("Cancellation Requested!");
+                                    }
+                                    catch (AggregateException ae)
+                                    {
+                                        ae.HandleOperationCancellation();
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        ex.DebugLog();
+                                    }
                                 });
                             }
                             catch (Exception ex)

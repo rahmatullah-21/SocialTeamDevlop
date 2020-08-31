@@ -87,15 +87,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
         private void AddCommentsBindExecute(object sender)
         {
-            //var CommentData = sender as CommentControl;           
-            //LikerCommentorConfig.LstManageCommentModel.Add(CommentData.Comments);
-            //CommentData.Comments = new ManageCommentModel();
-            //LikerCommentorConfig.ManageCommentModel = CommentData.Comments;
-            //CommentData.ComboBoxQueries.ItemsSource = LikerCommentorConfig.ManageCommentModel.LstQueries;
-
-            var messageData = sender as CommentControl;
-
-            if (messageData == null) return;
+            if (!(sender is CommentControl messageData)) return;
 
             messageData.Comments.SelectedQuery =
                 new ObservableCollection<QueryContent>(messageData.Comments.LstQueries.Where(x => x.IsContentSelected));

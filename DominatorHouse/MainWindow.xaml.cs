@@ -62,44 +62,41 @@ namespace Socinator
         private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             statusbar.IsEnabled = false;
-            if (IsClickedFromMainWindow)
-            {
-                var dialog = new Dialog();
+            if (!IsClickedFromMainWindow) return;
+            var dialog = new Dialog();
                 
-                var activityLogWindow = dialog.GetMetroWindow(Logger, "LangKeyActivityLog".FromResourceDictionary());
+            var activityLogWindow = dialog.GetMetroWindow(Logger, "LangKeyActivityLog".FromResourceDictionary());
 
-                IsClickedFromMainWindow = false;
-                activityLogWindow.Closing += (senders, events) =>
+            IsClickedFromMainWindow = false;
+            activityLogWindow.Closing += (senders, events) =>
+            {
+                Task.Factory.StartNew(() =>
                 {
-                    Task.Factory.StartNew(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
+                        try
                         {
-                            try
-                            {
-                                activityLogWindow.Content = null;
-                                Grid.SetRow(Logger, 2);
-                                MainGrid.Children.Add(Logger);
+                            activityLogWindow.Content = null;
+                            Grid.SetRow(Logger, 2);
+                            MainGrid.Children.Add(Logger);
 
-                                Logger.Children.Remove(RootLayout);
-                                Logger.Children.Add(RootLayout);
-                                MainGrid.RowDefinitions[2].Height = new GridLength(200);
-                                IsClickedFromMainWindow = true;
-                                statusbar.IsEnabled = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.DebugLog();
-                            }
-                        });
+                            Logger.Children.Remove(RootLayout);
+                            Logger.Children.Add(RootLayout);
+                            MainGrid.RowDefinitions[2].Height = new GridLength(200);
+                            IsClickedFromMainWindow = true;
+                            statusbar.IsEnabled = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
                     });
-                };
+                });
+            };
 
-                MainGrid.RowDefinitions[2].Height = new GridLength(0);
-                MainGrid.Children.Remove(Logger);
-                activityLogWindow.Show();
-
-            }
+            MainGrid.RowDefinitions[2].Height = new GridLength(0);
+            MainGrid.Children.Remove(Logger);
+            activityLogWindow.Show();
         }
 
         private void ThemeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)

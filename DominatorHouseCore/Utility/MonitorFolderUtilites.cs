@@ -295,11 +295,9 @@ namespace DominatorHouseCore.Utility
                         }
                         else
                         {
-                            if (publisherPostlistModel.IsSpinTax)
-                                publisherPostlistModel.PostDescription =
-                                    SpinTexHelper.GetSpinText(existingFile.PostDescription);
-                            else
-                                publisherPostlistModel.PostDescription = existingFile.PostDescription;
+                            publisherPostlistModel.PostDescription = publisherPostlistModel.IsSpinTax
+                                ? SpinTexHelper.GetSpinText(existingFile.PostDescription)
+                                : existingFile.PostDescription;
                         }
 
                         if (campaignDetails.Count > 0)
@@ -328,13 +326,11 @@ namespace DominatorHouseCore.Utility
                             var neededPostLists = postlists.ToList();
                             neededPostLists.RemoveAll(x => campaignDetails.Any(y => y.PostId == x.PostId));
                             neededPostLists = neededPostLists.Take(postCount).ToList();
-                            if (neededPostLists.Count > 0)
-                            {
-                                PostlistFileManager.AddRange(campaignId, neededPostLists);
+                            if (neededPostLists.Count <= 0) continue;
+                            PostlistFileManager.AddRange(campaignId, neededPostLists);
 
-                                // Update the current post count
-                                publisherInitialize.UpdatePostCounts(campaignId);
-                            }
+                            // Update the current post count
+                            publisherInitialize.UpdatePostCounts(campaignId);
                         }
                         else
                         {

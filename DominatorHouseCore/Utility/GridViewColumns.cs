@@ -60,8 +60,7 @@ namespace DominatorHouseCore.Utility
 
         private static void ColumnValuesChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            var gridView = obj as GridView;
-            if (gridView == null) return;
+            if (!(obj is GridView gridView)) return;
             gridView.Columns.Clear();
 
             if (e.OldValue != null)
@@ -71,7 +70,7 @@ namespace DominatorHouseCore.Utility
                     RemoveHandlers(gridView, view);
             }
 
-            if (e.NewValue != null)
+            if (e.NewValue == null) return;
             {
                 var view = CollectionViewSource.GetDefaultView(e.NewValue);
                 if (view == null) return;
@@ -85,12 +84,9 @@ namespace DominatorHouseCore.Utility
 
         private static List<GridView> GetGridViewsForColumnSource(ICollectionView columnSource)
         {
-            List<GridView> gridViews;
-            if (!_gridViewsByColumnsSource.TryGetValue(columnSource, out gridViews))
-            {
-                gridViews = new List<GridView>();
-                _gridViewsByColumnsSource.Add(columnSource, gridViews);
-            }
+            if (_gridViewsByColumnsSource.TryGetValue(columnSource, out var gridViews)) return gridViews;
+            gridViews = new List<GridView>();
+            _gridViewsByColumnsSource.Add(columnSource, gridViews);
 
             return gridViews;
         }
@@ -186,23 +182,19 @@ namespace DominatorHouseCore.Utility
             var columnHeader = GetColumnHeader(gridView);
             var columnBinding = GetColumnBinding(gridView);
             if (!string.IsNullOrEmpty(columnHeader)) column.Header = GetPropertyValue(columnSource, columnHeader);
-            if (!string.IsNullOrEmpty(columnBinding))
-            {
-                var propertyName = GetPropertyValue(columnSource, columnBinding) as string;
-                column.DisplayMemberBinding = new Binding(propertyName);
-            }
+            if (string.IsNullOrEmpty(columnBinding)) return column;
+            var propertyName = GetPropertyValue(columnSource, columnBinding) as string;
+            column.DisplayMemberBinding = new Binding(propertyName);
 
             return column;
         }
 
         private static object GetPropertyValue(object obj, string propertyName)
         {
-            if (obj != null)
-            {
-                var prop = obj.GetType().GetProperty(propertyName);
-                if (prop != null)
-                    return prop.GetValue(obj, null);
-            }
+            if (obj == null) return null;
+            var prop = obj.GetType().GetProperty(propertyName);
+            if (prop != null)
+                return prop.GetValue(obj, null);
 
             return null;
         }

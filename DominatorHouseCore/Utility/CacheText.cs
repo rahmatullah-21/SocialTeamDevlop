@@ -21,14 +21,11 @@ namespace DominatorHouseCore.Utility
 
         public bool AddToCache(string text)
         {
-            if (Counter < Limit)
-            {
-                _sb.Append(text);
-                Counter++;
-                return true;
-            }
+            if (Counter >= Limit) return false;
+            _sb.Append(text);
+            Counter++;
+            return true;
 
-            return false;
         }
 
         public string GetCacheText()

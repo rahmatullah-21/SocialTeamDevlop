@@ -19,13 +19,15 @@ namespace DominatorUIUtility.CustomControl
     {
         private readonly IProxyFileManager _proxyFileManager;
 
-        public AddOrUpdateProxyControl(ProxyManagerViewModel ProxyManagerViewModel)
+        public AddOrUpdateProxyControl(ProxyManagerViewModel proxyManagerViewModel)
         {
             _proxyFileManager = ServiceLocator.Current.GetInstance<IProxyFileManager>();
             InitializeComponent();
-            this.ProxyManagerViewModel = ProxyManagerViewModel;
-            ProxyManagerModel = new ProxyManagerModel();
-            ProxyManagerModel.AccountProxy.ProxyName = $"Proxy - {DateTimeUtilities.GetEpochTime()}";
+            this.ProxyManagerViewModel = proxyManagerViewModel;
+            ProxyManagerModel = new ProxyManagerModel
+            {
+                AccountProxy = {ProxyName = $"Proxy - {DateTimeUtilities.GetEpochTime()}"}
+            };
 
             MainGrid.DataContext = ProxyManagerModel;
         }

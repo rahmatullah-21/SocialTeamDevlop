@@ -53,8 +53,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var currentItem = ((FrameworkElement) sender).DataContext as ManageCommentModel;
-                if (currentItem == null)
+                if (!(((FrameworkElement) sender).DataContext is ManageCommentModel currentItem))
                     return;
 
                 var editComment = new CommentControl

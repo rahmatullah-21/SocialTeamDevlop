@@ -23,17 +23,14 @@ namespace DominatorHouseCore.Utility
 
             // Check whether pattern are present in given content
             var match = Regex.Match(content, pattern);
-            if (match.Success)
-            {
-                // call the spin text generator to fetch all posts
-                var spintexCollection = GetSpinMessageCollection(content);
+            if (!match.Success) return content;
+            // call the spin text generator to fetch all posts
+            var spintexCollection = GetSpinMessageCollection(content);
 
-                // select a random spin text and return an item
-                var randomNumber = RandomUtilties.GetRandomNumber(spintexCollection.Count - 1);
-                return spintexCollection[randomNumber];
-            }
+            // select a random spin text and return an item
+            var randomNumber = RandomUtilties.GetRandomNumber(spintexCollection.Count - 1);
+            return spintexCollection[randomNumber];
 
-            return content;
         }
 
         /// <summary>

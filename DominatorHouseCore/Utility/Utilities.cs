@@ -86,18 +86,15 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                if (strSource.Contains(strStart) && strSource.Contains(strEnd))
-                {
-                    var start = strSource.IndexOf(strStart, 0, StringComparison.Ordinal) + strStart.Length;
-                    var end = strSource.IndexOf(strEnd, start, StringComparison.Ordinal);
+                if (!strSource.Contains(strStart) || !strSource.Contains(strEnd)) return string.Empty;
+                var start = strSource.IndexOf(strStart, 0, StringComparison.Ordinal) + strStart.Length;
+                var end = strSource.IndexOf(strEnd, start, StringComparison.Ordinal);
 
-                    if (end < 0 || start < 0)
-                        return string.Empty;
+                if (end < 0 || start < 0)
+                    return string.Empty;
 
-                    return strSource.Substring(start, end - start);
-                }
+                return strSource.Substring(start, end - start);
 
-                return string.Empty;
             }
             catch
             {
@@ -299,10 +296,7 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static string GetIntegerOnlyString(string data)
         {
-            if (data.Contains("null"))
-                return "0";
-
-            return Regex.Replace(data, "[^0-9]+", string.Empty);
+            return data.Contains("null") ? "0" : Regex.Replace(data, "[^0-9]+", string.Empty);
         }
 
 
@@ -418,23 +412,23 @@ namespace DominatorHouseCore.Utility
         {
             dynamic getModel = JsonConvert.DeserializeObject<T>(activitySettings);
 
-            if ("LangKeySocinator".FromResourceDictionary() == "Tunto Socianator")
-                try
-                {
-                    CopyJobConfigWith(getModel.JobConfiguration, lastModel.JobConfiguration);
+            if ("LangKeySocinator".FromResourceDictionary() != "Tunto Socianator") return getModel;
+            try
+            {
+                CopyJobConfigWith(getModel.JobConfiguration, lastModel.JobConfiguration);
 
-                    if (!isNonQuery)
-                    {
-                        var listOldQuery = getModel.ListQueryType;
-                        getModel.ListQueryType = lastModel.ListQueryType;
-
-                        ModifySavedQueries(getModel.SavedQueries, getModel.ListQueryType, listOldQuery);
-                    }
-                }
-                catch (Exception ex)
+                if (!isNonQuery)
                 {
-                    ex.DebugLog();
+                    var listOldQuery = getModel.ListQueryType;
+                    getModel.ListQueryType = lastModel.ListQueryType;
+
+                    ModifySavedQueries(getModel.SavedQueries, getModel.ListQueryType, listOldQuery);
                 }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
 
             return getModel;
         }
@@ -477,26 +471,24 @@ namespace DominatorHouseCore.Utility
                     softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
                 }
 
-                if (softwareSettings.IsTestMode)
-                {
-                    // Update data in TestResponseFile(json, html etc.)
-                    FileUtilities.ReWriteDataIntoFile(hitResponse, respDataFileLoc);
+                if (!softwareSettings.IsTestMode) return;
+                // Update data in TestResponseFile(json, html etc.)
+                FileUtilities.ReWriteDataIntoFile(hitResponse, respDataFileLoc);
 
-                    // get text content from the ResponseHandler class file to update the content in it 
-                    var classData = FileUtilities.ReadFile(respHandTestFileLoc).Result;
+                // get text content from the ResponseHandler class file to update the content in it 
+                var classData = FileUtilities.ReadFile(respHandTestFileLoc).Result;
 
-                    // New checking data
-                    var dateToReplace = GetClassPropertyValueForTests(hitResponseHandler);
+                // New checking data
+                var dateToReplace = GetClassPropertyValueForTests(hitResponseHandler);
 
-                    // old checking data
-                    var oldData = GetBetween(classData, "#region DataChecking", "#endregion");
+                // old checking data
+                var oldData = GetBetween(classData, "#region DataChecking", "#endregion");
 
-                    // renew the class content
-                    classData = classData.Replace(oldData, $"\n{dateToReplace}\n");
+                // renew the class content
+                classData = classData.Replace(oldData, $"\n{dateToReplace}\n");
 
-                    // updating the class content
-                    FileUtilities.ReWriteDataIntoFile(classData, respHandTestFileLoc);
-                }
+                // updating the class content
+                FileUtilities.ReWriteDataIntoFile(classData, respHandTestFileLoc);
             }
             catch (Exception ex)
             {
@@ -509,8 +501,7 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                startingObjStringName = startingObjStringName +
-                                        (!string.IsNullOrEmpty(additionalAdd) ? $".{additionalAdd}" : "");
+                startingObjStringName += (!string.IsNullOrEmpty(additionalAdd) ? $".{additionalAdd}" : "");
                 var sb = new StringBuilder();
                 GoInsideListMakeString(ref sb, obj, startingObjStringName);
                 var gotString = sb.ToString();
@@ -534,43 +525,57 @@ namespace DominatorHouseCore.Utility
                 try
                 {
                     var elemName = element.PropertyType.Name;
-                    if (elemName == "int" || elemName == "Boolean")
+                    switch (elemName)
                     {
-                        var value = elemName == "Boolean"
-                            ? element.GetValue(obj, null).ToString().ToLower()
-                            : element.GetValue(obj, null).ToString();
-                        if (value != null)
-                            sb.AppendLine(GetString(element.Name, value, startingObjStringName, true));
-                    }
-                    else if (elemName == "String")
-                    {
-                        var value = element.GetValue(obj, null);
-                        if (value != null)
+                        case "int":
+                        case "Boolean":
                         {
-                            var stringValue = value.ToString();
-                            if (stringValue.Contains("\""))
-                                stringValue = stringValue.Replace("\"", "\\\"");
-                            if (stringValue.Contains("\n"))
-                                stringValue = stringValue.Replace("\n", "\\n");
-                            if (stringValue.Contains("\r\n"))
-                                stringValue = stringValue.Replace("\r\n", "\\r\\n");
-
-                            sb.AppendLine(GetString(element.Name, stringValue, startingObjStringName));
+                            var value = elemName == "Boolean"
+                                ? element.GetValue(obj, null).ToString().ToLower()
+                                : element.GetValue(obj, null).ToString();
+                            if (value != null)
+                                sb.AppendLine(GetString(element.Name, value, startingObjStringName, true));
+                            break;
                         }
-                    }
-                    else if (elemName.Contains("List"))
-                    {
-                        var value = element.GetValue(obj, new object[0]);
-                        startingObjStringName = startingObjName + $".{element.Name}";
-                        if (value != null)
-                            sb.AppendLine(GetStringFromListObj(value, startingObjStringName, 1));
-                    }
-                    else
-                    {
-                        var value = element.GetValue(obj, new object[0]);
-                        startingObjStringName = startingObjName + $".{element.Name}"; //value.GetType().Name
-                        if (value != null)
-                            GoInsideListMakeString(ref sb, value, startingObjStringName);
+
+                        case "String":
+                        {
+                            var value = element.GetValue(obj, null);
+                            if (value != null)
+                            {
+                                var stringValue = value.ToString();
+                                if (stringValue.Contains("\""))
+                                    stringValue = stringValue.Replace("\"", "\\\"");
+                                if (stringValue.Contains("\n"))
+                                    stringValue = stringValue.Replace("\n", "\\n");
+                                if (stringValue.Contains("\r\n"))
+                                    stringValue = stringValue.Replace("\r\n", "\\r\\n");
+
+                                sb.AppendLine(GetString(element.Name, stringValue, startingObjStringName));
+                            }
+
+                            break;
+                        }
+
+                        default:
+                        {
+                            if (elemName.Contains("List"))
+                            {
+                                var value = element.GetValue(obj, new object[0]);
+                                startingObjStringName = startingObjName + $".{element.Name}";
+                                if (value != null)
+                                    sb.AppendLine(GetStringFromListObj(value, startingObjStringName, 1));
+                            }
+                            else
+                            {
+                                var value = element.GetValue(obj, new object[0]);
+                                startingObjStringName = startingObjName + $".{element.Name}"; //value.GetType().Name
+                                if (value != null)
+                                    GoInsideListMakeString(ref sb, value, startingObjStringName);
+                            }
+
+                            break;
+                        }
                     }
                 }
                 catch (Exception ex)

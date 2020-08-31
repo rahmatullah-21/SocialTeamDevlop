@@ -46,9 +46,7 @@ namespace DominatorHouseCore.Utility
                     var field = type.GetField(name);
                     if (field != null)
                     {
-                        var attr =
-                            Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
-                        if (attr != null) return attr.Description;
+                        if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attr) return attr.Description;
                     }
                 }
             }
@@ -69,9 +67,7 @@ namespace DominatorHouseCore.Utility
                     var field = type.GetField(value);
                     if (field != null)
                     {
-                        var attr =
-                            Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
-                        if (attr != null) return attr.Description;
+                        if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attr) return attr.Description;
                     }
                 }
             }

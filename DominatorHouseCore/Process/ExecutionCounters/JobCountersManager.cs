@@ -52,9 +52,7 @@ namespace DominatorHouseCore.Process.ExecutionCounters
             {
                 lock (_syncContext)
                 {
-                    if (_parsingsPerJob.ContainsKey(key)) return _parsingsPerJob[key];
-
-                    return 0;
+                    return _parsingsPerJob.ContainsKey(key) ? _parsingsPerJob[key] : 0;
                 }
             }
         }

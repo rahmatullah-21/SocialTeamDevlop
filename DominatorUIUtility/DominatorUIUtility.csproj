@@ -319,9 +319,6 @@
     <Compile Include="CustomControl\EditProfile.xaml.cs">
       <DependentUpon>EditProfile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControl\ExtraFooterControl.xaml.cs">
-      <DependentUpon>ExtraFooterControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CustomControl\InputBoxControl.xaml.cs">
       <DependentUpon>InputBoxControl.xaml</DependentUpon>
     </Compile>
@@ -1257,10 +1254,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\EditProfile.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\ExtraFooterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

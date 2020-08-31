@@ -86,8 +86,7 @@ namespace DominatorHouseCore.Utility
                     return _syncRoot;
                 lock (_listLocker)
                 {
-                    var collection = _inputCollection as ICollection;
-                    if (collection != null)
+                    if (_inputCollection is ICollection collection)
                         _syncRoot = collection.SyncRoot;
                     else
                         Interlocked.CompareExchange<object>(ref _syncRoot, new object(), null);
@@ -268,8 +267,7 @@ namespace DominatorHouseCore.Utility
                     throw new ArgumentOutOfRangeException();
                 if (inputArray.Length - index < _inputCollection.Count)
                     throw new ArgumentException("Array is too small");
-                var typeArray = inputArray as TType[];
-                if (typeArray == null)
+                if (!(inputArray is TType[] typeArray))
                     throw new ArrayTypeMismatchException("Invalid inputArray type");
                 _inputCollection.CopyTo(typeArray, index);
             }

@@ -182,11 +182,9 @@ namespace DominatorHouseCore.Utility
                 delegate(DependencyObject p, DependencyPropertyChangedEventArgs args)
                 {
                     if (null != BindingOperations.GetBinding(p, OutProperty))
-                        (p as ValidationBinding).Out = args.NewValue;
-                });
+                        ((ValidationBinding) p).Out = args.NewValue;
+                }) {BindsTwoWayByDefault = false, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged};
 
-            inMetadata.BindsTwoWayByDefault = false;
-            inMetadata.DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
             InProperty = DependencyProperty.Register("In",
                 typeof(object),
@@ -198,19 +196,15 @@ namespace DominatorHouseCore.Utility
                 {
                     var source = DependencyPropertyHelper.GetValueSource(p, args.Property);
 
-                    if (source.BaseValueSource != BaseValueSource.Local)
-                    {
-                        var validationBinding = p as ValidationBinding;
-                        var expected = validationBinding.In;
-                        if (!ReferenceEquals(args.NewValue, expected))
-                            Dispatcher.CurrentDispatcher.BeginInvoke(
-                                DispatcherPriority.DataBind,
-                                new Action(delegate { validationBinding.Out = validationBinding.In; }));
-                    }
-                });
+                    if (source.BaseValueSource == BaseValueSource.Local) return;
+                    var validationBinding = p as ValidationBinding;
+                    var expected = validationBinding.In;
+                    if (!ReferenceEquals(args.NewValue, expected))
+                        Dispatcher.CurrentDispatcher.BeginInvoke(
+                            DispatcherPriority.DataBind,
+                            new Action(delegate { validationBinding.Out = validationBinding.In; }));
+                }) {BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged};
 
-            outMetadata.BindsTwoWayByDefault = true;
-            outMetadata.DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
             OutProperty = DependencyProperty.Register("Out", typeof(object), typeof(ValidationBinding), outMetadata);
         }

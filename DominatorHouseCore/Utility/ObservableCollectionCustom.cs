@@ -50,8 +50,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                var collection = this.collection as IList;
-                if (collection == null)
+                if (!(this.collection is IList collection))
                     return this.collection.IsReadOnly;
                 return collection.IsFixedSize;
             }
@@ -69,8 +68,7 @@ namespace DominatorHouseCore.Utility
                     return syncRoot;
                 lock (listLock)
                 {
-                    var collection = this.collection as ICollection;
-                    if (collection != null)
+                    if (this.collection is ICollection collection)
                         syncRoot = collection.SyncRoot;
                     else
                         Interlocked.CompareExchange<object>(ref syncRoot, new object(), null);
@@ -245,8 +243,7 @@ namespace DominatorHouseCore.Utility
                     throw new ArgumentOutOfRangeException();
                 if (array.Length - index < collection.Count)
                     throw new ArgumentException("Array is too small");
-                var array1 = array as T[];
-                if (array1 == null)
+                if (!(array is T[] array1))
                     throw new ArrayTypeMismatchException("Invalid array type");
                 collection.CopyTo(array1, index);
             }

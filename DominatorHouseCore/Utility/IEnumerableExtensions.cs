@@ -17,8 +17,8 @@ namespace DominatorHouseCore.Utility
         ///<returns>The index of the first matching item, or -1 if no items match.</returns>
         public static int FindIndex<T>(this IEnumerable<T> items, Func<T, bool> predicate)
         {
-            if (items == null) throw new ArgumentNullException("items");
-            if (predicate == null) throw new ArgumentNullException("predicate");
+            if (items == null) throw new ArgumentNullException(nameof(items));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
             var retVal = 0;
             foreach (var item in items)

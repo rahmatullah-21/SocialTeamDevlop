@@ -53,15 +53,7 @@ namespace DominatorHouseCore.Utility
 
         [ProtoMember(10)] public string Dpi { get; set; }
 
-        private string ManufacturerBrand
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(Brand))
-                    return Manufacturer;
-                return string.Format("{0}/{1}", Manufacturer, Brand);
-            }
-        }
+        private string ManufacturerBrand => string.IsNullOrWhiteSpace(Brand) ? Manufacturer : $"{Manufacturer}/{Brand}";
 
         [ProtoMember(11)] private string Resolution { get; set; }
         [ProtoMember(12)] public string AdId { get; set; }

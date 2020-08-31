@@ -12,6 +12,7 @@ using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
+    // ReSharper disable once UnusedTypeParameter
     public interface IEntityCounterFunction<T> where T : class, new()
     {
         EntityCounter GetCounter(string accountId, SocialNetworks networks, ActivityType? activityType);

@@ -37,8 +37,7 @@ namespace DominatorHouseCore.StartupActivity.Reddit
 
         public override List<string> GetQueryType()
         {
-            var listQueryType = new List<string>();
-            listQueryType.Add(PostQuery.CustomUrl.GetDescriptionAttr()?.FromResourceDictionary());
+            var listQueryType = new List<string> {PostQuery.CustomUrl.GetDescriptionAttr()?.FromResourceDictionary()};
             return listQueryType;
         }
     }
@@ -52,9 +51,11 @@ namespace DominatorHouseCore.StartupActivity.Reddit
 
         public override List<string> GetQueryType()
         {
-            var listQueryType = new List<string>();
-            listQueryType.Add(PostQuery.Keywords.GetDescriptionAttr()?.FromResourceDictionary());
-            listQueryType.Add(PostQuery.CustomUrl.GetDescriptionAttr()?.FromResourceDictionary());
+            var listQueryType = new List<string>
+            {
+                PostQuery.Keywords.GetDescriptionAttr()?.FromResourceDictionary(),
+                PostQuery.CustomUrl.GetDescriptionAttr()?.FromResourceDictionary()
+            };
             return listQueryType;
         }
     }

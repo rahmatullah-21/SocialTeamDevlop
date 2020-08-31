@@ -38,9 +38,8 @@ namespace DominatorUIUtility.CustomControl
 
             var objDialogWindow = new Dialog();
 
-            var objSchedulerControl = new SchedulerControl();
+            var objSchedulerControl = new SchedulerControl {TextBlockWarning = {Visibility = Visibility.Collapsed}};
 
-            objSchedulerControl.TextBlockWarning.Visibility = Visibility.Collapsed;
 
             var dialogWindow =
                 objDialogWindow.GetMetroWindow(objSchedulerControl, "Please provide the start and end time");

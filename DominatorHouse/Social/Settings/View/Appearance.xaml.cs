@@ -90,9 +90,10 @@ namespace DominatorHouse.Social.Settings.View
 
         private void SaveCurrentTheme()
         {
-            Configuration configuration = new Configuration();
-            configuration.ConfigurationDate = DateTime.Now;
-            configuration.ConfigurationType = "Theme";
+            Configuration configuration = new Configuration
+            {
+                ConfigurationDate = DateTime.Now, ConfigurationType = "Theme"
+            };
             var theme = new Themes
             {
                 SelectedAccentColor = new AccentColors(_objAppearanceViewModel.SelectedAccentColor.Name, _objAppearanceViewModel.SelectedAccentColor.Value),

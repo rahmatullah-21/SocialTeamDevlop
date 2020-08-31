@@ -236,11 +236,9 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             {
                 AccountsCollection.FirstOrDefault(x => x.AccountId == currentDataContext.AccountId)?.ActivityDetailsCollections?.ForEach(y =>
                 {
-                    if (y.Title != ActivityType.StopAll && y.Status)
-                    {
-                        y.Status = currentDataContext.Status;
-                        ChangeActivity(y, account, true);
-                    }
+                    if (y.Title == ActivityType.StopAll || !y.Status) return;
+                    y.Status = currentDataContext.Status;
+                    ChangeActivity(y, account, true);
                 });
 
                 foreach (var act in activites.Others)
@@ -283,18 +281,16 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             var status = dominatorScheduler.ChangeAccountsRunningStatus(currentDataContext.Status, currentDataContext.AccountId,
                 currentDataContext.Title);
 
-            if (!status)
+            if (status) return;
+            try
             {
-                try
-                {
-                    if (!IsStopping)
-                        ToasterNotification.ShowInfomation(String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
-                    currentDataContext.Status = false;
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
+                if (!IsStopping)
+                    ToasterNotification.ShowInfomation(String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
+                currentDataContext.Status = false;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
 
@@ -361,11 +357,9 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
                         foreach(var x in allActivity)
                         {
-                            if (jobActivityConfigurationManager[account.AccountId, x]?.IsEnabled ?? false)
-                            {
-                                accountsActivityDetailModel.ActivityDetailsCollections[0].Status = true;
-                                break;
-                            }
+                            if (!(jobActivityConfigurationManager[account.AccountId, x]?.IsEnabled ?? false)) continue;
+                            accountsActivityDetailModel.ActivityDetailsCollections[0].Status = true;
+                            break;
                         }
 
                         if (!Application.Current.Dispatcher.CheckAccess())
@@ -412,7 +406,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     {
                         // if activity present then add to list with status
                         // and if activity not present then add to list with default status
-                        Status = activityData != null ? activityData.IsEnabled : false,
+                        Status = activityData != null && activityData.IsEnabled,
                         Title = act,
                         ActivityTitle = GetActivityTitle(act),
                         AccountId = accountsActivityDetailModel.AccountId

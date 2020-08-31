@@ -125,9 +125,8 @@ namespace DominatorHouseCore.Utility
         /// <returns>repeats the action returned value</returns>
         public R WithFile<T, R>(Func<string, R> act)
         {
-            Tuple<object, Func<string>> typeConfig;
             // first, try the actual type
-            if (!__lockAndFileByType.TryGetValue(typeof(T), out typeConfig))
+            if (!__lockAndFileByType.TryGetValue(typeof(T), out var typeConfig))
             {
                 // second, try to see if it's an assignable type
                 var presentBaseClass = __lockAndFileByType.Keys.Except(new[] {typeof(object)}).FirstOrDefault(

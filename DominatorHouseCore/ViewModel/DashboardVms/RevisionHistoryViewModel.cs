@@ -53,23 +53,21 @@ namespace DominatorHouseCore.ViewModel.DashboardVms
 
                     var data = contentArray.Select(line => line.EndsWith("\0") ? line.Replace("\0", "") : line)
                         .ToList();
-                    if (!string.IsNullOrEmpty(data[0]))
-                    {
-                        var versionDatails = data[0].Split(',');
-                        data.Skip(1).ForEach(item => { LstContent.Add(item); });
-                        LstContent.RemoveAll(string.IsNullOrEmpty);
+                    if (string.IsNullOrEmpty(data[0])) return;
+                    var versionDatails = data[0].Split(',');
+                    data.Skip(1).ForEach(item => { LstContent.Add(item); });
+                    LstContent.RemoveAll(string.IsNullOrEmpty);
 
-                        Application.Current.Dispatcher.Invoke(async () =>
+                    Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        _lstRevisionHistoryModel.Add(new RevisionHistoryModel
                         {
-                            _lstRevisionHistoryModel.Add(new RevisionHistoryModel
-                            {
-                                Version = versionDatails[0],
-                                RevisionDate = versionDatails[1],
-                                LstContent = LstContent
-                            });
-                            await Task.Delay(1);
+                            Version = versionDatails[0],
+                            RevisionDate = versionDatails[1],
+                            LstContent = LstContent
                         });
-                    }
+                        await Task.Delay(1);
+                    });
                 });
                 await Task.Delay(1);
             });

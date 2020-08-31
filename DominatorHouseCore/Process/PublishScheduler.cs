@@ -1362,10 +1362,9 @@ namespace DominatorHouseCore.Process
                 if (!(DateTime.Now >= specificCampaign.StartDate))
                     isStart = false;
             // Check end time is equal to null or not
-            if (specificCampaign.EndDate != null)
-                // Compare with today
-                if (!(DateTime.Now <= specificCampaign.EndDate))
-                    isStart = false;
+            if (specificCampaign.EndDate == null) return isStart;
+            if (!(DateTime.Now <= specificCampaign.EndDate))
+                isStart = false;
 
             return isStart;
         }
@@ -1388,14 +1387,12 @@ namespace DominatorHouseCore.Process
                 cancellationToken.Value.Cancel();
 
                 // After cancelling remove the token sources from collections
-                if (CampaignsCancellationTokens.ContainsKey(campaignId))
-                {
-                    CampaignsCancellationTokens.Remove(campaignId);
-                    // ReSharper disable once NotAccessedVariable
-                    var deletedList = new LinkedList<Action>();
-                    PublisherActionList.TryRemove(campaignId, out deletedList);
-                    DecreasePublishingCount(campaignId);
-                }
+                if (!CampaignsCancellationTokens.ContainsKey(campaignId)) return;
+                CampaignsCancellationTokens.Remove(campaignId);
+                // ReSharper disable once NotAccessedVariable
+                var deletedList = new LinkedList<Action>();
+                PublisherActionList.TryRemove(campaignId, out deletedList);
+                DecreasePublishingCount(campaignId);
             }
             catch (Exception ex)
             {
@@ -1441,31 +1438,29 @@ namespace DominatorHouseCore.Process
                                 null, null, false, new CancellationTokenSource());
 
                         // Call is delete options
-                        if (publisherJobProcess?.DeletePost(postDeletionModel.PublishedIdOrUrl) ?? false)
-                        {
-                            // If successfully deleted , update the details
-                            publisherJobProcess.UpdatePostWithDeletion(postDeletionModel.DestinationUrl,
-                                postDeletionModel.PostId);
+                        if (!(publisherJobProcess?.DeletePost(postDeletionModel.PublishedIdOrUrl) ?? false)) return;
+                        // If successfully deleted , update the details
+                        publisherJobProcess.UpdatePostWithDeletion(postDeletionModel.DestinationUrl,
+                            postDeletionModel.PostId);
 
-                            // Make already deleted true
-                            postDeletionModel.IsDeletedAlready = true;
+                        // Make already deleted true
+                        postDeletionModel.IsDeletedAlready = true;
 
-                            // Get deletion model
-                            var allDeletionList =
-                                genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
-                                    .GetDeletePublisherPostModel);
+                        // Get deletion model
+                        var allDeletionList =
+                            genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                                .GetDeletePublisherPostModel);
 
-                            // Find the index of particular published Id
-                            var index = allDeletionList.FindIndex(x =>
-                                x.PublishedIdOrUrl == postDeletionModel.PublishedIdOrUrl);
+                        // Find the index of particular published Id
+                        var index = allDeletionList.FindIndex(x =>
+                            x.PublishedIdOrUrl == postDeletionModel.PublishedIdOrUrl);
 
-                            // Update bin file objects
-                            allDeletionList[index].IsDeletedAlready = true;
+                        // Update bin file objects
+                        allDeletionList[index].IsDeletedAlready = true;
 
-                            // save the updated details into bin files
-                            genericFileManager.UpdateModuleDetails(allDeletionList,
-                                ConstantVariable.GetDeletePublisherPostModel);
-                        }
+                        // save the updated details into bin files
+                        genericFileManager.UpdateModuleDetails(allDeletionList,
+                            ConstantVariable.GetDeletePublisherPostModel);
                     },
                     s => s.WithName($"{postDeletionModel.CampaignId}- Delete Posts -{ConstantVariable.GetDate()}")
                         .ToRunOnceAt(postDeletionModel.DeletionTime));
@@ -1488,26 +1483,25 @@ namespace DominatorHouseCore.Process
             var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == campaignId);
 
             // Validate the campaigns Times
-            if (specificCampaign != null && ValidateCampaignsTime(specificCampaign))
+            if (specificCampaign == null || !ValidateCampaignsTime(specificCampaign)) return;
+
+            // Is Rotate day has been selected
+            if (specificCampaign.IsRotateDayChecked)
+                // Call to start publishing
+                // SchedulePublisher(specificCampaign);
             {
-                // Is Rotate day has been selected
-                if (specificCampaign.IsRotateDayChecked)
-                    // Call to start publishing
-                    // SchedulePublisher(specificCampaign);
-                {
-                    StartPublishingPosts(specificCampaign);
-                }
-                else
-                {
-                    // Check whether today is selected or not
-                    var isCampaignSelected = specificCampaign.ScheduledWeekday.FirstOrDefault(x =>
-                        x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
-                    if (isCampaignSelected == null)
-                        return;
-                    // Call to start publishing
-                    // SchedulePublisher(specificCampaign);
-                    StartPublishingPosts(specificCampaign);
-                }
+                StartPublishingPosts(specificCampaign);
+            }
+            else
+            {
+                // Check whether today is selected or not
+                var isCampaignSelected = specificCampaign.ScheduledWeekday.FirstOrDefault(x =>
+                    x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                if (isCampaignSelected == null)
+                    return;
+                // Call to start publishing
+                // SchedulePublisher(specificCampaign);
+                StartPublishingPosts(specificCampaign);
             }
         }
 
@@ -1569,7 +1563,7 @@ namespace DominatorHouseCore.Process
             var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == campaignId);
 
             // Validate the start and end time of the campaign
-            if (specificCampaign != null /* && ValidateCampaignsTime(specificCampaign)*/)
+            if (specificCampaign == null) return;
             {
                 if (specificCampaign.IsRotateDayChecked)
                     // Call to start publishing
@@ -1702,7 +1696,7 @@ namespace DominatorHouseCore.Process
                         .FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
 
                     // Check whether campaign destination time out options
-                    if (advancedSettings?.DestinationTimeout > 0)
+                    if (!(advancedSettings?.DestinationTimeout > 0)) return;
                     {
                         // Generate the job name for stopping campaigns
                         var stopJobName = $"{campaign.CampaignId}-StopRunningDueToTimeOut";

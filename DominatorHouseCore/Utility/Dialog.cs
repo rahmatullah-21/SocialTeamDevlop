@@ -155,7 +155,7 @@ namespace DominatorHouseCore.Utility
             try
             {
                 var parentWindow = Window.GetWindow((DependencyObject) sender);
-                if (parentWindow != null) parentWindow.Close();
+                parentWindow?.Close();
             }
             catch (Exception ex)
             {

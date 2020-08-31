@@ -45,8 +45,7 @@ namespace DominatorUIUtility.Behaviours
         public static bool IsAllExpanderCollapseOrNot(object sender)
         {
             var allExpander = FindVisualChildren<Expander>(sender as UserControl);
-            if (allExpander.Count() != 0 && allExpander.All(x => !x.IsExpanded)) return true;
-            return false;
+            return allExpander.Count() != 0 && allExpander.All(x => !x.IsExpanded);
         }
     }
 }

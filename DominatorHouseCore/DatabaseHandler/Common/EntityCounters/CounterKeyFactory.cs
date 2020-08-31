@@ -6,6 +6,7 @@ using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
+    // ReSharper disable once UnusedTypeParameter
     public interface ICounterKeyFactory<TSource> where TSource : class, new()
     {
         string Create(string accountId, object activityType);

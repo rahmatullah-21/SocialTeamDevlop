@@ -30,11 +30,7 @@ namespace DominatorUIUtility.Behaviours
         private static void SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selector = (Selector) sender;
-            if (selector != null)
-            {
-                var command = selector.GetValue(CommandProperty) as ICommand;
-                if (command != null) command.Execute(selector.SelectedItem);
-            }
+            if (selector?.GetValue(CommandProperty) is ICommand command) command.Execute(selector.SelectedItem);
         }
     }
 }

@@ -21,8 +21,7 @@ namespace DominatorHouseCore.Process.ExecutionCounters
 
         public override bool Equals(object obj)
         {
-            var key = obj as InteractionPerActivityCounterKey;
-            return key != null &&
+            return obj is InteractionPerActivityCounterKey key &&
                    base.Equals(obj) &&
                    ActivityType == key.ActivityType;
         }

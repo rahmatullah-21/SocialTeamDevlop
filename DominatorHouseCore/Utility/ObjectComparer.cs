@@ -19,9 +19,7 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static T CompareAndGetChangedObject<T>(T oldModel, T newModel) where T : class
         {
-            if (Compare(oldModel, newModel))
-                return null;
-            return newModel;
+            return Compare(oldModel, newModel) ? null : newModel;
         }
 
         /// <summary>

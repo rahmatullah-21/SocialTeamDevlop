@@ -20,32 +20,29 @@ namespace DominatorHouseCore.Utility
         public string GetThumbnail(string filePath)
         {
             var extension = Path.GetExtension(filePath)?.Replace(".", "");
-            if (ConstantVariable.SupportedVideoFormat.Contains(extension))
+            if (!ConstantVariable.SupportedVideoFormat.Contains(extension)) return filePath;
+            var thumbPath =
+                $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\{ConstantVariable.ApplicationName}\\.thumb\\";
+
+            var file = new FileInfo(filePath);
+            if (!Directory.Exists(thumbPath))
+                Directory.CreateDirectory(thumbPath);
+            var newFilePath = $"{thumbPath}{file.Name + ConstantVariable.VideoToImageConvertFileName}";
+            try
             {
-                var thumbPath =
-                    $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\{ConstantVariable.ApplicationName}\\.thumb\\";
-
-                var file = new FileInfo(filePath);
-                if (!Directory.Exists(thumbPath))
-                    Directory.CreateDirectory(thumbPath);
-                var newFilePath = $"{thumbPath}{file.Name + ConstantVariable.VideoToImageConvertFileName}";
-                try
+                if (!File.Exists(newFilePath))
                 {
-                    if (!File.Exists(newFilePath))
-                    {
-                        var ffMpeg = new FFMpegConverter();
-                        ffMpeg.GetVideoThumbnail(filePath, newFilePath);
-                    }
+                    var ffMpeg = new FFMpegConverter();
+                    ffMpeg.GetVideoThumbnail(filePath, newFilePath);
                 }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-
-                return newFilePath;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
 
-            return filePath;
+            return newFilePath;
+
         }
 
         private static readonly IDictionary<string, string> _mappings =
@@ -636,13 +633,11 @@ namespace DominatorHouseCore.Utility
 
         public static string GetMimeType(string extension)
         {
-            if (extension == null) throw new ArgumentNullException("extension");
+            if (extension == null) throw new ArgumentNullException(nameof(extension));
 
             if (!extension.StartsWith(".")) extension = "." + extension;
 
-            string mime;
-
-            return _mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
+            return _mappings.TryGetValue(extension, out var mime) ? mime : "application/octet-stream";
         }
 
         public static string GetMimeTypeByFilePath(string filePath)
@@ -665,23 +660,20 @@ namespace DominatorHouseCore.Utility
         public string GetThumbnailPng(string filePath)
         {
             var extension = Path.GetExtension(filePath)?.Replace(".", "");
-            if (ConstantVariable.SupportedVideoFormat.Contains(extension))
+            if (!ConstantVariable.SupportedVideoFormat.Contains(extension)) return filePath;
+            var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertPngFileName}";
+            try
             {
-                var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertPngFileName}";
-                try
-                {
-                    var ffMpeg = new FFMpegConverter();
-                    ffMpeg.GetVideoThumbnail(filePath, newFilePath, 2);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-
-                return newFilePath;
+                var ffMpeg = new FFMpegConverter();
+                ffMpeg.GetVideoThumbnail(filePath, newFilePath, 2);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
 
-            return filePath;
+            return newFilePath;
+
         }
 
         public static string CalculateMD5Hash(string input)
@@ -690,21 +682,21 @@ namespace DominatorHouseCore.Utility
             var ext = Path.GetExtension(input);
 
             var newImage = media + $"_hash{ext}";
-            if (!File.Exists(newImage))
-                try
-                {
-                    var inputBytes = File.ReadAllBytes(input);
+            if (File.Exists(newImage)) return newImage;
+            try
+            {
+                var inputBytes = File.ReadAllBytes(input);
 
-                    var bArray = new byte[inputBytes.Length + 1];
-                    inputBytes.CopyTo(bArray, 0);
-                    bArray[bArray.Length - 1] = Convert.ToByte('\0');
+                var bArray = new byte[inputBytes.Length + 1];
+                inputBytes.CopyTo(bArray, 0);
+                bArray[bArray.Length - 1] = Convert.ToByte('\0');
 
-                    File.WriteAllBytes(newImage, bArray);
-                }
-                catch
-                {
-                    //ignored
-                }
+                File.WriteAllBytes(newImage, bArray);
+            }
+            catch
+            {
+                //ignored
+            }
 
             return newImage;
         }

@@ -39,8 +39,7 @@ namespace DominatorHouseCore.ViewModel
             set
             {
                 SetProperty(ref _logs, value, nameof(Logs));
-                if (LogCollection != null)
-                    LogCollection.View.Refresh();
+                LogCollection?.View.Refresh();
             }
         }
 
@@ -112,8 +111,7 @@ namespace DominatorHouseCore.ViewModel
             set
             {
                 SetProperty(ref _logType, value);
-                if (LogCollection != null)
-                    LogCollection.View.Refresh();
+                LogCollection?.View.Refresh();
             }
         }
 
@@ -130,8 +128,8 @@ namespace DominatorHouseCore.ViewModel
         {
             var logs = e.Item as LoggerModel;
 
-            if (logs != null && (logs.AccountCampaign != null && logs.AccountCampaign.Equals(SelectedAccount?.AccountBaseModel.UserName,
-                                     StringComparison.InvariantCultureIgnoreCase)))
+            if (logs?.AccountCampaign != null && logs.AccountCampaign.Equals(SelectedAccount?.AccountBaseModel.UserName,
+                    StringComparison.InvariantCultureIgnoreCase))
             {
                 e.Accepted = true;
             }

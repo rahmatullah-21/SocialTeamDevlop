@@ -33,15 +33,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 if (_mediaList == value)
                     return;
                 _mediaList = value;
-                if (_mediaList.Count > 0)
-                {
-                    TotalItem = _mediaList.Count;
-                    CurrentItem = 1;
-                    MediaUrl = _mediaList[CurrentItem - 1];
-                    IsEnablePreviousNext = false;
-                    IsEnableGoNext = _mediaList.Count > 1;
-                    IsPostDetailsPresent = true;
-                }
+                if (_mediaList.Count <= 0) return;
+                TotalItem = _mediaList.Count;
+                CurrentItem = 1;
+                MediaUrl = _mediaList[CurrentItem - 1];
+                IsEnablePreviousNext = false;
+                IsEnableGoNext = _mediaList.Count > 1;
+                IsPostDetailsPresent = true;
             }
         }
 

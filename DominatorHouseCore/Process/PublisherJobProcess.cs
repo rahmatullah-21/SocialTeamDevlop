@@ -39,13 +39,11 @@ namespace DominatorHouseCore.Process
             GenericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
 
             var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            if (softwareSettings.Settings?.IsThreadLimitChecked ?? false)
-            {
-                DominatorScheduler.islogged = false;
-                DominatorScheduler.maxThreadCount = softwareSettings.Settings.MaxThreadCount;
-                DominatorScheduler._lockWithThreadLimit = new SemaphoreSlim(DominatorScheduler.maxThreadCount,
-                    DominatorScheduler.maxThreadCount);
-            }
+            if (!(softwareSettings.Settings?.IsThreadLimitChecked ?? false)) return;
+            DominatorScheduler.islogged = false;
+            DominatorScheduler.maxThreadCount = softwareSettings.Settings.MaxThreadCount;
+            DominatorScheduler._lockWithThreadLimit = new SemaphoreSlim(DominatorScheduler.maxThreadCount,
+                DominatorScheduler.maxThreadCount);
         }
 
         protected PublisherJobProcess(string campaignId,
@@ -305,17 +303,15 @@ namespace DominatorHouseCore.Process
 
         public void ThreadLimit()
         {
-            if (DominatorScheduler._lockWithThreadLimit != null)
+            if (DominatorScheduler._lockWithThreadLimit == null) return;
+            if (DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !DominatorScheduler.islogged)
             {
-                if (DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !DominatorScheduler.islogged)
-                {
-                    DominatorScheduler.islogged = true;
-                    GlobusLogHelper.log.Info(
-                        $"{"LangKeyThreadLimitReachedTo".FromResourceDictionary()} {DominatorScheduler.maxThreadCount} {"LangKeyPendingStartsWhenRunnningStops".FromResourceDictionary()}");
-                }
-
-                DominatorScheduler._lockWithThreadLimit?.Wait();
+                DominatorScheduler.islogged = true;
+                GlobusLogHelper.log.Info(
+                    $"{"LangKeyThreadLimitReachedTo".FromResourceDictionary()} {DominatorScheduler.maxThreadCount} {"LangKeyPendingStartsWhenRunnningStops".FromResourceDictionary()}");
             }
+
+            DominatorScheduler._lockWithThreadLimit?.Wait();
         }
 
         /// <summary>

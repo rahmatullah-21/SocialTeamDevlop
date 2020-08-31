@@ -139,45 +139,43 @@ namespace DominatorHouseCore.ViewModel
 
         private void FriendSelectionChangedExecute(object sender)
         {
-            if (LiveChatModel.SenderDetails != null)
+            if (LiveChatModel.SenderDetails == null) return;
+            try
+            {
+                CancelPriviousTask();
+
+                var senders = _genericFileManager.GetModuleDetails<ChatDetails>(
+                    FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel
+                        .AccountNetwork)).Where(x => x.SenderId == LiveChatModel.SenderDetails.SenderId);
+
+                senders = senders.OrderBy(x => x.MessageTime);
+                Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
+                // ReSharper disable once ConstantConditionalAccessQualifier
+                senders?.ForEach(chat =>
+                {
+                    Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Add(chat));
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            ThreadFactory.Instance.Start(() =>
             {
                 try
                 {
                     CancelPriviousTask();
+                    //Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
 
-                    var senders = _genericFileManager.GetModuleDetails<ChatDetails>(
-                        FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel
-                            .AccountNetwork)).Where(x => x.SenderId == LiveChatModel.SenderDetails.SenderId);
-
-                    senders = senders.OrderBy(x => x.MessageTime);
-                    Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
-                    // ReSharper disable once ConstantConditionalAccessQualifier
-                    senders?.ForEach(chat =>
-                    {
-                        Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Add(chat));
-                    });
+                    SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
+                        .UpdateCurrentChat(LiveChatModel, CancellationSource.Token);
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
                 }
-
-                ThreadFactory.Instance.Start(() =>
-                {
-                    try
-                    {
-                        CancelPriviousTask();
-                        //Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
-
-                        SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
-                            .UpdateCurrentChat(LiveChatModel, CancellationSource.Token);
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
-                });
-            }
+            });
         }
 
         private void SendMessageExecute(object sender)

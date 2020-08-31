@@ -51,8 +51,7 @@ namespace DominatorUIUtility.Behaviours
         private static void OnPasswordPropertyChanged(DependencyObject sender,
             DependencyPropertyChangedEventArgs e)
         {
-            var passwordBox = sender as PasswordBox;
-            if (passwordBox != null)
+            if (sender is PasswordBox passwordBox)
             {
                 passwordBox.PasswordChanged -= PasswordChanged;
 
@@ -64,9 +63,7 @@ namespace DominatorUIUtility.Behaviours
         private static void Attach(DependencyObject sender,
             DependencyPropertyChangedEventArgs e)
         {
-            var passwordBox = sender as PasswordBox;
-
-            if (passwordBox == null)
+            if (!(sender is PasswordBox passwordBox))
                 return;
 
             if ((bool) e.OldValue) passwordBox.PasswordChanged -= PasswordChanged;
@@ -76,8 +73,7 @@ namespace DominatorUIUtility.Behaviours
 
         private static void PasswordChanged(object sender, RoutedEventArgs e)
         {
-            var passwordBox = sender as PasswordBox;
-            if (passwordBox != null)
+            if (sender is PasswordBox passwordBox)
             {
                 SetIsPasswordUpdating(passwordBox, true);
                 SetPassword(passwordBox, passwordBox.Password);

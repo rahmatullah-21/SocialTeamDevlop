@@ -24,8 +24,7 @@ namespace DominatorUIUtility.Behaviours
 
         private static object OnCoerceWidth(DependencyObject o, object baseValue)
         {
-            var fixedWidthGridViewColumn = o as FixedWidthGridViewColumn;
-            if (fixedWidthGridViewColumn != null)
+            if (o is FixedWidthGridViewColumn fixedWidthGridViewColumn)
                 return fixedWidthGridViewColumn.FixedWidth;
 
             return baseValue;
@@ -33,9 +32,7 @@ namespace DominatorUIUtility.Behaviours
 
         private static void OnFixedWidthChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            var fixedWidthGridViewColumn = o as FixedWidthGridViewColumn;
-
-            if (fixedWidthGridViewColumn != null)
+            if (o is FixedWidthGridViewColumn fixedWidthGridViewColumn)
                 fixedWidthGridViewColumn.CoerceValue(WidthProperty);
         }
     }

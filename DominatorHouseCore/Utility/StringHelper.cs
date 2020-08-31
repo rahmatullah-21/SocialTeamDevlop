@@ -28,9 +28,7 @@ namespace DominatorHouseCore.Utility
         public static string GenerateGuid(bool keepDashes = true)
         {
             var str = Guid.NewGuid().ToString();
-            if (!keepDashes)
-                return str.Replace('-', char.MinValue);
-            return str;
+            return !keepDashes ? str.Replace('-', char.MinValue) : str;
         }
 
         public static string GetRegexPatern(string patern, string value)
@@ -38,9 +36,7 @@ namespace DominatorHouseCore.Utility
             if (string.IsNullOrWhiteSpace(value))
                 return null;
             var match = Regex.Match(value, patern);
-            if (!match.Success)
-                return null;
-            return match.Value;
+            return !match.Success ? null : match.Value;
         }
 
         public static byte[] GetSha256Raw(string randomString, byte[] key = null)

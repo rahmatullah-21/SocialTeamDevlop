@@ -97,9 +97,7 @@ namespace DominatorHouseCore.Utility
                 using (var enumerator = htmlDocument.DocumentNode.Descendants().Where(d =>
                 {
                     // get the style image 
-                    if (d.Attributes.Contains("style"))
-                        return d.Attributes["style"].Value.Contains("background:url");
-                    return false;
+                    return d.Attributes.Contains("style") && d.Attributes["style"].Value.Contains("background:url");
                 }).ToList().GetEnumerator())
                 {
                     while (enumerator.MoveNext())
@@ -132,8 +130,7 @@ namespace DominatorHouseCore.Utility
 
                 var scrapeUrl = new Uri(url);
 
-                var webClient = new WebClient();
-                webClient.Encoding = Encoding.UTF8;
+                var webClient = new WebClient {Encoding = Encoding.UTF8};
                 var googlePageResult = webClient.DownloadString(scrapeUrl);
 
                 googlePageResult = Regex.Replace(googlePageResult, "\\\\([^u])", "\\\\$1").Replace("\\", "");
@@ -171,11 +168,9 @@ namespace DominatorHouseCore.Utility
                         foreach (Match match in matchCollection)
                         {
                             var imageData = match.Groups[1].ToString();
-                            if (imageData.Contains("png") && imageData.ToLower().Contains("logo"))
-                            {
-                                image = match.Groups[1].ToString();
-                                break;
-                            }
+                            if (!imageData.Contains("png") || !imageData.ToLower().Contains("logo")) continue;
+                            image = match.Groups[1].ToString();
+                            break;
                         }
                 }
 
@@ -191,11 +186,9 @@ namespace DominatorHouseCore.Utility
                                 foreach (Match match in matchCollection)
                                 {
                                     var imageData = match.Groups[1].ToString();
-                                    if (imageData.Contains("png"))
-                                    {
-                                        image = imageData;
-                                        break;
-                                    }
+                                    if (!imageData.Contains("png")) continue;
+                                    image = imageData;
+                                    break;
                                 }
 
                             if (!string.IsNullOrEmpty(image))
@@ -263,9 +256,8 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static bool CheckUrlValid(string source)
         {
-            Uri result;
             // Check whether Url is based on http or https schema
-            if (Uri.TryCreate(source, UriKind.Absolute, out result))
+            if (Uri.TryCreate(source, UriKind.Absolute, out var result))
                 return (result.Scheme == Uri.UriSchemeHttp) | (result.Scheme == Uri.UriSchemeHttps);
             return false;
         }

@@ -150,12 +150,10 @@ namespace DominatorHouse.ViewModels
                     foreach (var o in mosGet)
                     {
                         var mo = (ManagementObject) o;
-                        if (mo["Name"].ToString().StartsWith("Microsoft Visual C++"))
-                        {
-                            var version = Convert.ToInt32(mo["Version"].ToString().Substring(0, 2));
-                            if (version >= 14)
-                                return;
-                        }
+                        if (!mo["Name"].ToString().StartsWith("Microsoft Visual C++")) continue;
+                        var version = Convert.ToInt32(mo["Version"].ToString().Substring(0, 2));
+                        if (version >= 14)
+                            return;
                     }
 
                     Application.Current.Dispatcher.Invoke(() =>
@@ -380,14 +378,13 @@ namespace DominatorHouse.ViewModels
             if (fatalError == null)
             {
                 IsCancelFromLicenceValidationState = true;
-                Application.Current.MainWindow.Close();
+                if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();
             }
             else
             {
                 if (DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyLicense".FromResourceDictionary(), "LangKeyValidateSocinator".FromResourceDictionary(), MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
                     return true;
-                else
-                    Application.Current.MainWindow.Close();
+                if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();
             }
 
             return false;
@@ -594,41 +591,39 @@ namespace DominatorHouse.ViewModels
 
         private void OnTabItems_ItemSelected(object sender, TabItemTemplates itemTemplate)
         {
-            if (itemTemplate != null)
+            if (itemTemplate == null) return;
+            if (itemTemplate.Title ==
+                _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
+                    .LangKeyAccountsActivity))
             {
-                if (itemTemplate.Title ==
-                    _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
-                        .LangKeyAccountsActivity))
-                {
-                    ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
-                }
+                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
+            }
 
-                if (itemTemplate.Title ==
-                    _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyPublisher))
-                {
-                    PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl =
-                        Home.GetSingletonHome();
-                }
+            if (itemTemplate.Title ==
+                _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyPublisher))
+            {
+                PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl =
+                    Home.GetSingletonHome();
+            }
 
-                if (itemTemplate.Title ==
-                    _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
-                        .LangKeyAccountsManager))
-                {
-                    /* LastControlType will be have value "AccountManager" if last opened UserControl was "Account Manager" itselt, it won't let to change UserControl if "Account Details" was opened. */
-                    if (AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType == "AccountDetail")
-                        return;
+            if (itemTemplate.Title ==
+                _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
+                    .LangKeyAccountsManager))
+            {
+                /* LastControlType will be have value "AccountManager" if last opened UserControl was "Account Manager" itselt, it won't let to change UserControl if "Account Details" was opened. */
+                if (AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType == "AccountDetail")
+                    return;
 
-                    AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
-                            AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
-                }
+                AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
+                    AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
+            }
 
-                if (itemTemplate.Title ==
-                    _applicationResourceProvider.GetStringResource(
-                        ApplicationResourceProvider.LangKeySociopublisher))
-                {
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
-                        PublisherDefaultPage.Instance();
-                }
+            if (itemTemplate.Title ==
+                _applicationResourceProvider.GetStringResource(
+                    ApplicationResourceProvider.LangKeySociopublisher))
+            {
+                PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
+                    PublisherDefaultPage.Instance();
             }
         }
 

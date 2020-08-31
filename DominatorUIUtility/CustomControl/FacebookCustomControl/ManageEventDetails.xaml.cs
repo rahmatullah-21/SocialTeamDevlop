@@ -57,8 +57,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
         {
             try
             {
-                var currentItem = ((FrameworkElement) sender).DataContext as EventCreaterManagerModel;
-                if (currentItem != null)
+                if (((FrameworkElement) sender).DataContext is EventCreaterManagerModel currentItem)
                 {
                     var editMessage = new EventCreaterManager
                     {
@@ -85,10 +84,10 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
                             TextLength = currentItem.TextLength,
                             EventId = currentItem.EventId
                         },
-                        LstManageEventModel = LstManageEventModel
+                        LstManageEventModel = LstManageEventModel,
+                        MainGrid = {Margin = new Thickness(20)}
                     };
 
-                    editMessage.MainGrid.Margin = new Thickness(20);
 
                     var dialog = new Dialog();
                     var window = dialog.GetMetroWindow(editMessage, "Edit Message");

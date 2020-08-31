@@ -46,10 +46,10 @@ namespace DominatorHouseCore.Process.JobLimits
 
             if (counters.NoOfActionPerformedCurrentHour >= limits.MaxNoOfActionPerHour)
                 return new ReachedLimitInfo(ReachedLimitType.Hourly, limits.MaxNoOfActionPerHour);
-            if (noOfActionPerformedCurrentJob >= limits.MaxNoOfActionPerJob)
-                return new ReachedLimitInfo(ReachedLimitType.Job, limits.MaxNoOfActionPerJob);
+            return noOfActionPerformedCurrentJob >= limits.MaxNoOfActionPerJob
+                ? new ReachedLimitInfo(ReachedLimitType.Job, limits.MaxNoOfActionPerJob)
+                : new ReachedLimitInfo(ReachedLimitType.NoLimit, 0);
 
-            return new ReachedLimitInfo(ReachedLimitType.NoLimit, 0);
             ;
         }
 

@@ -42,23 +42,21 @@ namespace DominatorHouseCore.Utility
                 try
                 {
                     var extension = Path.GetExtension(fileName);
-                    if (!string.IsNullOrEmpty(extension))
-                    {
-                        if (extension.Equals(".xls", StringComparison.CurrentCultureIgnoreCase) ||
-                            extension.Equals(".xlsx", StringComparison.CurrentCultureIgnoreCase))
-                            fileData.AddRange(GetExcelFileContent(fileName));
-                        else if (extension.Equals(".csv", StringComparison.CurrentCultureIgnoreCase))
-                            fileData.AddRange(GetCsvFileContent(fileName));
-                        else if (extension.Equals(".txt", StringComparison.CurrentCultureIgnoreCase))
-                            fileData.AddRange(GetTextFileContent(fileName));
-                        // ReSharper disable once RedundantJumpStatement
-                        else continue;
+                    if (string.IsNullOrEmpty(extension)) continue;
+                    if (extension.Equals(".xls", StringComparison.CurrentCultureIgnoreCase) ||
+                        extension.Equals(".xlsx", StringComparison.CurrentCultureIgnoreCase))
+                        fileData.AddRange(GetExcelFileContent(fileName));
+                    else if (extension.Equals(".csv", StringComparison.CurrentCultureIgnoreCase))
+                        fileData.AddRange(GetCsvFileContent(fileName));
+                    else if (extension.Equals(".txt", StringComparison.CurrentCultureIgnoreCase))
+                        fileData.AddRange(GetTextFileContent(fileName));
+                    // ReSharper disable once RedundantJumpStatement
+                    else continue;
 
-                        //if (!extension.Contains(".txt") && !extension.Contains(".csv"))
-                        //        continue;
+                    //if (!extension.Contains(".txt") && !extension.Contains(".csv"))
+                    //        continue;
 
-                        //fileData.AddRange(GetFileContent(fileName));
-                    }
+                    //fileData.AddRange(GetFileContent(fileName));
                 }
                 catch (Exception ex)
                 {
@@ -237,11 +235,9 @@ namespace DominatorHouseCore.Utility
                         while (hasColumn)
                         {
                             hasColumn = csv.TryGetField(columnCount, out columnValue);
-                            if (hasColumn)
-                            {
-                                columnCount += 1;
-                                rowContent += columnValue + "\t";
-                            }
+                            if (!hasColumn) continue;
+                            columnCount += 1;
+                            rowContent += columnValue + "\t";
                         }
 
                         var data = rowContent.Trim();
