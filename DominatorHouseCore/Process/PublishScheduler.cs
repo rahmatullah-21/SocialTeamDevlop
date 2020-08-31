@@ -508,7 +508,7 @@ namespace DominatorHouseCore.Process
 
                 if (campaignStatusModel == null)
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName,
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel?.CampaignName ?? "null",
                         "LangKeyPublisher".FromResourceDictionary(),
                         "LangKeyPostNotRegisterWithAnyCampaign".FromResourceDictionary());
                     return;

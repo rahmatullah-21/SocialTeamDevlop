@@ -647,7 +647,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetMimeTypeByFilePath(string filePath)
         {
-            if (filePath == null) throw new ArgumentNullException("extension");
+            if (filePath == null) throw new ArgumentNullException(nameof(filePath));
 
             var extension = Path.GetExtension(filePath);
             return GetMimeType(extension);

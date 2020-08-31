@@ -1,13 +1,15 @@
-﻿using CefSharp;
-using DominatorHouseCore;
-using System;
+﻿using System;
 using System.IO;
+using CefSharp;
+using DominatorHouseCore;
 
 namespace EmbeddedBrowser.BrowserHelper
 {
     public class MemoryStreamResponseFilter : IResponseFilter
     {
         private MemoryStream memoryStream;
+
+        public byte[] Data { get; set; }
 
         bool IResponseFilter.InitFilter()
         {
@@ -42,10 +44,7 @@ namespace EmbeddedBrowser.BrowserHelper
 
                 //If we read less than the total amount avaliable then we need
                 //return FilterStatus.NeedMoreData so we can then write the rest
-                if (dataInRead < dataIn.Length)
-                {
-                    return FilterStatus.NeedMoreData;
-                }
+                if (dataInRead < dataIn.Length) return FilterStatus.NeedMoreData;
 
                 if (memoryStream.Length > 0)
                     Data = memoryStream.ToArray();
@@ -68,20 +67,9 @@ namespace EmbeddedBrowser.BrowserHelper
                 memoryStream?.Dispose();
                 memoryStream = null;
             }
-            catch(Exception ex) { ex.DebugLog(); }
-        }
-
-        private byte[] _data;
-
-        public byte[] Data
-        {
-            get
+            catch (Exception ex)
             {
-                return _data;
-            }
-            set
-            {
-                _data = value;
+                ex.DebugLog();
             }
         }
     }

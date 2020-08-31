@@ -105,7 +105,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var currentTimer = ((FrameworkElement) sender).DataContext as TimingRange;
 
-            if (RunningTimes.Timings.Any(range => range.TimeId == currentTimer.TimeId))
+            if (RunningTimes.Timings.Any(range => range.TimeId == currentTimer?.TimeId))
             {
                 RunningTimes.Timings.Remove(currentTimer);
                 RunningTimes.IsEnabled = RunningTimes.Timings.Count > 0;

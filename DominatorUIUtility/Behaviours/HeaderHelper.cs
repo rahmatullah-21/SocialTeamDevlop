@@ -20,26 +20,26 @@ namespace DominatorUIUtility.Behaviours
                 for (var i = 0; i < VisualTreeHelper.GetChildrenCount(usercontrol); i++)
                 {
                     var userControlChild = VisualTreeHelper.GetChild(usercontrol, i);
-                    if (userControlChild is T) yield return (T) userControlChild;
+                    if (userControlChild is T child) yield return child;
 
                     foreach (var childOfChild in FindVisualChildren<T>(userControlChild)) yield return childOfChild;
                 }
         }
 
-        public static void ExpandCollapseAllExpander(object sender, bool IsExpanded)
+        public static void ExpandCollapseAllExpander(object sender, bool isExpanded)
         {
-            var currentcontrol = ((FrameworkElement) ((FrameworkElement) sender).DataContext).DataContext;
+            var currentControl = ((FrameworkElement) ((FrameworkElement) sender).DataContext).DataContext;
 
-            foreach (var expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
-                expander.IsExpanded = IsExpanded;
+            foreach (var expander in FindVisualChildren<Expander>(currentControl as UserControl))
+                expander.IsExpanded = isExpanded;
         }
 
-        public static void ExpandCollapseAllExpanderForActivity(object sender, bool IsExpanded)
+        public static void ExpandCollapseAllExpanderForActivity(object sender, bool isExpanded)
         {
-            var currentcontrol = (FrameworkElement) sender;
+            var currentControl = (FrameworkElement) sender;
 
-            foreach (var expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
-                expander.IsExpanded = IsExpanded;
+            foreach (var expander in FindVisualChildren<Expander>(currentControl as UserControl))
+                expander.IsExpanded = isExpanded;
         }
 
         public static bool IsAllExpanderCollapseOrNot(object sender)

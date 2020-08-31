@@ -16,14 +16,14 @@ namespace DominatorHouse.Social
 
     public class SocialBrowserManager : ISocialBrowserManager
     {
-        private CancellationToken cancellationToken;
+        private CancellationToken _cancellationToken;
 
         public BrowserWindow BrowserWindow { get; set; }
 
 
         private void AssignCancellationToken(CancellationToken cancellationToken)
         {
-            this.cancellationToken = cancellationToken;
+            this._cancellationToken = cancellationToken;
         }
 
         public bool BrowserLogin(DominatorAccountModel account, CancellationToken cancellationToken, LoginType loginType = LoginType.AutomationLogin, VerificationType verificationType = 0)
@@ -94,15 +94,15 @@ namespace DominatorHouse.Social
                         await Task.Delay(1000);
                         isRunning = false;
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
-
+                        exc.DebugLog();
                     }
                 });
             }
-            catch (Exception)
+            catch (Exception exc)
             {
-
+                exc.DebugLog();
             }
 
             while (isRunning)
@@ -131,7 +131,7 @@ namespace DominatorHouse.Social
                         while ((string.IsNullOrEmpty(imageTagCount) || int.Parse(imageTagCount) < 50) && (DateTime.Now - currentTime).TotalSeconds < 60)
                         {
                             await BrowserWindow.GoToCustomUrl(url, delayAfter: 5);
-                            await Task.Delay(5000, cancellationToken);
+                            await Task.Delay(5000, _cancellationToken);
                             imageTagCount = await BrowserWindow.GetElementValueAsync(ActType.GetLength, AttributeType.TagName,
                             "img");
                         }
@@ -162,7 +162,7 @@ namespace DominatorHouse.Social
             }
 
             while (isRunning)
-                Task.Delay(500).Wait(cancellationToken);
+                Task.Delay(500).Wait(_cancellationToken);
 
             title = currentTitle;
         }
@@ -188,7 +188,7 @@ namespace DominatorHouse.Social
 
                         while (!imageUrl.StartsWith("http") && (DateTime.Now - currentTime).TotalSeconds < 10)
                         {
-                            await Task.Delay(200, cancellationToken);
+                            await Task.Delay(200, _cancellationToken);
                             pageSource = await BrowserWindow.GetPageSourceAsync();
                             pageSource = Regex.Split(pageSource, "polygon>").Length > 1 ? Regex.Split(pageSource, "polygon>")[1]
                               : string.Empty;
@@ -213,7 +213,7 @@ namespace DominatorHouse.Social
             }
 
             while (isRunning)
-                Task.Delay(500).Wait(cancellationToken);
+                Task.Delay(500).Wait(_cancellationToken);
 
             return imageUrl ?? string.Empty;
         }
@@ -253,7 +253,7 @@ namespace DominatorHouse.Social
             }
 
             while (isRunning)
-                Task.Delay(500).Wait(cancellationToken);
+                Task.Delay(500).Wait(_cancellationToken);
 
             return hasMoreResults;
         }

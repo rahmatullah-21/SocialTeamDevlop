@@ -21,6 +21,7 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="title">Show the title of the user control, like Add account</param>
         /// <param name="actionButtonContent">Pass the action button content like Save</param>
         /// <param name="showAdvance">Pass true only if proxy ip contains values otherwise false</param>
+        /// <param name="socialNetwork"></param>
         public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title,
             string actionButtonContent, bool showAdvance,
             SocialNetworks socialNetwork)

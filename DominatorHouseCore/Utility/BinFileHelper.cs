@@ -141,87 +141,6 @@ namespace DominatorHouseCore.Utility
                 _protoBuffBase.DeserializeList<TemplateModel>(file));
         }
 
-        //public int FindAccountIndex(List<DominatorAccountModel> accounts, string id)
-        //{
-        //    return accounts.FindIndex(candidate => candidate.AccountId == id);
-        //}
-
-        //[Obsolete("This method is not safe")]
-        //public int FindAccountIndex<T>(List<T> accounts, string id)
-        //{
-        //    return typeof(T) == typeof(DominatorAccountModel)
-        //        ? accounts.FindIndex(a => (a as DominatorAccountModel).AccountBaseModel.AccountId == id)
-        //        : accounts.FindIndex(a => (a as dynamic).AccountId == id);
-        //}
-
-        /// <summary>
-        ///     Overwrites AccountDetails.bin with updated account
-        /// </summary>
-        /// <param name="accountModel"></param>
-        /// <returns></returns>
-        //public bool UpdateAccount(DominatorAccountModel accountModel)
-        //{
-        //    try
-        //    {
-        //        return _lockFileConfigProvider.WithFile<DominatorAccountModel, bool>(file =>
-        //        {
-        //            int indexOfAccountToUpdate;
-        //            var accountDetailsList = GetAccountDetails();
-
-        //            if (accountDetailsList != null)
-        //            {
-        //                indexOfAccountToUpdate =
-        //                    FindAccountIndex(accountDetailsList, accountModel.AccountBaseModel.AccountId);
-        //                accountDetailsList[indexOfAccountToUpdate] = accountModel;
-        //            }
-        //            else
-        //            {
-        //                accountDetailsList = new List<DominatorAccountModel>();
-        //                accountDetailsList.Add(accountModel);
-        //            }
-        //            bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
-
-        //            GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
-        //            return result;
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //        return false;
-        //    }
-        //}
-
-        // TODO: backward compatibility
-        [Obsolete("This code is unsafe")]
-        //internal bool UpdateAccount<T>(T accountModel) where T : class
-        //{
-        //    try
-        //    {
-        //        return _lockFileConfigProvider.WithFile<T, bool>(file =>
-        //        {
-        //            List<T> accountDetailsList = GetAccountDetailsFor<T>();
-        //            int indexOfAccountToUpdate =
-        //                FindAccountIndex(accountDetailsList, (accountModel as dynamic).AccountId);
-
-        //            if (indexOfAccountToUpdate == -1)
-        //                return false;
-
-        //            accountDetailsList[indexOfAccountToUpdate] = accountModel;
-
-        //            bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
-
-        //            GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
-        //            return result;
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //        return false;
-        //    }
-        //}
-
         // TODO: back compatibility to save old AccountModel. Have to be replaced with IList<DominatorAccountModel>
         public bool UpdateAllAccounts<T>(List<T> accountDetailsList) where T : class
         {
@@ -285,7 +204,7 @@ namespace DominatorHouseCore.Utility
         public int FindProxyIndex<T>(List<T> proxy, string ProxyId)
         {
             return typeof(T) == typeof(ProxyManagerModel)
-                ? proxy.FindIndex(a => (a as ProxyManagerModel).AccountProxy.ProxyId == ProxyId)
+                ? proxy.FindIndex(a => (a as ProxyManagerModel)?.AccountProxy.ProxyId == ProxyId)
                 : proxy.FindIndex(a => (a as dynamic).AccountProxy.ProxyId == ProxyId);
         }
 
@@ -393,7 +312,7 @@ namespace DominatorHouseCore.Utility
         public int FindPostIndex<T>(List<T> posts, string CampaignName)
         {
             return typeof(T) == typeof(AddPostModel)
-                ? posts.FindIndex(a => (a as AddPostModel).CampaignDetails.CampaignName == CampaignName)
+                ? posts.FindIndex(a => (a as AddPostModel)?.CampaignDetails.CampaignName == CampaignName)
                 : posts.FindIndex(a => (a as dynamic).AccountProxy.ProxyName == CampaignName);
         }
 
@@ -416,8 +335,9 @@ namespace DominatorHouseCore.Utility
                     return new List<Configuration>();
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ex.DebugLog();
             }
 
             return null;
@@ -687,8 +607,9 @@ namespace DominatorHouseCore.Utility
                     sw.WriteLine(theme);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                ex.DebugLog();
             }
         }
 

@@ -167,7 +167,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             get => _fdSellPrice;
             set
             {
-                if (value == _fdSellPrice)
+                if (Math.Abs(value - _fdSellPrice) < 0.00001)
                     return;
                 SetProperty(ref _fdSellPrice, value);
             }

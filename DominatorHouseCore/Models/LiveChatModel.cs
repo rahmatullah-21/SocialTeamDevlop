@@ -198,6 +198,7 @@ namespace DominatorHouseCore.Models
                 }
                 catch (Exception ex)
                 {
+                    ex.DebugLog();
                 }
             }
         }
@@ -391,12 +392,12 @@ namespace DominatorHouseCore.Models
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool) value ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+            return value != null && (bool) value ? HorizontalAlignment.Right : HorizontalAlignment.Left;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (HorizontalAlignment) value == HorizontalAlignment.Right;
+            return value != null && (HorizontalAlignment) value == HorizontalAlignment.Right;
         }
     }
 }

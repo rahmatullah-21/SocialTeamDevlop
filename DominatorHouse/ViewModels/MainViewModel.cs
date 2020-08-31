@@ -110,7 +110,7 @@ namespace DominatorHouse.ViewModels
             Strategies = new AccessorStrategies
             {
                 _determine_available = a => AvailableNetworks.Contains(a),
-                _inform_warnings = GlobusLogHelper.log.Warn,
+                _inform_warnings = GlobusLogHelper.log.Warn
             };
 
             var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
@@ -250,7 +250,7 @@ namespace DominatorHouse.ViewModels
                 {
                     if (!_isStartedfirstTime)
                         return;
-                    var settings = new MetroDialogSettings()
+                    var settings = new MetroDialogSettings
                     {
                         DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
                         AffirmativeButtonText = "LangKeyValidate".FromResourceDictionary()
@@ -270,8 +270,6 @@ namespace DominatorHouse.ViewModels
                                 continue;
                             // ReSharper disable once RedundantIfElseBlock
                             else if (_isStartedfirstTime)
-                                continue;
-                            else
                                 break;
                         }
                         catch (Exception ex)
@@ -290,7 +288,7 @@ namespace DominatorHouse.ViewModels
                         if (await IsProcessFatalError(fatalError))
                             // ReSharper disable once RedundantJumpStatement
                             continue;
-                        else break;
+                        break;
                     }
                     catch (Exception ex)
                     {
@@ -379,7 +377,7 @@ namespace DominatorHouse.ViewModels
         {
             if (!string.IsNullOrEmpty(fatalError) && await DiagnoseFatalError(fatalError))
                 return false;
-            else if (fatalError == null)
+            if (fatalError == null)
             {
                 IsCancelFromLicenceValidationState = true;
                 Application.Current.MainWindow.Close();

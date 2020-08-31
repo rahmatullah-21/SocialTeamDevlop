@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using DominatorHouseCore;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.Behaviours
 {
@@ -22,7 +23,7 @@ namespace DominatorUIUtility.Behaviours
 
         private void AccountChecked(object sender, RoutedEventArgs e)
         {
-            SelectInividual();
+            SelectIndividual();
         }
 
         #region Properties
@@ -85,14 +86,13 @@ namespace DominatorUIUtility.Behaviours
             if (_isAllAccountSelectedFromList)
                 return;
 
-            Accounts.Select(account =>
+            Accounts.ForEach(account =>
             {
                 account.IsChecked = isAllProxySelected;
-                return account;
-            }).ToList();
+            });
         }
 
-        private void SelectInividual()
+        private void SelectIndividual()
         {
             try
             {

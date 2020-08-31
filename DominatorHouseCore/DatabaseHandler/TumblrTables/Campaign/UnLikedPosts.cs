@@ -27,7 +27,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryValue { get; set; }
 
-        // <summary>
+        /// <summary>
         /// Contains QueryValue For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]

@@ -960,7 +960,7 @@
                                          Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5"
                                          Foreground="{DynamicResource TextColorBrushAccordingTheme}"
                                          VerticalAlignment="Center" Height="30" Grid.Column="1"
-                                         Grid.ColumnSpan="2">
+                                         Grid.ColumnSpan="1">
                                 <PasswordBox.Style>
                                     <Style BasedOn="{StaticResource MetroButtonRevealedPasswordBox}"
                                            TargetType="PasswordBox">

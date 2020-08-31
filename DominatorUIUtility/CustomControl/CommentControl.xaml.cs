@@ -102,7 +102,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var currentQuery = ((QueryContent) (sender as CheckBox).DataContext).Content.QueryValue;
+                var currentQuery = ((QueryContent) (sender as CheckBox)?.DataContext).Content.QueryValue;
                 if (!Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
                     if (!IsChecked)
                     {
@@ -125,11 +125,10 @@ namespace DominatorUIUtility.CustomControl
                 if (currentQuery == "All" || currentQuery == "Default")
                 {
                     _isUncheckfromList = false;
-                    Comments.LstQueries.ToList().Select(query =>
+                    Comments.LstQueries.ToList().ForEach(query =>
                     {
                         query.IsContentSelected = IsChecked;
-                        return query;
-                    }).ToList();
+                    });
                 }
             }
             catch (Exception ex)
@@ -165,7 +164,7 @@ namespace DominatorUIUtility.CustomControl
             AddCheckedQueryToList();
             if (btnAddCommentToList.Content.ToString() == "Update Comment")
             {
-                LstManageCommentModel.Select(x =>
+                LstManageCommentModel.ForEach(x =>
                 {
                     if (x.CommentId == Comments.CommentId)
                     {
@@ -174,16 +173,10 @@ namespace DominatorUIUtility.CustomControl
                         x.LstQueries = Comments.LstQueries;
                         x.SelectedQuery = Comments.SelectedQuery;
                     }
-
-                    return x;
-                }).ToList();
+                });
                 Comments.SelectedQuery.Remove(
                     Comments.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
-                Comments.LstQueries.Select(x =>
-                {
-                    x.IsContentSelected = false;
-                    return x;
-                }).ToList();
+                Comments.LstQueries.ForEach(x => { x.IsContentSelected = false; });
                 Isupdated = true;
                 Dialog.CloseDialog(this);
             }

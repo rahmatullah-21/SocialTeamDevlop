@@ -41,15 +41,8 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         public string ActivityType { get; set; }
 
         /// <summary>
-        /// Contains Name of the Company For Job being interacted
-        /// </summary>
-        //[System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        //public string CompanyName { get; set; }
-
-        /// <summary>
         ///     Contains Url of the JobPost being interacted
         /// </summary>
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string JobPostUrl { get; set; }
 

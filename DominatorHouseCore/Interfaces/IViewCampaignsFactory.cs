@@ -26,18 +26,5 @@ namespace DominatorHouseCore.Interfaces
         /// <param name="campaignId">pass the campaign Id</param>
         /// <param name="openCampaignType">type of view where edit or duplicate</param>
         void ViewCampaigns(string campaignId, string openCampaignType);
-
-        /// <summary>
-        /// To define the views for the campaign with either edit or duplicate mode
-        /// --------------------------
-        /// Implementation details
-        /// --------------------------
-        /// Depends on campaignType value, bind the neccessary details for edit campaign or duplicate campaign like is campaign name editable, cancel buttons visibility 
-        /// Fetch the activity type from template model and call the respective view
-        /// </summary>
-        /// <param name="campaignDetails"></param>
-        /// <param name="templateModel"></param>
-        /// <param name="campaignType">type of view either edit or duplicate</param>
-        // void EditOrDuplicateCampaigns(CampaignDetails campaignDetails, TemplateModel templateModel, string campaignType);
     }
 }

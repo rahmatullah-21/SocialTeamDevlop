@@ -136,7 +136,7 @@ namespace DominatorHouseCore.Utility
         /// <summary>
         ///     Get Report Header as string
         /// </summary>
-        /// <param name="resourceDictionaryKey">List of resourceDictionary key. It should be sequential.</param>
+        /// <param name="resourceDictionaryKeys">List of resourceDictionary key. It should be sequential.</param>
         /// <returns></returns>
         public static string ReportHeaderFromResourceDict(this List<string> resourceDictionaryKeys)
         {
@@ -457,11 +457,11 @@ namespace DominatorHouseCore.Utility
                 }
 
                 if (softwareSettings.IsTestMode)
-                    // Update data in TestResponseFile(json, html etc.)
                     FileUtilities.ReWriteDataIntoFile(hitResponse, respDataFileLoc);
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
             }
         }
 
@@ -500,6 +500,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
             }
         }
 

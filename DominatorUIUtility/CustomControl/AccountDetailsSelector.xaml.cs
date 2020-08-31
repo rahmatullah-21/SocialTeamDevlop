@@ -14,14 +14,9 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AccountDetailsSelector : INotifyPropertyChanged
     {
-        private readonly string _accountId;
-        private readonly string _accountName;
-
         private readonly Action<AccountDetailsSelector> _updateAllDetails;
 
         private readonly Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel, Task> _updateSinlgeDetails;
-
-        private readonly Func<string, string, AccountDetailsSelector, Task> _updateUiDetails;
 
         private AccountDetailsSelectorViewModel
             _accountDetailsSelectorViewModel = new AccountDetailsSelectorViewModel();
@@ -29,15 +24,11 @@ namespace DominatorUIUtility.CustomControl
         private readonly PublisherCreateDestinationSelectModel _publisherCreateDestinationSelectModel =
             new PublisherCreateDestinationSelectModel();
 
-        public AccountDetailsSelector(Func<string, string, AccountDetailsSelector, Task> updateUiData,
-            string accountId, string accountName, bool isPageOptionVisible = false)
+        public AccountDetailsSelector(bool isPageOptionVisible = false)
         {
             InitializeComponent();
             AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;
             AccountDetailsSelectorViewModel.IsPageOptionVisible = isPageOptionVisible;
-            _accountId = accountId;
-            _accountName = accountName;
-            _updateUiDetails = updateUiData;
         }
 
 

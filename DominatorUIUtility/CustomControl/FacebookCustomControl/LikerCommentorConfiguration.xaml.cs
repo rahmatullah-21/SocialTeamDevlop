@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.Models;
@@ -171,8 +172,9 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
                 LikerCommentorConfig.ListReactionType = LikerCommentorConfig.ListReactionType.Distinct().ToList();
             }
-            catch (Exception)
+            catch (Exception exc)
             {
+                exc.DebugLog();
             }
         }
 

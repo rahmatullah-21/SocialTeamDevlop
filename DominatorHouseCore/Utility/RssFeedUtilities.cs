@@ -72,7 +72,7 @@ namespace DominatorHouseCore.Utility
 
                 var postItems = htmlDoc.DocumentNode.Descendants("item");
 
-                if (postItems.Count() == 0)
+                if (!postItems.Any())
                 {
                     postItems = htmlDoc.DocumentNode.Descendants("entry");
 

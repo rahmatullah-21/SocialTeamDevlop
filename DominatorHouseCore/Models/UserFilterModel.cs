@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Models;
@@ -163,7 +164,7 @@ namespace DominatorHouseCore.Settings
             get => _maximumFollowRatio;
             set
             {
-                if (value == _maximumFollowRatio) return;
+                if (Math.Abs(value - _maximumFollowRatio) < 0.000001) return;
                 SetProperty(ref _maximumFollowRatio, value);
             }
         }
@@ -190,7 +191,7 @@ namespace DominatorHouseCore.Settings
             get => _minimumFollowRatio;
             set
             {
-                if (value == _minimumFollowRatio) return;
+                if (Math.Abs(value - _minimumFollowRatio) < 0.000001) return;
                 SetProperty(ref _minimumFollowRatio, value);
             }
         }

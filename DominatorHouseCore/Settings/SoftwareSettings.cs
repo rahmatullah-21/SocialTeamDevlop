@@ -464,6 +464,7 @@ namespace DominatorHouseCore.Settings
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
             }
         }
     }

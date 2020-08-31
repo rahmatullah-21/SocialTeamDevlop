@@ -52,7 +52,7 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
-                task.ContinueWith(t => InvokeError(t, t.Exception.InnerException),
+                task.ContinueWith(t => InvokeError(t, t.Exception?.InnerException),
                     TaskContinuationOptions.OnlyOnFaulted |
                     TaskContinuationOptions.ExecuteSynchronously);
                 task.Start();

@@ -182,8 +182,8 @@ namespace DominatorHouseCore.Interfaces
             {
                 if (!isPresent)
                 {
-                    if (liveChatModel.LstSender.Count() > 0 &&
-                        liveChatModel.LstSender.FirstOrDefault().AccountId != friendDetail.AccountId)
+                    if (liveChatModel.LstSender.Any() &&
+                        liveChatModel.LstSender.FirstOrDefault()?.AccountId != friendDetail.AccountId)
                         return;
                     var item = liveChatModel.LstSender.FirstOrDefault(x =>
                         x.LastMessegeDateTime < friendDetail.LastMessegeDateTime);

@@ -62,13 +62,7 @@ namespace DominatorHouseCore.Process
         protected readonly ISoftwareSettingsFileManager _softwareSettingsFileManager;
         public CampaignDetails CampaignDetails { get; }
 
-
-        //[Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
-        //public JobProcess()
-        //{
-        //}
-
-        public bool IsNeedToSchedule { get; set; } = true;
+        public bool IsNeedToSchedule { get; set; }
         public JobProcessResult JobProcessResult { get; set; }
 
         protected JobProcess(IProcessScopeModel processScopeModel, IQueryScraperFactory queryScraperFactory,

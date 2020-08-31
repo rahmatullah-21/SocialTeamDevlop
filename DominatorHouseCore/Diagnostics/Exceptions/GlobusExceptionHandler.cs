@@ -35,8 +35,9 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
                 var dwMode = SetErrorMode(ErrorModes.SEM_NOGPFAULTERRORBOX);
                 SetErrorMode(dwMode | ErrorModes.SEM_NOGPFAULTERRORBOX);
             }
-            catch
+            catch (Exception exc)
             {
+                exc.DebugLog();
             }
         }
 

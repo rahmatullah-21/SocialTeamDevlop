@@ -37,8 +37,9 @@ namespace DominatorHouseCore.Utility
             {
                 dialogWindow.GlowBrush = dialogWindow.FindResource("AccentColorBrush") as SolidColorBrush;
             }
-            catch (Exception)
+            catch (Exception exc)
             {
+                exc.DebugLog();
             }
 
             dialogWindow.MinHeight = SystemParameters.PrimaryScreenHeight / 4.0;

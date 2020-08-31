@@ -765,7 +765,7 @@ namespace DominatorHouseCore.Process
                 var downloadLock = PublishScheduler.DownloadLock.GetOrAdd(postDetails.PostId, _lock => new object());
                 RemovePreviousDirectory();
 
-                var folderPath = $@"{ConstantVariable.MediaTempFolder}\[{DateTime.Now.ToString("MM-dd-yyyy")}]";
+                var folderPath = $@"{ConstantVariable.MediaTempFolder}\[{DateTime.Now:MM-dd-yyyy}]";
 
                 DirectoryUtilities.CreateDirectory(folderPath);
 
@@ -809,9 +809,9 @@ namespace DominatorHouseCore.Process
             {
                 var lstTemprorayFolderList = DirectoryUtilities.GetSubDirectories(ConstantVariable.MediaTempFolder);
 
-                lstTemprorayFolderList.RemoveAll(x => x.Contains($@"[{DateTime.Now.ToString("MM-dd-yyyy")}]") ||
+                lstTemprorayFolderList.RemoveAll(x => x.Contains($@"[{DateTime.Now:MM-dd-yyyy}]") ||
                                                       x.Contains(
-                                                          $@"[{DateTime.Now.AddDays(-1).ToString("MM-dd-yyyy")}]"));
+                                                          $@"[{DateTime.Now.AddDays(-1):MM-dd-yyyy}]"));
 
                 DirectoryUtilities.DeleteFolder(lstTemprorayFolderList, true);
             }

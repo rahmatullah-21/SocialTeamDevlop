@@ -53,7 +53,7 @@ namespace DominatorHouseCore.Process
                 .GetPublisherPostFetchFile);
 
             var deletedCampaignFetcherList = getFetchDetails.Where(x =>
-                allCampaign.FirstOrDefault(y => y.CampaignId == x.CampaignId) == null);
+                allCampaign.Any(y => y.CampaignId == x.CampaignId)).ToList();
 
             deletedCampaignFetcherList.ForEach(x =>
             {
@@ -194,6 +194,7 @@ namespace DominatorHouseCore.Process
         ///     Stop post fetcher by using campaign Id
         /// </summary>
         /// <param name="campaignId">Campaign Id</param>
+        /// <param name="isDeleteRelatedModel"></param>
         public static void StopFetchingPostsByCampaignId(string campaignId, bool isDeleteRelatedModel = true)
         {
             try
@@ -271,7 +272,6 @@ namespace DominatorHouseCore.Process
         ///     Start fetching post for all Scarpe post(Facebook,Twitter,Pinterest),Share post(Facebook), Rss and Monitor Folder
         /// </summary>
         /// <param name="publisherPostFetchModel">
-        ///     <see cref="" />
         /// </param>
         /// <param name="cancellationTokenSource"></param>
         public void FetchPosts(PublisherPostFetchModel publisherPostFetchModel,
@@ -360,7 +360,7 @@ namespace DominatorHouseCore.Process
                     case PostSource.MonitorFolderPost:
                         // Get the proper name for monitor job process
                         var monitorJobName =
-                            $"{publisherPostFetchModel.CampaignId}-{PostSource.MonitorFolderPost.ToString()}";
+                            $"{publisherPostFetchModel.CampaignId}-{PostSource.MonitorFolderPost}";
 
                         // Register to sorted set
                         JobFetcherId.Add(monitorJobName);
@@ -415,10 +415,10 @@ namespace DominatorHouseCore.Process
                             {
                                 destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
                                 {
-                                    if (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key)
-                                        && destinationDetails.ListSelectDestination
-                                            .FirstOrDefault(x => x.AccountId == networkWithAccount.Value)
-                                            .IsScrapeFromAccount)
+                                    if (destinationDetails != null && (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key)
+                                                                       && destinationDetails.ListSelectDestination
+                                                                           .FirstOrDefault(x => x.AccountId == networkWithAccount.Value)
+                                                                           .IsScrapeFromAccount))
 
                                         // Get the proper library for publisher
 

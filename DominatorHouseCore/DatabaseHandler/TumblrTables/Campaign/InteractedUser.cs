@@ -34,10 +34,10 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string QueryValue { get; set; }
 
-        [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 2, IsUnique = true)]
         /// <summary>
         /// Describes Activity 
         /// </summary>
+        [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 2, IsUnique = true)]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string ActivityType { get; set; }
 

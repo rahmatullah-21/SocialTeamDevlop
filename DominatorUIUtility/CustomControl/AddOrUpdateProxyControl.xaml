@@ -136,7 +136,7 @@
                          Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5"
                          Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"
                          Height="30" Grid.Column="1"
-                         Grid.ColumnSpan="2" IsEnabled="{Binding IsEnabled,ElementName=btnSave}">
+                         Grid.ColumnSpan="1" IsEnabled="{Binding IsEnabled,ElementName=btnSave}">
 
                 <passwordHelper:PasswordBoxHelper.Password>
                     <Binding Path="AccountProxy.ProxyPassword" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay" />

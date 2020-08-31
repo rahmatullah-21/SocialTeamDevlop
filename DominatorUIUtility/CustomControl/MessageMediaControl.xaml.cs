@@ -87,9 +87,9 @@ namespace DominatorUIUtility.CustomControl
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
             var dataContext = (sender as CheckBox)?.DataContext;
-            if (dataContext is QueryContent)
+            if (dataContext is QueryContent content)
             {
-                var currentQuery = ((QueryContent) dataContext).Content.QueryValue;
+                var currentQuery = content.Content.QueryValue;
                 if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
                     if (!IsChecked)
                     {
@@ -112,11 +112,10 @@ namespace DominatorUIUtility.CustomControl
                 if (currentQuery == "All" || currentQuery == "Default")
                 {
                     _isUncheckfromList = false;
-                    Messages.LstQueries.ToList().Select(query =>
+                    Messages.LstQueries.ToList().ForEach(query =>
                     {
                         query.IsContentSelected = IsChecked;
-                        return query;
-                    }).ToList();
+                    });
                 }
             }
         }
@@ -186,7 +185,7 @@ namespace DominatorUIUtility.CustomControl
 
             if (btnAddMessagesToList.Content.ToString() == "Update Message")
             {
-                LstManageMessagesModel.Select(x =>
+                LstManageMessagesModel.ForEach(x =>
                 {
                     if (x.MessageId == Messages.MessageId)
                     {
@@ -195,16 +194,13 @@ namespace DominatorUIUtility.CustomControl
                         x.MediaPath = Messages.MediaPath;
                         x.SelectedQuery = Messages.SelectedQuery;
                     }
-
-                    return x;
-                }).ToList();
+                });
                 Messages.SelectedQuery.Remove(
                     Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
-                Messages.LstQueries.Select(x =>
+                Messages.LstQueries.ForEach(x =>
                 {
                     x.IsContentSelected = false;
-                    return x;
-                }).ToList();
+                });
                 Isupdated = true;
                 Dialog.CloseDialog(this);
             }

@@ -104,8 +104,8 @@ namespace DominatorUIUtility.CustomControl
         {
             var control = sender as FooterControl;
 
-            if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign(),
-                StringComparison.CurrentCultureIgnoreCase))
+            if (control != null && control.CampaignManager.Equals(ConstantVariable.CreateCampaign(),
+                    StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
             else
                 UpdateCampaign();
@@ -357,7 +357,7 @@ namespace DominatorUIUtility.CustomControl
 
         public void ClearQueryCollection()
         {
-            if (_queryControl.QueryCollection != null && _queryControl.QueryCollection.Count() > 0)
+            if (_queryControl.QueryCollection != null && _queryControl.QueryCollection.Any())
                 _queryControl.QueryCollection.Clear();
         }
 
@@ -929,7 +929,7 @@ namespace DominatorUIUtility.CustomControl
                     mainCampaignDetails.Status = "Pause";
             }
 
-            if (!campaignFileManager.Any(x => x.CampaignId == campaignDetails.CampaignId))
+            if (campaignFileManager.All(x => x.CampaignId != campaignDetails.CampaignId))
             {
                 campaignFileManager.Add(campaignDetails);
 
@@ -1213,7 +1213,7 @@ namespace DominatorUIUtility.CustomControl
                     .Except(currentCampaign?.SelectedAccountList).ToList();
                 var existingAccounts = _footerControl.list_SelectedAccounts.Except(newlyAddedAccounts).ToList();
                 var removedAccounts = currentCampaign?.SelectedAccountList.Except(existingAccounts).ToList();
-                if (newlyAddedAccounts.Count() != 0)
+                if (newlyAddedAccounts.Count != 0)
                     if (!UpdateNewlyAddedAccounts(newlyAddedAccounts))
                         return;
 
@@ -1587,6 +1587,7 @@ namespace DominatorUIUtility.CustomControl
         /// </summary>
         /// <param name="allAccountDetails"></param>
         /// <param name="listSelectedAccounts"></param>
+        /// <param name="jobConfiguration"></param>
         /// <returns></returns>
         protected bool UpdateSelectedAccountDetails(IEnumerable<DominatorAccountModel> allAccountDetails,
             List<string> listSelectedAccounts, JobConfiguration jobConfiguration)
@@ -1754,7 +1755,6 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var accountModel = _accountsFileManager.GetAccount(selectedAccount, socialNetworks);
-                // var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var moduleConfiguration = _jobActivityConfigurationManager[accountModel.AccountId, _activityType];
                 if (moduleConfiguration?.TemplateId == null || moduleConfiguration.LstRunningTimes == null)
                 {
@@ -1768,50 +1768,53 @@ namespace DominatorUIUtility.CustomControl
                     }
                 }
 
-                moduleConfiguration.IsEnabled = isStart;
-                try
+                if (moduleConfiguration != null)
                 {
-                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-                    var campaignStatus = campaignFileManager
-                        .FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId)
-                        ?.Status;
-                    if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
+                    moduleConfiguration.IsEnabled = isStart;
+                    try
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(this,
-                            "LangKeyError".FromResourceDictionary(),
-                            "LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
-                        moduleConfiguration.IsEnabled = false;
-                        return false;
+                        var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                        var campaignStatus = campaignFileManager
+                            .FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId)
+                            ?.Status;
+                        if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
+                        {
+                            DialogCoordinator.Instance.ShowModalMessageExternal(this,
+                                "LangKeyError".FromResourceDictionary(),
+                                "LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
+                            moduleConfiguration.IsEnabled = false;
+                            return false;
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
 
-                _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType,
-                    moduleConfiguration);
-                _accountsCacheService.UpsertAccounts(accountModel);
-                globalDbOperation.UpdateAccountActivityManager(accountModel);
-                if (!moduleConfiguration.IsEnabled)
-                {
-                    _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
-                        moduleConfiguration.TemplateId, moduleConfiguration.IsEnabled);
-                    ToasterNotification.ShowSuccess("LangKeySuccessfullyStopped".FromResourceDictionary());
-                }
-                else
-                {
-                    ToasterNotification.ShowSuccess("LangKeySuccessfullyActivated".FromResourceDictionary());
-                    _dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
-                }
+                    _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType,
+                        moduleConfiguration);
+                    _accountsCacheService.UpsertAccounts(accountModel);
+                    globalDbOperation.UpdateAccountActivityManager(accountModel);
+                    if (!moduleConfiguration.IsEnabled)
+                    {
+                        _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
+                            moduleConfiguration.TemplateId, moduleConfiguration.IsEnabled);
+                        ToasterNotification.ShowSuccess("LangKeySuccessfullyStopped".FromResourceDictionary());
+                    }
+                    else
+                    {
+                        ToasterNotification.ShowSuccess("LangKeySuccessfullyActivated".FromResourceDictionary());
+                        _dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
+                    }
 
-                return moduleConfiguration.IsEnabled;
+                    return moduleConfiguration.IsEnabled;
+                }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
-                return false;
             }
+            return false;
         }
 
         #endregion

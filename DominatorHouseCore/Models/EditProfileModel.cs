@@ -39,7 +39,7 @@ namespace DominatorHouseCore.Models
             set
             {
                 _fullname = value;
-                OnPropertyChanged("FullName");
+                OnPropertyChanged(nameof(Fullname));
             }
         }
 

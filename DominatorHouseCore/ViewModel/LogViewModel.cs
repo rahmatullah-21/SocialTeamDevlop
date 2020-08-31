@@ -130,8 +130,8 @@ namespace DominatorHouseCore.ViewModel
         {
             var logs = e.Item as LoggerModel;
 
-            if (logs.AccountCampaign != null && logs.AccountCampaign.Equals(SelectedAccount?.AccountBaseModel.UserName,
-                    StringComparison.InvariantCultureIgnoreCase))
+            if (logs != null && (logs.AccountCampaign != null && logs.AccountCampaign.Equals(SelectedAccount?.AccountBaseModel.UserName,
+                                     StringComparison.InvariantCultureIgnoreCase)))
             {
                 e.Accepted = true;
             }

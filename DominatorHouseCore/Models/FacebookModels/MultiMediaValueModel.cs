@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using DominatorHouseCore.Utility;
 
 #endregion
@@ -41,7 +42,7 @@ namespace DominatorHouseCore.Models.FacebookModels
             get => _mediaHeight;
             set
             {
-                if (value == _mediaHeight)
+                if (Math.Abs(value - _mediaHeight) < 0.00001)
                     return;
                 SetProperty(ref _mediaHeight, value);
             }
@@ -54,7 +55,7 @@ namespace DominatorHouseCore.Models.FacebookModels
             get => _closeButtonHeight;
             set
             {
-                if (value == _closeButtonHeight)
+                if (Math.Abs(value - _closeButtonHeight) < 0.000001)
                     return;
                 SetProperty(ref _closeButtonHeight, value);
             }

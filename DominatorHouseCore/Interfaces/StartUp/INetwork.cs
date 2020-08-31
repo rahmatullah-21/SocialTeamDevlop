@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.StartupActivity;
@@ -40,8 +41,9 @@ namespace DominatorHouseCore.Interfaces.StartUp
                 Networks.Add(SocialNetworks.Twitter.ToString(), new TwitterActivity());
                 Networks.Add(SocialNetworks.Youtube.ToString(), new YoutubeActivity());
             }
-            catch
+            catch (Exception exc)
             {
+                exc.DebugLog();
             }
         }
     }

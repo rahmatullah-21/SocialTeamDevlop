@@ -129,10 +129,10 @@ namespace DominatorHouseCore.Models.Publisher
 
         private bool _isPublishPostOnRandomNDestinationsChecked = true;
 
-        [ProtoMember(37)]
         /// <summary>
         /// To Specify to publish posts on random destinations with specific count
         /// </summary>
+        [ProtoMember(37)]
         public bool IsPublishPostOnRandomNDestinationsChecked
         {
             get => _isPublishPostOnRandomNDestinationsChecked;

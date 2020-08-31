@@ -36,8 +36,12 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                ((Button) sender).ContextMenu.DataContext = ((Button) sender).DataContext;
-                ((Button) sender).ContextMenu.IsOpen = true;
+                var contextMenu = ((Button) sender).ContextMenu;
+                if (contextMenu != null)
+                {
+                    contextMenu.DataContext = ((Button) sender).DataContext;
+                    contextMenu.IsOpen = true;
+                }
             }
             catch (Exception ex)
             {
@@ -85,7 +89,7 @@ namespace DominatorUIUtility.CustomControl
                         LstManageMessagesModel[indexToUpdate] = editMessage.Messages;
                     }
 
-                    currentItem.LstQueries.Select(query => query.IsContentSelected = false).ToList();
+                    currentItem.LstQueries.ForEach(query => query.IsContentSelected = false);
                 };
                 window.ShowDialog();
             }

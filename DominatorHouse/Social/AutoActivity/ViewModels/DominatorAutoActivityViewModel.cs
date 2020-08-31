@@ -165,7 +165,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     return;
                 }
 
-                var actsListPerNet = AvailableNetworksActivity(new List<SocialNetworks>() { actDetalsModel.AccountNetwork }, getImportants: false)[actDetalsModel.AccountNetwork].Others;
+                var actsListPerNet = AvailableNetworksActivity(new List<SocialNetworks> { actDetalsModel.AccountNetwork }, getImportants: false)[actDetalsModel.AccountNetwork].Others;
 
                 var jobActConfigManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
 
@@ -215,7 +215,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             if (currentAccount == null)
                 return;
 
-            var actsListPerNet = AvailableNetworksActivity(new List<SocialNetworks>() { currentAccount.AccountNetwork })[currentAccount.AccountNetwork];
+            var actsListPerNet = AvailableNetworksActivity(new List<SocialNetworks> { currentAccount.AccountNetwork })[currentAccount.AccountNetwork];
 
             ChangeActivitiesStatus(currentDataContext, actsListPerNet);
         }
@@ -246,7 +246,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 foreach (var act in activites.Others)
                 {
                     if (jobActivityConfigurationManager[account.AccountId, act]?.IsEnabled ?? false)
-                        ChangeActivity(new ActivityDetailsModel() { AccountId = currentDataContext.AccountId, Title = act, Status = false }, account, true);
+                        ChangeActivity(new ActivityDetailsModel { AccountId = currentDataContext.AccountId, Title = act, Status = false }, account, true);
                 }
             }
             else
@@ -321,7 +321,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             Task.Factory.StartNew(() =>
             {
                 var accountCollection = _accountCollectionViewModel.GetCopySync()
-                    .Where(x => x.AccountBaseModel.Status == AccountStatus.Success || x.AccountBaseModel.Status == AccountStatus.UpdatingDetails);
+                    .Where(x => x.AccountBaseModel.Status == AccountStatus.Success || x.AccountBaseModel.Status == AccountStatus.UpdatingDetails).ToList();
                 
                 var listOfActsPerNet = AvailableNetworksActivity(NetworksFromAccCollection(accountCollection));
 
@@ -469,20 +469,22 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     if(hide!=null)
                         all.AddRange(hide);
 
-                    var newOne = hide == null ? new List<ActivityType>() : SocinatorInitialize.GetSocialLibrary(net).GetNetworkCoreFactory().AccountUserControlTools.GetOtherActivityTypes().Except(all);
+                    var newOne = hide == null
+                        ? new List<ActivityType>()
+                        : SocinatorInitialize.GetSocialLibrary(net).GetNetworkCoreFactory().AccountUserControlTools
+                            .GetOtherActivityTypes().Except(all).ToList();
                     if (newOne.Any())
                     {
-                        if (hide != null) hide.AddRange(newOne);
+                        hide?.AddRange(newOne);
                         newAdded = true;
-                        if (getCustomAuto != null)
-                            newOne.ForEach(x =>
+                        newOne.ForEach(x =>
+                        {
+                            getCustomAuto.NetworksActListCollection?.FirstOrDefault(y => y.SocialNetwork == net)?.NetworkActivityTypeModelCollections.Add(new NetworkCustomizeActivityTypeModel
                             {
-                                getCustomAuto.NetworksActListCollection?.FirstOrDefault(y => y.SocialNetwork == net)?.NetworkActivityTypeModelCollections.Add(new NetworkCustomizeActivityTypeModel
-                                {
-                                    Network = net,
-                                    Title = x
-                                });
+                                Network = net,
+                                Title = x
                             });
+                        });
                     }
                     var collected = new Activities(show, hide);
                     returnDict.Add(net, collected);
@@ -520,7 +522,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
             foreach (var x in netActs)
             {
-                var eachModel = new EachNetworkActivityCustomizeModel()
+                var eachModel = new EachNetworkActivityCustomizeModel
                 {
                     SocialNetwork = x.Key
                 };

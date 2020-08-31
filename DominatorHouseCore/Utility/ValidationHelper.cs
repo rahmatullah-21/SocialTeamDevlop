@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Utility
     public class ValidationHelper : ValidationRule
     {
         public string Sender { get; set; }
-        private static string ProxyAddress = string.Empty;
+        private static string _proxyAddress = string.Empty;
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
@@ -36,7 +36,7 @@ namespace DominatorHouseCore.Utility
                     case "ProxyAddress":
                         if (!string.IsNullOrEmpty(data))
                         {
-                            ProxyAddress = data;
+                            _proxyAddress = data;
                             if (!Proxy.IsValidProxyIp(data))
                                 return new ValidationResult(false, "LangKeyInvalidAddress".FromResourceDictionary());
                         }
@@ -77,8 +77,9 @@ namespace DominatorHouseCore.Utility
                             return new ValidationResult(false, "LangKeyInvalidDate".FromResourceDictionary());
                     }
             }
-            catch (Exception)
+            catch (Exception exc)
             {
+                exc.DebugLog();
             }
 
             return new ValidationResult(true, null);
@@ -114,18 +115,14 @@ namespace DominatorHouseCore.Utility
                         if (string.IsNullOrEmpty(data))
                             return new ValidationResult(false, "LangKeyRequiredField".FromResourceDictionary());
                         else if (!string.IsNullOrEmpty(ProxyAddress))
-                            //if (!Models.Proxy.IsValidProxy(ProxyAddress, value.ToString()))
-                            //{
-                            //    return new ValidationResult(false, "Invalid Port");
-                            //}
-
                             if (!Proxy.IsValidProxyPort(data))
                                 return new ValidationResult(false, "LangKeyInvalidPort".FromResourceDictionary());
                         break;
                 }
             }
-            catch (Exception)
+            catch (Exception exc)
             {
+                exc.DebugLog();
             }
 
             return new ValidationResult(true, null);
@@ -138,7 +135,7 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                var proxy = (value as MultiBindingExpression).BindingGroup.Items[1] as Proxy;
+                var proxy = (value as MultiBindingExpression)?.BindingGroup.Items[1] as Proxy;
                 if (!Proxy.IsValidProxy(proxy.ProxyIp, proxy.ProxyPort))
                     return new ValidationResult(false, "LangKeyInvalidIpAddress".FromResourceDictionary());
             }

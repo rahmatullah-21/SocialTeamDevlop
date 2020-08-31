@@ -92,7 +92,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource LangKeyQueries}" VerticalAlignment="Center" />
-                <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries" x:FieldModifier="public"
+                <ComboBox Width="200" Margin="10" Grid.Row="0" Grid.Column="1" x:Name="ComboBoxQueries" x:FieldModifier="public"
                           ItemsSource="{Binding Messages.LstQueries,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate DataType="models:QueryContent">

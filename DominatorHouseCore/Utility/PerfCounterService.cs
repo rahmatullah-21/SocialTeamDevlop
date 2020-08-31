@@ -18,7 +18,6 @@ namespace DominatorHouseCore.Utility
     public class PerfCounterService : IPerfCounterService
     {
         private readonly PerformanceCounter _memory;
-        private readonly ManagementObject _processor;
         private readonly PerformanceCounter _cpuCounter;
         private volatile bool _isInitialized;
 
@@ -29,7 +28,6 @@ namespace DominatorHouseCore.Utility
             try
             {
                 _memory = new PerformanceCounter("Memory", "Available MBytes");
-                _processor = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
 
                 var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
                 _cpuCounter = new PerformanceCounter("Process", "% Processor Time", currentProcess.ProcessName);

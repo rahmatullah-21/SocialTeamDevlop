@@ -27,26 +27,26 @@ namespace DominatorHouseCore.Models
 
     public class AccentColors
     {
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
 
-        public string Value { get; set; } = string.Empty;
+        public string Value { get; set; }
 
-        public AccentColors(string Name, string Value)
+        public AccentColors(string name, string value)
         {
-            this.Name = Name;
-            this.Value = Value;
+            this.Name = name;
+            this.Value = value;
         }
     }
 
     public class Theme
     {
-        public string Name { get; set; } = string.Empty;
-        public string Value { get; set; } = string.Empty;
+        public string Name { get; set; }
+        public string Value { get; set; }
 
-        public Theme(string Name, string Value)
+        public Theme(string name, string value)
         {
-            this.Name = Name;
-            this.Value = Value;
+            this.Name = name;
+            this.Value = value;
         }
     }
 }

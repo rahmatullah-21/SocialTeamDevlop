@@ -286,8 +286,9 @@ namespace DominatorHouseCore.Utility
                 if (File.Exists(fileToCopy) && !File.Exists(destinationFileName))
                     File.Copy(fileToCopy, destinationFileName);
             }
-            catch (Exception ex)
+            catch (Exception exc)
             {
+                exc.DebugLog();
             }
         }
 

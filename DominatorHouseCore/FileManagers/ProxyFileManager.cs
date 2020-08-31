@@ -161,7 +161,7 @@ namespace DominatorHouseCore.FileManagers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 if (currentProxyManager != null)
                 {
@@ -171,7 +171,7 @@ namespace DominatorHouseCore.FileManagers
             }
             finally
             {
-                if (currentProxyManager.Status == "Working")
+                if (currentProxyManager != null && currentProxyManager.Status == "Working")
                     currentProxyManager.Failures = 0;
 
                 stopWatch.Stop();

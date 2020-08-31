@@ -29,17 +29,17 @@ namespace DominatorHouseCore.Utility
     public interface IProtoBuffBase
     {
         /// <summary>
-        ///     SerializeObjects<T>() method is used to serialize the LIST of objects
+        ///     SerializeObjects`T() method is used to serialize the LIST of objects
         /// </summary>
         /// <typeparam name="T">Specify the object is belongs to which Type </typeparam>
-        /// <param name="objectType">The object which is going to serialize</param>
+        /// <param name="list">The object which is going to serialize</param>
         /// <param name="filePath">Specify the filepath where the serialized object is going to save </param>
         bool SerializeList<T>(List<T> list, string filePath) where T : class;
 
         void AppendObject<T>(T obj, string filePath);
 
         /// <summary>
-        ///     DeserializeObjects<T>() Method is used to deserialize the file and return  List ofType(T)
+        ///     DeserializeObjects`T() Method is used to deserialize the file and return  List ofType(T)
         /// </summary>
         /// <typeparam name="T">Class which is goes convert back</typeparam>
         /// <param name="filePath">Source of the file </param>
@@ -55,10 +55,10 @@ namespace DominatorHouseCore.Utility
         #region Serialize
 
         /// <summary>
-        ///     SerializeObjects<T>() method is used to serialize the LIST of objects
+        ///     SerializeObjects`T() method is used to serialize the LIST of objects
         /// </summary>
         /// <typeparam name="T">Specify the object is belongs to which Type </typeparam>
-        /// <param name="objectType">The object which is going to serialize</param>
+        /// <param name="list">The object which is going to serialize</param>
         /// <param name="filePath">Specify the filepath where the serialized object is going to save </param>
         public bool SerializeList<T>(List<T> list, string filePath) where T : class
         {
@@ -132,7 +132,7 @@ namespace DominatorHouseCore.Utility
         #region Deserialize 
 
         /// <summary>
-        ///     DeserializeObjects<T>() Method is used to deserialize the file and return  List ofType(T)
+        ///     DeserializeObjects`T() Method is used to deserialize the file and return  List ofType(T)
         /// </summary>
         /// <typeparam name="T">Class which is goes convert back</typeparam>
         /// <param name="filePath">Source of the file </param>

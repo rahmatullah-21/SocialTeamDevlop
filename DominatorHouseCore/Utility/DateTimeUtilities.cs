@@ -210,6 +210,9 @@ namespace DominatorHouseCore.Utility
                     return GetStartTimeForHourly(moduleConfiguration);
                 case ReachedLimitType.Job:
                     return GetStartTimeOfNextJob(moduleConfiguration, delayBetweenJob);
+                case ReachedLimitType.NoLimit:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reachedLimitType), reachedLimitType, null);
             }
 
             return nextStartTime;
@@ -230,7 +233,8 @@ namespace DominatorHouseCore.Utility
             {
                 var currentDayTimings = moduleConfiguration.LstRunningTimes
                     .Where(x => x.DayOfWeek == nextStartTime.DayOfWeek)
-                    .FirstOrDefault().Timings;
+                    .FirstOrDefault()
+                    ?.Timings;
 
                 var nextRunningTimeForToday =
                     currentDayTimings.FirstOrDefault(x => x.StartTime >= nextStartTime.TimeOfDay);

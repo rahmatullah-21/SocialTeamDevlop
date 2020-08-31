@@ -64,7 +64,7 @@
                 </Button>
             </StackPanel>
             <ComboBox VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged" Margin="15,0"
-                      Background="Transparent" Foreground="White" Grid.Column="2" BorderThickness="1"
+                      Background="Transparent" Foreground="White" Grid.Column="1" BorderThickness="1"
                       BorderBrush="AntiqueWhite" ItemsSource="{Binding AccountItemSource}"
                       SelectedItem="{Binding SelectedItem}"
                       behaviour:SelectionChangedBehaviour.Command="{Binding SelectionChangedCommand}" />

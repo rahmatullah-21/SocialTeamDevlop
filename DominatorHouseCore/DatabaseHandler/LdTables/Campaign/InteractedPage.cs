@@ -70,12 +70,6 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         public string TotalEmployees { get; set; }
 
         /// <summary>
-        /// Describes Membership Status For this Account in the Group being interacted
-        /// </summary>
-        //[System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        //public string MembershipStatus { get; set; }
-
-        /// <summary>
         ///     TimeStamp when interacted with the Group
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]

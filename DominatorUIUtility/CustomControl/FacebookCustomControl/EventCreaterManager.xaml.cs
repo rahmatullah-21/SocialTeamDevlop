@@ -28,22 +28,22 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
         // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LstManageEventModelProperty =
             DependencyProperty.Register("LstManageEventModel", typeof(ObservableCollection<EventCreaterManagerModel>),
-                typeof(EventCreaterManager), new PropertyMetadata(OnAvailableItemsChanged));
+                typeof(EventCreaterManager), new PropertyMetadata());
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register("CommandParameter", typeof(object), typeof(EventCreaterManager),
-                new PropertyMetadata(OnAvailableItemsChanged));
+                new PropertyMetadata());
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TypeSelectionChangedCommandProperty =
             DependencyProperty.Register("TypeSelectionChangedCommand", typeof(object), typeof(EventCreaterManager),
-                new PropertyMetadata(OnAvailableItemsChanged));
+                new PropertyMetadata());
 
         // Using a DependencyProperty as the backing store for EventCreaterManagerModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty EventCreaterManagerModelProperty =
             DependencyProperty.Register("EventCreaterManagerModelCommand", typeof(EventCreaterManagerModel),
-                typeof(EventCreaterManager), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                typeof(EventCreaterManager), new FrameworkPropertyMetadata()
                 {
                     BindsTwoWayByDefault = true
                 });
@@ -198,7 +198,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
             if (BtnAddEventToList.Content.ToString() == "Update Event")
             {
-                LstManageEventModel.Select(x =>
+                LstManageEventModel.ForEach(x =>
                 {
                     if (x.Id == EventCreaterManagerModelCommand.Id)
                     {
@@ -211,7 +211,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
                         x.EventLocation = EventCreaterManagerModelCommand.EventLocation;
                         x.EventType = EventCreaterManagerModelCommand.EventType;
                         x.MediaPath = EventCreaterManagerModelCommand.FbMultiMediaModel.MediaPaths.Count > 0
-                            ? EventCreaterManagerModelCommand.FbMultiMediaModel.MediaPaths.FirstOrDefault().MediaPath
+                            ? EventCreaterManagerModelCommand.FbMultiMediaModel.MediaPaths.FirstOrDefault()?.MediaPath
                             : null;
                         x.FbMultiMediaModel.MediaPaths = EventCreaterManagerModelCommand.FbMultiMediaModel.MediaPaths;
                         x.IsAnyOneCanPostForAllPost = EventCreaterManagerModelCommand.IsAnyOneCanPostForAllPost;
@@ -226,18 +226,12 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
                         x.IsPostMustApproved = EventCreaterManagerModelCommand.IsPostMustApproved;
                         x.IsQuesOnMessanger = EventCreaterManagerModelCommand.IsQuesOnMessanger;
                     }
-
-                    return x;
-                }).ToList();
+                });
 
                 Isupdated = true;
 
                 Dialog.CloseDialog(this);
             }
-        }
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
         }
 
         [NotifyPropertyChangedInvocator]

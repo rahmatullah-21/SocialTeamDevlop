@@ -21,8 +21,8 @@
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MetroExpander}">
                 <Setter Property="IsExpanded" Value="True" />
-                <EventSetter Event="Expanded" Handler="CheckAllforExpand"/>
-                <EventSetter Event="Collapsed" Handler="CheckAllforExpand"/>
+                <EventSetter Event="Expanded" Handler="CheckAllForExpand"/>
+                <EventSetter Event="Collapsed" Handler="CheckAllForExpand"/>
             </Style>
         </ResourceDictionary>
     </unity:PrismApplication.Resources>
