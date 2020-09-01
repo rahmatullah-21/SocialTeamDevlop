@@ -51,6 +51,17 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<ICounterKeyFactory<UnfollowedUsers>>(
                     new CounterKeyFactory<UnfollowedUsers>(SocialNetworks.Pinterest, false));
+            
+            Container
+               .RegisterInstance<IEntityCounterFunction<CreateAccount>>(
+                   new EntityCounterFunction<CreateAccount>(
+                       new DateEpochFilterPredicate<CreateAccount>(
+                           a => a.InteractionDate),
+                       new ActivityTypeAsStringFilterPredicate<CreateAccount>(
+                           a => a.ActivityType)));
+            Container
+                .RegisterInstance<ICounterKeyFactory<CreateAccount>>(
+                    new CounterKeyFactory<CreateAccount>(SocialNetworks.Pinterest, true));
         }
     }
 }
