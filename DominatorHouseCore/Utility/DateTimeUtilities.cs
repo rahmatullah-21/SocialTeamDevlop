@@ -214,8 +214,6 @@ namespace DominatorHouseCore.Utility
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reachedLimitType), reachedLimitType, null);
             }
-
-            return nextStartTime;
         }
 
         /// <summary>

@@ -166,7 +166,7 @@ namespace DominatorHouseCore.Utility
             {
                 return File.Exists(fileName);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

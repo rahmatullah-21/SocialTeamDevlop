@@ -1134,7 +1134,6 @@ namespace EmbeddedBrowser
             double delayBefore = 0, double delayAfter = 0,
             int clickLeavEvent = 0)
         {
-            var mouseButton = MouseButtonType.Right;
 
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
@@ -1156,8 +1155,6 @@ namespace EmbeddedBrowser
         public async Task MouseHoverAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
             int clickLeavEvent = 0)
         {
-            var mouseButton = MouseButtonType.Right;
-
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
@@ -1419,20 +1416,12 @@ namespace EmbeddedBrowser
         public async Task<List<Tuple<int, string, string, string, string>>> ExpandAllAdViewOptions(int postCount,
             int lastCount, int lastCurrentAdCount = 0)
         {
-            var xCoordinate = !string.IsNullOrEmpty(await GetElementValueAsync(ActType.GetValue,
-                AttributeType.ClassName, "fbChatSidebar fixed_always _5pr2 hidden_elem"))
-                ? 844
-                : 740;
 
-            var adCount = 0;
-
-            var dictAdViewerDetails = new Dictionary<int, string>();
             var tupleAdsDetals = new List<Tuple<int, string, string, string, string>>();
             await Task.Delay(5000, _token);
 
             while (lastCurrentCount++ <= postCount * (lastCount + 1))
             {
-                var adViewerDetails = string.Empty;
                 Browser.ExecuteScriptAsync(
                     $"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
                 var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName,
@@ -1463,7 +1452,6 @@ namespace EmbeddedBrowser
                     new Tuple<int, string, string, string, string>(lastCurrentCount, postId, AdId, ownerId, dateTime));
             }
 
-            lastCurrentAdCount = lastCurrentCount;
             return tupleAdsDetals;
         }
 
@@ -1939,7 +1927,6 @@ namespace EmbeddedBrowser
 
         public List<KeyValuePair<string, MemoryStreamResponseFilter>> TwitterJsonResponse()
         {
-            var response = string.Empty;
             try
             {
                 var lstResponseStream = _proxyRequestHandler == null
@@ -1947,7 +1934,7 @@ namespace EmbeddedBrowser
                     : _proxyRequestHandler.ResourceRequestHandler.TwitterresponseList.DeepCloneObject();
                 return lstResponseStream;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

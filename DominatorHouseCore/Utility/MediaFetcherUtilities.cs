@@ -48,9 +48,9 @@ namespace DominatorHouseCore.Utility
                             maximumPostLimitToStore, campaignName);
                 }
             }
-            catch (OperationCanceledException ex)
+            catch (OperationCanceledException )
             {
-                throw new OperationCanceledException();
+                throw;
             }
             catch (Exception ex)
             {
@@ -147,7 +147,7 @@ namespace DominatorHouseCore.Utility
                             totalCount++;
                             descriptionCount++;
                         }
-                        catch (OperationCanceledException ex)
+                        catch (OperationCanceledException)
                         {
                             throw new OperationCanceledException();
                         }
@@ -178,7 +178,7 @@ namespace DominatorHouseCore.Utility
                     if (totalCount >= postDetailsModel.ScrapeCount)
                         return;
                 }
-                catch (OperationCanceledException ex)
+                catch (OperationCanceledException)
                 {
                     throw new OperationCanceledException();
                 }
@@ -294,7 +294,7 @@ namespace DominatorHouseCore.Utility
                         if (totalCount >= postDetailsModel.ScrapeCount)
                             break;
                     }
-                    catch (OperationCanceledException ex)
+                    catch (OperationCanceledException)
                     {
                         throw new OperationCanceledException();
                     }

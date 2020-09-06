@@ -370,7 +370,7 @@ namespace DominatorHouseCore.Utility
                                 if (!each.HasExited)
                                     each.Kill();
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             /*Ignore*/
                         }
