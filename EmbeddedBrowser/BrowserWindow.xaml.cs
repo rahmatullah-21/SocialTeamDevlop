@@ -494,7 +494,6 @@ namespace EmbeddedBrowser
                 await Task.Delay(1000, _token);
 
                 IsLoggedIn = true;
-                _loginFailed = false;
 
                 DominatorAccountModel.Cookies = await BrowserCookiesIntoModel();
                 DominatorAccountModel.IsUserLoggedIn = true;
@@ -525,7 +524,6 @@ namespace EmbeddedBrowser
                 await Task.Delay(1000, _token);
 
                 IsLoggedIn = true;
-                _loginFailed = false;
 
                 DominatorAccountModel.BrowserCookies = await BrowserCookiesIntoModel();
 
@@ -1383,7 +1381,7 @@ namespace EmbeddedBrowser
         }
 
 
-        public int lastCurrentCount = -1;
+        public int LastCurrentCount = -1;
 
         public async Task ExpandAllSeeMore()
         {
@@ -1403,12 +1401,12 @@ namespace EmbeddedBrowser
             var tupleAdsDetals = new List<Tuple<int, string, string, string, string>>();
             await Task.Delay(5000, _token);
 
-            while (lastCurrentCount++ <= postCount * (lastCount + 1))
+            while (LastCurrentCount++ <= postCount * (lastCount + 1))
             {
                 Browser.ExecuteScriptAsync(
-                    $"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
+                    $"document.getElementsByClassName('_5jmm _5pat _3lb4')[{LastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
                 var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName,
-                    "_5jmm _5pat _3lb4", ValueTypes.OuterHtml, clickIndex: lastCurrentCount);
+                    "_5jmm _5pat _3lb4", ValueTypes.OuterHtml, clickIndex: LastCurrentCount);
                 if (!fullAdDetails.Contains("sponsored") || !fullAdDetails.Contains("Sponsored"))
                 {
                     await Task.Delay(3000, _token);
@@ -1419,7 +1417,7 @@ namespace EmbeddedBrowser
                 await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
                 var javascriptResponse =
                     await ExecuteScriptAsync(
-                        $"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].outerHTML");
+                        $"document.getElementsByClassName('_5jmm _5pat _3lb4')[{LastCurrentCount}].outerHTML");
 
                 var values =
                     Utilities.GetBetween(javascriptResponse.Result.ToString(), "id=\"feed_subtitle",
@@ -1432,7 +1430,7 @@ namespace EmbeddedBrowser
                 var dateTime = splittedValues[0];
 
                 tupleAdsDetals.Add(
-                    new Tuple<int, string, string, string, string>(lastCurrentCount, postId, AdId, ownerId, dateTime));
+                    new Tuple<int, string, string, string, string>(LastCurrentCount, postId, AdId, ownerId, dateTime));
             }
 
             return tupleAdsDetals;
