@@ -68,11 +68,11 @@ namespace EmbeddedBrowser
                 $"{DominatorAccountModel.AccountBaseModel.AccountNetwork} Browser{(!string.IsNullOrWhiteSpace(DominatorAccountModel.AccountBaseModel.AccountName) ? " - " + DominatorAccountModel.AccountBaseModel.AccountName : "")}";
             TargetUrl = targetUrl;
             CustomUse = customUse;
-            _isNeedResourceData = isNeedResourceData;
-            _requestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
+            IsNeedResourceData = isNeedResourceData;
+            RequestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
 
             //SkipYoutubeAd = skipAd;
-            browserLoginMessage = browserLoginMessageToDisplay;
+            BrowserLoginMessage = browserLoginMessageToDisplay;
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
@@ -88,7 +88,7 @@ namespace EmbeddedBrowser
                 }
             });
             Browser.MenuHandler = new MenuHandler();
-            Browser.RequestHandler = _requestHandlerCustom;
+            Browser.RequestHandler = RequestHandlerCustom;
 
             if (DominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook)
                 Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
@@ -106,9 +106,9 @@ namespace EmbeddedBrowser
             _token = cancellationToken;
         }
 
-        private RequestHandlerCustom _requestHandlerCustom { get; }
+        private RequestHandlerCustom RequestHandlerCustom { get; }
 
-        private ProxyRequestHandler _proxyRequestHandler { get; set; }
+        private ProxyRequestHandler ProxyRequestHandler { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -178,15 +178,13 @@ namespace EmbeddedBrowser
             }
         }
 
-        public bool browserLoginMessage { get; set; } = true;
+        public bool BrowserLoginMessage { get; set; } = true;
 
         public bool IsLoaded { get; set; }
 
-        public bool _isLoggedIn { get; set; }
+        public bool IsLoggedIn { get; set; }
 
-        private bool _loginFailed { get; set; }
-
-        private bool _isNeedResourceData { get; }
+        private bool IsNeedResourceData { get; }
 
         #endregion
 
@@ -208,12 +206,12 @@ namespace EmbeddedBrowser
                         if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername) &&
                             !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword))
                         {
-                            _proxyRequestHandler = new ProxyRequestHandler(
+                            ProxyRequestHandler = new ProxyRequestHandler(
                                 DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername,
                                 DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword, this,
-                                _isNeedResourceData);
+                                IsNeedResourceData);
 
-                            Browser.RequestHandler = _proxyRequestHandler;
+                            Browser.RequestHandler = ProxyRequestHandler;
                         }
 
                         // get the proxyip from objDominatorAccountModel object
@@ -227,21 +225,6 @@ namespace EmbeddedBrowser
 
                         if (!string.IsNullOrEmpty(proxyIp) && !string.IsNullOrEmpty(proxyPort))
                         {
-                            //IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
-
-                            //if (!proxyValidationService.IsValidProxy(proxyIp, proxyPort))
-                            //{
-
-                            //    Application.Current.Dispatcher.Invoke(() =>
-                            //    {
-
-                            //        GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
-                            //            "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormatBrowser".FromResourceDictionary(), proxyIp));
-                            //        this.Close();
-                            //        Dispose();
-                            //    });
-
-                            //}
 
                             // declare the dictionary for passing proxy ip and proxy port
                             var dictProxyIpPort = new Dictionary<string, object>
@@ -251,7 +234,7 @@ namespace EmbeddedBrowser
                             };
 
                             string error;
-                            var success = requestContext.SetPreference("proxy", dictProxyIpPort, out error);
+                            requestContext.SetPreference("proxy", dictProxyIpPort, out error);
                         }
                         else
                         {
@@ -504,13 +487,13 @@ namespace EmbeddedBrowser
 
         public async Task<bool> SaveCookies(bool showLoginSuccessLog = true)
         {
-            if (_isLoggedIn) return false;
+            if (IsLoggedIn) return false;
 
             try
             {
                 await Task.Delay(1000, _token);
 
-                _isLoggedIn = true;
+                IsLoggedIn = true;
                 _loginFailed = false;
 
                 DominatorAccountModel.Cookies = await BrowserCookiesIntoModel();
@@ -535,13 +518,13 @@ namespace EmbeddedBrowser
 
         public async Task<bool> BrowserSaveCookies(bool showLoginSuccessLog = true)
         {
-            if (_isLoggedIn) return false;
+            if (IsLoggedIn) return false;
 
             try
             {
                 await Task.Delay(1000, _token);
 
-                _isLoggedIn = true;
+                IsLoggedIn = true;
                 _loginFailed = false;
 
                 DominatorAccountModel.BrowserCookies = await BrowserCookiesIntoModel();
@@ -1594,9 +1577,9 @@ namespace EmbeddedBrowser
                     Browser.Load(url);
 
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
-                var lstResponseStream = _proxyRequestHandler == null
-                    ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.ResourceRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = ProxyRequestHandler == null
+                    ? RequestHandlerCustom.ResourceRequestHandler.ResponseList.DeepCloneObject()
+                    : ProxyRequestHandler.ResourceRequestHandler.ResponseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x =>
                     x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
@@ -1616,10 +1599,10 @@ namespace EmbeddedBrowser
         //For deleting data present in responseList
         public void ClearResources()
         {
-            if (_proxyRequestHandler == null)
-                _requestHandlerCustom.resourceRequestHandler.responseList.Clear();
+            if (ProxyRequestHandler == null)
+                RequestHandlerCustom.ResourceRequestHandler.ResponseList.Clear();
             else
-                _proxyRequestHandler.ResourceRequestHandler.responseList.Clear();
+                ProxyRequestHandler.ResourceRequestHandler.ResponseList.Clear();
         }
 
         //For reddit json data
@@ -1628,9 +1611,9 @@ namespace EmbeddedBrowser
             var response = string.Empty;
             try
             {
-                var lstResponseStream = _proxyRequestHandler == null
-                    ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.ResourceRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = ProxyRequestHandler == null
+                    ? RequestHandlerCustom.ResourceRequestHandler.ResponseList.DeepCloneObject()
+                    : ProxyRequestHandler.ResourceRequestHandler.ResponseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 _token.ThrowIfCancellationRequested();
                 var responseStream = lstResponseStream.FirstOrDefault(x =>
@@ -1678,9 +1661,9 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10, _token);
-                var lstResponseStream = _proxyRequestHandler == null
-                    ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.ResourceRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = ProxyRequestHandler == null
+                    ? RequestHandlerCustom.ResourceRequestHandler.ResponseList.DeepCloneObject()
+                    : ProxyRequestHandler.ResourceRequestHandler.ResponseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x =>
                     x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
@@ -1705,9 +1688,9 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10, _token);
-                var lstResponseStream = _proxyRequestHandler == null
-                    ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.ResourceRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = ProxyRequestHandler == null
+                    ? RequestHandlerCustom.ResourceRequestHandler.ResponseList.DeepCloneObject()
+                    : ProxyRequestHandler.ResourceRequestHandler.ResponseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStreamList = lstResponseStream.Where(x =>
                     x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
@@ -1782,9 +1765,9 @@ namespace EmbeddedBrowser
                     _token.ThrowIfCancellationRequested();
                     try
                     {
-                        lstResponseStream = _proxyRequestHandler == null
-                            ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
-                            : _proxyRequestHandler.ResourceRequestHandler.responseList.DeepCloneObject();
+                        lstResponseStream = ProxyRequestHandler == null
+                            ? RequestHandlerCustom.ResourceRequestHandler.ResponseList.DeepCloneObject()
+                            : ProxyRequestHandler.ResourceRequestHandler.ResponseList.DeepCloneObject();
                         isSuccess = true;
                     }
                     catch
@@ -1911,27 +1894,27 @@ namespace EmbeddedBrowser
 
         public void SetResourceLoadInstance()
         {
-            if (_proxyRequestHandler == null)
-                _requestHandlerCustom.resourceRequestHandler.IsNeedResourceData = true;
+            if (ProxyRequestHandler == null)
+                RequestHandlerCustom.ResourceRequestHandler.IsNeedResourceData = true;
             else
-                _proxyRequestHandler.ResourceRequestHandler.IsNeedResourceData = true;
+                ProxyRequestHandler.ResourceRequestHandler.IsNeedResourceData = true;
         }
 
         public void ReSetResourceLoadInstance()
         {
-            if (_proxyRequestHandler == null)
-                _requestHandlerCustom.resourceRequestHandler.IsNeedResourceData = false;
+            if (ProxyRequestHandler == null)
+                RequestHandlerCustom.ResourceRequestHandler.IsNeedResourceData = false;
             else
-                _proxyRequestHandler.ResourceRequestHandler.IsNeedResourceData = false;
+                ProxyRequestHandler.ResourceRequestHandler.IsNeedResourceData = false;
         }
 
         public List<KeyValuePair<string, MemoryStreamResponseFilter>> TwitterJsonResponse()
         {
             try
             {
-                var lstResponseStream = _proxyRequestHandler == null
-                    ? _requestHandlerCustom.resourceRequestHandler.TwitterresponseList.DeepCloneObject()
-                    : _proxyRequestHandler.ResourceRequestHandler.TwitterresponseList.DeepCloneObject();
+                var lstResponseStream = ProxyRequestHandler == null
+                    ? RequestHandlerCustom.ResourceRequestHandler.TwitterresponseList.DeepCloneObject()
+                    : ProxyRequestHandler.ResourceRequestHandler.TwitterresponseList.DeepCloneObject();
                 return lstResponseStream;
             }
             catch (Exception)

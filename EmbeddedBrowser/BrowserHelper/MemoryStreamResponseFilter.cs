@@ -7,14 +7,14 @@ namespace EmbeddedBrowser.BrowserHelper
 {
     public class MemoryStreamResponseFilter : IResponseFilter
     {
-        private MemoryStream memoryStream;
+        private MemoryStream _memoryStream;
 
         public byte[] Data { get; set; }
 
         bool IResponseFilter.InitFilter()
         {
             //NOTE: We could initialize this earlier, just one possible use of InitFilter
-            memoryStream = new MemoryStream();
+            _memoryStream = new MemoryStream();
             return true;
         }
 
@@ -40,14 +40,14 @@ namespace EmbeddedBrowser.BrowserHelper
                 dataOut.Write(readBytes, 0, readBytes.Length);
 
                 //Write buffer to the memory stream
-                memoryStream.Write(readBytes, 0, readBytes.Length);
+                _memoryStream.Write(readBytes, 0, readBytes.Length);
 
                 //If we read less than the total amount avaliable then we need
                 //return FilterStatus.NeedMoreData so we can then write the rest
                 if (dataInRead < dataIn.Length) return FilterStatus.NeedMoreData;
 
-                if (memoryStream.Length > 0)
-                    Data = memoryStream.ToArray();
+                if (_memoryStream.Length > 0)
+                    Data = _memoryStream.ToArray();
 
                 return FilterStatus.Done;
             }
@@ -64,8 +64,8 @@ namespace EmbeddedBrowser.BrowserHelper
         {
             try
             {
-                memoryStream?.Dispose();
-                memoryStream = null;
+                _memoryStream?.Dispose();
+                _memoryStream = null;
             }
             catch (Exception ex)
             {

@@ -7,9 +7,9 @@ namespace EmbeddedBrowser.BrowserHelper
 {
     public class ResourceRequestHandler : IResourceRequestHandler
     {
-        private readonly BrowserWindow embedBrowser;
+        private readonly BrowserWindow _embedBrowser;
 
-        public List<MemoryStreamResponseFilter> responseList = new List<MemoryStreamResponseFilter>();
+        public List<MemoryStreamResponseFilter> ResponseList = new List<MemoryStreamResponseFilter>();
 
         public List<KeyValuePair<string, MemoryStreamResponseFilter>> TwitterresponseList =
             new List<KeyValuePair<string, MemoryStreamResponseFilter>>();
@@ -20,7 +20,7 @@ namespace EmbeddedBrowser.BrowserHelper
 
             // get the proxy password
 
-            this.embedBrowser = embedBrowser;
+            this._embedBrowser = embedBrowser;
 
             IsNeedResourceData = isNeedResourceData;
         }
@@ -47,7 +47,7 @@ namespace EmbeddedBrowser.BrowserHelper
                 if (IsNeedResourceData)
                 {
                     var dataFilter = new MemoryStreamResponseFilter();
-                    responseList.Add(dataFilter);
+                    ResponseList.Add(dataFilter);
                     TwitterresponseList.Add(
                         new KeyValuePair<string, MemoryStreamResponseFilter>(request.Url, dataFilter));
                     return dataFilter;
@@ -79,50 +79,50 @@ namespace EmbeddedBrowser.BrowserHelper
         {
             try
             {
-                if (embedBrowser.Browser.IsDisposed) return;
-                if (!embedBrowser.Dispatcher.CheckAccess())
+                if (_embedBrowser.Browser.IsDisposed) return;
+                if (!_embedBrowser.Dispatcher.CheckAccess())
                 {
-                    embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
+                    _embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
                     {
-                        if (embedBrowser.Browser.Address == "https://www.youtube.com/oops")
+                        if (_embedBrowser.Browser.Address == "https://www.youtube.com/oops")
                         {
-                            embedBrowser.Browser.Address = embedBrowser.SearchUrl;
+                            _embedBrowser.Browser.Address = _embedBrowser.SearchUrl;
                             return;
                         }
 
-                        if (embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
+                        if (_embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
                         {
-                            embedBrowser.Browser.Address = embedBrowser.SearchUrl = "https://myaccount.google.com/";
+                            _embedBrowser.Browser.Address = _embedBrowser.SearchUrl = "https://myaccount.google.com/";
                             return;
                         }
 
-                        if (embedBrowser.SearchUrl == embedBrowser.Browser.Address)
+                        if (_embedBrowser.SearchUrl == _embedBrowser.Browser.Address)
                             return;
-                        if (string.IsNullOrWhiteSpace(embedBrowser.UrlBar.Text))
-                            embedBrowser.UrlBar.Text = "";
-                        embedBrowser.SearchUrl = embedBrowser.Browser.Address;
+                        if (string.IsNullOrWhiteSpace(_embedBrowser.UrlBar.Text))
+                            _embedBrowser.UrlBar.Text = "";
+                        _embedBrowser.SearchUrl = _embedBrowser.Browser.Address;
                     }));
                 }
                 else
                 {
-                    if (embedBrowser.Browser.Address == "https://www.youtube.com/oops")
+                    if (_embedBrowser.Browser.Address == "https://www.youtube.com/oops")
                     {
-                        embedBrowser.Browser.Address = embedBrowser.SearchUrl;
+                        _embedBrowser.Browser.Address = _embedBrowser.SearchUrl;
                         return;
                     }
 
-                    if (embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
+                    if (_embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
                     {
-                        embedBrowser.Browser.Address = embedBrowser.SearchUrl = "https://myaccount.google.com/";
+                        _embedBrowser.Browser.Address = _embedBrowser.SearchUrl = "https://myaccount.google.com/";
                         return;
                     }
 
-                    if (embedBrowser.SearchUrl == embedBrowser.Browser.Address)
+                    if (_embedBrowser.SearchUrl == _embedBrowser.Browser.Address)
                         return;
-                    if (string.IsNullOrWhiteSpace(embedBrowser.UrlBar.Text))
-                        embedBrowser.UrlBar.Text = "";
+                    if (string.IsNullOrWhiteSpace(_embedBrowser.UrlBar.Text))
+                        _embedBrowser.UrlBar.Text = "";
 
-                    embedBrowser.SearchUrl = embedBrowser.Browser.Address;
+                    _embedBrowser.SearchUrl = _embedBrowser.Browser.Address;
                 }
             }
             catch (Exception ex)

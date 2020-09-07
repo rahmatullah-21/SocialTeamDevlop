@@ -39,7 +39,7 @@ namespace DominatorHouse.Social
                     if (loginType == LoginType.AutomationLogin || loginType == LoginType.BrowserLogin
                           || loginType == LoginType.InitialiseBrowser || (loginType == LoginType.CheckLogin && BrowserWindow.IsDisposed))
                         BrowserWindow = new BrowserWindow(account) //, userAgent:"Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko"
-                        { Visibility = Visibility.Hidden, _isLoggedIn = false };
+                        { Visibility = Visibility.Hidden, IsLoggedIn = false };
 
                     if (loginType == LoginType.BrowserLogin)
                         BrowserWindow.Visibility = Visibility.Visible;

@@ -5,15 +5,15 @@ namespace EmbeddedBrowser.BrowserHelper
 {
     public class RequestHandlerCustom : IRequestHandler
     {
-        private readonly BrowserWindow embedBrowser;
+        private readonly BrowserWindow _embedBrowser;
 
-        public ResourceRequestHandler resourceRequestHandler;
+        public ResourceRequestHandler ResourceRequestHandler;
 
         public RequestHandlerCustom(BrowserWindow embedBrowser, bool isNeedResourceData = false)
         {
-            this.embedBrowser = embedBrowser;
+            this._embedBrowser = embedBrowser;
             IsNeedResourceData = isNeedResourceData;
-            resourceRequestHandler = new ResourceRequestHandler(embedBrowser, IsNeedResourceData);
+            ResourceRequestHandler = new ResourceRequestHandler(embedBrowser, IsNeedResourceData);
         }
 
 
@@ -35,7 +35,7 @@ namespace EmbeddedBrowser.BrowserHelper
             IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator,
             ref bool disableDefaultHandling)
         {
-            return resourceRequestHandler;
+            return ResourceRequestHandler;
         }
 
         public bool GetAuthCredentials(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, bool isProxy,
@@ -43,8 +43,8 @@ namespace EmbeddedBrowser.BrowserHelper
         {
             if (isProxy)
             {
-                callback.Continue(embedBrowser.DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername,
-                    embedBrowser.DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword);
+                callback.Continue(_embedBrowser.DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername,
+                    _embedBrowser.DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword);
 
                 return true;
             }
