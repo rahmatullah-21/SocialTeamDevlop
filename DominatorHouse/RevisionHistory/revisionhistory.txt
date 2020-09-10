@@ -1,3 +1,19 @@
+Version[1.0.0.92],[20th August 2020] 
+Fixed:-
+	Facebook:
+		Engage ==> Reply to comment ==> Fixed issue with post URL
+		Broadcast message ==> Send message to fan page ==> Fixed issue with custom page URL
+		FB Inviter ==> Fixed issue with event inviter 
+		Broadcast Message ==> Fixed issue with message to new friends 
+		Broadcast Message ==> Send Greeting To Friend ==> Fixed issue with Post greetings to timeline
+	
+	Quora:
+		Message ==> Broadcast Message ==> Fixed issue with broadcast message.
+	
+	Youtube:
+		Comment ==> Fixed issue on searching videos with keyword query.
+		Comment ==> Fixed bug 'commenting gets failed'.
+
 Version[1.0.0.91],[5th August 2020] 
 New Features:
 	Linkedin :
