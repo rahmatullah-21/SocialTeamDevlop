@@ -4718,4 +4718,9 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyNumberOfSendinvitationPerWeek">Number Of Invitation Per Week</system:String>
     <system:String x:Key="LangKeyMaxConnectionsToSendinvitationPerDay">Max Connections To SendInvitation Per Day</system:String>
     <system:String x:Key="LangKeyReplyToAllUserMessageWhodidnotreply">Reply To All User Messages Who didn't reply</system:String>
+    <system:String x:Key="LangKeyNumberOfAccountToCreatePerJob">Number Of Account To Create Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfAccountToCreatePerHour">Number Of Account To Create Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfAccountToCreatePerDay">Number Of Account To Create Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfAccountToCreatePerWeek">Number Of Account To Create Per Week</system:String>
+    <system:String x:Key="LangKeyAccountToCreatePerDay">Max Account To Create Per Day</system:String>
 </ResourceDictionary>

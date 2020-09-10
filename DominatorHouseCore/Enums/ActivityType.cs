@@ -346,6 +346,8 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         ReportVideo = 124,
         [Description("LinkedIn")]
-        SendPageInvitations = 125
+        SendPageInvitations = 125,
+        [Description("Pinterest")]
+        CreateAccount = 126
     }
 }
