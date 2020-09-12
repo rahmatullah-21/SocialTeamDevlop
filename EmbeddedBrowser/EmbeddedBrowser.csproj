@@ -5,10 +5,6 @@
   <Import Project="..\packages\CefSharp.Common.79.1.360\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.79.1.360\build\CefSharp.Common.props')" />
   <Import Project="..\packages\cef.redist.x86.79.1.36\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.79.1.36\build\cef.redist.x86.props')" />
   <Import Project="..\packages\cef.redist.x64.79.1.36\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.79.1.36\build\cef.redist.x64.props')" />
-  <Import Project="..\..\gramdominator-library\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.props" Condition="Exists('..\..\gramdominator-library\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.props')" />
-  <Import Project="..\..\gramdominator-library\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props" Condition="Exists('..\..\gramdominator-library\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props')" />
-  <Import Project="..\packages\CefSharp.Wpf.63.0.2\build\CefSharp.Wpf.props" Condition="Exists('..\packages\CefSharp.Wpf.63.0.2\build\CefSharp.Wpf.props')" />
-  <Import Project="..\packages\CefSharp.Common.63.0.2\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.63.0.2\build\CefSharp.Common.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>

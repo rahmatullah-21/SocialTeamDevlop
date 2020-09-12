@@ -105,7 +105,7 @@ namespace EmbeddedBrowser
 
         public bool IsLoaded { get; set; }
 
-        public bool _isLoggedIn { get; set; }
+        public bool IsLoggedIn { get; set; }
 
         private bool _loginFailed { get; set; }
 
@@ -468,13 +468,13 @@ namespace EmbeddedBrowser
 
         public async Task<bool> SaveCookies(bool showLoginSuccessLog = true)
         {
-            if (_isLoggedIn) return false;
+            if (IsLoggedIn) return false;
 
             try
             {
                 await Task.Delay(1000, _token);
 
-                _isLoggedIn = true;
+                IsLoggedIn = true;
                 _loginFailed = false;
 
                 DominatorAccountModel.Cookies = await BrowserCookiesIntoModel();
@@ -499,13 +499,13 @@ namespace EmbeddedBrowser
 
         public async Task<bool> BrowserSaveCookies(bool showLoginSuccessLog = true)
         {
-            if (_isLoggedIn) return false;
+            if (IsLoggedIn) return false;
 
             try
             {
                 await Task.Delay(1000, _token);
 
-                _isLoggedIn = true;
+                IsLoggedIn = true;
                 _loginFailed = false;
 
                 DominatorAccountModel.BrowserCookies = await BrowserCookiesIntoModel();
