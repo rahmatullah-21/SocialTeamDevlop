@@ -510,5 +510,32 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="PinTabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid>
+                        <Border Name="Border">
+                            <ContentPresenter VerticalAlignment="Center" Margin="5"
+                                              HorizontalAlignment="Left" ContentSource="Header"
+                                              TextBlock.FontSize="18" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource AccentBaseColorBrush}" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>
