@@ -1,3 +1,28 @@
+Version[1.0.0.93],[15th Septembar 2020] 
+New features:-
+	Pinterest:
+     		Accounts ==> Accounts Manager ==> Now you can create a Pinterest account
+
+Fixed:-
+	Social:
+		Create single post ==> Linkedin ==> Fixed issue in while publishing
+	
+	Facebook:
+		Grow Friends ==> Fixed issue with Incoming Friend Request
+		Grow Friends ==> Send Friend Request ==> Fixed issue with Page Post Likers
+		Grow Friends ==> Send Friend Request ==> Fixed issue with Suggested Friend
+
+	Instagram:
+ 		Accounts ==> Accounts Manager ==> Fixed account login issue
+
+	Pinterest:
+		Accounts ==> Accounts Manager ==> Fixed browser login
+
+	Linkedin:
+		Grow Connection ==> Connection Request ==> Fixed issue with Profile URL 
+		Engage ==> Like ==> Fixed issue with Company URL posts
+
+
 Version[1.0.0.92],[20th August 2020] 
 Fixed:-
 	Facebook:
