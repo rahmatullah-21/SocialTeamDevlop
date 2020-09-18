@@ -159,7 +159,7 @@ namespace DominatorUIUtility.CustomControl
             _headerControl.DataContext = _footerControl.DataContext = this;
 
             CampaignName =
-                $"{SocialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+                $"{SocialNetwork} {_activityType} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
             if (_queryControl != null)
             {
                 _queryControl.ActivityType = _activityType;

@@ -13,8 +13,10 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
              Name="AccountModule"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModel:DominatorAccountViewModel}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="SizeChanged">
             <i:InvokeCommandAction Command="{Binding AddSingleAccountCommand,ElementName=AccountModule}" />
@@ -269,7 +271,7 @@
                                             <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
                                         </MenuItem.Icon>
                                         <MenuItem.ItemTemplate>
-                                            <DataTemplate>
+                                            <DataTemplate DataType="{x:Type models:ContentSelectGroup}">
                                                 <CheckBox Content="{Binding Content}"
                                                           IsChecked="{Binding IsContentSelected}"
                                                           Command="{Binding DataContext.SelectAccountByGroupCommand,
@@ -632,7 +634,7 @@
                                         <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
                                     </MenuItem.Icon>
                                     <MenuItem.ItemTemplate>
-                                        <DataTemplate>
+                                        <DataTemplate DataType="{x:Type models:ContentSelectGroup}">
                                             <CheckBox Content="{Binding Content}"
                                                       IsChecked="{Binding IsContentSelected}"
                                                       Command="{Binding DataContext.SelectAccountByGroupCommand,

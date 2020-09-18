@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" MaxWidth="500">
+             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
+             mc:Ignorable="d" MaxWidth="500"
+             d:DataContext="{d:DesignInstance behaviours:ErrorModelControl}">
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
@@ -28,7 +30,7 @@
                                       RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="{x:Type behaviours:AccountDetails}">
                                 <CheckBox
                                     IsChecked="{Binding IsChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                     Margin="5,0,0,0" Content="{Binding UserName}" Click="AccountChecked" />

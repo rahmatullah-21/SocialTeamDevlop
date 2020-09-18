@@ -8,7 +8,9 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:moduleConfig="clr-namespace:DominatorUIUtility.ViewModel.Startup.ModuleConfig"
+             d:DataContext="{d:DesignInstance moduleConfig:CreateBoardViewModel}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="CreateBoard" />
@@ -112,7 +114,7 @@
                                                 <TextBlock Text="{DynamicResource LangKeyAction}" />
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
+                                                <DataTemplate DataType="{x:Type moduleConfig:BoardInfo}">
                                                     <Button Background="Transparent" Name="BtnDelete"
                                                             Command="{Binding DataContext.DeleteBoardCommand, 
                                                         RelativeSource= {RelativeSource AncestorType= DataGrid}}"

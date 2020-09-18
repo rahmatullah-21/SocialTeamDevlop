@@ -5,8 +5,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
-    <Grid Name="MainGrid">
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel"
+             xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore">
+    <Grid Name="MainGrid" d:DataContext="{d:DesignInstance viewModel:WhiteListViewModel}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.95*" />
             <ColumnDefinition Width="1.05*" />
@@ -124,7 +126,7 @@
                 <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstWhiteListUsers,IsAsync=True}"
                          VerticalAlignment="Stretch">
                     <ListBox.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="{x:Type models:WhitelistUserModel}">
                             <CheckBox x:Name="ChkWhitlistuser" IsChecked="{Binding IsWhiteListUserChecked}"
                                       Style="{StaticResource CheckBoxStyle}"
                                       Command="{Binding DataContext.SelectCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=ListBox}}">
