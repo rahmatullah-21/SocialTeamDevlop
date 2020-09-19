@@ -3,16 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" xmlns:pre="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" 
+             mc:Ignorable="d" xmlns:pre="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+             xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
+             xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore"
+             xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Template>
         <ControlTemplate>
             <Grid>
                 <ListView x:Name="ErrorLogger" 
-                          SelectedItem="{Binding SelectedLoggerModel, Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                          SelectedItem="{Binding (views:LogList.SelectedLoggerModel), Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
                           ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingPanel.IsContainerVirtualizable="True"
                           VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
-                          VirtualizingPanel.ScrollUnit="Pixel" ItemsSource="{Binding SourceCollection}">
+                          VirtualizingPanel.ScrollUnit="Pixel" ItemsSource="{Binding (viewModel:LogViewModel.SourceCollection)}">
                     <ListView.InputBindings>
                         <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCmd}"/>
                     </ListView.InputBindings>
@@ -31,7 +34,7 @@
                             <GridView.Columns>
                                 <GridViewColumn  Width="50" >
                                     <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
+                                        <DataTemplate DataType="{x:Type models:LoggerModel}">
                                             <Rectangle Height="15" Width="15" >
                                                 <Rectangle.Style>
                                                     <Style TargetType="Rectangle">
@@ -87,11 +90,11 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}" Width="150"/>
-                                <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
-                                <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
-                                <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
-                                <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}"/>
+                                <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding (models:LoggerModel.DateTime)}" Width="150"/>
+                                <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding (models:LoggerModel.Network)}" Width="130"/>
+                                <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding (models:LoggerModel.AccountCampaign)}"/>
+                                <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding (models:LoggerModel.ActivityType)}" Width="130"/>
+                                <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding (models:LoggerModel.Message)}"/>
                             </GridView.Columns>
                         </GridView>
                     </ListView.View>
