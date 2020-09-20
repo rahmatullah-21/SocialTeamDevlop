@@ -186,7 +186,7 @@
                                                                                   HorizontalAlignment="Center" VerticalAlignment="Center" >
                                                                     <i:Interaction.Triggers>
                                                                         <i:EventTrigger EventName="Click" >
-                                                                            <i:InvokeCommandAction Command="{Binding DataContext.ChangeActivityStatusCmd, Source={x:Reference CampaignStatusList}}" 
+                                                                            <i:InvokeCommandAction Command="{Binding DataContext.(viewModels:DominatorAutoActivityViewModel.ChangeActivityStatusCmd), Source={x:Reference CampaignStatusList}}" 
                                                                                                    CommandParameter="{Binding}" />
                                                                         </i:EventTrigger>
                                                                     </i:Interaction.Triggers>
