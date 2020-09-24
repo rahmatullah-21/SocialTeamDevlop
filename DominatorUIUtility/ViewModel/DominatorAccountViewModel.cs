@@ -2050,7 +2050,7 @@ namespace DominatorUIUtility.ViewModel
                                     {
                                         if (account.AccountBaseModel.Status == AccountStatus.TryingToLogin)
                                         {
-                                            if (account.Cookies.Count == 0)
+                                            if (account.CookieHelperList == null || account.CookieHelperList.Count == 0)
                                                 account.AccountBaseModel.Status = AccountStatus.NotChecked;
                                             else
                                             {
