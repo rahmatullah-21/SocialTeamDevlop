@@ -14,12 +14,11 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// <summary>
     ///     Interaction logic for PublisherDirectPosts.xaml
     /// </summary>
-    public partial class PublisherDirectPosts : UserControl, INotifyPropertyChanged
+    public partial class PublisherDirectPosts : INotifyPropertyChanged
     {
         private static PublisherDirectPosts instance;
 
         private PublisherDirectPostsViewModel _publisherDirectPostsViewModel;
-        private PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
 
         public PublisherDirectPosts()
         {
@@ -29,7 +28,6 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         public PublisherDirectPosts(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
         {
-            this.tabItemsControl = tabItemsControl;
             PublisherDirectPostsViewModel = new PublisherDirectPostsViewModel(tabItemsControl);
             tabItemsControl.PublisherDirectPostsViewModel = PublisherDirectPostsViewModel;
             DirectPost.DataContext = PublisherDirectPostsViewModel;

@@ -33,9 +33,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
             SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, SavePost);
             UploadDescriptionCommand = new BaseCommand<object>(sender => true, UploadDescription);
-            //LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
             MultipleImageUrlCommand = new BaseCommand<object>(sender => true, MultipleImageUrlExecute);
-            //BindingOperations.EnableCollectionSynchronization(LstPostDetailsModels, _lock);
         }
 
         private void MultipleImageUrlExecute(object sender)
