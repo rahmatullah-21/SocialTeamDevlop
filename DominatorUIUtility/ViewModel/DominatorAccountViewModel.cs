@@ -2509,9 +2509,24 @@ namespace DominatorUIUtility.ViewModel
                                         x.AccountBaseModel.AccountNetwork == account.AccountBaseModel.AccountNetwork))
                                     {
                                         if (account.AccountBaseModel.Status == AccountStatus.TryingToLogin)
-                                            account.AccountBaseModel.Status = AccountStatus.NotChecked;
+                                        {
+                                            if (account.CookieHelperList == null || account.CookieHelperList.Count == 0)
+                                                account.AccountBaseModel.Status = AccountStatus.NotChecked;
+                                            else
+                                            {
+                                                account.AccountBaseModel.Status = AccountStatus.Success;
+                                                account.IsUserLoggedIn = true;
+                                                _accountsFileManager.Edit(account);
+                                                UpdateToDb(account.AccountBaseModel.AccountId, account.AccountBaseModel.AccountName, globalDbOperation);
+                                            }
+                                        }
                                         else if (account.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
+                                        {
                                             account.AccountBaseModel.Status = AccountStatus.Success;
+                                            account.IsUserLoggedIn = true;
+                                            _accountsFileManager.Edit(account);
+                                            UpdateToDb(account.AccountBaseModel.AccountId, account.AccountBaseModel.AccountName, globalDbOperation);
+                                        }
 
                                         if (string.IsNullOrEmpty(account.AccountBaseModel.AccountName))
                                         {

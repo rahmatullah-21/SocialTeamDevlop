@@ -158,8 +158,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                         if (ListCountry.Any(x => x.CountryName.Equals(locationModel.CountryName)))
                             continue;
 
-                        var request = (HttpWebRequest) WebRequest.Create(
-                            $"http://209.250.252.53/DownloadForSocinator/CityListByCountries/{locationModel.CountryName}.txt");
+                        var request = (HttpWebRequest)WebRequest.Create($"http://18.133.153.168/DownloadForSocinator/CityListByCountries/{locationModel.CountryName}.txt");
                         var response = request.GetResponse();
                         var cityResponse = string.Empty;
                         using (var responseStream = response.GetResponseStream())
