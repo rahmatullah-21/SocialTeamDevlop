@@ -8,8 +8,6 @@
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore"
-             xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -22,22 +20,22 @@
     </UserControl.Resources>
     <UserControl.Template>
         <ControlTemplate>
-            <Grid DataContext="{Binding (views:LogView.ViewModel), RelativeSource={RelativeSource TemplatedParent}}">
+            <Grid DataContext="{Binding ViewModel, RelativeSource={RelativeSource TemplatedParent}}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Top" 
                             Margin="0,0,15,0">
 
                     <Label Content="{DynamicResource LangKeyFilterByNetwork}" FontWeight="SemiBold"/>
-                    <ComboBox ItemsSource="{Binding (views:LogView.AvailableNetworks), RelativeSource={RelativeSource TemplatedParent}}" Width="200"
-                              mah:TextBoxHelper.ClearTextButton="True" SelectedItem="{Binding (viewModel:LogViewModel.SelectedNetwork), Mode=TwoWay}"/>
+                    <ComboBox ItemsSource="{Binding AvailableNetworks, RelativeSource={RelativeSource TemplatedParent}}" Width="200"
+                              mah:TextBoxHelper.ClearTextButton="True" SelectedItem="{Binding SelectedNetwork, Mode=TwoWay}"/>
 
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding (viewModel:LogViewModel.NetworkIsSelected), Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding NetworkIsSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Label Content="{DynamicResource LangKeyFilterByActivityType}" FontWeight="SemiBold"/>
                         <ComboBox Width="200" mah:TextBoxHelper.ClearTextButton="True"
-                                  Name="CmbActivityType" SelectedItem="{Binding (viewModel:LogViewModel.ActivityTypes).Selected}">
+                                  Name="CmbActivityType" SelectedItem="{Binding ActivityTypes.Selected}">
                             <ComboBox.ItemsSource>
                                 <MultiBinding Converter="{StaticResource ActivityTypesSourceConverter}">
-                                    <Binding Path="(viewModel:LogViewModel.ActivityTypes).ItemsCollection"></Binding>
-                                    <Binding Path="(viewModel:LogViewModel.SelectedNetwork)"></Binding>
+                                    <Binding Path="ActivityTypes.ItemsCollection"></Binding>
+                                    <Binding Path="SelectedNetwork"></Binding>
                                 </MultiBinding>
                             </ComboBox.ItemsSource>
                         </ComboBox>
@@ -46,15 +44,15 @@
                     <StackPanel Orientation="Horizontal">
                         <Label Content="{DynamicResource LangKeyFilterByAccount}" FontWeight="SemiBold"/>
                         <ComboBox Width="200" mah:TextBoxHelper.ClearTextButton="True"
-                                  Name="CmbAccount" SelectedItem="{Binding (viewModel:LogViewModel.SelectedAccount), Mode=TwoWay}">
+                                  Name="CmbAccount" SelectedItem="{Binding SelectedAccount, Mode=TwoWay}">
                             <ComboBox.ItemsSource>
                                 <MultiBinding Converter="{StaticResource AccountsFilterConverter}" ConverterParameter="{StaticResource True}">
-                                    <Binding Path="(views:LogView.AvailableAccounts)"  RelativeSource="{RelativeSource TemplatedParent}" IsAsync="True"/>
-                                    <Binding Path="(viewModel:LogViewModel.SelectedNetwork)" />
+                                    <Binding Path="AvailableAccounts"  RelativeSource="{RelativeSource TemplatedParent}" IsAsync="True"/>
+                                    <Binding Path="SelectedNetwork" />
                                 </MultiBinding>
                             </ComboBox.ItemsSource>
                             <ComboBox.ItemTemplate>
-                                <DataTemplate DataType="{x:Type models:DominatorAccountModel}">
+                                <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Rectangle Margin="5,0" VerticalAlignment="Center"
                                                    Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}"
@@ -75,20 +73,20 @@
                 <dragablz:TabablzControl x:Name="InitialTabablzControl" SelectionChanged="TabSelectionChange"
                                              Style="{DynamicResource TabablzControlStyle}" Margin="0,5,0,0" >
                     <TabItem Header="{DynamicResource LangKeyInfo}" Name="InfoTab" IsSelected="True" >
-                        <views:LogList Logs="{Binding (viewModel:LogViewModel.Logs)}" 
-                                           NetworkFilter="{Binding (viewModel:LogViewModel.SelectedNetwork)}" 
-                                           ActivityTypeFilter="{Binding (viewModel:LogViewModel.ActivityTypes).Selected}" 
+                        <views:LogList Logs="{Binding Logs}" 
+                                           NetworkFilter="{Binding SelectedNetwork}" 
+                                           ActivityTypeFilter="{Binding ActivityTypes.Selected}" 
                                            LogTypeFilter="{x:Static views:LogList.LogTypeInfo}"
-                                           SelectedLoggerModel="{Binding (viewModel:LogViewModel.Selected), Mode=TwoWay}"
-                                           SyncObject="{Binding (viewModel:LogViewModel.SyncObject), Mode=OneTime}"/>
+                                           SelectedLoggerModel="{Binding Selected, Mode=TwoWay}"
+                                           SyncObject="{Binding SyncObject, Mode=OneTime}"/>
                     </TabItem>
                     <TabItem Header="{DynamicResource LangKeyError}" Name="ErrorTab" >
-                        <views:LogList Logs="{Binding (viewModel:LogViewModel.Logs)}" 
-                                           NetworkFilter="{Binding (viewModel:LogViewModel.SelectedNetwork)}" 
-                                           ActivityTypeFilter="{Binding (viewModel:LogViewModel.ActivityTypes).Selected}" 
+                        <views:LogList Logs="{Binding Logs}" 
+                                           NetworkFilter="{Binding SelectedNetwork}" 
+                                           ActivityTypeFilter="{Binding ActivityTypes.Selected}" 
                                            LogTypeFilter="{x:Static views:LogList.LogTypeError}"
-                                           SelectedLoggerModel="{Binding (viewModel:LogViewModel.Selected), Mode=TwoWay}"
-                                           SyncObject="{Binding (viewModel:LogViewModel.SyncObject), Mode=OneTime}"/>
+                                           SelectedLoggerModel="{Binding Selected, Mode=TwoWay}"
+                                           SyncObject="{Binding SyncObject, Mode=OneTime}"/>
                     </TabItem>
                 </dragablz:TabablzControl>
             </Grid>
