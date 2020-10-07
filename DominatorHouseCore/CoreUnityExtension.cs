@@ -50,6 +50,7 @@ namespace DominatorHouseCore
 
             Container.RegisterSingleton<IWebService, WebService>();
             Container.RegisterSingleton<IDateProvider, DateProvider>();
+            Container.RegisterSingleton<IDispatcherUtility, DispatcherUtility>();
             Container.RegisterSingleton<IFileSystemProvider, FileSystemProvider>();
             Container.RegisterSingleton<IJobActivityConfigurationManager, JobActivityConfigurationManager>();
             Container.RegisterSingleton<ICampaignsFileManager, CampaignsFileManager>();
