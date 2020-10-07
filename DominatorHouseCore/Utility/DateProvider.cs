@@ -11,6 +11,7 @@ namespace DominatorHouseCore.Utility
         DateTime UtcNow();
         DateTime Now();
         DateTime Today();
+        int GetTimezoneOffset();
     }
 
     public sealed class DateProvider : IDateProvider
@@ -28,6 +29,10 @@ namespace DominatorHouseCore.Utility
         public DateTime Today()
         {
             return DateTime.Today;
+        }
+        public int GetTimezoneOffset()
+        {
+            return (int)TimeZoneInfo.Local.GetUtcOffset(Now()).TotalSeconds;
         }
     }
 }

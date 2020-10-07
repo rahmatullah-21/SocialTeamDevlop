@@ -60,12 +60,6 @@ namespace DominatorHouseCore.Utility
             return (dateProvider.UtcNow() - DateUtc1970).TotalSeconds;
         }
 
-        public static int GetTimezoneOffset()
-        {
-            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
-            return (int) TimeZoneInfo.Local.GetUtcOffset(dateProvider.Now()).TotalSeconds;
-        }
-
         public static DateTime GetStartOfWeek(this DateTime date)
         {
             var num = date.DayOfWeek - DayOfWeek.Sunday;
