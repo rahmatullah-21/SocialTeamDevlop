@@ -1,3 +1,26 @@
+Version[1.0.0.95],[09th October 2020] 
+Fixed:-
+ 	Social :-
+		Sociopublisher ==> Facebook ==> Fixed issue with story on facebook. 
+	
+	Facebook:
+		Grow Friends ==> Send Friend Request ==> Fixed issue with sending friend request.
+		Accounts ==> Account Manager ==> Fixed issue with updating account details. 
+		Broadcast Messages ==> Fixed issue with Broadcast Message.
+		
+	Twitter:
+		Engage ==> Comment ==> Manage Blacklisted users ==> Skip blacklisted user issue fixed.
+		
+	Linkedin:
+  		Accounts ==> Account Manager ==> Fixed issue with updating account details. 
+    		Grow Connection ==>  Connection request ==> Fixed Issue with Profile URL.
+     		Grow Connection ==>  Connection request ==> Fixed issue with filters.
+
+
+Version [1.0.0.94],[7th October 2020]		 				
+Fixed:-
+       Fixed minor issues and improved performance.
+		
 Version[1.0.0.93],[15th Septembar 2020] 
 New features:-
 	Pinterest:
