@@ -185,6 +185,7 @@ namespace DominatorUIUtility.ViewModel
             CancelCommand = new BaseCommand<object>(CancelCanExecute, CancelExecute);
             AddNewCookiesCommand = new BaseCommand<object>(AddNewCookiesCanExecute, AddNewCookiesExecute);
             RemoveCookiesCommand = new BaseCommand<object>(RemoveCookiesCanExecute, RemoveCookiesExecute);
+            ClearAllCookiesCommand = new BaseCommand<object>(ClearAllCookiesCanExecute, ClearAllCookiesExecute);
             VerifyAccountCommand = new BaseCommand<object>(VerifyAccountCanExecute, VerifyAccountExecute);
             SendVerificationCodeCommand = new BaseCommand<object>(SendVerificationCodeCanExecute, SendVerificationCodeExecute);
             SetNewPasswordCommand = new BaseCommand<object>(sender => true, SetNewPasswordExecute);
@@ -200,6 +201,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand CancelCommand { get; set; }
         public ICommand AddNewCookiesCommand { get; set; }
         public ICommand RemoveCookiesCommand { get; set; }
+        public ICommand ClearAllCookiesCommand { get; set; }
         public ICommand VerifyAccountCommand { get; set; }
         public ICommand SendVerificationCodeCommand { get; set; }
         public ICommand SetNewPasswordCommand { get; set; }
@@ -488,6 +490,26 @@ namespace DominatorUIUtility.ViewModel
                 Cookies.ItemsSource = null;
 
                 DominatorAccountModel.CookieHelperList.Remove(selectedItem as CookieHelper);
+                Cookies.ItemsSource = DominatorAccountModel.CookieHelperList;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private bool ClearAllCookiesCanExecute(object arg) => true;
+        private void ClearAllCookiesExecute(object sender)
+        {
+            try
+            {
+                if (Dialog.ShowCustomDialog("LangKeyClearAllCookies".FromResourceDictionary(), "LangKeyWannaClearAllCookies".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
+                    return;
+
+                var Cookies = sender as DataGrid;
+                Cookies.ItemsSource = null;
+
+                DominatorAccountModel.CookieHelperList?.Clear();
                 Cookies.ItemsSource = DominatorAccountModel.CookieHelperList;
             }
             catch (Exception ex)

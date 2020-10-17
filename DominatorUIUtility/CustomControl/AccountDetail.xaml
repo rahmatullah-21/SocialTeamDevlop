@@ -813,6 +813,9 @@
                                 <Button Content="{DynamicResource LangKeyRemoveSelectedCookies}" Background="Transparent" Name="BtnRemoveNewCookies"
                                         Command="{Binding RemoveCookiesCommand}"
                                         CommandParameter="{Binding ElementName=Cookies}"  FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
+                                <Button Content="{DynamicResource LangKeyClearAllCookies}" Background="Transparent" Name="BtnClearAllCookies"
+                                        Command="{Binding ClearAllCookiesCommand}"
+                                        CommandParameter="{Binding ElementName=Cookies}"  FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
                             </StackPanel>
                             <DataGrid Margin="5" ItemsSource="{Binding DominatorAccountModel.CookieHelperList}" MaxHeight="200" Width="500"
                       AutoGenerateColumns="False" CanUserAddRows="True" Name="Cookies">

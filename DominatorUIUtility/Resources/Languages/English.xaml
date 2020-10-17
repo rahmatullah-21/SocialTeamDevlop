@@ -4721,4 +4721,6 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyNumberOfAccountToCreatePerDay">Number Of Account To Create Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfAccountToCreatePerWeek">Number Of Account To Create Per Week</system:String>
     <system:String x:Key="LangKeyAccountToCreatePerDay">Max Account To Create Per Day</system:String>
+    <system:String x:Key="LangKeyClearAllCookies">Clear All Cookies</system:String>
+    <system:String x:Key="LangKeyWannaClearAllCookies">Do you really want to delete all cookies?</system:String>
 </ResourceDictionary>
