@@ -35,8 +35,8 @@
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
     <MinimumRequiredVersion>1.0.0.81</MinimumRequiredVersion>
-    <ApplicationRevision>95</ApplicationRevision>
-    <ApplicationVersion>1.0.0.95</ApplicationVersion>
+    <ApplicationRevision>96</ApplicationRevision>
+    <ApplicationVersion>1.0.0.96</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -126,8 +126,7 @@
     <ManifestCertificateThumbprint>B7EB2305FB56220BF55A0B312DE907F5DC6498B4</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>ComodoCertificate.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>

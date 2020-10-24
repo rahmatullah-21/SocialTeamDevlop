@@ -1,3 +1,24 @@
+Version[1.0.0.96],[24rd October 2020] 
+Fixed:-
+ 	Social :-
+		Sociopublisher ==> Facebook ==> Fixed with Posting In Group.
+	
+	Facebook:
+		Broadcast Messages ==> Fixed issue with Broadcast Message.
+		Scraper ==> Post Scraper ==> Fixed issue with page.
+		
+	Twitter:
+		Twitter ==> Comment ==> Fixed issue with comments.
+		
+	Linkedin:
+  		Messenger ==> Broadcast Messages ==> Fixed issue with Outside software & custom users list.
+		Scraper ==> Company Scraper ==> Fixed issue with Search Url.
+
+	Instagram :
+		Instaposter ==> Reposter ==> Using loction post ==> Fixed issue with Reposter.
+		Broadcast Messages ==> Fixed issue with Broadcast Message
+		Account Manager ==> Fixed issue with Account Login.
+
 Version[1.0.0.95],[09th October 2020] 
 Fixed:-
  	Social :-
