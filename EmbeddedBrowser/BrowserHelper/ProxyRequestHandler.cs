@@ -14,12 +14,11 @@ namespace EmbeddedBrowser.BrowserHelper
         private readonly string userName;
 
         public ResourceRequestHandler resourceRequestHandler;
-
-
+        
         public bool IsNeedResourceData { get; set; }
 
         public ProxyRequestHandler(string userName, string password, BrowserWindow embedBrowser
-            , bool isNeedResourceData = false)
+            , bool isNeedResourceData = false, DominatorHouseCore.Enums.SocialNetworks sn = DominatorHouseCore.Enums.SocialNetworks.Social)
         {
             // get the proxy username
             this.userName = userName;
@@ -31,7 +30,7 @@ namespace EmbeddedBrowser.BrowserHelper
 
             IsNeedResourceData = isNeedResourceData;
 
-            resourceRequestHandler = new ResourceRequestHandler(embedBrowser, userName, password, IsNeedResourceData);
+            resourceRequestHandler = new ResourceRequestHandler(embedBrowser, userName, password, IsNeedResourceData,sn);
         }
 
         public bool OnBeforeBrowse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)

@@ -15,11 +15,11 @@ namespace EmbeddedBrowser.BrowserHelper
         
         public bool IsNeedResourceData { get; set; }
 
-        public RequestHandlerCustom(BrowserWindow embedBrowser, bool isNeedResourceData = false)
+        public RequestHandlerCustom(BrowserWindow embedBrowser, bool isNeedResourceData = false, DominatorHouseCore.Enums.SocialNetworks sn = DominatorHouseCore.Enums.SocialNetworks.Social)
         {
             this.embedBrowser = embedBrowser;
             IsNeedResourceData = isNeedResourceData;
-            resourceRequestHandler = new ResourceRequestHandler(embedBrowser, "", "", IsNeedResourceData);
+            resourceRequestHandler = new ResourceRequestHandler(embedBrowser, "", "", IsNeedResourceData,sn);
         }
 
         public bool OnBeforeBrowse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)

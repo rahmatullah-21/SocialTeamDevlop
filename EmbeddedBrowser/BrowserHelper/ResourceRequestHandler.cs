@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using DominatorHouseCore;
+using DominatorHouseCore.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -12,6 +13,7 @@ namespace EmbeddedBrowser.BrowserHelper
         private readonly string password;
 
         private readonly string userName;
+        readonly SocialNetworks _Sn;
 
         public List<MemoryStreamResponseFilter> responseList = new List<MemoryStreamResponseFilter>();
 
@@ -20,7 +22,7 @@ namespace EmbeddedBrowser.BrowserHelper
         public bool IsNeedResourceData { get; set; }
 
         public ResourceRequestHandler(BrowserWindow embedBrowser
-            , string userName = "", string password = "", bool isNeedResourceData = false)
+            , string userName = "", string password = "", bool isNeedResourceData = false, SocialNetworks sn = SocialNetworks.Social)
         {
             // get the proxy username
             this.userName = userName;
@@ -31,6 +33,8 @@ namespace EmbeddedBrowser.BrowserHelper
             this.embedBrowser = embedBrowser;
 
             IsNeedResourceData = isNeedResourceData;
+
+            _Sn = sn;
         }
 
         public ICookieAccessFilter GetCookieAccessFilter(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
@@ -47,7 +51,7 @@ namespace EmbeddedBrowser.BrowserHelper
         {
             try
             {
-                if (IsNeedResourceData)
+                if (IsNeedResourceData && _Sn == SocialNetworks.Twitter)
                 {
                     var dataFilter = new MemoryStreamResponseFilter();
                     responseList.Add(dataFilter);
@@ -59,7 +63,7 @@ namespace EmbeddedBrowser.BrowserHelper
             {
 
             }
-            return new MemoryStreamResponseFilter();
+            return null;
         }
 
         public CefReturnValue OnBeforeResourceLoad(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
