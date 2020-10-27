@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿  using AutoMapper;
 using CommonServiceLocator;
 using DominatorHouse.AutoMapping;
 using DominatorHouseCore;

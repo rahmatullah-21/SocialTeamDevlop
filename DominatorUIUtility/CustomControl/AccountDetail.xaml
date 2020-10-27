@@ -350,6 +350,10 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyUpdatingDetails}" />
                                         <Setter Property="Foreground" Value="DarkGreen" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.FoundCaptcha}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyCaptchFound}" />
+                                        <Setter Property="Foreground" Value="#9b111e" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>

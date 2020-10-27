@@ -44,7 +44,9 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyAccountNotRegisteredYet")]
         NotRegisteredYet,
         [Description("LangKeyUpdatingDetails")]
-        UpdatingDetails
+        UpdatingDetails,
+        [Description("LangKeyCaptchFound")]
+        FoundCaptcha
     }
 
     public enum PinterestAccountType
