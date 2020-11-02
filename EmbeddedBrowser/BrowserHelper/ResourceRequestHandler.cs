@@ -51,11 +51,12 @@ namespace EmbeddedBrowser.BrowserHelper
         {
             try
             {
-                if (IsNeedResourceData && _Sn == SocialNetworks.Twitter)
+                if (IsNeedResourceData)
                 {
                     var dataFilter = new MemoryStreamResponseFilter();
                     responseList.Add(dataFilter);
-                    TwitterresponseList.Add(new KeyValuePair<string, MemoryStreamResponseFilter>(request.Url, dataFilter));
+                    if (_Sn == SocialNetworks.Twitter)
+                        TwitterresponseList.Add(new KeyValuePair<string, MemoryStreamResponseFilter>(request.Url, dataFilter));
                     return dataFilter;
                 }
             }
