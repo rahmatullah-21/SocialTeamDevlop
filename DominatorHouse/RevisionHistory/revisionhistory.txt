@@ -1,3 +1,17 @@
+Version[1.0.0.97],[4th November 2020] 
+Fixed:-
+ 	Social:-
+		Sociopublisher ==> Instagram ==> Fixed issue with posting. 
+    		Sociopublisher ==> Twitter ==> Create singlepost ==> Fixed issue with publish on wall.
+	
+	Facebook:-
+		Grow Friends ==> Send Friend Request ==> Fixed issue with Group members. 
+		Engage ==> Comment Likers ==> Fixed issue with Group Post Comment.
+		Engage ==> Fixed issue with post comment.
+		Engage ==> Post Like ==> Fixed issue with TimeLine/NewsFeed.  
+		Broadcast Messages ==> Broadcast Message ==> Fixed issue with Own Friends.
+		Scrapper ==> Comment scrapper ==> Page post comment ==> Fixed issue with report.
+
 Version[1.0.0.96],[24rd October 2020] 
 Fixed:-
  	Social :-
