@@ -144,7 +144,9 @@ namespace DominatorHouseCore.Enums.EmbeddedBrowser
         [Description("data-errormessage")]
         DataErrormessage = 25,
         [Description("data-pagelet")]
-        Datapagelet = 26
+        Datapagelet = 26,
+        [Description("data-sigil")]
+        DataSigil = 27
     }
 
     public enum CoordinateDirection

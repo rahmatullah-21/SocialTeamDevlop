@@ -69,9 +69,6 @@
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Focusable" Value="False"/>
-
-
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -244,7 +241,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
     
     <Style TargetType="{x:Type TabItem}" x:Key="TabItemStyle">
@@ -270,7 +266,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
         <Setter Property="Padding" Value="0" />
     </Style>
     
