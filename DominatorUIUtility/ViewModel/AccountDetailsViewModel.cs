@@ -511,6 +511,16 @@ namespace DominatorUIUtility.ViewModel
 
                 DominatorAccountModel.CookieHelperList?.Clear();
                 Cookies.ItemsSource = DominatorAccountModel.CookieHelperList;
+
+                var newAccountBaseModel = DominatorAccountModel.AccountBaseModel;
+                newAccountBaseModel.Status = AccountStatus.NotChecked;
+                DominatorAccountModel.IsUserLoggedIn = false;
+                
+                new SocinatorAccountBuilder(newAccountBaseModel.AccountId)
+                    .AddOrUpdateDominatorAccountBase(newAccountBaseModel)
+                    .AddOrUpdateCookies(DominatorAccountModel.Cookies)
+                    .AddOrUpdateLoginStatus(false)
+                    .SaveToBinFile();
             }
             catch (Exception ex)
             {
