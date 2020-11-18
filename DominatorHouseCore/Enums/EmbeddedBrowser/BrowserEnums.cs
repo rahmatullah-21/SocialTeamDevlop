@@ -113,7 +113,8 @@ namespace DominatorHouseCore.Enums.EmbeddedBrowser
         [Description("aria-relevant")] AriaRelevant = 23,
         [Description("jsname")] Jsname = 24,
         [Description("data-errormessage")] DataErrormessage = 25,
-        [Description("data-pagelet")] Datapagelet = 26
+        [Description("data-pagelet")] Datapagelet = 26,
+        [Description("data-sigil")] DataSigil = 27
     }
 
     public enum CoordinateDirection
