@@ -9,11 +9,11 @@ namespace EmbeddedBrowser.BrowserHelper
 
         public ResourceRequestHandler ResourceRequestHandler;
 
-        public RequestHandlerCustom(BrowserWindow embedBrowser, bool isNeedResourceData = false)
+        public RequestHandlerCustom(BrowserWindow embedBrowser, bool isNeedResourceData = false, DominatorHouseCore.Enums.SocialNetworks sn = DominatorHouseCore.Enums.SocialNetworks.Social)
         {
             this._embedBrowser = embedBrowser;
             IsNeedResourceData = isNeedResourceData;
-            ResourceRequestHandler = new ResourceRequestHandler(embedBrowser, IsNeedResourceData);
+            ResourceRequestHandler = new ResourceRequestHandler(embedBrowser, IsNeedResourceData,sn);
         }
 
 

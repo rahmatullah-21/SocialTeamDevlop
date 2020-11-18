@@ -12,7 +12,7 @@ namespace EmbeddedBrowser.BrowserHelper
         public ResourceRequestHandler ResourceRequestHandler;
 
         public ProxyRequestHandler(string userName, string password, BrowserWindow embedBrowser
-            , bool isNeedResourceData = false)
+            , bool isNeedResourceData = false, DominatorHouseCore.Enums.SocialNetworks sn = DominatorHouseCore.Enums.SocialNetworks.Social)
         {
             // get the proxy username
             _userName = userName;
@@ -22,7 +22,7 @@ namespace EmbeddedBrowser.BrowserHelper
 
             IsNeedResourceData = isNeedResourceData;
 
-            ResourceRequestHandler = new ResourceRequestHandler(embedBrowser, IsNeedResourceData);
+            ResourceRequestHandler = new ResourceRequestHandler(embedBrowser, IsNeedResourceData,sn);
         }
 
 

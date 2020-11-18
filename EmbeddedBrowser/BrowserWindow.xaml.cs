@@ -69,7 +69,7 @@ namespace EmbeddedBrowser
             TargetUrl = targetUrl;
             CustomUse = customUse;
             IsNeedResourceData = isNeedResourceData;
-            RequestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
+            RequestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData, dominatorAccountModel.AccountBaseModel.AccountNetwork);
 
             //SkipYoutubeAd = skipAd;
             BrowserLoginMessage = browserLoginMessageToDisplay;
@@ -209,7 +209,7 @@ namespace EmbeddedBrowser
                             ProxyRequestHandler = new ProxyRequestHandler(
                                 DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername,
                                 DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword, this,
-                                IsNeedResourceData);
+                                IsNeedResourceData, DominatorAccountModel.AccountBaseModel.AccountNetwork);
 
                             Browser.RequestHandler = ProxyRequestHandler;
                         }

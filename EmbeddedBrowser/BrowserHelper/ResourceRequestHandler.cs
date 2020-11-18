@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using CefSharp;
 using DominatorHouseCore;
+using DominatorHouseCore.Enums;
 
 namespace EmbeddedBrowser.BrowserHelper
 {
     public class ResourceRequestHandler : IResourceRequestHandler
     {
         private readonly BrowserWindow _embedBrowser;
-
+        readonly SocialNetworks _Sn;
         public List<MemoryStreamResponseFilter> ResponseList = new List<MemoryStreamResponseFilter>();
 
         public List<KeyValuePair<string, MemoryStreamResponseFilter>> TwitterresponseList =
             new List<KeyValuePair<string, MemoryStreamResponseFilter>>();
 
-        public ResourceRequestHandler(BrowserWindow embedBrowser, bool isNeedResourceData = false)
+        public ResourceRequestHandler(BrowserWindow embedBrowser, bool isNeedResourceData = false, SocialNetworks sn = SocialNetworks.Social)
         {
             // get the proxy username
 
@@ -23,6 +24,8 @@ namespace EmbeddedBrowser.BrowserHelper
             this._embedBrowser = embedBrowser;
 
             IsNeedResourceData = isNeedResourceData;
+
+            _Sn = sn;
         }
 
         public bool IsNeedResourceData { get; set; }
@@ -44,12 +47,13 @@ namespace EmbeddedBrowser.BrowserHelper
         {
             try
             {
+
                 if (IsNeedResourceData)
                 {
                     var dataFilter = new MemoryStreamResponseFilter();
                     ResponseList.Add(dataFilter);
-                    TwitterresponseList.Add(
-                        new KeyValuePair<string, MemoryStreamResponseFilter>(request.Url, dataFilter));
+                    if (_Sn == SocialNetworks.Twitter)
+                        TwitterresponseList.Add(new KeyValuePair<string, MemoryStreamResponseFilter>(request.Url, dataFilter));
                     return dataFilter;
                 }
             }

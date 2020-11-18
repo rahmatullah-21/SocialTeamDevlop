@@ -467,6 +467,10 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyUpdatingDetails}" />
                                         <Setter Property="Foreground" Value="DarkGreen" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.FoundCaptcha}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyCaptchFound}" />
+                                        <Setter Property="Foreground" Value="#9b111e" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>
@@ -1066,6 +1070,9 @@
                                         Command="{Binding RemoveCookiesCommand}"
                                         CommandParameter="{Binding ElementName=Cookies}" FontWeight="SemiBold"
                                         Foreground="{DynamicResource AccentBaseColorBrush}" />
+                                <Button Content="{DynamicResource LangKeyClearAllCookies}" Background="Transparent" Name="BtnClearAllCookies"
+                                        Command="{Binding ClearAllCookiesCommand}"
+                                        CommandParameter="{Binding ElementName=Cookies}"  FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
                             </StackPanel>
                             <DataGrid Margin="5" ItemsSource="{Binding DominatorAccountModel.CookieHelperList}"
                                       MaxHeight="200" Width="500"

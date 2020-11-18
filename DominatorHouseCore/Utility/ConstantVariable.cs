@@ -80,6 +80,9 @@ namespace DominatorHouseCore.Utility
             return CreateDirIfNot(
                 $"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\\{ApplicationName}{(net == SocialNetworks.Social ? "" : "\\" + net)}");
         }
+        
+        public static string GetDebugResponseFile(SocialNetworks net, string username)
+        => CreateDirIfNot($"{GetDesktopSocNetDirectory(net)}\\{username}\\DebugResponses") + $"\\{DateTime.Now.Date.GetCurrentEpochTime()}.txt";
 
         public static string CreateDirIfNot(string basePath)
         {
@@ -168,7 +171,7 @@ namespace DominatorHouseCore.Utility
         public static string GetHourDateTime()
         {
             return DateTime.Now.ToString("Hmmss.ff");
-        }
+        } 
 
         public static string GoogleLink { get; set; } = "https://www.google.com";
 
