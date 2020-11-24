@@ -73,7 +73,6 @@ namespace DominatorHouse.ViewModels
         {
             SocinatorKeyHelper.InitilizeKey();
             RemoveLocationDataFromTemplate().Wait();
-            //FatalErrorDiagnosis().Wait();
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
@@ -218,19 +217,6 @@ namespace DominatorHouse.ViewModels
             catch (Exception ex)
             {
                 ex.DebugLog();
-                //if (!Application.Current.Dispatcher.CheckAccess())
-                //{
-                //    Application.Current.Dispatcher.Invoke(() =>
-                //    {
-                //        Application.Current.Shutdown();
-                //        Process.GetCurrentProcess().Kill();
-                //    });
-                //}
-                //else
-                //{
-                //    Application.Current.Shutdown();
-                //    Process.GetCurrentProcess().Kill();
-                //}
             }
         }
 
@@ -421,23 +407,6 @@ namespace DominatorHouse.ViewModels
                                  ex.DebugLog();
                              }
                          }
-                         //FeatureFlags.Check(module.Network.ToString(), () =>
-                         //{
-                         //    try
-                         //    {
-                         //        SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
-                         //        PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
-                         //        AddNetwork(socialNetworkModule.Network);
-                         //    }
-                         //    catch (AggregateException ex)
-                         //    {
-                         //        Console.WriteLine(ex.Message);
-                         //    }
-                         //    catch (Exception ex)
-                         //    {
-                         //        ex.DebugLog();
-                         //    }
-                         //});
                          Task.Delay(5);
                      }
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CommonServiceLocator;
+using DominatorHouse.ThreadUtils;
 using DominatorHouseCore.BusinessLogic.ActivitiesWorkflow;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
@@ -59,6 +60,7 @@ namespace DominatorHouseCore.Process
         private readonly IQueryScraperFactory _queryScraperFactory;
         private readonly IHttpHelper _httpHelper;
         private readonly IDominatorScheduler _dominatorScheduler;
+        private readonly IDelayService _delayService;
         protected readonly ISoftwareSettingsFileManager _softwareSettingsFileManager;
         public CampaignDetails CampaignDetails { get; }
 
@@ -76,6 +78,7 @@ namespace DominatorHouseCore.Process
             _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
             _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
             _softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            _delayService = ServiceLocator.Current.GetInstance<IDelayService>();
             TemplateId = processScopeModel.TemplateId;
             ActivityType = processScopeModel.ActivityType;
             SocialNetworks = processScopeModel.Network;
@@ -502,7 +505,7 @@ namespace DominatorHouseCore.Process
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             GlobusLogHelper.log.Info(Log.DelayBetweenActivity, DominatorAccountModel.AccountBaseModel.AccountNetwork,
                 DominatorAccountModel.AccountBaseModel.UserName, ActivityType, seconds);
-            Task.Delay(seconds * 1000, JobCancellationTokenSource.Token).Wait();
+            _delayService.DelayAsync(seconds * 1000, JobCancellationTokenSource.Token).Wait();
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
         }
 

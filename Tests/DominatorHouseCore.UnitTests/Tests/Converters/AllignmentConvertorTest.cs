@@ -35,7 +35,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
         public void should_Convert_method_throw_NullReferenceException_if_input_is_null()
         {
             bool? input = null;
-            _allignmentConvertor.Convert(input, null, null, null).Should().Be(false);
+            _allignmentConvertor.Convert(input, null, null, null).Should().Be(HorizontalAlignment.Left);
         }
 
 

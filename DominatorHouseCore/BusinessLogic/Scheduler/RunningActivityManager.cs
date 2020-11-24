@@ -115,15 +115,5 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             score += 1 * (int) differenceMinutes.TotalMinutes;
             return score;
         }
-
-        // Old one
-        //private int PickNextActivity(ModuleConfiguration arg)
-        //{
-        //    int score = 0; //start from zero
-        //    if (arg.IsEnabled) score += 50;
-        //    TimeSpan differenceMinutes = DateTime.Now.Subtract(arg.NextRun);
-        //    score += 1 * (int)differenceMinutes.TotalMinutes;
-        //    return score;
-        //}
     }
 }
