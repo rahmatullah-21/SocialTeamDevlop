@@ -56,7 +56,6 @@ namespace DominatorUIUtility.ViewModel
         private readonly IDataBaseHandler _dataBaseHandler;
         private readonly IProxyFileManager _proxyFileManager;
         private readonly IProxyManagerViewModel _proxyManagerViewModel;
-        private readonly ISoftwareSettings _softwareSettings;
 
         private readonly object _syncLoadAccounts = new object();
 
@@ -77,14 +76,13 @@ namespace DominatorUIUtility.ViewModel
 
         public DominatorAccountViewModel(IMainViewModel mainViewModel,
             ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel,
-            ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager,
+            IAccountsFileManager accountsFileManager,
             IAccountCollectionViewModel accountCollectionViewModel, IDataBaseHandler dataBaseHandler,
             IProxyFileManager proxyFileManager)
         {
             _mainViewModel = mainViewModel;
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
-            _softwareSettings = softwareSettings;
             _accountsFileManager = accountsFileManager;
             strategyPack = mainViewModel.Strategies;
             Groups = new ObservableCollection<ContentSelectGroup>();
@@ -1049,12 +1047,17 @@ namespace DominatorUIUtility.ViewModel
 
         public void UpdateProxyStatus(DominatorAccountBaseModel objDominatorAccountBaseModel)
         {
+            if (objDominatorAccountBaseModel.AccountProxy == null) return;
+
             try
             {
                 var proxyToBeUpdated =
                     _proxyFileManager.GetProxyById(objDominatorAccountBaseModel.AccountProxy.ProxyId);
-                proxyToBeUpdated.Status = "Working";
-                _proxyFileManager.EditProxy(proxyToBeUpdated);
+                if (proxyToBeUpdated != null)
+                {
+                    proxyToBeUpdated.Status = "Working";
+                    _proxyFileManager.EditProxy(proxyToBeUpdated);
+                }
             }
             catch (Exception ex)
             {
