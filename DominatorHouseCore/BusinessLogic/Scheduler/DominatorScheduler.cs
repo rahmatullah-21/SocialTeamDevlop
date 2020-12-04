@@ -549,6 +549,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                 #endregion
 
+                if (timeToRunNext >= stopTime)
+                    stopTime = stopTime.Date.AddDays(1);
+
                 if (timeToRunNext < DateTime.Now) timeToRunNext = timeToRunNext.AddSeconds(25);
 
                 UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime, shouldStop);
