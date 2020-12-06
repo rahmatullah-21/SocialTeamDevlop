@@ -6,6 +6,7 @@ using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.ViewModel;
 using FluentAssertions;
@@ -41,10 +42,11 @@ namespace DominatorUIUtility.Tests
             _accountCollectionViewModel = Substitute.For<IAccountCollectionViewModel>();
             _dataBaseHandler = Substitute.For<IDataBaseHandler>();
             _proxyFileManager = Substitute.For<IProxyFileManager>();
+            var softwareSettings = Substitute.For<ISoftwareSettings>();
             var softwareSettingsFileManager = Substitute.For<ISoftwareSettingsFileManager>();
             softwareSettingsFileManager.GetSoftwareSettings().Returns(new SoftwareSettingsModel());
             Container.RegisterInstance(softwareSettingsFileManager);
-            _sut = new DominatorAccountViewModel(_mainViewModel, _selectedNetworkViewModel, _proxyManagerViewModel,
+            _sut = new DominatorAccountViewModel(_mainViewModel, _selectedNetworkViewModel, _proxyManagerViewModel, softwareSettings,
                 _accountsFileManager, _accountCollectionViewModel, _dataBaseHandler, _proxyFileManager);
         }
 
