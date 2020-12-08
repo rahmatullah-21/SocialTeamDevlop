@@ -1,5 +1,9 @@
-﻿using Unity;
+﻿#region
+
+using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {

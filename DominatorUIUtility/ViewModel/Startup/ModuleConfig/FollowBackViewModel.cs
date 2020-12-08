@@ -1,21 +1,22 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IFollowBackViewModel
     {
     }
+
     public class FollowBackViewModel : StartupBaseViewModel, IFollowBackViewModel
     {
         public FollowBackViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.FollowBack });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.FollowBack});
             IsNonQuery = true;
             NextCommand = new DelegateCommand(ValidateAndNavigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -33,6 +34,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListQueryType.Clear();
         }
 
+        public bool IsFollowBack { get; set; }
+
+        public bool IsAcceptFollowRequest { get; set; }
+
         private void ValidateAndNavigate()
         {
             if (!IsFollowBack && !IsAcceptFollowRequest)
@@ -41,23 +46,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     "Please select atleast one checkbox option either follow back or Accept follow request");
                 return;
             }
+
             NavigateNext();
         }
-
-        private bool _isFollowBack;
-
-        public bool IsFollowBack
-        {
-            get { return _isFollowBack; }
-            set { _isFollowBack = value; }
-        }
-        private bool _isAcceptFollowRequest;
-
-        public bool IsAcceptFollowRequest
-        {
-            get { return _isAcceptFollowRequest; }
-            set { _isAcceptFollowRequest = value; }
-        }
-
     }
 }

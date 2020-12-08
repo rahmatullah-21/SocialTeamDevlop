@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
@@ -17,16 +21,13 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(1)]
         public bool IsNsfw
         {
-            get
-            {
-                return _isNsfw;
-            }
+            get => _isNsfw;
             set
             {
                 if (_isNsfw == value)
                     return;
 
-              
+
                 SetProperty(ref _isNsfw, value);
             }
         }
@@ -34,16 +35,13 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(2)]
         public bool IsOriginalContent
         {
-            get
-            {
-                return _isOriginalContent;
-            }
+            get => _isOriginalContent;
             set
             {
                 if (_isOriginalContent == value)
                     return;
 
-              
+
                 SetProperty(ref _isOriginalContent, value);
             }
         }
@@ -51,16 +49,13 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(3)]
         public bool IsSpoiler
         {
-            get
-            {
-                return _isSpoiler;
-            }
+            get => _isSpoiler;
             set
             {
                 if (_isSpoiler == value)
                     return;
 
-              
+
                 SetProperty(ref _isSpoiler, value);
             }
         }
@@ -68,16 +63,13 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(4)]
         public bool IsDisableSendingReplies
         {
-            get
-            {
-                return _isDisableSendingReplies;
-            }
+            get => _isDisableSendingReplies;
             set
             {
                 if (_isDisableSendingReplies == value)
                     return;
 
-               
+
                 SetProperty(ref _isDisableSendingReplies, value);
             }
         }

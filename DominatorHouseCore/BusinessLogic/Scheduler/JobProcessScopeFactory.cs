@@ -1,9 +1,13 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process.JobConfigurations;
-using System.Linq;
 using Unity;
+
+#endregion
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -12,6 +16,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         IUnityContainer GetScope(DominatorAccountModel account, ActivityType activityType, string templateId,
             TimingRange timingRange, SocialNetworks module);
     }
+
     public class JobProcessScopeFactory : IJobProcessScopeFactory
     {
         private readonly IUnityContainer _unityContainer;
@@ -19,7 +24,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         private readonly IJobConfigurationProvider _jobConfigurationProvider;
         private readonly ITemplatesFileManager _templatesFileManager;
 
-        public JobProcessScopeFactory(IUnityContainer unityContainer, ICampaignsFileManager campaignsFileManager, IJobConfigurationProvider jobConfigurationProvider, ITemplatesFileManager templatesFileManager)
+        public JobProcessScopeFactory(IUnityContainer unityContainer, ICampaignsFileManager campaignsFileManager,
+            IJobConfigurationProvider jobConfigurationProvider, ITemplatesFileManager templatesFileManager)
         {
             _unityContainer = unityContainer;
             _campaignsFileManager = campaignsFileManager;

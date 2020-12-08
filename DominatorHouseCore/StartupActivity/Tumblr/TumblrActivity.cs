@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Interfaces.StartUp;
+﻿#region
+
+using DominatorHouseCore.Interfaces.StartUp;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Tumblr
 {
@@ -16,6 +20,5 @@ namespace DominatorHouseCore.StartupActivity.Tumblr
                     return new TumblrPostActivity();
             }
         }
-
     }
 }

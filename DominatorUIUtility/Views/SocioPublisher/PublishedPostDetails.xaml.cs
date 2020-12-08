@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.FileManagers;
@@ -13,23 +14,11 @@ using DominatorUIUtility.ViewModel.SocioPublisher;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublishedPostDetails.xaml
+    ///     Interaction logic for PublishedPostDetails.xaml
     /// </summary>
     public partial class PublishedPostDetails : UserControl, INotifyPropertyChanged
     {
         private PublishedPostDetailsViewModel _publishedPostDetailsViewModel = new PublishedPostDetailsViewModel();
-
-        public PublishedPostDetailsViewModel PublishedPostDetailsViewModel
-        {
-            get { return _publishedPostDetailsViewModel; }
-            set
-            {
-                if (_publishedPostDetailsViewModel == value)
-                    return;
-                _publishedPostDetailsViewModel = value;
-                OnPropertyChanged(nameof(PublishedPostDetailsViewModel));
-            }
-        }
 
         public PublishedPostDetails()
         {
@@ -40,7 +29,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             try
             {
-                PublishedPostDetailsViewModel.PublisherPostlist = PostlistFileManager.GetByPostId(currentData.CampaignId, currentData.PostId);
+                PublishedPostDetailsViewModel.PublisherPostlist =
+                    PostlistFileManager.GetByPostId(currentData.CampaignId, currentData.PostId);
                 DataContext = PublishedPostDetailsViewModel;
             }
             catch (Exception ex)
@@ -49,6 +39,17 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
         }
 
+        public PublishedPostDetailsViewModel PublishedPostDetailsViewModel
+        {
+            get => _publishedPostDetailsViewModel;
+            set
+            {
+                if (_publishedPostDetailsViewModel == value)
+                    return;
+                _publishedPostDetailsViewModel = value;
+                OnPropertyChanged(nameof(PublishedPostDetailsViewModel));
+            }
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -59,16 +60,16 @@ namespace DominatorUIUtility.Views.SocioPublisher
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void CopyCanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        private void CopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
 
-        private void CopyExecuted(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             try
             {
-                ListView lb = (ListView)(sender);
+                var lb = (ListView) sender;
                 var postLink = (lb?.SelectedItem as PublishedPostDetailsModel).Link;
                 if (!string.IsNullOrEmpty(postLink))
                 {

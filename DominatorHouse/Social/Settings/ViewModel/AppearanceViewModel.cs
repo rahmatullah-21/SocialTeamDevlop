@@ -10,7 +10,7 @@ namespace Socinator.Social.Settings.ViewModel
     {
         public AppearanceViewModel()
         {
-            _lstColorsCollection = new ObservableCollection<ColorsCollection>()
+            _lstColorsCollection = new ObservableCollection<ColorsCollection>
             {
               new  ColorsCollection("Default","#003569"),
               new  ColorsCollection("red","#e51400"),
@@ -36,7 +36,7 @@ namespace Socinator.Social.Settings.ViewModel
               new  ColorsCollection("steel"," #647687"),
               new  ColorsCollection("mauve","#76608a"),
               new  ColorsCollection("taupe","#87794E"),
-                new  ColorsCollection("white","#ffffff"),
+                new  ColorsCollection("white","#ffffff")
             };
 
             _lstThemeCollection.Add(new ThemeCollection("Light", "White"));

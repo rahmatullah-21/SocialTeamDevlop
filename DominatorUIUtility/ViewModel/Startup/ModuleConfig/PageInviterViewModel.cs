@@ -2,21 +2,14 @@
 using System.Linq;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.FacebookModels;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using DominatorHouseCore.Models.FacebookModels;
-using DominatorHouseCore.Models.SocioPublisher;
-using System.Windows;
-using DominatorUIUtility.CustomControl;
-using DominatorHouseCore.Enums.FdQuery;
-using System.Collections.Generic;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface IPageInviterViewModel
     {
         bool IsSelctDetails { get; set; }
@@ -24,11 +17,20 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         InviterOptions InviterOptionsModel { get; set; }
         SelectAccountDetailsModel SelectAccountDetailsModel { get; set; }
     }
+
     public class PageInviterViewModel : StartupBaseViewModel, IPageInviterViewModel
     {
+        private InviterDetails _inviterDetails = new InviterDetails();
+
+        private InviterOptions _inviterOptionsModel = new InviterOptions();
+
+        private bool _isSelctDetails;
+
+        private SelectAccountDetailsModel _selectAccountDetailsModel = new SelectAccountDetailsModel();
+
         public PageInviterViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.PageInviter });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.PageInviter});
 
             IsNonQuery = true;
             NextCommand = new DelegateCommand(PageInviterValidate);
@@ -47,72 +49,42 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListQueryType.Clear();
         }
 
-        private void PageInviterValidate()
-        {
-            var selectAccountDetailsControl = new SelectAccountDetailsModel();
-
-            if (InviterDetailsModel.IsProfileUrl && (selectAccountDetailsControl.GetPageInviterDetails
-               (SelectAccountDetailsModel)).PageInviterDetails.Count == 0)
-            {
-                Dialog.ShowDialog( "Error", "Please select atleast one inviter details.");
-                return;
-            }
-            if (!InviterDetailsModel.IsPostUrl && !InviterDetailsModel.IsRandomPosts 
-                                               && !InviterDetailsModel.IsSpecificPosts)
-            {
-                Dialog.ShowDialog("Error", "Please select atleast one post option.");
-                return;
-            }
-            if (InviterDetailsModel.IsSpecificPosts && InviterDetailsModel.ListPostUrl.Count == 0)
-            {
-                Dialog.ShowDialog("Error", "Please select atleast one Specific post.");
-                return;
-            }
-
-            NavigateNext();
-        }
-
-        private InviterOptions _inviterOptionsModel = new InviterOptions();
         public InviterOptions InviterOptionsModel
         {
-            get { return _inviterOptionsModel; }
+            get => _inviterOptionsModel;
             set
             {
-                if (_inviterOptionsModel == value & _inviterOptionsModel == null)
+                if ((_inviterOptionsModel == value) & (_inviterOptionsModel == null))
                     return;
                 SetProperty(ref _inviterOptionsModel, value);
             }
         }
 
-        private InviterDetails _inviterDetails = new InviterDetails();
         public InviterDetails InviterDetailsModel
         {
-            get { return _inviterDetails; }
+            get => _inviterDetails;
             set
             {
-                if (_inviterDetails == value & _inviterDetails == null)
+                if ((_inviterDetails == value) & (_inviterDetails == null))
                     return;
                 SetProperty(ref _inviterDetails, value);
             }
         }
 
-        private SelectAccountDetailsModel _selectAccountDetailsModel=new SelectAccountDetailsModel();
         public SelectAccountDetailsModel SelectAccountDetailsModel
         {
-            get { return _selectAccountDetailsModel; }
+            get => _selectAccountDetailsModel;
             set
             {
-                if (_selectAccountDetailsModel == value & _selectAccountDetailsModel == null)
+                if ((_selectAccountDetailsModel == value) & (_selectAccountDetailsModel == null))
                     return;
                 SetProperty(ref _selectAccountDetailsModel, value);
             }
-
         }
 
-        private bool _isSelctDetails;
         public bool IsSelctDetails
         {
-            get { return _isSelctDetails; }
+            get => _isSelctDetails;
             set
             {
                 if (_isSelctDetails == value)
@@ -121,5 +93,31 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
+        private void PageInviterValidate()
+        {
+            var selectAccountDetailsControl = new SelectAccountDetailsModel();
+
+            if (InviterDetailsModel.IsProfileUrl && selectAccountDetailsControl.GetPageInviterDetails
+                    (SelectAccountDetailsModel).PageInviterDetails.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "Please select atleast one inviter details.");
+                return;
+            }
+
+            if (!InviterDetailsModel.IsPostUrl && !InviterDetailsModel.IsRandomPosts
+                                               && !InviterDetailsModel.IsSpecificPosts)
+            {
+                Dialog.ShowDialog("Error", "Please select atleast one post option.");
+                return;
+            }
+
+            if (InviterDetailsModel.IsSpecificPosts && InviterDetailsModel.ListPostUrl.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "Please select atleast one Specific post.");
+                return;
+            }
+
+            NavigateNext();
+        }
     }
 }

@@ -1,18 +1,19 @@
-﻿using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+﻿#region
+
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel.AdvancedSettings
 {
-   public class InstagramViewModel : BindableBase
+    public class InstagramViewModel : BindableBase
     {
         private InstagramModel _instagramModel = new InstagramModel();
 
         public InstagramModel InstagramModel
         {
-            get
-            {
-                return _instagramModel;
-            }
+            get => _instagramModel;
             set
             {
                 if (_instagramModel == value)
@@ -20,6 +21,5 @@ namespace DominatorHouseCore.ViewModel.AdvancedSettings
                 SetProperty(ref _instagramModel, value);
             }
         }
-       
     }
 }

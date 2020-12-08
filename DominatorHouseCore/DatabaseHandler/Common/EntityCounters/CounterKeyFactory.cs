@@ -1,11 +1,17 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
+    // ReSharper disable once UnusedTypeParameter
     public interface ICounterKeyFactory<TSource> where TSource : class, new()
     {
         string Create(string accountId, object activityType);
     }
+
     public class CounterKeyFactory<TSource> : ICounterKeyFactory<TSource> where TSource : class, new()
     {
         private readonly SocialNetworks _socialNetworks;

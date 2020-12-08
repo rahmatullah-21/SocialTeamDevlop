@@ -1,15 +1,19 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using DominatorHouseCore.ViewModel.Common;
-using NLog;
-using Prism.Commands;
+﻿#region
+
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel.Common;
+using NLog;
+using Prism.Commands;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -28,20 +32,20 @@ namespace DominatorHouseCore.ViewModel
         private ObservableCollection<LoggerModel> _logs;
 
         public object SyncObject { get; }
+
         public ObservableCollection<LoggerModel> Logs
         {
-            get { return _logs; }
+            get => _logs;
             set
             {
                 SetProperty(ref _logs, value, nameof(Logs));
-                if (LogCollection != null)
-                    LogCollection.View.Refresh();
+                LogCollection?.View.Refresh();
             }
         }
 
         public LoggerModel Selected
         {
-            get { return _selected; }
+            get => _selected;
             set
             {
                 SetProperty(ref _selected, value, nameof(Selected));
@@ -51,7 +55,7 @@ namespace DominatorHouseCore.ViewModel
 
         public SocialNetworks? SelectedNetwork
         {
-            get { return _selectedNetwork; }
+            get => _selectedNetwork;
             set
             {
                 if (_selectedNetwork == value)
@@ -65,7 +69,7 @@ namespace DominatorHouseCore.ViewModel
 
         public DominatorAccountModel SelectedAccount
         {
-            get { return _selectedAccount; }
+            get => _selectedAccount;
             set
             {
                 if (_selectedAccount == value)
@@ -75,10 +79,7 @@ namespace DominatorHouseCore.ViewModel
             }
         }
 
-        public bool NetworkIsSelected
-        {
-            get { return SelectedNetwork.HasValue && SelectedNetwork != SocialNetworks.Social; }
-        }
+        public bool NetworkIsSelected => SelectedNetwork.HasValue && SelectedNetwork != SocialNetworks.Social;
 
         public DelegateCommand CopyCmd { get; set; }
         public SelectableViewModel<ActivityType?> ActivityTypes { get; }
@@ -106,27 +107,29 @@ namespace DominatorHouseCore.ViewModel
 
         public string LogType
         {
-            get { return _logType; }
+            get => _logType;
             set
             {
                 SetProperty(ref _logType, value);
-                if (LogCollection != null)
-                    LogCollection.View.Refresh();
+                LogCollection?.View.Refresh();
             }
         }
-        private CollectionViewSource LogCollection;
+
+        private readonly CollectionViewSource LogCollection;
         private ICollectionView _sourceCollection;
+
         public ICollectionView SourceCollection
         {
-            get { return LogCollection.View; }
-            set { SetProperty(ref _sourceCollection, value); }
+            get => LogCollection.View;
+            set => SetProperty(ref _sourceCollection, value);
         }
+
         private void FilterLog(object sender, FilterEventArgs e)
         {
             var logs = e.Item as LoggerModel;
 
-            if (logs.AccountCampaign != null && logs.AccountCampaign.Equals(SelectedAccount?.AccountBaseModel.UserName,
-                        StringComparison.InvariantCultureIgnoreCase))
+            if (logs?.AccountCampaign != null && logs.AccountCampaign.Equals(SelectedAccount?.AccountBaseModel.UserName,
+                    StringComparison.InvariantCultureIgnoreCase))
             {
                 e.Accepted = true;
             }
@@ -145,20 +148,15 @@ namespace DominatorHouseCore.ViewModel
 
             if (logs.Network.Equals(SelectedNetwork?.ToString(), StringComparison.InvariantCultureIgnoreCase)
                 && LogType.Equals(logs.LogType, StringComparison.InvariantCultureIgnoreCase))
-            {
                 e.Accepted = true;
-            }
             else e.Accepted = false;
             if (!string.IsNullOrEmpty(ActivityTypes.Selected?.ToString()))
-                if (logs.Network.Equals(SelectedNetwork?.ToString(), StringComparison.InvariantCultureIgnoreCase) && logs.ActivityType!= null && logs.ActivityType.Equals(ActivityTypes.Selected?.ToString(),
+                if (logs.Network.Equals(SelectedNetwork?.ToString(), StringComparison.InvariantCultureIgnoreCase) &&
+                    logs.ActivityType != null && logs.ActivityType.Equals(ActivityTypes.Selected?.ToString(),
                         StringComparison.InvariantCultureIgnoreCase))
-                {
                     e.Accepted = true;
-                }
                 else
-                {
                     e.Accepted = false;
-                }
         }
 
         private bool CanCopy()
@@ -169,10 +167,8 @@ namespace DominatorHouseCore.ViewModel
 
         public void Add(string message, LogLevel logLevel)
         {
-
             lock (SyncObject)
             {
-
                 var messages = message.Split('\t');
 
                 var log = messages.Length == 5

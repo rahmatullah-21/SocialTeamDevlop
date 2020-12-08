@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Process.ExecutionCounters
 {
@@ -25,13 +29,9 @@ namespace DominatorHouseCore.Process.ExecutionCounters
             lock (_syncContext)
             {
                 if (_parsingsPerJob.ContainsKey(key))
-                {
                     _parsingsPerJob[key] = 0;
-                }
                 else
-                {
                     _parsingsPerJob.Add(key, 0);
-                }
             }
         }
 
@@ -40,13 +40,9 @@ namespace DominatorHouseCore.Process.ExecutionCounters
             lock (_syncContext)
             {
                 if (_parsingsPerJob.ContainsKey(key))
-                {
                     _parsingsPerJob[key]++;
-                }
                 else
-                {
                     _parsingsPerJob.Add(key, 1);
-                }
             }
         }
 
@@ -56,12 +52,7 @@ namespace DominatorHouseCore.Process.ExecutionCounters
             {
                 lock (_syncContext)
                 {
-                    if (_parsingsPerJob.ContainsKey(key))
-                    {
-                        return _parsingsPerJob[key];
-                    }
-
-                    return 0;
+                    return _parsingsPerJob.ContainsKey(key) ? _parsingsPerJob[key] : 0;
                 }
             }
         }

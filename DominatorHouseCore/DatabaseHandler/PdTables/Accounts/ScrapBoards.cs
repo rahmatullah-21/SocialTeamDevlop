@@ -1,4 +1,8 @@
-﻿using SQLite;
+﻿#region
+
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
@@ -39,8 +43,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string Query { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public int InteractionTime { get; set; }
@@ -99,11 +102,9 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string ContactRequestId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
-        public bool? Filtered
-        { get; set; }
+        public bool? Filtered { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
-        public bool? FullDetailsScraped
-        { get; set; }
+        public bool? FullDetailsScraped { get; set; }
     }
 }

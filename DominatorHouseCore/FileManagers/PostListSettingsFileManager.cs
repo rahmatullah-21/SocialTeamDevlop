@@ -1,9 +1,13 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonServiceLocator;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -44,7 +48,10 @@ namespace DominatorHouseCore.FileManagers
         }
 
 
-        public static List<PublisherPostlistSettingsModel> GetAll() => BinFileHelper.GetPublisherPostListSettingsModels();
+        public static List<PublisherPostlistSettingsModel> GetAll()
+        {
+            return BinFileHelper.GetPublisherPostListSettingsModels();
+        }
 
 
         public static void DeleteSelected(List<PublisherPostlistSettingsModel> settings)

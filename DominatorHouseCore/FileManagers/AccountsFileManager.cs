@@ -1,14 +1,17 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
     public interface IAccountsFileManager
     {
-     
         void UpdateAccounts(IList<DominatorAccountModel> libraryAccounts);
         bool Edit(DominatorAccountModel account);
         List<DominatorAccountModel> GetAll();
@@ -18,7 +21,7 @@ namespace DominatorHouseCore.FileManagers
             SocialNetworks socialNetwork);
 
         bool Add(DominatorAccountModel account);
-       
+
         void Delete(Func<DominatorAccountModel, bool> match);
 
         DominatorAccountModel GetAccountById(string accountId);
@@ -48,20 +51,32 @@ namespace DominatorHouseCore.FileManagers
 
         // alias
         public bool Edit(DominatorAccountModel account)
-            => SaveAccount(account);
+        {
+            return SaveAccount(account);
+        }
 
-        public List<DominatorAccountModel> GetAll() => _accountsCacheService.GetAccountDetails()?.ToList();
+        public List<DominatorAccountModel> GetAll()
+        {
+            return _accountsCacheService.GetAccountDetails()?.ToList();
+        }
 
         public List<DominatorAccountModel> GetAll(SocialNetworks network)
-            => _accountsCacheService.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network).ToList();
+        {
+            return _accountsCacheService.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network)
+                .ToList();
+        }
 
         public List<DominatorAccountModel> GetAll(List<string> neededAccountList)
-            => _accountsCacheService.GetAccountDetails().Where(a => neededAccountList.Contains(a.AccountBaseModel.UserName)).ToList();
+        {
+            return _accountsCacheService.GetAccountDetails()
+                .Where(a => neededAccountList.Contains(a.AccountBaseModel.UserName)).ToList();
+        }
 
         public List<DominatorAccountModel> GetAllAccounts(List<string> neededAccountList,
             SocialNetworks socialNetwork)
         {
-            var Accounts = _accountsCacheService.GetAccountDetails().Where(a => neededAccountList.Contains((a.AccountBaseModel.UserName)))
+            var Accounts = _accountsCacheService.GetAccountDetails()
+                .Where(a => neededAccountList.Contains(a.AccountBaseModel.UserName))
                 .ToList();
             return Accounts.FindAll(x => x.AccountBaseModel.AccountNetwork == socialNetwork);
         }
@@ -89,7 +104,8 @@ namespace DominatorHouseCore.FileManagers
         public DominatorAccountModel GetAccount(string userName, SocialNetworks networks)
         {
             var accounts = GetAll();
-            var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName && x.AccountBaseModel.AccountNetwork == networks);
+            var result = accounts.FirstOrDefault(x =>
+                x.AccountBaseModel.UserName == userName && x.AccountBaseModel.AccountNetwork == networks);
             return result;
         }
 
@@ -103,7 +119,8 @@ namespace DominatorHouseCore.FileManagers
         public IEnumerable<string> GetUsers(SocialNetworks networks)
         {
             var accounts = GetAll();
-            var result = accounts.Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.AccountBaseModel.UserName);
+            var result = accounts.Where(x => x.AccountBaseModel.AccountNetwork == networks)
+                .Select(x => x.AccountBaseModel.UserName);
             return result;
         }
 
@@ -114,6 +131,5 @@ namespace DominatorHouseCore.FileManagers
             var savedStatus = _accountsCacheService.UpsertAccounts(account);
             return savedStatus;
         }
-
     }
 }

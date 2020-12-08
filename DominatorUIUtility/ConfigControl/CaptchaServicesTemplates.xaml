@@ -2,39 +2,44 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTemplate x:Key="CaptchaServicesControlTemplate">
 
-    <ControlTemplate.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    </ControlTemplate.Resources>
-    <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
-        <GroupBox.Header>
-            <Button Command="{Binding SaveCmd}"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
-                    VerticalAlignment="Center" HorizontalAlignment="Right">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Width="15" Height="15" Fill="White">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
+        <ControlTemplate.Resources>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        </ControlTemplate.Resources>
+        <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
+            <GroupBox.Header>
+                <Button Command="{Binding SaveCmd}" Background="{DynamicResource AccentBaseColorBrush}"
+                        Foreground="White"
+                        VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="15" Height="15" Fill="White">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
                             <AccessText Margin="6,0" Text="{DynamicResource LangKey_Save}" />
                         </StackPanel>
-                </Button.Content>
-            </Button>
-        </GroupBox.Header>
-        <StackPanel Margin="5" DataContext="{Binding CaptchaServicesModel}">
-            <RadioButton Content="{DynamicResource LangKeyTwoCaptcha}" Margin="5" IsChecked="{Binding IsTwoCaptcha}"/>
-            <StackPanel Orientation="Horizontal" Margin="15,5"  Visibility="{Binding IsTwoCaptcha,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Label Content="{DynamicResource LangKeyApiKey}"/>
-                <TextBox Width="200"  Margin="3,0" Text="{Binding TwoCaptchaApiKey}"/>
-            </StackPanel>
-            <RadioButton Content="{DynamicResource LangKeyAntiCaptcha}" Margin="5" IsChecked="{Binding IsAntiCaptcha}"/>
-            <StackPanel Orientation="Horizontal" Margin="15,5"  Visibility="{Binding IsAntiCaptcha,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Label Content="{DynamicResource LangKeyApiKey}"/>
-                <TextBox Width="200"  Margin="3,0" Text="{Binding AntiCaptchaApiKey}"/>
+                    </Button.Content>
+                </Button>
+            </GroupBox.Header>
+            <StackPanel Margin="5" DataContext="{Binding CaptchaServicesModel}">
+                <RadioButton Content="{DynamicResource LangKeyTwoCaptcha}" Margin="5"
+                             IsChecked="{Binding IsTwoCaptcha}" />
+                <StackPanel Orientation="Horizontal" Margin="15,5"
+                            Visibility="{Binding IsTwoCaptcha,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Label Content="{DynamicResource LangKeyApiKey}" />
+                    <TextBox Width="200" Margin="3,0" Text="{Binding TwoCaptchaApiKey}" />
+                </StackPanel>
+                <RadioButton Content="{DynamicResource LangKeyAntiCaptcha}" Margin="5"
+                             IsChecked="{Binding IsAntiCaptcha}" />
+                <StackPanel Orientation="Horizontal" Margin="15,5"
+                            Visibility="{Binding IsAntiCaptcha,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Label Content="{DynamicResource LangKeyApiKey}" />
+                    <TextBox Width="200" Margin="3,0" Text="{Binding AntiCaptchaApiKey}" />
+                </StackPanel>
+
             </StackPanel>
 
-        </StackPanel>
-
-    </GroupBox>
+        </GroupBox>
     </ControlTemplate>
 </ResourceDictionary>

@@ -1,4 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿#region
+
+using System.Collections.ObjectModel;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -8,15 +12,16 @@ namespace DominatorHouseCore.Models
 
         public ObservableCollection<DominatorAccountModel> LstAccountModel
         {
-            get { return _lstAccountModels; }
-            set { SetProperty(ref _lstAccountModels, value); }
+            get => _lstAccountModels;
+            set => SetProperty(ref _lstAccountModels, value);
         }
+
         private DominatorAccountModel _selectedAccount;
 
         public DominatorAccountModel SelectedAccount
         {
-            get { return _selectedAccount; }
-            set { SetProperty(ref _selectedAccount, value); }
+            get => _selectedAccount;
+            set => SetProperty(ref _selectedAccount, value);
         }
     }
 }

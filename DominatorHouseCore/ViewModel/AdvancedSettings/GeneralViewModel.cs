@@ -1,18 +1,19 @@
-﻿using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+﻿#region
+
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel.AdvancedSettings
 {
-   public class GeneralViewModel : BindableBase
+    public class GeneralViewModel : BindableBase
     {
         private GeneralModel _generalModel = new GeneralModel();
 
         public GeneralModel GeneralModel
         {
-            get
-            {
-                return _generalModel;
-            }
+            get => _generalModel;
             set
             {
                 if (_generalModel == value)

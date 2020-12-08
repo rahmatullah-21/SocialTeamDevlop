@@ -1,14 +1,4 @@
-﻿using DominatorHouseCore.Command;
-using DominatorHouseCore.DatabaseHandler.DHTables;
-using DominatorHouseCore.DatabaseHandler.Utility;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums.DHEnum;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using Prism.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -18,164 +8,48 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.DatabaseHandler.Utility;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums.DHEnum;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using Prism.Commands;
 
 namespace DominatorUIUtility.ViewModel
 {
     public interface IPrivateBlickListViewModel
     {
-
     }
+
     public class BlackListViewModel : BindableBase
     {
         public BlackListViewModel()
         {
-            AddToBlackListCommand = new BaseCommand<object>((sender) => true, AddToBlackList);
-            ClearCommand = new BaseCommand<object>((sender) => true, ClearUser);
-            RefreshCommand = new BaseCommand<object>((sender) => true, Refresh);
-            SelectCommand = new BaseCommand<object>((sender) => true, Select);
-            DeleteCommand = new BaseCommand<object>((sender) => true, Delete);
-            TextSearchCommand = new BaseCommand<object>((sender) => true, Search);
+            AddToBlackListCommand = new BaseCommand<object>(sender => true, AddToBlackList);
+            ClearCommand = new BaseCommand<object>(sender => true, ClearUser);
+            RefreshCommand = new BaseCommand<object>(sender => true, Refresh);
+            SelectCommand = new BaseCommand<object>(sender => true, Select);
+            DeleteCommand = new BaseCommand<object>(sender => true, Delete);
+            TextSearchCommand = new BaseCommand<object>(sender => true, Search);
             ImportCommand = new DelegateCommand(ImportUser);
             ExportCommand = new DelegateCommand(ExportUser);
             BindingOperations.EnableCollectionSynchronization(LstBlackListUsers, _lock);
         }
 
-        #region Commands
-        public ICommand AddToBlackListCommand { get; set; }
-        public ICommand ClearCommand { get; set; }
-        public ICommand RefreshCommand { get; set; }
-        public ICommand SelectCommand { get; set; }
-        public ICommand DeleteCommand { get; set; }
-        public ICommand ImportCommand { get; set; }
-        public ICommand ExportCommand { get; set; }
-        public ICommand TextSearchCommand { get; set; }
-        #endregion
-
-        #region Properties
-        private static object _lock = new object();
-        private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
-
-        private DbOperations DbOperations { get; set; }
-
-        private DbOperations WhiteListDbOperations { get; set; }
-
-        private bool IsUnCheckedFromUser { get; set; }
-
-        private bool UsersSearched { get; set; }
-
-        private PrivateBlacklistUserModel _privateBlacklistUserModel = new PrivateBlacklistUserModel();
-
-        public PrivateBlacklistUserModel PrivateBlacklistUserModel
-        {
-            get
-            {
-                return _privateBlacklistUserModel;
-            }
-            set
-            {
-                if (_privateBlacklistUserModel == value)
-                    return;
-                _privateBlacklistUserModel = value;
-                SetProperty(ref _privateBlacklistUserModel, value);
-            }
-        }
-        private BlacklistUserModel _blacklistUserModel = new BlacklistUserModel();
-
-        public BlacklistUserModel BlacklistUserModel
-        {
-            get
-            {
-                return _blacklistUserModel;
-            }
-            set
-            {
-                if (_blacklistUserModel == value)
-                    return;
-                _blacklistUserModel = value;
-                SetProperty(ref _blacklistUserModel, value);
-            }
-        }
-        private bool _isAllBlackListUserChecked;
-
-        public bool IsAllBlackListUserChecked
-        {
-            get
-            {
-                return _isAllBlackListUserChecked;
-            }
-            set
-            {
-                if (value == _isAllBlackListUserChecked)
-                    return;
-                SetProperty(ref _isAllBlackListUserChecked, value);
-
-                SelectAll(_isAllBlackListUserChecked);
-                if (IsUnCheckedFromUser)
-                    IsUnCheckedFromUser = false;
-            }
-        }
-
-        private string _blacklistUser = string.Empty;
-        bool IsNeedToStop;
-        bool IsAddingToDB;
-        bool IsStopLoading;
-
-        public string BlacklistUser
-        {
-            get
-            {
-                return _blacklistUser;
-            }
-            set
-            {
-                if (value == _blacklistUser)
-                    return;
-                SetProperty(ref _blacklistUser, value);
-            }
-        }
-
-        List<BlackListUser> _blackListUser = new List<BlackListUser>();
-
-        private ObservableCollection<BlacklistUserModel> _lstBlackListUsers = new ObservableCollection<BlacklistUserModel>();
-
-        public ObservableCollection<BlacklistUserModel> LstBlackListUsers
-        {
-            get
-            {
-                return _lstBlackListUsers;
-            }
-            set
-            {
-                if (value == _lstBlackListUsers)
-                    return;
-                SetProperty(ref _lstBlackListUsers, value);
-            }
-        }
-
-        private string _textSearch = string.Empty;
-
-        public string TextSearch
-        {
-            get
-            {
-                return _textSearch;
-            }
-            set
-            {
-                if (value == _textSearch)
-                    return;
-                SetProperty(ref _textSearch, value);
-            }
-        }
-
-        #endregion
         public void InitializeData()
         {
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-            DbOperations = new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser));
+            DbOperations =
+                new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork,
+                    UserType.BlackListedUser));
 
             WhiteListDbOperations =
-                new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser));
+                new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork,
+                    UserType.WhiteListedUser));
 
             Task.Factory.StartNew(() =>
             {
@@ -185,15 +59,13 @@ namespace DominatorUIUtility.ViewModel
                     if (!IsNeedToStop)
                     {
                         Application.Current.Dispatcher.Invoke(() => LstBlackListUsers.Add(
-                          new BlacklistUserModel
-                          {
-                              BlacklistUser = user.UserName
-                          }));
+                            new BlacklistUserModel
+                            {
+                                BlacklistUser = user.UserName
+                            }));
 
                         Thread.Sleep(5);
                     }
-                    else
-                        return;
                 });
                 IsNeedToStop = false;
                 IsAddingToDB = false;
@@ -219,8 +91,8 @@ namespace DominatorUIUtility.ViewModel
 
         public virtual void AddToDB(List<string> lstuser)
         {
-            List<BlackListUser> lstBlackListUser = DbOperations.Get<BlackListUser>();
-            List<WhiteListUser> lstWhitelistUser = WhiteListDbOperations.Get<WhiteListUser>();
+            var lstBlackListUser = DbOperations.Get<BlackListUser>();
+            var lstWhitelistUser = WhiteListDbOperations.Get<WhiteListUser>();
 
             lstuser.ForEach(user =>
             {
@@ -230,27 +102,24 @@ namespace DominatorUIUtility.ViewModel
                     var userName = user.Trim();
                     if (!string.IsNullOrEmpty(userName))
                     {
-                        if (lstBlackListUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0)
-                            && lstWhitelistUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0))
-                        {
+                        if (lstBlackListUser.All(x =>
+                                string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0)
+                            && lstWhitelistUser.All(x =>
+                                string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0))
                             Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                _blackListUser.Add(new BlackListUser()
                                 {
-                                    UserName = userName
-                                });
-                            }
+                                    _blackListUser.Add(new BlackListUser
+                                    {
+                                        UserName = userName
+                                    });
+                                }
                             );
-                        }
                         else
-                        {
                             GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork,
                                 userName, UserType.BlackListedUser,
                                 $"{userName} {"LangKeyAlreadyAddedToBlacklistWhitelist".FromResourceDictionary()}");
-                        }
                     }
                 }
-                else return;
             });
             IsNeedToStop = false;
             IsAddingToDB = false;
@@ -288,7 +157,6 @@ namespace DominatorUIUtility.ViewModel
                             }));
                         Thread.Sleep(5);
                     }
-                    else return;
                 });
                 IsNeedToStop = false;
                 IsAddingToDB = false;
@@ -305,7 +173,7 @@ namespace DominatorUIUtility.ViewModel
                 StopPreviousProcess();
                 IsAddingToDB = true;
 
-                var listBlacklistData = DbOperations.Get<BlackListUser>()??new List<BlackListUser>();
+                var listBlacklistData = DbOperations.Get<BlackListUser>() ?? new List<BlackListUser>();
                 listBlacklistData?.RemoveAll(x => !x.UserName.ToLower().Contains(TextSearch.ToLower()));
 
                 listBlacklistData?.ForEach(user =>
@@ -320,7 +188,6 @@ namespace DominatorUIUtility.ViewModel
                             }));
                         Thread.Sleep(5);
                     }
-                    else return;
                 });
 
                 IsNeedToStop = false;
@@ -332,30 +199,38 @@ namespace DominatorUIUtility.ViewModel
         {
             if (IsUnCheckedFromUser)
                 return;
-            LstBlackListUsers.Select(x => { x.IsBlackListUserChecked = isChecked; return x; }).ToList();
+            LstBlackListUsers.Select(x =>
+            {
+                x.IsBlackListUserChecked = isChecked;
+                return x;
+            }).ToList();
         }
 
         private void Select(object sender)
         {
             if (LstBlackListUsers.All(x => x.IsBlackListUserChecked))
+            {
                 IsAllBlackListUserChecked = true;
+            }
 
             else
             {
                 if (IsAllBlackListUserChecked && !UsersSearched)
                     IsUnCheckedFromUser = true;
                 IsAllBlackListUserChecked = false;
-
             }
         }
+
         public virtual void Delete(object sender)
         {
             var selectedUser = LstBlackListUsers.Where(x => x.IsBlackListUserChecked).ToList();
             if (selectedUser.Count == 0)
             {
-                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAtLeastOneUser".FromResourceDictionary());
+                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(),
+                    "LangKeySelectAtLeastOneUser".FromResourceDictionary());
                 return;
             }
+
             Task.Factory.StartNew(() =>
             {
                 if (IsAllBlackListUserChecked && !UsersSearched)
@@ -369,6 +244,7 @@ namespace DominatorUIUtility.ViewModel
                     IsAllBlackListUserChecked = false;
                 }
                 else
+                {
                     selectedUser.ForEach(x =>
                     {
                         Application.Current.Dispatcher.Invoke(() =>
@@ -378,6 +254,7 @@ namespace DominatorUIUtility.ViewModel
                         });
                         Thread.Sleep(2);
                     });
+                }
             });
         }
 
@@ -386,7 +263,8 @@ namespace DominatorUIUtility.ViewModel
             var selectedUsers = LstBlackListUsers?.Where(x => x.IsBlackListUserChecked);
             if (selectedUsers?.Count() == 0)
             {
-                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAtLeastOneUser".FromResourceDictionary());
+                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(),
+                    "LangKeySelectAtLeastOneUser".FromResourceDictionary());
                 return;
             }
 
@@ -396,7 +274,8 @@ namespace DominatorUIUtility.ViewModel
                 return;
 
 
-            var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_BlackList {ConstantVariable.DateasFileName}.csv";
+            var filename =
+                $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_BlackList {ConstantVariable.DateasFileName}.csv";
 
             selectedUsers.ForEach(user =>
             {
@@ -412,7 +291,8 @@ namespace DominatorUIUtility.ViewModel
                     Console.WriteLine(ex.StackTrace);
                 }
             });
-            Dialog.ShowDialog("LangKeyExportBlackListUser".FromResourceDictionary(), $"{"LangKeyBlackListedUserSuccessfullyExportedTo".FromResourceDictionary()} [ {filename} ]");
+            Dialog.ShowDialog("LangKeyExportBlackListUser".FromResourceDictionary(),
+                $"{"LangKeyBlackListedUserSuccessfullyExportedTo".FromResourceDictionary()} [ {filename} ]");
         }
 
         private void ImportUser()
@@ -431,5 +311,123 @@ namespace DominatorUIUtility.ViewModel
             LstBlackListUsers.Clear();
             IsStopLoading = false;
         }
+
+        #region Commands
+
+        public ICommand AddToBlackListCommand { get; set; }
+        public ICommand ClearCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
+        public ICommand SelectCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
+        public ICommand ImportCommand { get; set; }
+        public ICommand ExportCommand { get; set; }
+        public ICommand TextSearchCommand { get; set; }
+
+        #endregion
+
+        #region Properties
+
+        private static readonly object _lock = new object();
+        private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
+
+        private DbOperations DbOperations { get; set; }
+
+        private DbOperations WhiteListDbOperations { get; set; }
+
+        private bool IsUnCheckedFromUser { get; set; }
+
+        private bool UsersSearched { get; set; }
+
+        private PrivateBlacklistUserModel _privateBlacklistUserModel = new PrivateBlacklistUserModel();
+
+        public PrivateBlacklistUserModel PrivateBlacklistUserModel
+        {
+            get => _privateBlacklistUserModel;
+            set
+            {
+                if (_privateBlacklistUserModel == value)
+                    return;
+                _privateBlacklistUserModel = value;
+                SetProperty(ref _privateBlacklistUserModel, value);
+            }
+        }
+
+        private BlacklistUserModel _blacklistUserModel = new BlacklistUserModel();
+
+        public BlacklistUserModel BlacklistUserModel
+        {
+            get => _blacklistUserModel;
+            set
+            {
+                if (_blacklistUserModel == value)
+                    return;
+                _blacklistUserModel = value;
+                SetProperty(ref _blacklistUserModel, value);
+            }
+        }
+
+        private bool _isAllBlackListUserChecked;
+
+        public bool IsAllBlackListUserChecked
+        {
+            get => _isAllBlackListUserChecked;
+            set
+            {
+                if (value == _isAllBlackListUserChecked)
+                    return;
+                SetProperty(ref _isAllBlackListUserChecked, value);
+
+                SelectAll(_isAllBlackListUserChecked);
+                if (IsUnCheckedFromUser)
+                    IsUnCheckedFromUser = false;
+            }
+        }
+
+        private string _blacklistUser = string.Empty;
+        private bool IsNeedToStop;
+        private bool IsAddingToDB;
+        private bool IsStopLoading;
+
+        public string BlacklistUser
+        {
+            get => _blacklistUser;
+            set
+            {
+                if (value == _blacklistUser)
+                    return;
+                SetProperty(ref _blacklistUser, value);
+            }
+        }
+
+        private List<BlackListUser> _blackListUser = new List<BlackListUser>();
+
+        private ObservableCollection<BlacklistUserModel> _lstBlackListUsers =
+            new ObservableCollection<BlacklistUserModel>();
+
+        public ObservableCollection<BlacklistUserModel> LstBlackListUsers
+        {
+            get => _lstBlackListUsers;
+            set
+            {
+                if (value == _lstBlackListUsers)
+                    return;
+                SetProperty(ref _lstBlackListUsers, value);
+            }
+        }
+
+        private string _textSearch = string.Empty;
+
+        public string TextSearch
+        {
+            get => _textSearch;
+            set
+            {
+                if (value == _textSearch)
+                    return;
+                SetProperty(ref _textSearch, value);
+            }
+        }
+
+        #endregion
     }
 }

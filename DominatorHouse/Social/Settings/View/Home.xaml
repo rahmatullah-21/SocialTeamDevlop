@@ -3,17 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <TabControl x:Name="SettingTabControls">
             <TabControl.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate DataType="{x:Type models:TabItemTemplates}">
                     <TextBlock Text="{Binding Title}"/>
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
-                <DataTemplate>
+                <DataTemplate DataType="{x:Type models:TabItemTemplates}">
                     <UserControl Content="{Binding Content.Value}"/>
                 </DataTemplate>
             </TabControl.ContentTemplate>

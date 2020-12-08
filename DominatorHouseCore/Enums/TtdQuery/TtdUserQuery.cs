@@ -1,14 +1,16 @@
-﻿using System.ComponentModel;
+﻿#region
+
+using System.ComponentModel;
+
+#endregion
 
 namespace DominatorHouseCore.Enums.TtdQuery
 {
     public enum TtdUserQuery
     {
-        [Description("LangKeyKeywords")]
-        Keywords,
-        
-        [Description("LangKeyHashtagUserS")]
-        HashTagUsers,
+        [Description("LangKeyKeywords")] Keywords,
+
+        [Description("LangKeyHashtagUserS")] HashTagUsers,
 
         [Description("LangKeySomeonesFollowers")]
         SomeonesFollowers,
@@ -21,7 +23,7 @@ namespace DominatorHouseCore.Enums.TtdQuery
 
         [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfFollowings,
-        
+
         [Description("LangKeyCustomUsersList")]
         CustomUsers
     }

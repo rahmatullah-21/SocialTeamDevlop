@@ -1,24 +1,12 @@
-﻿using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+﻿#region
+
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel.AdvancedSettings
 {
     public class GooglePlusViewModel : BindableBase
     {
-        private GooglePlusModel _googlePlusModel = new GooglePlusModel();
-
-        public GooglePlusModel GooglePlusModel
-        {
-            get
-            {
-                return _googlePlusModel;
-            }
-            set
-            {
-                if (_googlePlusModel == value)
-                    return;
-                SetProperty(ref _googlePlusModel, value);
-            }
-        }
     }
 }

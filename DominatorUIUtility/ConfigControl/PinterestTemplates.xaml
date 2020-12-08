@@ -6,14 +6,16 @@
         <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
             <GroupBox.Header>
                 <Grid>
-                    <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
-                    <Button Command="{Binding SaveCmd}"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
+                    <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left"
+                           Foreground="White" />
+                    <Button Command="{Binding SaveCmd}" Background="{DynamicResource AccentBaseColorBrush}"
+                            Foreground="White"
                             VerticalAlignment="Center" HorizontalAlignment="Right">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="15" Height="15" Fill="White">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
+                                        <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <AccessText Margin="6,0" Text="{DynamicResource LangKey_Save}" />
@@ -22,18 +24,21 @@
                     </Button>
                 </Grid>
             </GroupBox.Header>
-            <StackPanel Margin="10" >
+            <StackPanel Margin="10">
                 <StackPanel Orientation="Horizontal" DataContext="{Binding PinterestOtherConfigModel}">
                     <CheckBox Margin="5" Content="{DynamicResource LangKeyScrapeDataUpto}"
-                          IsChecked="{Binding IsScrapDataBeforeSendToPerformActivity}"/>
-                    <controls:NumericUpDown  Minimum="0"  Margin="5" IsEnabled="{Binding IsScrapDataBeforeSendToPerformActivity}"  
-                                             Value="{Binding PaginationCount}" />
-                    <TextBlock Text="{DynamicResource LangKeyPaginationsBeforeSendItToPerformActivity}" Margin="5"/>
+                              IsChecked="{Binding IsScrapDataBeforeSendToPerformActivity}" />
+                    <controls:NumericUpDown Minimum="0" Margin="5"
+                                            IsEnabled="{Binding IsScrapDataBeforeSendToPerformActivity}"
+                                            Value="{Binding PaginationCount}" />
+                    <TextBlock Text="{DynamicResource LangKeyPaginationsBeforeSendItToPerformActivity}" Margin="5" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding PinterestOtherConfigModel}">
-                    <Label Margin="5" Content="{DynamicResource LangUseUniqueFeatureAs}"/>
-                    <RadioButton Margin="5" Content="{DynamicResource LangCampaignWise}" IsChecked="{Binding IsCampainWiseUnique}"/>
-                    <RadioButton Margin="5" Content="{DynamicResource LangAccountWise}"  IsChecked="{Binding IsAccountWiseUnique}"/>
+                    <Label Margin="5" Content="{DynamicResource LangUseUniqueFeatureAs}" />
+                    <RadioButton Margin="5" Content="{DynamicResource LangCampaignWise}"
+                                 IsChecked="{Binding IsCampainWiseUnique}" />
+                    <RadioButton Margin="5" Content="{DynamicResource LangAccountWise}"
+                                 IsChecked="{Binding IsAccountWiseUnique}" />
                 </StackPanel>
             </StackPanel>
         </GroupBox>

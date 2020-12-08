@@ -6,9 +6,12 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel;assembly=DominatorUIUtility"
+             xmlns:viewModels="clr-namespace:DominatorHouse.Social.AutoActivity.ViewModels"
              mc:Ignorable="d" 
              HorizontalAlignment="Stretch"
-             VerticalAlignment="Stretch">
+             VerticalAlignment="Stretch"
+             d:DataContext="{d:DesignInstance viewModels:DominatorAutoActivityViewModel}">
     <UserControl.Resources>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter"/>
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter"/>
@@ -108,7 +111,7 @@
                                 <TextBlock Text="{DynamicResource LangKeyPlatform}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
-                                <DataTemplate>
+                                <DataTemplate DataType="{x:Type viewModel:AccountsActivityDetailModel}">
                                     <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                         <Rectangle Fill="{Binding AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
                                             <Rectangle.OpacityMask>
@@ -124,12 +127,12 @@
                                 <TextBlock Text="{DynamicResource LangKeyUsername}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
-                                <DataTemplate>
+                                <DataTemplate DataType="{x:Type viewModel:AccountsActivityDetailModel}">
                                     <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                         <Label VerticalContentAlignment="Center" Margin="6,2,6,2" Content="{Binding AccountName}" >
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="MouseDoubleClick" >
-                                                    <i:InvokeCommandAction Command="{Binding DataContext.GoToToolsCmd, Source={x:Reference CampaignStatusList}}" 
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.(viewModels:DominatorAutoActivityViewModel.GoToToolsCmd), Source={x:Reference CampaignStatusList}}" 
                                                                            CommandParameter="{Binding}" />
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
@@ -144,7 +147,7 @@
                                 <TextBlock Text="{DynamicResource LangKeyActivityStatus}" HorizontalAlignment="Left"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
-                                <DataTemplate>
+                                <DataTemplate DataType="{x:Type viewModel:AccountsActivityDetailModel}">
                                     <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                         <StackPanel Margin="6,2,6,2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                                             <ListBox Name="ActivityStatus" ItemsSource="{Binding ActivityDetailsCollections}">
@@ -175,7 +178,7 @@
                                                     </ItemsPanelTemplate>
                                                 </ListBox.ItemsPanel>
                                                 <ListBox.ItemTemplate>
-                                                    <DataTemplate>
+                                                    <DataTemplate DataType="{x:Type viewModel:ActivityDetailsModel}">
                                                         <Border BorderThickness="0,0,0,0" Padding="1" BorderBrush="{DynamicResource AccentBaseColorBrush}">
                                                             <StackPanel Orientation="Horizontal" Width="130">
                                                                 <mah:ToggleSwitch OnLabel="" OffLabel="" IsChecked="{Binding Status}" Margin="1,0,0,0"
@@ -183,7 +186,7 @@
                                                                                   HorizontalAlignment="Center" VerticalAlignment="Center" >
                                                                     <i:Interaction.Triggers>
                                                                         <i:EventTrigger EventName="Click" >
-                                                                            <i:InvokeCommandAction Command="{Binding DataContext.ChangeActivityStatusCmd, Source={x:Reference CampaignStatusList}}" 
+                                                                            <i:InvokeCommandAction Command="{Binding DataContext.(viewModels:DominatorAutoActivityViewModel.ChangeActivityStatusCmd), Source={x:Reference CampaignStatusList}}" 
                                                                                                    CommandParameter="{Binding}" />
                                                                         </i:EventTrigger>
                                                                     </i:Interaction.Triggers>
@@ -197,7 +200,7 @@
                                             </ListBox>
 
                                             <Button  Height="Auto"  Margin="20,1" HorizontalAlignment="Right" Width="50" ToolTip="{Binding AccountName}"
-                                                     Command="{Binding DataContext.ShowMoreCommand, Source={x:Reference CampaignStatusList}}" CommandParameter="{Binding}"
+                                                     Command="{Binding DataContext.(viewModels:DominatorAutoActivityViewModel.ShowMoreCommand), Source={x:Reference CampaignStatusList}}" CommandParameter="{Binding}"
                                                      Content="{Binding ShowMoreButtonText}" FontSize="10"
                                                      Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"/>
                                         </StackPanel>

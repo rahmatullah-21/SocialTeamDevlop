@@ -1,12 +1,16 @@
-﻿using DominatorHouseCore.Enums.LdQuery;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DominatorHouseCore.Enums.LdQuery;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Linkedin
 {
-    class LinkedinEngageActivity : BaseActivity
+    internal class LinkedinEngageActivity : BaseActivity
     {
         public override Type GetEnumType()
         {

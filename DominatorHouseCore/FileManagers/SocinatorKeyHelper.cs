@@ -1,15 +1,20 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using System;
+using System.IO;
+using CommonServiceLocator;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System;
-using System.IO;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
     public class SocinatorKeyHelper
     {
         public static FatalErrorHandler Key;
+
         public static bool SaveKey(FatalErrorHandler keyDetails)
         {
             try
@@ -27,19 +32,18 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }
         }
+
         public static void InitilizeKey()
         {
             try
             {
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
-                Key= genericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
+                Key = genericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-          
         }
-
     }
 }

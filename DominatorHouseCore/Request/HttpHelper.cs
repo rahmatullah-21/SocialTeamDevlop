@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Interfaces;
+﻿#region
+
 using System;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,9 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DominatorHouseCore.Interfaces;
+
+#endregion
 
 namespace DominatorHouseCore.Request
 {
@@ -27,14 +31,14 @@ namespace DominatorHouseCore.Request
 
 
         /// <summary>
-        /// Gets or Sets the header details of <see cref="HttpHelper"/>
+        ///     Gets or Sets the header details of <see cref="HttpHelper" />
         /// </summary>
         protected virtual IRequestParameters RequestParameters { get; set; } = new RequestParameters();
 
         public HttpWebRequest Request
         {
-            get { return _request; }
-            set { _request = value; }
+            get => _request;
+            set => _request = value;
         }
 
         protected HttpWebRequest _request;
@@ -43,7 +47,7 @@ namespace DominatorHouseCore.Request
         public HttpWebResponse Response { get; set; }
 
         /// <summary>
-        /// Validate the server certificates
+        ///     Validate the server certificates
         /// </summary>
         private static void ValidateServerCertificate()
         {
@@ -59,31 +63,39 @@ namespace DominatorHouseCore.Request
         }
 
         /// <summary>
-        /// Returns <see cref="IRequestParameters"/> which contains header details of 
-        /// <see cref="HttpHelper"/>
+        ///     Returns <see cref="IRequestParameters" /> which contains header details of
+        ///     <see cref="HttpHelper" />
         /// </summary>
-        /// <returns>A <see cref="IRequestParameters"/></returns>
+        /// <returns>A <see cref="IRequestParameters" /></returns>
         public virtual IRequestParameters GetRequestParameter()
-            => RequestParameters;
+        {
+            return RequestParameters;
+        }
 
         /// <summary>
-        /// Set the web header details to <see cref="RequestParameters"/>
+        ///     Set the web header details to <see cref="RequestParameters" />
         /// </summary>
-        /// <param name="requestParameters">Pass the class which inherits <see cref="IRequestParameters"/> interface</param>
+        /// <param name="requestParameters">Pass the class which inherits <see cref="IRequestParameters" /> interface</param>
         public virtual void SetRequestParameter(IRequestParameters requestParameters)
-            => RequestParameters = requestParameters;
-
+        {
+            RequestParameters = requestParameters;
+        }
 
 
         /// <summary>
-        /// <para>Set <see cref="IRequestParameters"/> details to the followings.</para>
-        /// <para> 1.<see cref="IRequestParameters.Headers"/> to <see cref="HttpWebRequest.Headers"/></para>
-        /// <para> 2.<see cref="IRequestParameters.Cookies"/> to <see cref="HttpWebRequest.CookieContainer"/></para>
-        /// <para> 3.<see cref="IRequestParameters.Proxy"/> to <see cref="HttpWebRequest.Proxy"/></para>
+        ///     <para>Set <see cref="IRequestParameters" /> details to the followings.</para>
+        ///     <para> 1.<see cref="IRequestParameters.Headers" /> to <see cref="HttpWebRequest.Headers" /></para>
+        ///     <para> 2.<see cref="IRequestParameters.Cookies" /> to <see cref="HttpWebRequest.CookieContainer" /></para>
+        ///     <para> 3.<see cref="IRequestParameters.Proxy" /> to <see cref="HttpWebRequest.Proxy" /></para>
         /// </summary>
-        /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
-        /// <param name="requestParameter"><see cref="IRequestParameters"/></param>
-        protected virtual void SetRequestParametersToWebRequest(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
+        /// <param name="webRequest">
+        ///     <see cref="HttpWebRequest" />
+        /// </param>
+        /// <param name="requestParameter">
+        ///     <see cref="IRequestParameters" />
+        /// </param>
+        protected virtual void SetRequestParametersToWebRequest(ref HttpWebRequest webRequest,
+            IRequestParameters requestParameter)
         {
             try
             {
@@ -95,9 +107,7 @@ namespace DominatorHouseCore.Request
                 webRequest.Headers = new WebHeaderCollection();
 
                 if (requestParameter.Headers != null)
-                {
                     foreach (var eachHeader in requestParameter.Headers)
-                    {
                         try
                         {
                             var headerName = eachHeader.ToString();
@@ -119,8 +129,7 @@ namespace DominatorHouseCore.Request
                         {
                             ex.DebugLog();
                         }
-                    }
-                }
+
                 webRequest.Host = webRequest.RequestUri.Host;
                 webRequest.KeepAlive = requestParameter.KeepAlive;
                 webRequest.UserAgent = requestParameter.UserAgent;
@@ -131,14 +140,11 @@ namespace DominatorHouseCore.Request
                 #endregion
 
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
-                                                        | SecurityProtocolType.Tls11
-                                                        | SecurityProtocolType.Tls12
-                                                        | SecurityProtocolType.Ssl3;
+                                                       | SecurityProtocolType.Tls11
+                                                       | SecurityProtocolType.Tls12
+                                                       | SecurityProtocolType.Ssl3;
 
-                if (ServicePointManager.Expect100Continue)
-                {
-                    ServicePointManager.Expect100Continue = false;
-                }
+                if (ServicePointManager.Expect100Continue) ServicePointManager.Expect100Continue = false;
 
                 #region Set the Cookies
 
@@ -147,7 +153,6 @@ namespace DominatorHouseCore.Request
                     webRequest.CookieContainer = new CookieContainer();
 
                     foreach (Cookie eachCookie in RequestParameters.Cookies)
-                    {
                         try
                         {
                             var cookieData = new Cookie(eachCookie.Name, eachCookie.Value, "/", eachCookie.Domain);
@@ -157,7 +162,6 @@ namespace DominatorHouseCore.Request
                         {
                             ex.DebugLog();
                         }
-                    }
                 }
 
                 #endregion
@@ -176,10 +180,14 @@ namespace DominatorHouseCore.Request
         }
 
         /// <summary>
-        /// Set the <see cref="IRequestParameters.Proxy"/> to <see cref="HttpWebRequest.Proxy"/>
+        ///     Set the <see cref="IRequestParameters.Proxy" /> to <see cref="HttpWebRequest.Proxy" />
         /// </summary>
-        /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
-        /// <param name="requestParameter"><see cref="IRequestParameters"/></param>
+        /// <param name="webRequest">
+        ///     <see cref="HttpWebRequest" />
+        /// </param>
+        /// <param name="requestParameter">
+        ///     <see cref="IRequestParameters" />
+        /// </param>
         protected void SetProxy(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
         {
             try
@@ -191,9 +199,8 @@ namespace DominatorHouseCore.Request
 
                 if (!string.IsNullOrEmpty(requestParameter.Proxy.ProxyUsername)
                     && !string.IsNullOrEmpty(requestParameter.Proxy.ProxyPassword))
-                {
-                    webProxy.Credentials = new NetworkCredential(requestParameter.Proxy.ProxyUsername, requestParameter.Proxy.ProxyPassword);
-                }
+                    webProxy.Credentials = new NetworkCredential(requestParameter.Proxy.ProxyUsername,
+                        requestParameter.Proxy.ProxyPassword);
                 webRequest.Proxy = webProxy;
             }
             catch (Exception ex)
@@ -204,9 +211,11 @@ namespace DominatorHouseCore.Request
 
 
         /// <summary>
-        /// Convert the postdata(string) to sequences of bytes and write into the <see cref="HttpWebRequest"/> 
+        ///     Convert the postdata(string) to sequences of bytes and write into the <see cref="HttpWebRequest" />
         /// </summary>
-        /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
+        /// <param name="webRequest">
+        ///     <see cref="HttpWebRequest" />
+        /// </param>
         /// <param name="postData">Data which should pass as post data</param>
         protected virtual void WritePostData(ref HttpWebRequest webRequest, string postData)
         {
@@ -223,9 +232,11 @@ namespace DominatorHouseCore.Request
 
 
         /// <summary>
-        /// Convert the postdata(sequences of bytes) to streams
+        ///     Convert the postdata(sequences of bytes) to streams
         /// </summary>
-        /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
+        /// <param name="webRequest">
+        ///     <see cref="HttpWebRequest" />
+        /// </param>
         /// <param name="postBuffer">Post data in bytes array</param>
         protected virtual void WritePostData(ref HttpWebRequest webRequest, byte[] postBuffer)
         {
@@ -246,9 +257,11 @@ namespace DominatorHouseCore.Request
 
 
         /// <summary>
-        /// Read the cookies from <see cref="System.Net.WebResponse"/> object to RequestParameters
+        ///     Read the cookies from <see cref="System.Net.WebResponse" /> object to RequestParameters
         /// </summary>
-        /// <param name="webResponse"><see cref="System.Net.WebResponse"/></param>
+        /// <param name="webResponse">
+        ///     <see cref="System.Net.WebResponse" />
+        /// </param>
         protected virtual void ReadCookies(WebResponse webResponse)
         {
             try
@@ -257,10 +270,7 @@ namespace DominatorHouseCore.Request
 
                 var response = webResponse as HttpWebResponse;
 
-                if (RequestParameters.Cookies == null)
-                {
-                    RequestParameters.Cookies = new CookieCollection();
-                }
+                if (RequestParameters.Cookies == null) RequestParameters.Cookies = new CookieCollection();
 
                 if (response == null || _request.CookieContainer == null) return;
 
@@ -271,7 +281,7 @@ namespace DominatorHouseCore.Request
                     // check the current cookie is any already present in RequestParameter
                     var isPresent =
                         RequestParameters.Cookies.Cast<Cookie>()
-                        .Any(requestParameterCookie => requestParameterCookie.Name == cookie.Name);
+                            .Any(requestParameterCookie => requestParameterCookie.Name == cookie.Name);
 
                     // If its present read then overwrite otherwise add to RequestParameter
                     if (isPresent)
@@ -280,7 +290,9 @@ namespace DominatorHouseCore.Request
                             RequestParameters.Cookies[cookie.Name].Value = cookie.Value;
                     }
                     else
+                    {
                         RequestParameters.Cookies.Add(cookie);
+                    }
                 }
             }
             catch (Exception ex)
@@ -291,9 +303,11 @@ namespace DominatorHouseCore.Request
 
 
         /// <summary>
-        /// Get the final response of the http request
+        ///     Get the final response of the http request
         /// </summary>
-        /// <returns><see cref="IResponseParameter"/></returns>
+        /// <returns>
+        ///     <see cref="IResponseParameter" />
+        /// </returns>
         protected virtual IResponseParameter GetFinalResponse()
         {
             return DoGetFinalResponse();
@@ -304,19 +318,16 @@ namespace DominatorHouseCore.Request
             try
             {
                 // Get the reponse from request
-                return GetReponse((HttpWebResponse)_request.GetResponse());
+                return GetReponse((HttpWebResponse) _request.GetResponse());
             }
             catch (WebException ex)
             {
-                if (wasCancelled != null && wasCancelled())
-                {
-                    throw new OperationCanceledException();
-                }
+                if (wasCancelled != null && wasCancelled()) throw new OperationCanceledException();
                 try
                 {
                     // Get error message from the response
                     return ex.Response != null
-                        ? GetReponse((HttpWebResponse)ex.Response)
+                        ? GetReponse((HttpWebResponse) ex.Response)
                         : new ResponseParameter
                         {
                             HasError = true,
@@ -326,7 +337,7 @@ namespace DominatorHouseCore.Request
                 catch (WebException exception)
                 {
                     // return the exceptions of response in ResponseParameter
-                    return new ResponseParameter()
+                    return new ResponseParameter
                     {
                         HasError = true,
                         Exception = exception
@@ -346,17 +357,12 @@ namespace DominatorHouseCore.Request
 
         protected virtual async Task<IResponseParameter> GetFinalResponseAsync(CancellationToken cancellationToken)
         {
-
-            if (cancellationToken == default(CancellationToken))
-            {
-                return await DoGetFinalResponseAsync();
-            }
+            if (cancellationToken == default(CancellationToken)) return await DoGetFinalResponseAsync();
 
             //using (cancellationToken.Register(() => _request.Abort()))
             {
                 return await DoGetFinalResponseAsync();
             }
-
         }
 
         private async Task<IResponseParameter> DoGetFinalResponseAsync()
@@ -364,7 +370,7 @@ namespace DominatorHouseCore.Request
             try
             {
                 // Get the reponse from request
-                return GetReponse((HttpWebResponse)await _request.GetResponseAsync());
+                return GetReponse((HttpWebResponse) await _request.GetResponseAsync());
             }
             catch (WebException ex)
             {
@@ -376,7 +382,7 @@ namespace DominatorHouseCore.Request
                 {
                     // Get error message from the response
                     return ex.Response != null
-                        ? GetReponse((HttpWebResponse)ex.Response)
+                        ? GetReponse((HttpWebResponse) ex.Response)
                         : new ResponseParameter
                         {
                             HasError = true,
@@ -386,7 +392,7 @@ namespace DominatorHouseCore.Request
                 catch (WebException exception)
                 {
                     // return the exceptions of response in ResponseParameter
-                    return new ResponseParameter()
+                    return new ResponseParameter
                     {
                         HasError = true,
                         Exception = exception
@@ -396,7 +402,7 @@ namespace DominatorHouseCore.Request
             catch (Exception ex)
             {
                 // return the actual exceptions in ResponseParameter
-                return new ResponseParameter()
+                return new ResponseParameter
                 {
                     HasError = true,
                     Exception = ex
@@ -406,12 +412,12 @@ namespace DominatorHouseCore.Request
 
 
         /// <summary>
-        /// Get the final response data from <see cref="System.Net.HttpWebResponse"/> objects to <see cref="IResponseParameter"/>
+        ///     Get the final response data from <see cref="System.Net.HttpWebResponse" /> objects to
+        ///     <see cref="IResponseParameter" />
         /// </summary>
         /// <returns></returns>
         protected virtual IResponseParameter GetReponse(HttpWebResponse webResponse)
         {
-
             // pointing same address Response and webResponse
             Response = webResponse;
 
@@ -423,12 +429,12 @@ namespace DominatorHouseCore.Request
 
             // Check null integrity
             if (responseStream == null)
-                return new ResponseParameter { Response = string.Empty };
+                return new ResponseParameter {Response = string.Empty};
 
             // return as proper ResponseParameter with appropriate reponse
             using (var streamReader = new StreamReader(responseStream))
             {
-                return new ResponseParameter()
+                return new ResponseParameter
                 {
                     Response = streamReader.ReadToEnd()
                 };
@@ -439,33 +445,39 @@ namespace DominatorHouseCore.Request
         #region Get Request And Post Request With Synchronous And Asynchronous Methods
 
         /// <summary>
-        /// Get http request from url with already setted RequestParameters
+        ///     Get http request from url with already setted RequestParameters
         /// </summary>
         /// <param name="url">url of tha page</param>
-        /// <returns><see cref="IResponseParameter"/></returns>
+        /// <returns>
+        ///     <see cref="IResponseParameter" />
+        /// </returns>
         public virtual IResponseParameter GetRequest(string url)
         {
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref _request, RequestParameters);
             return GetFinalResponse();
         }
 
         /// <summary>
-        /// Get http request from url with new RequestParameters
+        ///     Get http request from url with new RequestParameters
         /// </summary>
         /// <param name="url">url of tha page</param>
-        /// <param name="requestParameters"><see cref="IRequestParameters"/></param>
-        /// <returns><see cref="IResponseParameter"/></returns>
+        /// <param name="requestParameters">
+        ///     <see cref="IRequestParameters" />
+        /// </param>
+        /// <returns>
+        ///     <see cref="IResponseParameter" />
+        /// </returns>
         public virtual IResponseParameter GetRequest(string url, IRequestParameters requestParameters)
         {
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref _request, requestParameters);
             return GetFinalResponse();
         }
 
 
         /// <summary>
-        /// Asynchronous Get Request
+        ///     Asynchronous Get Request
         /// </summary>
         /// <param name="url"></param>
         /// <param name="cancellationToken"></param>
@@ -474,92 +486,107 @@ namespace DominatorHouseCore.Request
         {
             try
             {
-                _request = (HttpWebRequest)WebRequest.Create(url);
+                _request = (HttpWebRequest) WebRequest.Create(url);
                 SetRequestParametersToWebRequest(ref _request, RequestParameters);
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+
             return GetFinalResponseAsync(cancellationToken);
         }
 
         /// <summary>
-        /// Async Get Request With RequestParameters
+        ///     Async Get Request With RequestParameters
         /// </summary>
         /// <param name="url"></param>
         /// <param name="requestParameters"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters, CancellationToken cancellationToken)
+        public virtual Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters,
+            CancellationToken cancellationToken)
         {
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref _request, requestParameters);
             return GetFinalResponseAsync(cancellationToken);
         }
 
         /// <summary>
-        /// Post Request with url and postdata with already saved RequestParameter
+        ///     Post Request with url and postdata with already saved RequestParameter
         /// </summary>
         /// <param name="url">url of tha page</param>
         /// <param name="postData">post data in byte array which while pass with url</param>
-        /// <returns><see cref="IResponseParameter"/></returns>
+        /// <returns>
+        ///     <see cref="IResponseParameter" />
+        /// </returns>
         public virtual IResponseParameter PostRequest(string url, byte[] postData)
         {
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref _request, RequestParameters);
             WritePostData(ref _request, postData);
             return GetFinalResponse();
         }
 
-        public virtual Task<IResponseParameter> PostRequestAsync(string url, byte[] postData, CancellationToken cancellationToken)
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, byte[] postData,
+            CancellationToken cancellationToken)
         {
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref _request, RequestParameters);
             WritePostData(ref _request, postData);
             return GetFinalResponseAsync(cancellationToken);
         }
 
         /// <summary>
-        /// Post Request with url and postdata as sequences of bytes with new RequestParameter
+        ///     Post Request with url and postdata as sequences of bytes with new RequestParameter
         /// </summary>
         /// <param name="url">url of tha page</param>
         /// <param name="postData">post data in byte array which while pass with url</param>
-        /// <param name="requestParamater"><see cref="IRequestParameters"/></param>
-        /// <returns><see cref="IResponseParameter"/></returns>
+        /// <param name="requestParamater">
+        ///     <see cref="IRequestParameters" />
+        /// </param>
+        /// <returns>
+        ///     <see cref="IResponseParameter" />
+        /// </returns>
         // ReSharper disable once UnusedMemberHierarchy.Global
         public virtual IResponseParameter PostRequest(string url, byte[] postData, IRequestParameters requestParamater)
         {
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref _request, requestParamater);
             WritePostData(ref _request, postData);
             return GetFinalResponse();
         }
 
         /// <summary>
-        /// Post Request with url and postdata with already saved RequestParameter
+        ///     Post Request with url and postdata with already saved RequestParameter
         /// </summary>
         /// <param name="url">url of tha page</param>
         /// <param name="postData">post data which while pass with url</param>
-        /// <returns><see cref="IResponseParameter"/></returns>
+        /// <returns>
+        ///     <see cref="IResponseParameter" />
+        /// </returns>
         public virtual IResponseParameter PostRequest(string url, string postData)
         {
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref _request, RequestParameters);
             WritePostData(ref _request, postData);
             return GetFinalResponse();
         }
 
         /// <summary>
-        /// Post Request with url and postdata with new RequestParameter
+        ///     Post Request with url and postdata with new RequestParameter
         /// </summary>
         /// <param name="url">url of tha page</param>
         /// <param name="postData">post data in byte array which while pass with url</param>
-        /// <param name="requestParamater"><see cref="IRequestParameters"/></param>
-        /// <returns><see cref="IResponseParameter"/></returns>
+        /// <param name="requestParamater">
+        ///     <see cref="IRequestParameters" />
+        /// </param>
+        /// <returns>
+        ///     <see cref="IResponseParameter" />
+        /// </returns>
         public virtual IResponseParameter PostRequest(string url, string postData, IRequestParameters requestParamater)
         {
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             _request.Host = _request.RequestUri.Host;
             SetRequestParametersToWebRequest(ref _request, requestParamater);
             WritePostData(ref _request, postData);
@@ -567,15 +594,16 @@ namespace DominatorHouseCore.Request
         }
 
         /// <summary>
-        /// Async Post Request
+        ///     Async Post Request
         /// </summary>
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, CancellationToken cancellationToken)
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData,
+            CancellationToken cancellationToken)
         {
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             Response = null;
             SetRequestParametersToWebRequest(ref _request, RequestParameters);
             WritePostData(ref _request, postData);
@@ -583,16 +611,16 @@ namespace DominatorHouseCore.Request
         }
 
         /// <summary>
-        /// Async Post Request With RequestParameters
+        ///     Async Post Request With RequestParameters
         /// </summary>
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <param name="requestParameters"></param>
         /// <returns></returns>
-        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters requestParameters)
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData,
+            IRequestParameters requestParameters)
         {
-
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             Response = null;
             SetRequestParametersToWebRequest(ref _request, requestParameters);
             WritePostData(ref _request, postData);
@@ -601,16 +629,17 @@ namespace DominatorHouseCore.Request
         }
 
         /// <summary>
-        /// Async Post Request With RequestParameters
+        ///     Async Post Request With RequestParameters
         /// </summary>
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <param name="requestParamater"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters requestParamater, CancellationToken cancellationToken)
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData,
+            IRequestParameters requestParamater, CancellationToken cancellationToken)
         {
-            _request = (HttpWebRequest)WebRequest.Create(url);
+            _request = (HttpWebRequest) WebRequest.Create(url);
             _request.Host = _request.RequestUri.Host;
             SetRequestParametersToWebRequest(ref _request, requestParamater);
             WritePostData(ref _request, postData);
@@ -622,8 +651,8 @@ namespace DominatorHouseCore.Request
 
         public static async Task<Stream> GetResponseStreamAsync(string url)
         {
-            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
-            var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
+            var request = (HttpWebRequest) WebRequest.Create(new Uri(url));
+            var licenseresponse = (HttpWebResponse) await request.GetResponseAsync();
 
             var responseStream = licenseresponse.GetResponseStream();
             return responseStream;
@@ -631,7 +660,7 @@ namespace DominatorHouseCore.Request
 
         public virtual IResponseParameter PostApiRequest(string url, byte[] postData)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(url);
             request.Method = "POST";
             request.Host = "api.socinator.com";
             request.ContentType = "application/x-www-form-urlencoded";
@@ -645,29 +674,30 @@ namespace DominatorHouseCore.Request
             }
 
 
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (var response = (HttpWebResponse) request.GetResponse())
             {
                 var responseStream = response.GetResponseStream();
 
                 // Check null integrity
                 if (responseStream == null)
-                    return new ResponseParameter { Response = string.Empty };
+                    return new ResponseParameter {Response = string.Empty};
 
                 // return as proper ResponseParameter with appropriate reponse
                 using (var streamReader = new StreamReader(responseStream))
                 {
-                    return new ResponseParameter()
+                    return new ResponseParameter
                     {
                         Response = streamReader.ReadToEnd()
                     };
-                };
+                }
+
+                ;
             }
         }
 
         public virtual async Task<IResponseParameter> PostApiRequestAsync(string url, string postData)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(url);
             request.Method = "POST";
             request.Host = "api.socinator.com";
             request.ContentType = "application/json";
@@ -683,52 +713,55 @@ namespace DominatorHouseCore.Request
             }
 
 
-            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+            using (var response = (HttpWebResponse) await request.GetResponseAsync())
             {
-
                 var responseStream = response.GetResponseStream();
 
                 // Check null integrity
                 if (responseStream == null)
-                    return new ResponseParameter { Response = string.Empty };
+                    return new ResponseParameter {Response = string.Empty};
 
                 // return as proper ResponseParameter with appropriate reponse
                 using (var streamReader = new StreamReader(responseStream))
                 {
-                    return new ResponseParameter()
+                    return new ResponseParameter
                     {
                         Response = streamReader.ReadToEnd()
                     };
-                };
+                }
+
+                ;
             }
         }
 
         public virtual async Task<IResponseParameter> GetApiRequestAsync(string url)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(url);
             request.Method = "GET";
-            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+            using (var response = (HttpWebResponse) await request.GetResponseAsync())
             {
                 var responseStream = response.GetResponseStream();
 
                 // Check null integrity
                 if (responseStream == null)
-                    return new ResponseParameter { Response = string.Empty };
+                    return new ResponseParameter {Response = string.Empty};
 
                 // return as proper ResponseParameter with appropriate reponse
                 using (var streamReader = new StreamReader(responseStream))
                 {
-                    return new ResponseParameter()
+                    return new ResponseParameter
                     {
                         Response = streamReader.ReadToEnd()
                     };
-                };
+                }
+
+                ;
             }
         }
 
         public virtual async Task<IResponseParameter> PostApiRequestAsync(string url, byte[] postData)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(url);
             request.Method = "POST";
             request.Host = "api.socinator.com";
             request.ContentType = "application/x-www-form-urlencoded";
@@ -742,23 +775,24 @@ namespace DominatorHouseCore.Request
             }
 
 
-
-            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+            using (var response = (HttpWebResponse) await request.GetResponseAsync())
             {
                 var responseStream = response.GetResponseStream();
 
                 // Check null integrity
                 if (responseStream == null)
-                    return new ResponseParameter { Response = string.Empty };
+                    return new ResponseParameter {Response = string.Empty};
 
                 // return as proper ResponseParameter with appropriate reponse
                 using (var streamReader = new StreamReader(responseStream))
                 {
-                    return new ResponseParameter()
+                    return new ResponseParameter
                     {
                         Response = streamReader.ReadToEnd()
                     };
-                };
+                }
+
+                ;
             }
         }
     }

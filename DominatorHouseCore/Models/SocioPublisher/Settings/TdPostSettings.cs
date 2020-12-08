@@ -1,8 +1,12 @@
-﻿using System;
+﻿#region
+
+using System;
+using System.Collections.Generic;
 using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
@@ -19,12 +23,9 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(1)]
         public bool IsDeletePostAfterHours
         {
-            get
-            {
-                return _isDeletePostAfterHours;
-            }
+            get => _isDeletePostAfterHours;
             set
-            {             
+            {
                 if (_isDeletePostAfterHours == value)
                     return;
 
@@ -35,15 +36,12 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(2)]
         public int DeletePostAfterHours
         {
-            get
-            {
-                return _deletePostAfterHours;
-            }
+            get => _deletePostAfterHours;
             set
-            {              
+            {
                 if (_deletePostAfterHours == value)
                     return;
-              
+
                 SetProperty(ref _deletePostAfterHours, value);
             }
         }
@@ -51,15 +49,12 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(3)]
         public bool IsMentionUser
         {
-            get
-            {
-                return _isMentionUser;
-            }
+            get => _isMentionUser;
             set
-            {              
+            {
                 if (_isMentionUser == value)
                     return;
-             
+
                 SetProperty(ref _isMentionUser, value);
             }
         }
@@ -67,15 +62,12 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(4)]
         public string MentionUserList
         {
-            get
-            {
-                return _mentionUserList;
-            }
+            get => _mentionUserList;
             set
-            {           
+            {
                 if (_mentionUserList == value)
                     return;
-                
+
                 SetProperty(ref _mentionUserList, value);
             }
         }
@@ -83,10 +75,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(5)]
         public List<string> RssImageList
         {
-            get
-            {
-                return _rssImageList;
-            }
+            get => _rssImageList;
             set
             {
                 if (_rssImageList == value)

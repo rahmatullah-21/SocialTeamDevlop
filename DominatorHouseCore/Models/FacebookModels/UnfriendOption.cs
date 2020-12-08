@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.Utility;
-using ProtoBuf;
+﻿#region
+
 using System;
 using System.Collections.Generic;
+using DominatorHouseCore.Utility;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
@@ -22,16 +26,12 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(1)]
         public bool IsAddedThroughSoftware
         {
-            get
-            {
-                return _isAddedThroughSoftware;
-            }
+            get => _isAddedThroughSoftware;
             set
             {
                 if (value == _isAddedThroughSoftware)
                     return;
                 SetProperty(ref _isAddedThroughSoftware, value);
-
             }
         }
 
@@ -40,36 +40,28 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(2)]
         public bool IsAddedOutsideSoftware
         {
-            get
-            {
-                return _isAddedOutsideSoftware;
-            }
+            get => _isAddedOutsideSoftware;
             set
             {
                 if (value == _isAddedOutsideSoftware)
                     return;
                 SetProperty(ref _isAddedOutsideSoftware, value);
-
             }
         }
 
-        
+
         private bool _isFilterApplied;
 
         [ProtoMember(6)]
         public bool IsFilterApplied
         {
-            get
-            {
-                return _isFilterApplied;
-            }
+            get => _isFilterApplied;
 
             set
             {
                 if (value == _isFilterApplied)
                     return;
                 SetProperty(ref _isFilterApplied, value);
-
             }
         }
 
@@ -78,37 +70,29 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(7)]
         public int DaysBefore
         {
-            get
-            {
-                return _daysBefore;
-            }
+            get => _daysBefore;
 
             set
             {
                 if (value == _daysBefore)
                     return;
                 SetProperty(ref _daysBefore, value);
-
             }
         }
 
 
-        private int _hoursBefore; 
+        private int _hoursBefore;
 
         [ProtoMember(8)]
         public int HoursBefore
         {
-            get
-            {
-                return _hoursBefore;
-            }
+            get => _hoursBefore;
 
             set
             {
                 if (value == _hoursBefore)
                     return;
                 SetProperty(ref _hoursBefore, value);
-
             }
         }
 
@@ -117,36 +101,28 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(9)]
         public int Count
         {
-            get
-            {
-                return _count;
-            }
+            get => _count;
 
             set
             {
                 if (value == _count)
                     return;
                 SetProperty(ref _count, value);
-
             }
         }
 
-        int _typeCount;
+        private int _typeCount;
 
         [ProtoMember(10)]
         public int TypeCount
         {
-            get
-            {
-                return _typeCount;
-            }
+            get => _typeCount;
 
             set
             {
                 if (value == _typeCount)
                     return;
                 SetProperty(ref _typeCount, value);
-
             }
         }
 
@@ -156,39 +132,29 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(11)]
         public string BySoftwareDisplayName
         {
-            get
-            {
-                return _bySoftwareDisplayName;
-            }
+            get => _bySoftwareDisplayName;
 
             set
             {
                 if (value == _bySoftwareDisplayName)
                     return;
                 SetProperty(ref _bySoftwareDisplayName, value);
-
             }
         }
 
 
-
-
-        string _outsideSoftwareDisplayName = string.Empty;
+        private string _outsideSoftwareDisplayName = string.Empty;
 
         [ProtoMember(12)]
         public string OutsideSoftwareDisplayName
         {
-            get
-            {
-                return _outsideSoftwareDisplayName;
-            }
+            get => _outsideSoftwareDisplayName;
 
             set
             {
                 if (value == _outsideSoftwareDisplayName)
                     return;
                 SetProperty(ref _outsideSoftwareDisplayName, value);
-
             }
         }
 
@@ -198,17 +164,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(13)]
         public string FilterText
         {
-            get
-            {
-                return _filterText;
-            }
+            get => _filterText;
 
             set
             {
                 if (value == _filterText)
                     return;
                 SetProperty(ref _filterText, value);
-
             }
         }
 
@@ -217,17 +179,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(14)]
         public List<string> LstFilterText
         {
-            get
-            {
-                return _lstFilterText;
-            }
+            get => _lstFilterText;
 
             set
             {
                 if (value == _lstFilterText)
                     return;
                 SetProperty(ref _lstFilterText, value);
-
             }
         }
 
@@ -236,17 +194,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(16)]
         public string SourceDisplayName
         {
-            get
-            {
-                return _sourceDisplayName;
-            }
+            get => _sourceDisplayName;
 
             set
             {
                 if (value == _sourceDisplayName)
                     return;
                 SetProperty(ref _sourceDisplayName, value);
-
             }
         }
 
@@ -255,17 +209,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(17)]
         public string CustomUserText
         {
-            get
-            {
-                return _customUserText;
-            }
+            get => _customUserText;
 
             set
             {
                 if (value == _customUserText)
                     return;
                 SetProperty(ref _customUserText, value);
-
             }
         }
 
@@ -275,17 +225,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(18)]
         public List<string> LstCustomUsers
         {
-            get
-            {
-                return _lstCustomUsers;
-            }
+            get => _lstCustomUsers;
 
             set
             {
                 if (value == _lstCustomUsers)
                     return;
                 SetProperty(ref _lstCustomUsers, value);
-
             }
         }
 
@@ -294,17 +240,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(19)]
         public bool IsCustomUserList
         {
-            get
-            {
-                return _isCustomUserList;
-            }
+            get => _isCustomUserList;
 
             set
             {
                 if (value == _isCustomUserList)
                     return;
                 SetProperty(ref _isCustomUserList, value);
-
             }
         }
 
@@ -313,30 +255,23 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(20)]
         public bool IsMutualFriends
         {
-            get
-            {
-                return _isMutualFriends;
-            }
+            get => _isMutualFriends;
 
             set
             {
                 if (value == _isMutualFriends)
                     return;
                 SetProperty(ref _isMutualFriends, value);
-
             }
         }
 
 
-
         private bool _isNotPostOnWall;
+
         [ProtoMember(21)]
         public bool IsNotPostOnWall
         {
-            get
-            {
-                return _isNotPostOnWall;
-            }
+            get => _isNotPostOnWall;
 
             set
             {
@@ -348,36 +283,29 @@ namespace DominatorHouseCore.Models.FacebookModels
 
 
         private int _daysNotPostOnWall;
+
         [ProtoMember(22)]
         public int DaysNotPostedOnWall
         {
-            get
-            {
-                return _daysNotPostOnWall;
-            }
+            get => _daysNotPostOnWall;
             set
             {
                 if (value == _daysNotPostOnWall)
                     return;
                 SetProperty(ref _daysNotPostOnWall, value);
-
             }
         }
-
     }
-
 
 
     public interface IAutoReplyOptionModel
     {
-
         int Count { get; set; }
 
         int TypeCount { get; set; }
         bool IsReplyToPageMessagesChecked { get; set; }
 
         string OwnPages { get; set; }
-
     }
 
     public class AutoReplyOptionModel : BindableBase, IAutoReplyOptionModel
@@ -387,38 +315,29 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(1)]
         public bool IsFriendsMessageChecked
         {
-            get
-            {
-                return _isFriendsMessageChecked;
-            }
+            get => _isFriendsMessageChecked;
             set
             {
                 if (value == _isFriendsMessageChecked)
                     return;
                 ChangeCount(value);
                 SetProperty(ref _isFriendsMessageChecked, value);
-
             }
         }
 
-     
 
         private bool _isAddedOutsideSoftware;
 
         [ProtoMember(2)]
         public bool IsMessageRequestChecked
         {
-            get
-            {
-                return _isAddedOutsideSoftware;
-            }
+            get => _isAddedOutsideSoftware;
             set
             {
                 if (value == _isAddedOutsideSoftware)
                     return;
                 ChangeCount(value);
                 SetProperty(ref _isAddedOutsideSoftware, value);
-
             }
         }
 
@@ -427,17 +346,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(6)]
         public bool IsFilterApplied
         {
-            get
-            {
-                return _isFilterApplied;
-            }
+            get => _isFilterApplied;
 
             set
             {
                 if (value == _isFilterApplied)
                     return;
                 SetProperty(ref _isFilterApplied, value);
-
             }
         }
 
@@ -446,17 +361,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(7)]
         public int DaysBefore
         {
-            get
-            {
-                return _daysBefore;
-            }
+            get => _daysBefore;
 
             set
             {
                 if (value == _daysBefore)
                     return;
                 SetProperty(ref _daysBefore, value);
-
             }
         }
 
@@ -466,17 +377,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(8)]
         public int HoursBefore
         {
-            get
-            {
-                return _hoursBefore;
-            }
+            get => _hoursBefore;
 
             set
             {
                 if (value == _hoursBefore)
                     return;
                 SetProperty(ref _hoursBefore, value);
-
             }
         }
 
@@ -485,36 +392,28 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(9)]
         public int Count
         {
-            get
-            {
-                return _count;
-            }
+            get => _count;
 
             set
             {
                 if (value == _count)
                     return;
                 SetProperty(ref _count, value);
-
             }
         }
 
-        int _typeCount;
+        private int _typeCount;
 
         [ProtoMember(10)]
         public int TypeCount
         {
-            get
-            {
-                return _typeCount;
-            }
+            get => _typeCount;
 
             set
             {
                 if (value == _typeCount)
                     return;
                 SetProperty(ref _typeCount, value);
-
             }
         }
 
@@ -524,20 +423,15 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(11)]
         public string BySoftwareDisplayName
         {
-            get
-            {
-                return _bySoftwareDisplayName;
-            }
+            get => _bySoftwareDisplayName;
 
             set
             {
                 if (value == _bySoftwareDisplayName)
                     return;
                 SetProperty(ref _bySoftwareDisplayName, value);
-
             }
         }
-
 
 
         private string _outsideSoftwareDisplayName = string.Empty;
@@ -545,17 +439,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(12)]
         public string OutsideSoftwareDisplayName
         {
-            get
-            {
-                return _outsideSoftwareDisplayName;
-            }
+            get => _outsideSoftwareDisplayName;
 
             set
             {
                 if (value == _outsideSoftwareDisplayName)
                     return;
                 SetProperty(ref _outsideSoftwareDisplayName, value);
-
             }
         }
 
@@ -565,17 +455,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(13)]
         public string FilterText
         {
-            get
-            {
-                return _filterText;
-            }
+            get => _filterText;
 
             set
             {
                 if (value == _filterText)
                     return;
                 SetProperty(ref _filterText, value);
-
             }
         }
 
@@ -584,17 +470,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(14)]
         public List<string> LstFilterText
         {
-            get
-            {
-                return _lstFilterText;
-            }
+            get => _lstFilterText;
 
             set
             {
                 if (value == _lstFilterText)
                     return;
                 SetProperty(ref _lstFilterText, value);
-
             }
         }
 
@@ -603,17 +485,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(15)]
         public bool IsFilterByIncommingMessageText
         {
-            get
-            {
-                return _isFilterByIncommingMessageText;
-            }
+            get => _isFilterByIncommingMessageText;
 
             set
             {
                 if (value == _isFilterByIncommingMessageText)
                     return;
                 SetProperty(ref _isFilterByIncommingMessageText, value);
-
             }
         }
 
@@ -623,17 +501,13 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(16)]
         public string SourceDisplayName
         {
-            get
-            {
-                return _sourceDisplayName;
-            }
+            get => _sourceDisplayName;
 
             set
             {
                 if (value == _sourceDisplayName)
                     return;
                 SetProperty(ref _sourceDisplayName, value);
-
             }
         }
 
@@ -642,26 +516,23 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(17)]
         public bool IsFilterByMessageRequestText
         {
-            get
-            {
-                return _isFilterByMessageRequestText;
-            }
+            get => _isFilterByMessageRequestText;
 
             set
             {
                 if (value == _isFilterByMessageRequestText)
                     return;
                 SetProperty(ref _isFilterByMessageRequestText, value);
-
             }
         }
 
-       
+
         private bool _isReplyToPageMessagesChecked;
+
         [ProtoMember(18)]
         public bool IsReplyToPageMessagesChecked
         {
-            get { return _isReplyToPageMessagesChecked; }
+            get => _isReplyToPageMessagesChecked;
             set
             {
                 if (value == _isReplyToPageMessagesChecked)
@@ -672,13 +543,11 @@ namespace DominatorHouseCore.Models.FacebookModels
 
 
         private string _ownPages = string.Empty;
+
         [ProtoMember(19)]
         public string OwnPages
         {
-            get
-            {
-                return _ownPages;
-            }
+            get => _ownPages;
 
             set
             {
@@ -717,7 +586,5 @@ namespace DominatorHouseCore.Models.FacebookModels
                 ex.DebugLog();
             }
         }*/
-
     }
-
 }

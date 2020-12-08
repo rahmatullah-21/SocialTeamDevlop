@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Settings
 {
@@ -11,29 +15,24 @@ namespace DominatorHouseCore.Settings
         [ProtoMember(1)]
         public string QueryType
         {
-            get
-            {
-                return _queryType;
-            }
+            get => _queryType;
             set
             {
-                if (_queryType == null & _queryType == value)
+                if ((_queryType == null) & (_queryType == value))
                     return;
                 SetProperty(ref _queryType, value);
             }
         }
 
         private string _query;
+
         [ProtoMember(2)]
         public string Query
         {
-            get
-            {
-                return _query;
-            }
+            get => _query;
             set
             {
-                if (_query == null & _query == value)
+                if ((_query == null) & (_query == value))
                     return;
                 SetProperty(ref _query, value);
             }
@@ -41,13 +40,14 @@ namespace DominatorHouseCore.Settings
 
 
         private bool _customFilter;
+
         [ProtoMember(3)]
         public bool CustomFilter
         {
-            get { return _customFilter; }
+            get => _customFilter;
             set
             {
-                if (_customFilter == false & _customFilter == value)
+                if ((_customFilter == false) & (_customFilter == value))
                     return;
                 SetProperty(ref _customFilter, value);
             }

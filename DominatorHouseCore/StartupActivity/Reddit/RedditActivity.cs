@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Interfaces.StartUp;
+﻿#region
+
+using DominatorHouseCore.Interfaces.StartUp;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Reddit
 {
@@ -6,7 +10,6 @@ namespace DominatorHouseCore.StartupActivity.Reddit
     {
         public BaseActivity GetActivity(string activity)
         {
-
             switch (activity)
             {
                 case "Follow":

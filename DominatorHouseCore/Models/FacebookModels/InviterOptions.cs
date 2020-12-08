@@ -1,9 +1,12 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
-
     public interface IInviterOptions
     {
 //        bool IsSendInvitationInMessanger { get; set; }
@@ -19,29 +22,22 @@ namespace DominatorHouseCore.Models.FacebookModels
 //        bool IsReinvite { get; set; }
 //
 //        int SendMessageAfterDays { get; set; }
-
-      
     }
 
 
     public class InviterOptions : BindableBase, IInviterOptions
     {
-
         private bool _isSendInvitationInMessanger;
 
         [ProtoMember(1)]
         public bool IsSendInvitationInMessanger
         {
-            get
-            {
-                return _isSendInvitationInMessanger;
-            }
+            get => _isSendInvitationInMessanger;
             set
             {
                 if (value == _isSendInvitationInMessanger)
                     return;
                 SetProperty(ref _isSendInvitationInMessanger, value);
-
             }
         }
 
@@ -50,16 +46,12 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(2)]
         public bool IsSendInvitationWithNote
         {
-            get
-            {
-                return _isSendInvitationWithNote;
-            }
+            get => _isSendInvitationWithNote;
             set
             {
                 if (value == _isSendInvitationWithNote)
                     return;
                 SetProperty(ref _isSendInvitationWithNote, value);
-
             }
         }
 
@@ -69,16 +61,12 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(3)]
         public string Note
         {
-            get
-            {
-                return _note;
-            }
+            get => _note;
             set
             {
                 if (value == _note)
                     return;
                 SetProperty(ref _note, value);
-
             }
         }
 
@@ -88,19 +76,14 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(4)]
         public int SendMessageAfterDays
         {
-            get
-            {
-                return _sendMessageAfterDays;
-            }
+            get => _sendMessageAfterDays;
             set
             {
                 if (value == _sendMessageAfterDays)
                     return;
                 SetProperty(ref _sendMessageAfterDays, value);
-
             }
         }
-
 
 
         private bool _isReinvite;
@@ -108,50 +91,40 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(5)]
         public bool IsReinvite
         {
-            get
-            {
-                return _isReinvite;
-            }
+            get => _isReinvite;
             set
             {
                 if (value == _isReinvite)
                     return;
                 SetProperty(ref _isReinvite, value);
-
             }
         }
 
         private bool _isInviteWithNoteOptionVisible = true;
+
         [ProtoMember(6)]
         public bool IsInviteWithNoteOptionVisible
         {
-            get
-            {
-                return _isInviteWithNoteOptionVisible;
-            }
+            get => _isInviteWithNoteOptionVisible;
             set
             {
                 if (value == _isInviteWithNoteOptionVisible)
                     return;
                 SetProperty(ref _isInviteWithNoteOptionVisible, value);
-
             }
         }
 
         private bool _isInviteWithNoteOptionVisibleEvent;
+
         [ProtoMember(7)]
         public bool IsInviteWithNoteOptionVisibleEvent
         {
-            get
-            {
-                return _isInviteWithNoteOptionVisibleEvent;
-            }
+            get => _isInviteWithNoteOptionVisibleEvent;
             set
             {
                 if (value == _isInviteWithNoteOptionVisibleEvent)
                     return;
                 SetProperty(ref _isInviteWithNoteOptionVisibleEvent, value);
-
             }
         }
 

@@ -1,15 +1,17 @@
 ﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings.PostTumblrSettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <Grid x:Name="MainGrid">
         <StackPanel Orientation="Vertical">
             <CheckBox Margin="2" Content="{DynamicResource LangKeyTagUsers}" IsChecked="{Binding IsTagUser}" />
-            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" IsEnabled="{Binding IsTagUser}" AcceptsReturn="True"
-                     Text="{Binding TagUserList}" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddTagUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" IsEnabled="{Binding IsTagUser}"
+                     AcceptsReturn="True"
+                     Text="{Binding TagUserList}" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddTagUsers}"
+                     Margin="2" TextWrapping="Wrap" Height="60" Width="404" />
         </StackPanel>
     </Grid>
 </UserControl>

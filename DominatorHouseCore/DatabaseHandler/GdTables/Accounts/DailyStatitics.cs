@@ -1,5 +1,9 @@
-﻿using SQLite;
+﻿#region
+
 using System;
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 {
@@ -12,21 +16,15 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
         public int Id { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        public DateTime Date
-        { get; set; }
+        public DateTime Date { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public int Followers
-        { get; set; }
+        public int Followers { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public int Followings
-        { get; set; }
+        public int Followings { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public int Uploads
-        { get; set; }
-
-
+        public int Uploads { get; set; }
     }
 }

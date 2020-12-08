@@ -1,18 +1,18 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using CommonServiceLocator;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
-using CommonServiceLocator;
 using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.ConfigControl
 {
     /// <summary>
-    /// Interaction logic for Twitter.xaml
+    ///     Interaction logic for Twitter.xaml
     /// </summary>
-    public partial class Twitter : UserControl
+    public partial class Twitter
     {
-        IOtherConfigFileManager _otherConfigFileManager;
-        private TwitterModel TwitterModel { get; set; } = new TwitterModel();
+        private readonly IOtherConfigFileManager _otherConfigFileManager;
+
         private Twitter()
         {
             InitializeComponent();
@@ -20,14 +20,10 @@ namespace DominatorUIUtility.ConfigControl
             TwitterModel = _otherConfigFileManager.GetOtherConfig<TwitterModel>() ?? TwitterModel;
             MainGrid.DataContext = TwitterModel;
         }
-        private static Twitter ObjTwitter;
 
-        public static Twitter GetSingeltonObjectTwitter()
-        {
-            return ObjTwitter ?? (ObjTwitter = new Twitter());
-        }
+        private TwitterModel TwitterModel { get; } = new TwitterModel();
 
-        private void BtnSave_OnClick(object sender, System.Windows.RoutedEventArgs e)
+        private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
             if (_otherConfigFileManager.SaveOtherConfig(TwitterModel))
                 Dialog.ShowDialog("Success", "Twitter Configuration sucessfully saved !!");

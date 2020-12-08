@@ -5,19 +5,19 @@ namespace DominatorUIUtility.Behaviours
 {
     public static class PasswordBoxHelper
     {
-
         public static readonly DependencyProperty PasswordProperty =
-              DependencyProperty.RegisterAttached("Password",
-              typeof(string), typeof(PasswordBoxHelper),
-              new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
+            DependencyProperty.RegisterAttached("Password",
+                typeof(string), typeof(PasswordBoxHelper),
+                new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
 
         public static readonly DependencyProperty AttachProperty =
             DependencyProperty.RegisterAttached("Attach",
-            typeof(bool), typeof(PasswordBoxHelper), new PropertyMetadata(false, Attach));
+                typeof(bool), typeof(PasswordBoxHelper), new PropertyMetadata(false, Attach));
 
         private static readonly DependencyProperty IsPasswordUpdatingProperty =
-           DependencyProperty.RegisterAttached("IsPasswordUpdating", typeof(bool),
-           typeof(PasswordBoxHelper));
+            DependencyProperty.RegisterAttached("IsPasswordUpdating", typeof(bool),
+                typeof(PasswordBoxHelper));
+
         public static void SetAttach(DependencyObject dependencyObject, bool value)
         {
             dependencyObject.SetValue(AttachProperty, value);
@@ -25,12 +25,12 @@ namespace DominatorUIUtility.Behaviours
 
         public static bool GetAttach(DependencyObject dependencyObject)
         {
-            return (bool)dependencyObject.GetValue(AttachProperty);
+            return (bool) dependencyObject.GetValue(AttachProperty);
         }
 
         public static string GetPassword(DependencyObject dependencyObject)
         {
-            return (string)dependencyObject.GetValue(PasswordProperty);
+            return (string) dependencyObject.GetValue(PasswordProperty);
         }
 
         public static void SetPassword(DependencyObject dependencyObject, string value)
@@ -40,7 +40,7 @@ namespace DominatorUIUtility.Behaviours
 
         private static bool GetIsPasswordUpdating(DependencyObject dependencyObject)
         {
-            return (bool)dependencyObject.GetValue(IsPasswordUpdatingProperty);
+            return (bool) dependencyObject.GetValue(IsPasswordUpdatingProperty);
         }
 
         private static void SetIsPasswordUpdating(DependencyObject dependencyObject, bool value)
@@ -51,42 +51,34 @@ namespace DominatorUIUtility.Behaviours
         private static void OnPasswordPropertyChanged(DependencyObject sender,
             DependencyPropertyChangedEventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
-            passwordBox.PasswordChanged -= PasswordChanged;
-
-            if (!GetIsPasswordUpdating(passwordBox))
+            if (sender is PasswordBox passwordBox)
             {
-                passwordBox.Password = (string)e.NewValue;
+                passwordBox.PasswordChanged -= PasswordChanged;
+
+                if (!GetIsPasswordUpdating(passwordBox)) passwordBox.Password = (string) e.NewValue;
+                passwordBox.PasswordChanged += PasswordChanged;
             }
-            passwordBox.PasswordChanged += PasswordChanged;
         }
 
         private static void Attach(DependencyObject sender,
             DependencyPropertyChangedEventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
-
-            if (passwordBox == null)
+            if (!(sender is PasswordBox passwordBox))
                 return;
 
-            if ((bool)e.OldValue)
-            {
-                passwordBox.PasswordChanged -= PasswordChanged;
-            }
+            if ((bool) e.OldValue) passwordBox.PasswordChanged -= PasswordChanged;
 
-            if ((bool)e.NewValue)
-            {
-                passwordBox.PasswordChanged += PasswordChanged;
-            }
+            if ((bool) e.NewValue) passwordBox.PasswordChanged += PasswordChanged;
         }
 
         private static void PasswordChanged(object sender, RoutedEventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
-            SetIsPasswordUpdating(passwordBox, true);
-            SetPassword(passwordBox, passwordBox.Password);
-            SetIsPasswordUpdating(passwordBox, false);
+            if (sender is PasswordBox passwordBox)
+            {
+                SetIsPasswordUpdating(passwordBox, true);
+                SetPassword(passwordBox, passwordBox.Password);
+                SetIsPasswordUpdating(passwordBox, false);
+            }
         }
-    
-}
+    }
 }

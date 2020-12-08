@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Dal.DbMigrations;
+﻿#region
+
+using DominatorHouseCore.Dal.DbMigrations;
 using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.Dal
 {

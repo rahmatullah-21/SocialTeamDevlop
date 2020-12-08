@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Threading;
 using AutoIt;
 using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
     public class AutoItTool
     {
-        public double WidthRatio=1;
-        public double HeightRatio=1;
+        public double WidthRatio = 1;
+        public double HeightRatio = 1;
 
         //public AutoItTool()
         //{
@@ -40,16 +44,18 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public int GetExactHeight(int height)
-           => Convert.ToInt32(height * HeightRatio);
+        public string GetLastCopied()
+        {
+            return AutoItX.ClipGet();
+        }
 
-        public int GetExactWidth(int width)
-           => Convert.ToInt32(width * WidthRatio);
+        public void CopyToClip(string text)
+        {
+            AutoItX.ClipPut(text);
+        }
 
-        public string GetLastCopied() => AutoItX.ClipGet();
-        public void CopyToClip(string text) => AutoItX.ClipPut(text);
-
-        public void MouseClick(MouseKeys key = MouseKeys.Left, int count = 1, double delayBetween = 0.5, double delayBefore = 0, double delayAfter = 0)
+        public void MouseClick(MouseKeys key = MouseKeys.Left, int count = 1, double delayBetween = 0.5,
+            double delayBefore = 0, double delayAfter = 0)
         {
             Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
             var iteration = 0;
@@ -59,6 +65,7 @@ namespace DominatorHouseCore.Utility
                 AutoItX.MouseClick($"{key.ToString().ToUpper()}");
                 iteration++;
             }
+
             Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
         }
 
@@ -66,14 +73,6 @@ namespace DominatorHouseCore.Utility
         {
             Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
             AutoItX.Send(parameter);
-            Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
-        }
-
-        public void PressCtrlPlus(KeyboardKeys key, double delayBefore = 0, double delayAfter = 0)
-        {
-            Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
-            AutoItX.MouseClick();
-            AutoItX.Send($"^{key.ToString().ToLower()}");
             Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
         }
     }

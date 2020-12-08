@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Models;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,7 +7,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -27,28 +31,21 @@ namespace DominatorHouseCore.Converters
             if (collection != null)
             {
                 if (showProxiesWithError ?? false)
-                {
                     collection = collection.Where(a =>
                         a.Status.IndexOf("Fail", StringComparison.InvariantCultureIgnoreCase) >= 0);
-                }
 
                 if (shouldUnssignedProxies ?? false)
-                {
                     collection = collection.Where(a =>
                         a.AccountsAssignedto.Count == 0);
-                }
 
                 if ((filterByGroup ?? false) && !string.IsNullOrWhiteSpace(group))
-                {
                     collection = collection.Where(a =>
                         a.AccountProxy.ProxyGroup.IndexOf(group, StringComparison.InvariantCultureIgnoreCase) >= 0);
-                }
 
                 if (!string.IsNullOrWhiteSpace(filter))
-                {
-                    collection = collection.Where(a => a.AccountProxy.ProxyIp.IndexOf(filter, StringComparison.InvariantCultureIgnoreCase) >= 0
-                                                       || a.AccountProxy.ProxyName.IndexOf(filter, StringComparison.InvariantCultureIgnoreCase) >= 0);
-                }
+                    collection = collection.Where(a =>
+                        a.AccountProxy.ProxyIp.IndexOf(filter, StringComparison.InvariantCultureIgnoreCase) >= 0
+                        || a.AccountProxy.ProxyName.IndexOf(filter, StringComparison.InvariantCultureIgnoreCase) >= 0);
             }
 
             if (collection != null)

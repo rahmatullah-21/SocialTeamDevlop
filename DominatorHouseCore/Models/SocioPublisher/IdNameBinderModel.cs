@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -8,10 +12,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public string Id
         {
-            get
-            {
-                return _id;
-            }
+            get => _id;
             set
             {
                 if (_id == value)
@@ -25,10 +26,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get => _name;
             set
             {
                 if (_name == value)

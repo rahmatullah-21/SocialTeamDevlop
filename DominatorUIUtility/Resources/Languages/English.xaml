@@ -28,7 +28,10 @@
     <system:String x:Key="LangKeyEachPostWillBePublishedToAllSelectedDestinationsIncludingGroupsPagesWalls">(Each Post Will Be Published To All Selected Destinations Including Groups, Pages, Walls)</system:String>
     <system:String x:Key="LangKeySelectDesiredReactionsBelow">(Select Desired Reactions Below)</system:String>
     <system:String x:Key="LangKeySeparateWordsByAComma">(Separate Words By A Comma)</system:String>
-    <system:String x:Key="LangKeyNoActionWillBeExecutedOnAnySocialProfileDuringSelectedTimeIntervalEachAccountHasItsOwnNightModeIfBetterPrecisionIsNeededSpecifyingANightModeForAnAccountDoesNotExemptThatAccountFromGlobalNightMode">* No Action Will Be Executed On Any Social Profile During Selected Time Interval. Each Account Has Its Own Night Mode If Better Precision Is Needed.Specifying A Night Mode For An Account Does Not Exempt That Account From Global Night Mode</system:String>
+    <system:String
+        x:Key="LangKeyNoActionWillBeExecutedOnAnySocialProfileDuringSelectedTimeIntervalEachAccountHasItsOwnNightModeIfBetterPrecisionIsNeededSpecifyingANightModeForAnAccountDoesNotExemptThatAccountFromGlobalNightMode">
+        * No Action Will Be Executed On Any Social Profile During Selected Time Interval. Each Account Has Its Own Night Mode If Better Precision Is Needed.Specifying A Night Mode For An Account Does Not Exempt That Account From Global Night Mode
+    </system:String>
     <system:String x:Key="LangKeyEachDestinationWillReceiveItsOwnPostFromTheList">*Each Destination Will Receive Its Own Post From The List</system:String>
     <system:String x:Key="LangKeyEachDestinationWillUseARandomImageFromTheList">*Each Destination Will Use A Random Image From The List</system:String>
     <system:String x:Key="LangKeyPlusOneThePostAfterPublishingOnGooglePlus">+1 The Post After Publishing On Google Plus</system:String>
@@ -329,7 +332,10 @@
     <system:String x:Key="LangKeyChooseBetween">Choose Between</system:String>
     <system:String x:Key="LangKeyChooseOnlyTheFirstImageForPostsWithMultipleImages">Choose Only The First Image For Posts With Multiple Images</system:String>
     <system:String x:Key="LangKeyChooseRandomPostsFromThePostListInsteadOfTopOne">Choose Random Posts From The Post List (Instead Of Top One)</system:String>
-    <system:String x:Key="LangKeyChooseTheFirstCategoryWhenNoCategoryMatchesYourKeywordsIfUncheckedThePostWillNotBePublishedOnCommunity">Choose The First Category When No Category Matches Your Keywords.If Unchecked,The Post Will Not Be Published On Community.</system:String>
+    <system:String
+        x:Key="LangKeyChooseTheFirstCategoryWhenNoCategoryMatchesYourKeywordsIfUncheckedThePostWillNotBePublishedOnCommunity">
+        Choose The First Category When No Category Matches Your Keywords.If Unchecked,The Post Will Not Be Published On Community.
+    </system:String>
     <system:String x:Key="LangKeyChooseVideoCover">Choose Video Cover</system:String>
     <system:String x:Key="LangKeyClear">Clear</system:String>
     <system:String x:Key="LangKeyClearAllSources">Clear All Sources</system:String>
@@ -402,7 +408,10 @@
     <system:String x:Key="LangKeyCompanyOrganizatinOrInstitute">Company, Organizatin Or Institute</system:String>
     <system:String x:Key="LangKeyCompleted">Completed</system:String>
     <system:String x:Key="LangKeyConfiguration">Configuration</system:String>
-    <system:String x:Key="LangKeyConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
+    <system:String
+        x:Key="LangKeyConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
     <system:String x:Key="LangKeyConfigurePostingIntervalForEachTimer">Configure Posting Interval For Each Timer</system:String>
     <system:String x:Key="LangKeyConnectedBefore">Connected Before</system:String>
     <system:String x:Key="LangKeyConnectedOrRequestedUserSources">Connected Or Requested User Sources :</system:String>
@@ -519,7 +528,10 @@
     <system:String x:Key="LangKeyDeleteCommentsPerHour">Delete Comments Per Hour</system:String>
     <system:String x:Key="LangKeyDeleteCommentsPerJob">Delete Comments Per Job</system:String>
     <system:String x:Key="LangKeyDeleteCommentsPerWeek">Delete Comments Per Week</system:String>
-    <system:String x:Key="LangKeyDeleteCommentsThatContainAnyOfTheFollowingWordSeparateTheWordWithCommaToUseWildcardsAdd*">Delete Comments That Contain Any Of The Following Word, Separate The Word With Comma(To Use Wildcards Add*)</system:String>
+    <system:String
+        x:Key="LangKeyDeleteCommentsThatContainAnyOfTheFollowingWordSeparateTheWordWithCommaToUseWildcardsAdd*">
+        Delete Comments That Contain Any Of The Following Word, Separate The Word With Comma(To Use Wildcards Add*)
+    </system:String>
     <system:String x:Key="LangKeyDeleteDirectMediaOlderThan">Delete Direct Media Older Than</system:String>
     <system:String x:Key="LangKeyDeleteFromSourceFolderAsWell">Delete From Source Folder As Well</system:String>
     <system:String x:Key="LangKeyDeleteLimits">Delete Limits</system:String>
@@ -679,7 +691,10 @@
     <system:String x:Key="LangKeyEnableRetweetCommentsAfterPostsIsRetweeted">Enable Retweet Comments After Posts Is Retweeted.</system:String>
     <system:String x:Key="LangKeyEnableRetweetTweetAfterComment">Enable Retweet Tweet After Comment</system:String>
     <system:String x:Key="LangKeyEnableSignatureToAddACustomTextAtTheEndOfYourPosts">Enable Signature To Add A Custom Text At The End Of Your Posts</system:String>
-    <system:String x:Key="LangKeyEnableTheOptionIfYouWantToDominatorToRegularlyCheckForNewDirectMessagesReceivedAndCreateNewMessageOnTheSendMessageTabToAutoReplyToThem">Enable The Option If You Want To Dominator To Regularly Check For New Direct Messages Received And Create New Message On The Send Message Tab To Auto Reply To Them</system:String>
+    <system:String
+        x:Key="LangKeyEnableTheOptionIfYouWantToDominatorToRegularlyCheckForNewDirectMessagesReceivedAndCreateNewMessageOnTheSendMessageTabToAutoReplyToThem">
+        Enable The Option If You Want To Dominator To Regularly Check For New Direct Messages Received And Create New Message On The Send Message Tab To Auto Reply To Them
+    </system:String>
     <system:String x:Key="LangKeyEnableTryCommentsAfterPinsIsTriedTryBetween">Enable Try Comments After Pins Is Tried. Try Between</system:String>
     <system:String x:Key="LangKeyEnableTryDifferentUsersAcrossAllPinterestAccountsConfiguredInPinterest">Enable Try Different Users Across All Pinterest Accounts Configured In Pinterest</system:String>
     <system:String x:Key="LangKeyEnableWatermarkOnImagePosts">Enable Watermark On Image Posts</system:String>
@@ -818,7 +833,10 @@
     <system:String x:Key="LangKeyFontSize">Font Size:</system:String>
     <system:String x:Key="LangKeyForTumblrItRemovedForImagePostsAsTheLinkIsAttechedToTheImage">For Tumblr  - It Removed For Image Posts - As The Link Is Atteched To The Image.</system:String>
     <system:String x:Key="LangKeyForceCampaignsToKeepTheSameCreationDateOnPostsSentFromDrafts">Force Campaigns To Keep The Same Creation Date On Posts Sent From Drafts</system:String>
-    <system:String x:Key="LangKeyForceKillEmbeddedBrowsersExperimentalUseWhenEmbeddedBrowserProcessesAreNotCorrectlyKilled">Force Kill Embedded Browsers (Experimental - Use When Embedded Browser Processes Are Not Correctly Killed)</system:String>
+    <system:String
+        x:Key="LangKeyForceKillEmbeddedBrowsersExperimentalUseWhenEmbeddedBrowserProcessesAreNotCorrectlyKilled">
+        Force Kill Embedded Browsers (Experimental - Use When Embedded Browser Processes Are Not Correctly Killed)
+    </system:String>
     <system:String x:Key="LangKeyForward">Forward</system:String>
     <system:String x:Key="LangKeyFriday">Friday</system:String>
     <system:String x:Key="LangKeyFriendOfFriend">Friend Of Friend</system:String>
@@ -902,12 +920,30 @@
     <system:String x:Key="LangKeyHour">Hour</system:String>
     <system:String x:Key="LangKeyHours">Hours</system:String>
     <system:String x:Key="LangKeyHoursBeforeExecutingANewSynchronisationOnAnAccountTheActualValueIsRandomized">Hours Before Executing A New Synchronisation On An Account.(The Actual Value Is Randomized)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAFacebookAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Facebook Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAInstagramAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Instagram Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAPinterestAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Pinterest Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForATumblrAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Tumblr Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForATwitterAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Twitter Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAYoutubeAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Youtube Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAFacebookAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Facebook Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAInstagramAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Instagram Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAPinterestAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Pinterest Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForATumblrAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Tumblr Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForATwitterAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Twitter Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAYoutubeAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Youtube Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
     <system:String x:Key="LangKeyIgnore">Ignore</system:String>
     <system:String x:Key="LangKeyIgnoreAds">Ignore Ads</system:String>
     <system:String x:Key="LangKeyIgnoreAlbums">Ignore Albums</system:String>
@@ -1802,11 +1838,17 @@
     <system:String x:Key="LangKeyReblogPost">Reblog Post</system:String>
     <system:String x:Key="LangKeyRecentColors">Recent Colors</system:String>
     <system:String x:Key="LangKeyRecreateDesktopShortcutAtStartup">Recreate Desktop Shortcut At Startup</system:String>
-    <system:String x:Key="LangKeyRecreateTheDashboardWindowEachTimeItsVisitedCheckThisIfYouHaveIssuesWithTheGraphFromStatistics">Recreate The Dashboard Window Each Time Its Visited (Check This If You Have Issues With The Graph From Statistics</system:String>
+    <system:String
+        x:Key="LangKeyRecreateTheDashboardWindowEachTimeItsVisitedCheckThisIfYouHaveIssuesWithTheGraphFromStatistics">
+        Recreate The Dashboard Window Each Time Its Visited (Check This If You Have Issues With The Graph From Statistics
+    </system:String>
     <system:String x:Key="LangKeyReddit">Reddit</system:String>
     <system:String x:Key="LangKeyRefresh">Refresh</system:String>
     <system:String x:Key="LangKeyRefreshBlacklistedUsersList">Refresh Blacklisted Users List</system:String>
-    <system:String x:Key="LangKeyRefreshPageAndRetryPostIfFacebookDoesNotExtractAnImagePreviewFromALinkRefreshingThePageAndRetryingThePostNormallyFixesTheIssue">Refresh Page And Retry Post If Facebook Does Not Extract An Image Preview From A Link (Refreshing The Page And Retrying The Post Normally Fixes The Issue)</system:String>
+    <system:String
+        x:Key="LangKeyRefreshPageAndRetryPostIfFacebookDoesNotExtractAnImagePreviewFromALinkRefreshingThePageAndRetryingThePostNormallyFixesTheIssue">
+        Refresh Page And Retry Post If Facebook Does Not Extract An Image Preview From A Link (Refreshing The Page And Retrying The Post Normally Fixes The Issue)
+    </system:String>
     <system:String x:Key="LangKeyRefreshWhitelistedUsersList">Refresh Whitelisted Users List</system:String>
     <system:String x:Key="LangKeyRelikePost">Relike Post</system:String>
     <system:String x:Key="LangKeyRemove">Remove</system:String>
@@ -1982,7 +2024,10 @@
     <system:String x:Key="LangKeySeconds">Seconds</system:String>
     <system:String x:Key="LangKeySecondsAfterEachScrape">Seconds After Each Scrape</system:String>
     <system:String x:Key="LangKeySecondsBeforeIssuingA505Error">Seconds Before Issuing A 505 Error.</system:String>
-    <system:String x:Key="LangKeySecondsBeforePublishingTheSamePostListItemOnANewDestinationActualValueIsChosenAtRandomAroundTarget">Seconds Before Publishing The Same Post List Item On A New Destination. (Actual Value Is Chosen At Random Around Target)</system:String>
+    <system:String
+        x:Key="LangKeySecondsBeforePublishingTheSamePostListItemOnANewDestinationActualValueIsChosenAtRandomAroundTarget">
+        Seconds Before Publishing The Same Post List Item On A New Destination. (Actual Value Is Chosen At Random Around Target)
+    </system:String>
     <system:String x:Key="LangKeySecondsBetweenEachComment">Seconds Between Each Comment</system:String>
     <system:String x:Key="LangKeySecondsBetweenEachDelete">Seconds Between Each Delete</system:String>
     <system:String x:Key="LangKeySecondsBetweenEachLike">Seconds Between Each Like.</system:String>
@@ -2202,7 +2247,10 @@
     <system:String x:Key="LangKeyStop">Stop</system:String>
     <system:String x:Key="LangKeyStopAfter">Stop After</system:String>
     <system:String x:Key="LangKeyStopAllAccountsIfMoreThan">Stop All Accounts If More Than</system:String>
-    <system:String x:Key="LangKeyStopClickableImagePostIfTheLinkPreviewDoesNotShowAnImageInsteadOfDeletingThePostAtTheEnd">Stop Clickable Image Post If The Link Preview Does Not Show An Image (Instead Of Deleting The Post At The End)</system:String>
+    <system:String
+        x:Key="LangKeyStopClickableImagePostIfTheLinkPreviewDoesNotShowAnImageInsteadOfDeletingThePostAtTheEnd">
+        Stop Clickable Image Post If The Link Preview Does Not Show An Image (Instead Of Deleting The Post At The End)
+    </system:String>
     <system:String x:Key="LangKeyStopConnectionRequestTool">Stop Connection Request Tool</system:String>
     <system:String x:Key="LangKeyStopFollowAndStartUnfollowTool">Stop Follow And Start Unfollow Tool</system:String>
     <system:String x:Key="LangKeyStopFollowButDoNotStartUnfollowTool">Stop Follow But Do Not Start Unfollow Tool</system:String>
@@ -2268,97 +2316,337 @@
     <system:String x:Key="LangKeyTheTextContainingTheFollowingToken">The Text Containing The Following Token</system:String>
     <system:String x:Key="LangKeyTheToolUnfollowedATotalOf0Users">The Tool Unfollowed A Total Of 0 Users.</system:String>
     <system:String x:Key="LangKeyTheme">Theme</system:String>
-    <system:String x:Key="LangKeyTheseAccountSAreAlreadyRunningWithHashtagscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndWillRemoveThisAccountFromTheCampaign">These Account(S) Are Already Running With Hashtagscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Will Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountSAreAlreadyRunningWithMediaunlikerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndWillRemoveThisAccountFromTheCampaign">These Account(S) Are Already Running With Mediaunliker Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Will Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountSAreAlreadyRunningWithSendmessagetonewfollowersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndWillRemoveThisAccountFromTheCampaign">These Account(S) Are Already Running With Sendmessagetonewfollowers Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Will Remove This Account From The Campaign.</system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountSAreAlreadyRunningWithHashtagscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndWillRemoveThisAccountFromTheCampaign">
+        These Account(S) Are Already Running With Hashtagscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Will Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountSAreAlreadyRunningWithMediaunlikerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndWillRemoveThisAccountFromTheCampaign">
+        These Account(S) Are Already Running With Mediaunliker Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Will Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountSAreAlreadyRunningWithSendmessagetonewfollowersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndWillRemoveThisAccountFromTheCampaign">
+        These Account(S) Are Already Running With Sendmessagetonewfollowers Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Will Remove This Account From The Campaign.
+    </system:String>
     <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWith">These Accounts Are Already Running With</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAcceptconnectionrequestConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Acceptconnectionrequest Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAnswersScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Answers Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAutoReplyConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Auto Reply Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAutoReplyToMessageConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Auto Reply To Message Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAutoReplyToNewMessageConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Auto Reply To New Message Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAutoreplytonewmessagesConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Autoreplytonewmessages Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithBlockfollowerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Blockfollower Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithBoardscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Boardscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithBroadcastMessageConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Broadcast Message Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithBroadcastMessegesConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Broadcast Messeges Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithBroadcastmessagesConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Broadcastmessages Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithChannelscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Channelscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithCommentConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Comment Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithCommentScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Comment Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithCompanyscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Companyscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithConnectionrequestConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Connectionrequest Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithCreateBoardConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Create Board Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDeleteConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Delete Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAcceptconnectionrequestConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Acceptconnectionrequest Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAnswersScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Answers Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAutoReplyConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Auto Reply Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAutoReplyToMessageConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Auto Reply To Message Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAutoReplyToNewMessageConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Auto Reply To New Message Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithAutoreplytonewmessagesConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Autoreplytonewmessages Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithBlockfollowerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Blockfollower Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithBoardscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Boardscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithBroadcastMessageConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Broadcast Message Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithBroadcastMessegesConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Broadcast Messeges Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithBroadcastmessagesConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Broadcastmessages Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithChannelscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Channelscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithCommentConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Comment Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithCommentScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Comment Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithCompanyscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Companyscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithConnectionrequestConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Connectionrequest Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithCreateBoardConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Create Board Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDeleteConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Delete Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
     <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDeletePinsConfigurationFromAnotherCampaign">These Accounts Are Already Running With Delete Pins Configuration From Another Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDeletecommentConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Deletecomment Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDeletepostConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Deletepost Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDislikeConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Dislike Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDownvoteAnswerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Downvote Answer Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDownvoteQuestionsConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Downvote Questions Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithFanpageLikerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Fanpage Liker Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithFanpageScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Fanpage Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithFollowBackConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Follow Back Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithFollowConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Follow Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithGroupScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Group Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithGroupinviterConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Groupinviter Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithGroupjoinerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Groupjoiner Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithGroupmemberscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Groupmemberscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithGroupunjoinerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Groupunjoiner Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithIncommingFriendRequestConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Incomming Friend Request Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithJobscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Jobscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithLikeConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Like Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithLikecommentConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Likecomment Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithLiketocommentConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Liketocomment Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithMessageConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Message Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithMuteConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Mute Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithOtherConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Other Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithPhotoscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Photoscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithPinscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Pinscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithPostLikerCommentorConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Post Liker Commentor Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithPostscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Postscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithProfileScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Profile Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithProfileendorsementConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Profileendorsement Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithRemoveorwithdrawconnectionsConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Removeorwithdrawconnections Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithReplytocommentConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Replytocomment Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithReportAnswersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Report Answers Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithReportUsersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Report Users Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithRepostConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Repost Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithReposterConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Reposter Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithRetweetConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Retweet Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSalesnavigatoruserscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Salesnavigatoruserscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSendFriendRequestConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Send Friend Request Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSendMessageToNewFollowersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Send Message To New Followers Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSendgreetingstoconnectionsConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Sendgreetingstoconnections Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSendmessagetogroupmembersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Sendmessagetogroupmembers Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSendmessagetonewconnectionConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Sendmessagetonewconnection Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithShareConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Share Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSubscribeConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Subscribe Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithTryConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Try Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithTweetscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Tweetscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUnfollowConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Unfollow Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUnfriendConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Unfriend Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUnsubscribeConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Unsubscribe Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUpvoteAnswersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Upvote Answers Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUpvoteConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Upvote Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUrlScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Url Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUserscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Userscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithViewincreaserConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Viewincreaser Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
-    <system:String x:Key="LangKeyTheseAccountsAreAlreadyRunningWithWithdrawconnectionrequestConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">These Accounts Are Already Running With Withdrawconnectionrequest Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDeletecommentConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Deletecomment Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDeletepostConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Deletepost Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDislikeConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Dislike Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDownvoteAnswerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Downvote Answer Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithDownvoteQuestionsConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Downvote Questions Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithFanpageLikerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Fanpage Liker Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithFanpageScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Fanpage Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithFollowBackConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Follow Back Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithFollowConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Follow Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithGroupScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Group Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithGroupinviterConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Groupinviter Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithGroupjoinerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Groupjoiner Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithGroupmemberscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Groupmemberscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithGroupunjoinerConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Groupunjoiner Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithIncommingFriendRequestConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Incomming Friend Request Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithJobscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Jobscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithLikeConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Like Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithLikecommentConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Likecomment Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithLiketocommentConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Liketocomment Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithMessageConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Message Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithMuteConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Mute Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithOtherConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Other Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithPhotoscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Photoscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithPinscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Pinscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithPostLikerCommentorConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Post Liker Commentor Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithPostscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Postscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithProfileScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Profile Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithProfileendorsementConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Profileendorsement Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithRemoveorwithdrawconnectionsConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Removeorwithdrawconnections Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithReplytocommentConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Replytocomment Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithReportAnswersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Report Answers Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithReportUsersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Report Users Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithRepostConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Repost Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithReposterConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Reposter Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithRetweetConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Retweet Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSalesnavigatoruserscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Salesnavigatoruserscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSendFriendRequestConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Send Friend Request Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSendMessageToNewFollowersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Send Message To New Followers Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSendgreetingstoconnectionsConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Sendgreetingstoconnections Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSendmessagetogroupmembersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Sendmessagetogroupmembers Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSendmessagetonewconnectionConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Sendmessagetonewconnection Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithShareConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Share Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithSubscribeConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Subscribe Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithTryConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Try Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithTweetscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Tweetscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUnfollowConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Unfollow Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUnfriendConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Unfriend Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUnsubscribeConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Unsubscribe Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUpvoteAnswersConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Upvote Answers Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUpvoteConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Upvote Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUrlScraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Url Scraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithUserscraperConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Userscraper Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithViewincreaserConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Viewincreaser Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
+    <system:String
+        x:Key="LangKeyTheseAccountsAreAlreadyRunningWithWithdrawconnectionrequestConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        These Accounts Are Already Running With Withdrawconnectionrequest Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
     <system:String x:Key="LangKeyThisIsCommentModel">This Is Comment Model</system:String>
     <system:String x:Key="LangKeyThisIsLikerModel">This Is Liker Model</system:String>
     <system:String x:Key="LangKeyThisIsUsedForInstagram">This Is Used For Instagram</system:String>
-    <system:String x:Key="LangKeyThisModuleHelpsToAutomateCreatingMultipleEventsFromMultipleAccountsAtOnceYouCanCreatePublicOrPrivateEventAlsoGiveYouOptionToHostYourPublicEventsByPages">This Module Helps To Automate Creating Multiple Events From Multiple Accounts At Once. You Can Create Public Or Private Event. Also Give You Option To Host Your Public Events By Pages.</system:String>
+    <system:String
+        x:Key="LangKeyThisModuleHelpsToAutomateCreatingMultipleEventsFromMultipleAccountsAtOnceYouCanCreatePublicOrPrivateEventAlsoGiveYouOptionToHostYourPublicEventsByPages">
+        This Module Helps To Automate Creating Multiple Events From Multiple Accounts At Once. You Can Create Public Or Private Event. Also Give You Option To Host Your Public Events By Pages.
+    </system:String>
     <system:String x:Key="LangKeyThisModuleHelpsToScrapeTheListOfFollowersAndFollowingsOfYourCustomInstagramUsersList">This Module Helps To Scrape The List Of Followers And Followings Of Your Custom Instagram Users List.</system:String>
-    <system:String x:Key="LangKeyThisModuleHelpsYouToLikeOrCommentOrDoBothOnYourCustomListOfPostsOrOnPostsOfYourOwnFollowersFollowingsOrCanFindByKeywords">This Module Helps You To Like Or Comment Or Do Both On Your Custom List Of Posts, Or On Posts Of Your Own Followers, Followings Or Can Find By Keywords.</system:String>
-    <system:String x:Key="LangKeyThisModuleHelpsYouToSearchAndFindImagesWithKeywordsSpecificUsersListSomeonesFollowers/FollowingsEtcAndRepostThemOnInstagramAsYourOwn">This Module Helps You To Search And Find Images With Keywords, Specific Users List, Someones Followers/Followings Etc And Repost Them On Instagram As Your Own.</system:String>
-    <system:String x:Key="LangKeyThisModuleHelpsYouToTryOrCommentOrDoBothOnYourCustomListOfPinsOrOnPinsOfYourOwnFollowersFollowingsOrCanFindByKeywords">This Module Helps You To Try Or Comment Or Do Both On Your Custom List Of Pins, Or On Pins Of Your Own Followers, Followings Or Can Find By Keywords.</system:String>
+    <system:String
+        x:Key="LangKeyThisModuleHelpsYouToLikeOrCommentOrDoBothOnYourCustomListOfPostsOrOnPostsOfYourOwnFollowersFollowingsOrCanFindByKeywords">
+        This Module Helps You To Like Or Comment Or Do Both On Your Custom List Of Posts, Or On Posts Of Your Own Followers, Followings Or Can Find By Keywords.
+    </system:String>
+    <system:String
+        x:Key="LangKeyThisModuleHelpsYouToSearchAndFindImagesWithKeywordsSpecificUsersListSomeonesFollowers/FollowingsEtcAndRepostThemOnInstagramAsYourOwn">
+        This Module Helps You To Search And Find Images With Keywords, Specific Users List, Someones Followers/Followings Etc And Repost Them On Instagram As Your Own.
+    </system:String>
+    <system:String
+        x:Key="LangKeyThisModuleHelpsYouToTryOrCommentOrDoBothOnYourCustomListOfPinsOrOnPinsOfYourOwnFollowersFollowingsOrCanFindByKeywords">
+        This Module Helps You To Try Or Comment Or Do Both On Your Custom List Of Pins, Or On Pins Of Your Own Followers, Followings Or Can Find By Keywords.
+    </system:String>
     <system:String x:Key="LangKeyThisModuleInstachat">This Module Instachat.</system:String>
     <system:String x:Key="LangKeyThisModuleWillHelpYouToPerformProfileSettings">This Module Will Help You To Perform Profile Settings</system:String>
     <system:String x:Key="LangKeyThisModuleWillHelpYouToScrapeTheUsersWhoCommentedOnThePicturesOfGivenUsername">This Module Will Help You To Scrape The Users Who Commented On The Pictures Of Given Username.</system:String>
     <system:String x:Key="LangKeyThisModuleWillHelpYouToScrapeUsersByHashtagsOrCustomListOfPhotoids">This Module Will Help You To Scrape Users By Hashtags Or Custom List Of Photoids.</system:String>
     <system:String x:Key="LangKeyThisModuleWillHelpYouToUnlikeThePhotosUsingPhotoIDsORByUsername">This Module Will Help You To Unlike The Photos Using Photo ID's OR By Username.</system:String>
-    <system:String x:Key="LangKeyThisModulesHelpsToScrapeImagesWithYourCustomKeywordsOrHashtagsAndExportThemDirectlyAsPhotoIdsOrPhotoUrls">This Modules Helps To Scrape Images With Your Custom Keywords Or Hashtags.And Export Them Directly As Photo Ids Or Photo Urls</system:String>
+    <system:String
+        x:Key="LangKeyThisModulesHelpsToScrapeImagesWithYourCustomKeywordsOrHashtagsAndExportThemDirectlyAsPhotoIdsOrPhotoUrls">
+        This Modules Helps To Scrape Images With Your Custom Keywords Or Hashtags.And Export Them Directly As Photo Ids Or Photo Urls
+    </system:String>
     <system:String x:Key="LangKeyThreads">Threads :</system:String>
     <system:String x:Key="LangKeyThursday">Thursday</system:String>
     <system:String x:Key="LangKeyTimeToReceiveEmail">Time To Receive Email</system:String>
@@ -2465,7 +2753,10 @@
     <system:String x:Key="LangKeyUnlikesPerDay">Unlikes Per Day</system:String>
     <system:String x:Key="LangKeyUnlikesPerJob">Unlikes Per Job</system:String>
     <system:String x:Key="LangKeyUnmuteCommunity">Unmute Community</system:String>
-    <system:String x:Key="LangKeyUnselectTheDestinationAfterASuccessfulPostTheCampaignWillPostOnlyOnceInEachDestination">Unselect The Destination After A Successful Post (The Campaign Will Post Only Once In Each Destination)</system:String>
+    <system:String
+        x:Key="LangKeyUnselectTheDestinationAfterASuccessfulPostTheCampaignWillPostOnlyOnceInEachDestination">
+        Unselect The Destination After A Successful Post (The Campaign Will Post Only Once In Each Destination)
+    </system:String>
     <system:String x:Key="LangKeyUnsubscribe">Unsubscribe</system:String>
     <system:String x:Key="LangKeyUnsubscribesPerDay">Unsubscribes Per Day</system:String>
     <system:String x:Key="LangKeyUnsubscribesPerHour">Unsubscribes Per Hour</system:String>
@@ -2518,11 +2809,26 @@
     <system:String x:Key="LangKeyUseSimplifiedMethodForFacebookSharePostsPostingThePagePostLinkInsteadOfShare">Use Simplified Method For Facebook Share Posts (Posting The Page Post Link Instead Of Share)</system:String>
     <system:String x:Key="LangKeyUseSourceTypeFilter">Use Source Type Filter</system:String>
     <system:String x:Key="LangKeyUseTabInsteadOfComma">Use Tab Instead Of Comma (</system:String>
-    <system:String x:Key="LangKeyUseThisFeatureToAddOrDeleteSingle/MultipleAccountsCheckTheActiveAndInactiveStatusUsingAccountChecker">Use This Feature To Add Or Delete Single / Multiple Accounts. Check The Active And Inactive Status Using Account Checker.</system:String>
-    <system:String x:Key="LangKeyUseThisModuleToFindPhotosOfYourCustomizeUsersListOrWithHashtagsAndSaveThemToYourComputer">Use This Module To Find Photos Of Your Customize Users List Or With Hashtags And Save Them To Your Computer.</system:String>
-    <system:String x:Key="LangKeyUseThisModuleToUploadLatestProfilePictureORPostNewPhotosFromMultipleAccountsOnInstagram">Use This Module To Upload Latest Profile Picture OR Post New Photos From Multiple Accounts On Instagram.</system:String>
-    <system:String x:Key="LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectOrInFrontOfWordsWithALengthGreaterThanAGivenValue">Use To Add # In Front Of The Keywords That You Select Or In Front Of Words With A Length Greater Than A Given Value.</system:String>
-    <system:String x:Key="LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectedOrInFrontOfWordsWithALengthGreaterThanAGivenValue">Use To Add # In Front Of The Keywords That You Selected Or In Front Of Words With A Length Greater Than A Given Value.</system:String>
+    <system:String
+        x:Key="LangKeyUseThisFeatureToAddOrDeleteSingle/MultipleAccountsCheckTheActiveAndInactiveStatusUsingAccountChecker">
+        Use This Feature To Add Or Delete Single / Multiple Accounts. Check The Active And Inactive Status Using Account Checker.
+    </system:String>
+    <system:String
+        x:Key="LangKeyUseThisModuleToFindPhotosOfYourCustomizeUsersListOrWithHashtagsAndSaveThemToYourComputer">
+        Use This Module To Find Photos Of Your Customize Users List Or With Hashtags And Save Them To Your Computer.
+    </system:String>
+    <system:String
+        x:Key="LangKeyUseThisModuleToUploadLatestProfilePictureORPostNewPhotosFromMultipleAccountsOnInstagram">
+        Use This Module To Upload Latest Profile Picture OR Post New Photos From Multiple Accounts On Instagram.
+    </system:String>
+    <system:String
+        x:Key="LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectOrInFrontOfWordsWithALengthGreaterThanAGivenValue">
+        Use To Add # In Front Of The Keywords That You Select Or In Front Of Words With A Length Greater Than A Given Value.
+    </system:String>
+    <system:String
+        x:Key="LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectedOrInFrontOfWordsWithALengthGreaterThanAGivenValue">
+        Use To Add # In Front Of The Keywords That You Selected Or In Front Of Words With A Length Greater Than A Given Value.
+    </system:String>
     <system:String x:Key="LangKeyUserAllpost">User Allpost</system:String>
     <system:String x:Key="LangKeyUserBio">User Bio</system:String>
     <system:String x:Key="LangKeyUserBioHasAMinimumNumberOfCharacters">User Bio Has A Minimum Number Of Characters</system:String>
@@ -2612,7 +2918,10 @@
     <system:String x:Key="LangKeyWaitToStartANewPostIfYouHaveMoreThan">Wait To Start A New Post If You Have More Than</system:String>
     <system:String x:Key="LangKeyWallsProfiles">Walls/Profiles</system:String>
     <system:String x:Key="LangKeyWallsProfilesCount">Walls/Profiles Count</system:String>
-    <system:String x:Key="LangKeyWarningTheHashingWillOccurOnlyIfTheMaximumLengthOfThePostIsntExceeded177IfYouHaveAnImage140ForTextOnly">Warning: The Hashing Will Occur Only If The Maximum Length Of The Post Isn't Exceeded (177 If You Have An Image,140 For Text Only)</system:String>
+    <system:String
+        x:Key="LangKeyWarningTheHashingWillOccurOnlyIfTheMaximumLengthOfThePostIsntExceeded177IfYouHaveAnImage140ForTextOnly">
+        Warning: The Hashing Will Occur Only If The Maximum Length Of The Post Isn't Exceeded (177 If You Have An Image,140 For Text Only)
+    </system:String>
     <system:String x:Key="LangKeyWatchVideo">Watch Video</system:String>
     <system:String x:Key="LangKeyWatchVideoTutorials">Watch Video Tutorials</system:String>
     <system:String x:Key="LangKeyWebpageLikeAndComment">Webpage Like And Comment</system:String>
@@ -2688,12 +2997,12 @@ They are replaced with user info.</system:String>
     <system:String x:Key="LangKeyPostTitle">Post Title</system:String>
     <system:String x:Key="LangKeySourceUrl">Source Url</system:String>
 
-    <system:String x:Key="LangKeyImportAccountDescription"  xml:space="preserve">Format :
+    <system:String x:Key="LangKeyImportAccountDescription" xml:space="preserve">Format :
 Type 1. Group Name:SocialNetwork:User Name:Password:Alternate Email (For YouTube)
 Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Alternate Email (For YouTube)
 Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password:Alternate Email (For YouTube)
     </system:String>
-    <system:String x:Key="LangKeyImportProxyDescription"  xml:space="preserve">Format :
+    <system:String x:Key="LangKeyImportProxyDescription" xml:space="preserve">Format :
 Type 1. Group Name:Proxy Name:IP:Port:Proxy User Name:Proxy Password
 Type 2. IP:Port:Proxy User Name:Proxy Password
 Type 3. IP:Port
@@ -2869,7 +3178,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyRemoveVotePerJob">Number Of Upvote Per Job</system:String>
     <system:String x:Key="LangKeyRemoveVotePerWeek">Number Of Upvote Per Week</system:String>
     <system:String x:Key="LangKeyMaxRemoveVotePerDay">Max Remove Votes Per Day</system:String>
-
 
 
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoSendFriendRequests">This Socinator feature helps to automate sending friend requests on Facebook. It allows to search users with different query types and send them friend requests on configured time.</system:String>
@@ -3049,7 +3357,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEndWarning">Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LangKeyQuora">Quora</system:String>
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllQuoraAccountsConfiguredInQuora">Enable Follow Different Users Across All Quora Accounts Configured In Quora</system:String>
-    <system:String x:Key="LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator">Enable Exporting HTML of different connections across all LinkedIn accounts configured in Socinator</system:String>
+    <system:String
+        x:Key="LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator">
+        Enable Exporting HTML of different connections across all LinkedIn accounts configured in Socinator
+    </system:String>
 
     <!--End Added on 19-07-2018-->
     <system:String x:Key="LangKeyOnlyContactInfo">Only contact info</system:String>
@@ -3204,7 +3515,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMessageTextFormat" xml:space="preserve"> Format: &lt;FULLNAME&gt;, &lt;FIRSTNAME&gt;, &lt;LASTNAME&gt;, &lt;MYNAME&gt;, &lt;MYFIRSTNAME&gt;       
     Note: The following tokens are replaced with user info.</system:String>
     <system:String x:Key="LangKeyReinviteInMessanger" xml:space="preserve">Reinvite in messaenger who didn't liked the page in everey</system:String>
-    <system:String x:Key="LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator">Enable send connection request to different users across all LinkedIn accounts configured in Socinator</system:String>
+    <system:String
+        x:Key="LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator">
+        Enable send connection request to different users across all LinkedIn accounts configured in Socinator
+    </system:String>
     <system:String x:Key="LangKeyInviteForEventUrl">Invite For Event Url(s)</system:String>
     <system:String x:Key="LangKeyAfterSentRequestAction">After Sent Request Action</system:String>
     <system:String x:Key="LangKeyAutoVerifyByEmail">Auto verify by Email</system:String>
@@ -3492,7 +3806,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNoOfPostForCommentAndLikeCount">No of post for Comment and Like Count</system:String>
     <system:String x:Key="LangKeyMessageFanpagesTextFormat" xml:space="preserve"> Format: &lt;PageName&gt;, &lt;MYNAME&gt;, &lt;MYFIRSTNAME&gt;       
     Note: The following tokens are replaced with user info.</system:String>
-    <system:String x:Key="LangKeyPostsOfOneEntity" >Posts of each entity (Page/Group/User)</system:String>
+    <system:String x:Key="LangKeyPostsOfOneEntity">Posts of each entity (Page/Group/User)</system:String>
     <system:String x:Key="LangKeyKeywordPages">Keyword Pages</system:String>
     <system:String x:Key="LangKeyKeywordPlaces">Keyword Places</system:String>
     <system:String x:Key="LangKeyPlaceScraper">Place Scraper</system:String>
@@ -3607,7 +3921,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyChangeHashOfMedia">Change hash of Media</system:String>
     <system:String x:Key="LangKeyOwnGroups">Own Groups</system:String>
     <system:String x:Key="LangKeyJoinedGroups">Joined Groups</system:String>
-    <system:String x:Key="LangKeyTweetPostCaptionFormate">[USERNAME][ORIGINALPOSTCAPTION][ACCOUNTUSERNAME] Own Tweetcaption Text
+    <system:String x:Key="LangKeyTweetPostCaptionFormate">
+        [USERNAME][ORIGINALPOSTCAPTION][ACCOUNTUSERNAME] Own Tweetcaption Text
     </system:String>
     <system:String x:Key="LangKeyScrapUserWhomWeMessaged">Scrape users whom we messaged</system:String>
     <system:String x:Key="LangKeySendMessageToFollowers">Send Message To Followers</system:String>
@@ -3672,7 +3987,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyWarningAddPostToPendingDraft">Please add atleast one Post to pending/draft.</system:String>
     <system:String x:Key="LangKey_Save">_Save</system:String>
     <system:String x:Key="LangKeyAlreadyPresent">already present!</system:String>
-    <system:String x:Key="LangKeyConfirmToOverrideAccountRunningWithAnotherCampaign"  xml:space="preserve">This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.
+    <system:String x:Key="LangKeyConfirmToOverrideAccountRunningWithAnotherCampaign" xml:space="preserve">This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.
     Are you sure you want to override previous settings?</system:String>
     <system:String x:Key="LangKeyErrorCampaignNameShouldNotBeEmpty">Campaign name should not be empty. Please provide name for Campaign.</system:String>
     <system:String x:Key="LangKeyErrorCampaignWithSameNameAlreadyExists">Campaign with same name already exists. Please change name of Campaign.</system:String>
@@ -3711,7 +4026,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPinterestConfigurationSaved">Pinterest Configuration successfully saved !!</system:String>
     <system:String x:Key="LangKeyQuoraConfigurationSaved">Quora Configuration successfully saved !!</system:String>
     <system:String x:Key="LangKeyEnterValidFolderPath">Please enter valid folder Path.</system:String>
-    <system:String x:Key="LangKeyConfirmToRestartAfterSoftwareSettingSaved"  xml:space="preserve">Software Settings successfully saved. To apply this setting you need to restart.
+    <system:String x:Key="LangKeyConfirmToRestartAfterSoftwareSettingSaved" xml:space="preserve">Software Settings successfully saved. To apply this setting you need to restart.
 Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyRestartNow">Restart now</system:String>
     <system:String x:Key="LangKeyRestartLater">Restart later</system:String>
@@ -3738,13 +4053,13 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeySelectPathToExport">Please select the path to export.</system:String>
     <system:String x:Key="LangKeySelectCampaignToExport">Please select at least one campaign to export.</system:String>
     <system:String x:Key="LangKeySuccessfullyDuplicated">Successfully duplicated.</system:String>
-    <system:String x:Key="LangKeyConfirmOnIfDeletedCantRecoverBack"  xml:space="preserve">If you delete it, can't recover back 
+    <system:String x:Key="LangKeyConfirmOnIfDeletedCantRecoverBack" xml:space="preserve">If you delete it, can't recover back 
 Are you sure?</system:String>
     <system:String x:Key="LangKeyDeleteAnyway">Delete Anyway</system:String>
     <system:String x:Key="LangKeyDontDelete">Don't delete</system:String>
     <system:String x:Key="LangKeyDeletedSuccessfully">deleted Successfully!</system:String>
     <system:String x:Key="LangKeySelectAtleastOneCampaign">Please select at least one campaign !!</system:String>
-    <system:String x:Key="LangKeyConfirmOnIfDeletedWillDeleteAllSelectedCampaign"  xml:space="preserve">If you delete it will delete all selected campaign permanently 
+    <system:String x:Key="LangKeyConfirmOnIfDeletedWillDeleteAllSelectedCampaign" xml:space="preserve">If you delete it will delete all selected campaign permanently 
 Are you sure?</system:String>
     <system:String x:Key="LangKeyCampaignDeletionCompleted">Campaign deletion operation completed!</system:String>
     <system:String x:Key="LangKeyFailedToSave">Failed to save</system:String>
@@ -3765,7 +4080,7 @@ Are you sure?</system:String>
     <system:String x:Key="LangKeyFriendUrl">Friend Url</system:String>
     <system:String x:Key="LangKeyFriendName">Friend Name</system:String>
     <system:String x:Key="LangKeyChangeLanguage">Change Language</system:String>
-    <system:String x:Key="LangKeyConfirmToSetLanguage"  xml:space="preserve">Set Language Chinese. To apply this setting, you need to restart.
+    <system:String x:Key="LangKeyConfirmToSetLanguage" xml:space="preserve">Set Language Chinese. To apply this setting, you need to restart.
 Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyYes">Yes</system:String>
     <system:String x:Key="LangKeyNo">No</system:String>
@@ -3799,18 +4114,18 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyCampaignHaveNoAccount">Campaign have no account.</system:String>
     <system:String x:Key="LangKeyStatusChangeFailed">Status Change Failed</system:String>
     <system:String x:Key="LangKeyAccountIsntPresentIn">Account isn't present in</system:String>
-    <system:String x:Key="LangKeyConfirmToDeleteCampaign"  xml:space="preserve">Campaign will be deleted permanently from the campaigns.
+    <system:String x:Key="LangKeyConfirmToDeleteCampaign" xml:space="preserve">Campaign will be deleted permanently from the campaigns.
  Are you sure to delete?</system:String>
-    <system:String x:Key="LangKeyConfirmToDeleteSelectedCampaign"  xml:space="preserve">All the selected campaigns will be deleted permanently.
+    <system:String x:Key="LangKeyConfirmToDeleteSelectedCampaign" xml:space="preserve">All the selected campaigns will be deleted permanently.
  Are you sure to delete these Campaigns?</system:String>
     <system:String x:Key="LangKeyWarningSelectCampaignToDelete">Please select any Campaign to delete!</system:String>
-    <system:String x:Key="LangKeyAddedMaxAccountAsPerYourPlan" >You have already added maximum accounts as per your plan</system:String>
+    <system:String x:Key="LangKeyAddedMaxAccountAsPerYourPlan">You have already added maximum accounts as per your plan</system:String>
     <system:String x:Key="LangKeyTheAccountCantBeImportedNetworkNotAvailable">The account {0} can't be imported because {1} is not available.</system:String>
-    <system:String x:Key="LangKeyConfirmToDeleteSelectedAccounts"  xml:space="preserve">All the selected accounts will be deleted permanently.
+    <system:String x:Key="LangKeyConfirmToDeleteSelectedAccounts" xml:space="preserve">All the selected accounts will be deleted permanently.
  Are you sure to delete these accounts?</system:String>
     <system:String x:Key="LangKeyAccountsSuccessfullyExportedTo">Accounts are successfully exported to [ {0} ]</system:String>
     <system:String x:Key="LangKeySelectAccountsToUpdate">Please select some accounts to update !!</system:String>
-    <system:String x:Key="LangKeyCredentialsImportedStartingUpdate"  xml:space="preserve">Imported Credentials successfully.
+    <system:String x:Key="LangKeyCredentialsImportedStartingUpdate" xml:space="preserve">Imported Credentials successfully.
  Starting to update ...</system:String>
     <system:String x:Key="LangKeyUpdatedCredentials">Successfully updated credentials.</system:String>
     <system:String x:Key="LangKeyNoAccountToUpdatecCredentialsOrFormatWrong">No account found to update credentials or the format is wrong.</system:String>
@@ -3833,8 +4148,14 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyThisQuestionShouldBeACompleteSentence">This question should be a complete sentence</system:String>
     <system:String x:Key="LangKeyThisQuestionNeedsMoreDetails">This question needs more details</system:String>
     <system:String x:Key="LangKeyThisQuestionShouldBeShorter">This question should be shorter</system:String>
-    <system:String x:Key="LangKeyThisQuestionShouldBeShorterPleaseRephraseTheQuestionToBeAConciseEasilyUnderstoodQuestionWithFewerThan250Characters">This question should be shorter. Please rephrase the question to be a concise, easily understood question with fewer than 250 characters.</system:String>
-    <system:String x:Key="LangKeyThisQuestionNeedsMoreDetailAddMoreInformationToAskAClearQuestionWrittenAsACompleteSentence">This question needs more detail.Add more information to ask a clear question, written as a complete sentence</system:String>
+    <system:String
+        x:Key="LangKeyThisQuestionShouldBeShorterPleaseRephraseTheQuestionToBeAConciseEasilyUnderstoodQuestionWithFewerThan250Characters">
+        This question should be shorter. Please rephrase the question to be a concise, easily understood question with fewer than 250 characters.
+    </system:String>
+    <system:String
+        x:Key="LangKeyThisQuestionNeedsMoreDetailAddMoreInformationToAskAClearQuestionWrittenAsACompleteSentence">
+        This question needs more detail.Add more information to ask a clear question, written as a complete sentence
+    </system:String>
     <system:String x:Key="LangKeyAddEventsToList">Please Add Events To List.</system:String>
     <system:String x:Key="LangKeyselectAtLeastOneSource">Please select at least one source.</system:String>
     <system:String x:Key="LangKeySelectValidSourceFilter">Please select a valid source filter.</system:String>
@@ -3968,8 +4289,10 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyTypeSomeQuery">Please type some query.</system:String>
     <system:String x:Key="LangKeyAddATimeRangeToRunStopActivity">Please add at least one time range when to run and stop the activity.</system:String>
     <system:String x:Key="LangKeyMessageCopied">Message copied</system:String>
-    <system:String x:Key="LangKeyAsksForSelectingAndOverwritingAccounts">{0} account(s) already set up to run {1} activity. Would you like to overwrite settings of those accounts?
- {2}"</system:String>
+    <system:String x:Key="LangKeyAsksForSelectingAndOverwritingAccounts">
+        {0} account(s) already set up to run {1} activity. Would you like to overwrite settings of those accounts?
+        {2}"
+    </system:String>
     <system:String x:Key="LangKeyErrorActivityIsntConfiguredProperlyForAccount">Error:- {0} activity is not configured properly for this account. Please make sure you have added enough queries and updated time when activity has to be performed and clicked on save button.</system:String>
     <system:String x:Key="LangKeyFatalErrorMessage" xml:space="preserve">NOTE: While you may be able to continue, restarting {0} is advisable.
 Do you want to continue running {0}?</system:String>
@@ -4591,7 +4914,7 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeySelectLocationAndSave">Please Select Location And Save</system:String>
     <system:String x:Key="LangKeyDontLoginAccountAfterProxyManagement">Don't let the account login after assigning/unassigning account to proxy.</system:String>
     <system:String x:Key="LangKeyCantaddAccountToProxyAddingLimitReached">Can't add more accounts to this proxy as you have checked setting 'Add {0} accounts per proxy'</system:String>
-    <system:String x:Key="LangKeyAccountHasWorkingProxyStillWannaReplace"  xml:space="preserve">This account already has a working proxy.
+    <system:String x:Key="LangKeyAccountHasWorkingProxyStillWannaReplace" xml:space="preserve">This account already has a working proxy.
 Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyConfirmToAssignRandProxies">Confirm to assign random proxies</system:String>
     <system:String x:Key="LangKeyNoWorkingProxiesAvailableToAssign">No more working proxies available to assign</system:String>
@@ -4665,10 +4988,10 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyStartActivityBusinessAccount" xml:space="preserve">This will result in stopping all activity from Normal Account and starting activity by Business Account.
 Do you want to continue?</system:String>
     <system:String x:Key="LangKeyDeActivatingBusinessAccountforPinterest">Deactivating Business Account for Pinterest</system:String>
-        <system:String x:Key="LangKeyStartActivityNormalAccount" xml:space="preserve">This will result in stopping all activity from Business Account and starting activity by Normal Account.
+    <system:String x:Key="LangKeyStartActivityNormalAccount" xml:space="preserve">This will result in stopping all activity from Business Account and starting activity by Normal Account.
 Do you want to continue?</system:String>
 
-        <system:String x:Key="LangKeyReportToVideosPerDay">Report To Videos Per Day</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerDay">Report To Videos Per Day</system:String>
     <system:String x:Key="LangKeyReportToVideosPerHour">Report To Videos Per Hour</system:String>
     <system:String x:Key="LangKeyReportToVideosPerJob">Report To Videos Per Job</system:String>
     <system:String x:Key="LangKeyMaximumReportToVideosPerDay">Maximum Report To Videos Per Day</system:String>
@@ -4723,4 +5046,6 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyAccountToCreatePerDay">Max Account To Create Per Day</system:String>
     <system:String x:Key="LangKeyClearAllCookies">Clear All Cookies</system:String>
     <system:String x:Key="LangKeyWannaClearAllCookies">Do you really want to delete all cookies?</system:String>
+    <system:String x:Key="LangKeyCaptchFound">Found ImageCaptcha Security Check</system:String>
+    <system:String x:Key="LangKeyWhatsApp">WhatsApp</system:String>
 </ResourceDictionary>

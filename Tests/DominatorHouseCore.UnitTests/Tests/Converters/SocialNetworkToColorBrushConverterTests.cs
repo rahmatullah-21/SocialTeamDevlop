@@ -52,9 +52,9 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
         public void should_return_Red_brush_if_value_is_Quora_network()
         {
             value = SocialNetworks.Quora;
-            var expected = Brushes.Red;
-            var result = _sut.Convert(value, value.GetType(), null, CultureInfo.CurrentUICulture);
-            result.Should().Be(expected);
+            var expected = (SolidColorBrush)new BrushConverter().ConvertFrom("#b92b27");
+            var result = (SolidColorBrush)_sut.Convert(value, value.GetType(), null, CultureInfo.CurrentUICulture);
+            result.ToString().Should().Be(expected.ToString());
         }
         [TestMethod]
         public void should_return_null_if_value_is_Social_network()

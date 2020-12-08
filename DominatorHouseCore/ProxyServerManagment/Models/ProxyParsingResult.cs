@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Models;
+﻿#region
+
 using System.Collections.Generic;
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.ProxyServerManagment.Models
 {
@@ -7,7 +11,9 @@ namespace DominatorHouseCore.ProxyServerManagment.Models
     {
         public IReadOnlyCollection<string> InvalidProxies { get; }
         public IReadOnlyCollection<ProxyManagerModel> Proxies { get; }
-        public ProxyParsingResult(IReadOnlyCollection<string> invalidProxies, IReadOnlyCollection<ProxyManagerModel> proxies)
+
+        public ProxyParsingResult(IReadOnlyCollection<string> invalidProxies,
+            IReadOnlyCollection<ProxyManagerModel> proxies)
         {
             InvalidProxies = invalidProxies;
             Proxies = proxies;

@@ -1,12 +1,16 @@
-﻿using System;
+﻿#region
+
+using System;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
     [Serializable]
     [ProtoContract]
-    public class PublisherPostSettings :BindableBase
+    public class PublisherPostSettings : BindableBase
     {
         private GeneralPostSettings _generalPostSettings = new GeneralPostSettings();
         private FdPostSettings _fdPostSettings = new FdPostSettings();
@@ -19,12 +23,9 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(1)]
         public GeneralPostSettings GeneralPostSettings
         {
-            get
-            {
-                return _generalPostSettings;
-            }
+            get => _generalPostSettings;
             set
-            {               
+            {
                 if (_generalPostSettings == value)
                     return;
 
@@ -35,43 +36,43 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(2)]
         public FdPostSettings FdPostSettings
         {
-            get { return _fdPostSettings; }
-            set { SetProperty(ref _fdPostSettings, value); }
+            get => _fdPostSettings;
+            set => SetProperty(ref _fdPostSettings, value);
         }
 
         [ProtoMember(3)]
         public GdPostSettings GdPostSettings
         {
-            get { return _gdPostSettings; }
-            set { SetProperty(ref _gdPostSettings, value); }
+            get => _gdPostSettings;
+            set => SetProperty(ref _gdPostSettings, value);
         }
 
         [ProtoMember(4)]
         public TdPostSettings TdPostSettings
         {
-            get { return _tdPostSettings; }
-            set { SetProperty(ref _tdPostSettings, value); }
+            get => _tdPostSettings;
+            set => SetProperty(ref _tdPostSettings, value);
         }
 
         [ProtoMember(5)]
         public LdPostSettings LdPostSettings
         {
-            get { return _ldPostSettings; }
-            set { SetProperty(ref _ldPostSettings, value); }
+            get => _ldPostSettings;
+            set => SetProperty(ref _ldPostSettings, value);
         }
 
         [ProtoMember(6)]
         public TumberPostSettings TumberPostSettings
         {
-            get { return _tumberPostSettings; }
-            set { SetProperty(ref _tumberPostSettings, value); }
+            get => _tumberPostSettings;
+            set => SetProperty(ref _tumberPostSettings, value);
         }
 
         [ProtoMember(7)]
         public RedditPostSetting RedditPostSetting
         {
-            get { return _redditPostSetting; }
-            set { SetProperty(ref _redditPostSetting, value); }
+            get => _redditPostSetting;
+            set => SetProperty(ref _redditPostSetting, value);
         }
     }
 }

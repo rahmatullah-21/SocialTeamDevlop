@@ -8,10 +8,14 @@ using DominatorUIUtility.ViewModel.SocioPublisher;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherManagePosts.xaml
+    ///     Interaction logic for PublisherManagePosts.xaml
     /// </summary>
-    public partial class PublisherManagePosts : UserControl , INotifyPropertyChanged
+    public partial class PublisherManagePosts : UserControl, INotifyPropertyChanged
     {
+        private static PublisherManagePosts _instance;
+
+        private PublisherManagePostsViewModel _publisherManagePostsViewModel = new PublisherManagePostsViewModel();
+
         public PublisherManagePosts()
         {
             InitializeComponent();
@@ -19,24 +23,18 @@ namespace DominatorUIUtility.Views.SocioPublisher
             PublisherManagePostsViewModel.TabChangeExecute(ConstantVariable.DraftPostList);
         }
 
-        private PublisherManagePostsViewModel _publisherManagePostsViewModel = new PublisherManagePostsViewModel();
         public PublisherManagePostsViewModel PublisherManagePostsViewModel
         {
-            get
-            {
-                return _publisherManagePostsViewModel;
-            }
+            get => _publisherManagePostsViewModel;
             set
             {
-                if(_publisherManagePostsViewModel == value)
+                if (_publisherManagePostsViewModel == value)
                     return;
                 _publisherManagePostsViewModel = value;
                 OnPropertyChanged(nameof(PublisherManagePostsViewModel));
             }
         }
 
-
-        private static PublisherManagePosts _instance;
         public static PublisherManagePosts Instance { get; set; }
             = _instance ?? (_instance = new PublisherManagePosts());
 
@@ -48,6 +46,5 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

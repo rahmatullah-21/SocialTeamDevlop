@@ -1,33 +1,34 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
-using System.Windows;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface ICancelSentRequestViewModel
     {
     }
+
     public class CancelSentRequestViewModel : StartupBaseViewModel, ICancelSentRequestViewModel
     {
         public CancelSentRequestViewModel(IRegionManager region) : base(region)
         {
-            UnfriendOptionModel = new UnfriendOption()
+            UnfriendOptionModel = new UnfriendOption
             {
                 SourceDisplayName = Application.Current.FindResource("LangKeyCancelSentRequestSource")?.ToString(),
                 BySoftwareDisplayName = Application.Current.FindResource("LangKeyPeopleAddedBySoftware")?.ToString(),
-                OutsideSoftwareDisplayName = Application.Current.FindResource("LangKeyPeopleAddedOutsideSoftware")?.ToString()
+                OutsideSoftwareDisplayName =
+                    Application.Current.FindResource("LangKeyPeopleAddedOutsideSoftware")?.ToString()
             };
 
             IsNonQuery = true;
 
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.WithdrawSentRequest });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.WithdrawSentRequest});
 
             NextCommand = new DelegateCommand(ValidateCancelSentRequest);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -45,6 +46,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListQueryType.Clear();
         }
 
+        public UnfriendOption UnfriendOptionModel { get; set; } = new UnfriendOption();
+
 
         public void ValidateCancelSentRequest()
         {
@@ -54,8 +57,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            if (UnfriendOptionModel.IsFilterApplied && (UnfriendOptionModel.DaysBefore == 0 
-                && UnfriendOptionModel.HoursBefore == 0))
+            if (UnfriendOptionModel.IsFilterApplied && UnfriendOptionModel.DaysBefore == 0 &&
+                UnfriendOptionModel.HoursBefore == 0)
             {
                 Dialog.ShowDialog("Error", "Please select valid source filter.");
                 return;
@@ -63,8 +66,5 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             NavigateNext();
         }
-
-        public UnfriendOption UnfriendOptionModel { get; set; } = new UnfriendOption();
-
     }
 }

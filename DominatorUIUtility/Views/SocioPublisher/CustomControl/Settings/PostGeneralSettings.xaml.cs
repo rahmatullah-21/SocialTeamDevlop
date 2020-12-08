@@ -7,9 +7,9 @@ using DominatorHouseCore.Models.SocioPublisher.Settings;
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
     /// <summary>
-    /// Interaction logic for PostGeneralSettings.xaml
+    ///     Interaction logic for PostGeneralSettings.xaml
     /// </summary>
-    public partial class PostGeneralSettings : UserControl,INotifyPropertyChanged
+    public partial class PostGeneralSettings : UserControl, INotifyPropertyChanged
     {
         private PublisherPostSettings _publisherPostSettings;
 
@@ -18,24 +18,21 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
             InitializeComponent();
         }
 
+        public PostGeneralSettings(PublisherPostSettings publisherPostSettings) : this()
+        {
+            PublisherPostSettings = publisherPostSettings;
+            MainGrid.DataContext = PublisherPostSettings.GeneralPostSettings;
+        }
+
 
         public PublisherPostSettings PublisherPostSettings
         {
-            get
-            {
-                return _publisherPostSettings;
-            }
+            get => _publisherPostSettings;
             set
             {
                 _publisherPostSettings = value;
                 OnPropertyChanged(nameof(PublisherPostSettings));
             }
-        }
-
-        public PostGeneralSettings(PublisherPostSettings publisherPostSettings) : this()
-        {
-            PublisherPostSettings = publisherPostSettings;
-            MainGrid.DataContext = PublisherPostSettings.GeneralPostSettings;        
         }
 
 

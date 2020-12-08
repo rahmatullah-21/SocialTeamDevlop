@@ -81,8 +81,8 @@
     <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
+    <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.5\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
@@ -126,9 +126,8 @@
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.6.6\lib\net45\NLog.dll</HintPath>
@@ -341,13 +340,11 @@
     <Compile Include="DatabaseHandler\GdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Communities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Friendship.cs" />
-    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedGplusComments.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\UnfollowedUsers.cs" />
-    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedGplusCommentsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedPostsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedUsersReport.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\Connections.cs" />
@@ -480,7 +477,6 @@
     <Compile Include="Diagnostics\Exceptions\GlobusExceptionHandler.cs" />
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
-    <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
     <Compile Include="Diagnostics\NetworkCoreLibraryBuilder.cs" />
     <Compile Include="Diagnostics\PublisherInitialize.cs" />
     <Compile Include="Diagnostics\SocinatorAccountBuilder.cs" />
@@ -503,10 +499,6 @@
     <Compile Include="Enums\FdQuery\ReactionType.cs" />
     <Compile Include="Enums\GdQuery\GdPostQuery.cs" />
     <Compile Include="Enums\GdQuery\GdUserQuery.cs" />
-    <Compile Include="Enums\GpDQuery\GplusCommunitiesQueries.cs" />
-    <Compile Include="Enums\GpDQuery\GplusPostsQueries.cs" />
-    <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
-    <Compile Include="Enums\KeyboardKeys.cs" />
     <Compile Include="Enums\LdQuery\LDEngageQueryParameters.cs" />
     <Compile Include="Enums\LdQuery\LDMessengerQueryParameters.cs" />
     <Compile Include="Enums\LoginType.cs" />
@@ -609,7 +601,6 @@
     <Compile Include="Interfaces\StartUp\IStartUpSearchQuery.cs" />
     <Compile Include="Models\AccessorStrategies.cs" />
     <Compile Include="Models\AddPostModel.cs" />
-    <Compile Include="Models\AutoReplyMessegeModel.cs" />
     <Compile Include="Models\FacebookModels\EventCreaterManagerModel.cs" />
     <Compile Include="Models\FacebookModels\FbMultiMediaModel.cs" />
     <Compile Include="Models\FacebookModels\InviterDetails.cs" />
@@ -634,7 +625,8 @@
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\ManageReportVideosContentModel.cs" />
     <Compile Include="Models\MenuHandlerModel.cs" />
-    <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
+    <Compile Include="Models\NetworkActivitySetting\ActivityChecked.cs" />
+    <Compile Include="Models\NetworkActivitySetting\SelectActivityModel.cs" />
     <Compile Include="Models\NetworksActivityCustomizeModel.cs" />
     <Compile Include="Models\PinterestOtherConfigModel.cs" />
     <Compile Include="Models\PrivateBlacklistUserModel.cs" />
@@ -716,7 +708,6 @@
     <Compile Include="StartupActivity\Twitter\TwitterUserActivity.cs" />
     <Compile Include="StartupActivity\Youtube\YoutubeActivity.cs" />
     <Compile Include="StartupActivity\Youtube\YoutubeChannelActivity.cs" />
-    <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
     <Compile Include="UIExtensions\GridViewExtension.cs" />
     <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
     <Compile Include="Utility\AccountScopeFactory.cs" />
@@ -724,12 +715,12 @@
     <Compile Include="Utility\CacheText.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\DateProvider.cs" />
+    <Compile Include="Utility\DispatcherUtility.cs" />
     <Compile Include="Utility\EnumExtensions.cs" />
     <Compile Include="Utility\FileSystemProvider.cs" />
     <Compile Include="Utility\JsonHandler.cs" />
     <Compile Include="Utility\LockFileConfigProvider.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
-    <Compile Include="Utility\MapperProvider.cs" />
     <Compile Include="Utility\MediaFetcherUtilities.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
@@ -778,7 +769,6 @@
     <Compile Include="Models\DominatorAccountBaseModel.cs" />
     <Compile Include="Models\DominatorAccountModel.cs" />
     <Compile Include="Models\EmailNotificationsModel.cs" />
-    <Compile Include="Models\EmbeddedBrowserSettingsFileManager.cs" />
     <Compile Include="Models\EmbeddedBrowserSettingsModel.cs" />
     <Compile Include="Models\ConfigFacebookModel.cs" />
     <Compile Include="Models\GenderFilter.cs" />
@@ -831,7 +821,6 @@
     <Compile Include="ViewModel\ITabViewModel.cs" />
     <Compile Include="ViewModel\DashboardVms\RevisionHistoryViewModel.cs" />
     <Compile Include="Converters\ProxyManagerSourceConverter.cs" />
-    <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistSettingsModel.cs" />
     <Compile Include="Models\SoftwareSettingsModel.cs" />
@@ -875,7 +864,6 @@
     <Compile Include="Utility\Dialog.cs" />
     <Compile Include="Utility\EnumUtility.cs" />
     <Compile Include="Utility\FeatureFlags.cs" />
-    <Compile Include="Utility\GridViewBehaviors.cs" />
     <Compile Include="Utility\GridViewColumns.cs" />
     <Compile Include="Utility\HtmlParseUtility.cs" />
     <Compile Include="Utility\IEnumerableExtensions.cs" />
@@ -911,11 +899,9 @@
     <Compile Include="ViewModel\DestinationDetailsCollection.cs" />
     <Compile Include="ViewModel\DestinationSelectionList.cs" />
     <Compile Include="ViewModel\LiveChatViewModel.cs" />
-    <Compile Include="ViewModel\ManageDestinationViewModel.cs" />
     <Compile Include="ViewModel\DailyStatisticsViewModel.cs" />
     <Compile Include="ViewModel\BaseTabViewModel.cs" />
     <Compile Include="ViewModel\TablifiedContentControlViewModel.cs" />
-    <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
     <Compile Include="ViewModel\LogViewModel.cs" />
     <Compile Include="ViewModel\ViewModelUnityExtension.cs" />
   </ItemGroup>
@@ -984,6 +970,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utility\CaptchaSolverUtilities\" />
+    <Folder Include="ViewModel\SocioPublisher\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

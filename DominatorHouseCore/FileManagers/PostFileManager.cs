@@ -1,9 +1,13 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using CommonServiceLocator;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using System;
-using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -15,6 +19,7 @@ namespace DominatorHouseCore.FileManagers
         {
             BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
         }
+
         public static bool SavePost<T>(T post) where T : class
         {
             try
@@ -28,6 +33,7 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }
         }
+
         public static List<AddPostModel> GetAllPost()
         {
             return BinFileHelper.GetPostDetails();
@@ -45,6 +51,5 @@ namespace DominatorHouseCore.FileManagers
             posts.RemoveAll(match);
             BinFileHelper.UpdateAllPosts(posts);
         }
-
     }
 }

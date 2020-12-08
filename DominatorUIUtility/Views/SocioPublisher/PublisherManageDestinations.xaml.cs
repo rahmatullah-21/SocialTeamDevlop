@@ -10,10 +10,14 @@ using DominatorUIUtility.ViewModel.SocioPublisher;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherManageDestinations.xaml
+    ///     Interaction logic for PublisherManageDestinations.xaml
     /// </summary>
     public partial class PublisherManageDestinations : UserControl, INotifyPropertyChanged
     {
+        private static PublisherManageDestinations _indexPage;
+
+        private PublisherManageDestinationViewModel _publisherManageDestinationViewModel =
+            new PublisherManageDestinationViewModel();
 
         private PublisherManageDestinations()
         {
@@ -21,14 +25,9 @@ namespace DominatorUIUtility.Views.SocioPublisher
             ManageDestination.DataContext = PublisherManageDestinationViewModel;
         }
 
-        private PublisherManageDestinationViewModel _publisherManageDestinationViewModel = new PublisherManageDestinationViewModel();
-
         public PublisherManageDestinationViewModel PublisherManageDestinationViewModel
         {
-            get
-            {
-                return _publisherManageDestinationViewModel;
-            }
+            get => _publisherManageDestinationViewModel;
             set
             {
                 _publisherManageDestinationViewModel = value;
@@ -36,8 +35,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
         }
 
-        
-        private static PublisherManageDestinations _indexPage;
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public static PublisherManageDestinations Instance()
         {
             if (_indexPage == null)
@@ -48,8 +47,6 @@ namespace DominatorUIUtility.Views.SocioPublisher
             return _indexPage;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -58,7 +55,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         protected void HandleDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var destination = ((FrameworkElement)sender).DataContext as PublisherManageDestinationModel;
+            var destination = ((FrameworkElement) sender).DataContext as PublisherManageDestinationModel;
 
             if (destination == null)
                 return;

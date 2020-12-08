@@ -1,32 +1,36 @@
-﻿using CommonServiceLocator;
+﻿using System;
+using System.Windows;
+using CommonServiceLocator;
 using DominatorHouseCore.Enums;
 using DominatorUIUtility.ViewModel.Startup;
-using System;
-using System.Windows;
 
 namespace DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig
 {
-
     public interface ITwitterVisibilityModel
     {
         Visibility TwitterElementsVisibility { get; set; }
     }
+
     public interface IInstagramVisibilityModel
     {
         Visibility InstagramElementsVisibility { get; set; }
     }
+
     public interface IFacebookModel
     {
         Visibility FacebookElementsVisibility { get; set; }
     }
+
     public interface ILinkedInModel
     {
         Visibility LinkedInElementsVisibility { get; set; }
     }
+
     public interface IYoutubeModel
     {
         Visibility YoutubeElementsVisibility { get; set; }
     }
+
     public interface IRedditModel
     {
         Visibility RedditElementsVisibility { get; set; }
@@ -40,7 +44,7 @@ namespace DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig
             try
             {
                 var nw = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectedNetwork;
-                var network = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), nw);
+                var network = (SocialNetworks) Enum.Parse(typeof(SocialNetworks), nw);
                 switch (network)
                 {
                     case SocialNetworks.Twitter:
@@ -66,7 +70,9 @@ namespace DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig
                         break;
                 }
             }
-            catch{ }
+            catch
+            {
+            }
         }
     }
 }

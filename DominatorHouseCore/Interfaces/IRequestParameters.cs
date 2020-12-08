@@ -1,5 +1,9 @@
-﻿using System.Net;
+﻿#region
+
+using System.Net;
 using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -9,7 +13,7 @@ namespace DominatorHouseCore.Interfaces
         WebHeaderCollection Headers { get; set; }
 
         // To assign the Cookies for request
-        CookieCollection Cookies { get;  set;}
+        CookieCollection Cookies { get; set; }
 
         // To specify the media type of the body of the http request
         string ContentType { get; set; }

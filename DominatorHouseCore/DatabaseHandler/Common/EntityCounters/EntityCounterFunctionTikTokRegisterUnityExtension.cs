@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.DatabaseHandler.TtdTables.Accounts;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.TtdTables.Accounts;
 using DominatorHouseCore.Enums;
-using Unity.Extension;
 using Unity;
+using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
@@ -10,10 +14,10 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
         protected override void Initialize()
         {
             Container
-              .RegisterInstance<IEntityCounterFunction<InteractedUsers>>(
-                  new EntityCounterFunction<InteractedUsers>(
-                      new DateEpochFilterPredicate<InteractedUsers>(a => a.Date),
-                      new ActivityTypeAsStringFilterPredicate<InteractedUsers>(a => a.ActivityType)));
+                .RegisterInstance<IEntityCounterFunction<InteractedUsers>>(
+                    new EntityCounterFunction<InteractedUsers>(
+                        new DateEpochFilterPredicate<InteractedUsers>(a => a.Date),
+                        new ActivityTypeAsStringFilterPredicate<InteractedUsers>(a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedUsers>>(
                     new CounterKeyFactory<InteractedUsers>(SocialNetworks.TikTok, true));

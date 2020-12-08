@@ -1,13 +1,10 @@
-﻿
-namespace DominatorHouseCore.Enums
+﻿namespace DominatorHouseCore.Enums
 {
     public enum MediaType
     {
         NoMedia = 0,
         Image = 1,
         Video = 2,
-        Album = 8,
-
+        Album = 8
     }
 }
-

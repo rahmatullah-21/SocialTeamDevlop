@@ -5,71 +5,76 @@
 
     <Style x:Key="MahApps.Metro.Styles.ToggleSwitch.Win10" TargetType="{x:Type controls:ToggleSwitch}">
         <Setter Property="ContentDirection" Value="RightToLeft" />
-        <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="{DynamicResource ToggleSwitchHeaderFontSize.Win10}" />
+        <Setter Property="controls:ControlsHelper.HeaderFontSize"
+                Value="{DynamicResource ToggleSwitchHeaderFontSize.Win10}" />
         <Setter Property="FontFamily" Value="{DynamicResource ToggleSwitchFontFamily.Win10}" />
         <Setter Property="FontSize" Value="{DynamicResource ToggleSwitchFontSize.Win10}" />
         <Setter Property="HeaderFontFamily" Value="{DynamicResource ToggleSwitchHeaderFontFamily.Win10}" />
-        <Setter Property="OffSwitchBrush" Value="{DynamicResource MahApps.Metro.Brushes.ToggleSwitchButton.OffSwitchBrush.Win10}" />
-        <Setter Property="OnSwitchBrush" Value="{DynamicResource MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchBrush.Win10}" />
-        <Setter Property="ThumbIndicatorBrush" Value="{DynamicResource MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorBrush.Win10}" />
-        <Setter Property="ThumbIndicatorDisabledBrush" Value="{DynamicResource MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorDisabledBrush.Win10}" />
+        <Setter Property="OffSwitchBrush"
+                Value="{DynamicResource MahApps.Metro.Brushes.ToggleSwitchButton.OffSwitchBrush.Win10}" />
+        <Setter Property="OnSwitchBrush"
+                Value="{DynamicResource MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchBrush.Win10}" />
+        <Setter Property="ThumbIndicatorBrush"
+                Value="{DynamicResource MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorBrush.Win10}" />
+        <Setter Property="ThumbIndicatorDisabledBrush"
+                Value="{DynamicResource MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorDisabledBrush.Win10}" />
         <Setter Property="ThumbIndicatorWidth" Value="10" />
     </Style>
 
     <Ellipse x:Key="AppThemeMenuIcon"
-                     Width="16"
-                     Height="16"
-                     x:Shared="False"
-                     Fill="{Binding ColorBrush, Mode=OneWay}"
-                     Stroke="{Binding BorderColorBrush, Mode=OneWay}"
-                     StrokeThickness="1" />
+             Width="16"
+             Height="16"
+             x:Shared="False"
+             Fill="{Binding ColorBrush, Mode=OneWay}"
+             Stroke="{Binding BorderColorBrush, Mode=OneWay}"
+             StrokeThickness="1" />
 
     <Ellipse x:Key="AccentMenuIcon"
-                     Width="16"
-                     Height="16"
-                     x:Shared="False"
-                     Fill="{Binding ColorBrush, Mode=OneWay}" />
+             Width="16"
+             Height="16"
+             x:Shared="False"
+             Fill="{Binding ColorBrush, Mode=OneWay}" />
 
     <Style x:Key="canceledit_style">
-        <Setter Property="Control.Background" Value="#FF4948"/>
+        <Setter Property="Control.Background" Value="#FF4948" />
         <!--<Setter Property="Control.Background" Value="{DynamicResource AccentColorBrush}" />-->
 
         <Setter Property="Control.Foreground" Value="{DynamicResource IdealForegroundColorBrush}" />
-        <Setter Property="Control.Focusable" Value="False"/>
+        <Setter Property="Control.Focusable" Value="False" />
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Background="{TemplateBinding Background}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="datagridHeaderStyle" TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
-        <Setter Property="HorizontalContentAlignment"  Value="Center" />
+    <Style x:Key="datagridHeaderStyle" TargetType="DataGridColumnHeader"
+           BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="skyblue_color">
-        <Setter Property="Control.Background" Value="#3897F0"/>
+        <Setter Property="Control.Background" Value="#3897F0" />
     </Style>
 
     <Style x:Key="ContactsupportStyle">
-        <Setter Property="Control.Background" Value="#717171"/>
+        <Setter Property="Control.Background" Value="#717171" />
     </Style>
 
     <Style TargetType="Button" x:Key="ButtonStyle" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="Height" Value="40"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Background" Value="#EE6544"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Focusable" Value="False"/>
-
+        <Setter Property="Width" Value="200" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Background" Value="#EE6544" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Focusable" Value="False" />
 
 
         <Setter Property="Template">
@@ -97,71 +102,71 @@
         </Style.Triggers>-->
     </Style>
 
-    <Style TargetType="Button" x:Key="btn_style"  BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Height" Value="20"/>
+    <Style TargetType="Button" x:Key="btn_style" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Height" Value="20" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Background="{TemplateBinding Background}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter  Property="FontWeight" Value="Bold" />
-                <Setter Property="Foreground" Value="Green"/>
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Foreground" Value="Green" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="false">
-                <Setter  Property="FontWeight" Value="SemiBold" />
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="White" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="border_color" BasedOn="{StaticResource {x:Type Border}}">
-        <Setter Property="Control.BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
+        <Setter Property="Control.BorderBrush" Value="{DynamicResource AccentColorBrush}" />
     </Style>
 
-    <Style x:Key="contextmenu_style" >
-        <Setter Property="Control.Height" Value="30"/>
-        <Setter Property="Control.VerticalAlignment" Value="Center"/>
+    <Style x:Key="contextmenu_style">
+        <Setter Property="Control.Height" Value="30" />
+        <Setter Property="Control.VerticalAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="AppThemeMenuItemStyle"
-                   BasedOn="{StaticResource MetroMenuItem}"
-                   TargetType="{x:Type MenuItem}">
+           BasedOn="{StaticResource MetroMenuItem}"
+           TargetType="{x:Type MenuItem}">
         <Setter Property="Command" Value="{Binding ChangeAccentCommand}" />
         <Setter Property="Header" Value="{Binding Name, Mode=OneWay}" />
         <Setter Property="Icon" Value="{StaticResource AppThemeMenuIcon}" />
     </Style>
 
     <Style x:Key="AccentColorMenuItemStyle"
-                   BasedOn="{StaticResource MetroMenuItem}"
-                   TargetType="{x:Type MenuItem}">
+           BasedOn="{StaticResource MetroMenuItem}"
+           TargetType="{x:Type MenuItem}">
         <Setter Property="Command" Value="{Binding ChangeAccentCommand}" />
         <Setter Property="Header" Value="{Binding Name, Mode=OneWay}" />
         <Setter Property="Icon" Value="{StaticResource AccentMenuIcon}" />
     </Style>
 
-    <Style x:Key="AccentedSquareButtonStyle"   TargetType="{x:Type Button}">
+    <Style x:Key="AccentedSquareButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{DynamicResource AccentColorBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource IdealForegroundColorBrush}" />
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter  Property="Background" Value="Green" />
-                <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
+                <Setter Property="Background" Value="Green" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" >
+                <Setter Property="Background">
                     <Setter.Value>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
-                            <GradientStop Color="#FFFFD190" Offset="0.35"/>
-                            <GradientStop Color="blue" Offset="0.95"/>
-                            <GradientStop Color="#FFFFD190" Offset="1"/>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#FFFFD190" Offset="0.35" />
+                            <GradientStop Color="blue" Offset="0.95" />
+                            <GradientStop Color="#FFFFD190" Offset="1" />
                         </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
@@ -177,16 +182,16 @@
                 <ControlTemplate TargetType="{x:Type Control}">
                     <Grid Margin="8">
                         <Ellipse
-                    Name="r1"
-                    Stroke="Black"
-                    StrokeDashArray="2 2"
-                    StrokeThickness="1"/>
+                            Name="r1"
+                            Stroke="Black"
+                            StrokeDashArray="2 2"
+                            StrokeThickness="1" />
                         <Border
-                    Name="border"
-                    Width="{TemplateBinding ActualWidth}"
-                    Height="{TemplateBinding ActualHeight}"
-                    BorderThickness="1"
-                    CornerRadius="2"/>
+                            Name="border"
+                            Width="{TemplateBinding ActualWidth}"
+                            Height="{TemplateBinding ActualHeight}"
+                            BorderThickness="1"
+                            CornerRadius="2" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -194,49 +199,49 @@
     </Style>
 
     <Style x:Key="CircleButton" TargetType="Button">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="Margin" Value="2"/>
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-        <Setter Property="Background" Value="#FF6DB4EF"/>
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="Background" Value="#FF6DB4EF" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <Ellipse Fill="{TemplateBinding Background}"/>
+                        <Ellipse Fill="{TemplateBinding Background}" />
                         <Ellipse>
                             <Ellipse.Fill>
                                 <RadialGradientBrush>
-                                    <GradientStop Offset="0" Color="#00000000"/>
-                                    <GradientStop Offset="0.88" Color="#00000000"/>
-                                    <GradientStop Offset="1" Color="#80000000"/>
+                                    <GradientStop Offset="0" Color="#00000000" />
+                                    <GradientStop Offset="0.88" Color="#00000000" />
+                                    <GradientStop Offset="1" Color="#80000000" />
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
-                        <Ellipse Margin="10" x:Name="highlightCircle" >
-                            <Ellipse.Fill >
-                                <LinearGradientBrush >
-                                    <GradientStop Offset="0" Color="#50FFFFFF"/>
-                                    <GradientStop Offset="0.5" Color="#00FFFFFF"/>
-                                    <GradientStop Offset="1" Color="#50FFFFFF"/>
+                        <Ellipse Margin="10" x:Name="highlightCircle">
+                            <Ellipse.Fill>
+                                <LinearGradientBrush>
+                                    <GradientStop Offset="0" Color="#50FFFFFF" />
+                                    <GradientStop Offset="0.5" Color="#00FFFFFF" />
+                                    <GradientStop Offset="1" Color="#50FFFFFF" />
                                 </LinearGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
-                        <ContentPresenter x:Name="content" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter x:Name="content" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="highlightCircle" Property="Fill">
                                 <Setter.Value>
                                     <LinearGradientBrush StartPoint="0.3,0" EndPoint="0.7,1">
-                                        <GradientStop Offset="0" Color="#50FFFFFF"/>
-                                        <GradientStop Offset="0.5" Color="#00FFFFFF"/>
-                                        <GradientStop Offset="1" Color="#50FFFFFF"/>
+                                        <GradientStop Offset="0" Color="#50FFFFFF" />
+                                        <GradientStop Offset="0.5" Color="#00FFFFFF" />
+                                        <GradientStop Offset="1" Color="#50FFFFFF" />
                                     </LinearGradientBrush>
                                 </Setter.Value>
                             </Setter>
                             <Setter TargetName="content" Property="RenderTransform">
                                 <Setter.Value>
-                                    <TranslateTransform Y="0.5" X="0.5"/>
+                                    <TranslateTransform Y="0.5" X="0.5" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
@@ -246,25 +251,28 @@
         </Setter>
 
     </Style>
-    
+
     <Style TargetType="{x:Type TabItem}" x:Key="TabItemStyle">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Grid>
-                        <Border Name="Border" BorderThickness="1,1,1,1" BorderBrush="Gainsboro" CornerRadius="5,5,0,0" Margin="2">
-                            <ContentPresenter  VerticalAlignment="Center" Margin="5" HorizontalAlignment="Stretch"  ContentSource="Header" TextBlock.FontSize="18">
-                            </ContentPresenter>
+                        <Border Name="Border" BorderThickness="1,1,1,1" BorderBrush="Gainsboro" CornerRadius="5,5,0,0"
+                                Margin="2">
+                            <ContentPresenter VerticalAlignment="Center" Margin="5" HorizontalAlignment="Stretch"
+                                              ContentSource="Header" TextBlock.FontSize="18" />
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
-                            <Setter  Property="Foreground" Value="white" />
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource AccentBaseColorBrush}" />
+                            <Setter Property="Foreground" Value="white" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectedTabBorderBrush}" />
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource SelectedTabBorderBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -273,14 +281,14 @@
 
         <Setter Property="Padding" Value="0" />
     </Style>
-    
+
     <ControlTemplate TargetType="{x:Type TabControl}" x:Key="LeftTabstyle">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <TabPanel IsItemsHost="True" Margin="0,4,0,0" />
             </ScrollViewer>
             <ContentPresenter Margin="4" ContentSource="SelectedContent" Grid.Column="1" />
@@ -293,33 +301,36 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <TabPanel IsItemsHost="True" Margin="0,4,0,0" />
             </ScrollViewer>
             <ContentPresenter Margin="4" ContentSource="SelectedContent" Grid.Row="1" />
         </Grid>
     </ControlTemplate>
-    
-    <Style TargetType="{x:Type TabItem}" x:Key="TabItemToolsStyle" >
+
+    <Style TargetType="{x:Type TabItem}" x:Key="TabItemToolsStyle">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Border Name="Border" BorderThickness="1,1,1,1" BorderBrush="Gainsboro" CornerRadius="5,5,0,0" Margin="2">
+                    <Border Name="Border" BorderThickness="1,1,1,1" BorderBrush="Gainsboro" CornerRadius="5,5,0,0"
+                            Margin="2">
                         <ContentPresenter x:Name="ContentSite"
                                           VerticalAlignment="Center"
                                           HorizontalAlignment="Center"
                                           ContentSource="Header" TextBlock.FontSize="16"
-                                          Margin="2"/>
+                                          Margin="2" />
                     </Border>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
-                            <Setter  Property="Foreground" Value="white" />
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource AccentBaseColorBrush}" />
+                            <Setter Property="Foreground" Value="white" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectedTabBorderBrush}" />
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource SelectedTabBorderBrush}" />
 
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -331,11 +342,11 @@
     </Style>
 
     <Style TargetType="ListViewItem" x:Key="ListViewItems">
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme1}"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme1}" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -343,19 +354,19 @@
                         <Border Name="Selection" Visibility="Collapsed" />
                         <!-- This is used when GridView is put inside the ListView -->
                         <GridViewRowPresenter Grid.RowSpan="2"
-                                      Margin="{TemplateBinding Padding}"
-                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="MinHeight" Value="30"></Setter>
-        <Setter Property="Height" Value="Auto"></Setter>
-        <Setter Property="Width" Value="Auto"></Setter>
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Width" Value="Auto" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
@@ -367,20 +378,20 @@
     </Style>
 
     <Style TargetType="{x:Type DataGridCell}" x:Key="DaraGridCellStyle">
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme1}"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="MinHeight" Value="25"></Setter>
-        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme1}" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="MinHeight" Value="25" />
+        <Setter Property="Height" Value="40" />
 
         <Style.Triggers>
             <DataTrigger Binding="{Binding}" Value="">
-                <Setter Property="Visibility" Value="Collapsed"/>
+                <Setter Property="Visibility" Value="Collapsed" />
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="0">
-                <Setter Property="Visibility" Value="Collapsed"/>
+                <Setter Property="Visibility" Value="Collapsed" />
             </DataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="Transparent" />
@@ -405,7 +416,7 @@
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver"  Value="True">
+                        <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background"
                                     TargetName="ContentBorder"
                                     Value="{x:Static SystemColors.HighlightBrush}" />
@@ -422,8 +433,8 @@
         </Setter>
     </Style>
 
-        <Style TargetType="{x:Type TextBox}" x:Key="TransparentTextBoxStyle">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+    <Style TargetType="{x:Type TextBox}" x:Key="TransparentTextBoxStyle">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
@@ -442,7 +453,7 @@
     <!--End Socinator Textbox Items-->
 
 
-    <Style x:Key="TransparentSelectedListBoxItem"  TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="TransparentSelectedListBoxItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
@@ -450,9 +461,9 @@
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelected"   Value="True">
-                            <Setter Property="BorderBrush" TargetName="ContentBorder"  Value="Green" />
-                            <Setter Property="BorderThickness" TargetName="ContentBorder"  Value="2" />
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="BorderBrush" TargetName="ContentBorder" Value="Green" />
+                            <Setter Property="BorderThickness" TargetName="ContentBorder" Value="2" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -465,27 +476,28 @@
     </Style>
 
     <Style x:Key="CheckBoxStyle"
-       TargetType="{x:Type CheckBox}">
+           TargetType="{x:Type CheckBox}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <DockPanel>
-                        <Border x:Name="bg" BorderBrush="{DynamicResource GreenColorAccordingTheme}" BorderThickness="1" CornerRadius="1" Width="15" Height="15" Background="Transparent"
-                                    DockPanel.Dock="Left">
+                        <Border x:Name="bg" BorderBrush="{DynamicResource GreenColorAccordingTheme}"
+                                BorderThickness="1" CornerRadius="1" Width="15" Height="15" Background="Transparent"
+                                DockPanel.Dock="Left">
                             <Path x:Name="CheckMark"
-                                          Width="8"
-                                          Height="8"
-                                          VerticalAlignment="Center"
-                                          Data="M 0 0 L 8 8 M 0 8 L 8 0"
-                                          Stretch="Fill"
-                                          Stroke="{DynamicResource GreenColorAccordingTheme}"
-                                          StrokeEndLineCap="Round"
-                                          StrokeStartLineCap="Round"
-                                          StrokeThickness="1" />
+                                  Width="8"
+                                  Height="8"
+                                  VerticalAlignment="Center"
+                                  Data="M 0 0 L 8 8 M 0 8 L 8 0"
+                                  Stretch="Fill"
+                                  Stroke="{DynamicResource GreenColorAccordingTheme}"
+                                  StrokeEndLineCap="Round"
+                                  StrokeStartLineCap="Round"
+                                  StrokeThickness="1" />
                         </Border>
 
                         <ContentPresenter Margin="4,0,0,0"
-                                              VerticalAlignment="Center" RecognizesAccessKey="False" />
+                                          VerticalAlignment="Center" RecognizesAccessKey="False" />
 
                     </DockPanel>
 
@@ -493,6 +505,33 @@
                         <Trigger Property="IsChecked" Value="false">
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed" />
                         </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="PinTabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid>
+                        <Border Name="Border">
+                            <ContentPresenter VerticalAlignment="Center" Margin="5"
+                                              HorizontalAlignment="Left" ContentSource="Header"
+                                              TextBlock.FontSize="18" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource AccentBaseColorBrush}" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
+                        </Trigger>
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

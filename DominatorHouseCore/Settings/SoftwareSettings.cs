@@ -1,5 +1,14 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.BusinessLogic.Scheduler;
+﻿#region
+
+using System;
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
+using CommonServiceLocator;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -10,17 +19,8 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.Config;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
-using Microsoft.Win32;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
-using System.Windows;
-using Registry = Microsoft.Win32.Registry;
+
+#endregion
 
 namespace DominatorHouseCore.Settings
 {
@@ -29,8 +29,11 @@ namespace DominatorHouseCore.Settings
         void InitializeOnLoadConfigurations();
         void ScheduleAutoUpdation();
         Task ScheduleAdsScraping();
-        Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer, DominatorAccountModel currentAccount = null
+
+        Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer,
+            DominatorAccountModel currentAccount = null
             , SocialNetworks currentNetwork = SocialNetworks.Facebook);
+
         SoftwareSettingsModel Settings { get; set; }
         bool Save();
         ObservableCollection<LocationModel> AssignLocationList();
@@ -43,19 +46,23 @@ namespace DominatorHouseCore.Settings
         private readonly IGenericFileManager _genericFileManager;
 
         private readonly IAccountsFileManager _accountsFileManager;
-        public SoftwareSettings(ISoftwareSettingsFileManager softwareSettingsFileManager, IFileSystemProvider fileSystemProvider, IGenericFileManager genericFileManager, IAccountsFileManager accountsFileManager)
+
+        public SoftwareSettings(ISoftwareSettingsFileManager softwareSettingsFileManager,
+            IFileSystemProvider fileSystemProvider, IGenericFileManager genericFileManager,
+            IAccountsFileManager accountsFileManager)
         {
             _softwareSettingsFileManager = softwareSettingsFileManager;
             _fileSystemProvider = fileSystemProvider;
             _genericFileManager = genericFileManager;
             _accountsFileManager = accountsFileManager;
         }
+
         private SoftwareSettingsModel _settings;
 
         public SoftwareSettingsModel Settings
         {
-            get { return _settings; }
-            set { SetProperty(ref _settings, value); }
+            get => _settings;
+            set => SetProperty(ref _settings, value);
         }
 
         public void InitializeOnLoadConfigurations()
@@ -77,7 +84,8 @@ namespace DominatorHouseCore.Settings
             if (_fileSystemProvider.Exists(ConstantVariable.GetURLShortnerServicesFile()))
             {
                 var shortnerServices =
-                    _genericFileManager.GetModel<UrlShortnerServicesModel>(ConstantVariable.GetURLShortnerServicesFile());
+                    _genericFileManager.GetModel<UrlShortnerServicesModel>(
+                        ConstantVariable.GetURLShortnerServicesFile());
                 ConstantVariable.BitlyLogin = shortnerServices.Login;
                 ConstantVariable.BitlyApiKey = shortnerServices.ApiKey;
             }
@@ -112,7 +120,9 @@ namespace DominatorHouseCore.Settings
         {
             if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
             {
-                FileUtilities.Copy(ConstantVariable.MyAppFolderPath + @"\" + $"{"LangKeySocinator".FromResourceDictionary()}Icon.png", ConstantVariable.GetSocinatorIcon());
+                FileUtilities.Copy(
+                    ConstantVariable.MyAppFolderPath + @"\" + $"{"LangKeySocinator".FromResourceDictionary()}Icon.png",
+                    ConstantVariable.GetSocinatorIcon());
                 if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
                     Utilities.DownloadSocinatorIcon();
             }
@@ -139,23 +149,21 @@ namespace DominatorHouseCore.Settings
                 var accountsToUpdate = accounts.Where(x =>
                     DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
                 if (accountsToUpdate.Count != 0)
-                {
                     Task.Factory.StartNew(() =>
+                    {
+                        var count = 0;
+                        accountsToUpdate.ForEach(account =>
                         {
-                            int count = 0;
-                            accountsToUpdate.ForEach(account =>
+                            UpdateAccount(account, cancellationtokenSource);
+                            if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
                             {
-                                UpdateAccount(account, cancellationtokenSource);
-                                if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
-                                {
-                                    Thread.Sleep(20000);
-                                    count = 0;
-                                }
-                                Thread.Sleep(2);
-                            });
+                                Thread.Sleep(20000);
+                                count = 0;
+                            }
 
-                        }, cancellationtokenSource.Token);
-                }
+                            Thread.Sleep(2);
+                        });
+                    }, cancellationtokenSource.Token);
             }, x => x.ToRunNow().AndEvery(accountSynchronizationHours).Hours().At(5));
         }
 
@@ -249,7 +257,7 @@ namespace DominatorHouseCore.Settings
         public void UpdateAccount(DominatorAccountModel account, CancellationTokenSource cancellationTokenSource)
         {
             var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                                                    .GetNetworkCoreFactory().AccountUpdateFactory;
+                .GetNetworkCoreFactory().AccountUpdateFactory;
 
             var asyncAccount = accountFactory as IAccountUpdateFactoryAsync;
 
@@ -275,7 +283,8 @@ namespace DominatorHouseCore.Settings
                     new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
                         .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
                         .SaveToBinFile();
-                    var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+                    var globalDbOperation =
+                        new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
                     globalDbOperation.UpdateAccountDetails(account);
                 }
                 catch (OperationCanceledException ex)
@@ -287,7 +296,6 @@ namespace DominatorHouseCore.Settings
                     ex.DebugLog();
                 }
             }, account.Token);
-
         }
 
         #endregion
@@ -295,11 +303,8 @@ namespace DominatorHouseCore.Settings
         public async Task ScheduleAdsScraping()
         {
             var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-                async job =>
-                {
-                    await job.StartAdScarperAsync();
-                },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 });
+                async job => { await job.StartAdScarperAsync(); },
+                new ExecutionDataflowBlockOptions {MaxDegreeOfParallelism = 1});
 
             await ScrapAdsProduceAsync(adScraperblock);
 
@@ -327,16 +332,14 @@ namespace DominatorHouseCore.Settings
             DominatorAccountModel currentAccount = null, SocialNetworks currentNetwork = SocialNetworks.Facebook)
         {
             var accounts = _accountsFileManager.GetAll(currentNetwork);
-            
+
             if (currentAccount != null)
                 accounts = accounts.Where(x => x.AccountId == currentAccount.AccountId).ToList();
 
-            ListHelper.Shuffle(accounts);
+            accounts.Shuffle();
 
             foreach (var account in accounts)
-            {
                 await adsActionBuffer.SendAsync(new ScrapAdsDetails(account, adsActionBuffer));
-            }
 
             return true;
         }
@@ -348,7 +351,7 @@ namespace DominatorHouseCore.Settings
             {
                 new NonStaticUtilities().CountriesList().ForEach(x =>
                 {
-                    countrySet.Add(new LocationModel()
+                    countrySet.Add(new LocationModel
                     {
                         CountryName = x
                     });
@@ -358,6 +361,7 @@ namespace DominatorHouseCore.Settings
             {
                 ex.DebugLog();
             }
+
             return countrySet;
         }
     }
@@ -399,8 +403,13 @@ namespace DominatorHouseCore.Settings
 
                 AdUpdationType currentUpdationType;
 
-                currentUpdationType = account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ? AdUpdationType.FbAds :
-                   account.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok ? AdUpdationType.Ads : AdUpdationType.QuoraAds;
+                currentUpdationType = account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook
+                    ?
+                    AdUpdationType.FbAds
+                    :
+                    account.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok
+                        ? AdUpdationType.Ads
+                        : AdUpdationType.QuoraAds;
 
                 var asyncAdScraperFactory =
                     ServiceLocator.Current.GetInstance<IAdScraperFactory>(currentUpdationType.ToString());
@@ -412,7 +421,8 @@ namespace DominatorHouseCore.Settings
                 {
                     cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    var checkResult = await asyncAdScraperFactory.CheckStatusAsync(account, cancellationTokenSource.Token);
+                    var checkResult =
+                        await asyncAdScraperFactory.CheckStatusAsync(account, cancellationTokenSource.Token);
 
                     var jobId = Guid.NewGuid().ToString();
 
@@ -422,14 +432,25 @@ namespace DominatorHouseCore.Settings
 
                         await asyncAdScraperFactory.ScrapeAdsAsync(account, cancellationTokenSource.Token);
 
-                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
-                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
-
+                        JobManager.AddJob(
+                            async () =>
+                            {
+                                await ServiceLocator.Current.GetInstance<ISoftwareSettings>()
+                                    .ScrapAdsProduceAsync(_adsActionBuffer, account,
+                                        account.AccountBaseModel.AccountNetwork);
+                            },
+                            s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
                     }
                     else
                     {
-                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
-                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
+                        JobManager.AddJob(
+                            async () =>
+                            {
+                                await ServiceLocator.Current.GetInstance<ISoftwareSettings>()
+                                    .ScrapAdsProduceAsync(_adsActionBuffer, account,
+                                        account.AccountBaseModel.AccountNetwork);
+                            },
+                            s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
                     }
                 }
                 catch (OperationCanceledException ex)
@@ -443,9 +464,8 @@ namespace DominatorHouseCore.Settings
             }
             catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
-
     }
 }

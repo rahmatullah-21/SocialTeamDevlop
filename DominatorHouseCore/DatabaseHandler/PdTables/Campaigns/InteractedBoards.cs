@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 {
@@ -40,8 +44,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public string Query { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public int InteractionDate { get; set; }
@@ -57,8 +60,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string Category { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public string BoardUrl { get; set; }
-
     }
 }

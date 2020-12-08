@@ -1,9 +1,13 @@
-﻿using DominatorHouseCore.Enums.SocioPublisher;
+﻿#region
+
+using System;
+using System.Collections.ObjectModel;
+using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System;
-using System.Collections.ObjectModel;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -14,16 +18,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
         #region Properties
 
         private string _postDescription = string.Empty;
+
         /// <summary>
-        /// To describe the post data
+        ///     To describe the post data
         /// </summary>
         [ProtoMember(1)]
         public string PostDescription
         {
-            get
-            {
-                return _postDescription;
-            }
+            get => _postDescription;
             set
             {
                 if (_postDescription == value)
@@ -38,15 +40,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private DateTime _createdTime;
 
         /// <summary>
-        /// To specify the post created date time
+        ///     To specify the post created date time
         /// </summary>
         [ProtoMember(2)]
         public DateTime CreatedTime
         {
-            get
-            {
-                return _createdTime;
-            }
+            get => _createdTime;
             set
             {
                 if (_createdTime == value)
@@ -60,15 +59,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private PostSource _postSource = PostSource.NormalPost;
 
         /// <summary>
-        /// To specify from where the post comes
+        ///     To specify from where the post comes
         /// </summary>
         [ProtoMember(3)]
         public PostSource PostSource
         {
-            get
-            {
-                return _postSource;
-            }
+            get => _postSource;
             set
             {
                 if (_postSource == value)
@@ -82,15 +78,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private PostCategory _postCategory;
 
         /// <summary>
-        /// To specify the post category
+        ///     To specify the post category
         /// </summary>
         [ProtoMember(4)]
         public PostCategory PostCategory
         {
-            get
-            {
-                return _postCategory;
-            }
+            get => _postCategory;
             set
             {
                 if (_postCategory == value)
@@ -103,15 +96,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private string _campaignId = string.Empty;
 
         /// <summary>
-        /// To specify the post category
+        ///     To specify the post category
         /// </summary>
         [ProtoMember(5)]
         public string CampaignId
         {
-            get
-            {
-                return _campaignId;
-            }
+            get => _campaignId;
             set
             {
                 if (_campaignId == value)
@@ -125,12 +115,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private PostRunningStatus _postRunningStatus = PostRunningStatus.Active;
 
         /// <summary>
-        /// To specify the post running status whether active or completed
+        ///     To specify the post running status whether active or completed
         /// </summary>
         [ProtoMember(6)]
         public PostRunningStatus PostRunningStatus
         {
-            get { return _postRunningStatus; }
+            get => _postRunningStatus;
             set
             {
                 if (_postRunningStatus == value)
@@ -141,16 +131,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private PostQueuedStatus _postQueuedStatus;
+
         /// <summary>
-        /// To specify the post queued status whether pending, draft or published
+        ///     To specify the post queued status whether pending, draft or published
         /// </summary>
         [ProtoMember(7)]
         public PostQueuedStatus PostQueuedStatus
         {
-            get
-            {
-                return _postQueuedStatus;
-            }
+            get => _postQueuedStatus;
             set
             {
                 if (_postQueuedStatus == value)
@@ -162,16 +150,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private DateTime? _expiredTime;
+
         /// <summary>
-        /// To specify the post expired time
+        ///     To specify the post expired time
         /// </summary>
         [ProtoMember(8)]
         public DateTime? ExpiredTime
         {
-            get
-            {
-                return _expiredTime;
-            }
+            get => _expiredTime;
             set
             {
                 if (_expiredTime == value)
@@ -183,34 +169,26 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
+
         /// <summary>
-        /// To hold the image or video file 
+        ///     To hold the image or video file
         /// </summary>
         [ProtoMember(9)]
         public ObservableCollection<string> MediaList
         {
-            get
-            {
-                return _mediaList;
-            }
-            set
-            {
-                SetProperty(ref _mediaList, value);
-            }
+            get => _mediaList;
+            set => SetProperty(ref _mediaList, value);
         }
 
         private string _postId = Utilities.GetGuid();
 
         /// <summary>
-        /// To specify the post id
+        ///     To specify the post id
         /// </summary>
         [ProtoMember(10)]
         public string PostId
         {
-            get
-            {
-                return _postId;
-            }
+            get => _postId;
             set
             {
                 if (_postId == value)
@@ -222,16 +200,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private bool _isPostlistSelected;
+
         /// <summary>
-        /// To specify the post list is selected or not
+        ///     To specify the post list is selected or not
         /// </summary>
         [ProtoIgnore]
         public bool IsPostlistSelected
         {
-            get
-            {
-                return _isPostlistSelected;
-            }
+            get => _isPostlistSelected;
             set
             {
                 if (_isPostlistSelected == value)
@@ -242,13 +218,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private string _shareUrl = string.Empty;
+
         [ProtoMember(21)]
         public string ShareUrl
         {
-            get
-            {
-                return _shareUrl;
-            }
+            get => _shareUrl;
             set
             {
                 _shareUrl = value;
@@ -261,13 +235,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private bool _isFdSellPost;
+
         [ProtoMember(22)]
         public bool IsFdSellPost
         {
-            get
-            {
-                return _isFdSellPost;
-            }
+            get => _isFdSellPost;
             set
             {
                 if (value == _isFdSellPost)
@@ -275,14 +247,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isFdSellPost, value);
             }
         }
-        private ObservableCollection<PublishedPostDetailsModel> _lstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
+
+        private ObservableCollection<PublishedPostDetailsModel> _lstPublishedPostDetailsModels =
+            new ObservableCollection<PublishedPostDetailsModel>();
+
         [ProtoMember(23)]
         public ObservableCollection<PublishedPostDetailsModel> LstPublishedPostDetailsModels
         {
-            get
-            {
-                return _lstPublishedPostDetailsModels;
-            }
+            get => _lstPublishedPostDetailsModels;
             set
             {
                 if (value == _lstPublishedPostDetailsModels)
@@ -293,13 +265,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private string _fetchedPostId = string.Empty;
+
         [ProtoMember(25)]
         public string FetchedPostIdOrUrl
         {
-            get
-            {
-                return _fetchedPostId;
-            }
+            get => _fetchedPostId;
             set
             {
                 if (_fetchedPostId == value)
@@ -310,13 +280,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private string _publishedTriedAndSuccessStatus = "00/00";
+
         [ProtoMember(26)]
         public string PublishedTriedAndSuccessStatus
         {
-            get
-            {
-                return _publishedTriedAndSuccessStatus;
-            }
+            get => _publishedTriedAndSuccessStatus;
             set
             {
                 if (_publishedTriedAndSuccessStatus == value)
@@ -326,16 +294,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private string _monitorFilePath = string.Empty;
+
         [ProtoMember(28)]
         public string MonitorFilePath
         {
-            get
-            {
-                return _monitorFilePath;
-            }
+            get => _monitorFilePath;
             set
             {
-
                 if (_monitorFilePath == value)
                     return;
                 SetProperty(ref _monitorFilePath, value);
@@ -343,13 +308,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private bool _isSpinTax;
+
         [ProtoMember(30)]
         public bool IsSpinTax
         {
-            get
-            {
-                return _isSpinTax;
-            }
+            get => _isSpinTax;
             set
             {
                 if (value == _isSpinTax)
@@ -357,18 +320,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isSpinTax, value);
             }
         }
+
         #region Postlist
 
-
-
-
         private string _currentMediaUrl = string.Empty;
+
         public string CurrentMediaUrl
         {
-            get
-            {
-                return _currentMediaUrl;
-            }
+            get => _currentMediaUrl;
             set
             {
                 if (_currentMediaUrl == value)
@@ -380,12 +339,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private bool _nextImageEnable;
+
         public bool NextImageEnable
         {
-            get
-            {
-                return _nextImageEnable;
-            }
+            get => _nextImageEnable;
             set
             {
                 if (_nextImageEnable == value)
@@ -397,12 +354,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private bool _previousImageEnable;
+
         public bool PreviousImageEnable
         {
-            get
-            {
-                return _previousImageEnable;
-            }
+            get => _previousImageEnable;
             set
             {
                 if (_previousImageEnable == value)
@@ -414,12 +369,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private int _mediaCurrentPointer;
+
         public int MediaCurrentPointer
         {
-            get
-            {
-                return _mediaCurrentPointer;
-            }
+            get => _mediaCurrentPointer;
             set
             {
                 if (_mediaCurrentPointer == value)
@@ -430,12 +383,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private int _imagePointer;
+
         public int ImagePointer
         {
-            get
-            {
-                return _imagePointer;
-            }
+            get => _imagePointer;
             set
             {
                 if (_imagePointer == value)
@@ -446,12 +397,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private int _totalMediaCount;
+
         public int TotalMediaCount
         {
-            get
-            {
-                return _totalMediaCount;
-            }
+            get => _totalMediaCount;
             set
             {
                 if (_totalMediaCount == value)
@@ -462,12 +411,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private bool _isPostListPresent = true;
+
         public bool IsPostListPresent
         {
-            get
-            {
-                return _isPostListPresent;
-            }
+            get => _isPostListPresent;
             set
             {
                 if (_isPostListPresent == value)
@@ -484,13 +431,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         #region Settings
 
         private GeneralPostSettings _generalPostSettings;
+
         [ProtoMember(27)]
         public GeneralPostSettings GeneralPostSettings
         {
-            get
-            {
-                return _generalPostSettings;
-            }
+            get => _generalPostSettings;
             set
             {
                 if (_generalPostSettings == value)
@@ -500,16 +445,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-
         private FdPostSettings _fdPostSettings = new FdPostSettings();
 
         [ProtoMember(11)]
         public FdPostSettings FdPostSettings
         {
-            get
-            {
-                return _fdPostSettings;
-            }
+            get => _fdPostSettings;
             set
             {
                 if (_fdPostSettings == value)
@@ -520,13 +461,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private GdPostSettings _gdPostSettings = new GdPostSettings();
+
         [ProtoMember(12)]
         public GdPostSettings GdPostSettings
         {
-            get
-            {
-                return _gdPostSettings;
-            }
+            get => _gdPostSettings;
             set
             {
                 if (_gdPostSettings == value)
@@ -538,13 +477,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private TdPostSettings _tdPostSettings = new TdPostSettings();
+
         [ProtoMember(13)]
         public TdPostSettings TdPostSettings
         {
-            get
-            {
-                return _tdPostSettings;
-            }
+            get => _tdPostSettings;
             set
             {
                 if (_tdPostSettings == value)
@@ -555,13 +492,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private LdPostSettings _ldPostSettings = new LdPostSettings();
+
         [ProtoMember(14)]
         public LdPostSettings LdPostSettings
         {
-            get
-            {
-                return _ldPostSettings;
-            }
+            get => _ldPostSettings;
             set
             {
                 if (_ldPostSettings == value)
@@ -572,16 +507,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private RedditPostSetting _redditPostSetting = new RedditPostSetting();
+
         [ProtoMember(24)]
         public RedditPostSetting RedditPostSetting
         {
-            get
-            {
-                return _redditPostSetting;
-            }
+            get => _redditPostSetting;
             set
             {
-
                 if (_redditPostSetting == value)
                     return;
                 SetProperty(ref _redditPostSetting, value);
@@ -589,13 +521,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private TumberPostSettings _tumberPostSettings = new TumberPostSettings();
+
         [ProtoMember(15)]
         public TumberPostSettings TumberPostSettings
         {
-            get
-            {
-                return _tumberPostSettings;
-            }
+            get => _tumberPostSettings;
             set
             {
                 if (_tumberPostSettings == value)
@@ -604,14 +534,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _tumberPostSettings, value);
             }
         }
+
         private string _fdSellProductTitle;
+
         [ProtoMember(16)]
         public string FdSellProductTitle
         {
-            get
-            {
-                return _fdSellProductTitle;
-            }
+            get => _fdSellProductTitle;
             set
             {
                 if (value == _fdSellProductTitle)
@@ -621,28 +550,25 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private double _fdSellPrice;
+
         [ProtoMember(17)]
         public double FdSellPrice
         {
-            get
-            {
-                return _fdSellPrice;
-            }
+            get => _fdSellPrice;
             set
             {
-                if (value == _fdSellPrice)
+                if (Math.Abs(value - _fdSellPrice) < 0.00001)
                     return;
                 SetProperty(ref _fdSellPrice, value);
             }
         }
+
         private string _fdSellLocation;
+
         [ProtoMember(18)]
         public string FdSellLocation
         {
-            get
-            {
-                return _fdSellLocation;
-            }
+            get => _fdSellLocation;
             set
             {
                 if (value == _fdSellLocation)
@@ -650,17 +576,16 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _fdSellLocation, value);
             }
         }
+
         private string _publisherInstagramTitle;
+
         /// <summary>
-        /// Get-Set Title for post (for all the networks)
+        ///     Get-Set Title for post (for all the networks)
         /// </summary>
         [ProtoMember(19)]
         public string PublisherInstagramTitle
         {
-            get
-            {
-                return _publisherInstagramTitle;
-            }
+            get => _publisherInstagramTitle;
             set
             {
                 if (_publisherInstagramTitle == value)
@@ -669,16 +594,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PublisherInstagramTitle));
             }
         }
+
         private string _pdSourceUrl;
         private PublisherPostSettings _publisherPostSettings = new PublisherPostSettings();
 
         [ProtoMember(20)]
         public string PdSourceUrl
         {
-            get
-            {
-                return _pdSourceUrl;
-            }
+            get => _pdSourceUrl;
             set
             {
                 if (value == _pdSourceUrl)
@@ -690,10 +613,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(29)]
         public PublisherPostSettings PublisherPostSettings
         {
-            get
-            {
-                return _publisherPostSettings;
-            }
+            get => _publisherPostSettings;
             set
             {
                 if (value == _publisherPostSettings)
@@ -701,19 +621,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _publisherPostSettings, value);
             }
         }
+
         private bool _isChangeHashOfMedia;
+
         [ProtoMember(35)]
         public bool IsChangeHashOfMedia
         {
-            get { return _isChangeHashOfMedia; }
-            set { SetProperty(ref _isChangeHashOfMedia, value); }
+            get => _isChangeHashOfMedia;
+            set => SetProperty(ref _isChangeHashOfMedia, value);
         }
 
         private string _redditScrapedMediaType;
+
         [ProtoMember(36)]
         public string RedditScrapedMediaType
         {
-            get { return _redditScrapedMediaType; }
+            get => _redditScrapedMediaType;
             set
             {
                 if (_redditScrapedMediaType == value)
@@ -724,10 +647,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private string _redditScrapedVideoUrl;
+
         [ProtoMember(37)]
         public string RedditScrapedVideoUrl
         {
-            get { return _redditScrapedVideoUrl; }
+            get => _redditScrapedVideoUrl;
             set
             {
                 if (_redditScrapedVideoUrl == value)
@@ -736,6 +660,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(RedditScrapedVideoUrl));
             }
         }
+
         #endregion
 
         #endregion
@@ -754,7 +679,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// Update the posts navigation details based on media list
+        ///     Update the posts navigation details based on media list
         /// </summary>
         public void InitializePostData()
         {
@@ -772,7 +697,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
                     CurrentMediaUrl = mediaUtilites.GetThumbnail(MediaList[ImagePointer]);
                     TotalMediaCount = MediaList.Count;
-                    NextImageEnable = (TotalMediaCount - ImagePointer) > -1;
+                    NextImageEnable = TotalMediaCount - ImagePointer > -1;
                     PreviousImageEnable = ImagePointer > 0;
                 }
                 else
@@ -787,16 +712,15 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
 
         public void UpdateNavigationPointer()
         {
-            NextImageEnable = (TotalMediaCount - MediaCurrentPointer) > 0;
+            NextImageEnable = TotalMediaCount - MediaCurrentPointer > 0;
             PreviousImageEnable = ImagePointer > 0;
         }
-
 
         #endregion
     }

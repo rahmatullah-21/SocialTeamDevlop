@@ -1,5 +1,9 @@
-﻿using SQLite;
+﻿#region
+
 using System;
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 {
@@ -12,55 +16,47 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         public int Id { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string QueryType { get; set; }
 
         /// <summary>
-        /// Contains QueryValue For Interaction
+        ///     Contains QueryValue For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryValue { get; set; }
 
         /// <summary>
-        /// 
-        /// </summary>        
+        /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string ActivityType { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string CommentPostUrl { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string CommentUrl { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string ReplyCommentId { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public string ReplyCommentUrl { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string ReplyCommenterId { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         // ReSharper disable once UnusedMember.Global
@@ -68,28 +64,23 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         public string ReplyCommenterUrl { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string ReplyCommentText { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string ReplyCommentTimeWithDate { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public int InteractionTimeStamp { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public DateTime InteractionDateTime { get; set; }
-
     }
 }

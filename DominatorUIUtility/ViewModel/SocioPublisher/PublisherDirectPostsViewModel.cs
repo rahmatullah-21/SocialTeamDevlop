@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -18,7 +19,6 @@ using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
-using DominatorHouseCore.Enums;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -32,27 +32,26 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
             SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, SavePost);
-            UploadDescriptionCommand = new BaseCommand<object>((sender) => true, UploadDescription);
-            //LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
-            MultipleImageUrlCommand = new BaseCommand<object>((sender) => true, MultipleImageUrlExecute);
-            //BindingOperations.EnableCollectionSynchronization(LstPostDetailsModels, _lock);
+            UploadDescriptionCommand = new BaseCommand<object>(sender => true, UploadDescription);
+            MultipleImageUrlCommand = new BaseCommand<object>(sender => true, MultipleImageUrlExecute);
         }
 
         private void MultipleImageUrlExecute(object sender)
         {
             try
             {
-                PostDetailsModel.ListMultipleImageUrl = Regex.Split(PostDetailsModel.MultipleImageUrl, "\r\n").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                PostDetailsModel.ListMultipleImageUrl = Regex.Split(PostDetailsModel.MultipleImageUrl, "\r\n")
+                    .Where(x => !string.IsNullOrEmpty(x)).ToList();
             }
             catch (Exception ex)
             {
-
             }
         }
 
         private void UploadDescription(object obj)
         {
-            var createCampaignModel = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+            var createCampaignModel = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel;
             createCampaignModel.LstUploadPostDescription = FileUtilities.FileBrowseAndReader();
         }
@@ -66,6 +65,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         #endregion
 
         #region Properties
+
         private static object _lock = new object();
         //private ObservableCollection<PostDetailsModel> _lstPostDetailsModels;
 
@@ -84,21 +84,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         //}
 
         /// <summary>
-        /// Post source details
+        ///     Post source details
         /// </summary>
-        private PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
+        private readonly PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
 
         private PostDetailsModel _postDetailsModel = new PostDetailsModel();
 
         /// <summary>
-        /// Keep post details, which holds all needed data about post
+        ///     Keep post details, which holds all needed data about post
         /// </summary>
         public PostDetailsModel PostDetailsModel
         {
-            get
-            {
-                return _postDetailsModel;
-            }
+            get => _postDetailsModel;
             set
             {
                 if (_postDetailsModel == value)
@@ -111,14 +108,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private PublisherMediaViewerModel _publisherMultipleImagesMediaViewerModel = new PublisherMediaViewerModel();
 
         /// <summary>
-        /// To specify the media viewer details
+        ///     To specify the media viewer details
         /// </summary>
         public PublisherMediaViewerModel PublisherMultipleImagesMediaViewerModel
         {
-            get
-            {
-                return _publisherMultipleImagesMediaViewerModel;
-            }
+            get => _publisherMultipleImagesMediaViewerModel;
             set
             {
                 if (_publisherMultipleImagesMediaViewerModel == value)
@@ -133,36 +127,42 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         #endregion
 
         #region Command
+
         /// <summary>
-        /// Opening mulitple post window
+        ///     Opening mulitple post window
         /// </summary>
         public ICommand MultiplePostCommand { get; set; }
 
         /// <summary>
-        /// Importing Posts from Csv
+        ///     Importing Posts from Csv
         /// </summary>
         public ICommand ImportFromCsvCommand { get; set; }
 
         /// <summary>
-        /// Getting multiple image posts 
+        ///     Getting multiple image posts
         /// </summary>
         public ICommand SearchCommand { get; set; }
 
         /// <summary>
-        /// Saving posts to create campaign view model
+        ///     Saving posts to create campaign view model
         /// </summary>
         public ICommand SaveCurrentPostCommand { get; set; }
+
         public ICommand UploadDescriptionCommand { get; set; }
 
         public ICommand MultipleImageUrlCommand { get; set; }
+
         #endregion
 
         #region Methods
 
-        public bool CanExecuteSaveSinglePost(object sender) => true;
+        public bool CanExecuteSaveSinglePost(object sender)
+        {
+            return true;
+        }
 
         /// <summary>
-        /// Save the post list
+        ///     Save the post list
         /// </summary>
         /// <param name="sender"></param>
         public void SavePost(object sender)
@@ -172,8 +172,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 // Get the create campaign Post list model
-                var createCampaignModel = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                      .PublisherCreateCampaignModel;
+                var createCampaignModel = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                    .PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel;
 
                 // get all post collection 
                 var postCollectionDetails = createCampaignModel.PostCollection;
@@ -185,9 +186,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Single Posts save post
                 if (PostDetailsModel.IsSinglePost && (!string.IsNullOrEmpty(PostDetailsModel.PostDescription) ||
-                            PostDetailsModel.MediaViewer.MediaList.Count > 0 ||
-                            !string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle) ||
-                            !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl)))
+                                                      PostDetailsModel.MediaViewer.MediaList.Count > 0 ||
+                                                      !string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle) ||
+                                                      !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl)))
                 {
                     isLoggerNeeded = true;
 
@@ -206,7 +207,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     // Adding to post collections
                     postCollectionDetails.Add(cloneObject);
                 }
-
 
                 #endregion
 
@@ -229,13 +229,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #region Multiple Images post
 
-                if (PostDetailsModel.IsMultipleImagePost && createCampaignModel.LstMultipleImagePostCollection.Count > 0)
+                if (PostDetailsModel.IsMultipleImagePost &&
+                    createCampaignModel.LstMultipleImagePostCollection.Count > 0)
                 {
-                    List<string> LstTitle = new List<string>();
+                    var LstTitle = new List<string>();
                     if (!string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle))
-                    {
                         LstTitle = PostDetailsModel.PublisherInstagramTitle.Split('\n').ToList();
-                    }
                     // Iterate the Multiple image posts
                     createCampaignModel.LstMultipleImagePostCollection.ForEach(post =>
                     {
@@ -253,6 +252,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     });
                     isLoggerNeeded = true;
                 }
+
                 #endregion
 
                 if (isLoggerNeeded)
@@ -268,23 +268,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         new PostDetailsModel();
                     tabItemsControl.PostDetailsModel = new PostDetailsModel();
 
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyPostSaved".FromResourceDictionary()} to {status} list");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName,
+                        "Publisher Campaign", $"{"LangKeyPostSaved".FromResourceDictionary()} to {status} list");
                 }
                 else
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyFailedToSave".FromResourceDictionary()} to {status} list. {"LangKeyAddAtleastOnePost".FromResourceDictionary()}");
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName,
+                        "Publisher Campaign",
+                        $"{"LangKeyFailedToSave".FromResourceDictionary()} to {status} list. {"LangKeyAddAtleastOnePost".FromResourceDictionary()}");
+                }
 
                 _multipostWindow?.Close();
                 _multipostWindow = null;
                 if (!Application.Current.Dispatcher.CheckAccess())
                 {
                     Application.Current.Dispatcher.Invoke(() =>
-                               {
-                                   //Clear the current object values
-                                   createCampaignModel.LstMultipleImagePostCollection =
-                                                  new ObservableCollection<PostDetailsModel>();
-                                   createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
-                               });
-
+                    {
+                        //Clear the current object values
+                        createCampaignModel.LstMultipleImagePostCollection =
+                            new ObservableCollection<PostDetailsModel>();
+                        createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
+                    });
                 }
                 else
                 {
@@ -293,6 +297,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         new ObservableCollection<PostDetailsModel>();
                     createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
                 }
+
                 PublisherMultiplePost.GetMultiplePost(createCampaignModel.LstPostDetailsModels).Dispose();
             }
             catch (Exception ex)
@@ -303,7 +308,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public static Window _multipostWindow;
 
-        static Window GetMultiPost(ObservableCollection<PostDetailsModel> lstPostDetailsModels)
+        private static Window GetMultiPost(ObservableCollection<PostDetailsModel> lstPostDetailsModels)
         {
             if (_multipostWindow == null)
             {
@@ -312,7 +317,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var dialog = new Dialog();
 
                 // Pass the object with Title
-                _multipostWindow = dialog.GetMetroWindow(publisherMultiplePost, "LangKeyMultiplePost".FromResourceDictionary());
+                _multipostWindow =
+                    dialog.GetMetroWindow(publisherMultiplePost, "LangKeyMultiplePost".FromResourceDictionary());
                 _multipostWindow.Closing += (s, e) =>
                 {
                     e.Cancel = true;
@@ -320,27 +326,30 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 };
                 return _multipostWindow;
             }
+
             return _multipostWindow;
         }
 
-        public bool CanExecuteMultiPost(object sender) => true;
+        public bool CanExecuteMultiPost(object sender)
+        {
+            return true;
+        }
 
         /// <summary>
-        /// Open Multiple post list window
+        ///     Open Multiple post list window
         /// </summary>
         /// <param name="sender"></param>
         public void ExecuteMultiPost(object sender)
         {
-
             // Get the object of multiple post UI
             //var publisherMultiplePost = new PublisherMultiplePost();
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-
                 try
                 {
-                    var window = GetMultiPost(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels);
+                    var window = GetMultiPost(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                        .PublisherCreateCampaignViewModel
+                        .PublisherCreateCampaignModel.LstPostDetailsModels);
                     window.ShowDialog();
                 }
                 catch (Exception ex)
@@ -350,10 +359,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             });
         }
 
-        private bool SearchCanExecute(object sender) => true;
+        private bool SearchCanExecute(object sender)
+        {
+            return true;
+        }
 
         /// <summary>
-        /// SearchExecute is used for fetching the image posts from the url
+        ///     SearchExecute is used for fetching the image posts from the url
         /// </summary>
         /// <param name="sender"></param>
         private void SearchExecute(object sender)
@@ -362,7 +374,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 var pageTitle = string.Empty;
 
-                var mediaViewer = (MediaViewer)sender;
+                var mediaViewer = (MediaViewer) sender;
 
                 // check whether Image url is empty or not
                 if (string.IsNullOrEmpty(PostDetailsModel.ImagesUrl))
@@ -379,25 +391,29 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
 
                 // Start scraping the image url from ImageExtracter.ExtractImageUrls
-                PostDetailsModel.MediaList = new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl, ref pageTitle));
+                PostDetailsModel.MediaList =
+                    new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl,
+                        ref pageTitle));
 
                 // Add the scraped medias to postdetails collection
                 PostDetailsModel.MediaList.ForEach(x => MediaList.Add(x));
 
                 // Get the Create campaign View model object for multiple image post
-                var postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                var postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                    .PublisherCreateCampaignViewModel
                     .PublisherCreateCampaignModel.LstMultipleImagePostCollection;
 
                 // Iterate all the media and add into post detail model
                 foreach (var image in PostDetailsModel.MediaList)
                 {
                     // Assign the image url
-                    var publisherMediaViewerModel = new PublisherMediaViewerModel { MediaList = new ObservableCollection<string> { image } };
+                    var publisherMediaViewerModel = new PublisherMediaViewerModel
+                        {MediaList = new ObservableCollection<string> {image}};
 
                     // Create a new object with fetched image urls
                     var postDetailsModel = new PostDetailsModel
                     {
-                        MediaList = new ObservableCollection<string> { image },
+                        MediaList = new ObservableCollection<string> {image},
                         PostDetailsId = Utilities.GetGuid(),
                         PostDescription = new Uri(image).Segments.Last(),
                         CreatedDateTime = DateTime.Now,
@@ -420,10 +436,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private bool ImportFromCsvCanExecute(object sender) => true;
+        private bool ImportFromCsvCanExecute(object sender)
+        {
+            return true;
+        }
 
         /// <summary>
-        /// Import the posts from csv file
+        ///     Import the posts from csv file
         /// </summary>
         /// <param name="sender"></param>
         private void ImportFromCsvExecute(object sender)
@@ -433,15 +452,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (listPostDetailsModel.Count == 0)
                 return;
-            var publisherMultiplePost = PublisherMultiplePost.GetMultiplePost(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels);
+            var publisherMultiplePost = PublisherMultiplePost.GetMultiplePost(PublisherCreateCampaigns
+                .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.LstPostDetailsModels);
 
             // Get all post details from campaign View model
-           //var LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()?.PublisherCreateCampaignViewModel?
-           //     .PublisherCreateCampaignModel?.LstPostDetailsModels;
+            //var LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()?.PublisherCreateCampaignViewModel?
+            //     .PublisherCreateCampaignModel?.LstPostDetailsModels;
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                var window = GetMultiPost(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                var window = GetMultiPost(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                    .PublisherCreateCampaignViewModel
                     .PublisherCreateCampaignModel.LstPostDetailsModels);
                 window?.ShowDialog();
             }));
@@ -463,7 +484,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     try
                     {
-                        using (PostDetailsModel postDetailsModel = new PostDetailsModel())
+                        using (var postDetailsModel = new PostDetailsModel())
                         {
                             // PostDetailsModel postDetailsModel = new PostDetailsModel();
 
@@ -484,10 +505,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                                 var path = media.Trim();
                                 if (File.Exists(path))
                                 {
-                                    Application.Current.Dispatcher.BeginInvoke(new Action(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(path))));
+                                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                                        postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(path))));
                                     Thread.Sleep(2);
                                 }
-
                             });
 
                             #endregion
@@ -517,6 +538,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             }
 
                             #endregion
+
                             // Created date
                             postDetailsModel.CreatedDateTime = DateTime.Now;
 
@@ -526,27 +548,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             // Add to Collections
                             //postDetails.Add(postDetailsModel);
 
-                            Application.Current.Dispatcher.BeginInvoke(new Action(() => PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels.Add(postDetailsModel)));
+                            Application.Current.Dispatcher.BeginInvoke(new Action(() => PublisherCreateCampaigns
+                                .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                                .PublisherCreateCampaignModel.LstPostDetailsModels.Add(postDetailsModel)));
                             Thread.Sleep(1);
-
                         }
                     }
                     catch (Exception ex)
                     {
                         ex.DebugLog();
                     }
-
                 });
 
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => publisherMultiplePost.PublisherMultiplePostViewModel.PostListsCollectionView =
-                    CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    publisherMultiplePost.PublisherMultiplePostViewModel.PostListsCollectionView =
+                        CollectionViewSource.GetDefaultView(PublisherCreateCampaigns
+                            .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                            .PublisherCreateCampaignModel.LstPostDetailsModels)));
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressVisibile = Visibility.Collapsed;
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressActive = false;
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsStopLoadingPost = false;
             });
-
         }
 
         #endregion

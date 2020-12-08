@@ -1,18 +1,22 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.EmailService;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using CommonServiceLocator;
+using DominatorHouseCore.EmailService;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.Diagnostics
 {
     public class SocinatorAccountBuilder
     {
         private readonly IAccountsFileManager _accountsFileManager;
-        private DominatorAccountModel DominatorAccountModel { get; set; }
+        private DominatorAccountModel DominatorAccountModel { get; }
 
         public SocinatorAccountBuilder(string accountId)
         {
@@ -25,19 +29,19 @@ namespace DominatorHouseCore.Diagnostics
             DominatorAccountModel.Cookies = cookies;
             return this;
         }
-     
+
         public SocinatorAccountBuilder AddOrUpdateBrowserCookies(CookieCollection cookies)
         {
             DominatorAccountModel.BrowserCookies = cookies;
             return this;
         }
+
         public SocinatorAccountBuilder AddOrUpdateBrowserSettings(bool isBrowerAutomationActive)
         {
             DominatorAccountModel.IsRunProcessThroughBrowser = isBrowerAutomationActive;
             return this;
         }
 
-        
 
         public SocinatorAccountBuilder AddOrUpdateDominatorAccountBase(DominatorAccountBaseModel accountBaseModel)
         {
@@ -73,6 +77,7 @@ namespace DominatorHouseCore.Diagnostics
             {
                 ex.DebugLog();
             }
+
             return this;
         }
 
@@ -89,6 +94,7 @@ namespace DominatorHouseCore.Diagnostics
             {
                 ex.DebugLog();
             }
+
             return this;
         }
 
@@ -121,11 +127,13 @@ namespace DominatorHouseCore.Diagnostics
             DominatorAccountModel.DisplayColumnValue11 = value;
             return this;
         }
+
         public SocinatorAccountBuilder UpdateLastUpdateTime(int value)
         {
             DominatorAccountModel.LastUpdateTime = value;
             return this;
         }
+
         public SocinatorAccountBuilder AddOrUpdateProxy(Proxy proxy)
         {
             DominatorAccountModel.AccountBaseModel.AccountProxy = proxy;
@@ -137,11 +145,13 @@ namespace DominatorHouseCore.Diagnostics
             DominatorAccountModel.MailCredentials = mailCredentials;
             return this;
         }
+
         public SocinatorAccountBuilder AddOrUpdateIsAutoVerifyByEmail(bool IsAutoVerifyByEmail)
         {
             DominatorAccountModel.IsAutoVerifyByEmail = IsAutoVerifyByEmail;
             return this;
         }
+
         public SocinatorAccountBuilder AddOrUpdatePaginationId(string key, string value)
         {
             try
@@ -155,9 +165,13 @@ namespace DominatorHouseCore.Diagnostics
             {
                 ex.DebugLog();
             }
+
             return this;
         }
+
         public bool SaveToBinFile()
-            => _accountsFileManager.Edit(DominatorAccountModel);
+        {
+            return _accountsFileManager.Edit(DominatorAccountModel);
+        }
     }
 }

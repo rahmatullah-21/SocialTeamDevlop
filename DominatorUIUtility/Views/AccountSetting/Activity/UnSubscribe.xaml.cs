@@ -1,10 +1,10 @@
-﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 
 namespace DominatorUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
-    /// Interaction logic for Unsubscribe.xaml
+    ///     Interaction logic for Unsubscribe.xaml
     /// </summary>
     public partial class UnSubscribe : UserControl
     {

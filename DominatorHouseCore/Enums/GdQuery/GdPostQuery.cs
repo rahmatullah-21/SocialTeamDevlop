@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿#region
+
+using System.ComponentModel;
+
+#endregion
 
 namespace DominatorHouseCore.Enums.GdQuery
 {
@@ -6,35 +10,40 @@ namespace DominatorHouseCore.Enums.GdQuery
     {
         [Description("LangKeySuggestedUsersPosts")]
         SuggestedUsersPosts,
-        [Description("LangKeyHashtagPostS")]
-        HashtagPost,
+        [Description("LangKeyHashtagPostS")] HashtagPost,
+
         [Description("LangKeyHashtagUsersPostS")]
         HashtagUsersPost,
+
         [Description("LangKeySomeonesFollowersPostS")]
         SomeonesFollowersPost,
+
         [Description("LangKeySomeonesFollowingsPostS")]
         SomeonesFollowingsPost,
+
         [Description("LangKeyFollowersOfSomeonesFollowersPostS")]
         FollowersOfFollowersPost,
+
         [Description("LangKeyFollowersOfSomeonesFollowingsPostS")]
         FollowersOfFollowingsPost,
-        [Description("LangKeyLocationPosts")]
-        LocationPosts,
+        [Description("LangKeyLocationPosts")] LocationPosts,
+
         [Description("LangKeyLocationUsersPosts")]
         LocationUsersPost,
-        [Description("LangKeyCustomPhotos")]
-        CustomPhotos,
+        [Description("LangKeyCustomPhotos")] CustomPhotos,
+
         [Description("LangKeyPostsOfUsersWhoLikedPost")]
         PostOfUsersWhoLikedPost,
+
         [Description("LangKeyPostsOfUsersWhoCommentedOnPost")]
         PostOfUsersWhoCommentedOnPost,
+
         [Description("LangKeySpecificUsersPosts")]
         SpecificUsersPosts,
+
         [Description("LangKeySocinatorPublisherCampaign")]
         SocinatorPublisherCampaign,
-        [Description("LangKeyScrapAllLikes")]
-        ScrapAllLikedPost,
-        [Description("LangKeyTaggedPost")]
-        TaggedPost,
+        [Description("LangKeyScrapAllLikes")] ScrapAllLikedPost,
+        [Description("LangKeyTaggedPost")] TaggedPost
     }
 }

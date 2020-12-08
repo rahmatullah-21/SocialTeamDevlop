@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿#region
+
+using System.ComponentModel;
+
+#endregion
 
 namespace DominatorHouseCore.Enums.TtdQuery
 {
@@ -6,15 +10,18 @@ namespace DominatorHouseCore.Enums.TtdQuery
     {
         [Description("LangKeySpecificUserPost")]
         SpecificUserPost,
+
         [Description("LangKeySomeonesFollowersPostS")]
         SomeoneFollowersPost,
+
         [Description("LangKeySomeonesFollowingsPostS")]
         SomeoneFollowingPost,
+
         [Description("LangKeyKeywordUserPost")]
         KeywordUserPost,
-        [Description("LangKeyHashtagPostS")]
-        HashTagPost,
+        [Description("LangKeyHashtagPostS")] HashTagPost,
+
         [Description("LangKeyHashtagUsersPostS")]
-        HashTagUserPost,
+        HashTagUserPost
     }
 }

@@ -1,27 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.LogHelper;
-using Microsoft.Win32;
-using System.IO;
-using DominatorHouseCore.Enums;
+using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using Microsoft.Win32;
 
 namespace DominatorUIUtility.CustomControl
 {
-    public partial class SearchQueryControl : UserControl, INotifyPropertyChanged
+    public partial class SearchQueryControl : INotifyPropertyChanged
     {
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(SearchQueryControl),
+                new FrameworkPropertyMetadata());
+
+        // Using a DependencyProperty as the backing store for IsExpanded.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsExpandedProperty =
+            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SearchQueryControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        // Using a DependencyProperty as the backing store for CustomFilterCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CustomFilterCommandProperty =
+            DependencyProperty.Register("CustomFilterCommand", typeof(ICommand), typeof(SearchQueryControl));
+
+        // Using a DependencyProperty as the backing store for DeleteQueryCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DeleteQueryCommandProperty =
+            DependencyProperty.Register("DeleteQueryCommand", typeof(ICommand), typeof(SearchQueryControl));
+
+        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DeleteMulipleCommandProperty =
+            DependencyProperty.Register("DeleteMulipleCommand", typeof(ICommand), typeof(SearchQueryControl));
+
+        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty QuryTypeSelectionChangedCommandProperty =
+            DependencyProperty.Register("QuryTypeSelectionChangedCommand", typeof(ICommand),
+                typeof(SearchQueryControl));
+
+        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectionChangedCommandParameterProperty =
+            DependencyProperty.Register("SelectionChangedCommandParameter", typeof(object), typeof(SearchQueryControl));
+
+        private bool _isEnable = true;
+
         public SearchQueryControl()
         {
             InitializeComponent();
@@ -43,321 +79,68 @@ namespace DominatorUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyOwnFriends".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyScrapUserWhomWeMessaged".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyPeopleConnectedInMessenger".FromResourceDictionary());
-            
-            DeleteQueryCommand = new BaseCommand<object>((sender) => true, DeleteQueryExecute);
-            DeleteMulipleCommand = new BaseCommand<object>((sender) => true, DeleteMulipleExecute);
 
+            DeleteQueryCommand = new BaseCommand<object>(sender => true, DeleteQueryExecute);
+            DeleteMulipleCommand = new BaseCommand<object>(sender => true, DeleteMulipleExecute);
         }
-
-
-        #region Variables
-
-        private int _selectedIndex;
-
-        public int SelectedIndex
-        {
-            get
-            {
-                return _selectedIndex;
-            }
-            set
-            {
-                _selectedIndex = value;
-                OnPropertyChanged(nameof(SelectedIndex));
-            }
-        }
-        private bool _isAllQuerySelected;
-
-        public bool IsAllQuerySelected
-        {
-            get
-            {
-                return _isAllQuerySelected;
-            }
-            set
-            {
-                if (_isAllQuerySelected == value)
-                    return;
-                _isAllQuerySelected = value;
-                OnPropertyChanged(nameof(IsAllQuerySelected));
-                SelectAll(_isAllQuerySelected);
-                IsCheckFromList = false;
-            }
-        }
-
-        public bool IsCheckFromList { get; set; }
-        private void SelectAll(bool _isAllQuerySelected)
-        {
-            if (IsCheckFromList)
-                return;
-            ListQueryInfo.Select(x =>
-            {
-                x.IsQuerySelected = _isAllQuerySelected;
-                return x;
-            }).ToList();
-        }
-
-
-        public List<Enum> LstQueryType
-        {
-            get { return (List<Enum>)GetValue(LstQueryTypeProperty); }
-            set { SetValue(LstQueryTypeProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for LstQueryType.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LstQueryTypeProperty =
-            DependencyProperty.Register("LstQueryType", typeof(List<Enum>),
-                typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-
-                {
-                    BindsTwoWayByDefault = true
-                });
-
-
-        public IEnumerable<string> ListQueryType
-        {
-            get { return (IEnumerable<string>)GetValue(ListQueryTypeProperty); }
-            set { SetValue(ListQueryTypeProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ListQueryType.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ListQueryTypeProperty =
-            DependencyProperty.Register("ListQueryType", typeof(IEnumerable<string>), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
-
-
-        public QueryInfo CurrentQuery
-        {
-            get { return (QueryInfo)GetValue(CurrentQueryProperty); }
-            set { SetValue(CurrentQueryProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CurrentQuery.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CurrentQueryProperty =
-            DependencyProperty.Register("CurrentQuery", typeof(QueryInfo), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
-
-
-
-        public ObservableCollection<QueryInfo> ListQueryInfo
-        {
-            get { return (ObservableCollection<QueryInfo>)GetValue(ListQueryInfoProperty); }
-            set { SetValue(ListQueryInfoProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ListQueryInfo.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ListQueryInfoProperty =
-            DependencyProperty.Register("ListQueryInfo", typeof(ObservableCollection<QueryInfo>), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
-
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
-
-        public List<string> QueryCollection { get; set; } = new List<string>();
-
-        #endregion
-
-        #region Import Query Details
-
-        /// <summary>
-        /// Create a routed event which is registered to event manager with the characteristics 
-        /// </summary>
-        private static readonly RoutedEvent GetQueryClickEvent = EventManager.RegisterRoutedEvent("GetQueryClick",
-            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SearchQueryControl));
-
-        /// <summary>
-        /// Create a RoutedEventHandler for query clicks
-        /// </summary>
-        public event RoutedEventHandler GetQueryClick
-        {
-            add { AddHandler(GetQueryClickEvent, value); }
-            remove { RemoveHandler(GetQueryClickEvent, value); }
-        }
-
-        void GetQueryClickEventHandler()
-        {
-            var routedEventArgs = new RoutedEventArgs(GetQueryClickEvent);
-            RaiseEvent(routedEventArgs);
-        }
-
-
-        /// <summary>
-        /// To Read the Query
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BtnImportQuery_OnClick(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                QueryCollection.Clear();
-                QueryCollection.AddRange(FileUtilities.FileBrowseAndReader());
-
-                if (QueryCollection.Count != 0)
-                {
-                    Dialog.ShowDialog("LangKeyInfo".FromResourceDictionary(), "LangKeyQueriesReadyToAdd".FromResourceDictionary());
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "LangKeyQueriesUploaded".FromResourceDictionary());
-                }
-                else
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "LangKeyNoQueryUploaded".FromResourceDictionary());
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "LangKeyErrorOccuredWhileQueryUploading".FromResourceDictionary());
-            }
-
-            GetQueryClickEventHandler();
-        }
-
-        #endregion
-
-        #region CustomFilters
-
-        private static readonly RoutedEvent CustomFilterChangedEvent =
-            EventManager.RegisterRoutedEvent("CustomFilterChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
-                typeof(SearchQueryControl));
-
-        public event RoutedEventHandler CustomFilterChanged
-        {
-            add { AddHandler(CustomFilterChangedEvent, value); }
-            remove { RemoveHandler(CustomFilterChangedEvent, value); }
-        }
-
-        void CustomFilterEventHandler()
-        {
-            var routedEventArgs = new RoutedEventArgs(CustomFilterChangedEvent);
-            RaiseEvent(routedEventArgs);
-        }
-
-        private void btnFilter_Click(object sender, RoutedEventArgs e)
-        {
-            CustomFilterEventHandler();
-        }
-
-        #endregion
-
-        #region Add current query to query list 
-
-        private static readonly RoutedEvent AddQueryEvent = EventManager.RegisterRoutedEvent("AddQuery",
-            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SearchQueryControl));
-
-        public event RoutedEventHandler AddQuery
-        {
-            add { AddHandler(AddQueryEvent, value); }
-            remove { RemoveHandler(AddQueryEvent, value); }
-        }
-        void AddQueryEventHandler()
-        {
-            var routedEventArgs = new RoutedEventArgs(AddQueryEvent);
-            RaiseEvent(routedEventArgs);
-        }
-
-        private static readonly DependencyProperty AddQueryCommandProperty
-            = DependencyProperty.Register("AddQueryCommand", typeof(ICommand), typeof(SearchQueryControl));
-
-        public ICommand AddQueryCommand
-        {
-            get
-            {
-                return (ICommand)GetValue(AddQueryCommandProperty);
-            }
-            set
-            {
-                SetValue(AddQueryCommandProperty, value);
-            }
-        }
-
-        #endregion
 
         public object CommandParameter
         {
-            get { return GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
-
-
-        #region Delete the query from query list
-
-        private static readonly RoutedEvent DeleteQueryEvent = EventManager.RegisterRoutedEvent("DeleteQuery",
-            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SearchQueryControl));
-
-        public event RoutedEventHandler DeleteQuery
-        {
-            add { AddHandler(DeleteQueryEvent, value); }
-            remove { RemoveHandler(DeleteQueryEvent, value); }
-        }
-
-        void DeleteQueryEventHandler()
-        {
-            var routedEventArgs = new RoutedEventArgs(DeleteQueryEvent);
-            RaiseEvent(routedEventArgs);
-        }
-
-        private void DeleteSingle_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            CurrentQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
-            DeleteQueryEventHandler();
-            if (ListQueryInfo.Any(x => CurrentQuery != null && x.Id == CurrentQuery.Id))
-            {
-                QueryCollection.Remove(CurrentQuery.QueryValue);
-                ListQueryInfo.Remove(CurrentQuery);
-            }
-        }
-
-        #endregion
-
-        #region Selected Query Type Changed
-        private void CmbboxQueryTypeLists_OnDropDownClosed(object sender, EventArgs e)
-        {
-            try
-            {
-                CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
-                if (LstNonQueryType.Contains(CurrentQuery.QueryType))
-                {
-                    TxtInputQuery.Text = "NA";
-                    TxtInputQuery.IsEnabled = false;
-                }
-                else
-                {
-                    TxtInputQuery.IsEnabled = true;
-                    TxtInputQuery.Clear();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        #endregion
 
         public bool IsExpanded
         {
-            get { return (bool)GetValue(IsExpandedProperty); }
-            set { SetValue(IsExpandedProperty, value); }
+            get => (bool) GetValue(IsExpandedProperty);
+            set => SetValue(IsExpandedProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for IsExpanded.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsExpandedProperty =
-            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+        public HashSet<string> LstNonQueryType { get; set; } = new HashSet<string>();
+
+        public bool IsEnable
+        {
+            get => _isEnable;
+            set
             {
-                BindsTwoWayByDefault = true
-            });
+                _isEnable = value;
+                OnPropertyChanged(nameof(IsEnable));
+            }
+        }
+
+        public ActivityType ActivityType { get; set; }
+        public string Network { get; set; }
+
+        public ICommand CustomFilterCommand
+        {
+            get => (ICommand) GetValue(CustomFilterCommandProperty);
+            set => SetValue(CustomFilterCommandProperty, value);
+        }
+
+        public ICommand DeleteQueryCommand
+        {
+            get => (ICommand) GetValue(DeleteQueryCommandProperty);
+            set => SetValue(DeleteQueryCommandProperty, value);
+        }
+
+        public ICommand DeleteMulipleCommand
+        {
+            get => (ICommand) GetValue(DeleteMulipleCommandProperty);
+            set => SetValue(DeleteMulipleCommandProperty, value);
+        }
+
+        public ICommand QuryTypeSelectionChangedCommand
+        {
+            get => (ICommand) GetValue(QuryTypeSelectionChangedCommandProperty);
+            set => SetValue(QuryTypeSelectionChangedCommandProperty, value);
+        }
+
+
+        public object SelectionChangedCommandParameter
+        {
+            get => GetValue(SelectionChangedCommandParameterProperty);
+            set => SetValue(SelectionChangedCommandParameterProperty, value);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -370,44 +153,16 @@ namespace DominatorUIUtility.CustomControl
         private void OnQuerySelect(object sender, RoutedEventArgs e)
         {
             if (ListQueryInfo.All(x => x.IsQuerySelected))
+            {
                 IsAllQuerySelected = true;
+            }
             else
             {
                 if (IsAllQuerySelected)
                     IsCheckFromList = true;
                 IsAllQuerySelected = false;
-
             }
         }
-
-        public HashSet<string> LstNonQueryType { get; set; } = new HashSet<string>();
-
-        private bool _isEnable = true;
-
-        public bool IsEnable
-        {
-            get
-            {
-                return _isEnable;
-            }
-            set
-            {
-                _isEnable = value;
-                OnPropertyChanged(nameof(IsEnable));
-            }
-        }
-        public ActivityType ActivityType { get; set; }
-        public string Network { get; set; }
-
-        public ICommand CustomFilterCommand
-        {
-            get { return (ICommand)GetValue(CustomFilterCommandProperty); }
-            set { SetValue(CustomFilterCommandProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CustomFilterCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CustomFilterCommandProperty =
-            DependencyProperty.Register("CustomFilterCommand", typeof(ICommand), typeof(SearchQueryControl));
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -426,23 +181,12 @@ namespace DominatorUIUtility.CustomControl
                     BtnImportQuery.IsEnabled = true;
                     CurrentQuery.QueryValue = string.Empty;
                 }
-
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
-
-        public ICommand DeleteQueryCommand
-        {
-            get { return (ICommand)GetValue(DeleteQueryCommandProperty); }
-            set { SetValue(DeleteQueryCommandProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for DeleteQueryCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DeleteQueryCommandProperty =
-            DependencyProperty.Register("DeleteQueryCommand", typeof(ICommand), typeof(SearchQueryControl));
 
         private void DeleteQueryExecute(object sender)
         {
@@ -462,16 +206,6 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        public ICommand DeleteMulipleCommand
-        {
-            get { return (ICommand)GetValue(DeleteMulipleCommandProperty); }
-            set { SetValue(DeleteMulipleCommandProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DeleteMulipleCommandProperty =
-            DependencyProperty.Register("DeleteMulipleCommand", typeof(ICommand), typeof(SearchQueryControl));
-
 
         private void DeleteMulipleExecute(object obj)
         {
@@ -484,14 +218,13 @@ namespace DominatorUIUtility.CustomControl
                     IsAllQuerySelected = false;
                     return;
                 }
+
                 foreach (var queryInfo in ListQueryInfo.ToList())
-                {
                     if (queryInfo.IsQuerySelected)
                     {
                         QueryCollection.Remove(queryInfo.QueryValue);
                         ListQueryInfo.Remove(queryInfo);
                     }
-                }
             }
             catch (Exception ex)
             {
@@ -505,31 +238,31 @@ namespace DominatorUIUtility.CustomControl
             {
                 if (!ListQueryInfo.Any(x => x.IsQuerySelected))
                 {
-                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeySelectAtleastOneQuery".FromResourceDictionary());
+                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(),
+                        "LangKeySelectAtleastOneQuery".FromResourceDictionary());
                     return;
                 }
-               // var network = SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social ? SocinatorInitialize.AccountModeActiveSocialNetwork : SocinatorInitialize.ActiveSocialNetwork;
-                SaveFileDialog saveFiledialog = new SaveFileDialog
+
+                // var network = SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social ? SocinatorInitialize.AccountModeActiveSocialNetwork : SocinatorInitialize.ActiveSocialNetwork;
+                var saveFiledialog = new SaveFileDialog
                 {
                     Filter = "CSV file (.csv)|*.csv",
-                    FileName = Network + "-" + ActivityType.ToString() + "-Query-" + DateTimeUtilities.GetCurrentEpochTime(DateTime.Now)
+                    FileName = Network + "-" + ActivityType + "-Query-" + DateTime.Now.GetCurrentEpochTime()
                 };
 
                 if (saveFiledialog.ShowDialog() == true)
                 {
-                    string filename = saveFiledialog.FileName;
+                    var filename = saveFiledialog.FileName;
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
                         ListQueryInfo.ForEach(x =>
                         {
                             if (x.IsQuerySelected)
-                            {
-                                streamWriter.WriteLine(Network + "," + ActivityType.ToString() + "," + x.QueryType + "," + x.QueryValue);
-                            }
+                                streamWriter.WriteLine(Network + "," + ActivityType.ToString() + "," + x.QueryType +
+                                                       "," + x.QueryValue);
                         });
                         ToasterNotification.ShowSuccess("LangKeyQueriesUploaded".FromResourceDictionary());
                     }
-
                 }
             }
             catch (Exception ex)
@@ -537,32 +270,237 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
-        public ICommand QuryTypeSelectionChangedCommand
+
+
+        #region Variables
+
+        private int _selectedIndex;
+
+        public int SelectedIndex
         {
-            get { return (ICommand)GetValue(QuryTypeSelectionChangedCommandProperty); }
-            set { SetValue(QuryTypeSelectionChangedCommandProperty, value); }
+            get => _selectedIndex;
+            set
+            {
+                _selectedIndex = value;
+                OnPropertyChanged(nameof(SelectedIndex));
+            }
         }
-        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty QuryTypeSelectionChangedCommandProperty =
-            DependencyProperty.Register("QuryTypeSelectionChangedCommand", typeof(ICommand), typeof(SearchQueryControl));
 
+        private bool _isAllQuerySelected;
 
-        public object SelectionChangedCommandParameter
+        public bool IsAllQuerySelected
         {
-            get { return (object)GetValue(SelectionChangedCommandParameterProperty); }
-            set { SetValue(SelectionChangedCommandParameterProperty, value); }
+            get => _isAllQuerySelected;
+            set
+            {
+                if (_isAllQuerySelected == value)
+                    return;
+                _isAllQuerySelected = value;
+                OnPropertyChanged(nameof(IsAllQuerySelected));
+                SelectAll(_isAllQuerySelected);
+                IsCheckFromList = false;
+            }
         }
 
-        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectionChangedCommandParameterProperty =
-            DependencyProperty.Register("SelectionChangedCommandParameter", typeof(object), typeof(SearchQueryControl));
+        public bool IsCheckFromList { get; set; }
 
-        private void SearchQueries_OnLoaded(object sender, RoutedEventArgs e)
+        private void SelectAll(bool _isAllQuerySelected)
         {
-            if (ListQueryInfo.Count > 0)
-                SearchQueries.ScrollIntoView(ListQueryInfo[0]);
+            if (IsCheckFromList)
+                return;
+            ListQueryInfo.Select(x =>
+            {
+                x.IsQuerySelected = _isAllQuerySelected;
+                return x;
+            }).ToList();
         }
+
+
+        public List<Enum> LstQueryType
+        {
+            get => (List<Enum>) GetValue(LstQueryTypeProperty);
+            set => SetValue(LstQueryTypeProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for LstQueryType.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LstQueryTypeProperty =
+            DependencyProperty.Register("LstQueryType", typeof(List<Enum>),
+                typeof(SearchQueryControl), new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+
+        public IEnumerable<string> ListQueryType
+        {
+            get => (IEnumerable<string>) GetValue(ListQueryTypeProperty);
+            set => SetValue(ListQueryTypeProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for ListQueryType.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ListQueryTypeProperty =
+            DependencyProperty.Register("ListQueryType", typeof(IEnumerable<string>), typeof(SearchQueryControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+
+        public QueryInfo CurrentQuery
+        {
+            get => (QueryInfo) GetValue(CurrentQueryProperty);
+            set => SetValue(CurrentQueryProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for CurrentQuery.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentQueryProperty =
+            DependencyProperty.Register("CurrentQuery", typeof(QueryInfo), typeof(SearchQueryControl),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+
+        public ObservableCollection<QueryInfo> ListQueryInfo
+        {
+            get => (ObservableCollection<QueryInfo>) GetValue(ListQueryInfoProperty);
+            set => SetValue(ListQueryInfoProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for ListQueryInfo.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ListQueryInfoProperty =
+            DependencyProperty.Register("ListQueryInfo", typeof(ObservableCollection<QueryInfo>),
+                typeof(SearchQueryControl), new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+
+        public List<string> QueryCollection { get; set; } = new List<string>();
+
+        #endregion
+
+        #region Import Query Details
+
+        /// <summary>
+        ///     Create a routed event which is registered to event manager with the characteristics
+        /// </summary>
+        private static readonly RoutedEvent GetQueryClickEvent = EventManager.RegisterRoutedEvent("GetQueryClick",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SearchQueryControl));
+
+        /// <summary>
+        ///     Create a RoutedEventHandler for query clicks
+        /// </summary>
+        public event RoutedEventHandler GetQueryClick
+        {
+            add => AddHandler(GetQueryClickEvent, value);
+            remove => RemoveHandler(GetQueryClickEvent, value);
+        }
+
+        private void GetQueryClickEventHandler()
+        {
+            var routedEventArgs = new RoutedEventArgs(GetQueryClickEvent);
+            RaiseEvent(routedEventArgs);
+        }
+
+
+        /// <summary>
+        ///     To Read the Query
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnImportQuery_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                QueryCollection.Clear();
+                QueryCollection.AddRange(FileUtilities.FileBrowseAndReader());
+
+                if (QueryCollection.Count != 0)
+                {
+                    Dialog.ShowDialog("LangKeyInfo".FromResourceDictionary(),
+                        "LangKeyQueriesReadyToAdd".FromResourceDictionary());
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "",
+                        ActivityType, "LangKeyQueriesUploaded".FromResourceDictionary());
+                }
+                else
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "",
+                        ActivityType, "LangKeyNoQueryUploaded".FromResourceDictionary());
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType,
+                    "LangKeyErrorOccuredWhileQueryUploading".FromResourceDictionary());
+            }
+
+            GetQueryClickEventHandler();
+        }
+
+        #endregion
+
+        #region CustomFilters
+
+        private static readonly RoutedEvent CustomFilterChangedEvent =
+            EventManager.RegisterRoutedEvent("CustomFilterChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
+                typeof(SearchQueryControl));
+
+        public event RoutedEventHandler CustomFilterChanged
+        {
+            add => AddHandler(CustomFilterChangedEvent, value);
+            remove => RemoveHandler(CustomFilterChangedEvent, value);
+        }
+
+        private void CustomFilterEventHandler()
+        {
+            var routedEventArgs = new RoutedEventArgs(CustomFilterChangedEvent);
+            RaiseEvent(routedEventArgs);
+        }
+
+        #endregion
+
+        #region Add current query to query list 
+
+        private static readonly RoutedEvent AddQueryEvent = EventManager.RegisterRoutedEvent("AddQuery",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SearchQueryControl));
+
+        public event RoutedEventHandler AddQuery
+        {
+            add => AddHandler(AddQueryEvent, value);
+            remove => RemoveHandler(AddQueryEvent, value);
+        }
+
+        private static readonly DependencyProperty AddQueryCommandProperty
+            = DependencyProperty.Register("AddQueryCommand", typeof(ICommand), typeof(SearchQueryControl));
+
+        public ICommand AddQueryCommand
+        {
+            get => (ICommand) GetValue(AddQueryCommandProperty);
+            set => SetValue(AddQueryCommandProperty, value);
+        }
+
+        #endregion
+
+
+        #region Delete the query from query list
+
+        private static readonly RoutedEvent DeleteQueryEvent = EventManager.RegisterRoutedEvent("DeleteQuery",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SearchQueryControl));
+
+        public event RoutedEventHandler DeleteQuery
+        {
+            add => AddHandler(DeleteQueryEvent, value);
+            remove => RemoveHandler(DeleteQueryEvent, value);
+        }
+
+        private void DeleteQueryEventHandler()
+        {
+            var routedEventArgs = new RoutedEventArgs(DeleteQueryEvent);
+            RaiseEvent(routedEventArgs);
+        }
+
+        #endregion
     }
-
-
 }

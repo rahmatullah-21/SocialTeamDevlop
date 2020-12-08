@@ -1,15 +1,21 @@
-﻿using DominatorHouseCore.Utility;
-using ProtoBuf;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.IO;
+using DominatorHouseCore.Utility;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
     public interface IGenericFileManager
     {
         List<T> GetModuleDetails<T>(string filePath) where T : class;
+
         bool UpdateModuleDetails<T>(List<T> detailsList) where T : class;
+
         // void SaveAll<T>(List<T> lstModel) where T : class;
         // void SaveAll<T>(List<T> lstModel, string file) where T : class;
         bool Save<T>(T model, string file) where T : class;
@@ -32,7 +38,8 @@ namespace DominatorHouseCore.FileManagers
         private readonly ILockFileConfigProvider _lockFileConfigProvider;
         private readonly IFileSystemProvider _fileSystemProvider;
 
-        public GenericFileManager(IProtoBuffBase protoBuffBase, ILockFileConfigProvider lockFileConfigProvider, IFileSystemProvider fileSystemProvider)
+        public GenericFileManager(IProtoBuffBase protoBuffBase, ILockFileConfigProvider lockFileConfigProvider,
+            IFileSystemProvider fileSystemProvider)
         {
             _protoBuffBase = protoBuffBase;
             _lockFileConfigProvider = lockFileConfigProvider;
@@ -41,17 +48,19 @@ namespace DominatorHouseCore.FileManagers
 
 
         /// <summary>
-        /// To get the file details for given bin files
+        ///     To get the file details for given bin files
         /// </summary>
         /// <typeparam name="T">Target type</typeparam>
         /// <param name="filePath">file path</param>
         /// <returns></returns>
         public List<T> GetModuleDetails<T>(string filePath) where T : class
-            => _fileSystemProvider.Exists(filePath) ? _protoBuffBase.DeserializeList<T>(filePath) : new List<T>();
+        {
+            return _fileSystemProvider.Exists(filePath) ? _protoBuffBase.DeserializeList<T>(filePath) : new List<T>();
+        }
 
 
         /// <summary>
-        /// To Update the details of the files
+        ///     To Update the details of the files
         /// </summary>
         /// <typeparam name="T">Target type</typeparam>
         /// <param name="detailsList">List of file details</param>
@@ -64,13 +73,12 @@ namespace DominatorHouseCore.FileManagers
                 return _lockFileConfigProvider.WithFile<T, bool>(file =>
                 {
                     // serialize the file
-                    bool result = _protoBuffBase.SerializeList(detailsList, file);
+                    var result = _protoBuffBase.SerializeList(detailsList, file);
                     return result;
                 });
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
@@ -102,7 +110,7 @@ namespace DominatorHouseCore.FileManagers
 
 
         /// <summary>
-        /// Save the details to specified file
+        ///     Save the details to specified file
         /// </summary>
         /// <typeparam name="T">Target type</typeparam>
         /// <param name="model">Details</param>
@@ -112,33 +120,29 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-
                 using (var stream = _fileSystemProvider.Create(file))
                 {
                     // Call for serialize
                     Serializer.Serialize(stream, model);
                     return true;
                 }
-
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
-
         }
 
         /// <summary>
-        /// To Fetch the details from file
+        ///     To Fetch the details from file
         /// </summary>
         /// <typeparam name="T">Target type</typeparam>
         /// <param name="filePath">file path</param>
         /// <returns></returns>
         public T GetModel<T>(string filePath) where T : class, new()
         {
-            T result = new T();
+            var result = new T();
             try
             {
                 if (_fileSystemProvider.Exists(filePath))
@@ -152,11 +156,12 @@ namespace DominatorHouseCore.FileManagers
             {
                 ex.DebugLog();
             }
+
             return result;
         }
 
         /// <summary>
-        /// To Update the details to specified files
+        ///     To Update the details to specified files
         /// </summary>
         /// <typeparam name="T">Targer Type</typeparam>
         /// <param name="detailsList">Detail list</param>
@@ -172,7 +177,6 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
@@ -180,7 +184,7 @@ namespace DominatorHouseCore.FileManagers
 
 
         /// <summary>
-        /// Add multiple type values to file
+        ///     Add multiple type values to file
         /// </summary>
         /// <typeparam name="T">Targer Type</typeparam>
         /// <param name="moduleToSave">type values</param>
@@ -205,7 +209,7 @@ namespace DominatorHouseCore.FileManagers
         }
 
         /// <summary>
-        /// To add the details to file path
+        ///     To add the details to file path
         /// </summary>
         /// <typeparam name="T">Target type</typeparam>
         /// <param name="moduleToSave">Module Details</param>
@@ -227,7 +231,7 @@ namespace DominatorHouseCore.FileManagers
         }
 
         /// <summary>
-        /// To delete the details which matches the predicate condition
+        ///     To delete the details which matches the predicate condition
         /// </summary>
         /// <typeparam name="T">target type</typeparam>
         /// <param name="match">match condition</param>
@@ -243,7 +247,7 @@ namespace DominatorHouseCore.FileManagers
         }
 
         /// <summary>
-        /// To delete the bin file
+        ///     To delete the bin file
         /// </summary>
         /// <param name="filepath">file path</param>
         /// <returns></returns>
@@ -263,11 +267,12 @@ namespace DominatorHouseCore.FileManagers
             {
                 ex.DebugLog();
             }
+
             return !File.Exists(filepath);
         }
 
         /// <summary>
-        /// To override the details with specified file
+        ///     To override the details with specified file
         /// </summary>
         /// <typeparam name="T">Target type</typeparam>
         /// <param name="instance">details</param>
@@ -289,13 +294,13 @@ namespace DominatorHouseCore.FileManagers
                 ex.DebugLog();
                 return false;
             }
-
         }
+
         public bool UpdateAdvancedSettingDetails<T>(List<T> detailsList, string fileType) where T : class
         {
             try
             {
-                bool result = _protoBuffBase.SerializeList(detailsList, fileType);
+                var result = _protoBuffBase.SerializeList(detailsList, fileType);
                 return result;
             }
             catch (Exception ex)

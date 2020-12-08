@@ -1,49 +1,36 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 
+#endregion
+
 namespace DominatorHouseCore.Utility
 {
-    public interface IFeatureFlags
-    {
-        bool Check(string key, Action whenEnabled = null, Action whenDisabled = null);
-        void UpdateFeatures();
-        bool Check(string key);
-        bool IsNetworkAvailable(SocialNetworks network);
-        Visibility Check(SocialNetworks network);
-    }
     public class FeatureFlags : Dictionary<string, bool>
     {
         public static FeatureFlags Instance;
+
         public static bool Check(string key, Action whenEnabled = null, Action whenDisabled = null)
         {
-            if (!Instance.ContainsKey(key))
-            {
-                Instance[key] = false;
-            }
+            if (!Instance.ContainsKey(key)) Instance[key] = false;
 
             var value = Instance[key];
             if (value)
-            {
                 whenEnabled?.Invoke();
-            }
             else
-            {
                 whenDisabled?.Invoke();
-            }
             return value;
         }
 
         public static void UpdateFeatures()
         {
-            Instance = new FeatureFlags { { "SocinatorInitializer", true } };
+            Instance = new FeatureFlags {{"SocinatorInitializer", true}};
 
-            SocinatorInitialize.AvailableNetworks.ForEach(networks =>
-            {
-                Instance.Add(networks.ToString(),true);
-            });
+            SocinatorInitialize.AvailableNetworks.ForEach(networks => { Instance.Add(networks.ToString(), true); });
         }
 
         public static bool Check(string key)
@@ -78,7 +65,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception)
             {
-              return Visibility.Collapsed;
+                return Visibility.Collapsed;
             }
         }
     }

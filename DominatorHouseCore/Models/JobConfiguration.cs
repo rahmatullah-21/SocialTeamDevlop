@@ -1,12 +1,16 @@
-﻿using DominatorHouseCore.Interfaces;
+﻿#region
+
+using System.Collections.Generic;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     /// <summary>
-    /// Stores schedule of JobProcess and its activities: delays, timing range, limits per job/hour/day/week
+    ///     Stores schedule of JobProcess and its activities: delays, timing range, limits per job/hour/day/week
     /// </summary>
     [ProtoContract]
     public class JobConfiguration : BindableBase, IJobConfiguration
@@ -47,7 +51,6 @@ namespace DominatorHouseCore.Models
             IncreaseActivitiesEachDay = new IncreaseActivityRange(0, 0, false);
 
             SelectedItem = "Slow";
-
         }
 
 
@@ -56,7 +59,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(1)]
         public RangeUtilities DelayBetweenActivity
         {
-            get { return _delayBetweenActivity; }
+            get => _delayBetweenActivity;
             set
             {
                 if (_delayBetweenActivity == value)
@@ -68,7 +71,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(2)]
         public RangeUtilities DelayBetweenJobs
         {
-            get { return _delayBetweenJobs; }
+            get => _delayBetweenJobs;
             set
             {
                 if (_delayBetweenJobs == value)
@@ -112,6 +115,7 @@ namespace DominatorHouseCore.Models
                     _activitiesPerHour.StartValue = _activitiesPerDay.StartValue;
                     _activitiesPerHour.EndValue = _activitiesPerDay.StartValue;
                 }
+
                 return _activitiesPerHour;
             }
             set
@@ -147,10 +151,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(6)]
         public RangeUtilities ActivitiesPerWeek
         {
-            get
-            {
-                return _activitiesPerWeek;
-            }
+            get => _activitiesPerWeek;
             set
             {
                 if (_activitiesPerWeek == value)
@@ -162,10 +163,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(7)]
         public IncreaseActivityRange IncreaseActivitiesEachDay
         {
-            get
-            {
-                return _increaseActivitiesEachDay;
-            }
+            get => _increaseActivitiesEachDay;
             set
             {
                 if (_increaseActivitiesEachDay == value)
@@ -178,41 +176,29 @@ namespace DominatorHouseCore.Models
         [ProtoMember(8)]
         public List<RunningTimes> RunningTime
         {
-            get
-            {
-                return _runningTime;
-            }
+            get => _runningTime;
             set
             {
-
                 if (_runningTime == value)
                     return;
                 SetProperty(ref _runningTime, value);
             }
         }
 
-        [ProtoMember(9)]
-        public string ActivitiesPerJobDisplayName { get; set; } = string.Empty;
+        [ProtoMember(9)] public string ActivitiesPerJobDisplayName { get; set; } = string.Empty;
 
-        [ProtoMember(10)]
-        public string ActivitiesPerHourDisplayName { get; set; } = string.Empty;
+        [ProtoMember(10)] public string ActivitiesPerHourDisplayName { get; set; } = string.Empty;
 
-        [ProtoMember(11)]
-        public string ActivitiesPerDayDisplayName { get; set; } = string.Empty;
+        [ProtoMember(11)] public string ActivitiesPerDayDisplayName { get; set; } = string.Empty;
 
-        [ProtoMember(12)]
-        public string ActivitiesPerWeekDisplayName { get; set; } = string.Empty;
+        [ProtoMember(12)] public string ActivitiesPerWeekDisplayName { get; set; } = string.Empty;
 
-        [ProtoMember(13)]
-        public string IncreaseActivityDisplayName { get; set; } = string.Empty;
+        [ProtoMember(13)] public string IncreaseActivityDisplayName { get; set; } = string.Empty;
 
         [ProtoMember(14)]
         public bool IsAdvanceSetting
         {
-            get
-            {
-                return _isAdvanceSetting;
-            }
+            get => _isAdvanceSetting;
             set
             {
                 if (_isAdvanceSetting == value)
@@ -224,10 +210,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(15)]
         public string SelectedItem
         {
-            get
-            {
-                return _selectedItem;
-            }
+            get => _selectedItem;
             set
             {
                 if (_selectedItem == value)
@@ -238,10 +221,7 @@ namespace DominatorHouseCore.Models
 
         public List<string> Speeds
         {
-            get
-            {
-                return _speeds;
-            }
+            get => _speeds;
             set
             {
                 if (_speeds == value)

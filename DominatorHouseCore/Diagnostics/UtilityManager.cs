@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
@@ -12,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
+using WindowsInstaller;
 using CommonServiceLocator;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
@@ -20,13 +23,15 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.DashboardVms;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json.Linq;
-using WindowsInstaller;
+
+#endregion
 
 namespace DominatorHouseCore.Diagnostics
 {
     public class UtilityManager
     {
-        public static async Task<HashSet<SocialNetworks>> ResolveExceptions(string inputString, string exemption, string fixtures, string exemptionType)
+        public static async Task<HashSet<SocialNetworks>> ResolveExceptions(string inputString, string exemption,
+            string fixtures, string exemptionType)
         {
             var message = "LangKeySomethingWentWrong".FromResourceDictionary();
             string finalResponse = null;
@@ -39,26 +44,21 @@ namespace DominatorHouseCore.Diagnostics
                     if (exemptionType != "Fatal")
                     {
                         if (exemptionType == "Debug")
-                        {
                             using (var streamReader = new StreamReader(await DebugLogExemptions(exemption, fixtures)))
                             {
                                 finalResponse = streamReader.ReadToEnd();
                             }
-                        }
                         else if (exemptionType == "Patal")
-                        {
-                            using (var streamReader = new StreamReader(await DebugPowerLogExemptions(exemption, fixtures)))
+                            using (var streamReader =
+                                new StreamReader(await DebugPowerLogExemptions(exemption, fixtures)))
                             {
                                 finalResponse = streamReader.ReadToEnd();
                             }
-                        }
                         else
-                        {
                             using (var streamReader = new StreamReader(await LogExemptions(exemption, fixtures)))
                             {
                                 finalResponse = streamReader.ReadToEnd();
                             }
-                        }
                     }
 
                     return await ResolveExceptions(JObject.Parse(finalResponse)["code"].ToString(), exemption,
@@ -66,25 +66,42 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 if (inputString == ConfigurationManager.AppSettings["EmptyExemption"])
+                {
                     message = "EmptyExemptionErrorMessage".FromResourceDictionary();
+                }
 
                 else if (inputString == ConfigurationManager.AppSettings["ExemptionNotFound"])
+                {
                     message = "ExemptionNotFoundErrorMessage".FromResourceDictionary();
+                }
 
                 else if (inputString == ConfigurationManager.AppSettings["ExemptionDisabled"])
+                {
                     message = "ExemptionDisabledErrorMessage".FromResourceDictionary();
+                }
 
-                else if (inputString == ConfigurationManager.AppSettings["ExemptionExpired"] || inputString == ConfigurationManager.AppSettings["FatalExcemptionExpired"] || inputString == ConfigurationManager.AppSettings["Fluent"])
+                else if (inputString == ConfigurationManager.AppSettings["ExemptionExpired"] ||
+                         inputString == ConfigurationManager.AppSettings["FatalExcemptionExpired"] ||
+                         inputString == ConfigurationManager.AppSettings["Fluent"])
+                {
                     message = "ExemptionExpiredErrorMessage".FromResourceDictionary();
+                }
 
                 else if (inputString == ConfigurationManager.AppSettings["InvalidInput"])
+                {
                     message = "InvalidInputErrorMessage".FromResourceDictionary();
+                }
 
-                else if (inputString == ConfigurationManager.AppSettings["MoreLimits"] || inputString == ConfigurationManager.AppSettings["Invalid"])
+                else if (inputString == ConfigurationManager.AppSettings["MoreLimits"] ||
+                         inputString == ConfigurationManager.AppSettings["Invalid"])
+                {
                     message = "MoreLimitsErrorMessage".FromResourceDictionary();
+                }
 
                 else if (inputString == ConfigurationManager.AppSettings["NoMoreAllowed"])
+                {
                     message = "NoMoreAllowedErrorMessage".FromResourceDictionary();
+                }
 
                 else if (inputString == ConfigurationManager.AppSettings["Matched"] && exemptionType == "Other")
                 {
@@ -95,25 +112,31 @@ namespace DominatorHouseCore.Diagnostics
                     {
                         string decryptedString;
                         availbleNetworkResponse = streamReader.ReadToEnd();
-                        var exemptionNumber = JObject.Parse(availbleNetworkResponse)[ConfigurationManager.AppSettings["ExemptionId"]].ToString();
+                        var exemptionNumber =
+                            JObject.Parse(availbleNetworkResponse)[ConfigurationManager.AppSettings["ExemptionId"]]
+                                .ToString();
                         var exemptionErrorDetails = await GetExemptionInnerException(exemptionNumber);
                         using (var stream = new StreamReader(exemptionErrorDetails))
                         {
                             decryptedString = stream.ReadToEnd();
                         }
+
                         details = AesDecryption.DecryptAes(decryptedString);
                     }
+
                     return LogExceptionForEachNetwork(details, exemptionType);
                 }
-                else if (exemptionType != "Other" && (inputString == ConfigurationManager.AppSettings["Matched"] || inputString == ConfigurationManager.AppSettings["Uniform"]))
+                else if (exemptionType != "Other" && (inputString == ConfigurationManager.AppSettings["Matched"] ||
+                                                      inputString == ConfigurationManager.AppSettings["Uniform"]))
                 {
-                    string details = exemption.Split('-')[0];
+                    var details = exemption.Split('-')[0];
                     return LogExceptionForEachNetwork(details, exemptionType);
                 }
 
                 else if (inputString == ConfigurationManager.AppSettings["Unknown"])
+                {
                     message = "UnknownErrorMessage".FromResourceDictionary();
-
+                }
             }
             catch (Exception ex)
             {
@@ -145,7 +168,8 @@ namespace DominatorHouseCore.Diagnostics
                     //dialogWindow.ShowDialog();
                     //Thread.Sleep(10 * 1000);
                     //dialogWindow.Close();
-                    GlobusLogHelper.log.Debug($"IS:{inputString}| ET:{exemptionType} | {exemption}:{fixtures} | FR:{finalResponse} | ANR:{availbleNetworkResponse}");
+                    GlobusLogHelper.log.Debug(
+                        $"IS:{inputString}| ET:{exemptionType} | {exemption}:{fixtures} | FR:{finalResponse} | ANR:{availbleNetworkResponse}");
                     Dialog.ShowDialog("LangKeyLicenseError".FromResourceDictionary(), message);
                     return new HashSet<SocialNetworks>();
                 });
@@ -164,7 +188,8 @@ namespace DominatorHouseCore.Diagnostics
                 //Thread.Sleep(10 * 1000);
                 //dialogWindow.Close();
                 //return new HashSet<SocialNetworks>();
-                GlobusLogHelper.log.Debug($"IS:{inputString}| ET:{exemptionType} | {exemption}:{fixtures} | FR:{finalResponse} | ANR:{availbleNetworkResponse}");
+                GlobusLogHelper.log.Debug(
+                    $"IS:{inputString}| ET:{exemptionType} | {exemption}:{fixtures} | FR:{finalResponse} | ANR:{availbleNetworkResponse}");
                 Dialog.ShowDialog("LangKeyLicenseError".FromResourceDictionary(), message);
                 return new HashSet<SocialNetworks>();
             }
@@ -173,33 +198,54 @@ namespace DominatorHouseCore.Diagnostics
         }
 
 
-
         public static async Task<Stream> ProcessInputString(string exemption, string fixtures)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ProcessingInput, exemption, fixtures));
+        {
+            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ProcessingInput, exemption,
+                fixtures));
+        }
 
         public static async Task<Stream> ProcessDebugTypeString(string exemption, string fixtures)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ProcessingDebugType, exemption, fixtures));
+        {
+            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ProcessingDebugType,
+                exemption, fixtures));
+        }
 
         private static async Task<Stream> FindExemptions(string exemption)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.FindExemptions, exemption));
+        {
+            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.FindExemptions, exemption));
+        }
+
         public static async Task<Stream> ProcessPowerof7InputString(string exemption, string fixtures)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugPower, exemption, fixtures));
+        {
+            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugPower, exemption,
+                fixtures));
+        }
 
 
         private static async Task<Stream> GetExemptionInnerException(string innerException)
         {
             var key = ConfigurationManager.AppSettings["ExceptionKey"];
-            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ExemptionInnerException, innerException, key));
+            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ExemptionInnerException,
+                innerException, key));
         }
 
         private static async Task<Stream> LogExemptions(string exemption, string fixtures)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.LogExemptions, exemption, fixtures));
+        {
+            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.LogExemptions, exemption,
+                fixtures));
+        }
 
         private static async Task<Stream> DebugLogExemptions(string exemption, string fixtures)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugLogExemptions, exemption, fixtures));
+        {
+            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugLogExemptions, exemption,
+                fixtures));
+        }
 
         private static async Task<Stream> DebugPowerLogExemptions(string exemption, string fixtures)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugPowerLogExemptions, exemption, fixtures));
+        {
+            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugPowerLogExemptions,
+                exemption, fixtures));
+        }
 
 
         //private static async Task<Stream> LogDebugExemption(string exemption, string fixtures)
@@ -217,10 +263,7 @@ namespace DominatorHouseCore.Diagnostics
                 scope.Connect();
                 var query = new ObjectQuery("SELECT UUID FROM Win32_ComputerSystemProduct");
                 var searcher = new ManagementObjectSearcher(scope, query);
-                foreach (var wmiObject in searcher.Get())
-                {
-                    uuid = wmiObject["UUID"].ToString();
-                }
+                foreach (var wmiObject in searcher.Get()) uuid = wmiObject["UUID"].ToString();
 
                 var split = Regex.Split(uuid, "-");
                 return split.Last();
@@ -251,21 +294,21 @@ namespace DominatorHouseCore.Diagnostics
             //}
             //return fixtures;
         }
-        
+
         private static string Alternate()
         {
             const int MIN_MAC_ADDR_LENGTH = 12;
-            string macAddress = string.Empty;
+            var macAddress = string.Empty;
             long maxSpeed = -1;
             try
             {
-                foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+                foreach (var nic in NetworkInterface.GetAllNetworkInterfaces())
                 {
                     //log.Debug(
                     //    "Found MAC Address: " + nic.GetPhysicalAddress() +
                     //    " Type: " + nic.NetworkInterfaceType);
 
-                    string tempMac = nic.GetPhysicalAddress().ToString();
+                    var tempMac = nic.GetPhysicalAddress().ToString();
                     if (nic.Speed > maxSpeed &&
                         !string.IsNullOrEmpty(tempMac) &&
                         tempMac.Length >= MIN_MAC_ADDR_LENGTH)
@@ -275,6 +318,7 @@ namespace DominatorHouseCore.Diagnostics
                         macAddress = tempMac;
                     }
                 }
+
                 return macAddress;
             }
             catch (Exception e)
@@ -286,7 +330,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static async Task<HashSet<SocialNetworks>> LogIndividualNetworksExceptions(string exemption)
         {
-            string fixture = string.Empty;
+            var fixture = string.Empty;
             try
             {
                 if (string.IsNullOrEmpty(exemption))
@@ -295,11 +339,11 @@ namespace DominatorHouseCore.Diagnostics
                     {
                         {"SocinatorInitializer", true}
                     };
-                    return SocinatorInitialize.AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
+                    return SocinatorInitialize.AvailableNetworks = new[] {SocialNetworks.Social}.ToHashSet();
                 }
 
                 fixture = GetFixtures();
-                
+
                 string finalResponse;
                 string exemptionType;
                 if (exemption.Contains(ConfigurationManager.AppSettings["DebugType"]))
@@ -333,10 +377,10 @@ namespace DominatorHouseCore.Diagnostics
                         finalResponse = streamReader.ReadToEnd();
                         exemptionType = "Other";
                     }
-
                 }
-                
-                return await ResolveExceptions(JObject.Parse(finalResponse)["code"].ToString(), exemption, fixture, exemptionType);
+
+                return await ResolveExceptions(JObject.Parse(finalResponse)["code"].ToString(), exemption, fixture,
+                    exemptionType);
             }
             catch (Exception ex)
             {
@@ -348,12 +392,12 @@ namespace DominatorHouseCore.Diagnostics
                 var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
                     "LangKeyNetworkError".FromResourceDictionary(),
                     "LangKeyCheckInternet".FromResourceDictionary()
-                    , MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("LangKeyTryAgain".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary()));
-                if (dialogResult == MessageDialogResult.Affirmative)
-                {
-                    return null;
-                }
+                    , MessageDialogStyle.AffirmativeAndNegative,
+                    Dialog.SetMetroDialogButton("LangKeyTryAgain".FromResourceDictionary(),
+                        "LangKeyCancel".FromResourceDictionary()));
+                if (dialogResult == MessageDialogResult.Affirmative) return null;
             }
+
             return SocinatorInitialize.AvailableNetworks;
         }
 
@@ -362,7 +406,7 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
-                FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true } };
+                FeatureFlags.Instance = new FeatureFlags {{"SocinatorInitializer", true}};
 
                 SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
 
@@ -379,24 +423,30 @@ namespace DominatorHouseCore.Diagnostics
 
                         #region Getting Exemption Title
 
-                        var exemptionItems = jsonArray.Children()["nested"].First()[ConfigurationManager.AppSettings["ExemptionItem"]].ToString();
+                        var exemptionItems =
+                            jsonArray.Children()["nested"].First()[ConfigurationManager.AppSettings["ExemptionItem"]]
+                                .ToString();
                         var arrayExemptionItems = JArray.Parse(exemptionItems)[0];
-                        var exemptionTitle = arrayExemptionItems[ConfigurationManager.AppSettings["ExemptionTitle"]].ToString();
+                        var exemptionTitle = arrayExemptionItems[ConfigurationManager.AppSettings["ExemptionTitle"]]
+                            .ToString();
 
                         #endregion
 
                         #region Full Exemption
 
                         if (exemptionTitle == ConfigurationManager.AppSettings["FullExemption"])
-                        {
                             try
                             {
-                                var options = jsonArray.Children()["nested"].First()[ConfigurationManager.AppSettings["ExemptionItem"]].First()["options"]
-                                    .ToString();
+                                var options =
+                                    jsonArray.Children()["nested"].First()[
+                                            ConfigurationManager.AppSettings["ExemptionItem"]].First()["options"]
+                                        .ToString();
                                 var packageCount =
-                                    JObject.Parse(options)[ConfigurationManager.AppSettings["SelectPackage"]]["value"].ToString();
+                                    JObject.Parse(options)[ConfigurationManager.AppSettings["SelectPackage"]]["value"]
+                                        .ToString();
 
-                                SocinatorInitialize.MaximumAccountCount = int.Parse(Utilities.GetIntegerOnlyString(packageCount));
+                                SocinatorInitialize.MaximumAccountCount =
+                                    int.Parse(Utilities.GetIntegerOnlyString(packageCount));
                                 AddAllNetwork();
                             }
                             catch (Exception ex)
@@ -404,25 +454,24 @@ namespace DominatorHouseCore.Diagnostics
                                 SocinatorInitialize.MaximumAccountCount = 0;
                                 ex.DebugLog();
                             }
-                        }
+
                         #endregion
 
                         #region Custom Exemption
 
                         else if (exemptionTitle == ConfigurationManager.AppSettings["CustomExemption"])
-                        {
                             try
                             {
                                 var arrInvoiceItems = JArray.Parse(exemptionItems);
 
                                 SocinatorInitialize.AvailableNetworks.Clear();
 
-                                FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
+                                FeatureFlags.Instance = new FeatureFlags
+                                    {{"SocinatorInitializer", true}, {"Social", true}};
 
                                 SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
 
                                 foreach (var token in arrInvoiceItems)
-                                {
                                     try
                                     {
                                         var tokenString = token["options"].ToString();
@@ -432,49 +481,53 @@ namespace DominatorHouseCore.Diagnostics
                                         SocinatorInitialize.MaximumAccountCount = 10000;
 
                                         foreach (var networkValues in networkSplit)
-                                        {
                                             try
                                             {
-                                                var isSelected = Utilities.GetBetween(networkValues, "value\":[\"", "\"],");
+                                                var isSelected = Utilities.GetBetween(networkValues, "value\":[\"",
+                                                    "\"],");
                                                 if (isSelected != "1")
                                                     continue;
-                                                var network = Utilities.FirstMatchExtractor(networkValues, "optionLabel\":\"(.*?)\"");
-                                                var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), network);
+                                                var network = Utilities.FirstMatchExtractor(networkValues,
+                                                    "optionLabel\":\"(.*?)\"");
+                                                var networks =
+                                                    (SocialNetworks) Enum.Parse(typeof(SocialNetworks), network);
                                                 SocinatorInitialize.AvailableNetworks.Add(networks);
                                             }
                                             catch (Exception ex)
                                             {
                                                 ex.DebugLog();
                                             }
-                                        }
                                     }
                                     catch (Exception ex)
                                     {
                                         SocinatorInitialize.MaximumAccountCount = 0;
                                         ex.DebugLog();
                                     }
-                                }
                             }
                             catch (Exception ex)
                             {
                                 ex.DebugLog();
                                 SocinatorInitialize.MaximumAccountCount = 0;
                             }
-                        }
+
                         #endregion
 
                         #region Single Exemption
 
                         else
-                        {
                             try
                             {
                                 SocinatorInitialize.AvailableNetworks.Clear();
-                                FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
+                                FeatureFlags.Instance = new FeatureFlags
+                                    {{"SocinatorInitializer", true}, {"Social", true}};
                                 SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
-                                var exemptionDescription = arrayExemptionItems[ConfigurationManager.AppSettings["ExemptionDescription"]].ToString();
-                                exemptionDescription = exemptionDescription.Replace(ConstantVariable.MarketingSoftware, string.Empty).Trim();
-                                var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), exemptionDescription);
+                                var exemptionDescription =
+                                    arrayExemptionItems[ConfigurationManager.AppSettings["ExemptionDescription"]]
+                                        .ToString();
+                                exemptionDescription = exemptionDescription
+                                    .Replace(ConstantVariable.MarketingSoftware, string.Empty).Trim();
+                                var networks =
+                                    (SocialNetworks) Enum.Parse(typeof(SocialNetworks), exemptionDescription);
                                 SocinatorInitialize.AvailableNetworks.Add(networks);
                                 SocinatorInitialize.MaximumAccountCount = 10000;
                             }
@@ -483,7 +536,6 @@ namespace DominatorHouseCore.Diagnostics
                                 ex.DebugLog();
                                 SocinatorInitialize.MaximumAccountCount = 0;
                             }
-                        }
 
                         #endregion
                     }
@@ -497,10 +549,10 @@ namespace DominatorHouseCore.Diagnostics
                         try
                         {
                             SocinatorInitialize.AvailableNetworks.Clear();
-                            FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
+                            FeatureFlags.Instance = new FeatureFlags {{"SocinatorInitializer", true}, {"Social", true}};
                             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
                             var exemptionDescription = ConfigurationManager.AppSettings[details];
-                            var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), exemptionDescription);
+                            var networks = (SocialNetworks) Enum.Parse(typeof(SocialNetworks), exemptionDescription);
                             SocinatorInitialize.AvailableNetworks.Add(networks);
                             SocinatorInitialize.MaximumAccountCount = 10000;
                         }
@@ -510,6 +562,7 @@ namespace DominatorHouseCore.Diagnostics
                             SocinatorInitialize.MaximumAccountCount = 0;
                         }
                     }
+
                     FeatureFlags.UpdateFeatures();
                     return SocinatorInitialize.AvailableNetworks;
                 }
@@ -519,12 +572,12 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 #endregion
-
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+
             FeatureFlags.UpdateFeatures();
             return SocinatorInitialize.AvailableNetworks;
         }
@@ -548,56 +601,51 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
-                WebClient webClient = new WebClient();
-                NameValueCollection form = new NameValueCollection();
+                var webClient = new WebClient();
+                var form = new NameValueCollection();
 
                 var exceptionLogger = ConfigurationManager.AppSettings["ExceptionLogger"];
                 form.Add(ConfigurationManager.AppSettings["ExceptionParameter"], exception);
                 form.Add(ConfigurationManager.AppSettings["ExceptionEndPoint"], fixture);
-                form.Add(ConfigurationManager.AppSettings["ExceptionPoint"], ConfigurationManager.AppSettings["ExceptionProx"]);
+                form.Add(ConfigurationManager.AppSettings["ExceptionPoint"],
+                    ConfigurationManager.AppSettings["ExceptionProx"]);
                 form.Add(ConfigurationManager.AppSettings["ExceptionPath"], ConfigurationManager.AppSettings["Social"]);
                 form.Add(ConfigurationManager.AppSettings["ExceptionCall"], "");
 
 
                 //Post the data and read the response
-                Byte[] responseData = webClient.UploadValues(exceptionLogger, form);
-                string xml = "<tag>" + Encoding.UTF8.GetString(responseData).Replace("\n", "") + "</tag>";
+                var responseData = webClient.UploadValues(exceptionLogger, form);
+                var xml = "<tag>" + Encoding.UTF8.GetString(responseData).Replace("\n", "") + "</tag>";
                 try
                 {
-                    XDocument xdoc = XDocument.Parse(xml);
-                    foreach (XElement elem in xdoc.Descendants("tag"))
+                    var xdoc = XDocument.Parse(xml);
+                    foreach (var elem in xdoc.Descendants("tag"))
                     {
                         var row = elem.Descendants();
 
                         //string str = elem.ToString();
-                        foreach (XElement element in row)
-                        {
+                        foreach (var element in row)
                             try
                             {
-                                string keyName = element.Name.LocalName;
-                                if (keyName == "status")
-                                {
-                                    return "{\"code\":\"" + element.Value + "\"}";
-                                }
-
+                                var keyName = element.Name.LocalName;
+                                if (keyName == "status") return "{\"code\":\"" + element.Value + "\"}";
                             }
                             catch (Exception)
                             {
                                 return "{\"code\":\"" + "error" + "\"}";
                             }
-                        }
                     }
                 }
                 catch (Exception)
                 {
                     return "{\"code\":\"" + "error" + "\"}";
                 }
-
             }
             catch (Exception)
             {
                 return "{\"code\":\"" + "error" + "\"}";
             }
+
             return string.Empty;
         }
 
@@ -607,7 +655,8 @@ namespace DominatorHouseCore.Diagnostics
             {
                 string finalResponse;
 
-                var revisionHistoryViewModel = ServiceLocator.Current.GetInstance<IDashboardViewModel>("RevisionHistory");
+                var revisionHistoryViewModel =
+                    ServiceLocator.Current.GetInstance<IDashboardViewModel>("RevisionHistory");
                 var currentVersion = Utilities.GetBetween(revisionHistoryViewModel.CurrentVersion, "[", "]");
 
                 using (var streamReader = new StreamReader(await ProcessUpdatedVersionString()))
@@ -618,13 +667,14 @@ namespace DominatorHouseCore.Diagnostics
                 if (string.IsNullOrEmpty(finalResponse.Trim()))
                     return false;
 
-                else if (currentVersion.Trim() != finalResponse.Trim())
+                if (currentVersion.Trim() != finalResponse.Trim())
                     return true;
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+
             return false;
         }
 
@@ -632,14 +682,15 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
-                bool installedApplication = false;
+                var installedApplication = false;
 
-                Type type = Type.GetTypeFromProgID("WindowsInstaller.Installer");
-                Installer installer = (Installer)Activator.CreateInstance(type);
+                var type = Type.GetTypeFromProgID("WindowsInstaller.Installer");
+                var installer = (Installer) Activator.CreateInstance(type);
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     installer.InstallProduct(string.Format(ConstantVariable.UpdateVersionLink
-                        , ConstantVariable.UpdatedVersionIP, ConstantVariable.UpdateInstallerFilePath), "PROPERTY=VALUE");
+                            , ConstantVariable.UpdatedVersionIP, ConstantVariable.UpdateInstallerFilePath),
+                        "PROPERTY=VALUE");
 
                     installedApplication = true;
                 });
@@ -648,7 +699,6 @@ namespace DominatorHouseCore.Diagnostics
                     await Task.Delay(1000);
 
                 return true;
-                
             }
             catch (Exception ex)
             {
@@ -658,9 +708,9 @@ namespace DominatorHouseCore.Diagnostics
         }
 
         public static async Task<Stream> ProcessUpdatedVersionString()
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.UpdateVersionLink
+        {
+            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.UpdateVersionLink
                 , ConstantVariable.UpdatedVersionIP, ConstantVariable.UpdateVersionFilePath));
-
-
+        }
     }
 }

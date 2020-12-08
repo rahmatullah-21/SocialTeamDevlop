@@ -1,11 +1,5 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Enums.SocioPublisher;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Process;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,15 +7,24 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
-using RandomUtilties = DominatorHouseCore.Utility.RandomUtilties;
+using CommonServiceLocator;
+using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Process;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Diagnostics
 {
-
     public class PublisherInitialize
     {
         private readonly IGenericFileManager _genericFileManager;
+
         private PublisherInitialize()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
@@ -37,19 +40,25 @@ namespace DominatorHouseCore.Diagnostics
         private static PublisherInitialize _publisherInitialize;
 
         // Get intanse of Publisher Initialize
-        public static PublisherInitialize GetInstance => _publisherInitialize ?? (_publisherInitialize = new PublisherInitialize());
+        public static PublisherInitialize GetInstance =>
+            _publisherInitialize ?? (_publisherInitialize = new PublisherInitialize());
 
         // Collection of campaigns Status
-        public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels { get; set; } = new ObservableCollection<PublisherCampaignStatusModel>();
+        public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels { get; set; } =
+            new ObservableCollection<PublisherCampaignStatusModel>();
 
         #endregion
 
         /// <summary>
-        /// Register publisher Collection factory
+        ///     Register publisher Collection factory
         /// </summary>
-        /// <param name="publisherCollectionFactory">Publisher Objects<see cref="DominatorHouseCore.Interfaces.IPublisherCollectionFactory"/></param>
+        /// <param name="publisherCollectionFactory">
+        ///     Publisher Objects
+        ///     <see cref="DominatorHouseCore.Interfaces.IPublisherCollectionFactory" />
+        /// </param>
         /// <param name="networks">social networks</param>
-        public static void SaveNetworkPublisher(IPublisherCollectionFactory publisherCollectionFactory, SocialNetworks networks)
+        public static void SaveNetworkPublisher(IPublisherCollectionFactory publisherCollectionFactory,
+            SocialNetworks networks)
         {
             // If publisher network already present return 
             if (NetworkWisePublishers.ContainsKey(networks))
@@ -60,9 +69,11 @@ namespace DominatorHouseCore.Diagnostics
         }
 
         /// <summary>
-        /// Get publisher library for a specified network
+        ///     Get publisher library for a specified network
         /// </summary>
-        /// <param name="networks"><see cref="DominatorHouseCore.Enums.SocialNetworks"/></param>
+        /// <param name="networks">
+        ///     <see cref="DominatorHouseCore.Enums.SocialNetworks" />
+        /// </param>
         /// <returns></returns>
         public static IPublisherCollectionFactory GetPublisherLibrary(SocialNetworks networks)
         {
@@ -71,22 +82,27 @@ namespace DominatorHouseCore.Diagnostics
         }
 
         /// <summary>
-        /// Get all saved campaigns Status
+        ///     Get all saved campaigns Status
         /// </summary>
         /// <returns></returns>
         public ObservableCollection<PublisherCampaignStatusModel> GetSavedCampaigns()
-            => ListPublisherCampaignStatusModels;
+        {
+            return ListPublisherCampaignStatusModels;
+        }
 
         /// <summary>
-        /// Initialize all saved campaign for display in default page 
+        ///     Initialize all saved campaign for display in default page
         /// </summary>
         public void PublishCampaignInitializer()
         {
             // Get all saved campaign Model
-            var allCampaign = _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+            var allCampaign =
+                _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable
+                    .GetPublisherCampaignFile());
 
             InitilizePublisher(allCampaign);
         }
+
         private void InitilizePublisher(List<PublisherCreateCampaignModel> allCampaign)
         {
             Task.Factory.StartNew(() =>
@@ -99,30 +115,32 @@ namespace DominatorHouseCore.Diagnostics
 
                     // Check end has reached
                     if (campaigns.JobConfigurations.CampaignEndDate != null &&
-                            DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
+                        DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
                     {
                         // Commented for Fixing bug EW-I563
                         //publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
                         //    ? campaigns.CampaignStatus
                         //    : PublisherCampaignStatus.Completed;
                     }
+
                     List<TimeSpan> specificRunningTime = null;
                     if (campaigns.JobConfigurations.IsDelayPostChecked)
                     {
                         specificRunningTime = new List<TimeSpan>();
 
                         if (DateTime.Now.Date.Add(campaigns.JobConfigurations.TimeRange.StartTime) < DateTime.Now
-                                && DateTime.Now.TimeOfDay < campaigns.JobConfigurations.TimeRange.EndTime)
+                            && DateTime.Now.TimeOfDay < campaigns.JobConfigurations.TimeRange.EndTime)
                             specificRunningTime.Add(DateTime.Now.TimeOfDay);
                         else
                             specificRunningTime.Add(campaigns.JobConfigurations.TimeRange.StartTime);
 
-                        for (int i = 0; i < campaigns.JobConfigurations.MaxPost - 1; i++)
-                        {
-                            specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(campaigns.JobConfigurations.DelayBetweenEachPost.EndValue, campaigns.JobConfigurations.DelayBetweenEachPost.StartValue))));
-                        }
-
+                        for (var i = 0; i < campaigns.JobConfigurations.MaxPost - 1; i++)
+                            specificRunningTime.Add(specificRunningTime[i]
+                                .Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(
+                                    campaigns.JobConfigurations.DelayBetweenEachPost.EndValue,
+                                    campaigns.JobConfigurations.DelayBetweenEachPost.StartValue))));
                     }
+
                     //Assign the Campaign Detatils
                     var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                     {
@@ -136,7 +154,9 @@ namespace DominatorHouseCore.Diagnostics
                         DestinationCount = campaigns.LstDestinationId.Count,
                         IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                         TimeRange = campaigns.JobConfigurations.TimeRange,
-                        SpecificRunningTime = campaigns.JobConfigurations.IsDelayPostChecked ? specificRunningTime : campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
+                        SpecificRunningTime = campaigns.JobConfigurations.IsDelayPostChecked
+                            ? specificRunningTime
+                            : campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                         ScheduledWeekday = campaigns.JobConfigurations.Weekday.Where(x => x.IsContentSelected).ToList(),
                         IsTakeRandomDestination = campaigns.JobConfigurations.IsPublishPostOnRandomNDestinationsChecked,
                         SendOnePostForEachDestination = campaigns.JobConfigurations.IsWhenPublishingSendOnePostChecked,
@@ -144,15 +164,18 @@ namespace DominatorHouseCore.Diagnostics
                         MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
                         IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
                         MaximumTime = campaigns.JobConfigurations.MaxPost,
-                        PendingCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending),
-                        DraftCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft),
+                        PendingCount =
+                            campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending),
+                        DraftCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft)
                     };
 
-                    if (!ListPublisherCampaignStatusModels.Any(x => x.CampaignName == publisherCampaignStatusModel.CampaignName
-                                                                 || x.CampaignId == publisherCampaignStatusModel.CampaignId))
+                    if (!ListPublisherCampaignStatusModels.Any(x =>
+                        x.CampaignName == publisherCampaignStatusModel.CampaignName
+                        || x.CampaignId == publisherCampaignStatusModel.CampaignId))
                     {
                         if (!Application.Current.CheckAccess())
-                            Application.Current.Dispatcher.Invoke(() => ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel));
+                            Application.Current.Dispatcher.Invoke(() =>
+                                ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel));
 
                         else
                             // Add to lists
@@ -173,7 +196,7 @@ namespace DominatorHouseCore.Diagnostics
 
 
         /// <summary>
-        /// Update campaign Status
+        ///     Update campaign Status
         /// </summary>
         /// <param name="campaignId">campaign Id</param>
         /// <param name="status">Campaign Current status</param>
@@ -212,7 +235,7 @@ namespace DominatorHouseCore.Diagnostics
         }
 
         /// <summary>
-        /// Update post status
+        ///     Update post status
         /// </summary>
         /// <param name="campaignId">Campaign Id</param>
         public void UpdatePostStatus(string campaignId)
@@ -228,11 +251,10 @@ namespace DominatorHouseCore.Diagnostics
 
             // Update the post details
             GetPostStatus(ListPublisherCampaignStatusModels[currentCampaignIndex]);
-
         }
 
         /// <summary>
-        /// Update post details counts
+        ///     Update post details counts
         /// </summary>
         /// <param name="publisherCampaignStatusModel">Campaigns Statu model</param>
         public void GetPostStatus(PublisherCampaignStatusModel publisherCampaignStatusModel)
@@ -252,11 +274,10 @@ namespace DominatorHouseCore.Diagnostics
             // Draft count
             publisherCampaignStatusModel.DraftCount =
                 postdetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft);
-
         }
 
         /// <summary>
-        /// Update post counts
+        ///     Update post counts
         /// </summary>
         /// <param name="campaignId"></param>
         public void UpdatePostCounts(string campaignId)
@@ -274,7 +295,7 @@ namespace DominatorHouseCore.Diagnostics
         }
 
         /// <summary>
-        /// Add new campaign status, Its used whilesaving campaigns
+        ///     Add new campaign status, Its used whilesaving campaigns
         /// </summary>
         /// <param name="publisherCampaignStatusModel">Campaign status model</param>
         /// <returns></returns>
@@ -284,7 +305,9 @@ namespace DominatorHouseCore.Diagnostics
             if (ListPublisherCampaignStatusModels.Any(x => x.CampaignId == publisherCampaignStatusModel.CampaignId))
             {
                 // Finding current items
-                var currentItem = ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignId == publisherCampaignStatusModel.CampaignId);
+                var currentItem =
+                    ListPublisherCampaignStatusModels.FirstOrDefault(x =>
+                        x.CampaignId == publisherCampaignStatusModel.CampaignId);
 
                 // Get the index of the current campaign
                 var index = ListPublisherCampaignStatusModels.IndexOf(currentItem);
@@ -297,6 +320,7 @@ namespace DominatorHouseCore.Diagnostics
 
                 return true;
             }
+
             // Check campaigns start and end time
             if (publisherCampaignStatusModel.ValidDateTime())
             {
@@ -312,24 +336,24 @@ namespace DominatorHouseCore.Diagnostics
                             ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
                         });
                     else
-                    {
                         // Update the post status
                         // GetPostStatus(publisherCampaignStatusModel);
                         // Add into collections
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
-                    }
                 }
                 catch (Exception)
                 {
                     return false;
                 }
+
                 return true;
             }
+
             return false;
         }
 
         /// <summary>
-        /// Update new groups
+        ///     Update new groups
         /// </summary>
         /// <param name="destinationId">Destination ID</param>
         public static void UpdateNewGroups(string destinationId)
@@ -341,14 +365,15 @@ namespace DominatorHouseCore.Diagnostics
         }
 
         /// <summary>
-        /// Remove the destination which requires Admin Verification
+        ///     Remove the destination which requires Admin Verification
         /// </summary>
         /// <param name="destinationId">Destination Id</param>
         /// <param name="accountId">Account ID</param>
         /// <param name="network">Social Networks</param>
         /// <param name="groupUrl">groups</param>
         // ReSharper disable once UnusedMember.Global
-        public static void RemoveGroupsFromDestination(string destinationId, string accountId, SocialNetworks network, string groupUrl)
+        public static void RemoveGroupsFromDestination(string destinationId, string accountId, SocialNetworks network,
+            string groupUrl)
         {
             // Get create destination objects
             var objPublisherCreateDestinationModel = new PublisherCreateDestinationModel();
@@ -357,12 +382,13 @@ namespace DominatorHouseCore.Diagnostics
         }
 
         /// <summary>
-        /// Get networks published post count 
+        ///     Get networks published post count
         /// </summary>
         /// <param name="campaignId">campaign ID</param>
         /// <param name="network">social network</param>
         /// <returns></returns>
-        public static List<PublishedPostDetailsModel> GetNetworksPublishedPost(string campaignId, SocialNetworks network)
+        public static List<PublishedPostDetailsModel> GetNetworksPublishedPost(string campaignId,
+            SocialNetworks network)
         {
             try
             {
@@ -387,10 +413,6 @@ namespace DominatorHouseCore.Diagnostics
     {
         #region Constructors
 
-        public PublisherCoreLibraryBuilder()
-        {
-        }
-
         public PublisherCoreLibraryBuilder(IPublisherCoreFactory publisherCoreFactory)
         {
             PublisherCoreFactory = publisherCoreFactory;
@@ -406,7 +428,7 @@ namespace DominatorHouseCore.Diagnostics
         #endregion
 
         /// <summary>
-        /// Add network for publisher
+        ///     Add network for publisher
         /// </summary>
         /// <param name="networks">Social Network</param>
         /// <returns></returns>
@@ -418,7 +440,7 @@ namespace DominatorHouseCore.Diagnostics
         }
 
         /// <summary>
-        /// Add Publisher Job Factory object for a network
+        ///     Add Publisher Job Factory object for a network
         /// </summary>
         /// <param name="jobFactory">Base class which inherits IPublisherJobProcessFactory</param>
         /// <returns></returns>
@@ -429,7 +451,7 @@ namespace DominatorHouseCore.Diagnostics
         }
 
         /// <summary>
-        /// Added post scarper objects for a networks
+        ///     Added post scarper objects for a networks
         /// </summary>
         /// <param name="postScraper">post scraper base class which inherits IPublisherPostScraper</param>
         /// <returns></returns>
@@ -439,5 +461,4 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
     }
-
 }

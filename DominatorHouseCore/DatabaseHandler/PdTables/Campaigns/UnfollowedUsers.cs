@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 {
@@ -10,44 +14,37 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         [Indexed]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
-        
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        public string FilterArgument
-        { get; set; }
+        public string FilterArgument { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         // ReSharper disable once UnusedMember.Global
         // need to keep it to support existing data model
-        public int FilterTypeSql
-        { get; set; }
+        public int FilterTypeSql { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public int FollowedBack
-        { get; set; }
+        public int FollowedBack { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         // ReSharper disable once UnusedMember.Global
         // need to keep it to support existing data model
-        public int FollowedBackDate
-        { get; set; }
+        public int FollowedBackDate { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int InteractionDate
-        { get; set; }
+        public int InteractionDate { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public ActivityType OperationType
-        { get; set; }
+        public ActivityType OperationType { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public string Username
-        { get; set; }
+        public string Username { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string UserId { get; set; }

@@ -1,16 +1,19 @@
 ﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings.PostLinkedInSettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d">
     <Grid x:Name="MainGrid">
         <StackPanel>
-            <TextBlock Text="{DynamicResource LangKeyLinkedinGroupPostType}" Margin="2"/>
-            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsGeneralPost}" Content="{DynamicResource LangKeyGeneralPost}" Height="25" Margin="10 2"></RadioButton>
-            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsJobPost}" Content="{DynamicResource LangKeyJobPost}" Height="25" Margin="10 2"></RadioButton>
-            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsAnnouncementPost}" Content="{DynamicResource LangKeyAnnouncementPost}" Height="25" Margin="10 2"></RadioButton>
-        </StackPanel>    
-        
+            <TextBlock Text="{DynamicResource LangKeyLinkedinGroupPostType}" Margin="2" />
+            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsGeneralPost}"
+                         Content="{DynamicResource LangKeyGeneralPost}" Height="25" Margin="10 2" />
+            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsJobPost}"
+                         Content="{DynamicResource LangKeyJobPost}" Height="25" Margin="10 2" />
+            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsAnnouncementPost}"
+                         Content="{DynamicResource LangKeyAnnouncementPost}" Height="25" Margin="10 2" />
+        </StackPanel>
+
     </Grid>
 </UserControl>

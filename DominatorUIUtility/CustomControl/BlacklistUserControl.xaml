@@ -1,32 +1,33 @@
 ﻿<UserControl x:Class="DominatorUIUtility.CustomControl.BlacklistUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
-   
+
     <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.95*"/>
-            <ColumnDefinition Width="1.05*"/>
+            <ColumnDefinition Width="0.95*" />
+            <ColumnDefinition Width="1.05*" />
         </Grid.ColumnDefinitions>
-        <GroupBox >
+        <GroupBox>
             <GroupBox.Header>
-                <Grid >
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{DynamicResource LangKeyBlacklistUser}" Foreground="White"  FontSize="25" FontWeight="SemiBold"/>
+                    <TextBlock Text="{DynamicResource LangKeyBlacklistUser}" Foreground="White" FontSize="25"
+                               FontWeight="SemiBold" />
                     <Grid Grid.Column="1" HorizontalAlignment="Right">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
                         </Grid.ColumnDefinitions>
-                        <Rectangle Width="20" Height="20" Fill="White"  Margin="5,0" 
+                        <Rectangle Width="20" Height="20" Fill="White" Margin="5,0"
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
                                    ToolTip="{DynamicResource LangKeyImportUsers}">
                             <i:Interaction.Triggers>
@@ -38,7 +39,7 @@
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cabinet_in}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Rectangle Width="20" Height="20" Fill="White"  Margin="10,0" Grid.Column="1"
+                        <Rectangle Width="20" Height="20" Fill="White" Margin="10,0" Grid.Column="1"
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
                                    ToolTip="{DynamicResource LangKeyClearUsersList}">
                             <i:Interaction.Triggers>
@@ -55,35 +56,39 @@
             </GroupBox.Header>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
-                <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
-                              TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding BlacklistUser,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                              ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
-                              Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
-                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                              BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
-                <Button Grid.Row="1" Name="BtnAddtoBlacklist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToBlacklist}" 
-                            VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Red" Foreground="White"
-                           Command="{Binding AddToBlackListCommand}"/>
+                <TextBox
+                    Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"
+                    TextWrapping="Wrap" AcceptsReturn="True"
+                    Text="{Binding BlacklistUser,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                    ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"
+                    Name="Txtusername" VerticalScrollBarVisibility="Auto"
+                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                    BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2" />
+                <Button Grid.Row="1" Name="BtnAddtoBlacklist" x:FieldModifier="public"
+                        Content="{DynamicResource LangKeyAddToBlacklist}"
+                        VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Red"
+                        Foreground="White"
+                        Command="{Binding AddToBlackListCommand}" />
             </Grid>
         </GroupBox>
 
         <GroupBox Grid.Column="1" Margin="5,0,0,0">
             <GroupBox.Header>
-                <Grid >
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.8*"/>
-                        <ColumnDefinition Width="1.2*"/>
+                        <ColumnDefinition Width="0.8*" />
+                        <ColumnDefinition Width="1.2*" />
                     </Grid.ColumnDefinitions>
-                    <Label  Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="White"
-                                VerticalAlignment="Center" FontSize="25" FontWeight="SemiBold"/>
+                    <Label Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="White"
+                           VerticalAlignment="Center" FontSize="25" FontWeight="SemiBold" />
 
-                    <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right" >
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
                         <CheckBox Name="SelectAll" Foreground="White" IsChecked="{Binding IsAllBlackListUserChecked}"
-                              Margin="10,0"    VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}"/>
-                        <Rectangle Width="20" Height="20" Fill="White"  Margin="10,0" 
+                                  Margin="10,0" VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}" />
+                        <Rectangle Width="20" Height="20" Fill="White" Margin="10,0"
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
                                    ToolTip="{DynamicResource LangKeyExportUsers}">
                             <i:Interaction.Triggers>
@@ -95,8 +100,8 @@
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cabinet_out}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Rectangle Width="15" Height="18" Fill="White"  Margin="10,0" VerticalAlignment="Center"
-                               x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}">
+                        <Rectangle Width="15" Height="18" Fill="White" Margin="10,0" VerticalAlignment="Center"
+                                   x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
                                     <i:InvokeCommandAction Command="{Binding RefreshCommand}" />
@@ -107,30 +112,34 @@
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Center" Height="28" HorizontalAlignment="Right" Width="200"
-                         Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"  mah:TextBoxHelper.ButtonCommand="{Binding TextSearchCommand,Mode=OneWay}"   />
+                        <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}"
+                                 Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                 VerticalAlignment="Center" Height="28" HorizontalAlignment="Right" Width="200"
+                                 Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"
+                                 mah:TextBoxHelper.ButtonCommand="{Binding TextSearchCommand,Mode=OneWay}" />
                     </StackPanel>
                 </Grid>
             </GroupBox.Header>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
-                <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstBlackListUsers,IsAsync=True}" VerticalAlignment="Stretch" VirtualizingPanel.IsVirtualizing="True"
+                <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstBlackListUsers,IsAsync=True}"
+                         VerticalAlignment="Stretch" VirtualizingPanel.IsVirtualizing="True"
                          VirtualizingPanel.VirtualizationMode="Recycling">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox x:Name="ChkBlacklistuser"  IsChecked="{Binding IsBlackListUserChecked}"
+                            <CheckBox x:Name="ChkBlacklistuser" IsChecked="{Binding IsBlackListUserChecked}"
                                       Content="{Binding BlacklistUser}" Style="{StaticResource CheckBoxStyle}"
-                                      Command="{Binding DataContext.SelectCommand,RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                                      Command="{Binding DataContext.SelectCommand,RelativeSource={RelativeSource AncestorType=ListBox}}" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource LangKeyRemoveSelectedFromBlacklist}"
-                        Background="{DynamicResource AccentBaseColorBrush}" 
-                        Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
+                <Button Grid.Row="1" Name="DeletedSelected"
+                        Content="{DynamicResource LangKeyRemoveSelectedFromBlacklist}"
+                        Background="{DynamicResource AccentBaseColorBrush}"
+                        Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
                         Command="{Binding DeleteCommand}">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">

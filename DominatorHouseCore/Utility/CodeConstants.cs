@@ -10,11 +10,7 @@
         public static string StartedActivity { get; } = "I1006";
         public static string ActivitySuccessful { get; } = "I1007";
         public static string ActivityFailed { get; } = "I1008";
-        public static string ImportFailed { get; } = "I1009";
-        public static string JobPaused { get; } = "I1010";
-        public static string SavedCampaign { get; } = "I1011";
         public static string CampaignDeleted { get; } = "I1012";
-        public static string CampaignUpdated { get; } = "I1013";
         public static string CampaignPaused { get; } = "I1014";
         public static string ActivatedCampaign { get; } = "I1015";
         public static string UpdatingDetails { get; } = "I1016";
@@ -24,7 +20,6 @@
         public static string DeletedAccounts { get; } = "I1020";
         public static string AccountEdited { get; } = "I1021";
         public static string DelayBetweenActivity { get; } = "I1022";
-        public static string NextScheduledJob { get; } = "I1023";
         public static string NextJobExpectedToStartBy { get; } = "I1024";
         public static string JobLimitReached { get; } = "I1025";
         public static string DailyLimitReached { get; } = "I1026";
@@ -35,8 +30,6 @@
         public static string OtherCongigurationCompleted { get; } = "I1031";
         public static string FilterApplied { get; } = "I1032";
         public static string DetailsScraped { get; } = "I1033";
-        public static string ManagedBlacklist { get; } = "I1034";
-        public static string AddedToBlacklist { get; } = "I1035";
         public static string NoMoreDataToPerform { get; } = "I1036";
         public static string AlreadyExistQuery { get; } = "I1037";
         public static string AlreadyExistQueryCount { get; } = "I1038";
@@ -49,13 +42,10 @@
         public static string Exported { get; } = "I1045";
         public static string NotAddedAccount { get; } = "I1046";
         public static string AlreadyAddedAccount { get; } = "I1047";
-        public static string AlreadyStoppedUpdatingAccount { get; } = "I1048";
         public static string AlreadyUpdatingAccount { get; } = "I1049";
         public static string StopUpdatingAccount { get; } = "I1050";
         public static string StartPublishing { get; } = "I1051";
         public static string DelayBetweenPublishing { get; } = "I1052";
-        public static string AlreadyPublishedOnOwnWall { get; } = "I1053";
-        public static string AlreadyPublishedOnDestination { get; } = "I1054";
         public static string PostExpired { get; } = "I1055";
         public static string PublishingSuccessfully { get; } = "I1056";
         public static string PublishingFailed { get; } = "I1057";

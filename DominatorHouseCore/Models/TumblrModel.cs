@@ -1,19 +1,21 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    class TumblrModel : BindableBase
+    internal class TumblrModel : BindableBase
     {
         private bool _isEnableFollowDifferentUsersAcrossTumblrAccountsChecked;
+
         [ProtoMember(1)]
         public bool IsEnableFollowDifferentUsersAcrossTumblrAccountsChecked
         {
-            get
-            {
-                return _isEnableFollowDifferentUsersAcrossTumblrAccountsChecked;
-            }
+            get => _isEnableFollowDifferentUsersAcrossTumblrAccountsChecked;
             set
             {
                 if (value == _isEnableFollowDifferentUsersAcrossTumblrAccountsChecked)

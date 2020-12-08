@@ -1,17 +1,21 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CommonServiceLocator;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Extensions;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using DominatorHouseCore.Extensions;
-using System.Linq;
+
+#endregion
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -26,7 +30,9 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
     public abstract class QueryScraper : IScraperActionTables
     {
-        protected QueryScraper(IJobProcess jobProcess, Dictionary<string, Action<QueryInfo>> scrapeWithQueriesActionTable, Dictionary<string, Action> scrapeWithoutQueriesActionTable)
+        protected QueryScraper(IJobProcess jobProcess,
+            Dictionary<string, Action<QueryInfo>> scrapeWithQueriesActionTable,
+            Dictionary<string, Action> scrapeWithoutQueriesActionTable)
         {
             _jobProcess = jobProcess;
             ScrapeWithQueriesActionTable = scrapeWithQueriesActionTable;
@@ -66,14 +72,13 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 ex.DebugLog(
                     $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
             }
-
         }
 
         public void ScrapeWithQueries()
         {
             Debug.Assert(_jobProcess.SavedQueries.Count > 0);
-            int totalQueries = _jobProcess.SavedQueries.Count;
-            int usedQueries = 0;
+            var totalQueries = _jobProcess.SavedQueries.Count;
+            var usedQueries = 0;
             var listQueries = new List<QueryInfo>(_jobProcess.SavedQueries);
 
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
@@ -85,18 +90,21 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
             try
             {
-                bool processedEver = false;
-            CallItAgain:
+                var processedEver = false;
+                CallItAgain:
 
-                var exceptQueryValues = softwareSettings.SkipAlreadyProcessedQueryValue ? _jobProcess.AlreadyProcessedQueryValues() : null;
+                var exceptQueryValues = softwareSettings.SkipAlreadyProcessedQueryValue
+                    ? _jobProcess.AlreadyProcessedQueryValues()
+                    : null;
                 foreach (var query in listQueries)
                 {
                     try
                     {
-                        if (exceptQueryValues?.Any(x => x == query.QueryValue)??false)
+                        if (exceptQueryValues?.Any(x => x == query.QueryValue) ?? false)
                         {
                             GlobusLogHelper.log.Info(Log.CustomMessage, _jobProcess.SocialNetworks,
-                                    _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType,$"Already processed with query [{query.QueryType}-{query.QueryValue} last time. Processing for next query if any.]");
+                                _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType,
+                                $"Already processed with query [{query.QueryType}-{query.QueryValue} last time. Processing for next query if any.]");
                             continue;
                         }
 
@@ -127,39 +135,38 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
                     usedQueries++;
                 }
+
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                if(!processedEver)
+                if (!processedEver)
                 {
                     _jobProcess.DominatorAccountModel.IsNeedToSchedule = false;
                     UpdateScheduleIfRequire();
                     return;
                 }
 
-                var continueIfLimitNotReached = _jobProcess.DominatorAccountModel.IsNeedToSchedule && !_jobProcess.CheckJobProcessLimitsReached() ? _jobProcess.ContinueIfLimitNotReached() : null;
-                if (continueIfLimitNotReached != null && continueIfLimitNotReached.Count >0)
+                var continueIfLimitNotReached =
+                    _jobProcess.DominatorAccountModel.IsNeedToSchedule && !_jobProcess.CheckJobProcessLimitsReached()
+                        ? _jobProcess.ContinueIfLimitNotReached()
+                        : null;
+                if (continueIfLimitNotReached != null && continueIfLimitNotReached.Count > 0)
                 {
-                    listQueries = listQueries.Where(x => continueIfLimitNotReached.Any(y => x.QueryTypeEnum == y)).ToList();
-                    if(listQueries?.Count > 0) 
+                    listQueries = listQueries.Where(x => continueIfLimitNotReached.Any(y => x.QueryTypeEnum == y))
+                        .ToList();
+                    if (listQueries?.Count > 0)
                         goto CallItAgain;
                 }
 
-                if (totalQueries <= usedQueries)
-                {
-                    UpdateScheduleIfRequire();
-                }
+                if (totalQueries <= usedQueries) UpdateScheduleIfRequire();
             }
             catch (OperationCanceledException)
             {
-
             }
             catch (AggregateException ae)
             {
                 foreach (var e in ae.InnerExceptions)
-                {
                     if (!(e is TaskCanceledException || e is OperationCanceledException))
                         e.DebugLog(e.StackTrace + e.Message);
-                }
             }
             catch (Exception ex)
             {
@@ -171,12 +178,15 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         {
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
-            
+
             if (_jobProcess.DominatorAccountModel.IsNeedToSchedule && !softwareSettings.StopIfNoMoreData)
+            {
                 UpdateScheduleIfNoMoreData();
+            }
             else
             {
-                GlobusLogHelper.log.Info(Log.ProcessCompleted, _jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                GlobusLogHelper.log.Info(Log.ProcessCompleted,
+                    _jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
                     _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType.ToString());
 
                 var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
@@ -190,9 +200,11 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
         private void UpdateScheduleIfNoMoreData()
         {
-            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var jobActivityConfigurationManager =
+                ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var moduleConfiguration =
-                jobActivityConfigurationManager[_jobProcess?.DominatorAccountModel?.AccountId, _jobProcess.ActivityType];
+                jobActivityConfigurationManager[_jobProcess?.DominatorAccountModel?.AccountId,
+                    _jobProcess.ActivityType];
 
             var nextStartTime = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration,
                 _jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom());

@@ -5,14 +5,16 @@
         <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
             <GroupBox.Header>
                 <Grid>
-                    <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
-                    <Button Command="{Binding SaveCmd}"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
+                    <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left"
+                           Foreground="White" />
+                    <Button Command="{Binding SaveCmd}" Background="{DynamicResource AccentBaseColorBrush}"
+                            Foreground="White"
                             VerticalAlignment="Center" HorizontalAlignment="Right">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="15" Height="15" Fill="White">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
+                                        <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <AccessText Margin="6,0" Text="{DynamicResource LangKey_Save}" />
@@ -23,33 +25,36 @@
             </GroupBox.Header>
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding YoutubeModel}">
-                    <Label Margin="5" Content="{DynamicResource LangKeyLimitTheNumberOfSimultaneousWatchVideosTo}"/>
-                    <controls:NumericUpDown Minimum="2" Maximum="10"  Value="{Binding LimitNumberOfSimultaneousWatchVideos}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyLimitTheNumberOfSimultaneousWatchVideosTo}" />
+                    <controls:NumericUpDown Minimum="2" Maximum="10"
+                                            Value="{Binding LimitNumberOfSimultaneousWatchVideos}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding YoutubeModel}">
-                    <Label Margin="5" Content="{DynamicResource LangUseUniqueFeatureAs}"/>
-                    <RadioButton Margin="5" Content="{DynamicResource LangCampaignWise}" IsChecked="{Binding IsCampainWiseUnique}"/>
-                    <RadioButton Margin="5" Content="{DynamicResource LangAccountWise}"  IsChecked="{Binding IsAccountWiseUnique}"/>
+                    <Label Margin="5" Content="{DynamicResource LangUseUniqueFeatureAs}" />
+                    <RadioButton Margin="5" Content="{DynamicResource LangCampaignWise}"
+                                 IsChecked="{Binding IsCampainWiseUnique}" />
+                    <RadioButton Margin="5" Content="{DynamicResource LangAccountWise}"
+                                 IsChecked="{Binding IsAccountWiseUnique}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding YoutubeModel}">
-                    <Label Margin="5" Content="{DynamicResource LangKeyStopQueryIfFailedTillN}"/>
-                    <controls:NumericUpDown Minimum="1" Maximum="500"  Value="{Binding StopRunQueryIfNActivityFailed}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyStopQueryIfFailedTillN}" />
+                    <controls:NumericUpDown Minimum="1" Maximum="500" Value="{Binding StopRunQueryIfNActivityFailed}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding YoutubeModel}">
-                    <Label Margin="5" Content="{DynamicResource LangKeyCaptchaSolvingManuallyTimeout}"/>
-                    <controls:NumericUpDown Minimum="10" Maximum="60"  Value="{Binding TimeoutToSolveCaptchaManually}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyCaptchaSolvingManuallyTimeout}" />
+                    <controls:NumericUpDown Minimum="10" Maximum="60" Value="{Binding TimeoutToSolveCaptchaManually}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding YoutubeModel}">
-                    <CheckBox Content="{DynamicResource LangKeyPerAccountsActivitiesOn}" Margin="0,5,0,0" 
-                                                  IsChecked="{Binding IsCheckActivitiesOnNPost}"/>
+                    <CheckBox Content="{DynamicResource LangKeyPerAccountsActivitiesOn}" Margin="0,5,0,0"
+                              IsChecked="{Binding IsCheckActivitiesOnNPost}" />
                     <controls:NumericUpDown Margin="5,5,0,0" Minimum="1"
-                                                                IsEnabled="{Binding IsCheckActivitiesOnNPost}"
-                                                                Value="{Binding ActivitiesOnNPost.StartValue}"/>
-                    <Label Content="{DynamicResource LangKeyTo}" Margin="5,5,0,0"/>
+                                            IsEnabled="{Binding IsCheckActivitiesOnNPost}"
+                                            Value="{Binding ActivitiesOnNPost.StartValue}" />
+                    <Label Content="{DynamicResource LangKeyTo}" Margin="5,5,0,0" />
                     <controls:NumericUpDown Margin="5,5,0,0" Minimum="{Binding ActivitiesOnNPost.StartValue}"
-                                                                IsEnabled="{Binding IsCheckActivitiesOnNPost}"
-                                                                Value="{Binding ActivitiesOnNPost.EndValue}"/>
-                    <Label Content="{DynamicResource LangKeyResultsFromQueryOnEachRun}" Margin="5,5,0,0"/>
+                                            IsEnabled="{Binding IsCheckActivitiesOnNPost}"
+                                            Value="{Binding ActivitiesOnNPost.EndValue}" />
+                    <Label Content="{DynamicResource LangKeyResultsFromQueryOnEachRun}" Margin="5,5,0,0" />
                 </StackPanel>
                 <!-- Old Config (Implement it later) -->
                 <!--<StackPanel Margin="10" x:Name="MainGrid">

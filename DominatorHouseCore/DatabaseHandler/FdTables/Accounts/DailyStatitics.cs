@@ -1,5 +1,9 @@
-﻿using SQLite;
+﻿#region
+
 using System;
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 {
@@ -12,37 +16,28 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         public int Id { get; set; }
 
         /// <summary>
-        /// Date when statistics are entered in Unix Timestamp
+        ///     Date when statistics are entered in Unix Timestamp
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        public DateTime Date
-        { get; set; }
+        public DateTime Date { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public int Friends
-        { get; set; }
+        public int Friends { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public int JoinedGroups
-        { get; set; }
+        public int JoinedGroups { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public int OwnPages
-        { get; set; }
-
-        
+        public int OwnPages { get; set; }
     }
 }

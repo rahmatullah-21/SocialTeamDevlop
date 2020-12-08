@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
 {
@@ -15,15 +19,13 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         public string SinAccUsername { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string QueryValue { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public string ActivityType
-        { get; set; }
+        public string ActivityType { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
@@ -34,58 +36,45 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         public string InteractedUserId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public string InteractedUserFullName
-        { get; set; }
+        public string InteractedUserFullName { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public int FollowStatus
-        { get; set; }
+        public int FollowStatus { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
-        public int FollowBackStatus
-        { get; set; }
+        public int FollowBackStatus { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public int InteractionTimeStamp
-        { get; set; }
+        public int InteractionTimeStamp { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
-        public string DirectMessage
-        { get; set; }
+        public string DirectMessage { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
-        public int UpdatedTime
-        { get; set; }
+        public int UpdatedTime { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public int FollowersCount
-        { get; set; }
+        public int FollowersCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
-        public int FollowingsCount
-        { get; set; }
+        public int FollowingsCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
-        public int TweetsCount
-        { get; set; }
+        public int TweetsCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public int LikesCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
-        public int HasAnonymousProfilePicture
-        { get; set; }
+        public int HasAnonymousProfilePicture { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
-        public int IsPrivate
-        { get; set; }
-
+        public int IsPrivate { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
-        public string ProfilePicUrl
-        { get; set; }
+        public string ProfilePicUrl { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
@@ -101,9 +90,8 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         public string Bio { get; set; }
 
 
-
         /// <summary>
-        /// Describes wheather the activity is done in Activity process or after activity process
+        ///     Describes wheather the activity is done in Activity process or after activity process
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
         public string ProcessType { get; set; }

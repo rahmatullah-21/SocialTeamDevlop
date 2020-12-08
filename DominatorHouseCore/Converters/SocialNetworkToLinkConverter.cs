@@ -1,10 +1,13 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -14,7 +17,6 @@ namespace DominatorHouseCore.Converters
         {
             var network = value as SocialNetworks?;
             if (network.HasValue)
-            {
                 switch (network)
                 {
                     case SocialNetworks.Social:
@@ -40,7 +42,6 @@ namespace DominatorHouseCore.Converters
                     default:
                         return ConstantVariable.SocialAccountManagerVideoLink;
                 }
-            }
 
             return ConstantVariable.SocialAccountManagerVideoLink;
         }

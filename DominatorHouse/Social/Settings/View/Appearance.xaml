@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:Socinator.Social.Settings.ViewModel"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance viewModel:AppearanceViewModel}"
             >
     <StackPanel Name="MainGrid">
         <Grid Height="300">
@@ -22,7 +24,7 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="{x:Type viewModel:ColorsCollection}">
                                 <Ellipse Width="40" Height="40" Margin="5" ToolTipService.ToolTip="{Binding Name}">
                                     <Ellipse.Fill>
                                         <SolidColorBrush x:Name="Brush" Color="{Binding Value}" />
@@ -45,7 +47,7 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="{x:Type viewModel:ColorsCollection}">
                                 <Ellipse Width="40" Height="40" Margin="5" ToolTipService.ToolTip="{Binding Name}">
                                     <Ellipse.Fill>
                                         <SolidColorBrush x:Name="Brush" Color="{Binding Value}" />
@@ -66,7 +68,7 @@
                 <ListBox Name="lsttheme"  SelectionChanged="lsttheme_SelectionChanged"  ItemsSource="{Binding lstThemeCollection}" 
                             SelectedItem="{Binding SelectedTheme,Mode=TwoWay}">
                     <ListBox.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="{x:Type viewModel:ThemeCollection}">
                             <StackPanel  Orientation="Horizontal"  Width="130" >
                                 <Ellipse Width="40" Height="40" Margin="5" Stroke="Black" StrokeThickness="1" ToolTipService.ToolTip="{Binding Name}">
                                     <Ellipse.Fill>

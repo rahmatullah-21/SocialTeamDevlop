@@ -7,28 +7,24 @@ using DominatorUIUtility.ViewModel.SocioPublisher;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherManagePostPending.xaml
+    ///     Interaction logic for PublisherManagePostPending.xaml
     /// </summary>
     public partial class PublisherManagePostPending : UserControl, INotifyPropertyChanged
     {
+        private static PublisherManagePostPending _publisherManagePostPending;
+
+        private PublisherManagePostPendingViewModel _publisherManagePostPendingViewModel =
+            new PublisherManagePostPendingViewModel();
+
         private PublisherManagePostPending()
         {
             InitializeComponent();
             PendingPostLists.DataContext = PublisherManagePostPendingViewModel;
         }
 
-        private static PublisherManagePostPending _publisherManagePostPending;
-
-        public static PublisherManagePostPending GetPublisherManagePostPending()
-            => _publisherManagePostPending ?? (_publisherManagePostPending = new PublisherManagePostPending());
-
-        private PublisherManagePostPendingViewModel _publisherManagePostPendingViewModel = new PublisherManagePostPendingViewModel();
         public PublisherManagePostPendingViewModel PublisherManagePostPendingViewModel
         {
-            get
-            {
-                return _publisherManagePostPendingViewModel;
-            }
+            get => _publisherManagePostPendingViewModel;
             set
             {
                 if (_publisherManagePostPendingViewModel == value)
@@ -41,11 +37,15 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public static PublisherManagePostPending GetPublisherManagePostPending()
+        {
+            return _publisherManagePostPending ?? (_publisherManagePostPending = new PublisherManagePostPending());
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

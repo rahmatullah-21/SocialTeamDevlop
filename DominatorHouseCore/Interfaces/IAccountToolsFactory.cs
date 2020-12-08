@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.Windows.Controls;
 using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
