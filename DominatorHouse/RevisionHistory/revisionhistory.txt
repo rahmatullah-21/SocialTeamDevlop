@@ -1,4 +1,28 @@
-﻿Version[1.0.0.97],[4th November 2020] 
+﻿Version[1.0.0.98],[8th December 2020] 
+Fixed:-
+ 	Social:
+		Sociopublisher ==> Instagram ==> Fixed issue with Posting Caption
+		Sociopublisher ==> Twitter ==> Post Configuration ==> Advance Settings ==> Fixed issue with delete post.
+
+	Instagram:
+		 Accounts ==> Accounts Manager ==> Fixed issue with Browser Login	
+		
+	Linkedin:
+		Salesnavigator Scraper ==> User scraper ==> Fixed issue with scraping report Profile URL
+
+	Facebook:
+		Grow Friends ==> Fixed issue with Sending Friend Request 
+		Grow Friends ==> Fixed issue with Incoming Friend Request
+		Broadcast Messages ==> Fixed issue with Broadcast Message 
+		Scraper ==> Fixed issue with Profile Scraper
+		Engage ==> Fixed issue with Post like
+
+	Twitter:
+		Accounts ==> Accounts Manager ==> Fixed issue with Login
+ 		Grow Followers ==> Mute ==> Fixed issue with Mute
+
+
+Version[1.0.0.97],[4th November 2020] 
 Fixed:-
  	Social:-
 		Sociopublisher ==> Instagram ==> Fixed issue with posting. 
