@@ -1,13 +1,13 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.NetworkActivitySetting;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using DominatorHouseCore.Models.NetworkActivitySetting;
-using System.Collections.Generic;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -15,8 +15,16 @@ namespace DominatorUIUtility.ViewModel.Startup
     {
         void AddJobConfiguration(IEnumerable<ActivityChecked> allSelectedActivity);
     }
+
     public class JobConfigViewModel : StartupBaseViewModel, IJobConfigViewModel
     {
+        private bool _isIndivisualSelected;
+
+        private JobConfiguration _jobConfiguration = new JobConfiguration();
+
+        private ObservableCollection<ActivityJobConfig> _lstJobConfiguration =
+            new ObservableCollection<ActivityJobConfig>();
+
         public JobConfigViewModel(IRegionManager region) : base(region)
         {
             NextCommand = new DelegateCommand(NavigateNext);
@@ -31,32 +39,28 @@ namespace DominatorUIUtility.ViewModel.Startup
                 RunningTime = RunningTimes.DayWiseRunningTimes,
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
-          
         }
-        private bool _isIndivisualSelected;
 
         public bool IsIndivisualSelected
         {
-            get { return _isIndivisualSelected; }
-            set { SetProperty(ref _isIndivisualSelected, value); }
+            get => _isIndivisualSelected;
+            set => SetProperty(ref _isIndivisualSelected, value);
         }
-
-        private JobConfiguration _jobConfiguration = new JobConfiguration();
 
         public JobConfiguration JobConfiguration
         {
-            get { return _jobConfiguration; }
-            set { SetProperty(ref _jobConfiguration, value); }
+            get => _jobConfiguration;
+            set => SetProperty(ref _jobConfiguration, value);
         }
-
-        private ObservableCollection<ActivityJobConfig> _lstJobConfiguration = new ObservableCollection<ActivityJobConfig>();
 
         public ObservableCollection<ActivityJobConfig> LstJobConfiguration
         {
-            get { return _lstJobConfiguration; }
-            set { SetProperty(ref _lstJobConfiguration, value); }
+            get => _lstJobConfiguration;
+            set => SetProperty(ref _lstJobConfiguration, value);
         }
-       
+
+        public Speed Model => new Speed();
+
 
         public void AddJobConfiguration(IEnumerable<ActivityChecked> allSelectedActivity)
         {
@@ -80,32 +84,11 @@ namespace DominatorUIUtility.ViewModel.Startup
 
             //}
         }
-
-        public Speed Model => new Speed();
     }
+
     public class Speed
     {
-        public JobConfiguration SlowSpeed = new JobConfiguration()
-        {
-            ActivitiesPerDay = new RangeUtilities(66, 100),
-            ActivitiesPerHour = new RangeUtilities(6, 10),
-            ActivitiesPerWeek = new RangeUtilities(400, 600),
-            ActivitiesPerJob = new RangeUtilities(8, 12),
-            DelayBetweenJobs = new RangeUtilities(73, 110),
-            DelayBetweenActivity = new RangeUtilities(1, 2)
-        };
-
-        public JobConfiguration MediumSpeed = new JobConfiguration()
-        {
-            ActivitiesPerDay = new RangeUtilities(133, 200),
-            ActivitiesPerHour = new RangeUtilities(13, 20),
-            ActivitiesPerWeek = new RangeUtilities(800, 1200),
-            ActivitiesPerJob = new RangeUtilities(16, 25),
-            DelayBetweenJobs = new RangeUtilities(73, 110),
-            DelayBetweenActivity = new RangeUtilities(0, 1)
-        };
-
-        public JobConfiguration FastSpeed = new JobConfiguration()
+        public JobConfiguration FastSpeed = new JobConfiguration
         {
             ActivitiesPerDay = new RangeUtilities(266, 400),
             ActivitiesPerHour = new RangeUtilities(26, 40),
@@ -115,7 +98,27 @@ namespace DominatorUIUtility.ViewModel.Startup
             DelayBetweenActivity = new RangeUtilities(0, 1)
         };
 
-        public JobConfiguration SuperfastSpeed = new JobConfiguration()
+        public JobConfiguration MediumSpeed = new JobConfiguration
+        {
+            ActivitiesPerDay = new RangeUtilities(133, 200),
+            ActivitiesPerHour = new RangeUtilities(13, 20),
+            ActivitiesPerWeek = new RangeUtilities(800, 1200),
+            ActivitiesPerJob = new RangeUtilities(16, 25),
+            DelayBetweenJobs = new RangeUtilities(73, 110),
+            DelayBetweenActivity = new RangeUtilities(0, 1)
+        };
+
+        public JobConfiguration SlowSpeed = new JobConfiguration
+        {
+            ActivitiesPerDay = new RangeUtilities(66, 100),
+            ActivitiesPerHour = new RangeUtilities(6, 10),
+            ActivitiesPerWeek = new RangeUtilities(400, 600),
+            ActivitiesPerJob = new RangeUtilities(8, 12),
+            DelayBetweenJobs = new RangeUtilities(73, 110),
+            DelayBetweenActivity = new RangeUtilities(1, 2)
+        };
+
+        public JobConfiguration SuperfastSpeed = new JobConfiguration
         {
             ActivitiesPerDay = new RangeUtilities(400, 600),
             ActivitiesPerHour = new RangeUtilities(40, 60),
@@ -123,25 +126,24 @@ namespace DominatorUIUtility.ViewModel.Startup
             ActivitiesPerJob = new RangeUtilities(50, 75),
             DelayBetweenJobs = new RangeUtilities(77, 116),
             DelayBetweenActivity = new RangeUtilities(0, 1)
-
         };
     }
+
     public class ActivityJobConfig : BindableBase
     {
         private JobConfiguration _activityJobConfiguration = new JobConfiguration();
+        private string _activityType;
 
         public JobConfiguration ActivityJobConfiguration
         {
-            get { return _activityJobConfiguration; }
-            set { SetProperty(ref _activityJobConfiguration, value); }
+            get => _activityJobConfiguration;
+            set => SetProperty(ref _activityJobConfiguration, value);
         }
-        private string _activityType;
 
         public string ActivityType
         {
-            get { return _activityType; }
-            set { SetProperty(ref _activityType, value); }
+            get => _activityType;
+            set => SetProperty(ref _activityType, value);
         }
-
     }
 }

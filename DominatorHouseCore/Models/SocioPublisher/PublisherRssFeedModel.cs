@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -9,13 +13,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
     public class PublisherRssFeedModel : BindableBase
     {
         private string _feedUrl = string.Empty;
+
         [ProtoMember(1)]
         public string FeedUrl
         {
-            get
-            {
-                return _feedUrl;
-            }
+            get => _feedUrl;
             set
             {
                 if (value == _feedUrl)
@@ -23,14 +25,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _feedUrl, value);
             }
         }
-        private string _feedTemplate ="LangKeyRssFeedTemplate".FromResourceDictionary();
+
+        private string _feedTemplate = "LangKeyRssFeedTemplate".FromResourceDictionary();
+
         [ProtoMember(2)]
         public string FeedTemplate
         {
-            get
-            {
-                return _feedTemplate;
-            }
+            get => _feedTemplate;
             set
             {
                 if (value == _feedTemplate)
@@ -38,14 +39,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _feedTemplate, value);
             }
         }
+
         private string _buttonContent = "LangKeySaveFeedUrl".FromResourceDictionary();
+
         [ProtoIgnore]
         public string ButtonContent
         {
-            get
-            {
-                return _buttonContent;
-            }
+            get => _buttonContent;
             set
             {
                 if (value == _buttonContent)
@@ -53,14 +53,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _buttonContent, value);
             }
         }
-        private PostDetailsModel _postDetailsModel=new PostDetailsModel();
+
+        private PostDetailsModel _postDetailsModel = new PostDetailsModel();
+
         [ProtoMember(3)]
         public PostDetailsModel PostDetailsModel
         {
-            get
-            {
-                return _postDetailsModel;
-            }
+            get => _postDetailsModel;
             set
             {
                 if (value == _postDetailsModel)
@@ -68,6 +67,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _postDetailsModel, value);
             }
         }
-       
     }
 }

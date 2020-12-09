@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="DominatorUIUtility.Views.Publisher.AdvancedSettings.General"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" Loaded="General_OnLoaded">
@@ -9,92 +9,109 @@
         <ScrollViewer Style="{StaticResource CrucialRedScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTriggerANotificationWhenPendingPostsCountReachesTo}" Margin="0,0,10,0"/>
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{DynamicResource LangKeyTriggerANotificationWhenPendingPostsCountReachesTo}"
+                               Margin="0,0,10,0" />
                     <controls:NumericUpDown VerticalAlignment="Center" Minimum="0"
-                                            Value="{Binding GeneralModel.TriggerNotificationCount}"/>
-                   
+                                            Value="{Binding GeneralModel.TriggerNotificationCount}" />
+
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyWaitAMaximumOf}" Margin="0,0,10,0"/>
-                    <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0"
-                                             Value="{Binding GeneralModel.DestinationTimeout}" />
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutesForAPostToFinishOnAllDestinationsTimeoutStateAfterThat}" Margin="10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyWaitAMaximumOf}"
+                               Margin="0,0,10,0" />
+                    <controls:NumericUpDown VerticalAlignment="Center" Minimum="0"
+                                            Value="{Binding GeneralModel.DestinationTimeout}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{DynamicResource LangKeyMinutesForAPostToFinishOnAllDestinationsTimeoutStateAfterThat}"
+                               Margin="10,0" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyKeepAMaximumOf}" Margin="0,0,10,0"/>
-                    <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0"
-                                             Value="{Binding GeneralModel.MaxPostCountToStore}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPostsInTheCampaignHistory}" Margin="10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyKeepAMaximumOf}"
+                               Margin="0,0,10,0" />
+                    <controls:NumericUpDown VerticalAlignment="Center" Minimum="0"
+                                            Value="{Binding GeneralModel.MaxPostCountToStore}" />
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPostsInTheCampaignHistory}"
+                               Margin="10,0" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyCheckRSSFeedsForANewPostsEvery}" Margin="0,0,10,0"/>
-                    <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0"
-                                             Value="{Binding GeneralModel.CheckRssFeedsminutes}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutes}" Margin="10,0"/>
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{DynamicResource LangKeyCheckRSSFeedsForANewPostsEvery}" Margin="0,0,10,0" />
+                    <controls:NumericUpDown VerticalAlignment="Center" Minimum="0"
+                                            Value="{Binding GeneralModel.CheckRssFeedsminutes}" />
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutes}" Margin="10,0" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyCheckMonitorFoldersForNewImages/VideoEvery}" Margin="0,0,10,0"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" Minimum="0" 
-                                            Value="{Binding GeneralModel.CheckMonitorFoldersminutes}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutes}" Margin="10,0"/>
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{DynamicResource LangKeyCheckMonitorFoldersForNewImages/VideoEvery}"
+                               Margin="0,0,10,0" />
+                    <controls:NumericUpDown VerticalAlignment="Center" Minimum="0"
+                                            Value="{Binding GeneralModel.CheckMonitorFoldersminutes}" />
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutes}" Margin="10,0" />
                 </StackPanel>
-                <CheckBox Content="{DynamicResource LangKeyAutomaticallyRetryPostsWithError}" 
-                          Margin="5" IsChecked="{Binding GeneralModel.IsAutomaticallyRetryChecked}"/>
-                <RadioButton Content="{DynamicResource LangKeyChooseASingleRandomImageForPostsWithMultipleImages}" GroupName="ChooseImage"
-                             Margin="5" IsChecked="{Binding GeneralModel.IsChooseSingleRandomImageChecked}"/>
+                <CheckBox Content="{DynamicResource LangKeyAutomaticallyRetryPostsWithError}"
+                          Margin="5" IsChecked="{Binding GeneralModel.IsAutomaticallyRetryChecked}" />
+                <RadioButton Content="{DynamicResource LangKeyChooseASingleRandomImageForPostsWithMultipleImages}"
+                             GroupName="ChooseImage"
+                             Margin="5" IsChecked="{Binding GeneralModel.IsChooseSingleRandomImageChecked}" />
                 <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyEachDestinationWillUseARandomImageFromTheList}" Margin="35,0"/>-->
 
-                <RadioButton Content="{DynamicResource LangKeyChooseOnlyTheFirstImageForPostsWithMultipleImages}" GroupName="ChooseImage"
-                             Margin="5" IsChecked="{Binding GeneralModel.IsChooseOnlyFirstImageChecked}"/>
+                <RadioButton Content="{DynamicResource LangKeyChooseOnlyTheFirstImageForPostsWithMultipleImages}"
+                             GroupName="ChooseImage"
+                             Margin="5" IsChecked="{Binding GeneralModel.IsChooseOnlyFirstImageChecked}" />
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <RadioButton Content="{DynamicResource LangKeyChooseBetween}" GroupName="ChooseImage"
-                                 VerticalAlignment="Center" IsChecked="{Binding GeneralModel.IsChooseBetweenChecked}"/>
-                    <controls:NumericUpDown  VerticalAlignment="Center" Margin="5,0" Minimum="0"
-                                             IsEnabled="{Binding GeneralModel.IsChooseBetweenChecked}"
-                                             Value="{Binding GeneralModel.ChooseBetween.StartValue}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyAnd}" Margin="0,0,10,0"/>
+                                 VerticalAlignment="Center" IsChecked="{Binding GeneralModel.IsChooseBetweenChecked}" />
+                    <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" Minimum="0"
+                                            IsEnabled="{Binding GeneralModel.IsChooseBetweenChecked}"
+                                            Value="{Binding GeneralModel.ChooseBetween.StartValue}" />
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyAnd}" Margin="0,0,10,0" />
                     <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0"
                                             IsEnabled="{Binding GeneralModel.IsChooseBetweenChecked}"
                                             Minimum="{Binding GeneralModel.ChooseBetween.StartValue}"
-                                            Value="{Binding GeneralModel.ChooseBetween.EndValue}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyRandomImagesForPostsWithMultipleImages}" Margin="0,0,10,0"/>
+                                            Value="{Binding GeneralModel.ChooseBetween.EndValue}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{DynamicResource LangKeyRandomImagesForPostsWithMultipleImages}" Margin="0,0,10,0" />
                 </StackPanel>
                 <CheckBox Content="{DynamicResource LangKeyWhenPublishingSendOnePostForEachDestination}"
                           VerticalAlignment="Center" Margin="5" Visibility="Collapsed"
-                          IsChecked="{Binding GeneralModel.IsWhenPublishingSendOnePostChecked}"/>
+                          IsChecked="{Binding GeneralModel.IsWhenPublishingSendOnePostChecked}" />
                 <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyEachDestinationWillReceiveItsOwnPostFromTheList}" Margin="35,0"/>-->
                 <CheckBox Content="{DynamicResource LangKeyChooseRandomPostsFromThePostListInsteadOfTopOne}"
                           VerticalAlignment="Center" Margin="5"
-                          IsChecked="{Binding GeneralModel.IsChooseRandomPostsChecked}"/>
+                          IsChecked="{Binding GeneralModel.IsChooseRandomPostsChecked}" />
                 <!--<CheckBox Content="{DynamicResource LangKeyInsertPostsAtRandomLocationsInPostListInsteadOfAtTheEnd}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsInsertPostsAtRandomChecked}"/>-->
-                <CheckBox Content="{DynamicResource LangKeyDoNotPublishPostsOnMultipleAccountsInParallelDelayEveryPostOnEveryAccount}" 
-                          VerticalAlignment="Center" Margin="5" 
-                          IsChecked="{Binding GeneralModel.IsRunSingleAccountPerCampaign}"/>
+                <CheckBox
+                    Content="{DynamicResource LangKeyDoNotPublishPostsOnMultipleAccountsInParallelDelayEveryPostOnEveryAccount}"
+                    VerticalAlignment="Center" Margin="5"
+                    IsChecked="{Binding GeneralModel.IsRunSingleAccountPerCampaign}" />
                 <CheckBox Content="{DynamicResource LangKeyRemoveTheLinkFromThePostAfterDisplaysThePreview}"
                           IsChecked="{Binding GeneralModel.IsRemoveLinkFromPostsChecked}"
-                          VerticalAlignment="Center" Margin="5"/>
+                          VerticalAlignment="Center" Margin="5" />
                 <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyForTumblrItRemovedForImagePostsAsTheLinkIsAttechedToTheImage}" Margin="25,5"/>-->
                 <!--<CheckBox Content="{DynamicResource LangKeyDisableTemporarySleepAfter192193Error}" 
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsDisableTemporarySleep}"/>-->
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <CheckBox Content="{DynamicResource LangKeyWaitToStartANewPostIfYouHaveMoreThan}" 
-                              VerticalAlignment="Center" IsChecked="{Binding GeneralModel.IsWaitToStartAction}"/>
-                    <controls:NumericUpDown  VerticalAlignment="Center" Margin="5,0" Minimum="0"
-                                             IsEnabled="{Binding GeneralModel.IsWaitToStartAction}"
-                                             Value="{Binding GeneralModel.JobProcessRunningCount}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyActiveInHistory}" Margin="0,0,10,0"/>
+                    <CheckBox Content="{DynamicResource LangKeyWaitToStartANewPostIfYouHaveMoreThan}"
+                              VerticalAlignment="Center" IsChecked="{Binding GeneralModel.IsWaitToStartAction}" />
+                    <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" Minimum="0"
+                                            IsEnabled="{Binding GeneralModel.IsWaitToStartAction}"
+                                            Value="{Binding GeneralModel.JobProcessRunningCount}" />
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyActiveInHistory}"
+                               Margin="0,0,10,0" />
                 </StackPanel>
-                <CheckBox Content="{DynamicResource LangKeyUnselectTheDestinationAfterASuccessfulPostTheCampaignWillPostOnlyOnceInEachDestination}"
-                          VerticalAlignment="Center" Margin="5" 
-                          IsChecked="{Binding GeneralModel.IsDeselectUsedDestination}"/>
-                <CheckBox Content="{DynamicResource LangKeyKeepThePostsInitialCreationDateWhenReAddingPostsFromHistoryToPostList}" 
-                          VerticalAlignment="Center" Margin="5"
-                          IsChecked="{Binding GeneralModel.IsKeepPostsInitialCreationDate}"/>
+                <CheckBox
+                    Content="{DynamicResource LangKeyUnselectTheDestinationAfterASuccessfulPostTheCampaignWillPostOnlyOnceInEachDestination}"
+                    VerticalAlignment="Center" Margin="5"
+                    IsChecked="{Binding GeneralModel.IsDeselectUsedDestination}" />
+                <CheckBox
+                    Content="{DynamicResource LangKeyKeepThePostsInitialCreationDateWhenReAddingPostsFromHistoryToPostList}"
+                    VerticalAlignment="Center" Margin="5"
+                    IsChecked="{Binding GeneralModel.IsKeepPostsInitialCreationDate}" />
                 <CheckBox Content="{DynamicResource LangKeyStopRandomisingDestinationsOrderForPosts}"
                           VerticalAlignment="Center" Margin="5"
-                          IsChecked="{Binding GeneralModel.IsStopRandomisingDestinationsOrder}"/>
+                          IsChecked="{Binding GeneralModel.IsStopRandomisingDestinationsOrder}" />
 
                 <!--<CheckBox Content="{DynamicResource LangKeyAutoTagFriendsInPosts}"
                           VerticalAlignment="Center" Margin="5"

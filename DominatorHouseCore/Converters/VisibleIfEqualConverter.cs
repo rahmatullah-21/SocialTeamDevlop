@@ -1,8 +1,12 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -15,10 +19,7 @@ namespace DominatorHouseCore.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var result = value?.Equals(Expected) ?? false;
-            if (Inversed)
-            {
-                return result ? Visibility.Collapsed : Visibility.Visible;
-            }
+            if (Inversed) return result ? Visibility.Collapsed : Visibility.Visible;
 
             return result ? Visibility.Visible : Visibility.Collapsed;
         }

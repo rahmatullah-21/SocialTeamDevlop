@@ -1,4 +1,6 @@
-﻿using DominatorHouseCore.Dal;
+﻿#region
+
+using DominatorHouseCore.Dal;
 using DominatorHouseCore.Dal.DbMigrations;
 using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.Enums;
@@ -7,11 +9,12 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
 using SQLite;
 
+#endregion
+
 namespace DominatorHouseCore.DatabaseHandler.Utility
 {
     public class GlobalDatabaseConnection : VersionedDbConnection, IGlobalDatabaseConnection
     {
-
         private readonly IGlobalDatabaseBlackListMigrations _globalDatabaseBlackListMigrations;
         private readonly IGlobalDatabaseWhiteListMigrations _globalDatabaseWhiteListMigrations;
 

@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.Utility;
-using ProtoBuf;
+﻿#region
+
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using DominatorHouseCore.Utility;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -9,16 +13,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
     public class ScrapePostModel : BindableBase
     {
         /// <summary>
-        /// To specify facebook scrape post is checked
+        ///     To specify facebook scrape post is checked
         /// </summary>
         private bool _isScrapeFacebookPost;
+
         [ProtoMember(1)]
         public bool IsScrapeFacebookPost
         {
-            get
-            {
-                return _isScrapeFacebookPost;
-            }
+            get => _isScrapeFacebookPost;
             set
             {
                 if (_isScrapeFacebookPost == value)
@@ -27,17 +29,16 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsScrapeFacebookPost));
             }
         }
+
         /// <summary>
-        /// To specify scraping details of facebook
+        ///     To specify scraping details of facebook
         /// </summary>
         private string _addFdPostSource = string.Empty;
+
         [ProtoMember(2)]
         public string AddFdPostSource
         {
-            get
-            {
-                return _addFdPostSource;
-            }
+            get => _addFdPostSource;
             set
             {
                 if (_addFdPostSource == value)
@@ -48,16 +49,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify pinterest scrape post is checked
+        ///     To specify pinterest scrape post is checked
         /// </summary>
         private bool _isScrapePinterestPost;
+
         [ProtoMember(3)]
         public bool IsScrapePinterestPost
         {
-            get
-            {
-                return _isScrapePinterestPost;
-            }
+            get => _isScrapePinterestPost;
             set
             {
                 if (_isScrapePinterestPost == value)
@@ -66,17 +65,16 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsScrapePinterestPost));
             }
         }
+
         /// <summary>
-        /// To specify scraping details of pinterest
+        ///     To specify scraping details of pinterest
         /// </summary>
         private string _addPdPostSource = string.Empty;
+
         [ProtoMember(4)]
         public string AddPdPostSource
         {
-            get
-            {
-                return _addPdPostSource;
-            }
+            get => _addPdPostSource;
             set
             {
                 if (_addPdPostSource == value)
@@ -87,16 +85,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify twitter scrape post is checked
+        ///     To specify twitter scrape post is checked
         /// </summary>
         private bool _isScrapeTwitterPost;
+
         [ProtoMember(5)]
         public bool IsScrapeTwitterPost
         {
-            get
-            {
-                return _isScrapeTwitterPost;
-            }
+            get => _isScrapeTwitterPost;
             set
             {
                 if (_isScrapeTwitterPost == value)
@@ -107,16 +103,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify scraping details of Twitter
+        ///     To specify scraping details of Twitter
         /// </summary>
         private string _addTdPostSource = string.Empty;
+
         [ProtoMember(6)]
         public string AddTdPostSource
         {
-            get
-            {
-                return _addTdPostSource;
-            }
+            get => _addTdPostSource;
             set
             {
                 if (_addTdPostSource == value)
@@ -128,13 +122,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private int _scrapeCount = 1;
+
         [ProtoMember(7)]
         public int ScrapeCount
         {
-            get
-            {
-                return _scrapeCount;
-            }
+            get => _scrapeCount;
             set
             {
                 if (_scrapeCount == value)
@@ -145,13 +137,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private int _startScrapeOnXminute = 30;
+
         [ProtoMember(8)]
         public int StartScrapeOnXminute
         {
-            get
-            {
-                return _startScrapeOnXminute;
-            }
+            get => _startScrapeOnXminute;
             set
             {
                 if (_startScrapeOnXminute == value)
@@ -159,11 +149,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _startScrapeOnXminute, value);
             }
         }
+
         private bool _isOriginalPostDetails = true;
+
         [ProtoMember(9)]
         public bool IsOriginalPostDetails
         {
-            get { return _isOriginalPostDetails; }
+            get => _isOriginalPostDetails;
             set
             {
                 if (value == _isOriginalPostDetails)
@@ -173,11 +165,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isOriginalPostDetails, value);
             }
         }
+
         private bool _isOwnPostDetails;
+
         [ProtoMember(10)]
         public bool IsOwnPostDetails
         {
-            get { return _isOwnPostDetails; }
+            get => _isOwnPostDetails;
             set
             {
                 if (value == _isOwnPostDetails)
@@ -189,11 +183,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private ObservableCollection<string> _lstScrapedPostDetails = new ObservableCollection<string>();
+
         [ProtoMember(11)]
         public ObservableCollection<string> LstScrapedPostDetails
         {
-            get { return _lstScrapedPostDetails; }
-            set { SetProperty(ref _lstScrapedPostDetails, value); }
+            get => _lstScrapedPostDetails;
+            set => SetProperty(ref _lstScrapedPostDetails, value);
         }
 
         private bool _isScrapePostOlderThanXXDays;
@@ -201,10 +196,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(12)]
         public bool IsScrapePostOlderThanXXDays
         {
-            get
-            {
-                return _isScrapePostOlderThanXXDays;
-            }
+            get => _isScrapePostOlderThanXXDays;
             set
             {
                 if (value == _isScrapePostOlderThanXXDays)
@@ -218,10 +210,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(13)]
         public RangeUtilities DoNotScrapePostOlderThanNDays
         {
-            get
-            {
-                return _doNotscrapePostOlderThanNDays;
-            }
+            get => _doNotscrapePostOlderThanNDays;
             set
             {
                 if (value == _doNotscrapePostOlderThanNDays)
@@ -233,12 +222,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         #region RedditPost Scaper 
 
         //To specify reddit scrape post is checked
-        [ProtoMember(14)]
-        private bool _isScrapeRedditPost;
+        [ProtoMember(14)] private bool _isScrapeRedditPost;
 
         public bool IsScrapeRedditPost
         {
-            get { return _isScrapeRedditPost; }
+            get => _isScrapeRedditPost;
             set
             {
                 if (_isScrapeRedditPost == value)
@@ -250,12 +238,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         //To specify scraping details of reddit
-        [ProtoMember(15)]
-        private string _addRdPostSource;
+        [ProtoMember(15)] private string _addRdPostSource;
 
         public string AddRdPostSource
         {
-            get { return _addRdPostSource; }
+            get => _addRdPostSource;
             set
             {
                 if (_addRdPostSource == value)
@@ -270,12 +257,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         #region Google Image Scaper 
 
         //To specify google scrape image is checked
-        [ProtoMember(16)]
-        private bool _isScrapeGoogleImgaes;
+        [ProtoMember(16)] private bool _isScrapeGoogleImgaes;
 
         public bool IsScrapeGoogleImgaes
         {
-            get { return _isScrapeGoogleImgaes; }
+            get => _isScrapeGoogleImgaes;
             set
             {
                 if (_isScrapeGoogleImgaes == value)
@@ -287,12 +273,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         //To specify scraping details of reddit
-        [ProtoMember(17)]
-        private string _addGooglePostSource;
+        [ProtoMember(17)] private string _addGooglePostSource;
 
         public string AddGooglePostSource
         {
-            get { return _addGooglePostSource; }
+            get => _addGooglePostSource;
             set
             {
                 if (_addGooglePostSource == value)
@@ -304,16 +289,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         /// <summary>
-        /// Is need to use file name as a description for multiple image posts
+        ///     Is need to use file name as a description for multiple image posts
         /// </summary>
         private bool _isUseFileNameAsDescription = true;
+
         [ProtoMember(18)]
         public bool IsUseFileNameAsDescription
         {
-            get
-            {
-                return _isUseFileNameAsDescription;
-            }
+            get => _isUseFileNameAsDescription;
             set
             {
                 if (value == _isUseFileNameAsDescription)
@@ -323,41 +306,34 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private bool _isUploadPostDescription;
+
         [ProtoMember(19)]
         public bool IsUploadPostDescription
         {
-            get
-            {
-                return _isUploadPostDescription;
-            }
+            get => _isUploadPostDescription;
             set
             {
                 if (value == _isUploadPostDescription)
                     return;
                 SetProperty(ref _isUploadPostDescription, value);
-
             }
         }
 
         private List<string> _lstUploadPostDescription = new List<string>();
+
         [ProtoMember(20)]
         public List<string> LstUploadPostDescription
         {
-            get { return _lstUploadPostDescription; }
-            set
-            {
-                SetProperty(ref _lstUploadPostDescription, value);
-            }
+            get => _lstUploadPostDescription;
+            set => SetProperty(ref _lstUploadPostDescription, value);
         }
 
         private int _scrapeCountPerUrl = 1;
+
         [ProtoMember(21)]
         public int ScrapeCountPerUrl
         {
-            get
-            {
-                return _scrapeCountPerUrl;
-            }
+            get => _scrapeCountPerUrl;
             set
             {
                 if (_scrapeCountPerUrl == value)
@@ -368,13 +344,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private bool _ignoreTextOnlyPosts;
+
         [ProtoMember(22)]
         public bool IgnoreTextOnlyPosts
         {
-            get
-            {
-                return _ignoreTextOnlyPosts;
-            }
+            get => _ignoreTextOnlyPosts;
             set
             {
                 if (_ignoreTextOnlyPosts == value)
@@ -385,13 +359,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private bool _isScrapeHighQualityImages;
+
         [ProtoMember(23)]
         public bool IsScrapeHighQualityImages
         {
-            get
-            {
-                return _isScrapeHighQualityImages;
-            }
+            get => _isScrapeHighQualityImages;
             set
             {
                 if (_isScrapeHighQualityImages == value)
@@ -401,6 +373,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         #endregion
-
     }
 }

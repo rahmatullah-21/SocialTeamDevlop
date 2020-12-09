@@ -1,28 +1,19 @@
-﻿
- using System.ComponentModel;
- using System.Runtime.CompilerServices;
- using System.Windows.Controls;
- using DominatorHouseCore.Annotations;
- using DominatorHouseCore.Enums;
- using DominatorHouseCore.Models;
- using DominatorUIUtility.ViewModel;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
+using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.Views
 {
     /// <summary>
-    /// Interaction logic for DominatorAutoActivity.xaml
+    ///     Interaction logic for DominatorAutoActivity.xaml
     /// </summary>
-    public partial class AccountManager : UserControl,INotifyPropertyChanged
+    public partial class AccountManager : INotifyPropertyChanged
     {
-        public AccountManagerViewModel AccountManagerViewModel
-        {
-            get { return _accountManagerViewModel; }
-            set
-            {
-                _accountManagerViewModel = value;
-                OnPropertyChanged(nameof(AccountManagerViewModel));
-            }
-        }
+        public static AccountManager ObjAccountManager;
+        private AccountManagerViewModel _accountManagerViewModel;
 
         private AccountManager()
         {
@@ -31,10 +22,21 @@ namespace DominatorUIUtility.Views
             AccountManagerPage.DataContext = AccountManagerViewModel;
         }
 
-        public static AccountManager ObjAccountManager;
-        private AccountManagerViewModel _accountManagerViewModel;
+        public AccountManagerViewModel AccountManagerViewModel
+        {
+            get => _accountManagerViewModel;
+            set
+            {
+                _accountManagerViewModel = value;
+                OnPropertyChanged(nameof(AccountManagerViewModel));
+            }
+        }
 
-        public static AccountManager GetSingletonAccountManager(string controlType, [CanBeNull] DominatorAccountModel dominatorAccountModel, SocialNetworks network)
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public static AccountManager GetSingletonAccountManager(string controlType,
+            [CanBeNull] DominatorAccountModel dominatorAccountModel, SocialNetworks network)
         {
             if (ObjAccountManager == null)
                 ObjAccountManager = new AccountManager();
@@ -43,9 +45,6 @@ namespace DominatorUIUtility.Views
 
             return ObjAccountManager;
         }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

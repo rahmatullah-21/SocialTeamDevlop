@@ -1,59 +1,55 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
-using DominatorHouseCore.Utility;
-using DominatorHouseCore.ViewModel.AdvancedSettings;
-using DominatorUIUtility.Views.SocioPublisher;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using CommonServiceLocator;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.ViewModel.AdvancedSettings;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
-    /// Interaction logic for GooglePlus.xaml
+    ///     Interaction logic for GooglePlus.xaml
     /// </summary>
     public partial class GooglePlus : UserControl, INotifyPropertyChanged
     {
+        private static GooglePlus ObJGooglePlus;
         private readonly IGenericFileManager _genericFileManager;
+        private GooglePlusViewModel _googlePlusViewModel = new GooglePlusViewModel();
+
         public GooglePlus()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             InitializeComponent();
             MainGrid.DataContext = GooglePlusViewModel;
         }
-        static GooglePlus ObJGooglePlus;
-        public static GooglePlus GetSingeltonGooglePlusObject()
-        {
-            if (ObJGooglePlus == null)
-                ObJGooglePlus = new GooglePlus();
-            return ObJGooglePlus;
-        }
-        private GooglePlusViewModel _googlePlusViewModel = new GooglePlusViewModel();
 
         public GooglePlusViewModel GooglePlusViewModel
         {
-            get
-            {
-                return _googlePlusViewModel;
-            }
+            get => _googlePlusViewModel;
             set
             {
                 _googlePlusViewModel = value;
                 OnPropertyChanged(nameof(GooglePlusViewModel));
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public static GooglePlus GetSingeltonGooglePlusObject()
+        {
+            if (ObJGooglePlus == null)
+                ObJGooglePlus = new GooglePlus();
+            return ObJGooglePlus;
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private void GooglePlus_OnLoaded(object sender, RoutedEventArgs e)
         {

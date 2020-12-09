@@ -1,19 +1,21 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    class PinterestModel : BindableBase
+    internal class PinterestModel : BindableBase
     {
         private bool _isEnableFollowDifferentUsersAcrossPDAccountsChecked;
+
         [ProtoMember(1)]
         public bool IsEnableFollowDifferentUsersAcrossPDAccountsChecked
         {
-            get
-            {
-                return _isEnableFollowDifferentUsersAcrossPDAccountsChecked;
-            }
+            get => _isEnableFollowDifferentUsersAcrossPDAccountsChecked;
             set
             {
                 if (value == _isEnableFollowDifferentUsersAcrossPDAccountsChecked)
@@ -21,14 +23,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isEnableFollowDifferentUsersAcrossPDAccountsChecked, value);
             }
         }
+
         private bool _isAllowDoubleRepinChecked;
+
         [ProtoMember(2)]
         public bool IsAllowDoubleRepinChecked
         {
-            get
-            {
-                return _isAllowDoubleRepinChecked;
-            }
+            get => _isAllowDoubleRepinChecked;
             set
             {
                 if (value == _isAllowDoubleRepinChecked)

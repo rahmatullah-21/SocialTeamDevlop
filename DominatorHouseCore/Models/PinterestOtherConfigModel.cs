@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -11,10 +15,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(1)]
         public bool IsScrapDataBeforeSendToPerformActivity
         {
-            get
-            {
-                return _isScrapDataBeforeSendToPerformActivity;
-            }
+            get => _isScrapDataBeforeSendToPerformActivity;
             set
             {
                 if (value == _isScrapDataBeforeSendToPerformActivity)
@@ -28,10 +29,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(2)]
         public int PaginationCount
         {
-            get
-            {
-                return _paginationCount;
-            }
+            get => _paginationCount;
             set
             {
                 if (value == _paginationCount)
@@ -41,13 +39,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isCampainWiseUnique;
+
         [ProtoMember(3)]
         public bool IsCampainWiseUnique
         {
-            get
-            {
-                return _isCampainWiseUnique;
-            }
+            get => _isCampainWiseUnique;
             set
             {
                 if (value)
@@ -57,13 +53,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isAccountWiseUnique = true;
+
         [ProtoMember(4)]
         public bool IsAccountWiseUnique
         {
-            get
-            {
-                return _isAccountWiseUnique;
-            }
+            get => _isAccountWiseUnique;
             set
             {
                 if (value)

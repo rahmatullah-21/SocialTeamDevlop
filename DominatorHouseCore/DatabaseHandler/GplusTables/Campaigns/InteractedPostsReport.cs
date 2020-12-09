@@ -1,9 +1,13 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Campaigns
 {
-  public  class InteractedPostsReport
+    public class InteractedPostsReport
     {
         [PrimaryKey]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
@@ -15,8 +19,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Campaigns
         public string Query { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string ActivityType { get; set; }
@@ -34,6 +37,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Campaigns
         public int UploadedDate { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
+        // ReSharper disable once UnusedMember.Global
         public string PostOwnerId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
@@ -56,17 +60,15 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Campaigns
         public string PostUrl { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
-        public string Comment
-        { get; set; }
+        public string Comment { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
-        public string InteractedUserId
-        { get; set; }
+        public string InteractedUserId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public int IsLiked { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string CommentId { get; set; }
-
     }
 }

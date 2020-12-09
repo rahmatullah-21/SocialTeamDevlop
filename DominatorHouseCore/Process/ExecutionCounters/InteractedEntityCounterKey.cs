@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
 using System;
 using System.Collections.Generic;
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.Process.ExecutionCounters
 {
@@ -19,8 +23,7 @@ namespace DominatorHouseCore.Process.ExecutionCounters
 
         public override bool Equals(object obj)
         {
-            var key = obj as InteractedEntityCounterKey;
-            return key != null &&
+            return obj is InteractedEntityCounterKey key &&
                    EqualityComparer<Type>.Default.Equals(InteractedEntityType, key.InteractedEntityType) &&
                    SocialNetworks == key.SocialNetworks &&
                    AccountId == key.AccountId;

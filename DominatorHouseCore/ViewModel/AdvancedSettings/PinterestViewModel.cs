@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+﻿#region
+
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel.AdvancedSettings
 {
@@ -9,10 +13,7 @@ namespace DominatorHouseCore.ViewModel.AdvancedSettings
 
         public PinterestModel PinterestModel
         {
-            get
-            {
-                return _pinterestModel;
-            }
+            get => _pinterestModel;
             set
             {
                 if (_pinterestModel == value)

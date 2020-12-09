@@ -1,6 +1,10 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using CommonServiceLocator;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {

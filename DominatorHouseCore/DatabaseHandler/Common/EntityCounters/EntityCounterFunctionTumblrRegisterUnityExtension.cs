@@ -1,8 +1,11 @@
-﻿using DominatorHouseCore.DatabaseHandler.TumblrTables.Account;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.TumblrTables.Account;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Utility;
 using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
@@ -21,7 +24,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                 .RegisterInstance<ICounterKeyFactory<InteractedUser>>(
                     new CounterKeyFactory<InteractedUser>(SocialNetworks.Tumblr, true));
 
-           
+
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(

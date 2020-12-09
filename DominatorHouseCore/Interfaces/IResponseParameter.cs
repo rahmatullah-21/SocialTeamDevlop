@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -9,6 +13,5 @@ namespace DominatorHouseCore.Interfaces
         string Response { get; set; }
 
         Exception Exception { get; set; }
-
     }
 }

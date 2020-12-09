@@ -9,10 +9,13 @@ using DominatorUIUtility.ViewModel.SocioPublisher;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for SelectDestinations.xaml
+    ///     Interaction logic for SelectDestinations.xaml
     /// </summary>
     public partial class SelectDestinations : UserControl, INotifyPropertyChanged
     {
+        private PublisherManageDestinationViewModel _publisherManageDestinationViewModel =
+            new PublisherManageDestinationViewModel();
+
         public SelectDestinations()
         {
             InitializeComponent();
@@ -20,7 +23,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             PublisherManageDestinationViewModel.InitializeDefaultDestinations();
         }
 
-        public SelectDestinations(ObservableCollection<string> lstDestinationId):this()
+        public SelectDestinations(ObservableCollection<string> lstDestinationId) : this()
         {
             _publisherManageDestinationViewModel.ListPublisherManageDestinationModels?.ToList().ForEach(x =>
             {
@@ -30,10 +33,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         public PublisherManageDestinationViewModel PublisherManageDestinationViewModel
         {
-            get
-            {
-                return _publisherManageDestinationViewModel;
-            }
+            get => _publisherManageDestinationViewModel;
             set
             {
                 _publisherManageDestinationViewModel = value;
@@ -41,8 +41,6 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
         }
 
-
-        private PublisherManageDestinationViewModel _publisherManageDestinationViewModel = new PublisherManageDestinationViewModel();
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -50,7 +48,5 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-      
     }
 }

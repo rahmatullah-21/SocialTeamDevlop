@@ -1,11 +1,15 @@
-﻿using DominatorHouseCore.Models;
+﻿#region
+
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
-{  
+{
     /// <summary>
-    /// General module settings used over all social networks and modules
+    ///     General module settings used over all social networks and modules
     /// </summary>
-    public interface IGeneralSettings 
+    public interface IGeneralSettings
     {
         JobConfiguration JobConfiguration { get; set; }
 

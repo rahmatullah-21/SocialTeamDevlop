@@ -1,47 +1,36 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.Annotations;
-using DominatorUIUtility.ViewModel.SocioPublisher;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using CommonServiceLocator;
+using DominatorHouseCore.Annotations;
+using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherDefaultPage.xaml
-    /// </summary>   
+    ///     Interaction logic for PublisherDefaultPage.xaml
+    /// </summary>
     public partial class PublisherDefaultPage : UserControl, INotifyPropertyChanged
     {
+        private static PublisherDefaultPage _indexPage;
+
         private PublisherDefaultPage()
         {
             InitializeComponent();
             PublisherDefault.DataContext = PublisherDefaultViewModel;
         }
 
-        private readonly PublisherDefaultViewModel _publisherDefaultViewModel =
+        public PublisherDefaultViewModel PublisherDefaultViewModel { get; } =
             ServiceLocator.Current.GetInstance<PublisherDefaultViewModel>();
 
-        public PublisherDefaultViewModel PublisherDefaultViewModel
-        {
-            get
-            {
-                return _publisherDefaultViewModel;
-            }
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private static PublisherDefaultPage _indexPage;
-      
         public static PublisherDefaultPage Instance()
         {
-            if (_indexPage == null)
-            {
-                _indexPage = new PublisherDefaultPage();
-            }
+            if (_indexPage == null) _indexPage = new PublisherDefaultPage();
             _indexPage.PublisherDefaultViewModel.InitializeDefaultCampaignStatus();
             return _indexPage;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -49,6 +38,4 @@ namespace DominatorUIUtility.Views.SocioPublisher
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-    
 }

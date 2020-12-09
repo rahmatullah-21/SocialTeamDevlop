@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
 {

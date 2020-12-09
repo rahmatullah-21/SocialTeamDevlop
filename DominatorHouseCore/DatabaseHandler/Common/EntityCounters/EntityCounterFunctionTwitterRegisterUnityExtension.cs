@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.DatabaseHandler.TdTables.Accounts;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.TdTables.Accounts;
 using DominatorHouseCore.Enums;
 using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {

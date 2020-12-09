@@ -1,18 +1,21 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using DominatorHouseCore.ViewModel;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
     public class GlobalInteractionDetails : IGlobalInteractionDetails
     {
-
         private readonly IBinFileHelper _binFileHelper;
 
         private readonly IReadOnlyDictionary<SocialNetworks, Lazy<Dictionary<ActivityType, GlobalInteractionDataModel>>>
@@ -44,10 +47,7 @@ namespace DominatorHouseCore.FileManagers
                 lock (_networkLocks[networks])
                 {
                     var interactedData = _globalInteractedCollections[networks].Value;
-                    if (interactedData.ContainsKey(activityType))
-                    {
-                        return interactedData[activityType];
-                    }
+                    if (interactedData.ContainsKey(activityType)) return interactedData[activityType];
 
                     return null;
                 }
@@ -58,23 +58,19 @@ namespace DominatorHouseCore.FileManagers
         {
             lock (_networkLocks[networks])
             {
-                var hashsetValue = new SortedList<string, DateTime> { { interactedData, DateTime.Now } };
+                var hashsetValue = new SortedList<string, DateTime> {{interactedData, DateTime.Now}};
                 var collections = _globalInteractedCollections[networks].Value;
 
                 if (collections.ContainsKey(activityType))
-                {
                     collections[activityType].InteractedData.Add(interactedData, DateTime.Now);
-                }
                 else
-                {
                     collections.Add(activityType,
                         new GlobalInteractionDataModel
                         {
                             InteractedData = hashsetValue
                         });
-                }
 
-                this.UpdateInteractedData(networks);
+                UpdateInteractedData(networks);
             }
         }
 
@@ -86,7 +82,7 @@ namespace DominatorHouseCore.FileManagers
                 if (model?.InteractedData?.ContainsKey(interactedData) ?? false)
                 {
                     model.InteractedData.Remove(interactedData);
-                    this.UpdateInteractedData(networks);
+                    UpdateInteractedData(networks);
                 }
             }
         }
@@ -99,7 +95,7 @@ namespace DominatorHouseCore.FileManagers
                 GlobalInteractedCollections = _globalInteractedCollections[networks].Value
             };
 
-            var globalInteractedDatas = new List<GlobalInteractionViewModel> { globalInteractionViewModel };
+            var globalInteractedDatas = new List<GlobalInteractionViewModel> {globalInteractionViewModel};
 
             _binFileHelper.UpdateGlobalInteractedDetails(globalInteractedDatas, networks);
         }
@@ -108,17 +104,13 @@ namespace DominatorHouseCore.FileManagers
         {
             lock (_networkLocks[networks])
             {
-                List<string> lstOfUser = new List<string>();
+                var lstOfUser = new List<string>();
                 var collections = _globalInteractedCollections[networks].Value;
 
                 if (collections.ContainsKey(activityType))
-                {
                     collections[activityType].InteractedData.ForEach(x => lstOfUser.Add(x.Key.ToString()));
-                }
                 return lstOfUser;
             }
         }
-
-
     }
 }

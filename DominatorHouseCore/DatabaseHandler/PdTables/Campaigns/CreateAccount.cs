@@ -1,4 +1,8 @@
-﻿using SQLite;
+﻿#region
+
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 {
@@ -30,6 +34,5 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public string Status { get; set; }
-
     }
 }

@@ -1,95 +1,120 @@
 ﻿<UserControl x:Class="DominatorUIUtility.CustomControl.AccountDetailsSelector"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" x:Name="AccountDetailsSelectors" Width="700" Height="600"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
     <UserControl.Resources>
-        <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Border BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="1" Margin="10">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition  Height="0.8*" />
-                <RowDefinition  Height="10*" />
+                <RowDefinition Height="0.8*" />
+                <RowDefinition Height="10*" />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0"  Background="{DynamicResource AccentBaseColorBrush}" >
+            <Grid Grid.Row="0" Background="{DynamicResource AccentBaseColorBrush}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width=".5*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width=".5*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <!--Filter Section-->
-               
+
                 <StackPanel Orientation="Horizontal">
-                    <mah:ProgressRing IsActive="{Binding IsProgressRingActive}" HorizontalAlignment="Left" Visibility="{Binding IsProgressRingActive,Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="White" Height="30" Width="30" />
-                    <TextBlock Text="{Binding StatusText}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" FontWeight="SemiBold"  />
+                    <mah:ProgressRing IsActive="{Binding IsProgressRingActive}" HorizontalAlignment="Left"
+                                      Visibility="{Binding IsProgressRingActive,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                      Foreground="White" Height="30" Width="30" />
+                    <TextBlock Text="{Binding StatusText}" Foreground="White" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" FontSize="13" FontWeight="SemiBold" />
                 </StackPanel>
 
 
-                <StackPanel Orientation="Horizontal" Visibility="{Binding IsPageOptionVisible,Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Grid.Column="1" Margin="4,0,0,0">
-                    <CheckBox IsChecked="{Binding IsOwnPageSelected}" Command="{Binding OwnPageCheckedCommand,Mode=OneWay}" FontSize="13" Foreground="White" FontWeight="SemiBold" Content="{DynamicResource LangKeyOwnPages}" />
-                    <CheckBox IsChecked="{Binding IsLikedPageSelected}" Command="{Binding LikedPageCheckedCommand,Mode=OneWay}" FontSize="13" Margin="20,0,0,0"  Foreground="White" FontWeight="SemiBold" Content="{DynamicResource LangKeyLikedPages}" />
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding IsPageOptionVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
+                            VerticalAlignment="Center" Grid.Column="1" Margin="4,0,0,0">
+                    <CheckBox IsChecked="{Binding IsOwnPageSelected}"
+                              Command="{Binding OwnPageCheckedCommand,Mode=OneWay}" FontSize="13" Foreground="White"
+                              FontWeight="SemiBold" Content="{DynamicResource LangKeyOwnPages}" />
+                    <CheckBox IsChecked="{Binding IsLikedPageSelected}"
+                              Command="{Binding LikedPageCheckedCommand,Mode=OneWay}" FontSize="13" Margin="20,0,0,0"
+                              Foreground="White" FontWeight="SemiBold" Content="{DynamicResource LangKeyLikedPages}" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Visibility="{Binding IsGroupOptionVisible,Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Grid.Column="1" Margin="4,0,0,0">
-                    <CheckBox IsChecked="{Binding IsOwnPageSelected}" Command="{Binding OwnGroupCheckedCommand,Mode=OneWay}" FontSize="13" Foreground="White" FontWeight="SemiBold" Content="{DynamicResource LangKeyOwnGroups}" />
-                    <CheckBox IsChecked="{Binding IsLikedPageSelected}" Command="{Binding JoinedGroupCheckedCommand,Mode=OneWay}" FontSize="13" Margin="20,0,0,0"  Foreground="White" FontWeight="SemiBold" Content="{DynamicResource LangKeyJoinedGroups}" />
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding IsGroupOptionVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
+                            VerticalAlignment="Center" Grid.Column="1" Margin="4,0,0,0">
+                    <CheckBox IsChecked="{Binding IsOwnPageSelected}"
+                              Command="{Binding OwnGroupCheckedCommand,Mode=OneWay}" FontSize="13" Foreground="White"
+                              FontWeight="SemiBold" Content="{DynamicResource LangKeyOwnGroups}" />
+                    <CheckBox IsChecked="{Binding IsLikedPageSelected}"
+                              Command="{Binding JoinedGroupCheckedCommand,Mode=OneWay}" FontSize="13" Margin="20,0,0,0"
+                              Foreground="White" FontWeight="SemiBold" Content="{DynamicResource LangKeyJoinedGroups}" />
                 </StackPanel>
-                
-                <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Center" Height="28" Grid.Column="2"  HorizontalAlignment="Right" Width="250"
-                         Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"  mah:TextBoxHelper.ButtonCommand="{Binding TextSearchCommand,Mode=OneWay}"   />
-                
+
+                <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}"
+                         Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                         VerticalAlignment="Center" Height="28" Grid.Column="2" HorizontalAlignment="Right" Width="250"
+                         Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"
+                         mah:TextBoxHelper.ButtonCommand="{Binding TextSearchCommand,Mode=OneWay}" />
+
             </Grid>
 
-            
+
             <!--Account detail list-->
             <Grid Grid.Row="1" Margin="0,10,0,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="10*" />
                     <RowDefinition Height="0.8*" />
                 </Grid.RowDefinitions>
 
 
-                <ListView Grid.Row="0" ItemsSource="{Binding AccountDetailsSelectorView}" ItemContainerStyle="{StaticResource ListViewItems}"                         
-                          mah:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="False" 
-                          VirtualizingStackPanel.IsVirtualizing="True" 
+                <ListView Grid.Row="0" ItemsSource="{Binding AccountDetailsSelectorView}"
+                          ItemContainerStyle="{StaticResource ListViewItems}"
+                          mah:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="False"
+                          VirtualizingStackPanel.IsVirtualizing="True"
                           VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <ListView.Resources>
-                        <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Style TargetType="{x:Type GridViewColumnHeader}"
+                               BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
                         </Style>
                     </ListView.Resources>
                     <ListView.View>
-                        <GridView AllowsColumnReorder="False" >
-                            <GridViewColumn Width="100" >
-                                <CheckBox x:Name="AllAccount"  Content=" #" IsChecked="{Binding IsAllCampaignSelected}" />
+                        <GridView AllowsColumnReorder="False">
+                            <GridViewColumn Width="100">
+                                <CheckBox x:Name="AllAccount" Content=" #" IsChecked="{Binding IsAllCampaignSelected}" />
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <CheckBox IsChecked="{Binding IsSelected}" 
+                                            <CheckBox IsChecked="{Binding IsSelected}"
                                                       x:Name="SingleAccount"
-                                                       Margin="5,0,0,0" />
-                                            <Label Content="{Binding CurrentIndex}"/>
+                                                      Margin="5,0,0,0" />
+                                            <Label Content="{Binding CurrentIndex}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{Binding DetailsNameHeader}" DisplayMemberBinding="{Binding DetailName}" />
-                            <GridViewColumn Header="{Binding DetailsUrlHeader}" DisplayMemberBinding="{Binding DetailUrl}"/>
+                            <GridViewColumn Header="{Binding DetailsNameHeader}"
+                                            DisplayMemberBinding="{Binding DetailName}" />
+                            <GridViewColumn Header="{Binding DetailsUrlHeader}"
+                                            DisplayMemberBinding="{Binding DetailUrl}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-                    <Button Height="30"  Content="{DynamicResource LangKeySave}" Name="btnSave" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
-                    <Button Height="30" Content="{DynamicResource LangKeyCancel}" Name="btnCancel" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
+                    <Button Height="30" Content="{DynamicResource LangKeySave}" Name="btnSave" x:FieldModifier="public"
+                            HorizontalAlignment="Center" Margin="0,0,10,0"
+                            Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
+                    <Button Height="30" Content="{DynamicResource LangKeyCancel}" Name="btnCancel"
+                            x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0"
+                            Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
                 </StackPanel>
 
             </Grid>

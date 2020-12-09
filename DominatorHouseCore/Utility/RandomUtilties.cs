@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -9,7 +13,7 @@ namespace DominatorHouseCore.Utility
         public static Random ObjRandom { get; } = new Random(Guid.NewGuid().GetHashCode());
 
         /// <summary>
-        /// This Medthod is used to get the random item from the list
+        ///     This Medthod is used to get the random item from the list
         /// </summary>
         /// <typeparam name="T">The Type of the element of the inputList</typeparam>
         /// <param name="inputList">List of value for get the random number from it</param>
@@ -25,7 +29,7 @@ namespace DominatorHouseCore.Utility
 
 
         /// <summary>
-        /// GetRandomNumber method is used to get the random value which lies from maxValue and MinValue
+        ///     GetRandomNumber method is used to get the random value which lies from maxValue and MinValue
         /// </summary>
         /// <param name="maxValue">Maxvalue is define the upper bound</param>
         /// <param name="minValue">Maxvalue is define the lower bound</param>
@@ -39,9 +43,8 @@ namespace DominatorHouseCore.Utility
         }
 
 
-
         /// <summary>
-        /// GetRandomString method is used to get the random string from alphanumeric character with required length
+        ///     GetRandomString method is used to get the random string from alphanumeric character with required length
         /// </summary>
         /// <param name="outputStringLength">The required string count from alphanumeric character </param>
         /// <returns>returns random string from alphanumeric character</returns>
@@ -49,10 +52,8 @@ namespace DominatorHouseCore.Utility
         {
             // returns random string from alphanumeric character
             return new string
-                (Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", outputStringLength).
-                Select(s => s[ObjRandom.Next(s.Length)]).
-                ToArray());
+            (Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", outputStringLength)
+                .Select(s => s[ObjRandom.Next(s.Length)]).ToArray());
         }
-       
     }
 }

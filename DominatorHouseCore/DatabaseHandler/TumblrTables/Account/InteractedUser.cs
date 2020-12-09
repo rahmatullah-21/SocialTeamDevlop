@@ -1,5 +1,9 @@
-﻿using SQLite;
+﻿#region
+
 using System.ComponentModel.DataAnnotations.Schema;
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 {
@@ -12,55 +16,50 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         public int Id { get; set; }
 
         /// <summary>
-        /// EmailId of the Account from which Interaction has been done
+        ///     EmailId of the Account from which Interaction has been done
         /// </summary>
         [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 1, IsUnique = true)]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountEmail { get; set; }
 
         /// <summary>
-        /// Contains QueryType For Interaction
+        ///     Contains QueryType For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         /// <summary>
-        /// Contains QueryValue For Interaction
+        ///     Contains QueryValue For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string QueryValue { get; set; }
 
         /// <summary>
-        /// Describes Activity 
+        ///     Describes Activity
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public string ActivityType
-        { get; set; }
+        public string ActivityType { get; set; }
 
         /// <summary>
-        /// Contains FullName Of the Interacted User
+        ///     Contains FullName Of the Interacted User
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public string UserFullName
-        { get; set; }
+        public string UserFullName { get; set; }
 
         /// <summary>
-        /// Contains ProfileUrl Of the Interacted User
+        ///     Contains ProfileUrl Of the Interacted User
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public string UserProfileUrl
-        { get; set; }
+        public string UserProfileUrl { get; set; }
 
         /// <summary>
-        /// Contains Detailed Info of the Interacted User in the Form of Jason String
+        ///     Contains Detailed Info of the Interacted User in the Form of Jason String
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public string DetailedUserInfo
-        { get; set; }
+        public string DetailedUserInfo { get; set; }
 
         /// <summary>
-        /// Contains TimeStamp when interacted with the User
+        ///     Contains TimeStamp when interacted with the User
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public int InteractionTimeStamp { get; set; }
@@ -79,7 +78,9 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        // ReSharper disable once UnusedMember.Global
         public bool IsFollowingback { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string DirectMessage { get; set; }
 

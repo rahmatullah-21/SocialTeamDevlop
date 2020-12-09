@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.Config
 {
@@ -7,29 +11,25 @@ namespace DominatorHouseCore.Models.Config
     public class UrlShortnerServicesModel : BindableBase
     {
         private bool _isBitly;
+
         [ProtoMember(1)]
         public bool IsBitly
         {
-            get
-            {
-                return _isBitly;
-            }
+            get => _isBitly;
             set
             {
-                if(_isBitly == value)
+                if (_isBitly == value)
                     return;
                 SetProperty(ref _isBitly, value);
             }
         }
 
         private string _login;
+
         [ProtoMember(2)]
         public string Login
         {
-            get
-            {
-                return _login;
-            }
+            get => _login;
             set
             {
                 if (value == _login)
@@ -37,14 +37,13 @@ namespace DominatorHouseCore.Models.Config
                 SetProperty(ref _login, value);
             }
         }
+
         private string _apiKey;
+
         [ProtoMember(3)]
         public string ApiKey
         {
-            get
-            {
-                return _apiKey;
-            }
+            get => _apiKey;
             set
             {
                 if (value == _apiKey)

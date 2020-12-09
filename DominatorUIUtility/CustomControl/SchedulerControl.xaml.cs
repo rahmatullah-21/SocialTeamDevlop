@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Windows.Controls;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for SchedulerControl.xaml
+    ///     Interaction logic for SchedulerControl.xaml
     /// </summary>
-    public partial class SchedulerControl : UserControl
+    public partial class SchedulerControl
     {
         public SchedulerControl()
         {
-           // var startTime = DateTime.Now.ToString(@"HH\:mm\:ss");
             var startTime = "00:00:00";
             var endTime = "23:59:59";
 

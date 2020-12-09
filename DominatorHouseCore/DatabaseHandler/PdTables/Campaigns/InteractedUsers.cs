@@ -1,4 +1,8 @@
-﻿using SQLite;
+﻿#region
+
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 {
@@ -14,81 +18,64 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public string Query { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public int FollowedBack
-        { get; set; }
+        public int FollowedBack { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         // ReSharper disable once UnusedMember.Global
         // need to keep it to support existing data model
-        public int FollowedBackDate
-        { get; set; }
+        public int FollowedBackDate { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int InteractionTime
-        { get; set; }
+        public int InteractionTime { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public string ActivityType
-        { get; set; }
+        public string ActivityType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public string Username
-        { get; set; }
+        public string Username { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public string InteractedUsername
-        { get; set; }
+        public string InteractedUsername { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
-        public string DirectMessage
-        { get; set; }
+        public string DirectMessage { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public string InteractedUserId
-        { get; set; }
+        public string InteractedUserId { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
-        public int UpdatedTime
-        { get; set; }
+        public int UpdatedTime { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
-        public int FollowersCount
-        { get; set; }
+        public int FollowersCount { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public int FollowingsCount
-        { get; set; }
+        public int FollowingsCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
-        public int PinsCount
-        { get; set; }
+        public int PinsCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public int TriesCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
-        public string FullName
-        { get; set; }
+        public string FullName { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
-        public bool? HasAnonymousProfilePicture
-        { get; set; }
+        public bool? HasAnonymousProfilePicture { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
-        public bool IsVerified
-        { get; set; }
+        public bool IsVerified { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
-        public string ProfilePicUrl
-        { get; set; }
+        public string ProfilePicUrl { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public string Website { get; set; }
@@ -104,7 +91,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
         public string BoardName { get; set; }
-        
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
         public string Type { get; set; }
 
@@ -113,10 +100,10 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
         public string SinAccUsername { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 29)]
         // ReSharper disable once UnusedMember.Global
         // need to keep it to support existing data model
         public bool IsFollowedByMe { get; set; }
-
     }
 }

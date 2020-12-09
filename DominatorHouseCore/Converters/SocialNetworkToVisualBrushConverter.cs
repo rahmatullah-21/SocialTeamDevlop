@@ -1,9 +1,13 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -13,7 +17,6 @@ namespace DominatorHouseCore.Converters
         {
             var network = value as SocialNetworks?;
             if (network.HasValue)
-            {
                 switch (network.Value)
                 {
                     case SocialNetworks.Facebook:
@@ -44,7 +47,6 @@ namespace DominatorHouseCore.Converters
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-            }
 
             return null;
         }

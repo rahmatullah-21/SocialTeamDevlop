@@ -1,22 +1,22 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface IWebPostLikeCommentViewModel
     {
     }
+
     public class WebPostLikeCommentViewModel : StartupBaseViewModel, IWebPostLikeCommentViewModel
     {
         public WebPostLikeCommentViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.WebPostLikeComment });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.WebPostLikeComment});
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);

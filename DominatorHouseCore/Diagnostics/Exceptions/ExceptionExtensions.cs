@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.LogHelper;
+﻿#region
+
 using System;
+using DominatorHouseCore.LogHelper;
+
+#endregion
 
 namespace DominatorHouseCore
 {
@@ -18,7 +22,7 @@ namespace DominatorHouseCore
 
 
         /// <summary>
-        /// Extension method of exception that converts it to Type+Message+UserMessage
+        ///     Extension method of exception that converts it to Type+Message+UserMessage
         /// </summary>
         /// <param name="ex"></param>
         /// <param name="userMessage"></param>
@@ -26,7 +30,8 @@ namespace DominatorHouseCore
         /// <returns></returns>
         public static string ToUserString(this Exception ex, string userMessage, params object[] args)
         {
-            return string.Format("Exception of type '{0}' has been thrown\r\n\r\nMessage: {1}\r\n\r\nMessage Details: {2}",
+            return string.Format(
+                "Exception of type '{0}' has been thrown\r\n\r\nMessage: {1}\r\n\r\nMessage Details: {2}",
                 ex.GetType(), ex.Message, string.Format(userMessage, args));
         }
 
@@ -34,7 +39,7 @@ namespace DominatorHouseCore
         {
             return string.Format("Exception of type '{0}' has been thrown\r\n\r\nMessage: {1}" +
                                  "\r\n\r\nMessage Details: {2}\r\n\r\nStack Trace: {3}",
-                                ex.GetType(), ex.Message, string.Format(userMessage, args), ex.StackTrace);
+                ex.GetType(), ex.Message, string.Format(userMessage, args), ex.StackTrace);
         }
 
         public static void TraceLog(this Exception ex)
@@ -61,7 +66,7 @@ namespace DominatorHouseCore
         public static void ErrorLog(this Exception ex)
         {
             ex.DebugLog();
-           // ErrorLog(ex, "");
+            // ErrorLog(ex, "");
         }
 
         public static void ErrorLog(this Exception ex, string userMessage, params object[] args)

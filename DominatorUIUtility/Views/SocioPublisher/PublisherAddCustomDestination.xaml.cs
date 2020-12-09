@@ -9,43 +9,27 @@ using DominatorUIUtility.ViewModel.SocioPublisher;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherAddCustomDestination.xaml
+    ///     Interaction logic for PublisherAddCustomDestination.xaml
     /// </summary>
     public partial class PublisherAddCustomDestination : UserControl, INotifyPropertyChanged
     {
+        private static PublisherAddCustomDestination _publisherAddCustomDestination;
+
+
+        private PublisherCustomDestinationViewModel _publisherCustomDestinationViewModel =
+            new PublisherCustomDestinationViewModel();
+
         private PublisherAddCustomDestination()
         {
             InitializeComponent();
             CustomDestination.DataContext = PublisherCustomDestinationViewModel;
         }
 
-        private static PublisherAddCustomDestination _publisherAddCustomDestination;
-
-
-        public static PublisherAddCustomDestination GetPublisherAddCustomDestination(ObservableCollection<PublisherCustomDestinationModel> alreadySavedDestination)
-        {
-            if (_publisherAddCustomDestination == null)
-                _publisherAddCustomDestination = new PublisherAddCustomDestination();
-
-            _publisherAddCustomDestination.PublisherCustomDestinationViewModel.LstCustomDestination =alreadySavedDestination;
-
-            _publisherAddCustomDestination.CustomDestination.DataContext = _publisherAddCustomDestination.PublisherCustomDestinationViewModel;
-
-            return _publisherAddCustomDestination;
-        }
-
-
-        private PublisherCustomDestinationViewModel _publisherCustomDestinationViewModel = new PublisherCustomDestinationViewModel();
-
         public PublisherCustomDestinationViewModel PublisherCustomDestinationViewModel
         {
-            get
-            {
-                return _publisherCustomDestinationViewModel;
-            }
+            get => _publisherCustomDestinationViewModel;
             set
             {
-
                 if (_publisherCustomDestinationViewModel == value)
                     return;
                 _publisherCustomDestinationViewModel = value;
@@ -53,15 +37,35 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
         }
 
-        public void ResetCurrectObject() 
-            => _publisherAddCustomDestination = new PublisherAddCustomDestination();
-
-
-        public ObservableCollection<PublisherCustomDestinationModel> GetSavedCustomDestination() 
-            => PublisherCustomDestinationViewModel.LstCustomDestination;
-
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+        public static PublisherAddCustomDestination GetPublisherAddCustomDestination(
+            ObservableCollection<PublisherCustomDestinationModel> alreadySavedDestination)
+        {
+            if (_publisherAddCustomDestination == null)
+                _publisherAddCustomDestination = new PublisherAddCustomDestination();
+
+            _publisherAddCustomDestination.PublisherCustomDestinationViewModel.LstCustomDestination =
+                alreadySavedDestination;
+
+            _publisherAddCustomDestination.CustomDestination.DataContext =
+                _publisherAddCustomDestination.PublisherCustomDestinationViewModel;
+
+            return _publisherAddCustomDestination;
+        }
+
+        public void ResetCurrectObject()
+        {
+            _publisherAddCustomDestination = new PublisherAddCustomDestination();
+        }
+
+
+        public ObservableCollection<PublisherCustomDestinationModel> GetSavedCustomDestination()
+        {
+            return PublisherCustomDestinationViewModel.LstCustomDestination;
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

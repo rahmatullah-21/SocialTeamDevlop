@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.Publisher
 {
@@ -8,16 +12,14 @@ namespace DominatorHouseCore.Models.Publisher
     public class OtherConfigurationModel : BindableBase
     {
         /// <summary>
-        /// To specify the whether to use the signature
+        ///     To specify the whether to use the signature
         /// </summary>
         private bool _isEnableSignatureChecked;
+
         [ProtoMember(2)]
         public bool IsEnableSignatureChecked
         {
-            get
-            {
-                return _isEnableSignatureChecked;
-            }
+            get => _isEnableSignatureChecked;
             set
             {
                 if (value == _isEnableSignatureChecked)
@@ -27,16 +29,14 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
         /// <summary>
-        /// To specify the shorten url for link
+        ///     To specify the shorten url for link
         /// </summary>
         private bool _isShortenURLsChecked;
+
         [ProtoMember(3)]
         public bool IsShortenURLsChecked
         {
-            get
-            {
-                return _isShortenURLsChecked;
-            }
+            get => _isShortenURLsChecked;
             set
             {
                 if (value == _isShortenURLsChecked)
@@ -47,16 +47,14 @@ namespace DominatorHouseCore.Models.Publisher
 
 
         /// <summary>
-        /// To specify the publishing post with texts and link.Its only for Pinterest
+        ///     To specify the publishing post with texts and link.Its only for Pinterest
         /// </summary>
         private bool _isAllowPublishingPinterestChecked;
+
         [ProtoMember(5)]
         public bool IsAllowPublishingPinterestChecked
         {
-            get
-            {
-                return _isAllowPublishingPinterestChecked;
-            }
+            get => _isAllowPublishingPinterestChecked;
             set
             {
                 if (value == _isAllowPublishingPinterestChecked)
@@ -66,16 +64,14 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
         /// <summary>
-        /// To publish as story instead of own wall. Its only for instagram
+        ///     To publish as story instead of own wall. Its only for instagram
         /// </summary>
         private bool _isPostAsStoryChecked;
+
         [ProtoMember(6)]
         public bool IsPostAsStoryChecked
         {
-            get
-            {
-                return _isPostAsStoryChecked;
-            }
+            get => _isPostAsStoryChecked;
             set
             {
                 if (value == _isPostAsStoryChecked)
@@ -83,15 +79,16 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isPostAsStoryChecked, value);
             }
         }
-       
+
         /// <summary>
-        /// Adding signature to your post descriptions
+        ///     Adding signature to your post descriptions
         /// </summary>
         private string _signatureText;
+
         [ProtoMember(10)]
         public string SignatureText
         {
-            get { return _signatureText; }
+            get => _signatureText;
             set
             {
                 if (value == _signatureText)
@@ -99,14 +96,13 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _signatureText, value);
             }
         }
+
         private bool _isCheckedForApprovePost;
+
         [ProtoMember(11)]
         public bool IsCheckedForApprovePost
         {
-            get
-            {
-                return _isCheckedForApprovePost;
-            }
+            get => _isCheckedForApprovePost;
             set
             {
                 if (value == _isCheckedForApprovePost)
@@ -114,14 +110,13 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isCheckedForApprovePost, value);
             }
         }
+
         private bool _IsMentionUser;
+
         [ProtoMember(12)]
         public bool IsMentionUser
         {
-            get
-            {
-                return _IsMentionUser;
-            }
+            get => _IsMentionUser;
             set
             {
                 if (value)
@@ -132,13 +127,11 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
         private string _MentionUserList;
+
         [ProtoMember(13)]
         public string MentionUserList
         {
-            get
-            {
-                return _MentionUserList;
-            }
+            get => _MentionUserList;
             set
             {
                 if (_MentionUserList == value)
@@ -151,13 +144,11 @@ namespace DominatorHouseCore.Models.Publisher
         #region Not Used
 
         private string _campaigntTag;
+
         [ProtoMember(1)]
         public string CampaignTag
         {
-            get
-            {
-                return _campaigntTag;
-            }
+            get => _campaigntTag;
             set
             {
                 if (value == _campaigntTag)
@@ -167,15 +158,12 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-
         private bool _isPostTextChecked;
+
         [ProtoMember(4)]
         public bool IsPostTextChecked
         {
-            get
-            {
-                return _isPostTextChecked;
-            }
+            get => _isPostTextChecked;
             set
             {
                 if (value == _isPostTextChecked)
@@ -185,12 +173,11 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-
         private List<string> _makeImagesUniqueStatus = new List<string>();
 
         public List<string> MakeImagesUniqueStatus
         {
-            get { return _makeImagesUniqueStatus; }
+            get => _makeImagesUniqueStatus;
             set
             {
                 if (value == _makeImagesUniqueStatus)
@@ -201,13 +188,11 @@ namespace DominatorHouseCore.Models.Publisher
 
 
         private bool _isEnableCustomTokensChecked;
+
         [ProtoMember(9)]
         public bool IsEnableCustomTokensChecked
         {
-            get
-            {
-                return _isEnableCustomTokensChecked;
-            }
+            get => _isEnableCustomTokensChecked;
             set
             {
                 if (value == _isEnableCustomTokensChecked)
@@ -218,13 +203,11 @@ namespace DominatorHouseCore.Models.Publisher
 
 
         private bool _isEnableWatermarkChecked;
+
         [ProtoMember(8)]
         public bool IsEnableWatermarkChecked
         {
-            get
-            {
-                return _isEnableWatermarkChecked;
-            }
+            get => _isEnableWatermarkChecked;
             set
             {
                 if (value == _isEnableWatermarkChecked)
@@ -235,13 +218,11 @@ namespace DominatorHouseCore.Models.Publisher
 
 
         private bool _isMakeImagesUniqueChecked;
+
         [ProtoMember(7)]
         public bool IsMakeImagesUniqueChecked
         {
-            get
-            {
-                return _isMakeImagesUniqueChecked;
-            }
+            get => _isMakeImagesUniqueChecked;
             set
             {
                 if (value == _isMakeImagesUniqueChecked)
@@ -249,8 +230,6 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isMakeImagesUniqueChecked, value);
             }
         }
-
-
 
         #endregion
     }

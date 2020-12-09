@@ -7,24 +7,27 @@ using DominatorHouseCore.Models.SocioPublisher.Settings;
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
     /// <summary>
-    /// Interaction logic for PostTumblrSettings.xaml
+    ///     Interaction logic for PostTumblrSettings.xaml
     /// </summary>
-    public partial class PostTumblrSettings : UserControl,INotifyPropertyChanged
+    public partial class PostTumblrSettings : UserControl, INotifyPropertyChanged
     {
+        private PublisherPostSettings _publisherPostSettings;
+
         public PostTumblrSettings()
         {
             InitializeComponent();
         }
 
 
-        private PublisherPostSettings _publisherPostSettings;
+        public PostTumblrSettings(PublisherPostSettings publisherPostSettings) : this()
+        {
+            PublisherPostSettings = publisherPostSettings;
+            MainGrid.DataContext = PublisherPostSettings.TumberPostSettings;
+        }
 
         public PublisherPostSettings PublisherPostSettings
         {
-            get
-            {
-                return _publisherPostSettings;
-            }
+            get => _publisherPostSettings;
             set
             {
                 _publisherPostSettings = value;
@@ -39,13 +42,5 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
-        public PostTumblrSettings(PublisherPostSettings publisherPostSettings):this()
-        {
-            PublisherPostSettings = publisherPostSettings;
-            MainGrid.DataContext = PublisherPostSettings.TumberPostSettings;
-        }
-
     }
 }

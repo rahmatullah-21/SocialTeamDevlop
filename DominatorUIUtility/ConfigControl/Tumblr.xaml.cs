@@ -1,19 +1,18 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
+using CommonServiceLocator;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
-using CommonServiceLocator;
 using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.ConfigControl
 {
     /// <summary>
-    /// Interaction logic for Tumblr.xaml
+    ///     Interaction logic for Tumblr.xaml
     /// </summary>
-    public partial class Tumblr : UserControl
+    public partial class Tumblr
     {
-        private TumblrModel TumblrModel { get; set; } = new TumblrModel();
-        IOtherConfigFileManager _otherConfigFileManager;
+        private readonly IOtherConfigFileManager _otherConfigFileManager;
+
         public Tumblr()
         {
             InitializeComponent();
@@ -21,12 +20,8 @@ namespace DominatorUIUtility.ConfigControl
             TumblrModel = _otherConfigFileManager.GetOtherConfig<TumblrModel>() ?? TumblrModel;
             MainGrid.DataContext = TumblrModel;
         }
-        private static Tumblr ObjTumblr;
 
-        public static Tumblr GetSingeltonObjectTumblr()
-        {
-            return ObjTumblr ?? (ObjTumblr = new Tumblr());
-        }
+        private TumblrModel TumblrModel { get; } = new TumblrModel();
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {

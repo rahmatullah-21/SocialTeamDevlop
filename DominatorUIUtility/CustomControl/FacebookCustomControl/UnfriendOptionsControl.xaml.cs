@@ -1,15 +1,47 @@
-﻿using DominatorHouseCore.Models.FacebookModels;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using DominatorHouseCore.Models.FacebookModels;
 
 namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
-    /// Interaction logic for UnfriendOptionsControl.xaml
+    ///     Interaction logic for UnfriendOptionsControl.xaml
     /// </summary>
     public partial class UnfriendOptionsControl
     {
+        // Using a DependencyProperty as the backing store for PostFilter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UnfriendOptionProperty =
+            DependencyProperty.Register("UnfriendOptionModel", typeof(UnfriendOption), typeof(UnfriendOptionsControl),
+                new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        // Using a DependencyProperty as the backing store for PostFilter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsCustomOptionsRequiredProperty =
+            DependencyProperty.Register("IsCustomOptionsRequired", typeof(bool), typeof(UnfriendOptionsControl),
+                new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        // Using a DependencyProperty as the backing store for PostFilter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsSourceTypeRequiredProperty =
+            DependencyProperty.Register("IsSourceTypeRequired", typeof(bool), typeof(UnfriendOptionsControl),
+                new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+        //Using a DependencyProperty as the backing store for PostFilter.This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MessageOptionsVisibilityProperty =
+            DependencyProperty.Register("MessageOptionsVisibility", typeof(bool), typeof(UnfriendOptionsControl),
+                new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                {
+                    BindsTwoWayByDefault = true
+                });
+
         public UnfriendOptionsControl()
         {
             InitializeComponent();
@@ -18,57 +50,29 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
         public UnfriendOption UnfriendOptionModel
         {
-            get { return (UnfriendOption)GetValue(UnfriendOptionProperty); }
-            set { SetValue(UnfriendOptionProperty, value); }
+            get => (UnfriendOption) GetValue(UnfriendOptionProperty);
+            set => SetValue(UnfriendOptionProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for PostFilter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty UnfriendOptionProperty =
-            DependencyProperty.Register("UnfriendOptionModel", typeof(UnfriendOption), typeof(UnfriendOptionsControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
 
 
         public bool IsCustomOptionsRequired
         {
-            get { return (bool)GetValue(IsCustomOptionsRequiredProperty); }
-            set { SetValue(IsCustomOptionsRequiredProperty, value); }
+            get => (bool) GetValue(IsCustomOptionsRequiredProperty);
+            set => SetValue(IsCustomOptionsRequiredProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for PostFilter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsCustomOptionsRequiredProperty =
-            DependencyProperty.Register("IsCustomOptionsRequired", typeof(bool), typeof(UnfriendOptionsControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
 
 
         public bool IsSourceTypeRequired
         {
-            get { return (bool)GetValue(IsSourceTypeRequiredProperty); }
-            set { SetValue(IsSourceTypeRequiredProperty, value); }
+            get => (bool) GetValue(IsSourceTypeRequiredProperty);
+            set => SetValue(IsSourceTypeRequiredProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for PostFilter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsSourceTypeRequiredProperty =
-            DependencyProperty.Register("IsSourceTypeRequired", typeof(bool), typeof(UnfriendOptionsControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
 
         public bool MessageOptionsVisibility
         {
-            get { return (bool)GetValue(MessageOptionsVisibilityProperty); }
-            set { SetValue(MessageOptionsVisibilityProperty, value); }
+            get => (bool) GetValue(MessageOptionsVisibilityProperty);
+            set => SetValue(MessageOptionsVisibilityProperty, value);
         }
-
-        //Using a DependencyProperty as the backing store for PostFilter.This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MessageOptionsVisibilityProperty =
-            DependencyProperty.Register("MessageOptionsVisibility", typeof(bool), typeof(UnfriendOptionsControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
 
 
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

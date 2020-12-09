@@ -1,13 +1,17 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using CommonServiceLocator;
+using DominatorHouseCore.Diagnostics.Exceptions;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
-using System;
-using System.Collections.Generic;
-using System.Windows;
-using DominatorHouseCore.Diagnostics.Exceptions;
+
+#endregion
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -24,20 +28,24 @@ namespace DominatorHouseCore.Diagnostics
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
 
         public static bool IsNetworkAvailable(SocialNetworks network)
-            => AvailableNetworks.Contains(network);
+        {
+            return AvailableNetworks.Contains(network);
+        }
 
-        public static HashSet<SocinatorIntellisenseModel> Macros { get; set; } = new HashSet<SocinatorIntellisenseModel>();
+        public static HashSet<SocinatorIntellisenseModel> Macros { get; set; } =
+            new HashSet<SocinatorIntellisenseModel>();
 
         public static void InitializeMacros()
         {
             try
             {
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
-                var macros = genericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails);
+                var macros =
+                    genericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails);
                 Macros.Clear();
                 macros?.ForEach(macro =>
                 {
-                    Macros.Add(new SocinatorIntellisenseModel { Key = @"{" + macro.Key + @"}", Value = macro.Value });
+                    Macros.Add(new SocinatorIntellisenseModel {Key = @"{" + macro.Key + @"}", Value = macro.Value});
                 });
             }
             catch (Exception ex)
@@ -77,13 +85,11 @@ namespace DominatorHouseCore.Diagnostics
         {
             var activenetwork = RegisteredNetworks[networks];
 
-            if (activenetwork != null)
-            {
-                ActiveNetwork = activenetwork;
-            }
+            if (activenetwork != null) ActiveNetwork = activenetwork;
         }
 
-        public static void SocialNetworkRegister(INetworkCollectionFactory networkCollectionFactory, SocialNetworks networks)
+        public static void SocialNetworkRegister(INetworkCollectionFactory networkCollectionFactory,
+            SocialNetworks networks)
         {
             if (RegisteredNetworks.ContainsKey(networks))
                 return;
@@ -110,6 +116,5 @@ namespace DominatorHouseCore.Diagnostics
         {
             return ServiceLocator.Current.GetInstance<IGlobalDatabaseConnection>();
         }
-
     }
 }

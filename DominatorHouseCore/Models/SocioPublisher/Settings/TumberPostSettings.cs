@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
@@ -15,10 +19,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(1)]
         public bool IsTagUser
         {
-            get
-            {
-                return _isTagUser;
-            }
+            get => _isTagUser;
             set
             {
                 if (_isTagUser == value)
@@ -30,10 +31,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         [ProtoMember(2)]
         public string TagUserList
         {
-            get
-            {
-                return _tagUserList;
-            }
+            get => _tagUserList;
             set
             {
                 if (_tagUserList == value)

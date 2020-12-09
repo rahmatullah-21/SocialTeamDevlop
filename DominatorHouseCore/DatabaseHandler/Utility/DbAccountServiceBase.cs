@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.DatabaseHandler.Common;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.Common;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Process.ExecutionCounters;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Utility
 {
@@ -13,23 +17,16 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             _entityCountersManager = entityCountersManager;
         }
 
-        protected void CountInteracted<T>(string accountId, SocialNetworks networks, params T[] data) where T : class, new()
+        protected void CountInteracted<T>(string accountId, SocialNetworks networks, params T[] data)
+            where T : class, new()
         {
             if (typeof(IActivityTypeEntity).IsAssignableFrom(typeof(T)))
-            {
                 foreach (var entity in data)
-                {
                     _entityCountersManager.IncrementFor<T>(accountId, networks,
-                        ((IActivityTypeEntity)entity).GetActivityType());
-                }
-            }
+                        ((IActivityTypeEntity) entity).GetActivityType());
             else
-            {
                 foreach (var unused in data)
-                {
                     _entityCountersManager.IncrementFor<T>(accountId, networks, null);
-                }
-            }
         }
     }
 }

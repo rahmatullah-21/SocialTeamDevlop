@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Linq;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -14,12 +14,21 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         bool IsChkMakeCaptionAsSpinText { get; set; }
         string TextMessage { get; set; }
     }
+
     public class SendMessageToFollowerViewModel : StartupBaseViewModel, ISendMessageToFollowerViewModel
     {
+        private bool _IsCheckedSendMessageToNewFollowers;
+
+        private bool _IsChkMakeCaptionAsSpinText;
+        private string _message;
+
+
+        private string _textMessage = string.Empty;
+
         public SendMessageToFollowerViewModel(IRegionManager region) : base(region)
         {
             IsNonQuery = true;
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SendMessageToFollower });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.SendMessageToFollower});
             NextCommand = new DelegateCommand(ValidateAndNevigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -35,38 +44,21 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
-        protected void ValidateAndNevigate()
-        {
-            if (string.IsNullOrEmpty(TextMessage))
-            {
-                Dialog.ShowDialog("Input Error", "Please add atleast one message and then click on save button to save the message");
-                return;
-            }
-            NavigateNext();
-        }
-        private string _message;
+
         public string Message
         {
-            get
-            {
-                return _message;
-            }
+            get => _message;
             set
             {
                 if (_message == value)
                     return;
                 SetProperty(ref _message, value);
-
             }
         }
 
-        private bool _IsCheckedSendMessageToNewFollowers;
         public bool IsCheckedSendMessageToNewFollowers
         {
-            get
-            {
-                return _IsCheckedSendMessageToNewFollowers;
-            }
+            get => _IsCheckedSendMessageToNewFollowers;
 
             set
             {
@@ -76,13 +68,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private bool _IsChkMakeCaptionAsSpinText;
         public bool IsChkMakeCaptionAsSpinText
         {
-            get
-            {
-                return _IsChkMakeCaptionAsSpinText;
-            }
+            get => _IsChkMakeCaptionAsSpinText;
 
             set
             {
@@ -92,19 +80,26 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-
-        private string _textMessage = string.Empty;
         public string TextMessage
         {
-            get
-            {
-                return _textMessage;
-            }
+            get => _textMessage;
             set
             {
                 SetProperty(ref _textMessage, value);
                 Message = value;
             }
+        }
+
+        protected void ValidateAndNevigate()
+        {
+            if (string.IsNullOrEmpty(TextMessage))
+            {
+                Dialog.ShowDialog("Input Error",
+                    "Please add atleast one message and then click on save button to save the message");
+                return;
+            }
+
+            NavigateNext();
         }
     }
 }

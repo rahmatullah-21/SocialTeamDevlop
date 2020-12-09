@@ -1,6 +1,10 @@
-﻿using ProtoBuf;
+﻿#region
+
 using System.Collections.Generic;
 using System.Linq;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -11,36 +15,25 @@ namespace DominatorHouseCore.Utility
             GenerateDetails();
         }
 
-        [ProtoMember(1)]
-        public string DeviceType { get; private set; }
+        [ProtoMember(1)] public string DeviceType { get; private set; }
 
-        [ProtoMember(2)]
-        public string SystemRegion { get; private set; }
+        [ProtoMember(2)] public string SystemRegion { get; private set; }
 
-        [ProtoMember(3)]
-        public string DeviceId { get; set; }
+        [ProtoMember(3)] public string DeviceId { get; set; }
 
-        [ProtoMember(4)]
-        public string Region { get; private set; }
+        [ProtoMember(4)] public string Region { get; private set; }
 
-        [ProtoMember(5)]
-        public string Brand { get; set; }
+        [ProtoMember(5)] public string Brand { get; set; }
 
-        [ProtoMember(6)]
-        public string Dpi { get; set; }
+        [ProtoMember(6)] public string Dpi { get; set; }
 
-        [ProtoMember(7)]
-        public string Resolution { get; set; }
-        [ProtoMember(8)]
-        public string Useragent { get; set; }
-        [ProtoMember(9)]
-        public string AndroidVersion { get; set; }
-        [ProtoMember(10)]
-        public string Model { get; set; }
-        [ProtoMember(11)]
-        public string Device { get; set; }
-        [ProtoMember(12)]
-        public string IId { get; set; }
+        [ProtoMember(7)] public string Resolution { get; set; }
+        [ProtoMember(8)] public string Useragent { get; set; }
+        [ProtoMember(9)] public string AndroidVersion { get; set; }
+        [ProtoMember(10)] public string Model { get; set; }
+        [ProtoMember(11)] public string Device { get; set; }
+        [ProtoMember(12)] public string IId { get; set; }
+
         public void GenerateDetails()
         {
             var splitDeviceDetails = GetRandomDevice().Split(':');
@@ -76,7 +69,7 @@ namespace DominatorHouseCore.Utility
         //    IId = splitDeviceDetails[6];
         //}
         /// <summary>
-        /// GetRandomDevice method is used to get the random device details from the array of list
+        ///     GetRandomDevice method is used to get the random device details from the array of list
         /// </summary>
         /// <returns>Return the any one from list of devices</returns>
         //private static string GetRandomDevice()
@@ -104,43 +97,43 @@ namespace DominatorHouseCore.Utility
             return new[]
             {
                 //Got this useragent using mobile without registered
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 8.1.0; en_us; moto g(5) plus; build/ops28.85 - 17 - 6 - 2; cronet / 58.0.2991.0):moto+g+%285%29+plus:1080*1776:480:motorola",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 8.0.0; en_us; asus_z012db; build/opr1.170623.026; cronet / 58.0.2991.0):asus_z012db:1080*1920:480:asus",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 5.1.1; en_us; vivo v3max; build/lmy47v; cronet / 58.0.2991.0):vivo+v3max:1080*1920:480:vivo",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 4.1.2; en_gb; sm - n910g; build / jzo54k; cronet / 58.0.2991.0):sm-n910g:480*800:240:samsung",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 5.1; en_us; a1601; build/lmy47i; cronet / 58.0.2991.0):a1601:720*1280:320:oppo",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 6.0; en_gb; cph1609; build/mra58k; cronet / 58.0.2991.0):cph1609:1080*1920:480:oppo",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 6.0; en_in; lenovo a7020a48; build/mra58k; cronet / 58.0.2991.0):lenovo+a7020a48:1080*1920:480:lenovo",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 6.0; en_us; vivo 1601; build/mra58k; cronet / 58.0.2991.0):vivo+1601:720*1280:320:vivo:6777607007597709062",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 6.0.1; en_us; redmi 3s; build/mmb29m; cronet / 58.0.2991.0):redmi+3s:720*1280:320:xiaomi:6777609850875070214",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 6.0; en_in; lenovo a7020a48; build/mra58k; cronet/58.0.2991.0):lenovo+a7020a48:1080*1920:480:lenovo",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 8.0.0; en_in; g3416; build/48.1.a.2.122; cronet/58.0.2991.0):g3416:1080*1776:480:sony",
-               "com.zhiliaoapp.musically / 2018110931(linux; u; android 8.0.0; en_in; asus_z012db; build/opr1.170623.026; cronet/58.0.2991.0):asus_z012db:1080*1920:480:asus",
-               
-               //===============Registerd Device id along with UserAgent using Nox
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 8.1.0; en_IN; Redmi 5A; Build/OPM1.171019.026; Cronet/58.0.2991.0):Redmi 5A:720*1280:320:xiaomi",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-N950N; Build/NMF26X; Cronet/58.0.2991.0):SM-N950N:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G930K; Build/NRD90M; Cronet/58.0.2991.0):SM-G930:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G955N; Build/NRD90M; Cronet/58.0.2991.0):SM-G955N:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G965N; Build/NRD90M; Cronet/58.0.2991.0):SM-G965N:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G930L; Build/NRD90M; Cronet/58.0.2991.0):SM-G930L:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; LGM-V300K; Build/N2G47H; Cronet/58.0.2991.0):LGM-V300K:720*1280:240:lge",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; google Pixel 2; Build/LMY47I; Cronet/58.0.2991.0):google+Pixel+2:720*1280:240:google",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G925F; Build/JLS36C; Cronet/58.0.2991.0):M-G925F:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-N950F; Build/NMF26X; Cronet/58.0.2991.0):SM-N950F:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-N9005; Build/NJH47F; Cronet/58.0.2991.0):SM-N9005:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G9508; Build/NRD90M; Cronet/58.0.2991.0):SM-G9508:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-N935F; Build/JLS36C; Cronet/58.0.2991.0):SM-N935F:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; HUAWEI MLA-AL10; Build/HUAWEIMLA-AL10; Cronet/58.0.2991.0):HUAWEI+MLA-AL10:720*1280:240:HUAWEI",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-N950W; Build/NMF26X; Cronet/58.0.2991.0):SM-N950:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; HUAWEI MLA-L12; Build/HUAWEIMLA-L12; Cronet/58.0.2991.0):HUAWEI+MLA-L12:720*1280:240:HUAWEI",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G9350; Build/JLS36C; Cronet/58.0.2991.0):SM-G9350:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G955F; Build/JLS36C; Cronet/58.0.2991.0):SM-G955F:720*1280:240:samsung",
-               "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 9; en_IN; Nokia 5.1 Plus; Build/PPR1.180610.011; Cronet/58.0.2991.0):Nokia+5.1+Plus:720*1362:320:Nokia"
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 8.1.0; en_us; moto g(5) plus; build/ops28.85 - 17 - 6 - 2; cronet / 58.0.2991.0):moto+g+%285%29+plus:1080*1776:480:motorola",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 8.0.0; en_us; asus_z012db; build/opr1.170623.026; cronet / 58.0.2991.0):asus_z012db:1080*1920:480:asus",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 5.1.1; en_us; vivo v3max; build/lmy47v; cronet / 58.0.2991.0):vivo+v3max:1080*1920:480:vivo",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 4.1.2; en_gb; sm - n910g; build / jzo54k; cronet / 58.0.2991.0):sm-n910g:480*800:240:samsung",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 5.1; en_us; a1601; build/lmy47i; cronet / 58.0.2991.0):a1601:720*1280:320:oppo",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 6.0; en_gb; cph1609; build/mra58k; cronet / 58.0.2991.0):cph1609:1080*1920:480:oppo",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 6.0; en_in; lenovo a7020a48; build/mra58k; cronet / 58.0.2991.0):lenovo+a7020a48:1080*1920:480:lenovo",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 6.0; en_us; vivo 1601; build/mra58k; cronet / 58.0.2991.0):vivo+1601:720*1280:320:vivo:6777607007597709062",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 6.0.1; en_us; redmi 3s; build/mmb29m; cronet / 58.0.2991.0):redmi+3s:720*1280:320:xiaomi:6777609850875070214",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 6.0; en_in; lenovo a7020a48; build/mra58k; cronet/58.0.2991.0):lenovo+a7020a48:1080*1920:480:lenovo",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 8.0.0; en_in; g3416; build/48.1.a.2.122; cronet/58.0.2991.0):g3416:1080*1776:480:sony",
+                "com.zhiliaoapp.musically / 2018110931(linux; u; android 8.0.0; en_in; asus_z012db; build/opr1.170623.026; cronet/58.0.2991.0):asus_z012db:1080*1920:480:asus",
+
+                //===============Registerd Device id along with UserAgent using Nox
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 8.1.0; en_IN; Redmi 5A; Build/OPM1.171019.026; Cronet/58.0.2991.0):Redmi 5A:720*1280:320:xiaomi",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-N950N; Build/NMF26X; Cronet/58.0.2991.0):SM-N950N:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G930K; Build/NRD90M; Cronet/58.0.2991.0):SM-G930:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G955N; Build/NRD90M; Cronet/58.0.2991.0):SM-G955N:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G965N; Build/NRD90M; Cronet/58.0.2991.0):SM-G965N:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G930L; Build/NRD90M; Cronet/58.0.2991.0):SM-G930L:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; LGM-V300K; Build/N2G47H; Cronet/58.0.2991.0):LGM-V300K:720*1280:240:lge",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; google Pixel 2; Build/LMY47I; Cronet/58.0.2991.0):google+Pixel+2:720*1280:240:google",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G925F; Build/JLS36C; Cronet/58.0.2991.0):M-G925F:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-N950F; Build/NMF26X; Cronet/58.0.2991.0):SM-N950F:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-N9005; Build/NJH47F; Cronet/58.0.2991.0):SM-N9005:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G9508; Build/NRD90M; Cronet/58.0.2991.0):SM-G9508:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-N935F; Build/JLS36C; Cronet/58.0.2991.0):SM-N935F:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; HUAWEI MLA-AL10; Build/HUAWEIMLA-AL10; Cronet/58.0.2991.0):HUAWEI+MLA-AL10:720*1280:240:HUAWEI",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-N950W; Build/NMF26X; Cronet/58.0.2991.0):SM-N950:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; HUAWEI MLA-L12; Build/HUAWEIMLA-L12; Cronet/58.0.2991.0):HUAWEI+MLA-L12:720*1280:240:HUAWEI",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G9350; Build/JLS36C; Cronet/58.0.2991.0):SM-G9350:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 4.4.2; en_IN; SM-G955F; Build/JLS36C; Cronet/58.0.2991.0):SM-G955F:720*1280:240:samsung",
+                "com.zhiliaoapp.musically/2018110931 (Linux; U; Android 9; en_IN; Nokia 5.1 Plus; Build/PPR1.180610.011; Cronet/58.0.2991.0):Nokia+5.1+Plus:720*1362:320:Nokia"
             }.GetRandomItem();
         }
 
-        private static Dictionary<string, string> DeviceIds = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> DeviceIds = new Dictionary<string, string>
         {
             {"6777958453002929669", "6777959026073274117"},
             {"6585385698721908230", "6771316542938662661"},

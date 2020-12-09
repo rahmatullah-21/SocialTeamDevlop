@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -33,6 +37,5 @@ namespace DominatorHouseCore.Interfaces
         ChatFactory ChatFactory { get; set; }
 
         //IAdScraperFactory AdScraperFactory { get; set; }
-
     }
 }

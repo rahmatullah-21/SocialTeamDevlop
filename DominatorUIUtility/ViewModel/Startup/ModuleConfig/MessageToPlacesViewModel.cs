@@ -1,4 +1,9 @@
-﻿using DominatorHouseCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using DominatorHouseCore;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -6,34 +11,23 @@ using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.AccountSetting.CustomControl;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface IMessageToPlacesViewModel
     {
     }
+
     public class MessageToPlacesViewModel : StartupBaseViewModel, IMessageToPlacesViewModel
     {
-        public ICommand DeleteQueryCommand { get; set; }
-        public ICommand AddMessagesCommand { get; set; }
-        public ICommand DeleteMulipleCommand { get; set; }
-        public ICommand AddQueryMessageCommand { get; set; }
-
         public MessageToPlacesViewModel(IRegionManager region) : base(region)
         {
-
             AddQueryMessageCommand = new DelegateCommand<object>(AddQueryMessage);
             DeleteQueryCommand = new DelegateCommand<object>(DeleteQuery);
             AddMessagesCommand = new DelegateCommand<object>(AddMessages);
             DeleteMulipleCommand = new DelegateCommand<object>(DeleteMuliple);
 
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.MessageToPlaces });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.MessageToPlaces});
             NextCommand = new DelegateCommand(MessageToPlacesValidation);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -50,12 +44,18 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
         }
 
+        public ICommand DeleteQueryCommand { get; set; }
+        public ICommand AddMessagesCommand { get; set; }
+        public ICommand DeleteMulipleCommand { get; set; }
+        public ICommand AddQueryMessageCommand { get; set; }
+
 
         public bool IsMessageAsPreview { get; set; }
         public bool IsSpintaxChecked { get; set; }
         public bool IsTagChecked { get; set; }
-        public ObservableCollection<ManageMessagesModel> LstManageMessagesModel
-        { get; set; } = new ObservableCollection<ManageMessagesModel>();
+
+        public ObservableCollection<ManageMessagesModel> LstManageMessagesModel { get; set; } =
+            new ObservableCollection<ManageMessagesModel>();
 
         public ManageMessagesModel ManageMessagesModel { get; set; } = new ManageMessagesModel();
 
@@ -76,15 +76,18 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             {
                 var activitySetting = sender as ActivitySettingWithoutButton;
 
-                if (activitySetting == null || string.IsNullOrEmpty(activitySetting.QueryControl.CurrentQuery.QueryValue.Trim()) && !activitySetting.QueryControl.QueryCollection.Any())
+                if (activitySetting == null ||
+                    string.IsNullOrEmpty(activitySetting.QueryControl.CurrentQuery.QueryValue.Trim()) &&
+                    !activitySetting.QueryControl.QueryCollection.Any())
                     return;
 
                 var splittedQueries = activitySetting.QueryControl.CurrentQuery.QueryValue.Contains(",")
-                    ? activitySetting.QueryControl.CurrentQuery.QueryValue.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).ToList()
-                    : new List<string> { activitySetting.QueryControl.CurrentQuery.QueryValue };
+                    ? activitySetting.QueryControl.CurrentQuery.QueryValue.Split(',')
+                        .Where(x => !string.IsNullOrEmpty(x.Trim())).ToList()
+                    : new List<string> {activitySetting.QueryControl.CurrentQuery.QueryValue};
 
-                if (string.IsNullOrEmpty(activitySetting.QueryControl.CurrentQuery.QueryValue) && activitySetting.QueryControl.QueryCollection.Count != 0)
-                {
+                if (string.IsNullOrEmpty(activitySetting.QueryControl.CurrentQuery.QueryValue) &&
+                    activitySetting.QueryControl.QueryCollection.Count != 0)
                     foreach (var queryValue in activitySetting.QueryControl.QueryCollection)
                     {
                         if (ManageMessagesModel.LstQueries.Any(x =>
@@ -103,15 +106,14 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                             ManageMessagesModel.LstQueries.Add(addNew);
                             LstManageMessagesModel.ForEach(x =>
                             {
-                                if (!x.LstQueries.Any(y => addNew.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
-                                                           y.Content.QueryValue == addNew.Content.QueryValue))
+                                if (!x.LstQueries.Any(y =>
+                                    addNew.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
+                                    y.Content.QueryValue == addNew.Content.QueryValue))
                                     x.LstQueries.Add(addNew);
                             });
                         }
                     }
-                }
                 else
-                {
                     foreach (var queryValue in splittedQueries)
                     {
                         if (ManageMessagesModel.LstQueries.Any(x =>
@@ -130,14 +132,13 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
                             LstManageMessagesModel.ForEach(x =>
                             {
-                                if (!x.LstQueries.Any(y => addNew.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
-                                                           y.Content.QueryValue == addNew.Content.QueryValue))
+                                if (!x.LstQueries.Any(y =>
+                                    addNew.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
+                                    y.Content.QueryValue == addNew.Content.QueryValue))
                                     x.LstQueries.Add(addNew);
                             });
                         }
                     }
-
-                }
 
                 AddQueryAll();
 
@@ -154,7 +155,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             if (ManageMessagesModel.LstQueries.Count > 1 &&
                 !ManageMessagesModel.LstQueries.Any(x =>
                     x.Content.QueryValue == "All" && x.Content.QueryType == "All"))
-            {
                 ManageMessagesModel.LstQueries.Insert(0, new QueryContent
                 {
                     Content = new QueryInfo
@@ -163,8 +163,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         QueryValue = "All"
                     }
                 });
-
-            }
         }
 
         private void DeleteQuery(object sender)
@@ -174,8 +172,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 var currentQuery = sender as QueryInfo;
 
                 var queryToDelete = ManageMessagesModel.LstQueries.FirstOrDefault(x =>
-                        currentQuery != null && (x.Content.QueryValue == currentQuery.QueryValue
-                                                 && x.Content.QueryType == currentQuery.QueryType));
+                    currentQuery != null && x.Content.QueryValue == currentQuery.QueryValue &&
+                    x.Content.QueryType == currentQuery.QueryType);
 
 
                 if (SavedQueries.Any(x => currentQuery != null && x.Id == currentQuery.Id))
@@ -196,7 +194,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             {
                 ex.DebugLog();
             }
-
         }
 
         private void AddMessages(object sender)
@@ -205,25 +202,26 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             if (messageData == null) return;
 
-            messageData.Messages.SelectedQuery = new ObservableCollection<QueryContent>(messageData.Messages.LstQueries.Where(x => x.IsContentSelected));
+            messageData.Messages.SelectedQuery =
+                new ObservableCollection<QueryContent>(messageData.Messages.LstQueries.Where(x => x.IsContentSelected));
 
             if (messageData.Messages.SelectedQuery.Count == 0)
             {
                 Dialog.ShowDialog("Warning",
-                     "Please select atleast one query!!");
+                    "Please select atleast one query!!");
                 return;
             }
 
             if (string.IsNullOrEmpty(messageData.Messages.MessagesText))
             {
                 Dialog.ShowDialog("Warning",
-                     "Please enter message text!!");
+                    "Please enter message text!!");
                 return;
             }
 
 
-
-            messageData.Messages.SelectedQuery.Remove(messageData.Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+            messageData.Messages.SelectedQuery.Remove(
+                messageData.Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
 
             LstManageMessagesModel.Add(messageData.Messages);
 
@@ -233,7 +231,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
 
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            messageData.Messages.LstQueries.Select(query => { query.IsContentSelected = false; return query; }).ToList();
+            messageData.Messages.LstQueries.Select(query =>
+            {
+                query.IsContentSelected = false;
+                return query;
+            }).ToList();
 
             ManageMessagesModel = messageData.Messages;
 
@@ -246,13 +248,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             try
             {
                 foreach (var currentQuery in selectedQuery)
-                {
                     try
                     {
-
                         var queryToDelete = ManageMessagesModel.LstQueries.FirstOrDefault(x =>
-                                x.Content.QueryValue == currentQuery.QueryValue
-                                && x.Content.QueryType == currentQuery.QueryType);
+                            x.Content.QueryValue == currentQuery.QueryValue
+                            && x.Content.QueryType == currentQuery.QueryType);
 
 
                         if (SavedQueries.Any(x => currentQuery != null && x.Id == currentQuery.Id))
@@ -262,7 +262,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         ManageMessagesModel.LstQueries.Remove(queryToDelete);
                         foreach (var message in LstManageMessagesModel.ToList())
                         {
-                            var query = message.SelectedQuery.FirstOrDefault(x => queryToDelete != null && x.Content.Id == queryToDelete.Content.Id);
+                            var query = message.SelectedQuery.FirstOrDefault(x =>
+                                queryToDelete != null && x.Content.Id == queryToDelete.Content.Id);
                             message.SelectedQuery.Remove(query);
                             if (message.SelectedQuery.Count == 0)
                                 LstManageMessagesModel.Remove(message);
@@ -272,14 +273,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     {
                         ex.DebugLog();
                     }
-                }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
         }
-
     }
 }

@@ -1,4 +1,8 @@
-﻿using ProtoBuf;
+﻿#region
+
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -7,7 +11,6 @@ namespace DominatorHouseCore.Utility
     {
         public RangeUtilities()
         {
-
         }
 
         public RangeUtilities(int start, int end) : this()
@@ -15,6 +18,7 @@ namespace DominatorHouseCore.Utility
             StartValue = start;
             EndValue = end;
         }
+
         private int _startValue;
 
         [ProtoMember(1)]
@@ -39,10 +43,7 @@ namespace DominatorHouseCore.Utility
         [ProtoMember(2)]
         public int EndValue
         {
-            get
-            {
-                return _endValue;
-            }
+            get => _endValue;
             set
             {
                 if (value < _startValue)
@@ -54,23 +55,22 @@ namespace DominatorHouseCore.Utility
         }
 
         /// <summary>
-        /// IsValidRange Property is return true if endrange is greater that begin range
-        /// </summary>
-        public bool IsValidRange => EndValue >= StartValue;
-
-
-        /// <summary>
-        /// GetRandom is used to get the random numbers between the Begin and EndValue
+        ///     GetRandom is used to get the random numbers between the Begin and EndValue
         /// </summary>
         /// <returns>Returns a integer value which lies between those two ranges</returns>
-        public int GetRandom() => RandomUtilties.GetRandomNumber(EndValue, StartValue);
+        public int GetRandom()
+        {
+            return RandomUtilties.GetRandomNumber(EndValue, StartValue);
+        }
 
         /// <summary>
-        /// InRange is used to check whether the given numbers in between the StartValue and EndValue
+        ///     InRange is used to check whether the given numbers in between the StartValue and EndValue
         /// </summary>
         /// <param name="number">number which is used to check in between the ranges</param>
         /// <returns></returns>
-        public bool InRange(int number) => number >= StartValue && number <= EndValue;
-
+        public bool InRange(int number)
+        {
+            return number >= StartValue && number <= EndValue;
+        }
     }
 }

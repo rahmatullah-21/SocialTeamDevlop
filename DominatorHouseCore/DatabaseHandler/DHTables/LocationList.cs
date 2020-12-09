@@ -1,4 +1,8 @@
-﻿using SQLite;
+﻿#region
+
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.DHTables
 {
@@ -9,10 +13,13 @@ namespace DominatorHouseCore.DatabaseHandler.DHTables
         [Indexed]
         [AutoIncrement]
         public int Id { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string CountryName { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string CityName { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public bool IsSelected { get; set; }
     }

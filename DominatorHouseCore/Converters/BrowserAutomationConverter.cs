@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -11,7 +15,7 @@ namespace DominatorHouseCore.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var isTrue = (bool)value;
+            var isTrue = (bool) value;
 
             if (isTrue && parameter.Equals("Browser"))
                 return Visibility.Collapsed;

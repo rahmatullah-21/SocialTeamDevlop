@@ -1,5 +1,9 @@
-﻿using System.Windows.Controls;
+﻿#region
+
+using System.Windows.Controls;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -9,10 +13,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public UserControl SelectedUserControl
         {
-            get
-            {
-                return _selectedUserControl;
-            }
+            get => _selectedUserControl;
             set
             {
                 if (_selectedUserControl != null && Equals(_selectedUserControl, value))

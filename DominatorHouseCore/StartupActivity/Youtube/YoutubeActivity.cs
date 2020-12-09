@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Interfaces.StartUp;
+﻿#region
+
+using DominatorHouseCore.Interfaces.StartUp;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Youtube
 {

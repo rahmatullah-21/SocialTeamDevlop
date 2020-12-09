@@ -1,20 +1,21 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
     public class EmailNotificationsModel : BindableBase
     {
+        private bool _isEnableEmailNotificationsChecked;
 
-        private bool _isEnableEmailNotificationsChecked ;
         [ProtoMember(1)]
         public bool IsEnableEmailNotificationsChecked
         {
-            get
-            {
-                return _isEnableEmailNotificationsChecked;
-            }
+            get => _isEnableEmailNotificationsChecked;
             set
             {
                 if (value == _isEnableEmailNotificationsChecked)
@@ -22,14 +23,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isEnableEmailNotificationsChecked, value);
             }
         }
+
         private string _email;
+
         [ProtoMember(2)]
         public string Email
         {
-            get
-            {
-                return _email;
-            }
+            get => _email;
             set
             {
                 if (value == _email)
@@ -37,14 +37,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _email, value);
             }
         }
+
         private int _emailRecieveTime;
+
         [ProtoMember(3)]
         public int EmailRecieveTime
         {
-            get
-            {
-                return _emailRecieveTime;
-            }
+            get => _emailRecieveTime;
             set
             {
                 if (value == _emailRecieveTime)
@@ -54,13 +53,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isNotifyAboutInvalidProxiesChecked;
+
         [ProtoMember(4)]
         public bool IsNotifyAboutInvalidProxiesChecked
         {
-            get
-            {
-                return _isNotifyAboutInvalidProxiesChecked;
-            }
+            get => _isNotifyAboutInvalidProxiesChecked;
             set
             {
                 if (value == _isNotifyAboutInvalidProxiesChecked)
@@ -68,14 +65,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isNotifyAboutInvalidProxiesChecked, value);
             }
         }
+
         private bool _isNotifyAboutInvalidSocialProfilesChecked;
+
         [ProtoMember(5)]
         public bool IsNotifyAboutInvalidSocialProfilesChecked
         {
-            get
-            {
-                return _isNotifyAboutInvalidSocialProfilesChecked;
-            }
+            get => _isNotifyAboutInvalidSocialProfilesChecked;
             set
             {
                 if (value == _isNotifyAboutInvalidSocialProfilesChecked)
@@ -85,13 +81,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isEmailConfirmationChecked;
+
         [ProtoMember(6)]
         public bool IsEmailConfirmationChecked
         {
-            get
-            {
-                return _isEmailConfirmationChecked;
-            }
+            get => _isEmailConfirmationChecked;
             set
             {
                 if (value == _isEmailConfirmationChecked)
@@ -101,13 +95,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isBlockedChecked;
+
         [ProtoMember(7)]
         public bool IsBlockedChecked
         {
-            get
-            {
-                return _isBlockedChecked;
-            }
+            get => _isBlockedChecked;
             set
             {
                 if (value == _isBlockedChecked)
@@ -117,13 +109,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isActionRequiredChecked;
+
         [ProtoMember(8)]
         public bool IsActionRequiredChecked
         {
-            get
-            {
-                return _isActionRequiredChecked;
-            }
+            get => _isActionRequiredChecked;
             set
             {
                 if (value == _isActionRequiredChecked)
@@ -131,14 +121,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isActionRequiredChecked, value);
             }
         }
+
         private bool _isAccountDisabledChecked;
+
         [ProtoMember(9)]
         public bool IsAccountDisabledChecked
         {
-            get
-            {
-                return _isAccountDisabledChecked;
-            }
+            get => _isAccountDisabledChecked;
             set
             {
                 if (value == _isAccountDisabledChecked)
@@ -146,14 +135,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isAccountDisabledChecked, value);
             }
         }
+
         private bool _isSuspendedChecked;
+
         [ProtoMember(10)]
         public bool IsSuspendedChecked
         {
-            get
-            {
-                return _isSuspendedChecked;
-            }
+            get => _isSuspendedChecked;
             set
             {
                 if (value == _isSuspendedChecked)
@@ -163,13 +151,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isNoInternetConnectionChecked;
+
         [ProtoMember(11)]
         public bool IsNoInternetConnectionChecked
         {
-            get
-            {
-                return _isNoInternetConnectionChecked;
-            }
+            get => _isNoInternetConnectionChecked;
             set
             {
                 if (value == _isNoInternetConnectionChecked)
@@ -179,13 +165,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isPasswordResetChecked;
+
         [ProtoMember(12)]
         public bool IsPasswordResetChecked
         {
-            get
-            {
-                return _isPasswordResetChecked;
-            }
+            get => _isPasswordResetChecked;
             set
             {
                 if (value == _isPasswordResetChecked)
@@ -195,13 +179,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isCaptchaChecked;
+
         [ProtoMember(13)]
         public bool IsCaptchaChecked
         {
-            get
-            {
-                return _isCaptchaChecked;
-            }
+            get => _isCaptchaChecked;
             set
             {
                 if (value == _isCaptchaChecked)
@@ -209,14 +191,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isCaptchaChecked, value);
             }
         }
+
         private bool _isInvalidCredentialsChecked;
+
         [ProtoMember(14)]
         public bool IsInvalidCredentialsChecked
         {
-            get
-            {
-                return _isInvalidCredentialsChecked;
-            }
+            get => _isInvalidCredentialsChecked;
             set
             {
                 if (value == _isInvalidCredentialsChecked)
@@ -226,13 +207,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isPhoneValidationChecked;
+
         [ProtoMember(15)]
         public bool IsPhoneValidationChecked
         {
-            get
-            {
-                return _isPhoneValidationChecked;
-            }
+            get => _isPhoneValidationChecked;
             set
             {
                 if (value == _isPhoneValidationChecked)
@@ -240,14 +219,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isPhoneValidationChecked, value);
             }
         }
+
         private bool _isTwoFactorAuthenticationChecked;
+
         [ProtoMember(16)]
         public bool IsTwoFactorAuthenticationChecked
         {
-            get
-            {
-                return _isTwoFactorAuthenticationChecked;
-            }
+            get => _isTwoFactorAuthenticationChecked;
             set
             {
                 if (value == _isTwoFactorAuthenticationChecked)
@@ -255,14 +233,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isTwoFactorAuthenticationChecked, value);
             }
         }
+
         private bool _isNotifyAboutInvalidCampaignChecked;
+
         [ProtoMember(17)]
         public bool IsNotifyAboutInvalidCampaignChecked
         {
-            get
-            {
-                return _isNotifyAboutInvalidCampaignChecked;
-            }
+            get => _isNotifyAboutInvalidCampaignChecked;
             set
             {
                 if (value == _isNotifyAboutInvalidCampaignChecked)
@@ -270,14 +247,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isNotifyAboutInvalidCampaignChecked, value);
             }
         }
+
         private bool _isNotifyAboutInvalidFailedPostsChecked;
+
         [ProtoMember(18)]
         public bool IsNotifyAboutInvalidFailedPostsChecked
         {
-            get
-            {
-                return _isNotifyAboutInvalidFailedPostsChecked;
-            }
+            get => _isNotifyAboutInvalidFailedPostsChecked;
             set
             {
                 if (value == _isNotifyAboutInvalidFailedPostsChecked)
@@ -287,13 +263,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isNotifyNoMoreResultFoundChecked;
+
         [ProtoMember(19)]
         public bool IsNotifyNoMoreResultFoundChecked
         {
-            get
-            {
-                return _isNotifyNoMoreResultFoundChecked;
-            }
+            get => _isNotifyNoMoreResultFoundChecked;
             set
             {
                 if (value == _isNotifyNoMoreResultFoundChecked)
@@ -301,14 +275,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isNotifyNoMoreResultFoundChecked, value);
             }
         }
+
         private bool _isAlwaysSendEmailChecked;
+
         [ProtoMember(20)]
         public bool IsAlwaysSendEmailChecked
         {
-            get
-            {
-                return _isAlwaysSendEmailChecked;
-            }
+            get => _isAlwaysSendEmailChecked;
             set
             {
                 if (value == _isAlwaysSendEmailChecked)

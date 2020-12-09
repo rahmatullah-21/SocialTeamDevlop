@@ -1,7 +1,11 @@
-﻿using NLog;
+﻿#region
+
+using System.Reflection;
+using NLog;
 using NLog.Config;
 using NLog.Targets;
 
+#endregion
 
 namespace DominatorHouseCore.LogHelper
 {
@@ -9,9 +13,7 @@ namespace DominatorHouseCore.LogHelper
     {
         static GlobusLogHelper()
         {
-
 #if DEBUG
-
             if (LogManager.Configuration != null)
             {
                 // Setup the logging view for Sentinel - http://sentinel.codeplex.com
@@ -38,13 +40,12 @@ namespace DominatorHouseCore.LogHelper
 #endif
 
             LogManager.ReconfigExistingLoggers();
-            log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString());
+            log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType?.ToString());
         }
 
         /// <summary>
-        /// Singleton Instance
+        ///     Singleton Instance
         /// </summary>
         public static ILogger log { get; }
-
     }
 }

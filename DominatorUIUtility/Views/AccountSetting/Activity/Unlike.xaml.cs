@@ -1,10 +1,10 @@
-﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 
 namespace DominatorUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
-    /// Interaction logic for Unlike.xaml
+    ///     Interaction logic for Unlike.xaml
     /// </summary>
     public partial class Unlike : UserControl
     {

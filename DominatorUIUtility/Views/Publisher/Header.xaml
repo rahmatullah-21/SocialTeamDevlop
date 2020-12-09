@@ -1,22 +1,24 @@
 ﻿<UserControl x:Class="DominatorUIUtility.Views.Publisher.Header"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
-            MinHeight="40">
+             mc:Ignorable="d"
+             MinHeight="40">
     <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="MainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock HorizontalAlignment="Left" Text="{Binding HeaderText}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Text="{Binding HeaderText}" FontSize="18" Margin="10,0,0,0"
+                   VerticalAlignment="Center" Foreground="White" />
         <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
             <ComboBox VerticalAlignment="Center" x:Name="cmbAccounts" x:FieldModifier="public" Visibility="Collapsed"
-                      Margin="15,0" Background="Transparent" Foreground="White"  BorderThickness="1"
-                      BorderBrush="AntiqueWhite" SelectedIndex="0" Width="200"/>
-            <Button x:Name="BtnBackToCampaign" Content="{DynamicResource LangKeyBack}"   Background="{DynamicResource AccentBaseColorBrush}"
-                    Foreground="White" VerticalAlignment="Center" Click="BtnBackToCampaign_Click"/>
+                      Margin="15,0" Background="Transparent" Foreground="White" BorderThickness="1"
+                      BorderBrush="AntiqueWhite" SelectedIndex="0" Width="200" />
+            <Button x:Name="BtnBackToCampaign" Content="{DynamicResource LangKeyBack}"
+                    Background="{DynamicResource AccentBaseColorBrush}"
+                    Foreground="White" VerticalAlignment="Center" Click="BtnBackToCampaign_Click" />
         </StackPanel>
     </Grid>
 </UserControl>

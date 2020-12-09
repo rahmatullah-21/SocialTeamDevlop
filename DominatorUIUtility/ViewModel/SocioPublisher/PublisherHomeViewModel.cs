@@ -1,13 +1,12 @@
-﻿using DominatorHouseCore.Models.SocioPublisher;
+﻿using System.ComponentModel;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
-using System.ComponentModel;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public interface IPublisherHomeViewModel : INotifyPropertyChanged
     {
-
     }
 
     public class PublisherHomeViewModel : BindableBase, IPublisherHomeViewModel
@@ -16,12 +15,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public PublisherHomeModel PublisherHomeModel
         {
-            get
-            {
-                return _publisherHomeModel;
-            }
+            get => _publisherHomeModel;
             set
-            {               
+            {
                 if (_publisherHomeModel != null && Equals(_publisherHomeModel, value))
                     return;
                 SetProperty(ref _publisherHomeModel, value);
@@ -30,7 +26,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void SetDefaultHomePage()
         {
-            PublisherHomeModel.SelectedUserControl =  PublisherDefaultPage.Instance();
-        } 
+            PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
+        }
     }
 }

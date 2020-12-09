@@ -1,12 +1,12 @@
-﻿using DominatorHouseCore;
+﻿using System;
+using System.Threading.Tasks;
+using DominatorHouseCore;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.Common;
-using System;
-using System.Threading.Tasks;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -17,32 +17,32 @@ namespace DominatorUIUtility.ViewModel
 
     public class VerifyProxiesViewModel : SynchronizedViewModel, IVerifyProxiesViewModel
     {
-        private int _verified;
+        private readonly IProxyFileManager _proxyFileManager;
         private int _total;
         private string _urlToUseToVerifyProxies = "https://www.google.com";
-        private readonly IProxyFileManager _proxyFileManager;
-
-        public string URLToUseToVerifyProxies
-        {
-            get { return _urlToUseToVerifyProxies; }
-            set { SetProperty(ref _urlToUseToVerifyProxies, value); }
-        }
-
-        public int Total
-        {
-            get { return _total; }
-            set { SetProperty(ref _total, value); }
-        }
-
-        public int Verified
-        {
-            get { return _verified; }
-            set { SetProperty(ref _verified, value); }
-        }
+        private int _verified;
 
         public VerifyProxiesViewModel(IProxyFileManager proxyFileManager)
         {
             _proxyFileManager = proxyFileManager;
+        }
+
+        public string URLToUseToVerifyProxies
+        {
+            get => _urlToUseToVerifyProxies;
+            set => SetProperty(ref _urlToUseToVerifyProxies, value);
+        }
+
+        public int Total
+        {
+            get => _total;
+            set => SetProperty(ref _total, value);
+        }
+
+        public int Verified
+        {
+            get => _verified;
+            set => SetProperty(ref _verified, value);
         }
 
         public async Task Verify(params ProxyManagerModel[] models)
@@ -56,7 +56,6 @@ namespace DominatorUIUtility.ViewModel
             Verified = 0;
             foreach (var model in models)
                 CheckProxyAsync(model);
-
         }
 
         private async Task CheckProxyAsync(ProxyManagerModel currentProxyManager)
@@ -66,7 +65,9 @@ namespace DominatorUIUtility.ViewModel
                 await _proxyFileManager.UpdateProxyStatusAsync(currentProxyManager, URLToUseToVerifyProxies);
                 GlobusLogHelper.log.Info(Log.ProxyVerificationCompleted, SocialNetworks.Admin,
                     currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort);
-                ToasterNotification.ShowSuccess(currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort + "\n"+ "LangKeyProxyVerificationCompleted".FromResourceDictionary());
+                ToasterNotification.ShowSuccess(currentProxyManager.AccountProxy.ProxyIp + ":" +
+                                                currentProxyManager.AccountProxy.ProxyPort + "\n" +
+                                                "LangKeyProxyVerificationCompleted".FromResourceDictionary());
             }
             catch (Exception ex)
             {

@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -35,8 +39,5 @@ namespace DominatorHouseCore.ViewModel
                 }
             }
         }
-
     }
-
-
 }

@@ -1,14 +1,19 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.ViewModel;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.ViewModel;
+using ProtoBuf;
 
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -78,9 +83,11 @@ namespace DominatorHouseCore.Utility
         }
 
         public ObservableCollection<string> GetUsers<T>() where T : class
-            => new ObservableCollection<string>(GetAccountDetailsFor<T>().Select(x => (x as dynamic).UserName as string)
+        {
+            return new ObservableCollection<string>(GetAccountDetailsFor<T>()
+                .Select(x => (x as dynamic).UserName as string)
                 .ToList());
-
+        }
 
 
         public bool Append<T>(T obj)
@@ -103,13 +110,12 @@ namespace DominatorHouseCore.Utility
 
         public List<DominatorAccountModel> GetAccountDetails()
         {
-            return _lockFileConfigProvider.WithFile<DominatorAccountModel, List<DominatorAccountModel>>(indexAccountPath =>
-                File.Exists(indexAccountPath)
-                    ? _protoBuffBase.DeserializeList<DominatorAccountModel>(indexAccountPath)
-                    : new List<DominatorAccountModel>());
+            return _lockFileConfigProvider.WithFile<DominatorAccountModel, List<DominatorAccountModel>>(
+                indexAccountPath =>
+                    File.Exists(indexAccountPath)
+                        ? _protoBuffBase.DeserializeList<DominatorAccountModel>(indexAccountPath)
+                        : new List<DominatorAccountModel>());
         }
-
-
 
 
         // TODO: back compatibility for account models of PD, TWD etc.
@@ -135,88 +141,6 @@ namespace DominatorHouseCore.Utility
                 _protoBuffBase.DeserializeList<TemplateModel>(file));
         }
 
-        //public int FindAccountIndex(List<DominatorAccountModel> accounts, string id)
-        //{
-        //    return accounts.FindIndex(candidate => candidate.AccountId == id);
-        //}
-
-        //[Obsolete("This method is not safe")]
-        //public int FindAccountIndex<T>(List<T> accounts, string id)
-        //{
-        //    return typeof(T) == typeof(DominatorAccountModel)
-        //        ? accounts.FindIndex(a => (a as DominatorAccountModel).AccountBaseModel.AccountId == id)
-        //        : accounts.FindIndex(a => (a as dynamic).AccountId == id);
-        //}
-
-        /// <summary>
-        /// Overwrites AccountDetails.bin with updated account
-        /// </summary>
-        /// <param name="accountModel"></param>
-        /// <returns></returns>
-        //public bool UpdateAccount(DominatorAccountModel accountModel)
-        //{
-        //    try
-        //    {
-        //        return _lockFileConfigProvider.WithFile<DominatorAccountModel, bool>(file =>
-        //        {
-        //            int indexOfAccountToUpdate;
-        //            var accountDetailsList = GetAccountDetails();
-
-        //            if (accountDetailsList != null)
-        //            {
-        //                indexOfAccountToUpdate =
-        //                    FindAccountIndex(accountDetailsList, accountModel.AccountBaseModel.AccountId);
-        //                accountDetailsList[indexOfAccountToUpdate] = accountModel;
-        //            }
-        //            else
-        //            {
-        //                accountDetailsList = new List<DominatorAccountModel>();
-        //                accountDetailsList.Add(accountModel);
-        //            }
-        //            bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
-
-        //            GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
-        //            return result;
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //        return false;
-        //    }
-        //}
-
-        // TODO: backward compatibility
-        [Obsolete("This code is unsafe")]
-        //internal bool UpdateAccount<T>(T accountModel) where T : class
-        //{
-        //    try
-        //    {
-        //        return _lockFileConfigProvider.WithFile<T, bool>(file =>
-        //        {
-        //            List<T> accountDetailsList = GetAccountDetailsFor<T>();
-        //            int indexOfAccountToUpdate =
-        //                FindAccountIndex(accountDetailsList, (accountModel as dynamic).AccountId);
-
-        //            if (indexOfAccountToUpdate == -1)
-        //                return false;
-
-        //            accountDetailsList[indexOfAccountToUpdate] = accountModel;
-
-        //            bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
-
-        //            GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
-        //            return result;
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //        return false;
-        //    }
-        //}
-
-
         // TODO: back compatibility to save old AccountModel. Have to be replaced with IList<DominatorAccountModel>
         public bool UpdateAllAccounts<T>(List<T> accountDetailsList) where T : class
         {
@@ -224,7 +148,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<T, bool>(file =>
                 {
-                    bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
+                    var result = _protoBuffBase.SerializeList(accountDetailsList, file);
                     return result;
                 });
             }
@@ -280,7 +204,7 @@ namespace DominatorHouseCore.Utility
         public int FindProxyIndex<T>(List<T> proxy, string ProxyId)
         {
             return typeof(T) == typeof(ProxyManagerModel)
-                ? proxy.FindIndex(a => (a as ProxyManagerModel).AccountProxy.ProxyId == ProxyId)
+                ? proxy.FindIndex(a => (a as ProxyManagerModel)?.AccountProxy.ProxyId == ProxyId)
                 : proxy.FindIndex(a => (a as dynamic).AccountProxy.ProxyId == ProxyId);
         }
 
@@ -298,7 +222,7 @@ namespace DominatorHouseCore.Utility
 
                     proxyDetailsList[indexOfProxyToUpdate] = proxy;
 
-                    bool result = _protoBuffBase.SerializeList(proxyDetailsList, file);
+                    var result = _protoBuffBase.SerializeList(proxyDetailsList, file);
 
                     GlobusLogHelper.log.Trace($"Update Proxy - [{result}]");
                     return result;
@@ -306,7 +230,6 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
@@ -318,14 +241,13 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<ProxyManagerModel, bool>(file =>
                 {
-                    bool result = _protoBuffBase.SerializeList(proxyDetailsList, file);
+                    var result = _protoBuffBase.SerializeList(proxyDetailsList, file);
                     GlobusLogHelper.log.Debug("Proxy succesfully saved");
                     return result;
                 });
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
@@ -349,14 +271,14 @@ namespace DominatorHouseCore.Utility
                 return _lockFileConfigProvider.WithFile<AddPostModel, bool>(file =>
                 {
                     var postDetailsList = GetPostDetails();
-                    int indexOfPostToUpdate = FindPostIndex(postDetailsList, post.CampaignDetails.CampaignName);
+                    var indexOfPostToUpdate = FindPostIndex(postDetailsList, post.CampaignDetails.CampaignName);
 
                     if (indexOfPostToUpdate == -1)
                         return false;
 
                     postDetailsList[indexOfPostToUpdate] = post;
 
-                    bool result = _protoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
+                    var result = _protoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
 
                     GlobusLogHelper.log.Trace($"Update Posts - [{result}]");
                     return result;
@@ -364,7 +286,6 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
@@ -376,14 +297,13 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<AddPostModel, bool>(file =>
                 {
-                    bool result = _protoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
+                    var result = _protoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
                     GlobusLogHelper.log.Debug("Posts succesfully saved");
                     return result;
                 });
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
@@ -392,7 +312,7 @@ namespace DominatorHouseCore.Utility
         public int FindPostIndex<T>(List<T> posts, string CampaignName)
         {
             return typeof(T) == typeof(AddPostModel)
-                ? posts.FindIndex(a => (a as AddPostModel).CampaignDetails.CampaignName == CampaignName)
+                ? posts.FindIndex(a => (a as AddPostModel)?.CampaignDetails.CampaignName == CampaignName)
                 : posts.FindIndex(a => (a as dynamic).AccountProxy.ProxyName == CampaignName);
         }
 
@@ -411,23 +331,20 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<Configuration, List<Configuration>>(file =>
                 {
-                    if (File.Exists(file))
-                    {
-                        return _protoBuffBase.DeserializeList<Configuration>(file);
-                    }
+                    if (File.Exists(file)) return _protoBuffBase.DeserializeList<Configuration>(file);
                     return new List<Configuration>();
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
+
             return null;
         }
 
 
         #region Publisher
-
 
         public bool AddDestination(PublisherCreateDestinationModel publisherCreateDestination)
         {
@@ -460,7 +377,7 @@ namespace DominatorHouseCore.Utility
                 {
                     data[0] = publisherCreateDestination;
 
-                    bool result = _protoBuffBase.SerializeList(data,
+                    var result = _protoBuffBase.SerializeList(data,
                         $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
 
                     GlobusLogHelper.log.Trace($"Update Destination - [{result}]");
@@ -470,17 +387,19 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
+
             return false;
         }
 
 
         public List<PublisherCreateDestinationModel> GetDestination(string destinationId)
-            => _protoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
+        {
+            return _protoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
                 $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
+        }
 
 
         public PublisherCreateDestinationModel GetSingleDestination(string destinationId)
@@ -496,18 +415,20 @@ namespace DominatorHouseCore.Utility
 
         public List<PublisherManageDestinationModel> GetPublisherManageDestinationModels()
         {
-            return _lockFileConfigProvider.WithFile<PublisherManageDestinationModel, List<PublisherManageDestinationModel>>(
-                publisherDestinationPath => File.Exists(publisherDestinationPath)
-                    ? _protoBuffBase.DeserializeList<PublisherManageDestinationModel>(publisherDestinationPath)
-                    : new List<PublisherManageDestinationModel>());
+            return _lockFileConfigProvider
+                .WithFile<PublisherManageDestinationModel, List<PublisherManageDestinationModel>>(
+                    publisherDestinationPath => File.Exists(publisherDestinationPath)
+                        ? _protoBuffBase.DeserializeList<PublisherManageDestinationModel>(publisherDestinationPath)
+                        : new List<PublisherManageDestinationModel>());
         }
 
         public List<PublisherPostlistSettingsModel> GetPublisherPostListSettingsModels()
         {
-            return _lockFileConfigProvider.WithFile<PublisherPostlistSettingsModel, List<PublisherPostlistSettingsModel>>(
-                publisherPostListPath => File.Exists(publisherPostListPath)
-                    ? _protoBuffBase.DeserializeList<PublisherPostlistSettingsModel>(publisherPostListPath)
-                    : new List<PublisherPostlistSettingsModel>());
+            return _lockFileConfigProvider
+                .WithFile<PublisherPostlistSettingsModel, List<PublisherPostlistSettingsModel>>(
+                    publisherPostListPath => File.Exists(publisherPostListPath)
+                        ? _protoBuffBase.DeserializeList<PublisherPostlistSettingsModel>(publisherPostListPath)
+                        : new List<PublisherPostlistSettingsModel>());
         }
 
 
@@ -515,7 +436,8 @@ namespace DominatorHouseCore.Utility
         {
             return _lockFileConfigProvider.WithFile<PublisherPostlistModel, List<PublisherPostlistModel>>(
                 publisherPostListPath => File.Exists($"{publisherPostListPath}\\{campaignId}.bin")
-                    ? _protoBuffBase.DeserializeList<PublisherPostlistModel>($"{publisherPostListPath}\\{campaignId}.bin")
+                    ? _protoBuffBase.DeserializeList<PublisherPostlistModel>(
+                        $"{publisherPostListPath}\\{campaignId}.bin")
                     : new List<PublisherPostlistModel>());
         }
 
@@ -525,13 +447,12 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<PublisherPostlistModel, bool>(file =>
                 {
-                    bool result = _protoBuffBase.SerializeList(publisherPostlist, $"{file}\\{campaignId}.bin");
+                    var result = _protoBuffBase.SerializeList(publisherPostlist, $"{file}\\{campaignId}.bin");
                     return result;
                 });
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
@@ -548,13 +469,12 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<T, bool>(file =>
                 {
-                    bool result = _protoBuffBase.SerializeList(publishDestinations, file);
+                    var result = _protoBuffBase.SerializeList(publishDestinations, file);
                     return result;
                 });
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
@@ -571,7 +491,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<T, bool>(file =>
                 {
-                    bool result = _protoBuffBase.SerializeList(itemColletion, file);
+                    var result = _protoBuffBase.SerializeList(itemColletion, file);
                     return result;
                 });
             }
@@ -582,15 +502,16 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-
         #endregion
 
         #region CampaignInteractedData
 
         public List<CampaignInteractionViewModel> GetCampaignInteractedDetails(SocialNetworks network)
         {
-            return _lockFileConfigProvider.WithFile<CampaignInteractionViewModel, List<CampaignInteractionViewModel>>(file =>
-                _protoBuffBase.DeserializeList<CampaignInteractionViewModel>(file + $"\\{network}CampaignInteractedData.bin"));
+            return _lockFileConfigProvider.WithFile<CampaignInteractionViewModel, List<CampaignInteractionViewModel>>(
+                file =>
+                    _protoBuffBase.DeserializeList<CampaignInteractionViewModel>(
+                        file + $"\\{network}CampaignInteractedData.bin"));
         }
 
 
@@ -600,7 +521,8 @@ namespace DominatorHouseCore.Utility
             try
             {
                 _lockFileConfigProvider.WithFile<CampaignInteractionViewModel, bool>(file =>
-                    _protoBuffBase.SerializeList(campaignInteractedDatas, file + $"\\{network}CampaignInteractedData.bin"));
+                    _protoBuffBase.SerializeList(campaignInteractedDatas,
+                        file + $"\\{network}CampaignInteractedData.bin"));
             }
             catch (Exception ex)
             {
@@ -614,8 +536,10 @@ namespace DominatorHouseCore.Utility
 
         public List<GlobalInteractionViewModel> GetGlobalInteractedDetails(SocialNetworks network)
         {
-            return _lockFileConfigProvider.WithFile<GlobalInteractionViewModel, List<GlobalInteractionViewModel>>(file =>
-                _protoBuffBase.DeserializeList<GlobalInteractionViewModel>(file + $"\\{network}InteractedData.bin"));
+            return _lockFileConfigProvider.WithFile<GlobalInteractionViewModel, List<GlobalInteractionViewModel>>(
+                file =>
+                    _protoBuffBase.DeserializeList<GlobalInteractionViewModel>(
+                        file + $"\\{network}InteractedData.bin"));
         }
 
 
@@ -657,19 +581,21 @@ namespace DominatorHouseCore.Utility
                         sw.WriteLine("Light\r\nDark");
                         sw.Close();
                     }
-                    return new [] { "Light", "Dark" };
+
+                    return new[] {"Light", "Dark"};
                 }
 
                 var sr = new StreamReader(ConstantVariable.GetThemesFile());
                 var str = sr.ReadToEnd().Trim();
                 sr.Close();
-                return System.Text.RegularExpressions.Regex.Split(str, "\r\n").ToArray();
+                return Regex.Split(str, "\r\n").ToArray();
             }
             catch (Exception ex)
             {
                 ex.ErrorLog();
             }
-            return new [] { "Light", "Dark" };
+
+            return new[] {"Light", "Dark"};
         }
 
         public void SetTheme(string theme)
@@ -681,8 +607,10 @@ namespace DominatorHouseCore.Utility
                     sw.WriteLine(theme);
                 }
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public bool SaveProxyManagerSettings(ProxyManagerSettings setting)
@@ -691,7 +619,7 @@ namespace DominatorHouseCore.Utility
             {
                 using (var stream = File.Create(ConstantVariable.GetOtherProxyManagerSettingsFile()))
                 {
-                    ProtoBuf.Serializer.Serialize(stream, setting);
+                    Serializer.Serialize(stream, setting);
                     return true;
                 }
             }
@@ -700,19 +628,17 @@ namespace DominatorHouseCore.Utility
                 ex.DebugLog();
                 return false;
             }
-
         }
+
         public ProxyManagerSettings GetProxyManagerSettings()
         {
             try
             {
                 if (File.Exists(ConstantVariable.GetOtherProxyManagerSettingsFile()))
-                {
                     using (var stream = File.OpenRead(ConstantVariable.GetOtherProxyManagerSettingsFile()))
                     {
-                        return ProtoBuf.Serializer.Deserialize<ProxyManagerSettings>(stream);
+                        return Serializer.Deserialize<ProxyManagerSettings>(stream);
                     }
-                }
 
                 return new ProxyManagerSettings();
             }
@@ -720,6 +646,7 @@ namespace DominatorHouseCore.Utility
             {
                 ex.DebugLog();
             }
+
             return new ProxyManagerSettings();
         }
 
@@ -729,7 +656,7 @@ namespace DominatorHouseCore.Utility
             {
                 using (var stream = File.Create(ConstantVariable.GetOtherCustomizedAutoActivitySetFile()))
                 {
-                    ProtoBuf.Serializer.Serialize(stream, setting);
+                    Serializer.Serialize(stream, setting);
                     return true;
                 }
             }
@@ -745,19 +672,17 @@ namespace DominatorHouseCore.Utility
             try
             {
                 if (File.Exists(ConstantVariable.GetOtherCustomizedAutoActivitySetFile()))
-                {
                     using (var stream = File.OpenRead(ConstantVariable.GetOtherCustomizedAutoActivitySetFile()))
                     {
-                        return ProtoBuf.Serializer.Deserialize<NetworksActivityCustomizeModel>(stream);
+                        return Serializer.Deserialize<NetworksActivityCustomizeModel>(stream);
                     }
-                }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+
             return new NetworksActivityCustomizeModel();
         }
     }
-
 }

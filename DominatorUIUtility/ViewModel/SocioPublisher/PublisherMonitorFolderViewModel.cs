@@ -14,7 +14,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherMonitorFolderViewModel : BindableBase
     {
-        private PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
+        private readonly PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
+
         public PublisherMonitorFolderViewModel()
         {
             #region Command Initilization
@@ -28,14 +29,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             #endregion
         }
 
-        public PublisherMonitorFolderViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
+        public PublisherMonitorFolderViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) :
+            this()
         {
             this.tabItemsControl = tabItemsControl;
             LstFolderPath = tabItemsControl.LstFolderPath;
         }
 
         #region Command
-
 
         public ICommand ClearCommand { get; set; }
         public ICommand SaveCommand { get; set; }
@@ -48,12 +49,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         #region Properties
 
         private PublisherMonitorFolderModel _publisherMonitorFolderModel = new PublisherMonitorFolderModel();
+
         public PublisherMonitorFolderModel PublisherMonitorFolderModel
         {
-            get
-            {
-                return _publisherMonitorFolderModel;
-            }
+            get => _publisherMonitorFolderModel;
             set
             {
                 if (value == _publisherMonitorFolderModel)
@@ -62,13 +61,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private ObservableCollection<PublisherMonitorFolderModel> _lstFolderPath = new ObservableCollection<PublisherMonitorFolderModel>();
+        private ObservableCollection<PublisherMonitorFolderModel> _lstFolderPath =
+            new ObservableCollection<PublisherMonitorFolderModel>();
+
         public ObservableCollection<PublisherMonitorFolderModel> LstFolderPath
         {
-            get
-            {
-                return _lstFolderPath;
-            }
+            get => _lstFolderPath;
             set
             {
                 if (value == _lstFolderPath)
@@ -81,13 +79,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Methods
 
-        private bool DeleteCanExecute(object sender) => true;
+        private bool DeleteCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void DeleteExecute(object sender)
         {
             try
             {
-                var itemTodelete = ((FrameworkElement)sender).DataContext as PublisherMonitorFolderModel;
+                var itemTodelete = ((FrameworkElement) sender).DataContext as PublisherMonitorFolderModel;
                 LstFolderPath.Remove(LstFolderPath.FirstOrDefault(x => x.FolderPath == itemTodelete.FolderPath));
             }
             catch (Exception ex)
@@ -96,13 +97,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private bool EditCanExecute(object sender) => true;
+        private bool EditCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void EditExecute(object sender)
         {
             try
             {
-                var itemToEdit = ((FrameworkElement)sender).DataContext as PublisherMonitorFolderModel;
+                var itemToEdit = ((FrameworkElement) sender).DataContext as PublisherMonitorFolderModel;
                 itemToEdit.ButtonContent = "LangKeyUpdateFolderPath".FromResourceDictionary();
                 PublisherMonitorFolderModel = itemToEdit;
                 PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl).PostContentControl.SetMedia();
@@ -113,20 +117,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private bool SaveCanExecute(object sender) => true;
+        private bool SaveCanExecute(object sender)
+        {
+            return true;
+        }
+
         private void SaveExecute(object sender)
         {
             if (!string.IsNullOrEmpty(PublisherMonitorFolderModel.FolderPath))
-            {
                 try
                 {
                     if (PublisherMonitorFolderModel.ButtonContent == "LangKeySaveFolderPath".FromResourceDictionary())
                     {
-                        if (LstFolderPath.All(x => string.Compare(x.FolderPath, PublisherMonitorFolderModel.FolderPath, StringComparison.CurrentCultureIgnoreCase) != 0))
+                        if (LstFolderPath.All(x => string.Compare(x.FolderPath, PublisherMonitorFolderModel.FolderPath,
+                                                       StringComparison.CurrentCultureIgnoreCase) != 0))
                         {
                             PublisherMonitorFolderModel.PostDetailsModel.PostDetailsId = Utilities.GetGuid();
                             PublisherMonitorFolderModel.PostDetailsModel.CreatedDateTime = DateTime.Now;
-                            LstFolderPath.Add(new PublisherMonitorFolderModel()
+                            LstFolderPath.Add(new PublisherMonitorFolderModel
                             {
                                 FolderPath = PublisherMonitorFolderModel.FolderPath.Trim(),
                                 FolderTemplate = PublisherMonitorFolderModel.FolderTemplate,
@@ -136,21 +144,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                     else
                     {
-                        var itemToUpdate = LstFolderPath.FirstOrDefault(x => x.FolderPath == PublisherMonitorFolderModel.FolderPath);
+                        var itemToUpdate =
+                            LstFolderPath.FirstOrDefault(x => x.FolderPath == PublisherMonitorFolderModel.FolderPath);
                         if (itemToUpdate == null)
-                        {
-                            LstFolderPath.Add(new PublisherMonitorFolderModel()
+                            LstFolderPath.Add(new PublisherMonitorFolderModel
                             {
                                 FolderPath = PublisherMonitorFolderModel.FolderPath.Trim(),
                                 FolderTemplate = PublisherMonitorFolderModel.FolderTemplate,
                                 PostDetailsModel = PublisherMonitorFolderModel.PostDetailsModel
                             });
-
-                        }
                         else
                             // ReSharper disable once RedundantAssignment
                             itemToUpdate = PublisherMonitorFolderModel;
                     }
+
                     PublisherMonitorFolderModel = new PublisherMonitorFolderModel();
                     PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl).PostContentControl.SetMedia();
                 }
@@ -158,14 +165,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     ex.DebugLog();
                 }
-            }
             else
-            {
                 GlobusLogHelper.log.Info("LangKeyPleaseEnterFolderPath".FromResourceDictionary);
-            }
         }
 
-        private bool ClearCanExecute(object sender) => true;
+        private bool ClearCanExecute(object sender)
+        {
+            return true;
+        }
+
         private void ClearExecute(object sender)
         {
             try
@@ -180,7 +188,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
 
-        private bool BrowseFolderCanExecute(object arg) => true;
+        private bool BrowseFolderCanExecute(object arg)
+        {
+            return true;
+        }
 
         private void BrowseFolderExecute(object obj)
         {
@@ -191,7 +202,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 string.Compare(x.FolderPath, folderPath, StringComparison.CurrentCultureIgnoreCase) == 0))
                 PublisherMonitorFolderModel.FolderPath = folderPath.Trim();
             else
-                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyFolderPathAlreadyExist".FromResourceDictionary());
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(),
+                    "LangKeyFolderPathAlreadyExist".FromResourceDictionary());
         }
 
         #endregion

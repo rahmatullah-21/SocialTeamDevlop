@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Settings
 {
@@ -11,24 +15,20 @@ namespace DominatorHouseCore.Settings
         [ProtoMember(1)]
         public bool AddInteractedBlacklist
         {
-            get
-            {
-                return _addInteractedBlacklist;
-            }
+            get => _addInteractedBlacklist;
             set
             {
-                if (value == _addInteractedBlacklist) return; SetProperty(ref _addInteractedBlacklist, value);
+                if (value == _addInteractedBlacklist) return;
+                SetProperty(ref _addInteractedBlacklist, value);
             }
         }
+
         private bool _pilterBlacklist;
 
         [ProtoMember(2)]
         public bool FilterBlacklist
         {
-            get
-            {
-                return _pilterBlacklist;
-            }
+            get => _pilterBlacklist;
             set
             {
                 if (value == _pilterBlacklist)
@@ -36,7 +36,5 @@ namespace DominatorHouseCore.Settings
                 SetProperty(ref _pilterBlacklist, value);
             }
         }
-
     }
-
 }

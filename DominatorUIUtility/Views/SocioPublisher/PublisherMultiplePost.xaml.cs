@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherMultiplePost.xaml
+    ///     Interaction logic for PublisherMultiplePost.xaml
     /// </summary>
-
     public partial class PublisherMultiplePost : UserControl, INotifyPropertyChanged, IDisposable
     {
+        private static PublisherMultiplePost _instance;
+
+        private PublisherMultiplePostViewModel _publisherMultiplePostViewModel;
+
         public PublisherMultiplePost()
         {
             InitializeComponent();
@@ -30,30 +28,15 @@ namespace DominatorUIUtility.Views.SocioPublisher
             _instance = this;
         }
 
-        private static PublisherMultiplePost _instance;
-
-        public static PublisherMultiplePost GetMultiplePost(ObservableCollection<PostDetailsModel> postDetails)
-        {
-            return _instance = _instance ?? (_instance = new PublisherMultiplePost(postDetails));
-        }
         public PublisherMultiplePost(ObservableCollection<PostDetailsModel> postDetails) : this()
         {
             PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels = postDetails;
-        }
-        public ObservableCollection<PostDetailsModel> GetFinalPostDetails()
-        {
-            return PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels;
+                .PublisherCreateCampaignModel.LstPostDetailsModels = postDetails;
         }
 
-        private PublisherMultiplePostViewModel _publisherMultiplePostViewModel;
         public PublisherMultiplePostViewModel PublisherMultiplePostViewModel
         {
-            get
-            {
-                return _publisherMultiplePostViewModel;
-            }
+            get => _publisherMultiplePostViewModel;
             set
             {
                 if (_publisherMultiplePostViewModel == value)
@@ -63,7 +46,23 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
         }
 
+        public void Dispose()
+        {
+            _instance = null;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public static PublisherMultiplePost GetMultiplePost(ObservableCollection<PostDetailsModel> postDetails)
+        {
+            return _instance = _instance ?? (_instance = new PublisherMultiplePost(postDetails));
+        }
+
+        public ObservableCollection<PostDetailsModel> GetFinalPostDetails()
+        {
+            return PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.LstPostDetailsModels;
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -79,24 +78,18 @@ namespace DominatorUIUtility.Views.SocioPublisher
             //PublisherMultiplePostViewModel.LstPostDetailsModel = lstPostDetails;
 
             if (!Application.Current.Dispatcher.CheckAccess())
-            {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-
                     PublisherMultiplePostViewModel.PostListsCollectionView =
-                        CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels);
+                        CollectionViewSource.GetDefaultView(PublisherCreateCampaigns
+                            .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                            .PublisherCreateCampaignModel.LstPostDetailsModels);
                 });
-            }
             else
                 PublisherMultiplePostViewModel.PostListsCollectionView =
-                    CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels);
-
-        }
-        public void Dispose()
-        {
-            _instance = null;
+                    CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                        .PublisherCreateCampaignViewModel
+                        .PublisherCreateCampaignModel.LstPostDetailsModels);
         }
     }
 }

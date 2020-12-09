@@ -1,23 +1,24 @@
 ﻿using AutoMapper;
 using CommonServiceLocator;
 using DominatorHouse.AutoMapping;
+using DominatorHouse.Utilities.Facebook;
 using DominatorHouseCore;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
+using DominatorUIUtility.Module;
+using DominatorUIUtility.ViewModel.Startup;
+using Microsoft.Practices.Unity.Configuration;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
 using System;
-using System.Threading;
 using System.Windows;
-using Microsoft.Practices.Unity.Configuration;
 using Unity;
 using Unity.Interception;
 using MessageBox = System.Windows.MessageBox;
-using DominatorUIUtility.Module;
-using DominatorUIUtility.ViewModel.Startup;
-using DominatorHouse.Utilities.Facebook;
-using DominatorHouseCore.Utility;
 
+// ReSharper disable once CheckNamespace
+// ReSharper disable once IdentifierTypo
 namespace Socinator
 {
     /// <summary>
@@ -25,13 +26,7 @@ namespace Socinator
     /// </summary>
     public partial class App
     {
-        //protected override void OnStartup(StartupEventArgs e)
-        //{
-        //    //base.OnStartup(e);
-        //    var boostrapper = new Bootstrapper();
-        //    boostrapper.Run();
-        //}
-        public void CheckAllforExpand(object sender, RoutedEventArgs e)
+        public void CheckAllForExpand(object sender, RoutedEventArgs e)
         {
             HeaderHelper.UpdateCollapse?.Invoke(sender);
             HeaderHelper.UpdateToggleButtonInCampaignMode?.Invoke();
@@ -64,7 +59,7 @@ namespace Socinator
             container.AddNewExtension<Interception>();
             container.AddNewExtension<CoreUnityExtension>();
             container.LoadConfiguration();
-            StartupBaseViewModel.GetFaceBookActivity = (activityType) => new FacebookActivity().GetActivity(activityType);
+            StartupBaseViewModel.GetFaceBookActivity = activityType => new FacebookActivity().GetActivity(activityType);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

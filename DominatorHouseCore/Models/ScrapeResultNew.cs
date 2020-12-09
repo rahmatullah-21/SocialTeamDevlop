@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Interfaces;
+﻿#region
+
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -11,7 +15,6 @@ namespace DominatorHouseCore.Models
         public ActivityType ActivityType { get; set; }
         public QueryInfo QueryInfo { get; set; }
         public bool IsAccountLocked { get; set; }
-        public ICommunity ResultCommunity { get; set; }
         public IJob ResultJob { get; set; }
         public ICompany ResultCompany { get; set; }
 

@@ -1,25 +1,29 @@
-﻿using DominatorHouseCore.FileManagers;
+﻿using System.Windows;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Config;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
-using System.Windows;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
 {
     public class UrlShortnerServicesViewModel : BaseTabViewModel, IThridPartyServicesViewModel
     {
         private readonly IGenericFileManager _genericFileManager;
-        public UrlShortnerServicesModel UrlShortnerServicesModel { get; }
-        public DelegateCommand SaveCmd { get; private set; }
 
-        public UrlShortnerServicesViewModel(IGenericFileManager genericFileManager) : base("LangKeyUrlShortnerServices", "UrlShortnerServicesControlTemplate")
+        public UrlShortnerServicesViewModel(IGenericFileManager genericFileManager) : base("LangKeyUrlShortnerServices",
+            "UrlShortnerServicesControlTemplate")
         {
             _genericFileManager = genericFileManager;
-            UrlShortnerServicesModel = _genericFileManager.GetModel<UrlShortnerServicesModel>(ConstantVariable.GetURLShortnerServicesFile()) ?? new UrlShortnerServicesModel();
+            UrlShortnerServicesModel =
+                _genericFileManager.GetModel<UrlShortnerServicesModel>(ConstantVariable.GetURLShortnerServicesFile()) ??
+                new UrlShortnerServicesModel();
             SaveCmd = new DelegateCommand(Save);
         }
+
+        public UrlShortnerServicesModel UrlShortnerServicesModel { get; }
+        public DelegateCommand SaveCmd { get; }
 
         private void Save()
         {
@@ -28,7 +32,8 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
                 ConstantVariable.BitlyLogin = UrlShortnerServicesModel.Login;
                 ConstantVariable.BitlyApiKey = UrlShortnerServicesModel.ApiKey;
 
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeySuccess".FromResourceDictionary(),
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                    "LangKeySuccess".FromResourceDictionary(),
                     "LangKeyUrlShortnerSaved".FromResourceDictionary());
             }
         }

@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Interfaces.StartUp;
+﻿#region
+
+using DominatorHouseCore.Interfaces.StartUp;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Quora
 {
@@ -23,6 +27,5 @@ namespace DominatorHouseCore.StartupActivity.Quora
                     return new QuoraAnswerActivity();
             }
         }
-
     }
 }

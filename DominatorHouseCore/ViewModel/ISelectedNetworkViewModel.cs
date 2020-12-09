@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.ViewModel.Common;
+﻿#region
+
 using System.Collections.Generic;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.ViewModel.Common;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {

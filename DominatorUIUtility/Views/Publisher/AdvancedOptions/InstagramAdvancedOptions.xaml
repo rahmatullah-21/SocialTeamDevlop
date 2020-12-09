@@ -1,46 +1,60 @@
 ﻿<UserControl x:Class="DominatorUIUtility.Views.Publisher.AdvancedOptions.InstagramAdvancedOptions"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
-              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore" >
+             mc:Ignorable="d"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid Margin="15" x:Name="MainGrid">
         <StackPanel Margin="5">
-            <CheckBox Content="{DynamicResource LangKeyPostAsAPartOfYourStoryInsteadOfOnTheWall}" IsChecked="{Binding IsPostAsPartOfStoryChecked}" VerticalAlignment="Center"/>
+            <CheckBox Content="{DynamicResource LangKeyPostAsAPartOfYourStoryInsteadOfOnTheWall}"
+                      IsChecked="{Binding IsPostAsPartOfStoryChecked}" VerticalAlignment="Center" />
             <StackPanel Orientation="Horizontal" Margin="0,5">
-                <CheckBox Content="{DynamicResource LangKeyDeletePostAfter}" IsChecked="{Binding IsDeletePostAfterChecked}" VerticalAlignment="Center"/>
-                <controls:NumericUpDown Minimum="0" Margin="10,0" IsEnabled="{Binding IsDeletePostAfterChecked}" VerticalAlignment="Center"/>
-                <TextBlock Text="{DynamicResource LangKeyHours}" Margin="0,0,15,0" VerticalAlignment="Center"/>
-                <CheckBox Content="{DynamicResource LangKeyArchivePostInsteadOfDeletingItOnlyForIGPosts}" VerticalAlignment="Center"/>
+                <CheckBox Content="{DynamicResource LangKeyDeletePostAfter}"
+                          IsChecked="{Binding IsDeletePostAfterChecked}" VerticalAlignment="Center" />
+                <controls:NumericUpDown Minimum="0" Margin="10,0" IsEnabled="{Binding IsDeletePostAfterChecked}"
+                                        VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource LangKeyHours}" Margin="0,0,15,0" VerticalAlignment="Center" />
+                <CheckBox Content="{DynamicResource LangKeyArchivePostInsteadOfDeletingItOnlyForIGPosts}"
+                          VerticalAlignment="Center" />
             </StackPanel>
-            <CheckBox Content="{DynamicResource LangKeyRepostUsingGeoLocation﻿}" IsChecked="{Binding IsRepostusingGeoLocationChecked}" VerticalAlignment="Center"/>
-            <StackPanel Orientation="Horizontal" Margin="20,5" Visibility="{Binding IsRepostusingGeoLocationChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock Text="{DynamicResource langSelectLocation}" VerticalAlignment="Center"/>
-                <ComboBox x:Name="cmbLocation" Width="200" Margin="10,0" VerticalAlignment="Center"/>
+            <CheckBox Content="{DynamicResource LangKeyRepostUsingGeoLocation﻿}"
+                      IsChecked="{Binding IsRepostusingGeoLocationChecked}" VerticalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" Margin="20,5"
+                        Visibility="{Binding IsRepostusingGeoLocationChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="{DynamicResource langSelectLocation}" VerticalAlignment="Center" />
+                <ComboBox x:Name="cmbLocation" Width="200" Margin="10,0" VerticalAlignment="Center" />
             </StackPanel>
             <ListView ItemsSource="{Binding LocationDetailsCollection}" Margin="0,10">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="#" DisplayMemberBinding="{Binding LocationId}"/>
-                        <GridViewColumn Header="{DynamicResource LangKeyLocationName}" DisplayMemberBinding="{Binding LocationName}"/>
-                        <GridViewColumn Header="{DynamicResource LangKeyLocationAddress}" DisplayMemberBinding="{Binding LocationAddress}"/>
+                        <GridViewColumn Header="#" DisplayMemberBinding="{Binding LocationId}" />
+                        <GridViewColumn Header="{DynamicResource LangKeyLocationName}"
+                                        DisplayMemberBinding="{Binding LocationName}" />
+                        <GridViewColumn Header="{DynamicResource LangKeyLocationAddress}"
+                                        DisplayMemberBinding="{Binding LocationAddress}" />
                         <GridViewColumn Header="{DynamicResource LangKeyAction}" />
                     </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel Orientation="Horizontal" Margin="5">
-                <Button Content="{DynamicResource LangKeyCopyAll}" x:Name="btnCopyAll" FontWeight="Bold" Margin="10,5" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}"/>
-                <Button Content="{DynamicResource LangKeyExport}" x:Name="btnExport"  FontWeight="Bold" Margin="10,5" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}"/>
-                <Button Content="{DynamicResource LangKeyImport}" x:Name="btnImport" FontWeight="Bold" Margin="10,5" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}"/>
-                <Button Content="{DynamicResource LangKeyClear}" x:Name="btnClear" FontWeight="Bold" Margin="10,5" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}"/>
+                <Button Content="{DynamicResource LangKeyCopyAll}" x:Name="btnCopyAll" FontWeight="Bold" Margin="10,5"
+                        Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}" />
+                <Button Content="{DynamicResource LangKeyExport}" x:Name="btnExport" FontWeight="Bold" Margin="10,5"
+                        Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}" />
+                <Button Content="{DynamicResource LangKeyImport}" x:Name="btnImport" FontWeight="Bold" Margin="10,5"
+                        Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}" />
+                <Button Content="{DynamicResource LangKeyClear}" x:Name="btnClear" FontWeight="Bold" Margin="10,5"
+                        Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}" />
             </StackPanel>
-            <CheckBox Content="{DynamicResource LangKeyTagSpecificUsersInYourPost}" IsChecked="{Binding IsTagSpecificUsersChecked}" VerticalAlignment="Center" Margin="0,5"/>
-            <CheckBox Content="{DynamicResource LangKeyChooseVideoCover}" IsChecked="{Binding IsChooseVideoCoverChecked}" VerticalAlignment="Center" Margin="0,5"/>
+            <CheckBox Content="{DynamicResource LangKeyTagSpecificUsersInYourPost}"
+                      IsChecked="{Binding IsTagSpecificUsersChecked}" VerticalAlignment="Center" Margin="0,5" />
+            <CheckBox Content="{DynamicResource LangKeyChooseVideoCover}"
+                      IsChecked="{Binding IsChooseVideoCoverChecked}" VerticalAlignment="Center" Margin="0,5" />
         </StackPanel>
     </Grid>
 </UserControl>

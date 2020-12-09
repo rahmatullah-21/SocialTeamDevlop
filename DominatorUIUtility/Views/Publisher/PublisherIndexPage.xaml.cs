@@ -4,10 +4,12 @@ using DominatorHouseCore.Utility;
 namespace DominatorUIUtility.Views.Publisher
 {
     /// <summary>
-    /// Interaction logic for PublisherIndexPage.xaml
+    ///     Interaction logic for PublisherIndexPage.xaml
     /// </summary>
     public partial class PublisherIndexPage : UserControl
     {
+        private static PublisherIndexPage _indexPage;
+
         private PublisherIndexPage()
         {
             InitializeComponent();
@@ -15,13 +17,10 @@ namespace DominatorUIUtility.Views.Publisher
             PublisherIndex.DataContext = PublisherIndexPageViewModel;
         }
 
-        private static PublisherIndexPage _indexPage;
-
         public static PublisherIndexPage Instance { get; set; }
             = _indexPage ?? (_indexPage = new PublisherIndexPage());
 
         public PublisherIndexPageViewModel PublisherIndexPageViewModel { get; set; }
-
     }
 
     public class PublisherIndexPageViewModel : BindableBase
@@ -30,10 +29,7 @@ namespace DominatorUIUtility.Views.Publisher
 
         public UserControl SelectedUserControl
         {
-            get
-            {
-                return _selectedUserControl;
-            }
+            get => _selectedUserControl;
             set
             {
                 if (_selectedUserControl != null && Equals(_selectedUserControl, value))
@@ -43,5 +39,4 @@ namespace DominatorUIUtility.Views.Publisher
             }
         }
     }
-
 }

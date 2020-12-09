@@ -1,8 +1,12 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -57,8 +61,10 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                var file = $"{ConstantVariable.GetPlatformTodayBackupDirectory()}\\AccountDetails_{DateTime.Now.ToString("yy-MM-dd")}.bin";
-                var oldfile = $"{ConstantVariable.GetPlatformTodayBackupDirectory()}\\AccountDetails_{DateTime.Now.AddDays(-2).ToString("yy-MM-dd")}.bin";
+                var file =
+                    $"{ConstantVariable.GetPlatformTodayBackupDirectory()}\\AccountDetails_{DateTime.Now:yy-MM-dd}.bin";
+                var oldfile =
+                    $"{ConstantVariable.GetPlatformTodayBackupDirectory()}\\AccountDetails_{DateTime.Now.AddDays(-2):yy-MM-dd}.bin";
                 if (File.Exists(oldfile))
                     File.Delete(oldfile);
                 File.Copy(ConstantVariable.GetIndexAccountFile(), file, true);
@@ -68,6 +74,7 @@ namespace DominatorHouseCore.Utility
                 ex.DebugLog();
             }
         }
+
         public static void DeleteOldBackupFile()
         {
             try
@@ -159,7 +166,7 @@ namespace DominatorHouseCore.Utility
             {
                 return File.Exists(fileName);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

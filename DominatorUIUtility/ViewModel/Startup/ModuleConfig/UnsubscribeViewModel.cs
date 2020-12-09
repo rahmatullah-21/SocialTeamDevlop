@@ -1,20 +1,21 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using CommonServiceLocator;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig;
 using Prism.Commands;
 using Prism.Regions;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using CommonServiceLocator;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IUnsubscribeViewModel : IYoutubeModel, IRedditModel
     {
         #region Youtube Model
+
         bool UniqueSubscribe { get; set; }
         bool IsChkSkipBlackListedUser { get; set; }
         bool IsChkPrivateBlackList { get; set; }
@@ -25,9 +26,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         string CustomChannelsList { get; set; }
         List<string> ListCustomChannels { get; set; }
         List<string> ListOfChannels { get; set; }
+
         #endregion
 
         #region Reddit Model
+
         bool IsChkCommunitySubscribedBySoftwareChecked { get; set; }
         bool IsChkCommunitySubscribedOutsideSoftwareChecked { get; set; }
         bool IsChkCustomCommunityListChecked { get; set; }
@@ -35,6 +38,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         int SubscribedBeforeDay { get; set; }
         int SubscribedBeforeHour { get; set; }
         bool IsCommunitySubscribedBeforeChecked { get; set; }
+
         #endregion
     }
 
@@ -42,7 +46,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public UnsubscribeViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.UnSubscribe });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.UnSubscribe});
             IsNonQuery = true;
             NextCommand = new DelegateCommand(ValidateAndNevigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -61,40 +65,47 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
         }
 
+        public Visibility YoutubeElementsVisibility { get; set; } = Visibility.Collapsed;
+
+        public Visibility RedditElementsVisibility { get; set; } = Visibility.Collapsed;
+
         private void ValidateAndNevigate()
         {
-            var network = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount.AccountBaseModel.AccountNetwork;
+            var network = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount.AccountBaseModel
+                .AccountNetwork;
             if (network == SocialNetworks.Youtube)
             {
                 if (ValidateYoutube())
                     NavigateNext();
             }
             else if (ValidateReddit())
+            {
                 NavigateNext();
+            }
         }
 
-        public Visibility YoutubeElementsVisibility { get; set; } = Visibility.Collapsed;
-
-        public Visibility RedditElementsVisibility { get; set; } = Visibility.Collapsed;
-        bool ValidateYoutube()
+        private bool ValidateYoutube()
         {
-            if ((!IsChkChannelSubscribedBySoftwareChecked && !IsChkChannelSubscribedOutsideSoftwareChecked)
-                && (!IsChkCustomChannelsListChecked))
+            if (!IsChkChannelSubscribedBySoftwareChecked && !IsChkChannelSubscribedOutsideSoftwareChecked
+                                                         && !IsChkCustomChannelsListChecked)
             {
                 Dialog.ShowDialog("Error", "Please select atleast one unsubscribe source");
                 return false;
             }
+
             if (IsChkCustomChannelsListChecked && string.IsNullOrEmpty(CustomChannelsList))
             {
                 Dialog.ShowDialog("Error", "Custom user list is empty");
                 return false;
             }
+
             return true;
         }
-        bool ValidateReddit()
+
+        private bool ValidateReddit()
         {
             if (!IsChkCommunitySubscribedBySoftwareChecked && !IsChkCommunitySubscribedOutsideSoftwareChecked
-                && !IsChkCustomCommunityListChecked)
+                                                           && !IsChkCustomCommunityListChecked)
             {
                 Dialog.ShowDialog("Input Error", "Please check atleast one UnSubscribe source option...");
                 return false;
@@ -105,17 +116,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Dialog.ShowDialog("Error", "Custom community list is empty");
                 return false;
             }
+
             return true;
         }
+
         #region Youtube Model
+
         private bool _uniqueSubscribe;
 
         public bool UniqueSubscribe
         {
-            get
-            {
-                return _uniqueSubscribe;
-            }
+            get => _uniqueSubscribe;
             set
             {
                 if (value == _uniqueSubscribe)
@@ -128,16 +139,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public bool IsChkSkipBlackListedUser
         {
-            get
-            {
-                return _isChkSkipBlackListedUser;
-            }
+            get => _isChkSkipBlackListedUser;
             set
             {
-                if (_isChkSkipBlackListedUser == value)
-                {
-                    return;
-                }
+                if (_isChkSkipBlackListedUser == value) return;
                 SetProperty(ref _isChkSkipBlackListedUser, value);
             }
         }
@@ -146,16 +151,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public bool IsChkPrivateBlackList
         {
-            get
-            {
-                return _isChkPrivateBlackList;
-            }
+            get => _isChkPrivateBlackList;
             set
             {
-                if (_isChkPrivateBlackList == value)
-                {
-                    return;
-                }
+                if (_isChkPrivateBlackList == value) return;
                 SetProperty(ref _isChkPrivateBlackList, value);
             }
         }
@@ -164,16 +163,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public bool IsChkGroupBlackList
         {
-            get
-            {
-                return _isChkGroupBlackList;
-            }
+            get => _isChkGroupBlackList;
             set
             {
-                if (_isChkGroupBlackList == value)
-                {
-                    return;
-                }
+                if (_isChkGroupBlackList == value) return;
                 SetProperty(ref _isChkGroupBlackList, value);
             }
         }
@@ -182,35 +175,22 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public bool IsChkChannelSubscribedBySoftwareChecked
         {
-            get
-            {
-                return _isChkChannelSubscribedBySoftwareChecked;
-            }
+            get => _isChkChannelSubscribedBySoftwareChecked;
             set
             {
-                if (value == _isChkChannelSubscribedBySoftwareChecked)
-                {
-                    return;
-                }
+                if (value == _isChkChannelSubscribedBySoftwareChecked) return;
                 SetProperty(ref _isChkChannelSubscribedBySoftwareChecked, value);
             }
-
         }
 
         private bool _isChkChannelSubscribedOutsideSoftwareChecked;
 
         public bool IsChkChannelSubscribedOutsideSoftwareChecked
         {
-            get
-            {
-                return _isChkChannelSubscribedOutsideSoftwareChecked;
-            }
+            get => _isChkChannelSubscribedOutsideSoftwareChecked;
             set
             {
-                if (value == _isChkChannelSubscribedOutsideSoftwareChecked)
-                {
-                    return;
-                }
+                if (value == _isChkChannelSubscribedOutsideSoftwareChecked) return;
                 SetProperty(ref _isChkChannelSubscribedOutsideSoftwareChecked, value);
             }
         }
@@ -219,16 +199,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public bool IsChkCustomChannelsListChecked
         {
-            get
-            {
-                return _isChkCustomChannelsListChecked;
-            }
+            get => _isChkCustomChannelsListChecked;
             set
             {
-                if (_isChkCustomChannelsListChecked == value)
-                {
-                    return;
-                }
+                if (_isChkCustomChannelsListChecked == value) return;
                 SetProperty(ref _isChkCustomChannelsListChecked, value);
             }
         }
@@ -238,10 +212,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public string CustomChannelsList
         {
-            get
-            {
-                return _customChannelsList;
-            }
+            get => _customChannelsList;
             set
             {
                 if (value == _customChannelsList)
@@ -254,10 +225,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public List<string> ListCustomChannels
         {
-            get
-            {
-                return _listOfCustomChannels;
-            }
+            get => _listOfCustomChannels;
             set
             {
                 if (value == _listOfCustomChannels)
@@ -271,19 +239,14 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public List<string> ListOfChannels
         {
-            get
-            {
-                return _listOfChannels;
-            }
+            get => _listOfChannels;
             set
             {
-                if (_listOfChannels == value)
-                {
-                    return;
-                }
+                if (_listOfChannels == value) return;
                 SetProperty(ref _listOfChannels, value);
             }
         }
+
         #endregion
 
         #region Reddit Model
@@ -292,98 +255,56 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public bool IsChkCommunitySubscribedBySoftwareChecked
         {
-            get
-            {
-                return _isChkCommunitySubscribedBySoftwareChecked;
-            }
-            set
-            {
-                SetProperty(ref _isChkCommunitySubscribedBySoftwareChecked, value);
-            }
+            get => _isChkCommunitySubscribedBySoftwareChecked;
+            set => SetProperty(ref _isChkCommunitySubscribedBySoftwareChecked, value);
         }
 
         private bool _isChkCommunitySubscribedOutsideSoftwareChecked;
 
         public bool IsChkCommunitySubscribedOutsideSoftwareChecked
         {
-            get
-            {
-                return _isChkCommunitySubscribedOutsideSoftwareChecked;
-            }
-            set
-            {
-                SetProperty(ref _isChkCommunitySubscribedOutsideSoftwareChecked, value);
-            }
+            get => _isChkCommunitySubscribedOutsideSoftwareChecked;
+            set => SetProperty(ref _isChkCommunitySubscribedOutsideSoftwareChecked, value);
         }
 
         private bool _isChkCustomCommunityListChecked;
 
         public bool IsChkCustomCommunityListChecked
         {
-            get
-            {
-                return _isChkCustomCommunityListChecked;
-            }
-            set
-            {
-                SetProperty(ref _isChkCustomCommunityListChecked, value);
-            }
+            get => _isChkCustomCommunityListChecked;
+            set => SetProperty(ref _isChkCustomCommunityListChecked, value);
         }
 
         private string _customCommunityList;
 
         public string CustomCommunityList
         {
-            get
-            {
-                return _customCommunityList;
-            }
-            set
-            {
-                SetProperty(ref _customCommunityList, value);
-            }
+            get => _customCommunityList;
+            set => SetProperty(ref _customCommunityList, value);
         }
 
         private int _subscribedBeforeDay;
 
         public int SubscribedBeforeDay
         {
-            get
-            {
-                return _subscribedBeforeDay;
-            }
-            set
-            {
-                SetProperty(ref _subscribedBeforeDay, value);
-            }
+            get => _subscribedBeforeDay;
+            set => SetProperty(ref _subscribedBeforeDay, value);
         }
 
         private int _subscribedBeforeHour;
 
         public int SubscribedBeforeHour
         {
-            get
-            {
-                return _subscribedBeforeHour;
-            }
-            set
-            {
-                SetProperty(ref _subscribedBeforeHour, value);
-            }
+            get => _subscribedBeforeHour;
+            set => SetProperty(ref _subscribedBeforeHour, value);
         }
 
         private bool _isCommunitySubscribedBeforeChecked;
 
         public bool IsCommunitySubscribedBeforeChecked
         {
-            get
-            {
-                return _isCommunitySubscribedBeforeChecked;
-            }
-            set
-            {
-                SetProperty(ref _isCommunitySubscribedBeforeChecked, value);
-            }
+            get => _isCommunitySubscribedBeforeChecked;
+            set => SetProperty(ref _isCommunitySubscribedBeforeChecked, value);
         }
 
         #endregion

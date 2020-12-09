@@ -1,20 +1,19 @@
-﻿using DominatorHouseCore.Utility;
-using MahApps.Metro.Controls.Dialogs;
-using System.Windows;
+﻿using System.Windows;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for SingleAccountControl.xaml
+    ///     Interaction logic for SingleAccountControl.xaml
     /// </summary>
-    public partial class SingleAccountControl : CustomDialog
+    public partial class SingleAccountControl
     {
         public SingleAccountControl()
         {
             InitializeComponent();
-
         }
+
         public SingleAccountControl(SingleAccountModel objSingleAccountModelBinding) : this()
         {
             DataContext = objSingleAccountModelBinding;
@@ -23,14 +22,26 @@ namespace DominatorUIUtility.CustomControl
 
     public class SingleAccountModel : BindableBase
     {
+        private Proxy _accountProxy = new Proxy();
+
+        private Visibility? _advancedOptions = Visibility.Collapsed;
+
+
+        private string _btnContent;
+
+        private string _groupName;
         private string _pageTitle;
+
+        private string _password;
+
+        private bool? _showAdvancedSettings = false;
+
+
+        private string _userName;
 
         public string PageTitle
         {
-            get
-            {
-                return _pageTitle;
-            }
+            get => _pageTitle;
             set
             {
                 if (_pageTitle != null && value == _pageTitle)
@@ -39,14 +50,9 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        private string _groupName;
-
         public string GroupName
         {
-            get
-            {
-                return _groupName;
-            }
+            get => _groupName;
             set
             {
                 if (_groupName != null && value == _groupName)
@@ -55,15 +61,9 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-
-        private string _userName;
-
         public string UserName
         {
-            get
-            {
-                return _userName;
-            }
+            get => _userName;
             set
             {
                 if (_userName != null && value == _userName)
@@ -72,15 +72,9 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-
-        private Proxy _accountProxy = new Proxy();
-
         public Proxy AccountProxy
         {
-            get
-            {
-                return _accountProxy;
-            }
+            get => _accountProxy;
             set
             {
                 if (_accountProxy != null && value == _accountProxy)
@@ -89,48 +83,31 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        private string _password;
-
         public string Password
         {
-            get
-            {
-                return _password;
-            }
+            get => _password;
             set
             {
-
                 if (_password != null && value == _password)
                     return;
                 SetProperty(ref _password, value);
             }
         }
 
-        private Visibility? _advancedOptions = Visibility.Collapsed;
-
         public Visibility? AdvancedOptions
         {
-            get
-            {
-                return _advancedOptions;
-            }
+            get => _advancedOptions;
             set
             {
                 if (_advancedOptions != null && value == _advancedOptions)
                     return;
                 SetProperty(ref _advancedOptions, value);
-
             }
         }
 
-        private bool? _showAdvancedSettings = false;
-
         public bool? ShowAdvancedSettings
         {
-            get
-            {
-                return _showAdvancedSettings;
-            }
+            get => _showAdvancedSettings;
             set
             {
                 if (_showAdvancedSettings != null && value == _showAdvancedSettings)
@@ -145,17 +122,9 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-
-
-        private string _btnContent;
-
         public string BtnContent
         {
-            get
-            {
-
-                return _btnContent;
-            }
+            get => _btnContent;
             set
             {
                 if (_btnContent != null && value == _btnContent)
@@ -163,9 +132,5 @@ namespace DominatorUIUtility.CustomControl
                 SetProperty(ref _btnContent, value);
             }
         }
-
     }
-
-
-
 }

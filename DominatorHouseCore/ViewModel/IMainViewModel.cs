@@ -1,8 +1,12 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {

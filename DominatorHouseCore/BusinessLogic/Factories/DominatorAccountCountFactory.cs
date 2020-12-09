@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Interfaces;
+﻿#region
+
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.BusinessLogic.Factories
 {
@@ -10,7 +14,9 @@ namespace DominatorHouseCore.BusinessLogic.Factories
         public static DominatorAccountCountFactory Instance
             => _instance ?? (_instance = new DominatorAccountCountFactory());
 
-        private DominatorAccountCountFactory() { }
+        private DominatorAccountCountFactory()
+        {
+        }
 
         public string HeaderColumn1Value { get; set; } = "LangKeyFriendshipCount".FromResourceDictionary();
         public bool HeaderColumn1Visiblity { get; set; } = true;

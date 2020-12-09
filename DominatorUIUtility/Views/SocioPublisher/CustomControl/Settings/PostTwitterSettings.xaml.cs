@@ -7,24 +7,26 @@ using DominatorHouseCore.Models.SocioPublisher.Settings;
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
     /// <summary>
-    /// Interaction logic for PostTwitterSettings.xaml
+    ///     Interaction logic for PostTwitterSettings.xaml
     /// </summary>
-    public partial class PostTwitterSettings : UserControl,INotifyPropertyChanged
+    public partial class PostTwitterSettings : UserControl, INotifyPropertyChanged
     {
+        private PublisherPostSettings _publisherPostSettings;
+
         public PostTwitterSettings()
         {
             InitializeComponent();
         }
 
-
-        private PublisherPostSettings _publisherPostSettings;
+        public PostTwitterSettings(PublisherPostSettings publisherPostSettings) : this()
+        {
+            PublisherPostSettings = publisherPostSettings;
+            MainGrid.DataContext = PublisherPostSettings.TdPostSettings;
+        }
 
         public PublisherPostSettings PublisherPostSettings
         {
-            get
-            {
-                return _publisherPostSettings;
-            }
+            get => _publisherPostSettings;
             set
             {
                 _publisherPostSettings = value;
@@ -38,11 +40,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        public PostTwitterSettings(PublisherPostSettings publisherPostSettings):this()
-        {
-            PublisherPostSettings = publisherPostSettings;
-            MainGrid.DataContext = PublisherPostSettings.TdPostSettings;
         }
     }
 }

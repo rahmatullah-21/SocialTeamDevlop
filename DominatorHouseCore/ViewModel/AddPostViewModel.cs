@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿#region
+
+using System;
 using System.Linq;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -12,25 +15,22 @@ namespace DominatorHouseCore.ViewModel
         {
             Enum.GetNames(typeof(DayOfWeek)).ToList().ForEach(day =>
             {
-                AddPostModel.JobConfigurations.Weekday.Add(new ContentSelectGroup()
+                AddPostModel.JobConfigurations.Weekday.Add(new ContentSelectGroup
                 {
                     Content = day
                 });
             });
             AddPostModel.OtherConfiguration.MakeImagesUniqueStatus.Add("Medium");
-
         }
+
         private AddPostModel _addPostModel = new AddPostModel();
 
         public AddPostModel AddPostModel
         {
-            get
-            {
-                return _addPostModel;
-            }
+            get => _addPostModel;
             set
             {
-                if (_addPostModel == null & _addPostModel == value)
+                if ((_addPostModel == null) & (_addPostModel == value))
                     return;
                 SetProperty(ref _addPostModel, value);
             }

@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
 {
@@ -13,6 +17,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string QueryType { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryValue { get; set; }
 
@@ -20,69 +25,64 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
         public string ActivityType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public int InteractionTimeStamp
-        { get; set; }
+        public int InteractionTimeStamp { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public string InteractedUsername
-        { get; set; }
+        public string InteractedUsername { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public int Date
-        { get; set; }
+        public int Date { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public string InteractedUserId
-        { get; set; }
+        public string InteractedUserId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public int UpdatedTime
-        { get; set; }
+        public int UpdatedTime { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
-        public string AccountIcon
-        { get; set; }
+        public string AccountIcon { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public int CommentKarma
-        { get; set; }
+        public int CommentKarma { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
-        public long Created
-        { get; set; }
+        public long Created { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
-        public string DisplayName
-        { get; set; }
+        public string DisplayName { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public string DisplayNamePrefixed
-        { get; set; }
+        public string DisplayNamePrefixed { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
-        public string DisplayText
-        { get; set; }
+        public string DisplayText { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
-        public bool HasUserProfile
-        { get; set; }
+        public bool HasUserProfile { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
-        public bool IsEmployee
-        { get; set; }
+        public bool IsEmployee { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
-        public bool IsFollowing
-        { get; set; }
+        public bool IsFollowing { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
-        public bool IsGold
-        { get; set; }
+        public bool IsGold { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
-        public bool IsMod
-        { get; set; }
+        public bool IsMod { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
-        public bool IsNsfw
-        { get; set; }
+        public bool IsNsfw { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
-        public bool PrefShowSnoovatar
-        { get; set; }
+        public bool PrefShowSnoovatar { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
-        public int PostKarma
-        { get; set; }
+        public int PostKarma { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
-        public string Url
-        { get; set; }
+        public string Url { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
         public DateTime InteractionDateTime { get; set; }

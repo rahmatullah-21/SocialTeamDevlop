@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
 {
@@ -22,10 +26,13 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public DateTime InteractionDateTime { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string QuestionUrl { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string InteractedUser { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public string Accountusername { get; set; }
     }
