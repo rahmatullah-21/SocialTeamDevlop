@@ -1,4 +1,9 @@
-﻿Version[1.0.0.98],[8th December 2020] 
+﻿Version[1.0.0.99],[14th December 2020] 
+Fixed:-
+ 	Social:
+		Fixed minor issues and improved performace.
+
+Version[1.0.0.98],[8th December 2020] 
 Fixed:-
  	Social:
 		Sociopublisher ==> Instagram ==> Fixed issue with Posting Caption
