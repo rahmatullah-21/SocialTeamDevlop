@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
 {
@@ -7,15 +11,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
     public class GooglePlusModel : BindableBase
     {
         #region Common
+
         private bool _isEnableAutomaticHashTags;
 
         [ProtoMember(2)]
         public bool IsEnableAutomaticHashTags
         {
-            get
-            {
-                return _isEnableAutomaticHashTags;
-            }
+            get => _isEnableAutomaticHashTags;
             set
             {
                 if (_isEnableAutomaticHashTags == value)
@@ -23,15 +25,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isEnableAutomaticHashTags, value);
             }
         }
+
         private int _maxHashtagsPerPost;
 
         [ProtoMember(3)]
         public int MaxHashtagsPerPost
         {
-            get
-            {
-                return _maxHashtagsPerPost;
-            }
+            get => _maxHashtagsPerPost;
             set
             {
                 if (_maxHashtagsPerPost == value)
@@ -39,15 +39,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _maxHashtagsPerPost, value);
             }
         }
+
         private string _hashWords;
 
         [ProtoMember(4)]
         public string HashWords
         {
-            get
-            {
-                return _hashWords;
-            }
+            get => _hashWords;
             set
             {
                 if (_hashWords == value)
@@ -55,15 +53,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _hashWords, value);
             }
         }
+
         private int _minimumWordLength;
 
         [ProtoMember(5)]
         public int MinimumWordLength
         {
-            get
-            {
-                return _minimumWordLength;
-            }
+            get => _minimumWordLength;
             set
             {
                 if (_minimumWordLength == value)
@@ -71,15 +67,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _minimumWordLength, value);
             }
         }
+
         private int _replaceProbability;
 
         [ProtoMember(6)]
         public int ReplaceProbability
         {
-            get
-            {
-                return _replaceProbability;
-            }
+            get => _replaceProbability;
             set
             {
                 if (_replaceProbability == value)
@@ -93,10 +87,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         [ProtoMember(7)]
         public bool IsAddOnePostAfterPublishingOnGooglePlus
         {
-            get
-            {
-                return _isAddOnePostAfterPublishingOnGooglePlus;
-            }
+            get => _isAddOnePostAfterPublishingOnGooglePlus;
             set
             {
                 if (_isAddOnePostAfterPublishingOnGooglePlus == value)
@@ -104,15 +95,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isAddOnePostAfterPublishingOnGooglePlus, value);
             }
         }
+
         private bool _isSkipImageUpload;
 
         [ProtoMember(8)]
         public bool IsSkipImageUpload
         {
-            get
-            {
-                return _isSkipImageUpload;
-            }
+            get => _isSkipImageUpload;
             set
             {
                 if (_isSkipImageUpload == value)
@@ -120,15 +109,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isSkipImageUpload, value);
             }
         }
+
         private bool _isDeletePostAfter;
 
         [ProtoMember(9)]
         public bool IsDeletePostAfter
         {
-            get
-            {
-                return _isDeletePostAfter;
-            }
+            get => _isDeletePostAfter;
             set
             {
                 if (_isDeletePostAfter == value)
@@ -136,15 +123,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isDeletePostAfter, value);
             }
         }
+
         private RangeUtilities _deletePostAfter = new RangeUtilities();
 
         [ProtoMember(10)]
         public RangeUtilities DeletePostAfter
         {
-            get
-            {
-                return _deletePostAfter;
-            }
+            get => _deletePostAfter;
             set
             {
                 if (_deletePostAfter == value)
@@ -154,12 +139,12 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
 
         #endregion
-        [ProtoMember(11)]
-        public string CampaignId { get; set; }
+
+        [ProtoMember(11)] public string CampaignId { get; set; }
+
         public GooglePlusModel Clone()
         {
-
-            return (GooglePlusModel)MemberwiseClone();
+            return (GooglePlusModel) MemberwiseClone();
         }
     }
 }

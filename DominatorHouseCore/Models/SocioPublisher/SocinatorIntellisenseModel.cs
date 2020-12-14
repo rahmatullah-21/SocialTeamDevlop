@@ -1,7 +1,11 @@
-﻿using System.ComponentModel;
+﻿#region
+
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -9,13 +13,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
     public class SocinatorIntellisenseModel : INotifyPropertyChanged
     {
         private string _key = string.Empty;
+
         [ProtoMember(1)]
         public string Key
         {
-            get
-            {
-                return _key;
-            }
+            get => _key;
             set
             {
                 if (_key == value)
@@ -26,13 +28,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private string _value;
+
         [ProtoMember(2)]
         public string Value
         {
-            get
-            {
-                return _value;
-            }
+            get => _value;
             set
             {
                 if (_value == value)

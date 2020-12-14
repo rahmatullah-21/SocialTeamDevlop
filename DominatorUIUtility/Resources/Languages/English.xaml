@@ -28,7 +28,10 @@
     <system:String x:Key="LangKeyEachPostWillBePublishedToAllSelectedDestinationsIncludingGroupsPagesWalls">(Each Post Will Be Published To All Selected Destinations Including Groups, Pages, Walls)</system:String>
     <system:String x:Key="LangKeySelectDesiredReactionsBelow">(Select Desired Reactions Below)</system:String>
     <system:String x:Key="LangKeySeparateWordsByAComma">(Separate Words By A Comma)</system:String>
-    <system:String x:Key="LangKeyNoActionWillBeExecutedOnAnySocialProfileDuringSelectedTimeIntervalEachAccountHasItsOwnNightModeIfBetterPrecisionIsNeededSpecifyingANightModeForAnAccountDoesNotExemptThatAccountFromGlobalNightMode">* No Action Will Be Executed On Any Social Profile During Selected Time Interval. Each Account Has Its Own Night Mode If Better Precision Is Needed.Specifying A Night Mode For An Account Does Not Exempt That Account From Global Night Mode</system:String>
+    <system:String
+        x:Key="LangKeyNoActionWillBeExecutedOnAnySocialProfileDuringSelectedTimeIntervalEachAccountHasItsOwnNightModeIfBetterPrecisionIsNeededSpecifyingANightModeForAnAccountDoesNotExemptThatAccountFromGlobalNightMode">
+        * No Action Will Be Executed On Any Social Profile During Selected Time Interval. Each Account Has Its Own Night Mode If Better Precision Is Needed.Specifying A Night Mode For An Account Does Not Exempt That Account From Global Night Mode
+    </system:String>
     <system:String x:Key="LangKeyEachDestinationWillReceiveItsOwnPostFromTheList">*Each Destination Will Receive Its Own Post From The List</system:String>
     <system:String x:Key="LangKeyEachDestinationWillUseARandomImageFromTheList">*Each Destination Will Use A Random Image From The List</system:String>
     <system:String x:Key="LangKeyPlusOneThePostAfterPublishingOnGooglePlus">+1 The Post After Publishing On Google Plus</system:String>
@@ -329,7 +332,10 @@
     <system:String x:Key="LangKeyChooseBetween">Choose Between</system:String>
     <system:String x:Key="LangKeyChooseOnlyTheFirstImageForPostsWithMultipleImages">Choose Only The First Image For Posts With Multiple Images</system:String>
     <system:String x:Key="LangKeyChooseRandomPostsFromThePostListInsteadOfTopOne">Choose Random Posts From The Post List (Instead Of Top One)</system:String>
-    <system:String x:Key="LangKeyChooseTheFirstCategoryWhenNoCategoryMatchesYourKeywordsIfUncheckedThePostWillNotBePublishedOnCommunity">Choose The First Category When No Category Matches Your Keywords.If Unchecked,The Post Will Not Be Published On Community.</system:String>
+    <system:String
+        x:Key="LangKeyChooseTheFirstCategoryWhenNoCategoryMatchesYourKeywordsIfUncheckedThePostWillNotBePublishedOnCommunity">
+        Choose The First Category When No Category Matches Your Keywords.If Unchecked,The Post Will Not Be Published On Community.
+    </system:String>
     <system:String x:Key="LangKeyChooseVideoCover">Choose Video Cover</system:String>
     <system:String x:Key="LangKeyClear">Clear</system:String>
     <system:String x:Key="LangKeyClearAllSources">Clear All Sources</system:String>
@@ -402,7 +408,10 @@
     <system:String x:Key="LangKeyCompanyOrganizatinOrInstitute">Company, Organizatin Or Institute</system:String>
     <system:String x:Key="LangKeyCompleted">Completed</system:String>
     <system:String x:Key="LangKeyConfiguration">Configuration</system:String>
-    <system:String x:Key="LangKeyConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.</system:String>
+    <system:String
+        x:Key="LangKeyConfigurationFromAnotherCampaignSavingThisSettingsWillOverridePreviousSettingsAndRemoveThisAccountFromTheCampaign">
+        Configuration From Another Campaign. Saving This Settings Will Override Previous Settings And Remove This Account From The Campaign.
+    </system:String>
     <system:String x:Key="LangKeyConfigurePostingIntervalForEachTimer">Configure Posting Interval For Each Timer</system:String>
     <system:String x:Key="LangKeyConnectedBefore">Connected Before</system:String>
     <system:String x:Key="LangKeyConnectedOrRequestedUserSources">Connected Or Requested User Sources :</system:String>
@@ -519,7 +528,10 @@
     <system:String x:Key="LangKeyDeleteCommentsPerHour">Delete Comments Per Hour</system:String>
     <system:String x:Key="LangKeyDeleteCommentsPerJob">Delete Comments Per Job</system:String>
     <system:String x:Key="LangKeyDeleteCommentsPerWeek">Delete Comments Per Week</system:String>
-    <system:String x:Key="LangKeyDeleteCommentsThatContainAnyOfTheFollowingWordSeparateTheWordWithCommaToUseWildcardsAdd*">Delete Comments That Contain Any Of The Following Word, Separate The Word With Comma(To Use Wildcards Add*)</system:String>
+    <system:String
+        x:Key="LangKeyDeleteCommentsThatContainAnyOfTheFollowingWordSeparateTheWordWithCommaToUseWildcardsAdd*">
+        Delete Comments That Contain Any Of The Following Word, Separate The Word With Comma(To Use Wildcards Add*)
+    </system:String>
     <system:String x:Key="LangKeyDeleteDirectMediaOlderThan">Delete Direct Media Older Than</system:String>
     <system:String x:Key="LangKeyDeleteFromSourceFolderAsWell">Delete From Source Folder As Well</system:String>
     <system:String x:Key="LangKeyDeleteLimits">Delete Limits</system:String>
@@ -679,7 +691,10 @@
     <system:String x:Key="LangKeyEnableRetweetCommentsAfterPostsIsRetweeted">Enable Retweet Comments After Posts Is Retweeted.</system:String>
     <system:String x:Key="LangKeyEnableRetweetTweetAfterComment">Enable Retweet Tweet After Comment</system:String>
     <system:String x:Key="LangKeyEnableSignatureToAddACustomTextAtTheEndOfYourPosts">Enable Signature To Add A Custom Text At The End Of Your Posts</system:String>
-    <system:String x:Key="LangKeyEnableTheOptionIfYouWantToDominatorToRegularlyCheckForNewDirectMessagesReceivedAndCreateNewMessageOnTheSendMessageTabToAutoReplyToThem">Enable The Option If You Want To Dominator To Regularly Check For New Direct Messages Received And Create New Message On The Send Message Tab To Auto Reply To Them</system:String>
+    <system:String
+        x:Key="LangKeyEnableTheOptionIfYouWantToDominatorToRegularlyCheckForNewDirectMessagesReceivedAndCreateNewMessageOnTheSendMessageTabToAutoReplyToThem">
+        Enable The Option If You Want To Dominator To Regularly Check For New Direct Messages Received And Create New Message On The Send Message Tab To Auto Reply To Them
+    </system:String>
     <system:String x:Key="LangKeyEnableTryCommentsAfterPinsIsTriedTryBetween">Enable Try Comments After Pins Is Tried. Try Between</system:String>
     <system:String x:Key="LangKeyEnableTryDifferentUsersAcrossAllPinterestAccountsConfiguredInPinterest">Enable Try Different Users Across All Pinterest Accounts Configured In Pinterest</system:String>
     <system:String x:Key="LangKeyEnableWatermarkOnImagePosts">Enable Watermark On Image Posts</system:String>
@@ -818,7 +833,10 @@
     <system:String x:Key="LangKeyFontSize">Font Size:</system:String>
     <system:String x:Key="LangKeyForTumblrItRemovedForImagePostsAsTheLinkIsAttechedToTheImage">For Tumblr  - It Removed For Image Posts - As The Link Is Atteched To The Image.</system:String>
     <system:String x:Key="LangKeyForceCampaignsToKeepTheSameCreationDateOnPostsSentFromDrafts">Force Campaigns To Keep The Same Creation Date On Posts Sent From Drafts</system:String>
-    <system:String x:Key="LangKeyForceKillEmbeddedBrowsersExperimentalUseWhenEmbeddedBrowserProcessesAreNotCorrectlyKilled">Force Kill Embedded Browsers (Experimental - Use When Embedded Browser Processes Are Not Correctly Killed)</system:String>
+    <system:String
+        x:Key="LangKeyForceKillEmbeddedBrowsersExperimentalUseWhenEmbeddedBrowserProcessesAreNotCorrectlyKilled">
+        Force Kill Embedded Browsers (Experimental - Use When Embedded Browser Processes Are Not Correctly Killed)
+    </system:String>
     <system:String x:Key="LangKeyForward">Forward</system:String>
     <system:String x:Key="LangKeyFriday">Friday</system:String>
     <system:String x:Key="LangKeyFriendOfFriend">Friend Of Friend</system:String>
@@ -902,12 +920,30 @@
     <system:String x:Key="LangKeyHour">Hour</system:String>
     <system:String x:Key="LangKeyHours">Hours</system:String>
     <system:String x:Key="LangKeyHoursBeforeExecutingANewSynchronisationOnAnAccountTheActualValueIsRandomized">Hours Before Executing A New Synchronisation On An Account.(The Actual Value Is Randomized)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAFacebookAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Facebook Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAInstagramAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Instagram Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAPinterestAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Pinterest Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForATumblrAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Tumblr Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForATwitterAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Twitter Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
-    <system:String x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAYoutubeAccountFriendBackupOrInviteToolsMustBeStarted">Hours Before Refreshing The Friend List For A Youtube Account (Friend Backup Or Invite Tools Must Be Started)</system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAFacebookAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Facebook Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAInstagramAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Instagram Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAPinterestAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Pinterest Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForATumblrAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Tumblr Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForATwitterAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Twitter Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
+    <system:String
+        x:Key="LangKeyHoursBeforeRefreshingTheFriendListForAYoutubeAccountFriendBackupOrInviteToolsMustBeStarted">
+        Hours Before Refreshing The Friend List For A Youtube Account (Friend Backup Or Invite Tools Must Be Started)
+    </system:String>
     <system:String x:Key="LangKeyIgnore">Ignore</system:String>
     <system:String x:Key="LangKeyIgnoreAds">Ignore Ads</system:String>
     <system:String x:Key="LangKeyIgnoreAlbums">Ignore Albums</system:String>
@@ -1802,11 +1838,17 @@
     <system:String x:Key="LangKeyReblogPost">Reblog Post</system:String>
     <system:String x:Key="LangKeyRecentColors">Recent Colors</system:String>
     <system:String x:Key="LangKeyRecreateDesktopShortcutAtStartup">Recreate Desktop Shortcut At Startup</system:String>
-    <system:String x:Key="LangKeyRecreateTheDashboardWindowEachTimeItsVisitedCheckThisIfYouHaveIssuesWithTheGraphFromStatistics">Recreate The Dashboard Window Each Time Its Visited (Check This If You Have Issues With The Graph From Statistics</system:String>
+    <system:String
+        x:Key="LangKeyRecreateTheDashboardWindowEachTimeItsVisitedCheckThisIfYouHaveIssuesWithTheGraphFromStatistics">
+        Recreate The Dashboard Window Each Time Its Visited (Check This If You Have Issues With The Graph From Statistics
+    </system:String>
     <system:String x:Key="LangKeyReddit">Reddit</system:String>
     <system:String x:Key="LangKeyRefresh">Refresh</system:String>
     <system:String x:Key="LangKeyRefreshBlacklistedUsersList">Refresh Blacklisted Users List</system:String>
-    <system:String x:Key="LangKeyRefreshPageAndRetryPostIfFacebookDoesNotExtractAnImagePreviewFromALinkRefreshingThePageAndRetryingThePostNormallyFixesTheIssue">Refresh Page And Retry Post If Facebook Does Not Extract An Image Preview From A Link (Refreshing The Page And Retrying The Post Normally Fixes The Issue)</system:String>
+    <system:String
+        x:Key="LangKeyRefreshPageAndRetryPostIfFacebookDoesNotExtractAnImagePreviewFromALinkRefreshingThePageAndRetryingThePostNormallyFixesTheIssue">
+        Refresh Page And Retry Post If Facebook Does Not Extract An Image Preview From A Link (Refreshing The Page And Retrying The Post Normally Fixes The Issue)
+    </system:String>
     <system:String x:Key="LangKeyRefreshWhitelistedUsersList">Refresh Whitelisted Users List</system:String>
     <system:String x:Key="LangKeyRelikePost">Relike Post</system:String>
     <system:String x:Key="LangKeyRemove">Remove</system:String>
@@ -1982,7 +2024,10 @@
     <system:String x:Key="LangKeySeconds">Seconds</system:String>
     <system:String x:Key="LangKeySecondsAfterEachScrape">Seconds After Each Niching</system:String>
     <system:String x:Key="LangKeySecondsBeforeIssuingA505Error">Seconds Before Issuing A 505 Error.</system:String>
-    <system:String x:Key="LangKeySecondsBeforePublishingTheSamePostListItemOnANewDestinationActualValueIsChosenAtRandomAroundTarget">Seconds Before Publishing The Same Post List Item On A New Destination. (Actual Value Is Chosen At Random Around Target)</system:String>
+    <system:String
+        x:Key="LangKeySecondsBeforePublishingTheSamePostListItemOnANewDestinationActualValueIsChosenAtRandomAroundTarget">
+        Seconds Before Publishing The Same Post List Item On A New Destination. (Actual Value Is Chosen At Random Around Target)
+    </system:String>
     <system:String x:Key="LangKeySecondsBetweenEachComment">Seconds Between Each Comment</system:String>
     <system:String x:Key="LangKeySecondsBetweenEachDelete">Seconds Between Each Delete</system:String>
     <system:String x:Key="LangKeySecondsBetweenEachLike">Seconds Between Each Like.</system:String>
@@ -2202,7 +2247,10 @@
     <system:String x:Key="LangKeyStop">Stop</system:String>
     <system:String x:Key="LangKeyStopAfter">Stop After</system:String>
     <system:String x:Key="LangKeyStopAllAccountsIfMoreThan">Stop All Accounts If More Than</system:String>
-    <system:String x:Key="LangKeyStopClickableImagePostIfTheLinkPreviewDoesNotShowAnImageInsteadOfDeletingThePostAtTheEnd">Stop Clickable Image Post If The Link Preview Does Not Show An Image (Instead Of Deleting The Post At The End)</system:String>
+    <system:String
+        x:Key="LangKeyStopClickableImagePostIfTheLinkPreviewDoesNotShowAnImageInsteadOfDeletingThePostAtTheEnd">
+        Stop Clickable Image Post If The Link Preview Does Not Show An Image (Instead Of Deleting The Post At The End)
+    </system:String>
     <system:String x:Key="LangKeyStopConnectionRequestTool">Stop Connection Request Tool</system:String>
     <system:String x:Key="LangKeyStopFollowAndStartUnfollowTool">Stop Follow And Start Unfollow Tool</system:String>
     <system:String x:Key="LangKeyStopFollowButDoNotStartUnfollowTool">Stop Follow But Do Not Start Unfollow Tool</system:String>
@@ -2353,12 +2401,6 @@
     <system:String x:Key="LangKeyThisModuleHelpsYouToLikeOrCommentOrDoBothOnYourCustomListOfPostsOrOnPostsOfYourOwnFollowersFollowingsOrCanFindByKeywords">This Module Helps You To Like Or Comment Or Do Both On Your Custom List Of Posts, Or On Posts Of Your Own Followers, Followings Or Can Find By Keywords.</system:String>
     <system:String x:Key="LangKeyThisModuleHelpsYouToSearchAndFindImagesWithKeywordsSpecificUsersListSomeonesFollowers/FollowingsEtcAndRepostThemOnInstagramAsYourOwn">This Module Helps You To Search And Find Images With Keywords, Specific Users List, Someones Followers/Followings Etc And Repost Them On Instagram As Your Own.</system:String>
     <system:String x:Key="LangKeyThisModuleHelpsYouToTryOrCommentOrDoBothOnYourCustomListOfPinsOrOnPinsOfYourOwnFollowersFollowingsOrCanFindByKeywords">This Module Helps You To Try Or Comment Or Do Both On Your Custom List Of Pins, Or On Pins Of Your Own Followers, Followings Or Can Find By Keywords.</system:String>
-    <system:String x:Key="LangKeyThisModuleInstachat">This Module Instachat.</system:String>
-    <system:String x:Key="LangKeyThisModuleWillHelpYouToPerformProfileSettings">This Module Will Help You To Perform Profile Settings</system:String>
-    <system:String x:Key="LangKeyThisModuleWillHelpYouToScrapeTheUsersWhoCommentedOnThePicturesOfGivenUsername">This Module Will Help You To Niching The Users Who Commented On The Pictures Of Given Username.</system:String>
-    <system:String x:Key="LangKeyThisModuleWillHelpYouToScrapeUsersByHashtagsOrCustomListOfPhotoids">This Module Will Help You To Niching Users By Hashtags Or Custom List Of Photoids.</system:String>
-    <system:String x:Key="LangKeyThisModuleWillHelpYouToUnlikeThePhotosUsingPhotoIDsORByUsername">This Module Will Help You To Unlike The Photos Using Photo ID's OR By Username.</system:String>
-    <system:String x:Key="LangKeyThisModulesHelpsToScrapeImagesWithYourCustomKeywordsOrHashtagsAndExportThemDirectlyAsPhotoIdsOrPhotoUrls">This Modules Helps To Niching Images With Your Custom Keywords Or Hashtags.And Export Them Directly As Photo Ids Or Photo Urls</system:String>
     <system:String x:Key="LangKeyThreads">Threads :</system:String>
     <system:String x:Key="LangKeyThursday">Thursday</system:String>
     <system:String x:Key="LangKeyTimeToReceiveEmail">Time To Receive Email</system:String>
@@ -2465,7 +2507,10 @@
     <system:String x:Key="LangKeyUnlikesPerDay">Unlikes Per Day</system:String>
     <system:String x:Key="LangKeyUnlikesPerJob">Unlikes Per Job</system:String>
     <system:String x:Key="LangKeyUnmuteCommunity">Unmute Community</system:String>
-    <system:String x:Key="LangKeyUnselectTheDestinationAfterASuccessfulPostTheCampaignWillPostOnlyOnceInEachDestination">Unselect The Destination After A Successful Post (The Campaign Will Post Only Once In Each Destination)</system:String>
+    <system:String
+        x:Key="LangKeyUnselectTheDestinationAfterASuccessfulPostTheCampaignWillPostOnlyOnceInEachDestination">
+        Unselect The Destination After A Successful Post (The Campaign Will Post Only Once In Each Destination)
+    </system:String>
     <system:String x:Key="LangKeyUnsubscribe">Unsubscribe</system:String>
     <system:String x:Key="LangKeyUnsubscribesPerDay">Unsubscribes Per Day</system:String>
     <system:String x:Key="LangKeyUnsubscribesPerHour">Unsubscribes Per Hour</system:String>
@@ -2518,11 +2563,26 @@
     <system:String x:Key="LangKeyUseSimplifiedMethodForFacebookSharePostsPostingThePagePostLinkInsteadOfShare">Use Simplified Method For Facebook Share Posts (Posting The Page Post Link Instead Of Share)</system:String>
     <system:String x:Key="LangKeyUseSourceTypeFilter">Use Source Type Filter</system:String>
     <system:String x:Key="LangKeyUseTabInsteadOfComma">Use Tab Instead Of Comma (</system:String>
-    <system:String x:Key="LangKeyUseThisFeatureToAddOrDeleteSingle/MultipleAccountsCheckTheActiveAndInactiveStatusUsingAccountChecker">Use This Feature To Add Or Delete Single / Multiple Accounts. Check The Active And Inactive Status Using Account Checker.</system:String>
-    <system:String x:Key="LangKeyUseThisModuleToFindPhotosOfYourCustomizeUsersListOrWithHashtagsAndSaveThemToYourComputer">Use This Module To Find Photos Of Your Customize Users List Or With Hashtags And Save Them To Your Computer.</system:String>
-    <system:String x:Key="LangKeyUseThisModuleToUploadLatestProfilePictureORPostNewPhotosFromMultipleAccountsOnInstagram">Use This Module To Upload Latest Profile Picture OR Post New Photos From Multiple Accounts On Instagram.</system:String>
-    <system:String x:Key="LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectOrInFrontOfWordsWithALengthGreaterThanAGivenValue">Use To Add # In Front Of The Keywords That You Select Or In Front Of Words With A Length Greater Than A Given Value.</system:String>
-    <system:String x:Key="LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectedOrInFrontOfWordsWithALengthGreaterThanAGivenValue">Use To Add # In Front Of The Keywords That You Selected Or In Front Of Words With A Length Greater Than A Given Value.</system:String>
+    <system:String
+        x:Key="LangKeyUseThisFeatureToAddOrDeleteSingle/MultipleAccountsCheckTheActiveAndInactiveStatusUsingAccountChecker">
+        Use This Feature To Add Or Delete Single / Multiple Accounts. Check The Active And Inactive Status Using Account Checker.
+    </system:String>
+    <system:String
+        x:Key="LangKeyUseThisModuleToFindPhotosOfYourCustomizeUsersListOrWithHashtagsAndSaveThemToYourComputer">
+        Use This Module To Find Photos Of Your Customize Users List Or With Hashtags And Save Them To Your Computer.
+    </system:String>
+    <system:String
+        x:Key="LangKeyUseThisModuleToUploadLatestProfilePictureORPostNewPhotosFromMultipleAccountsOnInstagram">
+        Use This Module To Upload Latest Profile Picture OR Post New Photos From Multiple Accounts On Instagram.
+    </system:String>
+    <system:String
+        x:Key="LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectOrInFrontOfWordsWithALengthGreaterThanAGivenValue">
+        Use To Add # In Front Of The Keywords That You Select Or In Front Of Words With A Length Greater Than A Given Value.
+    </system:String>
+    <system:String
+        x:Key="LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectedOrInFrontOfWordsWithALengthGreaterThanAGivenValue">
+        Use To Add # In Front Of The Keywords That You Selected Or In Front Of Words With A Length Greater Than A Given Value.
+    </system:String>
     <system:String x:Key="LangKeyUserAllpost">User Allpost</system:String>
     <system:String x:Key="LangKeyUserBio">User Bio</system:String>
     <system:String x:Key="LangKeyUserBioHasAMinimumNumberOfCharacters">User Bio Has A Minimum Number Of Characters</system:String>
@@ -2612,7 +2672,10 @@
     <system:String x:Key="LangKeyWaitToStartANewPostIfYouHaveMoreThan">Wait To Start A New Post If You Have More Than</system:String>
     <system:String x:Key="LangKeyWallsProfiles">Walls/Profiles</system:String>
     <system:String x:Key="LangKeyWallsProfilesCount">Walls/Profiles Count</system:String>
-    <system:String x:Key="LangKeyWarningTheHashingWillOccurOnlyIfTheMaximumLengthOfThePostIsntExceeded177IfYouHaveAnImage140ForTextOnly">Warning: The Hashing Will Occur Only If The Maximum Length Of The Post Isn't Exceeded (177 If You Have An Image,140 For Text Only)</system:String>
+    <system:String
+        x:Key="LangKeyWarningTheHashingWillOccurOnlyIfTheMaximumLengthOfThePostIsntExceeded177IfYouHaveAnImage140ForTextOnly">
+        Warning: The Hashing Will Occur Only If The Maximum Length Of The Post Isn't Exceeded (177 If You Have An Image,140 For Text Only)
+    </system:String>
     <system:String x:Key="LangKeyWatchVideo">Watch Video</system:String>
     <system:String x:Key="LangKeyWatchVideoTutorials">Watch Video Tutorials</system:String>
     <system:String x:Key="LangKeyWebpageLikeAndComment">Webpage Like And Comment</system:String>
@@ -2688,12 +2751,12 @@ They are replaced with user info.</system:String>
     <system:String x:Key="LangKeyPostTitle">Post Title</system:String>
     <system:String x:Key="LangKeySourceUrl">Source Url</system:String>
 
-    <system:String x:Key="LangKeyImportAccountDescription"  xml:space="preserve">Format :
+    <system:String x:Key="LangKeyImportAccountDescription" xml:space="preserve">Format :
 Type 1. Group Name:SocialNetwork:User Name:Password:Alternate Email (For YouTube)
 Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Alternate Email (For YouTube)
 Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password:Alternate Email (For YouTube)
     </system:String>
-    <system:String x:Key="LangKeyImportProxyDescription"  xml:space="preserve">Format :
+    <system:String x:Key="LangKeyImportProxyDescription" xml:space="preserve">Format :
 Type 1. Group Name:Proxy Name:IP:Port:Proxy User Name:Proxy Password
 Type 2. IP:Port:Proxy User Name:Proxy Password
 Type 3. IP:Port
@@ -2872,63 +2935,75 @@ Type 3. IP:Port
 
 
 
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoSendFriendRequests">This Crucial Connection$ feature helps to automate sending friend requests on Facebook. It allows to search users with different query types and send them friend requests on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoAcceptFriendRequests">This Crucial Connection$ feature helps to automate accepting friend requests on Facebook. It allows to filter followers and follow them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoUnfriend">This Crucial Connection$ feature helps to automate unfriends on Facebook. It allows to search users with different query types and unfriend them as per configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoWithdrawSentRequests">This Crucial Connection$ feature helps to automate withdrawing friend requests users on Facebook. It allows to filter users and withdraw friend requests on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessages">This Crucial Connection$ feature helps to automate sending direct messages to Facebook. It allows to search and filter users with different query types and send them a direct message on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoReplyToNewMessages">This Crucial Connection$ feature helps to automate replying to new messages on Facebook. It allows to filter messages and reply to them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoJoinGroups">This Crucial Connection$ feature helps to automate joining groups on Facebook. It allows to search and filter groups with different source types and join them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoUnjoinGroups">This Crucial Connection$ feature helps to automate unjoining groups on Facebook. It allows to filter groups and unjoin them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeFanpages">This Crucial Connection$ feature helps to automate liking pages on Facebook. It allows to search and filter pages with different query types and like them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoSendFriendRequests">o	This Crucial Engagement feature helps to automate send users friend request on Facebook. It allows you to search users by niching data. You can even set actions for after you follow them. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoAcceptFriendRequests">o	This Crucial Engagement feature helps to automate deny and accept friend request from users on Facebook. It allows you to search users by niching data. You can even set actions for after you follow them. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoUnfriend">o	This Crucial Engagement feature helps to automate unfriending users on Instagram. It allows you to search then configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoWithdrawSentRequests">o	This Crucial Engagement feature helps to automate withdrawing send friend request on Facebook.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessages">o    This Crucial Engagement feature helps to automate sending mass messages on Instagram. It allows you to filter and send messages to the users you choose.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoReplyToNewMessages">o	This Crucial Engagement feature helps to automate replies to new messages within your filter criteria.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoJoinGroups">o	This Crucial Engagement feature helps to automate joining multiple groups at once. This allows you to focus your engagement with crucial filters. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoUnjoinGroups">o	This Crucial Engagement feature helps to unjoin multiple groups at once. Only keep your most relevant groups and cut the ones bringing no benefit or with low engagement. This allows you to focus your engagement with crucial filters. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeFanpages">o   This Crucial Engagement feature helps to like a bulk number of fan page and keep your engagement on point in your target market. This allows you to focus your engagement with crucial filters. You also can configure times aligned with your crucial Strategy.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeAndCommentPosts">This Crucial Connection$ feature helps to automate liking and comment on posts on Facebook. It allows to filter posts and liking and commenting on them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeUsers">This Crucial Connection$ feature helps to Niching users from Facebook. It allows to filter users and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikePosts">o	This Crucial Engagement feature helps you to automate mass liking on users post on Facebook. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikePostComments">o	This Crucial Engagement feature helps to automate Commenting on Facebook. Search by Crucial Niching then filter post with different search types to engage with intent.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeComments">o	This Crucial Engagement feature helps you to automate liking comments on users Facebook post. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoReplyToComments">o	This Crucial Engagement feature helps you to automate replying to comments on your or other users post on Facebook. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeUsers">o	This Crucial Engagement feature helps to Niching users from Facebook. It allows to filter users and Niching them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeFanPages">This Crucial Connection$ feature helps to Niching fanpages from Facebook. It allows to filter fanpages and Niching them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeGroups">This Crucial Connection$ feature helps to Niching groups from Facebook. It allows to filter groups and Niching them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeComments">This Crucial Connection$ feature helps to Niching comments from Facebook. It allows to filter comments and Niching them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapePosts">This Crucial Connection$ feature helps to Niching posts from Facebook. It allows to filter posts and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoFollow">This Crucial Connection$ feature helps to automate following users on Twitter. It allows to search users with different query types and perform the follow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoFollowBack">This Crucial Connection$ feature helps to automate following back followers on Twitter. It allows to filter followers and follow them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoMute">This Crucial Connection$ feature helps to auto mute users on Twitter. It allows to search users with different query types and mute them as per configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnfollow">This Crucial Connection$ feature helps to automate unfollowing users on Twitter. It allows to filter users and perform the unfollow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoRepost">This Crucial Connection$ feature helps to automate reposting on Twitter. It allows to search and filter posts with different query types and perform the reposting action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoRetweet">This Crucial Connection$ feature helps to automate retweeting on Twitter. It allows to search tweets with different query types and retweet them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoDelete">This Crucial Connection$ feature helps to automate Delete tweet,Delete comments and Undo Retweets on Twitter. It allows to search tweets,comments,retweets with different delete source types and perform the Delete action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoLike">This Crucial Connection$ feature helps to automate likes on Twitter. It allows to search and filter posts with different query types and perform the like action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoComment">This Crucial Connection$ feature helps to automate comment on Twitter. It allows to search and filter posts with different query types and comment on them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoBroadcastMessage">This Crucial Connection$ feature helps to automate sending direct messages on Twitter. It allows to filter and send message to your followers.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoMessageToNewFollowers">This Crucial Connection$ feature helps to automate sending direct messages to new followers on Twitter. It also allows to filter users before sending a message.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoReply">This Crucial Connection$ feature helps to automate sending auto reply to new messages. It also allows to filter users before sending a message.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoScrapeUsers">This Crucial Connection$ feature helps to Niching users from Twitter. It allows to filter users and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoFollow">o	This Crucial Engagement feature helps to automate following users on Twitter. It allows you to search users by niching data. You can even set actions for after you follow them. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoFollowBack">o	This Crucial Engagement feature helps to automate following back followers who follow you. Target with intent using Crucial filters and configure times for each action that aligns with your strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoMute">o   This Crucial Engagement feature helps to automate muting annoying or illrelevant followers on Twitter.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnfollow">o	This Crucial Engagement feature helps to automates following on Twitter. We include Crucial filters which help you unfollow exactly you want.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoRepost">o	This Crucial Engagement feature helps to automate reposting targeted content on Twitter. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoRetweet">o	This Crucial Engagement feature helps to automate mass retweeting targeted on Instagram. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoDelete">o	This Crucial Engagement feature helps to automate deleting post on your twitter</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoLike">o	This Crucial Engagement feature helps you to automate mass liking on users post on Tumblr. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoComment">o	This Crucial Engagement feature helps to automate Commenting on Youtube. Search by Crucial Niching then filter post with different search types to engage with intent.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoBroadcastMessage">o   This Crucial Engagement feature helps to automate sending mass messages on Twitter. It allows you to filter and send messages to the users you choose.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoMessageToNewFollowers">o	This Crucial Engagement feature helps to automate messaging new users that you choose to target.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoReply">o	This Crucial Engagement feature helps to automate replies to new messages within your filter criteria.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoScrapeUsers">o	This Crucial Engagement feature helps to Niching users from Twitter. It allows to filter users and Niching them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoScrapeTweets">This Crucial Connection$ feature helps to Niching tweets from Twitter. It allows to filter tweets and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoFollow">This Crucial Connection$ feature helps to automate following users on Instagram. It allows to search users with different query types and perform the follow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoFollowBack">This Crucial Connection$ feature helps to automate following back followers on Instagram. It allows to filter followers and follow them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoBlockFollower">This Crucial Connection$ feature helps to automate blocking followers on Instagram. It allows to filter followers and block them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoUnfollow">This Crucial Connection$ feature helps to automate unfollowing users on Instagram. It allows to filter users and perform the unfollow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoRepost">This Crucial Connection$ feature helps to automate reposting on Instagram. It allows to search and filter posts with different query types and perform the reposting action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoDelete">This Crucial Connection$ feature helps to automate deleting posts on Instagram. It allows to filter own posts and delete them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoLike">This Crucial Connection$ feature helps to automate likes on Instagram. It allows to search and filter posts with different query types and perform the like action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoUnlike">This Crucial Connection$ feature helps to automate Unlikes on Instagram. It allows to search and filter posts with different query types and perform the Unlike action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoComment">This Crucial Connection$ feature helps to automate comment on Instagram. It allows to search and filter posts with different query types and comment on them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoBroadcastMessage">This Crucial Connection$ feature helps to automate sending direct messages on Instagram. It allows to filter and send message to your followers.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoMessageToNewFollowers">This Crucial Connection$ feature helps to automate sending direct messages to new followers on Instagram. It also allows to filter users before sending a message.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoReply">This Crucial Connection$ feature helps to automate sending auto reply to new messages. It also allows to filter users before sending a message.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoScrapeUsers">This Crucial Connection$ feature helps to Niching users from Instagram. It allows to filter users and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoDownloadPhotos">This Crucial Connection$ feature helps to download photos from Instagram. It allows to filter instagram posts and download them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoFollow">o	This Crucial Engagement feature helps to automate following users on Instagram. It allows you to search users by niching data. You can even set actions for after you follow them. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoFollowBack">o	This Crucial Engagement feature helps to automate following back followers who follow you. Target with intent using Crucial filters and configure times for each action that aligns with your strategy</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoBlockFollower">o    This Crucial Engagement feature helps to automate mass blocking users at once using crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoUnfollow">o	This Crucial Engagement feature helps to automate following on Instagram. We include Crucial filters which help you unfollow exactly you want.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoRepost">o	This Crucial Engagement feature helps to automate reposting targeted content on Instagram. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoDelete">o	This Crucial Engagement feature helps to automate deleting post on your Instagram.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoLike">o	This Crucial Engagement feature helps you to automate mass liking on users Instagram post. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoLikeComment">o    This Crucial Engagement feature helps you to automate liking comments on users Instagram post. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoUnlike">o	This Crucial Engagement feature helps you to automate un- liking users post on Instagram. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoComment">o	This Crucial Engagement feature helps to automate Commenting on Instagram. Search by Crucial Niching then filter post with different search types to engage with intent.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoReplyComment">o	This Crucial Engagement feature helps you to automate replying to comments on your or other users post on Instagram. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoBroadcastMessage">o    This Crucial Engagement feature helps to automate sending mass messages on Instagram. It allows you to filter and send messages to the users you choose.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoMessageToNewFollowers">o	This Crucial Engagement feature helps to automate messaging new users that you choose to target.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoReply">o	This Crucial Engagement feature helps to automate replies to new messages within your filter criteria.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoScrapeUsers">o	This Crucial Engagement feature helps to Niching users from Instagram. It allows to filter users and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoScrapePosts">o	This Crucial Engagement feature helps to Niching posts from Instagram. It allows to filter posts and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoStoryViewer">o	This Crucial Engagement feature helps you to automate viewing multiple users stories in a short period of time and increase engagement through Instagram. Upload a list or search users, then engage using crucial settings and filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoDownloadPhotos">o	This Crucial Engagement feature helps to download photos from Instagram. It allows to filter instagram posts and download them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoScrapeHashtags">This Crucial Connection$ feature helps to Niching hashtags from Instagram.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoCreateBoard">This Crucial Connection$ feature helps to automate creating boards on Pinterest. It allows to create multiple boards on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoFollow">This Crucial Connection$ feature helps to automate following users on Pinterest. It allows to search users with different query types and perform the follow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoFollowBack">This Crucial Connection$ feature helps to automate following back followers on Pinterest. It allows to filter followers and follow them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoUnfollow">This Crucial Connection$ feature helps to automate unfollowing users on Pinterest. It allows to filter users and perform the unfollow action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoCreateBoard">o	This Crucial Engagement feature helps to automate creating boards on Pinterest. Create multiple boards with configured times.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoAcceptBoardInvitation">o	This Crucial Engagement feature helps to automate accepting board invitations from followers on Pinterest.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoSendBoardInvitation">o	This Crucial Engagement feature helps to send board invitations to Pinterest users.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoFollow">o	This Crucial Engagement feature helps to automate following users on Pinterest. It allows you to search users by niching data. You can even set actions for after you follow them. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoFollowBack">o	This Crucial Engagement feature helps to automate following back followers who follow you. Target with intent using Crucial filters and configure times for each action that aligns with your strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoUnfollow">o	This Crucial Engagement feature helps to automates unfollowing on Pinterest. We include Crucial filters which help you unfollow exactly you want.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoRepost">This Crucial Connection$ feature helps to automate reposting on Pinterest. It allows to search and filter posts with different query types and perform the reposting action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoRepin">This Crucial Connection$ feature helps to automate Repining on Pinterest. It allows to search pins with different query types and Repin them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoRepin">o	We include your Crucial filters that help you automatically search and repin on Pinterest with configured times.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoEditpin">o	This Crucial Engagement feature helps to automate editing pins on you and your clients Pinterest page.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoDeletepin">o	With this Crucial Engagement feature you can choose the source you want to delete from. This feature automates Deleting pins on Pinterest.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoDelete">This Crucial Connection$ feature helps to automate deleting pins on Pinterest. It allows to search pins with different delete source types and perform the Delete action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoTry">This Crucial Connection$ feature helps to automate Trys on Pinterest. It allows to search and filter posts with different query types and perform the Try action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoComment">This Crucial Connection$ feature helps to automate comment on Pinterest. It allows to search and filter posts with different query types and comment on them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoBroadcastMessage">This Crucial Connection$ feature helps to automate sending direct messages on Pinterest. It allows to filter and send message to your followers.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoMessageToNewFollowers">This Crucial Connection$ feature helps to automate sending direct messages to new followers on Pinterest. It also allows to filter users before sending a message.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoReply">This Crucial Connection$ feature helps to automate sending auto reply to new messages. It also allows to filter users before sending a message.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoScrapeUsers">This Crucial Connection$ feature helps to Niching users from Pinterest. It allows to filter users and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoTry">o	This Crucial Engagement feature helps to automate Trys on Pinterest. Search and filter post then perform actions with configured times. When you try a new idea on Pinterest, you can add a photo or video to show others how your Pin turned out in the real world.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoComment">o	This Crucial Engagement feature helps to automate Commenting on Pinterest. Search by Crucial Niching then filter post with different search types to engage with intent.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoBroadcastMessage">o	This Crucial Engagement feature helps to automate sending messages from a Pinterest profile. You filter and send messages to the followers that matter.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoMessageToNewFollowers">o	This Crucial Engagement feature helps to automate messaging new users that you choose to target.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoReply">o	This Crucial Engagement feature helps to automate replies to new messages within your filter criteria.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoScrapeUsers">o	Niching is the act of collecting data from niches or target markets used in an intentional strategy. Popular among some but coined by us. This Crucial Engagement feature helps to automate targeted searching in custom niches via this platform’s top channels as search types.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoScrapePins">This Crucial Connection$ feature helps to Niching Pins from Pinterest. It allows to filter Pins and Niching them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoScrapeBoards">This Crucial Connection$ feature helps to Niching Boards from Pinterest. It allows to filter Boards and Niching them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoFollow">This Crucial Connection$ feature helps to automate following users on Gplus. It allows to search users with different query types and perform the follow action on configured time.</system:String>
@@ -2940,57 +3015,72 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapeCommunity">This Crucial Connection$ feature helps to Niching communities on Gplus. It allows to filter communities and Niching them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapePeople">This Crucial Connection$ feature helps to Niching users on Gplus. It allows to filter users and Niching them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapePosts">This Crucial Connection$ feature helps to Niching posts on Gplus. It allows to filter posts and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendConnectionRequest">This Crucial Connection$ feature helps to automate sending connection requests on LinkedIn. It allows to search users with different query types and send them connection requests on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoAcceptConnectionRequest">This Crucial Connection$ feature helps to automate accepting connection requests on LinkedIn. It allows to search users with different query types and accept connection requests on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoRemoveConnection">This Crucial Connection$ feature helps to automate removing connections on LinkedIn. It allows to search users with different query types and remove connections on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoWithdrawConnectionRequest">This Crucial Connection$ feature helps to automate withdrawing connection requests on LinkedIn. It allows to search users with different query types and withdraw connection requests on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoExportConnection">This Crucial Connection$ feature helps to automate exporting connections from LinkedIn. It allows to search users with different query types and export them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoBroadcastMessages">This Crucial Connection$ feature helps to automate sending direct messages to users on LinkedIn. It allows to search and filter users with different query types and send them a direct message on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoReplyToNewMessage">This Crucial Connection$ feature helps to automate sending auto reply to new messages on LinkedIn. It also allows to filter users before sending a message.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendMessagetoNewConnection">This Crucial Connection$ feature helps to automate sending messages to new connections on LinkedIn. It also allows to filter users before sending a message.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendGreetingsToConnection">This Crucial Connection$ feature helps to automate sending greetings to connections on LinkedIn. It also allows to filter users before sending a message.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoLike">This Crucial Connection$ feature helps to automate liking posts on LinkedIn. It allows to filter posts and like them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoComment">This Crucial Connection$ feature helps to automate commenting posts on LinkedIn. It allows to filter posts and comment on them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoJoinGroups">This Crucial Connection$ feature helps to automate joining groups on LinkedIn. It allows to filter groups and join them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoUnjoinGroups">This Crucial Connection$ feature helps to automate unjoining groups on LinkedIn. It allows to filter groups and join them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoScrapeUsers">This Crucial Connection$ feature helps to Niching users from LinkedIn. It allows to filter users and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoScrapeJobs">This Crucial Connection$ feature helps to Niching jobs from LinkedIn. It allows to filter jobs and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoScrapeCompanies">This Crucial Connection$ feature helps to Niching companies from LinkedIn. It allows to filter companies and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoScrapeGroupMembers">This Crucial Connection$ feature helps to Niching group members from LinkedIn. It allows to filter groups and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoProfileEndorsement">This Crucial Connection$ feature helps to endorse profiles on LinkedIn. It allows to filter users and endorse their profile on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoFollow">This Crucial Connection$ feature helps to automate following users on Quora. It allows to filter users and perform the follow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoUnfollow">This Crucial Connection$ feature helps to automate unfollowing users on Quora. It allows to filter users and unfollow them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoUpvoteAnswer">This Crucial Connection$ feature helps to automate upvoting answers on Quora. It allows to filter answers and upvote them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoDownvoteAnswer">This Crucial Connection$ feature helps to automate downvoting answers on Quora. It allows to filter answers and downvote them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoDownvoteQuestion">This Crucial Connection$ feature helps to automate downvoting questions on Quora. It allows to filter questions and downvote them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoReportUser">This Crucial Connection$ feature helps to automate reporting users on Quora. It allows to filter users and report them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoReportAnswer">This Crucial Connection$ feature helps to automate reporting answers on Quora. It allows to filter answers and report them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoBroadcastMessage">This Crucial Connection$ feature helps to automate sending direct messages to users on Quora. It allows to filter users and send them a direct message on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoReplyToNewMessage">This Crucial Connection$ feature helps to automate sending reply to new messages on Quora. It allows to filter messages and send reply to them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoSendMessagestoNewFollowers">This Crucial Connection$ feature helps to automate sending messages to new followers on Quora. It allows to filter followers and send them a direct message on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoScrapeUsers">This Crucial Connection$ feature helps to Niching users from Quora. It allows to filter users and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoScrapeQuestions">This Crucial Connection$ feature helps to Niching questions from Quora. It allows to filter questions and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoScrapeAnswers">This Crucial Connection$ feature helps to Niching answers from Quora. It allows to filter answers and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionRedditAutoFollow">This Crucial Connection$ feature helps to automate following users on Reddit. It allows to filter users and perform the follow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionRedditAutoUnfollow">This Crucial Connection$ feature helps to automate unfollowing users on Reddit. It allows to filter users and perform the follow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionRedditAutoUpvote">This Crucial Connection$ feature helps to automate upvoting posts on Reddit. It allows to filter posts and upvote them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionRedditAutoDownvote">This Crucial Connection$ feature helps to automate downvoting posts on Reddit. It allows to filter posts and downvote them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoFollow">This Crucial Connection$ feature helps to automate following users on Tumblr. It allows to filter users and perform the follow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoUnfollow">This Crucial Connection$ feature helps to automate unfollowing users on Tumblr. It allows to filter users and perform the follow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoLike">This Crucial Connection$ feature helps to automate liking posts on Tumblr. It allows to filter posts and like them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoComments">This Crucial Connection$ feature helps to automate commenting posts on Tumblr. It allows to filter posts and comment on them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoReblog">This Crucial Connection$ feature helps to automate reblogging posts on Tumblr. It allows to filter posts and reblog them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoBroadcastMessages">This Crucial Connection$ feature helps to automate sending direct messages to users on Tumblr. It allows to filter users and send direct message on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoLike">This Crucial Connection$ feature helps to automate liking videos on YouTube. It allows to filter videos and like them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoDislike">This Crucial Connection$ feature helps to automate disliking videos on YouTube. It allows to filter videos and dislike them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoComment">This Crucial Connection$ feature helps to automate commenting on videos on YouTube. It allows to filter videos and comment on them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoLikeComments">This Crucial Connection$ feature helps to automate liking comments on YouTube. It allows to filter videos and like comments on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoSubscribe">This Crucial Connection$ feature helps to automate subscribing channels on YouTube. It allows to filter channels and subscribe them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoUnsubscribe">This Crucial Connection$ feature helps to automate unsubscribing channels on YouTube. It allows to filter channels and unsubscribe them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoSendDirectMessage">This Crucial Connection$ feature helps to automate sending direct messages to users on YouTube. It allows to filter users and send direct message to them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoScrapeVideos">This Crucial Connection$ feature helps to Niching videos from YouTube. It allows to filter videos and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoScrapeChannels">This Crucial Connection$ feature helps to Niching channels from YouTube. It allows to filter channels and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoIncreaseViews">This Crucial Connection$ feature helps to increase views on YouTube. It allows to filter videos and increase views on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendConnectionRequest">o	This Crucial Engagement feature helps to automate send  Connection request on LinkedIn. It allows you to search users by niching data. You can even set actions for after you follow them. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoAcceptConnectionRequest">o	This Crucial Engagement feature helps to automate deny and accept connection request from users on LinkedIn. It allows you to search users by niching data. You can even set actions for after you follow them. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoRemoveConnection">o	This Crucial Engagement feature helps to automates remove comments on Linkedin.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoWithdrawConnectionRequest">o	This Crucial Engagement feature helps to automate withdrawing send connection request on LinkedIn</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoFollowPage">o	This Crucial Engagement feature helps to automate following pages on Linkedin.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendPageInvitation">o	This Crucial Engagement feature helps you to automate sending page invites on LinkedIn. Use this to expand your sales or bring exposure to your brand. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoBlockUser">o	This Crucial Engagement feature helps to automate mass blocking users at once using crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoExportConnection">o	This Crucial Engagement feature helps to automate export connections LinkedIn.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoBroadcastMessages">o	This Crucial Engagement feature helps to automate sending direct messages to users on LinkedIn. It allows to search and filter users with different query types and send them a direct message on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoReplyToNewMessage">o	This Crucial Engagement feature helps to automate sending auto reply to new messages on LinkedIn. It also allows to filter users before sending a message.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendMessagetoNewConnection">o	This Crucial Engagement feature helps to automate sending messages to new connections on LinkedIn. It also allows to filter users before sending a message.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendGreetingsToConnection">o	This Crucial Engagement feature helps to automate sending greetings to connections on LinkedIn. It also allows to filter users before sending a message.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoLike">o	This Crucial Engagement feature helps you to automate mass liking on users post on Linkedin. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoComment">o	This Crucial Engagement feature helps to automate Commenting on Linkedin. Search by Crucial Niching then filter post with different search types to engage with intent.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSharePost">o	This Crucial Engagement feature helps to automate sharing or resharing post on Linkedin. Search by Crucial Niching then filter post with different search types to engage with intent.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoJoinGroups">o   This Crucial Engagement feature helps to automate joining multiple groups at once. This allows you to focus your engagement with crucial filters. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoUnjoinGroups">o	This Crucial Engagement feature helps to unjoin multiple groups at once. Only keep your most relevant groups and cut the ones bringing no benefit or with low engagement. This allows you to focus your engagement with crucial filters. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoScrapeUsers">o	This Crucial Engagement feature helps to Niching users from LinkedIn. It allows to filter users and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoScrapeJobs">o	This Crucial Engagement feature helps to Niching jobs from LinkedIn. It allows to filter jobs and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoScrapeCompanies">o	This Crucial Engagement feature helps to Niching companies from LinkedIn. It allows to filter companies and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoScrapeGroupMembers">o	This Crucial Engagement feature helps to Niching group members from LinkedIn. It allows to filter groups and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoProfileEndorsement">o	This Crucial Engagement feature helps to automate endorsing your LinkedIn connections. This allows you to focus your engagement with crucial filters. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoFollow">o	This Crucial Engagement feature helps to automate following users on Quora. It allows you to search users by niching data. You can even set actions for after you follow them. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoUnfollow">o	This Crucial Engagement feature helps to automates following on Quora. We include Crucial filters which help you unfollow exactly you want. Crucial Voting.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoUpvoteAnswer">o	This Crucial Engagement feature helps to automates upvoting on Quora. This is powerful for reputation building and engagement. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoDownvoteAnswer">o	This Crucial Engagement feature helps to automates downvoting on Quora. If you want an edge on the competition or want to build relationships by displaying expertise, then this feature is perfect. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoDownvoteQuestion">o	This Crucial Engagement feature helps to automates downvoting questions on Quora. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoReportUser">o	This Crucial Engagement feature helps to automates reporting users on Quora. If you want an edge on the competition by eliminating them or use this feature to make sure overly aggressive users stay away. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoReportAnswer">o	This Crucial Engagement feature helps to automates reporting answers on Quora. If you want an edge on the competition by eliminating them or use this feature to make sure overly aggressive users stay away. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoBroadcastMessage">o    This Crucial Engagement feature helps to automate sending mass messages on Quora. It allows you to filter and send messages to the users you choose.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoReplyToNewMessage">o	This Crucial Engagement feature helps to automate replies to new messages within your filter criteria.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoSendMessagestoNewFollowers">o	This Crucial Engagement feature helps to automate messaging new users that you choose to target.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoScrapeUsers">o	This Crucial Engagement feature helps to Niching users from Quora. It allows to filter users and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoScrapeQuestions">o	Niching is the act of collecting data from niches or target markets used in an intentional strategy. Popular among some but coined by us. This Crucial Engagement feature helps to automate targeted searching in Questions.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionQuoraAutoScrapeAnswers">o	This Crucial Engagement feature helps to Niching answers from Quora. It allows to filter answers and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoFollow">o	This Crucial Engagement feature helps to automate following users on Reddit. It allows you to search users by niching data. You can even set actions for after you follow them. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoUnfollow">o	This Crucial Engagement feature helps to automates following on Reddit. We include Crucial filters which help you unfollow exactly you want.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoSubscribe">o	This Crucial Engagement feature helps to automate subscribing to multiple channels . It allows you to search users by niching data. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoUnSubscribe">o   This Crucial Engagement feature helps to automate un-subscribing from multiple channels. Keep your subscriber list clean and that YouTube recommends the most relevant content. It allows you to search users by niching data. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoComment">o	This Crucial Engagement feature helps to automate Commenting on Reddit. Search by Crucial Niching then filter post with different search types to engage with intent.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoReply">o	This Crucial Engagement feature helps you to automate replying to comments on your or other users post on Reddit. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoEditComment">o	This Crucial Engagement feature helps to automate Commenting on Reddit. Search by Crucial Niching then filter post with different search types to engage with intent.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoUpvote">o	This Crucial Engagement feature helps to automates upvoting on Reddit. This is powerful for reputation building and engagement. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoDownvote">o	This Crucial Engagement feature helps to automates downvoting on Reddit. If you want an edge on the competition or want to build relationships by displaying expertise, then this feature is perfect. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoRemovevote">This Crucial Engagement feature helps to automates downvoting on Reddit.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoUpvoteComments">o	This Crucial Engagement feature helps to automates upvoting comments on Reddit. This is powerful for reputation building and engagement. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoDownvoteComments">o	This Crucial Engagement feature helps to automates downvoting comments on Reddit. If you want an edge on the competition or want to build relationships by displaying expertise, then this feature is perfect. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoRemoveCommentVotes">o	This Crucial Engagement feature helps to automates remove comments on Reddit.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionRedditAutoScrapeChannel">o	Niching is the act of collecting data from niches or target markets used in an intentional strategy. Popular among some but coined by us. This Crucial Engagement feature helps to automate targeted searching in custom niches via this platform’s top channels as search types.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoFollow">o	This Crucial Engagement feature helps to automate following users on Tumblr. It allows you to search users by niching data. You can even set actions for after you follow them. You also can configure times aligned with your crucial Strategy</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoUnfollow">o	This Crucial Engagement feature helps to automates following on Tumblr. We include Crucial filters which help you unfollow exactly you want.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoLike">o	This Crucial Engagement feature helps you to automate mass liking on users post on Tumblr. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoUnLike">o	This Crucial Engagement feature helps you to automate mass unlike on users post on Tumblr. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoComments">o	This Crucial Engagement feature helps to automate Commenting on Tumblr. Search by Crucial Niching then filter post with different search types to engage with intent.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoReblog">o	This Crucial Engagement feature helps to automate reposting targeted post on Tumblr then reblog them to your page. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTumblrAutoBroadcastMessages">o    This Crucial Engagement feature helps to automate sending mass messages on Tumblr. It allows you to filter and send messages to the users you choose.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoLike">o	This Crucial Engagement feature helps you to automate mass liking on users post on Youtube. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoDislike">o	This Crucial Engagement feature helps you to automate mass disliking on users post on Youtube. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoComment">o	This Crucial Engagement feature helps to automate Commenting on Youtube. Search by Crucial Niching then filter post with different search types to engage with intent.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoLikeComments">o	This Crucial Engagement feature helps you to automate liking comments on users youtube post. Search and focus your engagement with Crucial filters.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoSubscribe">o	This Crucial Engagement feature helps to automate subscribing to multiple channels . It allows you to search users by niching data. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoUnsubscribe">o	This Crucial Engagement feature helps to automate un-subscribing from multiple channels. Keep your subscriber list clean and that YouTube recommends the most relevant content. It allows you to search users by niching data. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoSendDirectMessage">o    This Crucial Engagement feature helps to automate sending direct messages to users on YouTube. It allows to filter users and send direct message to them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoScrapeVideos">o    This Crucial Engagement feature helps to Niching videos from YouTube. It allows to filter videos and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoScrapeChannels">o    This Crucial Engagement feature helps to Niching channels from YouTube. It allows to filter channels and Niching them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoIncreaseViews">o    This Crucial Engagement feature helps to automate increasing views on youtube videos. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
 
     <!-- End Log Constants -->
 
@@ -3049,7 +3139,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEndWarning">Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LangKeyQuora">Quora</system:String>
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllQuoraAccountsConfiguredInQuora">Enable Follow Different Users Across All Quora Accounts Configured In Quora</system:String>
+
     <system:String x:Key="LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator">Enable Exporting HTML of different connections across all LinkedIn accounts configured in Crucial Connection$</system:String>
+
 
     <!--End Added on 19-07-2018-->
     <system:String x:Key="LangKeyOnlyContactInfo">Only contact info</system:String>
@@ -3204,7 +3296,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMessageTextFormat" xml:space="preserve"> Format: &lt;FULLNAME&gt;, &lt;FIRSTNAME&gt;, &lt;LASTNAME&gt;, &lt;MYNAME&gt;, &lt;MYFIRSTNAME&gt;       
     Note: The following tokens are replaced with user info.</system:String>
     <system:String x:Key="LangKeyReinviteInMessanger" xml:space="preserve">Reinvite in messaenger who didn't liked the page in everey</system:String>
+
     <system:String x:Key="LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator">Enable send connection request to different users across all LinkedIn accounts configured in Crucial Connection$</system:String>
+
     <system:String x:Key="LangKeyInviteForEventUrl">Invite For Event Url(s)</system:String>
     <system:String x:Key="LangKeyAfterSentRequestAction">After Sent Request Action</system:String>
     <system:String x:Key="LangKeyAutoVerifyByEmail">Auto verify by Email</system:String>
@@ -3328,9 +3422,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySavePostToProfile">Save Post(s) To profile</system:String>
     <system:String x:Key="LangKeySelectGroup">Select Groups</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapeComments">This Crucial Connection$ feature helps to Niching comments from posts on Gplus. It allows to filter comments and posts and Niching them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoTweetTo">This Crucial Connection$ feature helps to automate mentioning users on a tweet . It allows to search and filter posts with different query types and perform the tweet action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoWelcomeTweet">This Crucial Connection$ feature helps to automate mentioning new followers as welcome tweet. It allows to search and filter posts with different query types and perform the welcome tweet action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">This Crucial Connection$ feature helps to automate Unlike on Twitter. It allows to search and filter posts with different query types and perform the Unlike action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoTweetTo">o	This Crucial Engagement feature helps to automate tweeting and mentioning bulk followers at once on Twitter. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoWelcomeTweet">o	This Crucial Engagement feature helps to automate sending your new followers welcome tweets on Twitter. It allows you to search and filter posts with different search types from key channels, then it allows you to set a configured time for your actions to be qued.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">o	This Crucial Engagement feature helps you to automate mass unlike on users post on Tumblr. Search and focus your engagement with Crucial filters.</system:String>
     <system:String x:Key="LangKeyConnectedWithin">Connected Within</system:String>
     <system:String x:Key="LangKeyProfileScraperCampaigns">Profile Niching Campaigns</system:String>
     <system:String x:Key="LangKeyPublisherCampaigns">Publisher Campaigns</system:String>
@@ -3492,7 +3586,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNoOfPostForCommentAndLikeCount">No of post for Comment and Like Count</system:String>
     <system:String x:Key="LangKeyMessageFanpagesTextFormat" xml:space="preserve"> Format: &lt;PageName&gt;, &lt;MYNAME&gt;, &lt;MYFIRSTNAME&gt;       
     Note: The following tokens are replaced with user info.</system:String>
-    <system:String x:Key="LangKeyPostsOfOneEntity" >Posts of each entity (Page/Group/User)</system:String>
+    <system:String x:Key="LangKeyPostsOfOneEntity">Posts of each entity (Page/Group/User)</system:String>
     <system:String x:Key="LangKeyKeywordPages">Keyword Pages</system:String>
     <system:String x:Key="LangKeyKeywordPlaces">Keyword Places</system:String>
     <system:String x:Key="LangKeyPlaceScraper">Place Niching</system:String>
@@ -3552,19 +3646,19 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyModuleDescriptionFacebookCancelFriendRequests">This Crucial Connection$ feature helps to automate Cancel friend requests on Facebook. It allows to filter followers and follow them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoMakeGroupAdmins">This Crucial Connection$ feature helps to automate Make group Admin on Facebook. It allows to search and filter User and make them Group Admin on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoEventCreater">This Crucial Connection$ feature helps to automate create Event on Facebook. It allows to create Event on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoEventInviter">This Crucial Connection$ feature helps to automate Invite for Event on Facebook. It allows to Invite User for Event on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoGroupInviter">This Crucial Connection$ feature helps to automate Invite for Group on Facebook. It allows to Invite User for Group on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoPageInviter">This Crucial Connection$ feature helps to automate Invite for Page on Facebook. It allows to Invite User for Page on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoWatchPartyInviter">This Crucial Connection$ feature helps to automate Invite for WatchParty on Facebook. It allows to Invite User for WatchParty on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoEventInviter">o	This Crucial Engagement feature helps you to automate sending event invites on Facebook. Use this to feel your seats and spots for digital or physical events or even leverage as a part of your sales funnel. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoGroupInviter">o	This Crucial Engagement feature helps you to automate sending group invites on Facebook. Use this to expand your reach, membership and communities. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoPageInviter">o	This Crucial Engagement feature helps you to automate sending page invites on Facebook. Use this to expand your sales or bring exposure to your brand. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoWatchPartyInviter">o	This Crucial Engagement feature helps you to automate sending watch parties invites on Facebook. Invite specific friends and group members to your video watch party. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeOnComment">This Crucial Connection$ feature helps to automate like the comment Of posts on Facebook. It allows to filter posts and like the comments Of post on them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoReplyToComment">This Crucial Connection$ feature helps to automate Reply to comment Of posts on Facebook. It allows to filter posts and Reply to comments Of post on them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeOnWebpostComment">This Crucial Connection$ feature helps to automate like to Webpost comment Of posts on Facebook. It allows to filter posts and like to Webpost comments Of post on them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToRecentFriends">This Crucial Connection$ feature helps to automate sending direct messages to recent Friends On Facebook. It allows to search and filter users with different query types and send them a direct message to recent Friends On configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToFanpage">This Crucial Connection$ feature helps to automate sending direct messages to Facebook Fanpage. It allows to search and filter users with different query types and send them a direct message to Fanpage on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToPeopleByLocation">This Crucial Connection$ feature helps to automate sending direct messages to people from location on Facebook Fanpage. It allows to search and filter users with different query types and send them a direct message to people from location on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoSendBithdayGreetingsToFriends">This Crucial Connection$ feature helps to automate sending greetings to friends on Facebook. It allows to search and filter users with different query types and send them greetings on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToRecentFriends">o	This Crucial Engagement feature helps to automate messaging new users that you choose to target.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToFanpage">o   This Crucial Engagement feature helps to automate sending targeted fan pages messages on Instagram. It allows you to focus your engagement with crucial filters. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToPeopleByLocation">This Crucial Engagement feature helps to automate places and fanpage places. It allows you to focus your engagement with crucial filters. You also can configure times aligned with your crucial Strategy.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoSendBithdayGreetingsToFriends">o	This Crucial Engagement feature helps to automate sending greetings like birthday wishes to your friends on Facebook.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeUsersFromLocations">This Crucial Connection$ feature helps to Niching users from Locations on Facebook. It allows to filter users and Niching them based on Locations at configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeAlbums">This Crucial Connection$ feature helps to Niching Albums on Facebook. It allows to filter and Niching Albums on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeAlbums">o	This Crucial Engagement feature helps to download Albums on Facebook. It allows to filter and Niching Albums on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeMarketPlaceDetails">This Crucial Connection$ feature helps to Niching Marketplace Details on Facebook. It allows to filter and Niching Marketplace Details on configured time.</system:String>
     <system:String x:Key="LangKeyNumberOfUnSubscribesPerJob">Number of UnSubscribe Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfUnSubscribesPerHour">Number of UnSubscribe Per Hour</system:String>
@@ -3607,7 +3701,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyChangeHashOfMedia">Change hash of Media</system:String>
     <system:String x:Key="LangKeyOwnGroups">Own Groups</system:String>
     <system:String x:Key="LangKeyJoinedGroups">Joined Groups</system:String>
-    <system:String x:Key="LangKeyTweetPostCaptionFormate">[USERNAME][ORIGINALPOSTCAPTION][ACCOUNTUSERNAME] Own Tweetcaption Text
+    <system:String x:Key="LangKeyTweetPostCaptionFormate">
+        [USERNAME][ORIGINALPOSTCAPTION][ACCOUNTUSERNAME] Own Tweetcaption Text
     </system:String>
     <system:String x:Key="LangKeyScrapUserWhomWeMessaged">Niching users whom we messaged</system:String>
     <system:String x:Key="LangKeySendMessageToFollowers">Message To Compadres</system:String>
@@ -3672,7 +3767,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyWarningAddPostToPendingDraft">Please add atleast one Post to pending/draft.</system:String>
     <system:String x:Key="LangKey_Save">_Save</system:String>
     <system:String x:Key="LangKeyAlreadyPresent">already present!</system:String>
-    <system:String x:Key="LangKeyConfirmToOverrideAccountRunningWithAnotherCampaign"  xml:space="preserve">This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.
+    <system:String x:Key="LangKeyConfirmToOverrideAccountRunningWithAnotherCampaign" xml:space="preserve">This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.
     Are you sure you want to override previous settings?</system:String>
     <system:String x:Key="LangKeyErrorCampaignNameShouldNotBeEmpty">Campaign name should not be empty. Please provide name for Campaign.</system:String>
     <system:String x:Key="LangKeyErrorCampaignWithSameNameAlreadyExists">Campaign with same name already exists. Please change name of Campaign.</system:String>
@@ -3711,7 +3806,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPinterestConfigurationSaved">Pinterest Configuration successfully saved !!</system:String>
     <system:String x:Key="LangKeyQuoraConfigurationSaved">Quora Configuration successfully saved !!</system:String>
     <system:String x:Key="LangKeyEnterValidFolderPath">Please enter valid folder Path.</system:String>
-    <system:String x:Key="LangKeyConfirmToRestartAfterSoftwareSettingSaved"  xml:space="preserve">Software Settings successfully saved. To apply this setting you need to restart.
+    <system:String x:Key="LangKeyConfirmToRestartAfterSoftwareSettingSaved" xml:space="preserve">Software Settings successfully saved. To apply this setting you need to restart.
 Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyRestartNow">Restart now</system:String>
     <system:String x:Key="LangKeyRestartLater">Restart later</system:String>
@@ -3738,13 +3833,13 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeySelectPathToExport">Please select the path to export.</system:String>
     <system:String x:Key="LangKeySelectCampaignToExport">Please select at least one campaign to export.</system:String>
     <system:String x:Key="LangKeySuccessfullyDuplicated">Successfully duplicated.</system:String>
-    <system:String x:Key="LangKeyConfirmOnIfDeletedCantRecoverBack"  xml:space="preserve">If you delete it, can't recover back 
+    <system:String x:Key="LangKeyConfirmOnIfDeletedCantRecoverBack" xml:space="preserve">If you delete it, can't recover back 
 Are you sure?</system:String>
     <system:String x:Key="LangKeyDeleteAnyway">Delete Anyway</system:String>
     <system:String x:Key="LangKeyDontDelete">Don't delete</system:String>
     <system:String x:Key="LangKeyDeletedSuccessfully">deleted Successfully!</system:String>
     <system:String x:Key="LangKeySelectAtleastOneCampaign">Please select at least one campaign !!</system:String>
-    <system:String x:Key="LangKeyConfirmOnIfDeletedWillDeleteAllSelectedCampaign"  xml:space="preserve">If you delete it will delete all selected campaign permanently 
+    <system:String x:Key="LangKeyConfirmOnIfDeletedWillDeleteAllSelectedCampaign" xml:space="preserve">If you delete it will delete all selected campaign permanently 
 Are you sure?</system:String>
     <system:String x:Key="LangKeyCampaignDeletionCompleted">Campaign deletion operation completed!</system:String>
     <system:String x:Key="LangKeyFailedToSave">Failed to save</system:String>
@@ -3765,7 +3860,7 @@ Are you sure?</system:String>
     <system:String x:Key="LangKeyFriendUrl">Friend Url</system:String>
     <system:String x:Key="LangKeyFriendName">Friend Name</system:String>
     <system:String x:Key="LangKeyChangeLanguage">Change Language</system:String>
-    <system:String x:Key="LangKeyConfirmToSetLanguage"  xml:space="preserve">Set Language Chinese. To apply this setting, you need to restart.
+    <system:String x:Key="LangKeyConfirmToSetLanguage" xml:space="preserve">Set Language Chinese. To apply this setting, you need to restart.
 Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyYes">Yes</system:String>
     <system:String x:Key="LangKeyNo">No</system:String>
@@ -3799,18 +3894,18 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyCampaignHaveNoAccount">Campaign have no account.</system:String>
     <system:String x:Key="LangKeyStatusChangeFailed">Status Change Failed</system:String>
     <system:String x:Key="LangKeyAccountIsntPresentIn">Account isn't present in</system:String>
-    <system:String x:Key="LangKeyConfirmToDeleteCampaign"  xml:space="preserve">Campaign will be deleted permanently from the campaigns.
+    <system:String x:Key="LangKeyConfirmToDeleteCampaign" xml:space="preserve">Campaign will be deleted permanently from the campaigns.
  Are you sure to delete?</system:String>
-    <system:String x:Key="LangKeyConfirmToDeleteSelectedCampaign"  xml:space="preserve">All the selected campaigns will be deleted permanently.
+    <system:String x:Key="LangKeyConfirmToDeleteSelectedCampaign" xml:space="preserve">All the selected campaigns will be deleted permanently.
  Are you sure to delete these Campaigns?</system:String>
     <system:String x:Key="LangKeyWarningSelectCampaignToDelete">Please select any Campaign to delete!</system:String>
-    <system:String x:Key="LangKeyAddedMaxAccountAsPerYourPlan" >You have already added maximum accounts as per your plan</system:String>
+    <system:String x:Key="LangKeyAddedMaxAccountAsPerYourPlan">You have already added maximum accounts as per your plan</system:String>
     <system:String x:Key="LangKeyTheAccountCantBeImportedNetworkNotAvailable">The account {0} can't be imported because {1} is not available.</system:String>
-    <system:String x:Key="LangKeyConfirmToDeleteSelectedAccounts"  xml:space="preserve">All the selected accounts will be deleted permanently.
+    <system:String x:Key="LangKeyConfirmToDeleteSelectedAccounts" xml:space="preserve">All the selected accounts will be deleted permanently.
  Are you sure to delete these accounts?</system:String>
     <system:String x:Key="LangKeyAccountsSuccessfullyExportedTo">Accounts are successfully exported to [ {0} ]</system:String>
     <system:String x:Key="LangKeySelectAccountsToUpdate">Please select some accounts to update !!</system:String>
-    <system:String x:Key="LangKeyCredentialsImportedStartingUpdate"  xml:space="preserve">Imported Credentials successfully.
+    <system:String x:Key="LangKeyCredentialsImportedStartingUpdate" xml:space="preserve">Imported Credentials successfully.
  Starting to update ...</system:String>
     <system:String x:Key="LangKeyUpdatedCredentials">Successfully updated credentials.</system:String>
     <system:String x:Key="LangKeyNoAccountToUpdatecCredentialsOrFormatWrong">No account found to update credentials or the format is wrong.</system:String>
@@ -3833,8 +3928,14 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyThisQuestionShouldBeACompleteSentence">This question should be a complete sentence</system:String>
     <system:String x:Key="LangKeyThisQuestionNeedsMoreDetails">This question needs more details</system:String>
     <system:String x:Key="LangKeyThisQuestionShouldBeShorter">This question should be shorter</system:String>
-    <system:String x:Key="LangKeyThisQuestionShouldBeShorterPleaseRephraseTheQuestionToBeAConciseEasilyUnderstoodQuestionWithFewerThan250Characters">This question should be shorter. Please rephrase the question to be a concise, easily understood question with fewer than 250 characters.</system:String>
-    <system:String x:Key="LangKeyThisQuestionNeedsMoreDetailAddMoreInformationToAskAClearQuestionWrittenAsACompleteSentence">This question needs more detail.Add more information to ask a clear question, written as a complete sentence</system:String>
+    <system:String
+        x:Key="LangKeyThisQuestionShouldBeShorterPleaseRephraseTheQuestionToBeAConciseEasilyUnderstoodQuestionWithFewerThan250Characters">
+        This question should be shorter. Please rephrase the question to be a concise, easily understood question with fewer than 250 characters.
+    </system:String>
+    <system:String
+        x:Key="LangKeyThisQuestionNeedsMoreDetailAddMoreInformationToAskAClearQuestionWrittenAsACompleteSentence">
+        This question needs more detail.Add more information to ask a clear question, written as a complete sentence
+    </system:String>
     <system:String x:Key="LangKeyAddEventsToList">Please Add Events To List.</system:String>
     <system:String x:Key="LangKeyselectAtLeastOneSource">Please select at least one source.</system:String>
     <system:String x:Key="LangKeySelectValidSourceFilter">Please select a valid source filter.</system:String>
@@ -3968,8 +4069,10 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyTypeSomeQuery">Please type some query.</system:String>
     <system:String x:Key="LangKeyAddATimeRangeToRunStopActivity">Please add at least one time range when to run and stop the activity.</system:String>
     <system:String x:Key="LangKeyMessageCopied">Message copied</system:String>
-    <system:String x:Key="LangKeyAsksForSelectingAndOverwritingAccounts">{0} account(s) already set up to run {1} activity. Would you like to overwrite settings of those accounts?
- {2}"</system:String>
+    <system:String x:Key="LangKeyAsksForSelectingAndOverwritingAccounts">
+        {0} account(s) already set up to run {1} activity. Would you like to overwrite settings of those accounts?
+        {2}"
+    </system:String>
     <system:String x:Key="LangKeyErrorActivityIsntConfiguredProperlyForAccount">Error:- {0} activity is not configured properly for this account. Please make sure you have added enough queries and updated time when activity has to be performed and clicked on save button.</system:String>
     <system:String x:Key="LangKeyFatalErrorMessage" xml:space="preserve">NOTE: While you may be able to continue, restarting {0} is advisable.
 Do you want to continue running {0}?</system:String>
@@ -4393,7 +4496,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyCommunityType">Community Type</system:String>
     <system:String x:Key="LangKeyJoinRequestDate">JoinRequest Date</system:String>
     <system:String x:Key="LangKeyDeleteConversations">Delete Conversations</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInDeleteConversation">This Crucial Connection$ feature helps to automate delete all Conversation of users on LinkedIn. It allows to select accounts for delete conversations on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInDeleteConversation">o	This Crucial Engagement feature helps to automate delete all Conversation of users on LinkedIn. It allows to select accounts for delete conversations on configured time.</system:String>
 
     <system:String x:Key="LangKeyAlreadyFollowedUserOutsideSoftware">Already followed user => {0} outside software</system:String>
     <system:String x:Key="LangKeyServerIsExperiencingMildCaseHiccups">Our server is experiencing a mild case of the hiccups. We've reported it to the team.</system:String>
@@ -4591,7 +4694,7 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeySelectLocationAndSave">Please Select Location And Save</system:String>
     <system:String x:Key="LangKeyDontLoginAccountAfterProxyManagement">Don't let the account login after assigning/unassigning account to proxy.</system:String>
     <system:String x:Key="LangKeyCantaddAccountToProxyAddingLimitReached">Can't add more accounts to this proxy as you have checked setting 'Add {0} accounts per proxy'</system:String>
-    <system:String x:Key="LangKeyAccountHasWorkingProxyStillWannaReplace"  xml:space="preserve">This account already has a working proxy.
+    <system:String x:Key="LangKeyAccountHasWorkingProxyStillWannaReplace" xml:space="preserve">This account already has a working proxy.
 Do you still want to replace it's proxy with new one?</system:String>
     <system:String x:Key="LangKeyConfirmToAssignRandProxies">Confirm to assign random proxies</system:String>
     <system:String x:Key="LangKeyNoWorkingProxiesAvailableToAssign">No more working proxies available to assign</system:String>
@@ -4665,15 +4768,15 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyStartActivityBusinessAccount" xml:space="preserve">This will result in stopping all activity from Normal Account and starting activity by Business Account.
 Do you want to continue?</system:String>
     <system:String x:Key="LangKeyDeActivatingBusinessAccountforPinterest">Deactivating Business Account for Pinterest</system:String>
-        <system:String x:Key="LangKeyStartActivityNormalAccount" xml:space="preserve">This will result in stopping all activity from Business Account and starting activity by Normal Account.
+    <system:String x:Key="LangKeyStartActivityNormalAccount" xml:space="preserve">This will result in stopping all activity from Business Account and starting activity by Normal Account.
 Do you want to continue?</system:String>
 
-        <system:String x:Key="LangKeyReportToVideosPerDay">Report To Videos Per Day</system:String>
+    <system:String x:Key="LangKeyReportToVideosPerDay">Report To Videos Per Day</system:String>
     <system:String x:Key="LangKeyReportToVideosPerHour">Report To Videos Per Hour</system:String>
     <system:String x:Key="LangKeyReportToVideosPerJob">Report To Videos Per Job</system:String>
     <system:String x:Key="LangKeyMaximumReportToVideosPerDay">Maximum Report To Videos Per Day</system:String>
     <system:String x:Key="LangKeyReportToVideosPerWeek">Report To Videos Per Week</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoReportVideo">This Crucial Connection$ feature helps to automate report to videos on YouTube. It allows to filter videos and report to them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionYouTubeAutoReportVideo">o	This Crucial Engagement feature helps to automates reporting video on Youtube. Search and focus your engagement with Crucial filters and perform actions on time with campaign settings.</system:String>
     <system:String x:Key="LangKeyReportVideo">Report Video</system:String>
 
     <system:String x:Key="LangKeyCookiesNotInValidJsonText">Cookies are not in a valid json text form.</system:String>
@@ -4723,4 +4826,8 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyNumberOfAccountToCreatePerDay">Number Of Account To Create Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfAccountToCreatePerWeek">Number Of Account To Create Per Week</system:String>
     <system:String x:Key="LangKeyAccountToCreatePerDay">Max Account To Create Per Day</system:String>
+    <system:String x:Key="LangKeyClearAllCookies">Clear All Cookies</system:String>
+    <system:String x:Key="LangKeyWannaClearAllCookies">Do you really want to delete all cookies?</system:String>
+    <system:String x:Key="LangKeyCaptchFound">Found ImageCaptcha Security Check</system:String>
+    <system:String x:Key="LangKeyWhatsApp">WhatsApp</system:String>
 </ResourceDictionary>

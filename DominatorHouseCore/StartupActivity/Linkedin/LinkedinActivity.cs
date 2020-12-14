@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Interfaces.StartUp;
+﻿#region
+
+using DominatorHouseCore.Interfaces.StartUp;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Linkedin
 {
@@ -26,6 +30,5 @@ namespace DominatorHouseCore.StartupActivity.Linkedin
                     return new LinkedinEngageActivity();
             }
         }
-
     }
 }

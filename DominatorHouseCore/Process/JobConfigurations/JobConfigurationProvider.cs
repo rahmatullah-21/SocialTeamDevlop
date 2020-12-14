@@ -1,9 +1,12 @@
-﻿
+﻿#region
+
+using System.Collections.Generic;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Process.JobConfigurations
 {
@@ -17,7 +20,8 @@ namespace DominatorHouseCore.Process.JobConfigurations
         private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
         private readonly ITemplatesFileManager _templatesFileManager;
 
-        public JobConfigurationProvider(IJobActivityConfigurationManager jobActivityConfigurationManager, ITemplatesFileManager templatesFileManager)
+        public JobConfigurationProvider(IJobActivityConfigurationManager jobActivityConfigurationManager,
+            ITemplatesFileManager templatesFileManager)
         {
             _jobActivityConfigurationManager = jobActivityConfigurationManager;
             _templatesFileManager = templatesFileManager;
@@ -27,7 +31,7 @@ namespace DominatorHouseCore.Process.JobConfigurations
         {
             var moduleConfiguration = _jobActivityConfigurationManager[accountId, activityType];
             var model = _templatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
-            JObject jsonObject = JObject.Parse(model.ActivitySettings);
+            var jsonObject = JObject.Parse(model.ActivitySettings);
             var isNeedToSchedule = jsonObject["IsNeedToStart"]?.ToObject<bool>() ?? false;
             var jobConfiguration = jsonObject["JobConfiguration"]?.ToObject<JobConfiguration>();
             List<QueryInfo> savedQueries;

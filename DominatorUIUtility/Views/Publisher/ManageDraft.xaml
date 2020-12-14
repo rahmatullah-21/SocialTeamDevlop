@@ -1,81 +1,85 @@
 ﻿<UserControl x:Class="DominatorUIUtility.Views.Publisher.ManageDraft"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
-            >
-    <Grid  Name="MainGrid">
+             mc:Ignorable="d">
+    <Grid Name="MainGrid">
         <StackPanel>
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource LangKeyPost}" Margin="5" VerticalAlignment="Center" />
-                    <TextBlock Text="{DynamicResource LangKeyFilter}" VerticalAlignment="Center" Margin="5"/>
-                    <TextBox x:Name="txtFilter" Margin="5" Width="200"/>
-                    <Button Content="{DynamicResource LangKeyShufflePosts}"   x:Name="btnSufflePosts" Margin="10,5"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
-                    <Button Content="{DynamicResource LangKeySendAllToPostList}"   x:Name="btnSendAllToPostList" Margin="10,5"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
-                    <Button Content="{DynamicResource LangKeySendAllToTopOfPostList}"   x:Name="btnSendAllToTopPostList" Margin="10,5"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
-                    <Button Content="{DynamicResource LangKeySendPostToCampaign}"   x:Name="btnSendPostToCampaign" Margin="10,5"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
-                    <Button Content="{DynamicResource LangKeyDeleteAll}"   x:Name="btnDeleteAll" Margin="10,5"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
+                    <TextBlock Text="{DynamicResource LangKeyFilter}" VerticalAlignment="Center" Margin="5" />
+                    <TextBox x:Name="txtFilter" Margin="5" Width="200" />
+                    <Button Content="{DynamicResource LangKeyShufflePosts}" x:Name="btnSufflePosts" Margin="10,5"
+                            Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
+                    <Button Content="{DynamicResource LangKeySendAllToPostList}" x:Name="btnSendAllToPostList"
+                            Margin="10,5"
+                            Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
+                    <Button Content="{DynamicResource LangKeySendAllToTopOfPostList}" x:Name="btnSendAllToTopPostList"
+                            Margin="10,5"
+                            Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
+                    <Button Content="{DynamicResource LangKeySendPostToCampaign}" x:Name="btnSendPostToCampaign"
+                            Margin="10,5"
+                            Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
+                    <Button Content="{DynamicResource LangKeyDeleteAll}" x:Name="btnDeleteAll" Margin="10,5"
+                            Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
                 </StackPanel>
-                <CheckBox Content="{DynamicResource LangKeyRemoveDraftsWhenAddingToPostList}" HorizontalAlignment="Center"/>
+                <CheckBox Content="{DynamicResource LangKeyRemoveDraftsWhenAddingToPostList}"
+                          HorizontalAlignment="Center" />
             </StackPanel>
-            <ListView  Margin="5">
+            <ListView Margin="5">
                 <ListView.Resources>
-                    <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                    <Style TargetType="{x:Type GridViewColumnHeader}"
+                           BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                     </Style>
                 </ListView.Resources>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="#" />
-                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" >
+                        <GridViewColumn Header="{DynamicResource LangKeyMessage}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock/>
-                                        <Image/>
+                                        <TextBlock />
+                                        <Image />
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource LangKeyImages}" >
+                        <GridViewColumn Header="{DynamicResource LangKeyImages}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
 
-                                        <Image/>
+                                        <Image />
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="{DynamicResource LangKeyCreatedOn}" />
 
-                        <GridViewColumn Header="{DynamicResource LangKeyAction}" >
+                        <GridViewColumn Header="{DynamicResource LangKeyAction}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Button Content="{DynamicResource LangKeySendToPostList}"
                                                 x:Name="btnSendToPostList"
-                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
                                         <Button Content="{DynamicResource LangKeySendToTopOfPostList}"
                                                 x:Name="btnSendToTopOfPostList"
-                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
                                         <Button Content="{DynamicResource LangKeySendToCampaigns}"
                                                 x:Name="btnSendToCampaign"
-                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
                                         <Button Content="{DynamicResource LangKeyDuplicatePost}"
                                                 x:Name="btnDuplicatePost"
-                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
                                         <Button Content="{DynamicResource langEdit}" x:Name="btnEdit"
-                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
                                         <Button Content="{DynamicResource LangKeyDelete}" x:Name="btnDelete"
-                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

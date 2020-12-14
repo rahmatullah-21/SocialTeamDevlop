@@ -114,8 +114,8 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
+    <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.5\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
@@ -148,8 +148,8 @@
       <HintPath>..\packages\MahApps.Metro.IconPacks.2.3.0\lib\net46\MahApps.Metro.IconPacks.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.6.6\lib\net45\NLog.dll</HintPath>
@@ -217,13 +217,9 @@
     <Compile Include="Behaviours\Lang.cs" />
     <Compile Include="Behaviours\NetworkAvailablity.cs" />
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
-    <Compile Include="Behaviours\ReportManager.cs" />
     <Compile Include="Behaviours\SelectionChangedBehaviour.cs" />
     <Compile Include="Behaviours\UserFilterAction.cs" />
     <Compile Include="Behaviours\Utilities.cs" />
-    <Compile Include="ConfigControl\EmailNotifications.xaml.cs">
-      <DependentUpon>EmailNotifications.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ConfigControl\EmbeddedBrowserSettings.xaml.cs">
       <DependentUpon>EmbeddedBrowserSettings.xaml</DependentUpon>
     </Compile>
@@ -263,14 +259,8 @@
     <Compile Include="CustomControl\AddUpdateAccountControl.xaml.cs">
       <DependentUpon>AddUpdateAccountControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControl\AutoReplyMessege.xaml.cs">
-      <DependentUpon>AutoReplyMessege.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CustomControl\ChatImageContainer.xaml.cs">
       <DependentUpon>ChatImageContainer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl\ChatImageViewer.xaml.cs">
-      <DependentUpon>ChatImageViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\ChatMediaContainer.xaml.cs">
       <DependentUpon>ChatMediaContainer.xaml</DependentUpon>
@@ -328,9 +318,6 @@
     </Compile>
     <Compile Include="CustomControl\EditProfile.xaml.cs">
       <DependentUpon>EditProfile.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl\ExtraFooterControl.xaml.cs">
-      <DependentUpon>ExtraFooterControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\InputBoxControl.xaml.cs">
       <DependentUpon>InputBoxControl.xaml</DependentUpon>
@@ -1094,10 +1081,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConfigControl\EmailNotifications.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="ConfigControl\EmbeddedBrowserSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1194,15 +1177,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomControl\AutoReplyMessege.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="CustomControl\ChatImageContainer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\ChatImageViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1279,10 +1254,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\EditProfile.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\ExtraFooterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

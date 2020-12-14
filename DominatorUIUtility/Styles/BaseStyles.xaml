@@ -9,7 +9,7 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListView.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    
+
     <FontFamily x:Key="BuildTitleSbIt" >/DominatorUIUtility;component/Resources/CustomFont/built titling sb.ttf#built titling sb</FontFamily>
     <FontFamily x:Key="BuildTitleBdIt" >/DominatorUIUtility;component/Resources/CustomFont/built titling bd it.ttf#built titling bd it</FontFamily>
     <FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/built titling bd.ttf#built titling bd</FontFamily>
@@ -28,9 +28,9 @@
     <FontFamily x:Key="BuildTitleIt">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>
     <FontFamily x:Key="BuildTitleRgIt">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>
     <FontFamily x:Key="BuildTitleRg">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>-->
-    
+
     <!--<FontFamily x:Key="BuildTitleSb">/DominatorUIUtility;component/Resources/CustomFont/built-title-bd-it.ttf #Build Title Rg</FontFamily>-->
-    
+
 
     <Style x:Key="MahApps.Metro.Styles.ToggleSwitch.Win10" TargetType="{x:Type controls:ToggleSwitch}">
         <Setter Property="ContentDirection" Value="RightToLeft" />
@@ -549,19 +549,19 @@ Grid.Column="1"
     </DrawingImage>
 
     <ControlTemplate x:Key="CommonComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="30" />
-                </Grid.ColumnDefinitions>
-                <Border
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+            <Border
                   x:Name="Border" 
                   Grid.ColumnSpan="2"
                   CornerRadius="6"
                   BorderBrush="Red"
                   Background="White"
                   BorderThickness="1" />
-                <Border Name="ChildBorder" Grid.Column="1" BorderThickness="1" Margin="1" CornerRadius="0,6,6,0" Background="#FFEFF2F5"  BorderBrush="#FFEFF2F5">
+            <Border Name="ChildBorder" Grid.Column="1" BorderThickness="1" Margin="1" CornerRadius="0,6,6,0" Background="#FFEFF2F5"  BorderBrush="#FFEFF2F5">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -570,52 +570,52 @@ Grid.Column="1"
                     <Image Name="Arrow" Grid.Column="2" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center" Height="8" Width="8" Source="{StaticResource ArrowImage}" RenderTransform="{StaticResource Rotate180}"/>
                 </Grid>
             </Border>
-            </Grid>
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsChecked" Value="true">
-                    <Setter TargetName="Arrow" Property="RenderTransform" Value="{StaticResource Rotate0}"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="true">
+                <Setter TargetName="Arrow" Property="RenderTransform" Value="{StaticResource Rotate0}"/>
                 <Setter TargetName="Arrow" Property="Margin" Value="0,0,0,0"/>
                 <Setter TargetName="Border" Property="CornerRadius" Value="6,6,0,0"/>
-                    <Setter TargetName="ChildBorder" Property="CornerRadius" Value="0,6,0,0"/>
-                </Trigger>
+                <Setter TargetName="ChildBorder" Property="CornerRadius" Value="0,6,0,0"/>
+            </Trigger>
             <Trigger Property="IsChecked" Value="true">
                 <Setter TargetName="Border" Property="BorderBrush" Value="Red"/>
-                
+
             </Trigger>
             <Trigger Property="IsChecked" Value="false">
                 <Setter TargetName="Border" Property="BorderBrush" Value="Gray"/>
             </Trigger>
         </ControlTemplate.Triggers>
-        </ControlTemplate>
+    </ControlTemplate>
 
     <Style x:Key="CommonComboBoxStyle" TargetType="{x:Type ComboBox}">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="Width" Value="Auto"/>
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
         <Setter Property="MinHeight" Value="20"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ComboBox}">
-                        <Grid>
-                            <ToggleButton 
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <ToggleButton 
                             Name="ToggleButton" 
                             Template="{StaticResource CommonComboBoxToggleButton}" 
                             Grid.Column="1" 
                             Focusable="false"
                             IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
                             ClickMode="Press">
-                            </ToggleButton>
-                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Width="Auto" Content="{TemplateBinding SelectionBoxItem}"
+                        </ToggleButton>
+                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Width="Auto" Content="{TemplateBinding SelectionBoxItem}"
                             ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                             ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"                            
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left" Margin="10,0,30,0"/>
 
-                            <Popup 
+                        <Popup 
                             Name="Popup"
                             Placement="Bottom"
                             IsOpen="{TemplateBinding IsDropDownOpen}"
@@ -638,15 +638,15 @@ Grid.Column="1"
                                 </Border>
                             </Grid>
                         </Popup>
-                        </Grid>
-                    
+                    </Grid>
+
                 </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-            </Style.Triggers>
-        </Style>
-    
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+        </Style.Triggers>
+    </Style>
+
 
     <Image x:Key="RedditIcon" Source="/DominatorUIUtility;component/Images/RedditNew.png"/>
     <Image x:Key="InstagramIcon" Source="/DominatorUIUtility;component/Images/InstagramNew.png"/>
@@ -657,7 +657,7 @@ Grid.Column="1"
     <Image x:Key="FacebookIcon" Source="/DominatorUIUtility;component/Images/FacebookNew.png"/>
     <Image x:Key="PinterestIcon" Source="/DominatorUIUtility;component/Images/PinterestNew.png"/>
 
-   
+
 
     <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -1049,7 +1049,7 @@ Grid.Column="1"
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
-                
+
             </Setter.Value>
         </Setter>
     </Style>
@@ -1156,7 +1156,7 @@ Grid.Column="1"
                         <utility:TextPath.Effect>
                             <DropShadowEffect BlurRadius="0" ShadowDepth="1" Direction="15" Color="Black" ></DropShadowEffect>
                         </utility:TextPath.Effect>
-                       
+
                     </utility:TextPath>
                 </Border>
                 <Border Grid.Row="1" Margin="3,0,4,0" BorderBrush="Gray" BorderThickness="1" CornerRadius="0,0,1,1" Padding="5" Background="#B0B0B0">
@@ -1180,7 +1180,8 @@ Grid.Column="1"
                 <TabPanel Margin="-2,0,0,0" x:Name="TabPanel" IsItemsHost="True" />
             </ScrollViewer>
             <!--<Border Grid.Row="1" Margin="-1,0,-1,0" CornerRadius="3" Height="5" Background="#FFB0B0B0"/>-->
-            <Border x:Name="Border" BorderBrush="Transparent" Margin="-8,0,0,0"  Grid.Row="1" CornerRadius="0,0,8,8" Padding="30,30,30,30"><!--Background="#F2F5F7"-->
+            <Border x:Name="Border" BorderBrush="Transparent" Margin="-8,0,0,0"  Grid.Row="1" CornerRadius="0,0,8,8" Padding="30,30,30,30">
+                <!--Background="#F2F5F7"-->
                 <!--<Border.Effect>
                     <DropShadowEffect ShadowDepth="-4"  Direction="0" BlurRadius="10" Color="Gray"/>
                 </Border.Effect>-->
@@ -1189,9 +1190,9 @@ Grid.Column="1"
                 </Border.Background>
                 <ContentPresenter  ContentSource="SelectedContent" />
             </Border>
-            
+
         </Grid>
-        
+
     </ControlTemplate>
 
     <ControlTemplate TargetType="{x:Type TabControl}" x:Key="TopTabstyle1">
@@ -1418,7 +1419,7 @@ Grid.Column="1"
                         <Trigger Property="IsChecked" Value="false">
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed" />
                         </Trigger>
-                        
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

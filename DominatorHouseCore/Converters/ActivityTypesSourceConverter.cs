@@ -1,10 +1,14 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -14,7 +18,6 @@ namespace DominatorHouseCore.Converters
         {
             var collection = values[0] as IEnumerable<ActivityType?>;
             var network = values[1] as SocialNetworks?;
-            
             if (network == null || network == SocialNetworks.Admin)
             {
                 return collection;

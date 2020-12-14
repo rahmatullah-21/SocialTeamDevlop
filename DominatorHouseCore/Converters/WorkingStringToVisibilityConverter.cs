@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -12,8 +16,7 @@ namespace DominatorHouseCore.Converters
         {
             if (value != null && value.ToString().ToLower().Equals("working"))
                 return Visibility.Visible;
-            else
-                return Visibility.Collapsed;
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

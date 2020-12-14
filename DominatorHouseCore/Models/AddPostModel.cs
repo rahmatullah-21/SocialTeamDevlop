@@ -1,11 +1,15 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using DominatorHouseCore.Models.Publisher;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -16,7 +20,7 @@ namespace DominatorHouseCore.Models
 
         public ICollectionView PostsDetailCollection
         {
-            get { return _postsDetailCollection; }
+            get => _postsDetailCollection;
             set
             {
                 if (_postsDetailCollection != null && value == _postsDetailCollection)
@@ -26,13 +30,11 @@ namespace DominatorHouseCore.Models
         }
 
         private string _messeges;
+
         [ProtoMember(1)]
         public string Messeges
         {
-            get
-            {
-                return _messeges;
-            }
+            get => _messeges;
             set
             {
                 if (value == _messeges)
@@ -40,14 +42,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _messeges, value);
             }
         }
+
         private List<string> _photoUrl = new List<string>();
+
         [ProtoMember(2)]
         public List<string> PhotoUrl
         {
-            get
-            {
-                return _photoUrl;
-            }
+            get => _photoUrl;
             set
             {
                 if (value == _photoUrl)
@@ -57,79 +58,68 @@ namespace DominatorHouseCore.Models
         }
 
         private List<string> _videoUrl = new List<string>();
+
         [ProtoMember(3)]
         public List<string> VideoUrl
         {
-            get
-            {
-                return _videoUrl;
-            }
+            get => _videoUrl;
             set
             {
                 if (value == _videoUrl)
                     return;
                 SetProperty(ref _videoUrl, value);
-
             }
         }
+
         private string _titles;
+
         [ProtoMember(4)]
         public string Titles
         {
-            get
-            {
-                return _titles;
-            }
+            get => _titles;
             set
             {
                 if (value == _titles)
                     return;
                 SetProperty(ref _titles, value);
-
             }
         }
+
         private bool _isUseFacebookSellPostChecked;
+
         [ProtoMember(5)]
         public bool IsUseFacebookSellPostChecked
         {
-            get
-            {
-                return _isUseFacebookSellPostChecked;
-            }
+            get => _isUseFacebookSellPostChecked;
             set
             {
                 if (value == _isUseFacebookSellPostChecked)
                     return;
                 SetProperty(ref _isUseFacebookSellPostChecked, value);
-
             }
         }
+
         private bool _isUseInstagramStoryPollChecked;
+
         [ProtoMember(6)]
         public bool IsUseInstagramStoryPollChecked
         {
-            get
-            {
-                return _isUseInstagramStoryPollChecked;
-            }
+            get => _isUseInstagramStoryPollChecked;
             set
             {
                 if (value == _isUseInstagramStoryPollChecked)
                     return;
                 SetProperty(ref _isUseInstagramStoryPollChecked, value);
-
             }
         }
 
 
         private string _campaign;
+
         [ProtoMember(31)]
         public string Campaign
         {
-            get
-            {
-                return _campaign;
-            }
+            get => _campaign;
             set
             {
                 if (value == _campaign)
@@ -139,13 +129,11 @@ namespace DominatorHouseCore.Models
         }
 
         private string _importedText;
+
         [ProtoMember(41)]
         public string ImportedText
         {
-            get
-            {
-                return _importedText;
-            }
+            get => _importedText;
             set
             {
                 if (value == _importedText)
@@ -153,14 +141,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _importedText, value);
             }
         }
+
         private DateTime _campaignStartDate;
+
         [ProtoMember(42)]
         public DateTime CampaignStartDate
         {
-            get
-            {
-                return _campaignStartDate;
-            }
+            get => _campaignStartDate;
             set
             {
                 if (value == _campaignStartDate)
@@ -168,14 +155,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaignStartDate, value);
             }
         }
+
         private DateTime _campaignEndDate;
+
         [ProtoMember(43)]
         public DateTime CampaignEndDate
         {
-            get
-            {
-                return _campaignEndDate;
-            }
+            get => _campaignEndDate;
             set
             {
                 if (value == _campaignEndDate)
@@ -183,14 +169,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaignEndDate, value);
             }
         }
+
         private int _serialNo;
+
         [ProtoMember(44)]
         public int SerialNo
         {
-            get
-            {
-                return _serialNo;
-            }
+            get => _serialNo;
             set
             {
                 if (value == _serialNo)
@@ -198,14 +183,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _serialNo, value);
             }
         }
+
         private string _finished = "0/0";
+
         [ProtoMember(45)]
         public string Finished
         {
-            get
-            {
-                return _finished;
-            }
+            get => _finished;
             set
             {
                 if (value == _finished)
@@ -213,14 +197,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _finished, value);
             }
         }
+
         private string _succeessfull = "0/0";
+
         [ProtoMember(46)]
         public string Succeessfull
         {
-            get
-            {
-                return _succeessfull;
-            }
+            get => _succeessfull;
             set
             {
                 if (value == _succeessfull)
@@ -228,14 +211,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _succeessfull, value);
             }
         }
+
         private string _status = "Active";
+
         [ProtoMember(47)]
         public string Status
         {
-            get
-            {
-                return _status;
-            }
+            get => _status;
             set
             {
                 if (value == _status)
@@ -243,14 +225,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _status, value);
             }
         }
+
         private int _deleted;
+
         [ProtoMember(48)]
         public int Deleted
         {
-            get
-            {
-                return _deleted;
-            }
+            get => _deleted;
             set
             {
                 if (value == _deleted)
@@ -261,13 +242,11 @@ namespace DominatorHouseCore.Models
 
 
         private bool _isExpireDateChecked;
+
         [ProtoMember(50)]
         public bool IsExpireDateChecked
         {
-            get
-            {
-                return _isExpireDateChecked;
-            }
+            get => _isExpireDateChecked;
             set
             {
                 if (value == _isExpireDateChecked)
@@ -275,14 +254,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isExpireDateChecked, value);
             }
         }
+
         private DateTime _expireDate;
+
         [ProtoMember(51)]
         public DateTime ExpireDate
         {
-            get
-            {
-                return _expireDate;
-            }
+            get => _expireDate;
             set
             {
                 if (value == _expireDate)
@@ -290,14 +268,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _expireDate, value);
             }
         }
+
         private bool _isEnableReAddPostChecked;
+
         [ProtoMember(52)]
         public bool IsEnableReAddPostChecked
         {
-            get
-            {
-                return _isEnableReAddPostChecked;
-            }
+            get => _isEnableReAddPostChecked;
             set
             {
                 if (value == _isEnableReAddPostChecked)
@@ -305,14 +282,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isEnableReAddPostChecked, value);
             }
         }
+
         private int _times;
+
         [ProtoMember(53)]
         public int Times
         {
-            get
-            {
-                return _times;
-            }
+            get => _times;
             set
             {
                 if (value == _times)
@@ -320,14 +296,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _times, value);
             }
         }
+
         private bool _isGeneralChecked;
+
         [ProtoMember(54)]
         public bool IsGeneralChecked
         {
-            get
-            {
-                return _isGeneralChecked;
-            }
+            get => _isGeneralChecked;
             set
             {
                 if (value == _isGeneralChecked)
@@ -335,14 +310,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isGeneralChecked, value);
             }
         }
+
         private bool _isJobChecked;
+
         [ProtoMember(55)]
         public bool IsJobChecked
         {
-            get
-            {
-                return _isJobChecked;
-            }
+            get => _isJobChecked;
             set
             {
                 if (value == _isJobChecked)
@@ -350,14 +324,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isJobChecked, value);
             }
         }
+
         private string _tumblrTags;
+
         [ProtoMember(56)]
         public string TumblrTags
         {
-            get
-            {
-                return _tumblrTags;
-            }
+            get => _tumblrTags;
             set
             {
                 if (value == _tumblrTags)
@@ -365,14 +338,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _tumblrTags, value);
             }
         }
+
         private string _descriptionUsedForFacebook;
+
         [ProtoMember(57)]
         public string DescriptionUsedForFacebook
         {
-            get
-            {
-                return _descriptionUsedForFacebook;
-            }
+            get => _descriptionUsedForFacebook;
             set
             {
                 if (value == _descriptionUsedForFacebook)
@@ -380,14 +352,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _descriptionUsedForFacebook, value);
             }
         }
+
         private bool _isPostAsPartOfStoryChecked;
+
         [ProtoMember(58)]
         public bool IsPostAsPartOfStoryChecked
         {
-            get
-            {
-                return _isPostAsPartOfStoryChecked;
-            }
+            get => _isPostAsPartOfStoryChecked;
             set
             {
                 if (value == _isPostAsPartOfStoryChecked)
@@ -395,14 +366,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isPostAsPartOfStoryChecked, value);
             }
         }
+
         private bool _isDeletePostAfterChecked;
+
         [ProtoMember(59)]
         public bool IsDeletePostAfterChecked
         {
-            get
-            {
-                return _isDeletePostAfterChecked;
-            }
+            get => _isDeletePostAfterChecked;
             set
             {
                 if (value == _isDeletePostAfterChecked)
@@ -410,14 +380,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isDeletePostAfterChecked, value);
             }
         }
+
         private int _hours;
+
         [ProtoMember(60)]
         public int Hours
         {
-            get
-            {
-                return _hours;
-            }
+            get => _hours;
             set
             {
                 if (value == _hours)
@@ -427,13 +396,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isArchivePostChecked;
+
         [ProtoMember(61)]
         public bool IsArchivePostChecked
         {
-            get
-            {
-                return _isArchivePostChecked;
-            }
+            get => _isArchivePostChecked;
             set
             {
                 if (value == _isArchivePostChecked)
@@ -441,14 +408,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isArchivePostChecked, value);
             }
         }
+
         private bool _isRepostusingGeoLocationChecked;
+
         [ProtoMember(62)]
         public bool IsRepostusingGeoLocationChecked
         {
-            get
-            {
-                return _isRepostusingGeoLocationChecked;
-            }
+            get => _isRepostusingGeoLocationChecked;
             set
             {
                 if (value == _isRepostusingGeoLocationChecked)
@@ -456,14 +422,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isRepostusingGeoLocationChecked, value);
             }
         }
+
         private bool _isTagSpecificUsersChecked;
+
         [ProtoMember(63)]
         public bool IsTagSpecificUsersChecked
         {
-            get
-            {
-                return _isTagSpecificUsersChecked;
-            }
+            get => _isTagSpecificUsersChecked;
             set
             {
                 if (value == _isTagSpecificUsersChecked)
@@ -471,14 +436,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isTagSpecificUsersChecked, value);
             }
         }
+
         private bool _isChooseVideoCoverChecked;
+
         [ProtoMember(64)]
         public bool IsChooseVideoCoverChecked
         {
-            get
-            {
-                return _isChooseVideoCoverChecked;
-            }
+            get => _isChooseVideoCoverChecked;
             set
             {
                 if (value == _isChooseVideoCoverChecked)
@@ -488,13 +452,11 @@ namespace DominatorHouseCore.Models
         }
 
         private Campaign _campaignDetails = new Campaign();
+
         [ProtoMember(65)]
         public Campaign CampaignDetails
         {
-            get
-            {
-                return _campaignDetails;
-            }
+            get => _campaignDetails;
             set
             {
                 if (value == _campaignDetails)
@@ -504,13 +466,11 @@ namespace DominatorHouseCore.Models
         }
 
         private PostStatus _postStatus = new PostStatus();
+
         [ProtoMember(66)]
         public PostStatus PostStatus
         {
-            get
-            {
-                return _postStatus;
-            }
+            get => _postStatus;
             set
             {
                 if (value == _postStatus)
@@ -518,11 +478,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _postStatus, value);
             }
         }
+
         private JobConfigurationModel _jobConfigurations = new JobConfigurationModel();
+
         [ProtoMember(67)]
         public JobConfigurationModel JobConfigurations
         {
-            get { return _jobConfigurations; }
+            get => _jobConfigurations;
             set
             {
                 if (value == _jobConfigurations)
@@ -530,11 +492,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _jobConfigurations, value);
             }
         }
+
         private OtherConfigurationModel _otherConfiguration = new OtherConfigurationModel();
+
         [ProtoMember(68)]
         public OtherConfigurationModel OtherConfiguration
         {
-            get { return _otherConfiguration; }
+            get => _otherConfiguration;
             set
             {
                 if (value == _otherConfiguration)
@@ -544,12 +508,10 @@ namespace DominatorHouseCore.Models
         }
 
         private LocationDetails _locationDetails = new LocationDetails();
+
         public LocationDetails LocationDetails
         {
-            get
-            {
-                return _locationDetails;
-            }
+            get => _locationDetails;
             set
             {
                 if (value == _locationDetails)
@@ -559,12 +521,10 @@ namespace DominatorHouseCore.Models
         }
 
         private ICollectionView _locationDetailsCollection;
+
         public ICollectionView LocationDetailsCollection
         {
-            get
-            {
-                return _locationDetailsCollection;
-            }
+            get => _locationDetailsCollection;
             set
             {
                 if (value == _locationDetailsCollection)
@@ -572,14 +532,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _locationDetailsCollection, value);
             }
         }
+
         private int _imageCount;
 
         public int ImageCount
         {
-            get
-            {
-                return _imageCount;
-            }
+            get => _imageCount;
             set
             {
                 if (value == _imageCount)
@@ -587,14 +545,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _imageCount, value);
             }
         }
+
         private int _videoCount;
 
         public int VideoCount
         {
-            get
-            {
-                return _videoCount;
-            }
+            get => _videoCount;
             set
             {
                 if (value == _videoCount)
@@ -602,13 +558,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _videoCount, value);
             }
         }
+
         private ObservableCollectionBase<string> _lstMediaSources = new ObservableCollectionBase<string>();
+
         public ObservableCollectionBase<string> LstMediaSources
         {
-            get
-            {
-                return _lstMediaSources;
-            }
+            get => _lstMediaSources;
             set
             {
                 if (value == _lstMediaSources)
@@ -616,7 +571,6 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _lstMediaSources, value);
             }
         }
-
     }
 
 
@@ -624,10 +578,11 @@ namespace DominatorHouseCore.Models
     public class TimeSpanHelper : BindableBase
     {
         private TimeSpan _startTime;
+
         [ProtoMember(1)]
         public TimeSpan StartTime
         {
-            get { return _startTime; }
+            get => _startTime;
             set
             {
                 if (value == _startTime)
@@ -635,11 +590,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _startTime, value);
             }
         }
+
         private TimeSpan _endTime;
+
         [ProtoMember(2)]
         public TimeSpan EndTime
         {
-            get { return _endTime; }
+            get => _endTime;
             set
             {
                 if (value == _endTime)
@@ -647,11 +604,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _endTime, value);
             }
         }
+
         private TimeSpan _midTime;
+
         [ProtoMember(3)]
         public TimeSpan MidTime
         {
-            get { return _midTime; }
+            get => _midTime;
             set
             {
                 if (value == _midTime)
@@ -666,10 +625,11 @@ namespace DominatorHouseCore.Models
     public class LocationDetails : BindableBase
     {
         private int _locationId = 1;
+
         [ProtoMember(1)]
         public int LocationId
         {
-            get { return _locationId; }
+            get => _locationId;
             set
             {
                 if (value == _locationId)
@@ -677,11 +637,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _locationId, value);
             }
         }
+
         private string _locationName = "xyz";
+
         [ProtoMember(2)]
         public string LocationName
         {
-            get { return _locationName; }
+            get => _locationName;
             set
             {
                 if (value == _locationName)
@@ -689,11 +651,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _locationName, value);
             }
         }
+
         private string _locationAddress = "abc";
+
         [ProtoMember(3)]
         public string LocationAddress
         {
-            get { return _locationAddress; }
+            get => _locationAddress;
             set
             {
                 if (value == _locationAddress)
@@ -711,10 +675,7 @@ namespace DominatorHouseCore.Models
 
         public ObservableCollection<Campaign> LstCampaign
         {
-            get
-            {
-                return _lstCampaign;
-            }
+            get => _lstCampaign;
             set
             {
                 if (_lstCampaign != null && value == _lstCampaign)
@@ -722,11 +683,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _lstCampaign, value);
             }
         }
+
         private ObservableCollection<string> _lstStatus = new ObservableCollection<string>();
 
         public ObservableCollection<string> LstStatus
         {
-            get { return _lstStatus; }
+            get => _lstStatus;
             set
             {
                 if (_lstStatus != null && value == _lstStatus)
@@ -736,13 +698,11 @@ namespace DominatorHouseCore.Models
         }
 
         private string _selectedAccount;
+
         [ProtoMember(1)]
         public string SelectedAccount
         {
-            get
-            {
-                return _selectedAccount;
-            }
+            get => _selectedAccount;
             set
             {
                 if (value == _selectedAccount)
@@ -752,13 +712,11 @@ namespace DominatorHouseCore.Models
         }
 
         private string _selectedStatus = Application.Current.FindResource("LangKeyAll").ToString();
+
         [ProtoMember(2)]
         public string SelectedStatus
         {
-            get
-            {
-                return _selectedStatus;
-            }
+            get => _selectedStatus;
             set
             {
                 if (value == _selectedStatus)
@@ -766,14 +724,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _selectedStatus, value);
             }
         }
+
         private string _campaignName = "Campaign - [ " + DateTime.Now + " ]";
+
         [ProtoMember(3)]
         public string CampaignName
         {
-            get
-            {
-                return _campaignName;
-            }
+            get => _campaignName;
             set
             {
                 if (value == _campaignName)
@@ -783,13 +740,11 @@ namespace DominatorHouseCore.Models
         }
 
         private string _status = "Active";
+
         [ProtoMember(4)]
         public string Status
         {
-            get
-            {
-                return _status;
-            }
+            get => _status;
             set
             {
                 if (value == _status)
@@ -799,10 +754,11 @@ namespace DominatorHouseCore.Models
         }
 
         private DateTime _campaignCreatedDate;
+
         [ProtoMember(5)]
         public DateTime CampaignCreatedDate
         {
-            get { return _campaignCreatedDate; }
+            get => _campaignCreatedDate;
             set
             {
                 if (value == _campaignCreatedDate)
@@ -810,8 +766,6 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaignCreatedDate, value);
             }
         }
-
-
     }
 
 
@@ -819,13 +773,11 @@ namespace DominatorHouseCore.Models
     public class PostStatus : BindableBase
     {
         private int _pendingCount;
+
         [ProtoMember(1)]
         public int PendingCount
         {
-            get
-            {
-                return _pendingCount;
-            }
+            get => _pendingCount;
             set
             {
                 if (value == _pendingCount)
@@ -833,14 +785,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _pendingCount, value);
             }
         }
+
         private int _draftCount;
+
         [ProtoMember(2)]
         public int DraftCount
         {
-            get
-            {
-                return _draftCount;
-            }
+            get => _draftCount;
             set
             {
                 if (value == _draftCount)
@@ -848,14 +799,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _draftCount, value);
             }
         }
+
         private int _publishedCount;
+
         [ProtoMember(3)]
         public int PublishedCount
         {
-            get
-            {
-                return _publishedCount;
-            }
+            get => _publishedCount;
             set
             {
                 if (value == _publishedCount)

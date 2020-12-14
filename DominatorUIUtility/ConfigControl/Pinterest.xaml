@@ -1,21 +1,22 @@
 ﻿<UserControl x:Class="DominatorUIUtility.ConfigControl.Pinterest"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
         <GroupBox.Header>
             <Grid>
-                <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
-                <Button Name="BtnSave" Click="BtnSave_OnClick"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
+                <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White" />
+                <Button Name="BtnSave" Click="BtnSave_OnClick" Background="{DynamicResource AccentBaseColorBrush}"
+                        Foreground="White"
                         VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Width="15" Height="15" Fill="White">
                                 <Rectangle.OpacityMask>
-                                    <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
+                                    <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill" />
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                             <AccessText Margin="6,0" Text="{DynamicResource LangKey_Save}" />
@@ -26,16 +27,17 @@
         </GroupBox.Header>
         <StackPanel Margin="10" x:Name="MainGrid">
             <StackPanel Orientation="Horizontal">
-                <Label Margin="5" Content="{DynamicResource LangKeyWaitAMinimumOf}"/>
-                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
-                <Label Content="{DynamicResource LangKeyHoursBeforeRefreshingTheFriendListForAPinterestAccountFriendBackupOrInviteToolsMustBeStarted}"/>
+                <Label Margin="5" Content="{DynamicResource LangKeyWaitAMinimumOf}" />
+                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}" />
+                <Label
+                    Content="{DynamicResource LangKeyHoursBeforeRefreshingTheFriendListForAPinterestAccountFriendBackupOrInviteToolsMustBeStarted}" />
             </StackPanel>
             <CheckBox Margin="5" Content="{DynamicResource LangKeyDisableSyncForNewAccounts}"
-                      IsChecked="{Binding IsDisableSyncForNewAccountsChecked}"/>
+                      IsChecked="{Binding IsDisableSyncForNewAccountsChecked}" />
             <StackPanel Orientation="Horizontal">
-                <Label Margin="5" Content="{DynamicResource LangKeyAllowSyncsToExecuteOnAMaximumOf}"/>
-                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxOfFbAccount}"/>
-                <Label Content="{DynamicResource LangKeyPinterestAccountsAtTheSameTime}"/>
+                <Label Margin="5" Content="{DynamicResource LangKeyAllowSyncsToExecuteOnAMaximumOf}" />
+                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxOfFbAccount}" />
+                <Label Content="{DynamicResource LangKeyPinterestAccountsAtTheSameTime}" />
             </StackPanel>
             <!--<CheckBox Margin="5" Content="{DynamicResource DHlangEnableFollowDifferentUsersAcrossPinterestAccounts}"
                       IsChecked="{Binding IsEnableFollowDifferentUsersAcrossPDAccountsChecked}"/>

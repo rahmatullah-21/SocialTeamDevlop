@@ -1,9 +1,12 @@
-﻿using System;
+﻿#region
+
+using System;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 {
-
     public class InteractedMessage
     {
         [PrimaryKey]
@@ -16,8 +19,7 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         public string SinAccUsername { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string QueryValue { get; set; }
@@ -37,15 +39,11 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         public string Message { get; set; }
 
 
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
-        public int FollowBackStatus
-        { get; set; }
+        public int FollowBackStatus { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public DateTime InteractionDate { get; set; }
     }
-
-
 }

@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
@@ -10,7 +14,6 @@ namespace DominatorHouseCore.Models.FacebookModels
 //        bool IsCancelReceivedRequest { get; set; }
 
         int Count { get; set; }
-      
     }
 
     public class ManageFriends : BindableBase, IManageFriends
@@ -18,12 +21,9 @@ namespace DominatorHouseCore.Models.FacebookModels
         private bool _isAcceptRequest;
 
         [ProtoMember(1)]
-        public bool IsAcceptRequest 
+        public bool IsAcceptRequest
         {
-            get
-            {
-                return _isAcceptRequest;
-            }
+            get => _isAcceptRequest;
             set
             {
                 if (value == _isAcceptRequest)
@@ -35,13 +35,9 @@ namespace DominatorHouseCore.Models.FacebookModels
         private bool _isCancelReceivedRequest;
 
         [ProtoMember(2)]
-
         public bool IsCancelReceivedRequest
         {
-            get
-            {
-                return _isCancelReceivedRequest;
-            }
+            get => _isCancelReceivedRequest;
             set
             {
                 if (value == _isCancelReceivedRequest)
@@ -53,13 +49,9 @@ namespace DominatorHouseCore.Models.FacebookModels
         private int _count;
 
         [ProtoMember(3)]
-
         public int Count
         {
-            get
-            {
-                return _count;
-            }
+            get => _count;
             set
             {
                 if (value == _count)
@@ -67,7 +59,5 @@ namespace DominatorHouseCore.Models.FacebookModels
                 SetProperty(ref _count, value);
             }
         }
-
-
     }
 }

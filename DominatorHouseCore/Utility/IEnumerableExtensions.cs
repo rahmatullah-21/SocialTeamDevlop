@@ -1,8 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -14,10 +17,10 @@ namespace DominatorHouseCore.Utility
         ///<returns>The index of the first matching item, or -1 if no items match.</returns>
         public static int FindIndex<T>(this IEnumerable<T> items, Func<T, bool> predicate)
         {
-            if (items == null) throw new ArgumentNullException("items");
-            if (predicate == null) throw new ArgumentNullException("predicate");
+            if (items == null) throw new ArgumentNullException(nameof(items));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            int retVal = 0;
+            var retVal = 0;
             foreach (var item in items)
             {
                 if (predicate(item)) return retVal;
@@ -32,13 +35,14 @@ namespace DominatorHouseCore.Utility
         ///<param name="item">The item to find.</param>
         ///<returns>The index of the first matching item, or -1 if the item was not found.</returns>
         public static int IndexOf<T>(this IEnumerable<T> items, T item)
-            => items.FindIndex(i => EqualityComparer<T>.Default.Equals(item, i));
+        {
+            return items.FindIndex(i => EqualityComparer<T>.Default.Equals(item, i));
+        }
 
 
         public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)
         {
             foreach (var item in items)
-            {
                 try
                 {
                     action(item);
@@ -51,14 +55,11 @@ namespace DominatorHouseCore.Utility
                 {
                     e.DebugLog();
                 }
-            }
         }
 
 
-
-
         /// <summary>
-        /// To replace the string in between two index with source
+        ///     To replace the string in between two index with source
         /// </summary>
         /// <param name="source"> source string</param>
         /// <param name="index"> start location to replace at (0-based)</param>
@@ -66,12 +67,16 @@ namespace DominatorHouseCore.Utility
         /// <param name="replace">the string that is replacing characters</param>
         /// <returns></returns>
         public static string ReplaceAt(this string source, int index, int length, string replace)
-            => source.Remove(index, Math.Min(length, source.Length - index))
-            .Insert(index, replace);
+        {
+            return source.Remove(index, Math.Min(length, source.Length - index))
+                .Insert(index, replace);
+        }
 
 
-        public static bool IsGetMacros(this string source) 
-            => Regex.Replace(source, @"{[^}]*}", string.Empty).Contains("{");
+        public static bool IsGetMacros(this string source)
+        {
+            return Regex.Replace(source, @"{[^}]*}", string.Empty).Contains("{");
+        }
 
 
         public static string ApplyMacros(this string source, int caretIndex, string selectedMacro)

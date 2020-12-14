@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Interfaces.StartUp;
+﻿#region
+
+using DominatorHouseCore.Interfaces.StartUp;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Instagram
 {
@@ -22,6 +26,5 @@ namespace DominatorHouseCore.StartupActivity.Instagram
                     return new InstagramPostActivity();
             }
         }
-
     }
 }

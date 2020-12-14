@@ -1,128 +1,46 @@
-﻿using CefSharp;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using Prism.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using EmbeddedBrowser.BrowserHelper;
-using System.Text.RegularExpressions;
-using System.Text;
-using DominatorHouseCore.Enums.EmbeddedBrowser;
+using CefSharp;
 using CefSharp.Wpf;
-using DominatorHouseCore.ProxyServerManagment;
-using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.EmbeddedBrowser;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using EmbeddedBrowser.BrowserHelper;
+using Prism.Commands;
+using Cookie = CefSharp.Cookie;
 
 namespace EmbeddedBrowser
 {
     /// <summary>
-    /// Interaction logic for BrowserWindow.xaml
+    ///     Interaction logic for BrowserWindow.xaml
     /// </summary>
     public partial class BrowserWindow : INotifyPropertyChanged, IDisposable
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private readonly CancellationToken _token;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        private RequestHandlerCustom _requestHandlerCustom { get; set; }
-
-        private ProxyRequestHandler _proxyRequestHandler { get; set; }
-
-        #region Properties
-
-        private string TargetUrl { get; set; } = string.Empty;
-
-        private bool CustomUse { get; set; }
-
-        public bool VerifyingAccount { get; set; }
-
-        public ICommand SearchCommand { get; }
-
-        private DominatorAccountModel _dominatorAccountModel;
-
-        public DominatorAccountModel DominatorAccountModel
-        {
-            get
-            {
-                return _dominatorAccountModel;
-            }
-            set
-            {
-                _dominatorAccountModel = value;
-                OnPropertyChanged(nameof(DominatorAccountModel));
-            }
-        }
-
-        private string _browserName;
-
-        public string BrowserName
-        {
-            get
-            {
-                return _browserName;
-            }
-            set
-            {
-                if (value == _browserName)
-                    return;
-                _browserName = value;
-                OnPropertyChanged(nameof(BrowserName));
-            }
-        }
-
-        private string _searchUrl;
-
-        public string SearchUrl
-        {
-            get
-            {
-                return _searchUrl;
-            }
-            set
-            {
-                if (_searchUrl == value)
-                    return;
-                _searchUrl = value;
-                OnPropertyChanged(nameof(SearchUrl));
-            }
-        }
-
-        public bool browserLoginMessage { get; set; } = true;
-
-        public bool IsLoaded { get; set; }
-
-        public bool _isLoggedIn { get; set; }
-
-        private bool _loginFailed { get; set; }
-
-        private bool _isNeedResourceData { get; set; }
-
-        #endregion
-        
         public BrowserWindow()
         {
             if (!Cef.IsInitialized)
             {
-                CefSettings settings = new CefSettings();
+                var settings = new CefSettings();
                 settings.CommandLineArgsDisabled = false;
                 settings.CefCommandLineArgs.Add("--disable-webgl", "1");
                 settings.CefCommandLineArgs.Add("--disable-reading-from-canvas", "1");
-                //settings.CefCommandLineArgs.Add("--js-flags", "--max_old_space_size=16384");
-                //settings.CefCommandLineArgs.Add("--max_old_space_size","16384");
                 Cef.Initialize(settings);
             }
 
@@ -137,35 +55,38 @@ namespace EmbeddedBrowser
             });
         }
 
-        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false, bool isNeedResourceData = false,
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false,
+            bool skipAd = false, bool isNeedResourceData = false,
             bool browserLoginMessageToDisplay = true)
-              : this()
+            : this()
         {
             DominatorAccountModel = dominatorAccountModel;
             _token = DominatorAccountModel.Token;
-            BrowserName = $"{DominatorAccountModel.AccountBaseModel.AccountNetwork} Browser{(!string.IsNullOrWhiteSpace(DominatorAccountModel.AccountBaseModel.AccountName) ? " - "+DominatorAccountModel.AccountBaseModel.AccountName : "")}";
+            BrowserName =
+                $"{DominatorAccountModel.AccountBaseModel.AccountNetwork} Browser{(!string.IsNullOrWhiteSpace(DominatorAccountModel.AccountBaseModel.AccountName) ? " - " + DominatorAccountModel.AccountBaseModel.AccountName : "")}";
             TargetUrl = targetUrl;
             CustomUse = customUse;
-            _isNeedResourceData = isNeedResourceData;
-            _requestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
+            IsNeedResourceData = isNeedResourceData;
+            RequestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData, dominatorAccountModel.AccountBaseModel.AccountNetwork);
 
             //SkipYoutubeAd = skipAd;
-            browserLoginMessage = browserLoginMessageToDisplay;
+            BrowserLoginMessage = browserLoginMessageToDisplay;
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
-                CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
+                CachePath = "" //$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
             });
             Cef.UIThreadTaskFactory.StartNew(() =>
             {
                 if (Browser.RequestContext.CanSetPreference("webrtc.ip_handling_policy"))
                 {
                     var error = string.Empty;
-                    Browser.RequestContext.SetPreference("webrtc.ip_handling_policy", "disable_non_proxied_udp", out error);
+                    Browser.RequestContext.SetPreference("webrtc.ip_handling_policy", "disable_non_proxied_udp",
+                        out error);
                 }
             });
             Browser.MenuHandler = new MenuHandler();
-            Browser.RequestHandler = _requestHandlerCustom;
+            Browser.RequestHandler = RequestHandlerCustom;
 
             if (DominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook)
                 Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
@@ -175,19 +96,94 @@ namespace EmbeddedBrowser
             Browser.IsBrowserInitializedChanged += LoadSettings;
         }
 
-        CancellationToken _token = new CancellationToken();
-        public BrowserWindow(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken, string targetUrl = "", bool customUse = false, bool skipAd = false, bool isNeedResourceData = false,
-            bool browserLoginMessageToDisplay = true) : this(dominatorAccountModel, targetUrl, customUse, skipAd, isNeedResourceData, browserLoginMessageToDisplay)
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken,
+            string targetUrl = "", bool customUse = false, bool skipAd = false, bool isNeedResourceData = false,
+            bool browserLoginMessageToDisplay = true) : this(dominatorAccountModel, targetUrl, customUse, skipAd,
+            isNeedResourceData, browserLoginMessageToDisplay)
         {
             _token = cancellationToken;
         }
 
+        private RequestHandlerCustom RequestHandlerCustom { get; }
+
+        private ProxyRequestHandler ProxyRequestHandler { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        private void Sleep(double seconds = 1)
+        {
+            Task.Delay(TimeSpan.FromSeconds(seconds)).Wait(_token);
+        }
+
+        #region Properties
+
+        private string TargetUrl { get; } = string.Empty;
+
+        private bool CustomUse { get; }
+
+        public bool VerifyingAccount { get; set; }
+
+        public ICommand SearchCommand { get; }
+
+        private DominatorAccountModel _dominatorAccountModel;
+
+        public DominatorAccountModel DominatorAccountModel
+        {
+            get => _dominatorAccountModel;
+            set
+            {
+                _dominatorAccountModel = value;
+                OnPropertyChanged(nameof(DominatorAccountModel));
+            }
+        }
+        public bool _isLoggedIn { get; set; }
+        private string _browserName;
+
+        public string BrowserName
+        {
+            get => _browserName;
+            set
+            {
+                if (value == _browserName)
+                    return;
+                _browserName = value;
+                OnPropertyChanged(nameof(BrowserName));
+            }
+        }
+
+        private string _searchUrl;
+
+        public string SearchUrl
+        {
+            get => _searchUrl;
+            set
+            {
+                if (_searchUrl == value)
+                    return;
+                _searchUrl = value;
+                OnPropertyChanged(nameof(SearchUrl));
+            }
+        }
+
+        public bool BrowserLoginMessage { get; set; } = true;
+
+        public bool IsLoaded { get; set; }
+
+        public bool IsLoggedIn { get; set; }
+
+        private bool IsNeedResourceData { get; }
+
+        #endregion
+
         #region CefSharp Utilities
 
         /// <summary>
-        /// Set Account Model Cookies into the browser
+        ///     Set Account Model Cookies into the browser
         /// </summary>
-
         private void LoadSettings(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             if (!Browser.IsBrowserInitialized)
@@ -201,11 +197,12 @@ namespace EmbeddedBrowser
                         if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername) &&
                             !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword))
                         {
-                            _proxyRequestHandler = new ProxyRequestHandler(
+                            ProxyRequestHandler = new ProxyRequestHandler(
                                 DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername,
-                                DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword, this, _isNeedResourceData);
+                                DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword, this,
+                                IsNeedResourceData, DominatorAccountModel.AccountBaseModel.AccountNetwork);
 
-                            Browser.RequestHandler = _proxyRequestHandler;
+                            Browser.RequestHandler = ProxyRequestHandler;
                         }
 
                         // get the proxyip from objDominatorAccountModel object
@@ -213,27 +210,12 @@ namespace EmbeddedBrowser
 
                         // get the proxyport from objDominatorAccountModel object
                         var proxyPort = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort;
-                        
+
                         // get the current browser request context
                         var requestContext = Browser.GetBrowser().GetHost().RequestContext;
 
                         if (!string.IsNullOrEmpty(proxyIp) && !string.IsNullOrEmpty(proxyPort))
                         {
-                            //IProxyValidationService proxyValidationService = ServiceLocator.Current.GetInstance<IProxyValidationService>();
-
-                            //if (!proxyValidationService.IsValidProxy(proxyIp, proxyPort))
-                            //{
-                                
-                            //    Application.Current.Dispatcher.Invoke(() =>
-                            //    {
-
-                            //        GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
-                            //            "LangKeyAccount".FromResourceDictionary(), String.Format("LangKeyInvalidProxyIpFormatBrowser".FromResourceDictionary(), proxyIp));
-                            //        this.Close();
-                            //        Dispose();
-                            //    });
-
-                            //}
 
                             // declare the dictionary for passing proxy ip and proxy port
                             var dictProxyIpPort = new Dictionary<string, object>
@@ -243,7 +225,7 @@ namespace EmbeddedBrowser
                             };
 
                             string error;
-                            var success = requestContext.SetPreference("proxy", dictProxyIpPort, out error);
+                            requestContext.SetPreference("proxy", dictProxyIpPort, out error);
                         }
                         else
                         {
@@ -289,7 +271,9 @@ namespace EmbeddedBrowser
                     }
                 });
             }
-            catch (OperationCanceledException) { }
+            catch (OperationCanceledException)
+            {
+            }
             catch (Exception ex)
             {
                 ex.DebugLog(ex.StackTrace);
@@ -297,9 +281,14 @@ namespace EmbeddedBrowser
         }
 
         public void GoToUrl(string url = null)
-            => Browser.Load(url ?? SearchUrl);
+        {
+            Browser.Load(url ?? SearchUrl);
+        }
 
-        public void Dispose() => Browser.Dispose();
+        public void Dispose()
+        {
+            Browser.Dispose();
+        }
 
         public void LoadPostPage(bool isLoggedIn)
         {
@@ -326,17 +315,30 @@ namespace EmbeddedBrowser
         }
 
         private string GetLoggedInPageSource()
-        => !string.IsNullOrEmpty(TargetUrl) && TargetUrl != "Not Published Yet"
-           ? Browser.GetSourceAsync().Result : string.Empty;
+        {
+            return !string.IsNullOrEmpty(TargetUrl) && TargetUrl != "Not Published Yet"
+                ? Browser.GetSourceAsync().Result
+                : string.Empty;
+        }
 
         /// <summary>
-        /// Get Current PageSource
+        ///     Get Current PageSource
         /// </summary>
         /// <returns></returns>
-        public string GetPageSource() => Browser.GetSourceAsync().Result;
+        public string GetPageSource()
+        {
+            return Browser.GetSourceAsync().Result;
+        }
 
-        public void SelectAllText() => Browser.SelectAll();
-        public async Task<string> PageText() => await Browser.GetTextAsync();
+        public void SelectAllText()
+        {
+            Browser.SelectAll();
+        }
+
+        public async Task<string> PageText()
+        {
+            return await Browser.GetTextAsync();
+        }
 
         public async Task SetCookie()
         {
@@ -346,8 +348,9 @@ namespace EmbeddedBrowser
                     return;
 
                 var cookies = DominatorAccountModel.BrowserCookies.Count != 0
-                    && DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook
-                    ? DominatorAccountModel.BrowserCookies : DominatorAccountModel.Cookies;
+                              && DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook
+                    ? DominatorAccountModel.BrowserCookies
+                    : DominatorAccountModel.Cookies;
 
                 var callBack = new TaskCompletionCallback();
 
@@ -355,7 +358,7 @@ namespace EmbeddedBrowser
                 {
                     var cook = (System.Net.Cookie)accCookie;
 
-                    var cefCookie = new CefSharp.Cookie
+                    var cefCookie = new Cookie
                     {
                         HttpOnly = cook.HttpOnly,
                         Name = cook.Name,
@@ -369,8 +372,12 @@ namespace EmbeddedBrowser
                     var url = "";
                     if (cefCookie.Domain.Contains("www."))
                         url = "https://" + cefCookie.Domain.TrimStart('.');
-                    else if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest && cefCookie.Domain.Contains("pinterest"))
-                        url = "https://" + (cefCookie.Domain.StartsWith(".pinterest") || cefCookie.Domain.StartsWith("pinterest") ? "www." : "") + cefCookie.Domain.TrimStart('.');
+                    else if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest &&
+                             cefCookie.Domain.Contains("pinterest"))
+                        url = "https://" +
+                              (cefCookie.Domain.StartsWith(".pinterest") || cefCookie.Domain.StartsWith("pinterest")
+                                  ? "www."
+                                  : "") + cefCookie.Domain.TrimStart('.');
                     else
                         url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
 
@@ -391,7 +398,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        void SetUrl(string url)
+        private void SetUrl(string url)
         {
             if (SearchUrl == url)
                 return;
@@ -404,14 +411,14 @@ namespace EmbeddedBrowser
             {
                 if (DominatorAccountModel.BrowserCookies.Count == 0)
                     return;
-                
+
                 var callBack = new TaskCompletionCallback();
 
                 foreach (var accCookie in DominatorAccountModel.BrowserCookies)
                 {
                     var cook = (System.Net.Cookie)accCookie;
 
-                    var cefCookie = new CefSharp.Cookie
+                    var cefCookie = new Cookie
                     {
                         HttpOnly = cook.HttpOnly,
                         Name = cook.Name,
@@ -425,8 +432,12 @@ namespace EmbeddedBrowser
                     var url = "";
                     if (cefCookie.Domain.Contains("www."))
                         url = "https://" + cefCookie.Domain.TrimStart('.');
-                    else if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest && cefCookie.Domain.Contains("pinterest"))
-                        url = "https://" + (cefCookie.Domain.StartsWith(".pinterest") || cefCookie.Domain.StartsWith("pinterest") ? "www." : "") + cefCookie.Domain.TrimStart('.');
+                    else if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest &&
+                             cefCookie.Domain.Contains("pinterest"))
+                        url = "https://" +
+                              (cefCookie.Domain.StartsWith(".pinterest") || cefCookie.Domain.StartsWith("pinterest")
+                                  ? "www."
+                                  : "") + cefCookie.Domain.TrimStart('.');
                     else
                         url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
 
@@ -458,7 +469,6 @@ namespace EmbeddedBrowser
                 Refresh();
 
                 await Task.Delay(500, _token);
-
             }
             catch (Exception ex)
             {
@@ -468,24 +478,23 @@ namespace EmbeddedBrowser
 
         public async Task<bool> SaveCookies(bool showLoginSuccessLog = true)
         {
-            if (_isLoggedIn) return false;
+            if (IsLoggedIn) return false;
 
             try
             {
                 await Task.Delay(1000, _token);
 
-                _isLoggedIn = true;
-                _loginFailed = false;
+                IsLoggedIn = true;
 
                 DominatorAccountModel.Cookies = await BrowserCookiesIntoModel();
                 DominatorAccountModel.IsUserLoggedIn = true;
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
                 new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
-                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
-                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
-                  .AddOrUpdateCookies(DominatorAccountModel.Cookies)
-                   .SaveToBinFile();
+                    .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
+                    .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
+                    .AddOrUpdateCookies(DominatorAccountModel.Cookies)
+                    .SaveToBinFile();
                 if (showLoginSuccessLog)
                     CustomLog("Browser login successful.");
                 return true;
@@ -499,24 +508,23 @@ namespace EmbeddedBrowser
 
         public async Task<bool> BrowserSaveCookies(bool showLoginSuccessLog = true)
         {
-            if (_isLoggedIn) return false;
+            if (IsLoggedIn) return false;
 
             try
             {
                 await Task.Delay(1000, _token);
 
-                _isLoggedIn = true;
-                _loginFailed = false;
+                IsLoggedIn = true;
 
                 DominatorAccountModel.BrowserCookies = await BrowserCookiesIntoModel();
 
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
                 new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
-                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
-                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
-                  .AddOrUpdateBrowserCookies(DominatorAccountModel.BrowserCookies)
-                   .SaveToBinFile();
+                    .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
+                    .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
+                    .AddOrUpdateBrowserCookies(DominatorAccountModel.BrowserCookies)
+                    .SaveToBinFile();
                 DominatorAccountModel.IsUserLoggedIn = true;
                 if (showLoginSuccessLog)
                     CustomLog("Browser login successful.");
@@ -536,7 +544,6 @@ namespace EmbeddedBrowser
                 var cookieCollection = new CookieCollection();
 
                 foreach (var item in await BrowserCookies())
-                {
                     try
                     {
                         var cookie = new System.Net.Cookie
@@ -553,8 +560,10 @@ namespace EmbeddedBrowser
                         cookieCollection.Add(cookie);
                     }
                     catch
-                    {/*ignored*/}
-                }
+                    {
+                        /*ignored*/
+                    }
+
                 return cookieCollection;
             }
             catch (Exception ex)
@@ -564,20 +573,28 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<List<CefSharp.Cookie>> BrowserCookies(TaskCompletionCallback callBack = null) => await Browser.RequestContext.GetCookieManager(callBack ?? new TaskCompletionCallback())
+        public async Task<List<Cookie>> BrowserCookies(TaskCompletionCallback callBack = null)
+        {
+            return await Browser.RequestContext.GetCookieManager(callBack ?? new TaskCompletionCallback())
                 .VisitAllCookiesAsync();
+        }
 
         #endregion
 
         #region Window UI Interaction
 
         private void ButtonCheckIp_OnClick(object sender, RoutedEventArgs e)
-        => Browser.Load("https://app.multiloginapp.com/WhatIsMyIP");
+        {
+            Browser.Load("https://app.multiloginapp.com/WhatIsMyIP");
+        }
 
         private void ButtonLogin_OnClick(object sender, RoutedEventArgs e)
         {
-            var homePage = DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && DominatorAccountModel.IsUserLoggedIn ?
-                SocialHomeUrls() : GetNetworksLoginUrl();
+            var homePage =
+                DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube &&
+                DominatorAccountModel.IsUserLoggedIn
+                    ? SocialHomeUrls()
+                    : GetNetworksLoginUrl();
             Browser.Load(homePage);
         }
 
@@ -607,13 +624,25 @@ namespace EmbeddedBrowser
             }
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e) => Dispose();
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            Dispose();
+        }
 
-        private void ButtonBack_OnClick(object sender, RoutedEventArgs e) => GoBack();
+        private void ButtonBack_OnClick(object sender, RoutedEventArgs e)
+        {
+            GoBack();
+        }
 
-        private void ButtonForward_OnClick(object sender, RoutedEventArgs e) => GoForward();
+        private void ButtonForward_OnClick(object sender, RoutedEventArgs e)
+        {
+            GoForward();
+        }
 
-        private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e) => Refresh();
+        private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e)
+        {
+            Refresh();
+        }
 
         public void GoBack(int nTimes = 1)
         {
@@ -641,7 +670,10 @@ namespace EmbeddedBrowser
             }
         }
 
-        public void Refresh() => Browser.Reload();
+        public void Refresh()
+        {
+            Browser.Reload();
+        }
 
         #endregion
 
@@ -654,7 +686,7 @@ namespace EmbeddedBrowser
         }
 
         /// <summary>
-        /// Browser actions
+        ///     Browser actions
         /// </summary>
         /// <param name="actType">Type of activity doing on browser window</param>
         /// <param name="element">type of element by which the action gonna be performed</param>
@@ -669,32 +701,33 @@ namespace EmbeddedBrowser
             switch (actType)
             {
                 case ActType.GetValueByName:
-                    return Browser.EvaluateScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].value").Result?.Result?.ToString() ?? "";
+                    return Browser.EvaluateScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].value")
+                               .Result?.Result?.ToString() ?? "";
                 case ActType.GetLengthByClass:
-                    return Browser.EvaluateScriptAsync($"document.getElementsByClassName('{element}').length").Result?.Result?.ToString() ?? "";
+                    return Browser.EvaluateScriptAsync($"document.getElementsByClassName('{element}').length").Result
+                               ?.Result?.ToString() ?? "";
                 default:
                     return "";
             }
         }
 
         /// <summary>
-        /// Press any key n times with delay between each pressed 
+        ///     Press any key n times with delay between each pressed
         /// </summary>
         /// <param name="n">Number of pressing</param>
         /// <param name="delay">Delay between each press  (In milliseconds)</param>
         /// <param name="ke">Browser KeyEvent</param>
         /// <param name="winKeyCode">WindowsKeycode of any key in keyboard</param>
-        /// /// <param name="delayAtLast">Set delay at last (In seconds)</param>
+        /// ///
+        /// <param name="delayAtLast">Set delay at last (In seconds)</param>
+        /// <param name="isShiftDown"></param>
         public void PressAnyKey(int n = 1, double delay = 1, KeyEvent ke = new KeyEvent(),
             int winKeyCode = 0, double delayAtLast = 0, bool isShiftDown = false)
         {
             if (winKeyCode != 0)
                 ke.WindowsKeyCode = winKeyCode;
 
-            if (isShiftDown)
-            {
-                ke.Modifiers = CefEventFlags.ShiftDown;
-            }
+            if (isShiftDown) ke.Modifiers = CefEventFlags.ShiftDown;
 
             if (Browser.IsDisposed) return;
 
@@ -703,19 +736,21 @@ namespace EmbeddedBrowser
                 Sleep(delay);
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
             }
+
             if (delayAtLast > 0)
                 Sleep(delayAtLast);
         }
 
         /// <summary>
-        /// Get the Mouse to click on a specific location(xLoc,yLoc)
+        ///     Get the Mouse to click on a specific location(xLoc,yLoc)
         /// </summary>
         /// <param name="xLoc">x-cordinate location</param>
         /// <param name="yLoc">y-cordinate location</param>
         /// <param name="mouseButton">Mouse Button Type</param>
         /// <param name="delayBefore">Delay before click</param>
         /// <param name="delayAfter">Delay after click</param>
-        public void MouseClick(int xLoc, int yLoc, MouseButtonType mouseButton = MouseButtonType.Left, double delayBefore = 0, double delayAfter = 0)
+        public void MouseClick(int xLoc, int yLoc, MouseButtonType mouseButton = MouseButtonType.Left,
+            double delayBefore = 0, double delayAfter = 0)
         {
             if (delayBefore > 0)
                 Sleep(delayBefore);
@@ -733,7 +768,7 @@ namespace EmbeddedBrowser
         }
 
         /// <summary>
-        /// Enter Characters in TextBox  
+        ///     Enter Characters in TextBox
         /// </summary>
         /// <param name="charString">String to be entered</param>
         /// <param name="typingDelay">Delay between typing</param>
@@ -768,13 +803,12 @@ namespace EmbeddedBrowser
                 await Task.Delay(TimeSpan.FromSeconds(delay), _token);
                 return await Browser.GetSourceAsync();
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-
             }
-            catch (Exception ex)
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
             {
-
             }
 
             return string.Empty;
@@ -787,13 +821,12 @@ namespace EmbeddedBrowser
                 await Task.Delay(TimeSpan.FromSeconds(1), _token);
                 return await Browser.GetSourceAsync();
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-
             }
-            catch (Exception ex)
+            catch
             {
-
+                // ignored
             }
 
             return string.Empty;
@@ -813,10 +846,7 @@ namespace EmbeddedBrowser
             if (winKeyCode != 0)
                 ke.WindowsKeyCode = winKeyCode;
 
-            if (isShiftDown)
-            {
-                ke.Modifiers = CefEventFlags.ShiftDown;
-            }
+            if (isShiftDown) ke.Modifiers = CefEventFlags.ShiftDown;
 
             if (Browser.IsDisposed) return;
 
@@ -825,6 +855,7 @@ namespace EmbeddedBrowser
                 await Task.Delay(delay, _token);
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
             }
+
             if (delayAtLast > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAtLast), _token);
         }
@@ -833,13 +864,13 @@ namespace EmbeddedBrowser
             double delayAtLast = 0)
         {
             if (Browser.IsDisposed) return;
-            var ke = new KeyEvent()
+            var ke = new KeyEvent
             {
                 WindowsKeyCode = winFirstKeyCode,
                 Type = KeyEventType.RawKeyDown
             };
 
-            var ke2 = new KeyEvent()
+            var ke2 = new KeyEvent
             {
                 WindowsKeyCode = winSecondKeyCode,
                 Type = KeyEventType.RawKeyDown
@@ -849,15 +880,13 @@ namespace EmbeddedBrowser
             await Task.Delay(100, _token);
             Browser.GetBrowser().GetHost().SendKeyEvent(ke2);
             await Task.Delay(90, _token);
-            //ke.Type = KeyEventType.KeyUp;
-            // Browser.GetBrowser().GetHost().SendKeyEvent(ke);
 
             if (delayAtLast > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAtLast), _token);
         }
 
         public async Task EnterCharsAsync(string charString, double typingDelay = 0.09, double delayBefore = 0,
-           double delayAtLast = 0)
+            double delayAtLast = 0)
         {
             if (string.IsNullOrEmpty(charString)) return;
 
@@ -874,12 +903,13 @@ namespace EmbeddedBrowser
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
                 await Task.Delay(TimeSpan.FromSeconds(typingDelay), _token);
             }
+
             if (delayAtLast > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAtLast), _token);
         }
 
         public async Task BrowserActAsync(ActType actType, AttributeType attributeType, string attributeValue,
-           string value = "", double delayBefore = 0, double delayAfter = 0, int index = 0, int scrollByPixel = 100)
+            string value = "", double delayBefore = 0, double delayAfter = 0, int index = 0, int scrollByPixel = 100)
         {
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
@@ -890,20 +920,21 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
 
-            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}";
-
             switch (actType)
             {
                 case ActType.EnterByQuery:
-                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].value= '{value}'");
+                    Browser.ExecuteScriptAsync(
+                        $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].value= '{value}'");
                     break;
 
                 case ActType.EnterValue:
-                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].value= '{value}'");
+                    Browser.ExecuteScriptAsync(
+                        $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].value= '{value}'");
                     break;
 
                 case ActType.ActByQuery:
-                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()");
+                    Browser.ExecuteScriptAsync(
+                        $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()");
                     break;
 
                 case ActType.ScrollWindow:
@@ -911,19 +942,23 @@ namespace EmbeddedBrowser
                     break;
 
                 case ActType.ScrollIntoView:
-                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].scrollIntoView()");
+                    Browser.ExecuteScriptAsync(
+                        $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].scrollIntoView()");
                     break;
 
                 case ActType.ScrollIntoViewQuery:
-                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].scrollIntoView()");
+                    Browser.ExecuteScriptAsync(
+                        $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].scrollIntoView()");
                     break;
 
                 case ActType.CustomActType:
-                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}");
+                    Browser.ExecuteScriptAsync(
+                        $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}");
                     break;
 
                 case ActType.CustomActByQueryType:
-                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].{value}");
+                    Browser.ExecuteScriptAsync(
+                        $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].{value}");
                     break;
 
                 case ActType.EnterValueById:
@@ -934,17 +969,17 @@ namespace EmbeddedBrowser
                     break;
 
                 default:
-                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{actType.GetDescriptionAttr()}");
+                    Browser.ExecuteScriptAsync(
+                        $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{actType.GetDescriptionAttr()}");
                     break;
             }
+
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
-
-
         }
 
         /// <summary>
-        /// Browser actions
+        ///     Browser actions
         /// </summary>
         /// <param name="actType">Type of activity doing on browser window</param>
         /// <param name="element">type of element by which the action gonna be performed</param>
@@ -952,7 +987,11 @@ namespace EmbeddedBrowser
         /// <param name="delayAfter">delay after the action (In seconds)</param>
         /// <param name="value">value which is going to be entered</param>
         /// <param name="clickIndex">Sometimes multiple buttons have same tag-value</param>
-        public void BrowserAct(ActType actType, string element = "", double delayBefore = 0, double delayAfter = 0, string value = "", int clickIndex = 0,
+        /// <param name="attributeType"></param>
+        /// <param name="attributeValue"></param>
+        /// <param name="scrollByPixel"></param>
+        public void BrowserAct(ActType actType, string element = "", double delayBefore = 0, double delayAfter = 0,
+            string value = "", int clickIndex = 0,
             AttributeType attributeType = AttributeType.Null, string attributeValue = "", int scrollByPixel = 100)
         {
             if (delayBefore > 0)
@@ -978,7 +1017,8 @@ namespace EmbeddedBrowser
                     break;
 
                 case ActType.EnterValueByClass:
-                    Browser.ExecuteScriptAsync($"document.getElementsByClassName('{element}')[{clickIndex}].value= '{value}'");
+                    Browser.ExecuteScriptAsync(
+                        $"document.getElementsByClassName('{element}')[{clickIndex}].value= '{value}'");
                     break;
 
                 case ActType.EnterValueById:
@@ -986,19 +1026,23 @@ namespace EmbeddedBrowser
                     break;
 
                 case ActType.EnterValueByName:
-                    Browser.ExecuteScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].value= '{value}'");
+                    Browser.ExecuteScriptAsync(
+                        $"document.getElementsByName('{element}')[{clickIndex}].value= '{value}'");
                     break;
 
                 case ActType.EnterByQuery:
-                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].value= '{value}'");
+                    Browser.ExecuteScriptAsync(
+                        $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].value= '{value}'");
                     break;
 
                 case ActType.EnterValue:
-                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].value= '{value}'");
+                    Browser.ExecuteScriptAsync(
+                        $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].value= '{value}'");
                     break;
 
                 case ActType.ActByQuery:
-                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].click()");
+                    Browser.ExecuteScriptAsync(
+                        $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].click()");
                     break;
 
                 case ActType.ScrollWindow:
@@ -1006,39 +1050,44 @@ namespace EmbeddedBrowser
                     break;
 
                 case ActType.ScrollIntoView:
-                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].scrollIntoView()");
+                    Browser.ExecuteScriptAsync(
+                        $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].scrollIntoView()");
                     break;
 
                 case ActType.ScrollIntoViewQuery:
-                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].scrollIntoView()");
+                    Browser.ExecuteScriptAsync(
+                        $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].scrollIntoView()");
                     break;
 
                 case ActType.CustomActType:
-                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}");
+                    Browser.ExecuteScriptAsync(
+                        $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}");
                     break;
 
                 case ActType.CustomActByQueryType:
-                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{value}");
+                    Browser.ExecuteScriptAsync(
+                        $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{value}");
                     break;
 
                 default:
-                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{actType.GetDescriptionAttr()}");
+                    Browser.ExecuteScriptAsync(
+                        $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{actType.GetDescriptionAttr()}");
                     break;
             }
+
             if (delayAfter > 0)
                 Sleep(delayAfter);
         }
 
 
         public async Task MouseClickAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
-              MouseClickType mouseClickType = MouseClickType.Left)
+            MouseClickType mouseClickType = MouseClickType.Left)
         {
-
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
-            MouseButtonType mouseButton = mouseClickType == MouseClickType.Left ? MouseButtonType.Left
-                : (mouseClickType == MouseClickType.Right ? MouseButtonType.Right : MouseButtonType.Middle);
+            var mouseButton = mouseClickType == MouseClickType.Left ? MouseButtonType.Left
+                : mouseClickType == MouseClickType.Right ? MouseButtonType.Right : MouseButtonType.Middle;
 
             if (Browser.IsDisposed) return;
 
@@ -1058,36 +1107,30 @@ namespace EmbeddedBrowser
             int clickLeavEvent = 0)
         {
 
-            MouseButtonType mouseButton = MouseButtonType.Right;
-
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
             if (Browser.IsDisposed) return;
-
 
 
             // mouseUp(4th parameter) = false , MouseButton to be pressed
             Browser.GetBrowser().GetHost().SendMouseMoveEvent(new MouseEvent(xLoc, yLoc, CefEventFlags.None), false);
             await Task.Delay(100, _token);
 
-            Browser.GetBrowser().GetHost().SendMouseWheelEvent(new MouseEvent(xLoc, yLoc, CefEventFlags.None), scrollByXLoc, scrollByYLoc);
+            Browser.GetBrowser().GetHost().SendMouseWheelEvent(new MouseEvent(xLoc, yLoc, CefEventFlags.None),
+                scrollByXLoc, scrollByYLoc);
 
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
         }
 
         public async Task MouseHoverAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
-          int clickLeavEvent = 0)
+            int clickLeavEvent = 0)
         {
-
-            MouseButtonType mouseButton = MouseButtonType.Right;
-
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
             if (Browser.IsDisposed) return;
-
 
 
             // mouseUp(4th parameter) = false , MouseButton to be pressed
@@ -1101,15 +1144,18 @@ namespace EmbeddedBrowser
         }
 
 
-        public async Task<List<string>> GetListInnerHtml(ActType actType, AttributeType attributeType, string attributeValue,
+        public async Task<List<string>> GetListInnerHtml(ActType actType, AttributeType attributeType,
+            string attributeValue,
             ValueTypes valueType = ValueTypes.InnerHtml, string value = "")
         {
-            if (Browser.IsDisposed) return
+            if (Browser.IsDisposed)
+                return
                     new List<string>();
 
-            List<string> listNodes = new List<string>();
+            var listNodes = new List<string>();
 
-            int itemCount = actType == ActType.ActByQuery ? int.Parse(await GetElementValueAsync(ActType.GetLengthByQuery, attributeType, attributeValue)) - 1
+            var itemCount = actType == ActType.ActByQuery
+                ? int.Parse(await GetElementValueAsync(ActType.GetLengthByQuery, attributeType, attributeValue)) - 1
                 : int.Parse(await GetElementValueAsync(ActType.GetLength, attributeType, attributeValue)) - 1;
 
             while (itemCount >= 0)
@@ -1124,24 +1170,34 @@ namespace EmbeddedBrowser
 
         public async Task<List<string>> GetListInnerHtmlChildElement(ActType actType, AttributeType parentAttributeType,
             string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
-            ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+            ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0,
+            int childIndex = 0)
         {
-            if (Browser.IsDisposed) return
+            if (Browser.IsDisposed)
+                return
                     new List<string>();
 
-            List<string> listNodes = new List<string>();
+            var listNodes = new List<string>();
 
-            int itemCount = actType == ActType.CustomActByQueryType ? int.Parse(await GetChildElementValueAsync(ActType.GetLengthByCustomQuery, parentAttributeType,
-                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1
-                : actType == ActType.GetValue ? int.Parse(await GetChildElementValueAsync(ActType.GetLength, parentAttributeType,
-                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1 :
-                int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
-                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1;
+            var itemCount = actType == ActType.CustomActByQueryType ? int.Parse(await GetChildElementValueAsync(
+                                                                          ActType.GetLengthByCustomQuery,
+                                                                          parentAttributeType,
+                                                                          parentAttributeValue, childAttributeName,
+                                                                          childAttributeValue, valueType, delayBefore,
+                                                                          parentIndex, childIndex)) - 1
+                : actType == ActType.GetValue ? int.Parse(await GetChildElementValueAsync(ActType.GetLength,
+                                                    parentAttributeType,
+                                                    parentAttributeValue, childAttributeName, childAttributeValue,
+                                                    valueType, delayBefore, parentIndex, childIndex)) - 1
+                : int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
+                      parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore,
+                      parentIndex, childIndex)) - 1;
 
             while (itemCount >= 0)
             {
                 listNodes.Add(await GetChildElementValueAsync(actType, parentAttributeType,
-                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex: itemCount));
+                    parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex,
+                    itemCount));
                 itemCount--;
             }
 
@@ -1149,15 +1205,17 @@ namespace EmbeddedBrowser
         }
 
 
-        public async Task<int> GetItemCountInnerHtml(ActType actType, AttributeType attributeType, string attributeValue,
+        public async Task<int> GetItemCountInnerHtml(ActType actType, AttributeType attributeType,
+            string attributeValue,
             ValueTypes valueType = ValueTypes.InnerHtml, string value = "")
         {
             if (Browser.IsDisposed)
                 return 0;
 
-            List<string> listNodes = new List<string>();
+            var listNodes = new List<string>();
 
-            int itemCount = actType == ActType.ActByQuery ? int.Parse(await GetElementValueAsync(ActType.GetLengthByQuery, attributeType, attributeValue))
+            var itemCount = actType == ActType.ActByQuery
+                ? int.Parse(await GetElementValueAsync(ActType.GetLengthByQuery, attributeType, attributeValue))
                 : int.Parse(await GetElementValueAsync(ActType.GetLength, attributeType, attributeValue));
 
             return itemCount;
@@ -1165,24 +1223,31 @@ namespace EmbeddedBrowser
 
         public async Task<int> GetCountInnerHtmlChildElement(ActType actType, AttributeType parentAttributeType,
             string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
-            ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+            ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0,
+            int childIndex = 0)
         {
             if (Browser.IsDisposed)
                 return 0;
 
-            int itemCount = actType == ActType.CustomActByQueryType ? int.Parse(await GetChildElementValueAsync(ActType.GetLengthByCustomQuery, parentAttributeType,
-                            parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex))
-                            : actType == ActType.GetValue ? int.Parse(await GetChildElementValueAsync(ActType.GetLength, parentAttributeType,
-                            parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) :
-                            int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
-                            parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex));
+            var itemCount = actType == ActType.CustomActByQueryType ? int.Parse(await GetChildElementValueAsync(
+                    ActType.GetLengthByCustomQuery, parentAttributeType,
+                    parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex,
+                    childIndex))
+                : actType == ActType.GetValue ? int.Parse(await GetChildElementValueAsync(ActType.GetLength,
+                    parentAttributeType,
+                    parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex,
+                    childIndex)) : int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery,
+                    parentAttributeType,
+                    parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex,
+                    childIndex));
 
             return itemCount;
         }
 
         public async Task<string> GetElementValueAsync(ActType actType, AttributeType attributeType,
-                    string attributeValue, ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int clickIndex = 0
-                    , string value = "")
+            string attributeValue, ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int clickIndex =
+                0
+            , string value = "")
         {
             JavascriptResponse jsResponse = null;
 
@@ -1190,7 +1255,8 @@ namespace EmbeddedBrowser
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
             try
             {
-                var z = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}";
+                var z =
+                    $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}";
 
                 if (Browser.IsDisposed) return "";
 
@@ -1200,53 +1266,67 @@ namespace EmbeddedBrowser
                 switch (actType)
                 {
                     case ActType.GetValue:
-                        jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{valueType.GetDescriptionAttr()}");
+                        jsResponse = await Browser.EvaluateScriptAsync(
+                            $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{valueType.GetDescriptionAttr()}");
                         break;
 
                     case ActType.GetLength:
-                        jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').length");
+                        jsResponse =
+                            await Browser.EvaluateScriptAsync(
+                                $"document.getElementsBy{attributeType}('{attributeValue}').length");
                         break;
 
                     case ActType.GetLengthByQuery:
-                        return (await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]').length"))?.Result?.ToString() ?? "0";
+                        return (await Browser.EvaluateScriptAsync(
+                                   $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]').length")
+                               )?.Result?.ToString() ?? "0";
 
                     case ActType.GetLengthByCustomQuery:
-                        jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').{value}.length");
+                        jsResponse =
+                            await Browser.EvaluateScriptAsync(
+                                $"document.getElementsBy{attributeType}('{attributeValue}').{value}.length");
                         break;
 
                     case ActType.GetAttribute:
-                        jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].getAttribute('{valueType.GetDescriptionAttr()}')");
+                        jsResponse = await Browser.EvaluateScriptAsync(
+                            $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].getAttribute('{valueType.GetDescriptionAttr()}')");
                         break;
 
                     case ActType.CustomActByQueryType:
-                        jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{value}");
+                        jsResponse = await Browser.EvaluateScriptAsync(
+                            $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{value}");
                         break;
                     case ActType.CustomActType:
-                        jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}.{valueType.GetDescriptionAttr()}");
+                        jsResponse = await Browser.EvaluateScriptAsync(
+                            $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}.{valueType.GetDescriptionAttr()}");
                         break;
                     default:
-                        jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}");
+                        jsResponse = await Browser.EvaluateScriptAsync(
+                            $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}");
                         break;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
+                // ignored
             }
 
-            return jsResponse.Success ? jsResponse.Result?.ToString() : "";
+            return jsResponse != null && jsResponse.Success ? jsResponse.Result?.ToString() : "";
         }
 
         public async Task<string> GetChildElementValueAsync(ActType actType, AttributeType parentAttributeType,
             string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
-            ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+            ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0,
+            int childIndex = 0)
         {
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
-            var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
+            var doc =
+                $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{valueType.GetDescriptionAttr()}";
 
-            var doc2 = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length";
+            var doc2 =
+                $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length";
 
             if (Browser.IsDisposed) return "";
 
@@ -1256,57 +1336,68 @@ namespace EmbeddedBrowser
             switch (actType)
             {
                 case ActType.GetValue:
-                    return (await Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}"))?.Result?.ToString() ?? "";
+                    return (await Browser.EvaluateScriptAsync(
+                               $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{valueType.GetDescriptionAttr()}")
+                           )?.Result?.ToString() ?? "";
 
                 case ActType.GetLength:
-                    return (await Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length"))?.Result?.ToString() ?? "0";
+                    return (await Browser.EvaluateScriptAsync(
+                               $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length")
+                           )?.Result?.ToString() ?? "0";
 
                 case ActType.GetLengthByQuery:
-                    return (await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length"))?.Result?.ToString() ?? "0";
+                    return (await Browser.EvaluateScriptAsync(
+                               $"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length")
+                           )?.Result?.ToString() ?? "0";
 
                 case ActType.GetLengthByCustomQuery:
-                    return (await Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length"))?.Result?.ToString() ?? "0";
+                    return (await Browser.EvaluateScriptAsync(
+                               $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length")
+                           )?.Result?.ToString() ?? "0";
 
                 case ActType.GetAttribute:
-                    return (await Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')"))?.Result?.ToString() ?? "";
+                    return (await Browser.EvaluateScriptAsync(
+                               $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')")
+                           )?.Result?.ToString() ?? "";
 
                 case ActType.ActByQuery:
-                    return (await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}"))?.Result?.ToString() ?? "";
+                    return (await Browser.EvaluateScriptAsync(
+                               $"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{valueType.GetDescriptionAttr()}")
+                           )?.Result?.ToString() ?? "";
                 default:
-                    return (await Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{ valueType.GetDescriptionAttr()}"))?.Result?.ToString() ?? "";
+                    return (await Browser.EvaluateScriptAsync(
+                               $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{valueType.GetDescriptionAttr()}")
+                           )?.Result?.ToString() ?? "";
             }
         }
 
 
-        public int lastCurrentCount = -1;
+        public int LastCurrentCount = -1;
 
         public async Task ExpandAllSeeMore()
         {
-            var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "see_more_link_inner",
+            var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName,
+                "see_more_link_inner",
                 ValueTypes.OuterHtml));
 
             while (postCount-- > 0)
-            {
-                await BrowserActAsync(ActType.Click, AttributeType.ClassName, "see_more_link_inner", delayAfter: 0.25, index: postCount);
-            }
+                await BrowserActAsync(ActType.Click, AttributeType.ClassName, "see_more_link_inner", delayAfter: 0.25,
+                    index: postCount);
         }
 
-        public async Task<List<Tuple<int, string, string, string, string>>> ExpandAllAdViewOptions(int postCount, int lastCount, int lastCurrentAdCount = 0)
+        public async Task<List<Tuple<int, string, string, string, string>>> ExpandAllAdViewOptions(int postCount,
+            int lastCount, int lastCurrentAdCount = 0)
         {
-            var xCoordinate = !string.IsNullOrEmpty(await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "fbChatSidebar fixed_always _5pr2 hidden_elem")) ?
-                        844 : 740;
 
-            var adCount = 0;
-
-            var dictAdViewerDetails = new Dictionary<int, string>();
             var tupleAdsDetals = new List<Tuple<int, string, string, string, string>>();
             await Task.Delay(5000, _token);
 
-            while (lastCurrentCount++ <= postCount * (lastCount + 1))
+            while (LastCurrentCount++ <= postCount * (lastCount + 1))
             {
-                var adViewerDetails = string.Empty;
-                Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
-                var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueTypes.OuterHtml, clickIndex: lastCurrentCount);
+                Browser.ExecuteScriptAsync(
+                    $"document.getElementsByClassName('_5jmm _5pat _3lb4')[{LastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
+                var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName,
+                    "_5jmm _5pat _3lb4", ValueTypes.OuterHtml, clickIndex: LastCurrentCount);
                 if (!fullAdDetails.Contains("sponsored") || !fullAdDetails.Contains("Sponsored"))
                 {
                     await Task.Delay(3000, _token);
@@ -1315,20 +1406,24 @@ namespace EmbeddedBrowser
 
                 await Task.Delay(2000, _token);
                 await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
-                var javascriptResponse = await ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].outerHTML");
+                var javascriptResponse =
+                    await ExecuteScriptAsync(
+                        $"document.getElementsByClassName('_5jmm _5pat _3lb4')[{LastCurrentCount}].outerHTML");
 
-                var values = Utilities.GetBetween(javascriptResponse.Result.ToString(), "id=\"feed_subtitle", "\""); //_263;2085460778154235;0;3006433072723663;1583140012:8116025295315885125:5:0:32239
-                var splittedValues = Regex.Split(values.ToString(), ";");
+                var values =
+                    Utilities.GetBetween(javascriptResponse.Result.ToString(), "id=\"feed_subtitle",
+                        "\""); //_263;2085460778154235;0;3006433072723663;1583140012:8116025295315885125:5:0:32239
+                var splittedValues = Regex.Split(values, ";");
                 var ownerId = splittedValues[1];
                 var postId = splittedValues[3];
                 splittedValues = Regex.Split(splittedValues[4], ":");
                 var AdId = splittedValues[1];
                 var dateTime = splittedValues[0];
 
-                tupleAdsDetals.Add(new Tuple<int, string, string, string, string>(lastCurrentCount, postId, AdId, ownerId, dateTime));
-
+                tupleAdsDetals.Add(
+                    new Tuple<int, string, string, string, string>(LastCurrentCount, postId, AdId, ownerId, dateTime));
             }
-            lastCurrentAdCount = lastCurrentCount;
+
             return tupleAdsDetals;
         }
 
@@ -1346,11 +1441,16 @@ namespace EmbeddedBrowser
             return resp;
         }
 
-        public KeyValuePair<int, int> GetXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "", int index = 0)
+        public KeyValuePair<int, int> GetXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "",
+            int index = 0)
         {
-            KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
-            var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
-            var scriptx = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
+            var xAndY = new KeyValuePair<int, int>();
+            var scripty = attributeType == AttributeType.Id
+                ? $"$('#{elementName}').offset().top"
+                : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
+            var scriptx = attributeType == AttributeType.Id
+                ? $"$('#{elementName}').offset().left"
+                : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
 
             if (ExecuteScript(scriptx, 0).Success)
             {
@@ -1361,17 +1461,28 @@ namespace EmbeddedBrowser
                 xAndY = new KeyValuePair<int, int>(x, y);
                 return xAndY;
             }
+
             return xAndY;
         }
 
-        public async Task<KeyValuePair<int, int>> GetXAndYAsync(AttributeType attributeType = AttributeType.Id, string elementName = "", int index = 0,
-            string customScriptX = "", string customScriptY = "", CoordinateDirection horizontalDirection = CoordinateDirection.Left,
+        public async Task<KeyValuePair<int, int>> GetXAndYAsync(AttributeType attributeType = AttributeType.Id,
+            string elementName = "", int index = 0,
+            string customScriptX = "", string customScriptY = "",
+            CoordinateDirection horizontalDirection = CoordinateDirection.Left,
             CoordinateDirection verticalDirection = CoordinateDirection.Top)
         {
-            KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
+            var xAndY = new KeyValuePair<int, int>();
 
-            var scripty = !string.IsNullOrEmpty(customScriptY) ? customScriptY : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().{verticalDirection.GetDescriptionAttr()}" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().{verticalDirection.GetDescriptionAttr()}";
-            var scriptx = !string.IsNullOrEmpty(customScriptX) ? customScriptX : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().{horizontalDirection.GetDescriptionAttr()}" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().{horizontalDirection.GetDescriptionAttr()}";
+            var scripty = !string.IsNullOrEmpty(customScriptY)
+                ? customScriptY
+                : attributeType == AttributeType.Id
+                    ? $"$('#{elementName}').offset().{verticalDirection.GetDescriptionAttr()}"
+                    : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().{verticalDirection.GetDescriptionAttr()}";
+            var scriptx = !string.IsNullOrEmpty(customScriptX)
+                ? customScriptX
+                : attributeType == AttributeType.Id
+                    ? $"$('#{elementName}').offset().{horizontalDirection.GetDescriptionAttr()}"
+                    : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().{horizontalDirection.GetDescriptionAttr()}";
 
 
             if ((await ExecuteScriptAsync(scriptx, 0)).Success)
@@ -1383,6 +1494,7 @@ namespace EmbeddedBrowser
                 xAndY = new KeyValuePair<int, int>(x, y);
                 return xAndY;
             }
+
             return xAndY;
         }
 
@@ -1436,12 +1548,16 @@ namespace EmbeddedBrowser
             }
         }
 
-        private void CustomLog(string message) => GlobusLogHelper.log.Info(Log.CustomMessage,
-            DominatorAccountModel.AccountBaseModel.AccountNetwork,
-            DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", message);
+        private void CustomLog(string message)
+        {
+            GlobusLogHelper.log.Info(Log.CustomMessage,
+                DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", message);
+        }
 
         //For reddit json data
-        public async Task<string> GoToCustomUrlAndGetPageSource(string url, string startSearchText, string startEndText, int delayAfter = 0)
+        public async Task<string> GoToCustomUrlAndGetPageSource(string url, string startSearchText, string startEndText,
+            int delayAfter = 0)
         {
             var response = string.Empty;
             try
@@ -1450,18 +1566,21 @@ namespace EmbeddedBrowser
                     Browser.Load(url);
 
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = ProxyRequestHandler == null
+                    ? RequestHandlerCustom.ResourceRequestHandler.ResponseList.DeepCloneObject()
+                    : ProxyRequestHandler.ResourceRequestHandler.ResponseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
-                var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
+                var responseStream = lstResponseStream.FirstOrDefault(x =>
+                    x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
                 if (responseStream != null)
                     response = Encoding.UTF8.GetString(responseStream.Data);
                 return response;
             }
-            catch (Exception ex)
+            catch
             {
-
+                // ignored
             }
+
             _token.ThrowIfCancellationRequested();
             return response;
         }
@@ -1469,10 +1588,10 @@ namespace EmbeddedBrowser
         //For deleting data present in responseList
         public void ClearResources()
         {
-            if (_proxyRequestHandler == null)
-                _requestHandlerCustom.resourceRequestHandler.responseList.Clear();
+            if (ProxyRequestHandler == null)
+                RequestHandlerCustom.ResourceRequestHandler.ResponseList.Clear();
             else
-                _proxyRequestHandler.resourceRequestHandler.responseList.Clear();
+                ProxyRequestHandler.ResourceRequestHandler.ResponseList.Clear();
         }
 
         //For reddit json data
@@ -1481,11 +1600,13 @@ namespace EmbeddedBrowser
             var response = string.Empty;
             try
             {
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = ProxyRequestHandler == null
+                    ? RequestHandlerCustom.ResourceRequestHandler.ResponseList.DeepCloneObject()
+                    : ProxyRequestHandler.ResourceRequestHandler.ResponseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 _token.ThrowIfCancellationRequested();
-                var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
+                var responseStream = lstResponseStream.FirstOrDefault(x =>
+                    x.Data.Length > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
 
                 if (responseStream != null)
                     response = Encoding.UTF8.GetString(responseStream.Data);
@@ -1495,10 +1616,11 @@ namespace EmbeddedBrowser
             {
                 throw new OperationCanceledException();
             }
-            catch (Exception ex)
+            catch
             {
-
+                // ignored
             }
+
             return response;
         }
 
@@ -1507,16 +1629,16 @@ namespace EmbeddedBrowser
         {
             try
             {
-                string searchText = Encoding.UTF8.GetString(data);
+                var searchText = Encoding.UTF8.GetString(data);
                 if (searchText.Contains(startSearchText) && searchText.Contains(startEndText))
                     return true;
-                else
-                    return false;
+                return false;
             }
-            catch (Exception ex)
+            catch
             {
-
+                // ignored
             }
+
             return false;
         }
 
@@ -1528,18 +1650,21 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10, _token);
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject() :
-                    _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = ProxyRequestHandler == null
+                    ? RequestHandlerCustom.ResourceRequestHandler.ResponseList.DeepCloneObject()
+                    : ProxyRequestHandler.ResourceRequestHandler.ResponseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
-                var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
+                var responseStream = lstResponseStream.FirstOrDefault(x =>
+                    x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
                 if (responseStream != null)
                     response = Encoding.UTF8.GetString(responseStream.Data);
                 return response;
             }
-            catch (Exception ex)
+            catch
             {
-
+                // ignored
             }
+
             _token.ThrowIfCancellationRequested();
             return response;
         }
@@ -1552,10 +1677,12 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10, _token);
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = ProxyRequestHandler == null
+                    ? RequestHandlerCustom.ResourceRequestHandler.ResponseList.DeepCloneObject()
+                    : ProxyRequestHandler.ResourceRequestHandler.ResponseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
-                var responseStreamList = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
+                var responseStreamList = lstResponseStream.Where(x =>
+                    x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
                 foreach (var responseStream in responseStreamList)
                 {
                     _token.ThrowIfCancellationRequested();
@@ -1575,10 +1702,11 @@ namespace EmbeddedBrowser
             {
                 throw new OperationCanceledException();
             }
-            catch (Exception ex)
+            catch
             {
-
+                // ignored
             }
+
             _token.ThrowIfCancellationRequested();
             return responseList;
         }
@@ -1590,23 +1718,21 @@ namespace EmbeddedBrowser
             try
             {
                 //for (;;);{__ar:
-                string searchText = Encoding.UTF8.GetString(data);
+                var searchText = Encoding.UTF8.GetString(data);
                 if (isContains && searchText.Contains(startSearchText))
                     return true;
                 if (isContains && string.IsNullOrEmpty(endString) && searchText.Contains(endString) &&
                     searchText.Contains(startSearchText))
                     return true;
-                else if (searchText.StartsWith(startSearchText))
+                if (searchText.StartsWith(startSearchText))
                     return true;
-                else
-                    return false;
-
-
+                return false;
             }
-            catch (Exception ex)
+            catch
             {
-
+                // ignored
             }
+
             return false;
         }
 
@@ -1615,75 +1741,79 @@ namespace EmbeddedBrowser
         public async Task<List<string>> GetPaginationDataList(string startSearchText, bool isContains = false)
         {
             var response = string.Empty;
-            List<string> lstJsonData = new List<string>();
+            var lstJsonData = new List<string>();
             try
             {
                 await Task.Delay(10, _token);
                 var lstResponseStream = new List<MemoryStreamResponseFilter>();
 
-                bool isSuccess = false;
+                var isSuccess = false;
 
                 while (!isSuccess)
                 {
                     _token.ThrowIfCancellationRequested();
                     try
                     {
-                        lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject() :
-                            _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
+                        lstResponseStream = ProxyRequestHandler == null
+                            ? RequestHandlerCustom.ResourceRequestHandler.ResponseList.DeepCloneObject()
+                            : ProxyRequestHandler.ResourceRequestHandler.ResponseList.DeepCloneObject();
                         isSuccess = true;
                     }
-                    catch (Exception ex)
+                    catch
                     {
+                        // ignored
                     }
                 }
 
                 lstResponseStream.RemoveAll(x => x.Data == null);
-                var responseStream = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains));
-                if (responseStream != null)
+                var responseStream = lstResponseStream.Where(x =>
+                    x.Data.Length > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains));
+                foreach (var v in responseStream)
                 {
-                    foreach (var v in responseStream)
-                    {
-                        _token.ThrowIfCancellationRequested();
-                        if (v != null)
-                            lstJsonData.Add(response = Encoding.UTF8.GetString(v.Data));
-                    }
+                    _token.ThrowIfCancellationRequested();
+                    lstJsonData.Add(response = Encoding.UTF8.GetString(v.Data));
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
+                // ignored
             }
+
             _token.ThrowIfCancellationRequested();
             return lstJsonData;
         }
 
         public string CurrentUrl()
         {
-            string urlNow = "";
+            var urlNow = "";
             if (!Dispatcher.CheckAccess())
-                Dispatcher.Invoke(new Action(delegate
-                {
-                    urlNow = Browser.Address;
-                }));
+                Dispatcher.Invoke(delegate { urlNow = Browser.Address; });
             else
                 urlNow = Browser.Address;
             return urlNow;
         }
-        public KeyValuePair<int, int> GetEndXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "")
-        {
-            KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
-            var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().bottom" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().bottom";
-            var scriptx = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().right" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().right";
 
-            if (ExecuteScript(scriptx, 0).Success)
+        public KeyValuePair<int, int> GetEndXAndY(AttributeType attributeType = AttributeType.Id,
+            string elementName = "")
+        {
+            var xAndY = new KeyValuePair<int, int>();
+            var scriptY = attributeType == AttributeType.Id
+                ? $"$('#{elementName}').offset().bottom"
+                : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().bottom";
+            var scriptX = attributeType == AttributeType.Id
+                ? $"$('#{elementName}').offset().right"
+                : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().right";
+
+            if (ExecuteScript(scriptX, 0).Success)
             {
-                var scriptResponse = ExecuteScript(scriptx, 0);
+                var scriptResponse = ExecuteScript(scriptX, 0);
                 var x = ConvertDoubleAndInt(scriptResponse.Result.ToString());
-                scriptResponse = ExecuteScript(scripty, 0);
+                scriptResponse = ExecuteScript(scriptY, 0);
                 var y = ConvertDoubleAndInt(scriptResponse.Result.ToString());
                 xAndY = new KeyValuePair<int, int>(x, y);
                 return xAndY;
             }
+
             return xAndY;
         }
 
@@ -1701,6 +1831,7 @@ namespace EmbeddedBrowser
                     return frame;
                 var document = await frame.GetSourceAsync();
             }
+
             return null;
         }
 
@@ -1708,8 +1839,9 @@ namespace EmbeddedBrowser
         {
             await Task.Delay(1000, _token);
             var jsResponse = await frame.EvaluateScriptAsync(script);
-            return jsResponse.Success ? jsResponse.Result?.ToString() : jsResponse.Message?.ToString();
+            return jsResponse.Success ? jsResponse.Result?.ToString() : jsResponse.Message;
         }
+
         public async Task ExecuteJSAsyncFromFrame(IFrame frame, string script)
         {
             await Task.Delay(10000, _token);
@@ -1718,10 +1850,10 @@ namespace EmbeddedBrowser
         }
 
         public async Task SelectTextAsync(int stratXlocation, int startYLocation, int moveToXLocation,
-                     int moveToYLocation, double delayBefore = 0, double delayAfter = 0,
+            int moveToYLocation, double delayBefore = 0, double delayAfter = 0,
             int clickLeavEvent = 0)
         {
-            MouseButtonType mouseButton = MouseButtonType.Left;
+            var mouseButton = MouseButtonType.Left;
 
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
@@ -1732,12 +1864,15 @@ namespace EmbeddedBrowser
             await Task.Delay(1000, _token);
 
             //Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, true, 0, CefEventFlags.ShiftDown);
-            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, false, 1, CefEventFlags.ShiftDown);
-            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, true, 1, CefEventFlags.ShiftDown);
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation,
+                mouseButton, false, 1, CefEventFlags.ShiftDown);
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation,
+                mouseButton, true, 1, CefEventFlags.ShiftDown);
 
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter), _token);
         }
+
         public JavascriptResponse EvaluateScript(string script, int delayInSec = 2)
         {
             var resp = Browser.EvaluateScriptAsync(script).Result;
@@ -1748,37 +1883,38 @@ namespace EmbeddedBrowser
 
         public void SetResourceLoadInstance()
         {
-            if (_proxyRequestHandler == null)
-                _requestHandlerCustom.resourceRequestHandler.IsNeedResourceData = true;
+            if (ProxyRequestHandler == null)
+                RequestHandlerCustom.ResourceRequestHandler.IsNeedResourceData = true;
             else
-                _proxyRequestHandler.resourceRequestHandler.IsNeedResourceData = true;
+                ProxyRequestHandler.ResourceRequestHandler.IsNeedResourceData = true;
         }
 
         public void ReSetResourceLoadInstance()
         {
-            if (_proxyRequestHandler == null)
-                _requestHandlerCustom.resourceRequestHandler.IsNeedResourceData = false;
+            if (ProxyRequestHandler == null)
+                RequestHandlerCustom.ResourceRequestHandler.IsNeedResourceData = false;
             else
-                _proxyRequestHandler.resourceRequestHandler.IsNeedResourceData = false;
+                ProxyRequestHandler.ResourceRequestHandler.IsNeedResourceData = false;
         }
 
         public List<KeyValuePair<string, MemoryStreamResponseFilter>> TwitterJsonResponse()
         {
-            var response = string.Empty;
             try
             {
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.TwitterresponseList.DeepCloneObject() :
-                       _proxyRequestHandler.resourceRequestHandler.TwitterresponseList.DeepCloneObject();
+                var lstResponseStream = ProxyRequestHandler == null
+                    ? RequestHandlerCustom.ResourceRequestHandler.TwitterresponseList.DeepCloneObject()
+                    : ProxyRequestHandler.ResourceRequestHandler.TwitterresponseList.DeepCloneObject();
                 return lstResponseStream;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
         }
 
-        public async Task<bool> CopyPasteContentAsync(string message = "", int winKeyCode = 13, int delay = 90, double delayAtLast = 0,
-           CefEventFlags flags = CefEventFlags.ControlDown)
+        public async Task<bool> CopyPasteContentAsync(string message = "", int winKeyCode = 13, int delay = 90,
+            double delayAtLast = 0,
+            CefEventFlags flags = CefEventFlags.ControlDown)
         {
             try
             {
@@ -1794,7 +1930,7 @@ namespace EmbeddedBrowser
 
                 await Task.Delay(delay, _token);
 
-                bool isRunning = false;
+                var isRunning = false;
 
                 if (!string.IsNullOrEmpty(message))
                 {
@@ -1851,24 +1987,9 @@ namespace EmbeddedBrowser
         public void CopyPasteContent(string message = "", int winKeyCode = 13, int delay = 90, double delayAtLast = 0,
             CefEventFlags flags = CefEventFlags.ControlDown)
         {
-            CopyPasteContentAsync(message, winKeyCode, delay, delayAtLast,
-            CefEventFlags.ControlDown).Wait();
+            CopyPasteContentAsync(message, winKeyCode, delay, delayAtLast).Wait();
         }
 
         #endregion
-
-        //public void ExecuteScript(string script, int delayInSec = 2)
-        //{
-        //    Browser.ExecuteScriptAsync(script);
-        //   Task.Delay(TimeSpan.FromSeconds(delayInSec)).Wait(_token);
-        //}
-
-        void Sleep(double seconds = 1) => Task.Delay(TimeSpan.FromSeconds(seconds)).Wait(_token);
-        
     }
 }
-
-
-
-
-

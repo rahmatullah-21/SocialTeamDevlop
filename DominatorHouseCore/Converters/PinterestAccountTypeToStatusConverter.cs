@@ -1,8 +1,12 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -10,7 +14,7 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((PinterestAccountType)value).GetDescriptionAttr().FromResourceDictionary();
+            return ((PinterestAccountType) value).GetDescriptionAttr().FromResourceDictionary();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

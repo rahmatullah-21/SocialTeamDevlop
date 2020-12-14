@@ -1,26 +1,27 @@
-﻿using DominatorHouseCore.Models.SocioPublisher;
-using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.Utility;
-using DominatorHouseCore.Enums;
-using DominatorUIUtility.CustomControl;
-using DominatorHouseCore.Enums.FdQuery;
-using DominatorHouseCore;
-using DominatorUIUtility.ViewModel.Startup;
 using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.FdQuery;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.ViewModel.Startup;
+using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 
 namespace DominatorUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
-    /// Interaction logic for GroupInviter.xaml
+    ///     Interaction logic for GroupInviter.xaml
     /// </summary>
     public partial class GroupInviter : UserControl
     {
-        private IGroupInviterViewModel ViewModel;
+        private readonly IGroupInviterViewModel ViewModel;
+
         public GroupInviter(IGroupInviterViewModel viewModel)
         {
             InitializeComponent();
@@ -49,29 +50,30 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
                 if (x.IsAccountSelected)
                 {
                     if (!(selectAccountDetailsModel.AccountGroupPair.Count == 0 ||
-                            selectAccountDetailsModel.AccountFriendsPair.Count == 0))
+                          selectAccountDetailsModel.AccountFriendsPair.Count == 0))
                     {
                         selectAccountDetailsModel.SelectedAccountIds.Add(x.AccountId);
-                        selectAccountDetailsModel.AccountsWithNetwork.Add(new KeyValuePair<SocialNetworks, string>(x.SocialNetworks, x.AccountId));
+                        selectAccountDetailsModel.AccountsWithNetwork.Add(
+                            new KeyValuePair<SocialNetworks, string>(x.SocialNetworks, x.AccountId));
                     }
                     else
                     {
                         Dialog.ShowDialog("Warning", "Please select both account group and friends for accounts!");
                     }
-
                 }
                 else
                 {
                     // If account has selected, remove from selected lists
-                    var unwantedGroups = selectAccountDetailsModel.AccountGroupPair.Where(y => y.Key == x.AccountId).Select(y => y.Key);
+                    var unwantedGroups = selectAccountDetailsModel.AccountGroupPair.Where(y => y.Key == x.AccountId)
+                        .Select(y => y.Key);
                     selectAccountDetailsModel.AccountGroupPair.RemoveAll(z => unwantedGroups.Contains(z.Key));
 
-                    var unwantedPages = selectAccountDetailsModel.AccountPagesBoardsPair.Where(y => y.Key == x.AccountId).Select(y => y.Key);
+                    var unwantedPages = selectAccountDetailsModel.AccountPagesBoardsPair
+                        .Where(y => y.Key == x.AccountId).Select(y => y.Key);
                     selectAccountDetailsModel.AccountPagesBoardsPair.RemoveAll(z => unwantedPages.Contains(z.Key));
 
                     selectAccountDetailsModel.DestinationDetailsModels.RemoveAll(z =>
                         z.AccountId == x.AccountId);
-
                 }
             });
 
@@ -86,20 +88,19 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
                 selectAccountDetailsModel.AccountPagesBoardsPair.Distinct().ToList();
 
             selectAccountDetailsModel.AccountFriendsPair =
-            selectAccountDetailsModel.AccountFriendsPair.Distinct().ToList();
+                selectAccountDetailsModel.AccountFriendsPair.Distinct().ToList();
 
             if (selectAccountDetailsModel.AccountGroupPair.Count == 0 &&
                 selectAccountDetailsModel.AccountPagesBoardsPair.Count == 0 &&
                 selectAccountDetailsModel.AccountFriendsPair.Count == 0 &&
                 selectAccountDetailsModel.PublishOwnWallAccount.Count == 0
-                )
+            )
             {
                 Dialog.ShowDialog("Warning", "Please select destination!");
                 return new SelectAccountDetailsModel();
             }
 
             return selectAccountDetailsModel;
-
         }
 
         private void SelectAccountDetails_Click(object sender, RoutedEventArgs e)
@@ -108,7 +109,7 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
 
             SelectAccountDetailsControl selectAccountDetailsControl;
 
-            List<FbEntityTypes> hiddenColumnList = new List<FbEntityTypes> { FbEntityTypes.Page };
+            var hiddenColumnList = new List<FbEntityTypes> {FbEntityTypes.Page};
 
             if (ViewModel.SelectAccountDetailsModel.AccountsWithNetwork.Count != 0)
             {
@@ -123,23 +124,20 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
             else
             {
                 var displayAccount = viewModel.SelectAccount.AccountBaseModel.UserName;
-                selectAccountDetailsControl = new SelectAccountDetailsControl(hiddenColumnList, displayAccount, true, string.Empty);
+                selectAccountDetailsControl =
+                    new SelectAccountDetailsControl(hiddenColumnList, displayAccount, true, string.Empty);
             }
 
             var objDialog = new Dialog();
 
             var window = objDialog.GetMetroWindow(selectAccountDetailsControl, "Select Account Details");
 
-            window.Closed += (senders, events) =>
-            {
-                ViewModel.IsSelctDetails = false;
-            };
+            window.Closed += (senders, events) => { ViewModel.IsSelctDetails = false; };
 
             selectAccountDetailsControl.BtnSave.Click += (senders, events) =>
             {
                 try
                 {
-
                     var model = selectAccountDetailsControl.SelectAccountDetailsViewModel.SelectAccountDetailsModel;
 
                     model = SaveDestinationExecute(model);
@@ -160,6 +158,5 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
 
             window.ShowDialog();
         }
-
     }
 }

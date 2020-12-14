@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.DatabaseHandler.FdTables.Accounts;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.FdTables.Accounts;
 using DominatorHouseCore.Enums;
 using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
@@ -66,23 +70,23 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedComments>(SocialNetworks.Facebook, true));
 
             Container
-               .RegisterInstance<IEntityCounterFunction<InteractedEvents>>(
-                   new EntityCounterFunction<InteractedEvents>(
-                       new DateFilterPredicate<InteractedEvents>(
-                           a => a.InteractionDateTime),
-                       new ActivityTypeAsStringFilterPredicate<InteractedEvents>(
-                           a => a.ActivityType)));
+                .RegisterInstance<IEntityCounterFunction<InteractedEvents>>(
+                    new EntityCounterFunction<InteractedEvents>(
+                        new DateFilterPredicate<InteractedEvents>(
+                            a => a.InteractionDateTime),
+                        new ActivityTypeAsStringFilterPredicate<InteractedEvents>(
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedEvents>>(
                     new CounterKeyFactory<InteractedEvents>(SocialNetworks.Facebook, true));
 
             Container
-               .RegisterInstance<IEntityCounterFunction<InteractedCommentReplies>>(
-                   new EntityCounterFunction<InteractedCommentReplies>(
-                       new DateFilterPredicate<InteractedCommentReplies>(
-                           a => a.InteractionDateTime),
-                       new ActivityTypeAsStringFilterPredicate<InteractedCommentReplies>(
-                           a => a.ActivityType)));
+                .RegisterInstance<IEntityCounterFunction<InteractedCommentReplies>>(
+                    new EntityCounterFunction<InteractedCommentReplies>(
+                        new DateFilterPredicate<InteractedCommentReplies>(
+                            a => a.InteractionDateTime),
+                        new ActivityTypeAsStringFilterPredicate<InteractedCommentReplies>(
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedCommentReplies>>(
                     new CounterKeyFactory<InteractedCommentReplies>(SocialNetworks.Facebook, true));

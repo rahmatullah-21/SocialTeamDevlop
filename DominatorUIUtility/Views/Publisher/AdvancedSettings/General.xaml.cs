@@ -1,4 +1,9 @@
-﻿using CommonServiceLocator;
+﻿using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -6,20 +11,19 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
 using DominatorUIUtility.Views.SocioPublisher;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
-    /// Interaction logic for General.xaml
+    ///     Interaction logic for General.xaml
     /// </summary>
     public partial class General : UserControl, INotifyPropertyChanged
     {
+        private static General ObjGeneral;
         private readonly IGenericFileManager _genericFileManager;
+
+        private GeneralViewModel _generalViewModel = new GeneralViewModel();
+
         public General()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
@@ -27,7 +31,18 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             MainGrid.DataContext = GeneralViewModel;
         }
 
-        static General ObjGeneral;
+        public GeneralViewModel GeneralViewModel
+        {
+            get => _generalViewModel;
+            set
+            {
+                _generalViewModel = value;
+                OnPropertyChanged(nameof(GeneralViewModel));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public static General GetSingeltonGeneralObject()
         {
             if (ObjGeneral == null)
@@ -35,27 +50,11 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             return ObjGeneral;
         }
 
-        private GeneralViewModel _generalViewModel = new GeneralViewModel();
-
-        public GeneralViewModel GeneralViewModel
-        {
-            get
-            {
-                return _generalViewModel;
-            }
-            set
-            {
-                _generalViewModel = value;
-                OnPropertyChanged(nameof(GeneralViewModel));
-            }
-        }
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private void General_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -74,7 +73,9 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
                 GeneralViewModel.GeneralModel = newGeneralModel;
             }
             else
+            {
                 GeneralViewModel.GeneralModel = generaldata;
+            }
         }
     }
 }

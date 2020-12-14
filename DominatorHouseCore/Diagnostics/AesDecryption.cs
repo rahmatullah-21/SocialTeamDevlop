@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
+
+#endregion
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -10,12 +14,12 @@ namespace DominatorHouseCore.Diagnostics
         public static byte[] Decrypt(byte[] bytes, string keyStr)
         {
             var sha256 = new SHA256CryptoServiceProvider();
-            var ivBytes = new byte[] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
+            var ivBytes = new byte[] {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
             var keyBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(keyStr));
             return Decrypt(bytes, keyBytes, ivBytes);
         }
 
-        static byte[] Decrypt(byte[] bytes, byte[] keyBytes, byte[] ivBytes)
+        private static byte[] Decrypt(byte[] bytes, byte[] keyBytes, byte[] ivBytes)
         {
             var aes = new AesCryptoServiceProvider
             {
@@ -30,7 +34,7 @@ namespace DominatorHouseCore.Diagnostics
         public static string DecryptAes(string decryptedString)
         {
             var aesKey = ConfigurationManager.AppSettings["AesKey"];
-            var decryptedKey = decryptedString.Replace("\\/", "/").Replace("\"","");
+            var decryptedKey = decryptedString.Replace("\\/", "/").Replace("\"", "");
             var bytes = Decrypt(Convert.FromBase64String(decryptedKey), aesKey);
             return Encoding.UTF8.GetString(bytes);
         }

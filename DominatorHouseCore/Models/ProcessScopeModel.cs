@@ -1,11 +1,14 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using System.Collections.Generic;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Process.JobConfigurations;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
-
     public interface IProcessScopeModel
     {
         DominatorAccountModel Account { get; }
@@ -21,6 +24,7 @@ namespace DominatorHouseCore.Models
 
         T GetActivitySettingsAs<T>();
     }
+
     public class ProcessScopeModel : IProcessScopeModel
     {
         private readonly string _activitySettings;
@@ -34,6 +38,7 @@ namespace DominatorHouseCore.Models
         public bool IsNeedToSchedule { get; }
         public JobConfiguration JobConfiguration { get; }
         public List<QueryInfo> SavedQueries { get; }
+
         public T GetActivitySettingsAs<T>()
         {
             return JsonConvert.DeserializeObject<T>(_activitySettings);

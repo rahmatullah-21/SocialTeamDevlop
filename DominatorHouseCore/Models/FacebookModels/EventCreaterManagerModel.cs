@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
@@ -12,12 +16,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private string _id;
+
         public string Id
         {
-            get
-            {
-                return _id;
-            }
+            get => _id;
             set
             {
                 if (value == _id)
@@ -27,12 +29,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private string _eventId;
+
         public string EventId
         {
-            get
-            {
-                return _eventId;
-            }
+            get => _eventId;
             set
             {
                 if (value == _eventId)
@@ -42,9 +42,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private string _eventType = "LangKeyCreatePrivateEvent".FromResourceDictionary();
+
         public string EventType
         {
-            get { return _eventType; }
+            get => _eventType;
             set
             {
                 if (_eventType == value)
@@ -53,11 +54,11 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
         }
 
-        private string _category= "Select Category";
+        private string _category = "Select Category";
+
         public string Category
         {
-            get
-            { return _category; }
+            get => _category;
             set
             {
                 if (value == _category)
@@ -67,10 +68,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private string _categoryId;
+
         public string CategoryId
         {
-            get
-            { return _categoryId; }
+            get => _categoryId;
             set
             {
                 if (value == _categoryId)
@@ -80,9 +81,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private string _eventName = string.Empty;
+
         public string EventName
         {
-            get { return _eventName; }
+            get => _eventName;
             set
             {
                 if (_eventName == value)
@@ -92,9 +94,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private bool _isSelectLocation;
+
         public bool IsSelectLocation
         {
-            get { return _isSelectLocation; }
+            get => _isSelectLocation;
             set
             {
                 if (_isSelectLocation == value)
@@ -104,9 +107,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private string _eventLocation;
+
         public string EventLocation
         {
-            get { return _eventLocation; }
+            get => _eventLocation;
             set
             {
                 if (_eventLocation == value)
@@ -119,7 +123,7 @@ namespace DominatorHouseCore.Models.FacebookModels
 
         public string EventDescription
         {
-            get { return _eventDescription; }
+            get => _eventDescription;
             set
             {
                 if (_eventDescription == value)
@@ -129,12 +133,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private DateTime _eventStartDate = DateTime.Now.AddHours(3);
+
         public DateTime EventStartDate
         {
-            get
-            {
-                return _eventStartDate;
-            }
+            get => _eventStartDate;
             set
             {
                 if (value == _eventStartDate)
@@ -144,12 +146,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private DateTime _eventEndDate = DateTime.Now.AddHours(10);
+
         public DateTime EventEndDate
         {
-            get
-            {
-                return _eventEndDate;
-            }
+            get => _eventEndDate;
             set
             {
                 if (value == _eventEndDate)
@@ -159,9 +159,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private bool _isGuestCanInviteFriends = true;
+
         public bool IsGuestCanInviteFriends
         {
-            get { return _isGuestCanInviteFriends; }
+            get => _isGuestCanInviteFriends;
             set
             {
                 if (_isGuestCanInviteFriends == value)
@@ -171,9 +172,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private bool _showGuestList = true;
+
         public bool IsShowGuestList
         {
-            get { return _showGuestList; }
+            get => _showGuestList;
             set
             {
                 if (_showGuestList == value)
@@ -183,9 +185,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private bool _anyOneCanPostForAllPost = true;
+
         public bool IsAnyOneCanPostForAllPost
         {
-            get { return _anyOneCanPostForAllPost; }
+            get => _anyOneCanPostForAllPost;
             set
             {
                 if (_anyOneCanPostForAllPost == value)
@@ -195,9 +198,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private bool _isPostMustApproved;
+
         public bool IsPostMustApproved
         {
-            get { return _isPostMustApproved; }
+            get => _isPostMustApproved;
             set
             {
                 if (_isPostMustApproved == value)
@@ -207,9 +211,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private bool _isQuesOnMessanger;
+
         public bool IsQuesOnMessanger
         {
-            get { return _isQuesOnMessanger; }
+            get => _isQuesOnMessanger;
             set
             {
                 if (_isQuesOnMessanger == value)
@@ -218,11 +223,11 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
         }
 
-        private FbMultiMediaModel _fbMultiMediaModel=new FbMultiMediaModel();
+        private FbMultiMediaModel _fbMultiMediaModel = new FbMultiMediaModel();
 
         public FbMultiMediaModel FbMultiMediaModel
         {
-            get { return _fbMultiMediaModel; }
+            get => _fbMultiMediaModel;
             set
             {
                 if (_fbMultiMediaModel == value)
@@ -235,7 +240,7 @@ namespace DominatorHouseCore.Models.FacebookModels
 
         public string MediaPath
         {
-            get { return _mediaPath; }
+            get => _mediaPath;
             set
             {
                 if (_mediaPath == value)
@@ -245,35 +250,36 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private bool _isPrivatePostingVisibile;
+
         public bool IsPrivatePostingVisibile
         {
-            get { return _isPrivatePostingVisibile; }
+            get => _isPrivatePostingVisibile;
             set
             {
                 if (_isPrivatePostingVisibile == value)
                     return;
                 SetProperty(ref _isPrivatePostingVisibile, value);
-
             }
         }
 
         private bool _isPublicPostingVisibile;
+
         public bool IsPublicPostingVisibile
         {
-            get { return _isPublicPostingVisibile; }
+            get => _isPublicPostingVisibile;
             set
             {
                 if (_isPublicPostingVisibile == value)
                     return;
                 SetProperty(ref _isPublicPostingVisibile, value);
-
             }
         }
+
         private string _textLength = "0/64";
 
         public string TextLength
         {
-            get { return _textLength; }
+            get => _textLength;
             set
             {
                 if (_textLength == value)
@@ -288,7 +294,7 @@ namespace DominatorHouseCore.Models.FacebookModels
 
         public string OwnerId
         {
-            get { return _ownerId; }
+            get => _ownerId;
             set
             {
                 if (_ownerId == value)

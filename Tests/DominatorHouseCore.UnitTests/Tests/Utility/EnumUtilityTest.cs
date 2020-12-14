@@ -18,7 +18,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         public void should_return_all_quora_activity()
         {
             var result = EnumUtility.GetEnums("Quora");
-            result.Count.Should().Be(13);
+            result.Count.Should().Be(14);
         }
         [TestMethod]
         public void should_return_empty_if_string_is_not_socialnetwork()
@@ -30,7 +30,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         public void should_return_description_of_enum()
         {
             var result = EnumUtility.GetDescriptionAttr(_activityType);
-            result.Should().Be("Twitter,Instagram,Gplus,Quora,Tumblr,Pinterest,Reddit");
+            result.Should().Be("Twitter,Instagram,Gplus,Quora,Tumblr,Pinterest,Reddit,TikTok");
         }
         [TestMethod]
         public void should_return_null_if_enum_dont_have_description()
@@ -38,12 +38,6 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             var result = EnumUtility.GetDescriptionAttr(SocialNetworks.Facebook);
             result.Should().Be(null);
         }
-        //[TestMethod]
-        //public void should_return_list_of_description_of_given_enum()
-        //{
-        //    var result = EnumUtility.GetListOfDescription<ActivityType>();
-        //    result.Should().NotBeEmpty().And.HaveCount(103);
-        //}
        
     }
 }

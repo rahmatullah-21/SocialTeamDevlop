@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 {
@@ -10,45 +14,40 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         [Indexed]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
-        
+
         /// <summary>
-        /// Date when statistics are entered in Unix Timestamp
+        ///     Date when statistics are entered in Unix Timestamp
         /// </summary>
-        
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        public DateTime Date
-        { get; set; }
-       
+        public DateTime Date { get; set; }
+
         /// <summary>
-        /// Followers count of the DB owner when the statistics has got updated
+        ///     Followers count of the DB owner when the statistics has got updated
         /// </summary>
-        
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public int Followers
-        { get; set; }
+        public int Followers { get; set; }
 
         /// <summary>
-        /// Followings count of the DB owner when the statistics has got updated
+        ///     Followings count of the DB owner when the statistics has got updated
         /// </summary>
-       
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public int Followings
-        { get; set; }
+        public int Followings { get; set; }
 
         /// <summary>
-        /// Tweets count of the DB owner when the statistics has got updated
+        ///     Tweets count of the DB owner when the statistics has got updated
         /// </summary>
-        
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public int Tweets
-        { get; set; }
+        public int Tweets { get; set; }
 
         /// <summary>
-        /// Likes count of the DB owner when the statistics has got updated
+        ///     Likes count of the DB owner when the statistics has got updated
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int Likes { get; set; }
-
     }
 }

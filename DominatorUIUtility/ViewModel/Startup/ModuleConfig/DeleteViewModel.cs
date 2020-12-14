@@ -1,19 +1,19 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
 using ProtoBuf;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     [ProtoContract]
     public class DeleteSetting : BindableBase
     {
-        private RangeUtilities _deleteCommentRange = new RangeUtilities() { StartValue = 1, EndValue = 1 };
-        private RangeUtilities _deleteTweetRange = new RangeUtilities() { StartValue = 1, EndValue = 1 };
+        private RangeUtilities _deleteCommentRange = new RangeUtilities {StartValue = 1, EndValue = 1};
+        private RangeUtilities _deleteTweetRange = new RangeUtilities {StartValue = 1, EndValue = 1};
 
         private DateTime? _endDateForComment;
 
@@ -45,12 +45,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         private DateTime? _startDateForRetweet;
 
         private DateTime? _startDateForTeeet;
-        private RangeUtilities _undoRetweetRange = new RangeUtilities() { StartValue = 1, EndValue = 1 };
+        private RangeUtilities _undoRetweetRange = new RangeUtilities {StartValue = 1, EndValue = 1};
 
         [ProtoMember(1)]
         public bool IsChkDeleteTweet
         {
-            get { return _isChkDeleteTweet; }
+            get => _isChkDeleteTweet;
             set
             {
                 if (_isChkDeleteTweet == value)
@@ -62,7 +62,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(2)]
         public RangeUtilities DeleteTweetRange
         {
-            get { return _deleteTweetRange; }
+            get => _deleteTweetRange;
             set
             {
                 if (_deleteTweetRange == value)
@@ -74,7 +74,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(3)]
         public bool IsChkTweetedDateMustBeInSpecificRange
         {
-            get { return _isChkTweetedDateMustBeInSpecificRange; }
+            get => _isChkTweetedDateMustBeInSpecificRange;
             set
             {
                 if (_isChkTweetedDateMustBeInSpecificRange == value)
@@ -86,7 +86,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(4)]
         public DateTime? StartDateForTweet
         {
-            get { return _startDateForTeeet; }
+            get => _startDateForTeeet;
             set
             {
                 if (_startDateForTeeet == value)
@@ -98,7 +98,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(5)]
         public DateTime? EndDateForTweet
         {
-            get { return _endDateForTeeet; }
+            get => _endDateForTeeet;
             set
             {
                 if (_endDateForTeeet == value)
@@ -110,7 +110,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(6)]
         public bool IsChkDeleteComment
         {
-            get { return _isChkDeleteComment; }
+            get => _isChkDeleteComment;
             set
             {
                 if (_isChkDeleteComment == value)
@@ -122,7 +122,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(7)]
         public RangeUtilities DeleteCommentRange
         {
-            get { return _deleteCommentRange; }
+            get => _deleteCommentRange;
             set
             {
                 if (_deleteCommentRange == value)
@@ -134,7 +134,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(8)]
         public bool IsChkCommentedDateMustBeInSpecificRange
         {
-            get { return _isChkCommentedDateMustBeInSpecificRange; }
+            get => _isChkCommentedDateMustBeInSpecificRange;
             set
             {
                 if (_isChkCommentedDateMustBeInSpecificRange == value)
@@ -146,7 +146,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(9)]
         public DateTime? StartDateForComment
         {
-            get { return _startDateForComment; }
+            get => _startDateForComment;
             set
             {
                 if (_startDateForComment == value)
@@ -158,7 +158,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(10)]
         public DateTime? EndDateForComment
         {
-            get { return _endDateForComment; }
+            get => _endDateForComment;
             set
             {
                 if (_endDateForComment == value)
@@ -170,7 +170,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(11)]
         public bool IsChkUndoRetweet
         {
-            get { return _isChkUndoRetweet; }
+            get => _isChkUndoRetweet;
             set
             {
                 if (_isChkUndoRetweet == value)
@@ -182,7 +182,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(12)]
         public RangeUtilities UndoRetweetRange
         {
-            get { return _undoRetweetRange; }
+            get => _undoRetweetRange;
             set
             {
                 if (_undoRetweetRange == value)
@@ -194,7 +194,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(13)]
         public bool IsChkRetweetedDateMustBeInSpecificRange
         {
-            get { return _isChkRetweetedDateMustBeInSpecificRange; }
+            get => _isChkRetweetedDateMustBeInSpecificRange;
             set
             {
                 if (_isChkRetweetedDateMustBeInSpecificRange == value)
@@ -206,7 +206,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(14)]
         public DateTime? StartDateForRetweet
         {
-            get { return _startDateForRetweet; }
+            get => _startDateForRetweet;
             set
             {
                 if (_startDateForRetweet == value)
@@ -218,7 +218,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(15)]
         public DateTime? EndDateForRetweet
         {
-            get { return _endDateForRetweet; }
+            get => _endDateForRetweet;
             set
             {
                 if (_endDateForRetweet == value)
@@ -230,22 +230,22 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(16)]
         public bool IsDeleteRandomTweets
         {
-            get { return _IsDeleteRandomTweets; }
-            set { SetProperty(ref _IsDeleteRandomTweets, value); }
+            get => _IsDeleteRandomTweets;
+            set => SetProperty(ref _IsDeleteRandomTweets, value);
         }
 
         [ProtoMember(17)]
         public bool IsUndoRandomRetweets
         {
-            get { return _IsUndoRandomRetweets; }
-            set { SetProperty(ref _IsUndoRandomRetweets, value); }
+            get => _IsUndoRandomRetweets;
+            set => SetProperty(ref _IsUndoRandomRetweets, value);
         }
 
         [ProtoMember(18)]
         public bool IsDeleteRandomComments
         {
-            get { return _IsDeleteRandomComments; }
-            set { SetProperty(ref _IsDeleteRandomComments, value); }
+            get => _IsDeleteRandomComments;
+            set => SetProperty(ref _IsDeleteRandomComments, value);
         }
     }
 
@@ -253,18 +253,14 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         DeleteSetting DeleteSetting { get; set; }
     }
+
     public class DeleteViewModel : StartupBaseViewModel, IDeleteViewModel
     {
         private DeleteSetting _deleteSetting = new DeleteSetting();
 
-        public DeleteSetting DeleteSetting
-        {
-            get { return _deleteSetting;  }
-            set { SetProperty(ref _deleteSetting, value); }
-        }
         public DeleteViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Delete });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.Delete});
             NextCommand = new DelegateCommand(ValidateAndNavigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -281,14 +277,21 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
         }
 
+        public DeleteSetting DeleteSetting
+        {
+            get => _deleteSetting;
+            set => SetProperty(ref _deleteSetting, value);
+        }
+
         private void ValidateAndNavigate()
         {
-            if ((!DeleteSetting.IsChkDeleteTweet) && (!DeleteSetting.IsChkDeleteComment)
-                                            && (!DeleteSetting.IsChkUndoRetweet))
+            if (!DeleteSetting.IsChkDeleteTweet && !DeleteSetting.IsChkDeleteComment
+                                                && !DeleteSetting.IsChkUndoRetweet)
             {
                 Dialog.ShowDialog("Error", "Please select atleast one Delete source");
                 return;
             }
+
             NavigateNext();
         }
     }

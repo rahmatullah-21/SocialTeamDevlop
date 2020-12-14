@@ -1,12 +1,11 @@
 ﻿using DominatorUIUtility.ViewModel;
-using System.Windows.Controls;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for ProxyManager.xaml
+    ///     Interaction logic for ProxyManager.xaml
     /// </summary>
-    public partial class ProxyManager : UserControl
+    public partial class ProxyManager
     {
         public ProxyManager(IProxyManagerViewModel proxyManagerViewModel)
         {

@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿#region
+
+using System.Text;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -17,23 +21,19 @@ namespace DominatorHouseCore.Utility
 
         public bool AddToCache(string text)
         {
-            if (Counter < Limit)
-            {
-                _sb.Append(text);
-                Counter++;
-                return true;
-            }
+            if (Counter >= Limit) return false;
+            _sb.Append(text);
+            Counter++;
+            return true;
 
-            return false;
         }
 
         public string GetCacheText()
         {
-            string tmpSbText = _sb.ToString();
+            var tmpSbText = _sb.ToString();
             _sb.Clear();
             Counter = 0;
             return tmpSbText;
         }
-
     }
 }

@@ -11,12 +11,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCustomDestinationViewModel : BindableBase
     {
-
         #region Constructor
 
         public PublisherCustomDestinationViewModel()
         {
-            SaveDestinationCommand = new BaseCommand<object>(SaveCustomDestinationCanExecute, SaveCustomDestinationExecute);
+            SaveDestinationCommand =
+                new BaseCommand<object>(SaveCustomDestinationCanExecute, SaveCustomDestinationExecute);
             DeleteCommand = new BaseCommand<object>(DeleteDestinationCanExecute, DeleteDestinationExecute);
         }
 
@@ -29,13 +29,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand DeleteCommand { get; set; }
 
 
-
-
         private PublisherCustomDestinationModel _inputDestination = new PublisherCustomDestinationModel();
 
         public PublisherCustomDestinationModel InputDestination
         {
-            get { return _inputDestination; }
+            get => _inputDestination;
             set
             {
                 if (_inputDestination == value)
@@ -49,7 +47,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ObservableCollection<PublisherCustomDestinationModel> LstCustomDestination
         {
-            get { return _lstCustomDestination; }
+            get => _lstCustomDestination;
             set
             {
                 if (value == _lstCustomDestination)
@@ -62,66 +60,77 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Methods
 
-        public bool SaveCustomDestinationCanExecute(object sender) => true;
+        public bool SaveCustomDestinationCanExecute(object sender)
+        {
+            return true;
+        }
 
         public void SaveCustomDestinationExecute(object sender)
         {
             var publisherCustomDestinationModel =
-                ((FrameworkElement)sender).DataContext as PublisherCustomDestinationViewModel;
+                ((FrameworkElement) sender).DataContext as PublisherCustomDestinationViewModel;
 
             if (publisherCustomDestinationModel != null)
             {
-                publisherCustomDestinationModel.InputDestination.DestinationValue = publisherCustomDestinationModel.InputDestination.DestinationValue.Trim();
-                publisherCustomDestinationModel.InputDestination.DestinationType = publisherCustomDestinationModel.InputDestination.DestinationType.Trim();
+                publisherCustomDestinationModel.InputDestination.DestinationValue =
+                    publisherCustomDestinationModel.InputDestination.DestinationValue.Trim();
+                publisherCustomDestinationModel.InputDestination.DestinationType =
+                    publisherCustomDestinationModel.InputDestination.DestinationType.Trim();
                 if (publisherCustomDestinationModel.InputDestination.DestinationValue.Contains("\r\n"))
                 {
-                    var splittedValue = Regex.Split(publisherCustomDestinationModel.InputDestination.DestinationValue, "\r\n").ToList();
+                    var splittedValue = Regex
+                        .Split(publisherCustomDestinationModel.InputDestination.DestinationValue, "\r\n").ToList();
 
                     splittedValue.ForEach(x =>
                     {
-                        if (string.IsNullOrEmpty(x.Trim()) || string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
+                        if (string.IsNullOrEmpty(x.Trim()) ||
+                            string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
                             return;
 
-                        if (!LstCustomDestination.Any(y => y.DestinationType == publisherCustomDestinationModel.InputDestination.DestinationType &&
-                                                           y.DestinationValue == x))
-                        {
-                            LstCustomDestination.Add(new PublisherCustomDestinationModel()
+                        if (!LstCustomDestination.Any(y =>
+                            y.DestinationType == publisherCustomDestinationModel.InputDestination.DestinationType &&
+                            y.DestinationValue == x))
+                            LstCustomDestination.Add(new PublisherCustomDestinationModel
                             {
                                 DestinationType = publisherCustomDestinationModel.InputDestination.DestinationType,
                                 DestinationValue = x
                             });
-                        }
                     });
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationValue) && !string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
+                    if (!string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationValue) &&
+                        !string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
                     {
-                        if (!LstCustomDestination.Any(x => x.DestinationType == publisherCustomDestinationModel.InputDestination.DestinationType &&
-                                                           x.DestinationValue == publisherCustomDestinationModel.InputDestination.DestinationValue))
+                        if (!LstCustomDestination.Any(x =>
+                            x.DestinationType == publisherCustomDestinationModel.InputDestination.DestinationType &&
+                            x.DestinationValue == publisherCustomDestinationModel.InputDestination.DestinationValue))
                             LstCustomDestination.Add(publisherCustomDestinationModel.InputDestination);
                     }
                     else
-                        Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyPleaseEnterDestination".FromResourceDictionary());
-
+                    {
+                        Dialog.ShowDialog("LangKeyError".FromResourceDictionary(),
+                            "LangKeyPleaseEnterDestination".FromResourceDictionary());
+                    }
                 }
 
                 InputDestination = new PublisherCustomDestinationModel();
             }
         }
 
-        public bool DeleteDestinationCanExecute(object sender) => true;
+        public bool DeleteDestinationCanExecute(object sender)
+        {
+            return true;
+        }
 
         public void DeleteDestinationExecute(object sender)
         {
             var publisherCustomDestinationModel =
-                ((FrameworkElement)sender).DataContext as PublisherCustomDestinationModel;
+                ((FrameworkElement) sender).DataContext as PublisherCustomDestinationModel;
 
             LstCustomDestination.Remove(publisherCustomDestinationModel);
         }
 
-
         #endregion
-
     }
 }

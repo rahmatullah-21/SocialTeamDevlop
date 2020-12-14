@@ -72,8 +72,7 @@ namespace DominatorHouse.ViewModels
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             SocinatorKeyHelper.InitilizeKey();
-            RemoveLocationDataFromTemplate().Wait();
-            //FatalErrorDiagnosis().Wait();
+            //RemoveLocationDataFromTemplate().Wait();
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
@@ -110,7 +109,7 @@ namespace DominatorHouse.ViewModels
             Strategies = new AccessorStrategies
             {
                 _determine_available = a => AvailableNetworks.Contains(a),
-                _inform_warnings = GlobusLogHelper.log.Warn,
+                _inform_warnings = GlobusLogHelper.log.Warn
             };
 
             var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
@@ -149,13 +148,11 @@ namespace DominatorHouse.ViewModels
                     var mosGet = mos.Get();
                     foreach (var o in mosGet)
                     {
-                        var mo = (ManagementObject) o;
-                        if (mo["Name"].ToString().StartsWith("Microsoft Visual C++"))
-                        {
-                            var version = Convert.ToInt32(mo["Version"].ToString().Substring(0, 2));
-                            if (version >= 14)
-                                return;
-                        }
+                        var mo = (ManagementObject)o;
+                        if (!mo["Name"].ToString().StartsWith("Microsoft Visual C++")) continue;
+                        var version = Convert.ToInt32(mo["Version"].ToString().Substring(0, 2));
+                        if (version >= 14)
+                            return;
                     }
 
                     Application.Current.Dispatcher.Invoke(() =>
@@ -220,19 +217,6 @@ namespace DominatorHouse.ViewModels
             catch (Exception ex)
             {
                 ex.DebugLog();
-                //if (!Application.Current.Dispatcher.CheckAccess())
-                //{
-                //    Application.Current.Dispatcher.Invoke(() =>
-                //    {
-                //        Application.Current.Shutdown();
-                //        Process.GetCurrentProcess().Kill();
-                //    });
-                //}
-                //else
-                //{
-                //    Application.Current.Shutdown();
-                //    Process.GetCurrentProcess().Kill();
-                //}
             }
         }
 
@@ -250,7 +234,7 @@ namespace DominatorHouse.ViewModels
                 {
                     if (!_isStartedfirstTime)
                         return;
-                    var settings = new MetroDialogSettings()
+                    var settings = new MetroDialogSettings
                     {
                         DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
                         AffirmativeButtonText = "LangKeyValidate".FromResourceDictionary()
@@ -271,8 +255,6 @@ namespace DominatorHouse.ViewModels
                                 continue;
                             // ReSharper disable once RedundantIfElseBlock
                             else if (_isStartedfirstTime)
-                                continue;
-                            else
                                 break;
                         }
                         catch (Exception ex)
@@ -292,7 +274,7 @@ namespace DominatorHouse.ViewModels
                         if (await IsProcessFatalError(fatalError))
                             // ReSharper disable once RedundantJumpStatement
                             continue;
-                        else break;
+                        break;
                     }
                     catch (Exception ex)
                     {
@@ -343,55 +325,61 @@ namespace DominatorHouse.ViewModels
 
         private async Task<bool> DiagnoseFatalError(string fatalError)
         {
-            var controller = await DialogCoordinator.Instance.ShowProgressAsync(Application.Current.MainWindow, "LangKeyCheckingLicense".FromResourceDictionary(),
-                "LangKeyTakeFewMoments".FromResourceDictionary());
-            controller.SetIndeterminate();
-            _fatalError = fatalError;
-            var networks = await UtilityManager.LogIndividualNetworksExceptions(_fatalError);
-
-            if (networks == null)
+            try
             {
-                await controller.CloseAsync();
-                return await DiagnoseFatalError(fatalError);
-            }
-            if (networks.Count <= 1)
-            {
+                var controller = await DialogCoordinator.Instance.ShowProgressAsync(Application.Current.MainWindow, "LangKeyCheckingLicense".FromResourceDictionary(),
+                        "LangKeyTakeFewMoments".FromResourceDictionary());
+                controller.SetIndeterminate();
+                _fatalError = fatalError;
+                var networks = await UtilityManager.LogIndividualNetworksExceptions(_fatalError);
 
+                if (networks == null)
+                {
+                    await controller.CloseAsync();
+                    return await DiagnoseFatalError(fatalError);
+                }
+                if (networks.Count <= 1)
+                {
+
+                    await controller.CloseAsync();
+                    if (!_isStartedfirstTime)
+                        await FatalErrorDiagnosis();
+                    return true;
+                }
+                _isStartedfirstTime = false;
+                IsCancelFromLicenceValidationState = false;
+                var fatalErrorHandler = new FatalErrorHandler
+                {
+                    FatalErrorMessage = fatalError,
+                    FatalErrorAddedDate = DateTime.Now,
+                    ErrorNetworks = networks
+                };
+                SocinatorKeyHelper.SaveKey(fatalErrorHandler);
+
+                FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
                 await controller.CloseAsync();
-                if (!_isStartedfirstTime)
-                    await FatalErrorDiagnosis();
                 return true;
             }
-            _isStartedfirstTime = false;
-            IsCancelFromLicenceValidationState = false;
-            var fatalErrorHandler = new FatalErrorHandler
+            catch (AggregateException ex)
             {
-                FatalErrorMessage = fatalError,
-                FatalErrorAddedDate = DateTime.Now,
-                ErrorNetworks = networks
-            };
-            SocinatorKeyHelper.SaveKey(fatalErrorHandler);
-
-            FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
-            await controller.CloseAsync();
-            return true;
+                return false;
+            }
         }
 
         private async Task<bool> IsProcessFatalError(string fatalError)
         {
             if (!string.IsNullOrEmpty(fatalError) && await DiagnoseFatalError(fatalError))
                 return false;
-            else if (fatalError == null)
+            if (fatalError == null)
             {
                 IsCancelFromLicenceValidationState = true;
-                Application.Current.MainWindow.Close();
+                if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();
             }
             else
             {
                 if (DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyLicense".FromResourceDictionary(), "LangKeyValidateSocinator".FromResourceDictionary(), MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
                     return true;
-                else
-                    Application.Current.MainWindow.Close();
+                if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();
             }
 
             return false;
@@ -428,23 +416,6 @@ namespace DominatorHouse.ViewModels
                                  ex.DebugLog();
                              }
                          }
-                         //FeatureFlags.Check(module.Network.ToString(), () =>
-                         //{
-                         //    try
-                         //    {
-                         //        SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
-                         //        PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
-                         //        AddNetwork(socialNetworkModule.Network);
-                         //    }
-                         //    catch (AggregateException ex)
-                         //    {
-                         //        Console.WriteLine(ex.Message);
-                         //    }
-                         //    catch (Exception ex)
-                         //    {
-                         //        ex.DebugLog();
-                         //    }
-                         //});
                          Task.Delay(5);
                      }
 
@@ -598,41 +569,40 @@ namespace DominatorHouse.ViewModels
 
         private void OnTabItems_ItemSelected(object sender, TabItemTemplates itemTemplate)
         {
-            if (itemTemplate != null)
+            if (itemTemplate == null) return;
+
+            if (itemTemplate.Title ==
+                _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
+                    .LangKeyAccountsActivity))
             {
-                if (itemTemplate.Title ==
-                    _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
-                        .LangKeyAccountsActivity))
-                {
-                    ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Admin);
-                }
+                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Admin);
+            }
 
-                if (itemTemplate.Title ==
-                    _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyPublisher))
-                {
-                    PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl =
-                        Home.GetSingletonHome();
-                }
+            if (itemTemplate.Title ==
+                _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyPublisher))
+            {
+                PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl =
+                    Home.GetSingletonHome();
+            }
 
-                if (itemTemplate.Title ==
-                    _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
-                        .LangKeyAccountsManager))
-                {
-                    /* LastControlType will be have value "AccountManager" if last opened UserControl was "Account Manager" itselt, it won't let to change UserControl if "Account Details" was opened. */
-                    if (AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType == "AccountDetail")
-                        return;
+            if (itemTemplate.Title ==
+                _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
+                    .LangKeyAccountsManager))
+            {
+                /* LastControlType will be have value "AccountManager" if last opened UserControl was "Account Manager" itselt, it won't let to change UserControl if "Account Details" was opened. */
+                if (AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType == "AccountDetail")
+                    return;
 
-                    AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
-                            AccountCustomControl.GetAccountCustomControl(SocialNetworks.Admin, Strategies);
-                }
+                AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
+                    AccountCustomControl.GetAccountCustomControl(SocialNetworks.Admin, Strategies);
+            }
 
-                if (itemTemplate.Title ==
-                    _applicationResourceProvider.GetStringResource(
-                        ApplicationResourceProvider.LangKeySociopublisher))
-                {
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
-                        PublisherDefaultPage.Instance();
-                }
+            if (itemTemplate.Title ==
+                _applicationResourceProvider.GetStringResource(
+                    ApplicationResourceProvider.LangKeySociopublisher))
+            {
+                PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
+                    PublisherDefaultPage.Instance();
             }
         }
 

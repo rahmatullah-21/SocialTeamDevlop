@@ -1,20 +1,29 @@
-﻿using DominatorHouseCore;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using CommonServiceLocator;
+using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using CommonServiceLocator;
 
 namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
 {
     public class FdFriendSuggestionProvider : ISuggestionProvider
     {
+        public FdFriendSuggestionProvider()
+        {
+            var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            ListOfAccount = accountsFileManager.GetAll(SocialNetworks.Facebook).Select(i =>
+                new KeyValuePair<string, string>(i.AccountBaseModel.UserName, i.AccountBaseModel.AccountId)).ToList();
+            ListOfMacros.AddRange(ConstantVariable.FdMacros);
+            ListOfAccount.ForEach(x => ListOfMacros.Add(new SocinatorIntellisenseModel
+                {Key = "{" + x.Key + ":", Value = "{" + x.Key + ":"}));
+        }
 
 
         public List<SocinatorIntellisenseModel> ListOfMacros { get; set; } = new List<SocinatorIntellisenseModel>();
@@ -35,7 +44,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
             var accountId = ListOfAccount.FirstOrDefault(x => x.Key == accountUsername).Value;
 
             if (!string.IsNullOrEmpty(accountId))
-            {
                 try
                 {
                     var accountsDetailsSelector = SocinatorInitialize
@@ -59,17 +67,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
                 {
                     ex.DebugLog();
                 }
-            }
 
             return ListOfMacros.Where(x => x.Key.ToLower().Contains(filter.ToLower()));
-        }
-
-        public FdFriendSuggestionProvider()
-        {
-            var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-            ListOfAccount = accountsFileManager.GetAll(SocialNetworks.Facebook).Select(i => new KeyValuePair<string, string>(i.AccountBaseModel.UserName, i.AccountBaseModel.AccountId)).ToList();
-            ListOfMacros.AddRange(ConstantVariable.FdMacros);
-            ListOfAccount.ForEach(x => ListOfMacros.Add(new SocinatorIntellisenseModel() { Key = "{" + x.Key + ":", Value = "{" + x.Key + ":" }));
         }
     }
 }

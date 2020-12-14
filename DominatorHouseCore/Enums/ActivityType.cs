@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿#region
+
+using System.ComponentModel;
+
+#endregion
 
 namespace DominatorHouseCore.Enums
 {
@@ -20,35 +24,32 @@ namespace DominatorHouseCore.Enums
         Comment = 5,
 
         //,Instagram,Reddit
-       // [Description("Twitter")]
+        // [Description("Twitter")]
         DeleteComment = 6,
-    
+
 
         //[Description("Instagram")]
         Post = 7,
 
         // INFO : Ambiguous between Repost(8) and Reposter(13), so dont use, if any one used please with Reposter(13)
-       // [Description("Twitter")]
-       // Repost = 8,
+        // [Description("Twitter")]
+        // Repost = 8,
 
-        [Description("Instagram")]
-        DeletePost = 9,
+        [Description("Instagram")] DeletePost = 9,
 
         //[Description("Facebook,Twitter,Instagram")]
         //Message = 10,
 
         [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Tumblr,TikTok")]
         UserNiching = 11,
-
+        
          [Description("Facebook")]
          DownloadNiching = 12,
 
-        [Description("Twitter,Instagram")]
-        Reposter = 13,
+        [Description("Twitter,Instagram")] Reposter = 13,
 
-        [Description("Twitter")]
-        Retweet = 14,
-
+        [Description("Twitter")] Retweet = 14,
+        
         [Description("Quora")]
         QuestionsNiching = 15,
 
@@ -58,33 +59,27 @@ namespace DominatorHouseCore.Enums
         //[Description("Quora")]
         //VoteAnswers = 17,
 
-        [Description("Quora")]
-        DownvoteAnswers = 18,
+        [Description("Quora")] DownvoteAnswers = 18,
 
         //[Description("Quora")]
         ReportQuestions = 19,
 
-        [Description("Quora")]
-        ReportAnswers = 20,
+        [Description("Quora")] ReportAnswers = 20,
 
-        [Description("Quora")]
-        ReportUsers = 21,
-
+        [Description("Quora")] ReportUsers = 21,
+        
         //[Description("Pinterest")]
         BoardNiching = 22,
 
         //[Description("Pinterest")]
         PinNiching = 23,
 
-        [Description("Facebook")]
-        SendFriendRequest = 24,
+        [Description("Facebook")] SendFriendRequest = 24,
 
-        [Description("Facebook")]
-        WithdrawSentRequest = 25,
+        [Description("Facebook")] WithdrawSentRequest = 25,
 
-        [Description("Facebook")]
-        Unfriend = 26,
-
+        [Description("Facebook")] Unfriend = 26,
+        
         //[Description("Facebook")]
         GroupNiching = 27,
 
@@ -103,32 +98,25 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,LinkedIn,LangKeyGroupUnjoiner")]
         GroupUnJoiner = 32,
 
-        [Description("Facebook")]
-        GroupInviter = 34,
+        [Description("Facebook")] GroupInviter = 34,
 
-        [Description("Facebook")]
-        PageInviter = 35,
+        [Description("Facebook")] PageInviter = 35,
 
-        [Description("Facebook")]
-        EventInviter = 36,
+        [Description("Facebook")] EventInviter = 36,
 
         //[Description("Facebook")]
         //GroupCreator = 37,
 
-        [Description("Facebook")]
-        EventCreator = 38,
+        [Description("Facebook")] EventCreator = 38,
 
-        [Description("Twitter")]
-        Tweet = 39,
-
+        [Description("Twitter")] Tweet = 39,
+        
         [Description("Facebook")]
         ProfileNiching = 40,
 
-        [Description("Quora")]
-        DownvoteQuestions = 41,
+        [Description("Quora")] DownvoteQuestions = 41,
 
-        [Description("Quora")]
-        UpvoteAnswers = 42,
+        [Description("Quora")] UpvoteAnswers = 42,
 
         //[Description("Gplus")]
         //Join = 43,
@@ -136,49 +124,41 @@ namespace DominatorHouseCore.Enums
         //[Description("Gplus")]
         //Unjoin = 44,
 
-       // [Description("Facebook")]
+        // [Description("Facebook")]
         PostLikerCommentor = 45,
 
-        [Description("Facebook")]
-        FanpageLiker = 46,
+        [Description("Facebook")] FanpageLiker = 46,
 
         //[Description("Facebook")]
         WebpageLikerCommentor = 47,
-
+        
         //[Description("Twitter")]
         TweetNiching = 48,
 
-        [Description("Facebook")]
-        MakeAdmin = 49,
+        [Description("Facebook")] MakeAdmin = 49,
 
-        [Description("LinkedIn")]
-        ConnectionRequest = 50,
+        [Description("LinkedIn")] ConnectionRequest = 50,
 
-        [Description("Youtube,Reddit")]
-        Subscribe = 51,
+        [Description("Youtube,Reddit")] Subscribe = 51,
 
-        [Description("LinkedIn")]
-        Share = 52,
+        [Description("LinkedIn")] Share = 52,
 
         //[Description("Youtube")]
         //LikeComments = 53,
 
-        [Description("Reddit,Youtube")]
-        UnSubscribe = 54,
+        [Description("Reddit,Youtube")] UnSubscribe = 54,
 
-        [Description("Youtube")]
-        ViewIncreaser = 55,
+        [Description("Youtube")] ViewIncreaser = 55,
 
-        [Description("Instagram")]
-        BlockFollower = 56,
+        [Description("Instagram")] BlockFollower = 56,
+
         [Description("Instagram,Youtube,Facebook")]
         LikeComment = 57,
-
+        
         //[Description("Instagram,TikTok")]
         HashtagsNiching = 58,
 
-        [Description("Pinterest")]
-        CreateBoard = 59,
+        [Description("Pinterest")] CreateBoard = 59,
 
         [Description("Twitter,Instagram,Pinterest")]
         FollowBack = 60,
@@ -186,8 +166,7 @@ namespace DominatorHouseCore.Enums
         //[Description("Twitter")]
         //DeleteTweet = 61,
 
-        [Description("Twitter")]
-        Mute = 62,
+        [Description("Twitter")] Mute = 62,
 
         //[Description("Gplus")]
        // CommunityNiching = 63,
@@ -200,14 +179,14 @@ namespace DominatorHouseCore.Enums
 
         //[Description("LinkedIn")]
         //GroupMemberNiching = 66,
-
+        
         //[Description("LinkedIn")]
         SalesNavigatorUserNiching = 67,
 
         [Description("Youtube,Reddit")]
         ChannelNiching = 68,
 
-       // [Description("Youtube")]
+        // [Description("Youtube")]
         Unsubscribe = 69,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
@@ -219,14 +198,11 @@ namespace DominatorHouseCore.Enums
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
         AutoReplyToNewMessage = 72,
 
-        [Description("LinkedIn")]
-        AcceptConnectionRequest = 73,
+        [Description("LinkedIn")] AcceptConnectionRequest = 73,
 
-        [Description("LinkedIn")]
-        RemoveConnections = 74,
+        [Description("LinkedIn")] RemoveConnections = 74,
 
-        [Description("LinkedIn")]
-        ProfileEndorsement = 75,
+        [Description("LinkedIn")] ProfileEndorsement = 75,
 
         //[Description("Youtube")]
         //LikeToComment = 76,
@@ -234,55 +210,40 @@ namespace DominatorHouseCore.Enums
         //[Description("Youtube")]
         //DislikeToComment = 77,
 
-        [Description("Facebook,Instagram")]
-        ReplyToComment = 78,
+        [Description("Facebook,Instagram")] ReplyToComment = 78,
 
-        [Description("Tumblr")]
-        Reblog = 79,
+        [Description("Tumblr")] Reblog = 79,
 
-        [Description("Pinterest")]
-        Try = 80,
+        [Description("Pinterest")] Try = 80,
 
-        [Description("LinkedIn")]
-        SendMessageToNewConnection = 81,
-
+        [Description("LinkedIn")] SendMessageToNewConnection = 81,
+        
         //[Description("Reddit")]
         UrlNiching = 82,
 
-        [Description("LinkedIn")]
-        SendGreetingsToConnections = 83,
+        [Description("LinkedIn")] SendGreetingsToConnections = 83,
 
-        [Description("Reddit")]
-        Reply = 84,
+        [Description("Reddit")] Reply = 84,
 
-        [Description("Twitter")]
-        Delete = 85,
+        [Description("Twitter")] Delete = 85,
 
-        [Description("Facebook")]
-        IncommingFriendRequest = 86,
+        [Description("Facebook")] IncommingFriendRequest = 86,
 
-        [Description("Reddit")]
-        Downvote = 87,
+        [Description("Reddit")] Downvote = 87,
 
-        [Description("Reddit")]
-        Upvote = 88,
+        [Description("Reddit")] Upvote = 88,
 
         //[Description("Reddit")]
         //SubredditNiching = 89,
 
-        [Description("Pinterest")]
-        DeletePin = 90,
+        [Description("Pinterest")] DeletePin = 90,
 
-        [Description("Pinterest")]
-        Repin = 91,
+        [Description("Pinterest")] Repin = 91,
 
-        [Description("LinkedIn")]
-        WithdrawConnectionRequest = 92,
+        [Description("LinkedIn")] WithdrawConnectionRequest = 92,
 
-        [Description("Reddit")]
-        RemoveVote = 93,
-        [Description("LinkedIn")]
-        ExportConnection = 94,
+        [Description("Reddit")] RemoveVote = 93,
+        [Description("LinkedIn")] ExportConnection = 94,
 
         [Description("Facebook,LangKeyPostLikers")]
         PostLiker = 95,

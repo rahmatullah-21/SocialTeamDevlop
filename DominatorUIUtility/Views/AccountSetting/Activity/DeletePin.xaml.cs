@@ -1,10 +1,10 @@
-﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 
 namespace DominatorUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
-    /// Interaction logic for DeletePin.xaml
+    ///     Interaction logic for DeletePin.xaml
     /// </summary>
     public partial class DeletePin : UserControl
     {

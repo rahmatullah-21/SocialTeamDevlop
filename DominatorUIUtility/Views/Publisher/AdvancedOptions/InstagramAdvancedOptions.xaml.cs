@@ -1,18 +1,20 @@
 ﻿using System.Windows.Controls;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedOptions
 {
     /// <summary>
-    /// Interaction logic for InstagramAdvancedOptions.xaml
+    ///     Interaction logic for InstagramAdvancedOptions.xaml
     /// </summary>
     public partial class InstagramAdvancedOptions : UserControl
     {
         public InstagramAdvancedOptions()
         {
             InitializeComponent();
-            AddPosts ObjAddPosts = AddPosts.GetSingeltonAddPosts();
-            string LocationDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\LocationsDetail.bin";
+            var ObjAddPosts = AddPosts.GetSingeltonAddPosts();
+            var LocationDetailFilePath =
+                ConstantVariable.GetConfigurationDir(SocialNetworks.Instagram) + "\\LocationsDetail.bin";
 
             //ObjAddPosts.AddPostViewModel.AddPostModel.LocationDetailsCollection =CollectionViewSource.GetDefaultView(
             //    ProtoBuffBase.DeserializeObjects<LocationDetails>(LocationDetailFilePath));

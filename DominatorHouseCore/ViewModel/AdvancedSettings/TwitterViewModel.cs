@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+﻿#region
+
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel.AdvancedSettings
 {
@@ -9,10 +13,7 @@ namespace DominatorHouseCore.ViewModel.AdvancedSettings
 
         public TwitterModel TwitterModel
         {
-            get
-            {
-                return _twitterModel;
-            }
+            get => _twitterModel;
             set
             {
                 if (_twitterModel == value)

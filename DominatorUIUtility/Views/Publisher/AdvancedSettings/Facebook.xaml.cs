@@ -1,4 +1,9 @@
-﻿using CommonServiceLocator;
+﻿using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -6,20 +11,20 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings;
 using DominatorUIUtility.Views.SocioPublisher;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
-    /// Interaction logic for Facebook.xaml
+    ///     Interaction logic for Facebook.xaml
     /// </summary>
     public partial class Facebook : UserControl, INotifyPropertyChanged
     {
+        private static Facebook ObjFacebook;
         private readonly IGenericFileManager _genericFileManager;
+
+
+        private FacebookViewModel _facebookViewModel = new FacebookViewModel();
+
         public Facebook()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
@@ -28,7 +33,15 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             FacebookViewModel.FacebookModel.CampaignId = "";
         }
 
-        static Facebook ObjFacebook;
+        public FacebookViewModel FacebookViewModel
+        {
+            get => _facebookViewModel;
+            set
+            {
+                _facebookViewModel = value;
+                OnPropertyChanged(nameof(FacebookViewModel));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -39,21 +52,6 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             return ObjFacebook;
         }
 
-
-        private FacebookViewModel _facebookViewModel = new FacebookViewModel();
-
-        public FacebookViewModel FacebookViewModel
-        {
-            get
-            {
-                return _facebookViewModel;
-            }
-            set
-            {
-                _facebookViewModel = value;
-                OnPropertyChanged(nameof(FacebookViewModel));
-            }
-        }
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -67,10 +65,10 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
             var facebookModel = _genericFileManager.GetModuleDetails<FacebookModel>
-                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook))
+                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
 
-            FacebookViewModel.FacebookModel = facebookModel ?? (new FacebookModel());
+            FacebookViewModel.FacebookModel = facebookModel ?? new FacebookModel();
 
             if (!FacebookViewModel.FacebookModel.IsPostAsPage && !FacebookViewModel.FacebookModel.IsPostAsSamePage)
                 FacebookViewModel.FacebookModel.IsPostAsOwnAccount = true;

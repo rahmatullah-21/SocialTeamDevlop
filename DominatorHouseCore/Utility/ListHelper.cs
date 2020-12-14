@@ -1,25 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models;
+﻿#region
+
+using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
     public static class ListHelper
     {
         /// <summary>
-        /// Shuffles items of a given list
+        ///     Shuffles items of a given list
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         public static void Shuffle<T>(this IList<T> list)
         {
-            for (int index = 0; index < list.Count; ++index)
+            for (var index = 0; index < list.Count; ++index)
                 list.Swap(index, RandomUtilties.GetRandomNumber(list.Count - 1, index));
         }
-        
+
         /// <summary>
-        /// Swaps two given integet values
+        ///     Swaps two given integet values
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
@@ -27,7 +28,7 @@ namespace DominatorHouseCore.Utility
         /// <param name="j"></param>
         public static void Swap<T>(this IList<T> list, int i, int j)
         {
-            T obj = list[i];
+            var obj = list[i];
             list[i] = list[j];
             list[j] = obj;
         }

@@ -1,10 +1,18 @@
-﻿using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.ViewModel;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.ViewModel;
+using InstagramModel = DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel;
+using PinterestModel = DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel;
+using TumblrModel = DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel;
+using TwitterModel = DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -15,8 +23,7 @@ namespace DominatorHouseCore.Utility
 
     public class LockFileConfigProvider : ILockFileConfigProvider
     {
-
-        private Dictionary<Type, Tuple<object, Func<string>>> __lockAndFileByType =
+        private readonly Dictionary<Type, Tuple<object, Func<string>>> __lockAndFileByType =
             new Dictionary<Type, Tuple<object, Func<string>>>
             {
                 {
@@ -84,35 +91,33 @@ namespace DominatorHouseCore.Utility
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
                 {
-                    typeof(Models.Publisher.CampaignsAdvanceSetting.InstagramModel),
+                    typeof(InstagramModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
                 {
-                    typeof(Models.Publisher.CampaignsAdvanceSetting.PinterestModel),
+                    typeof(PinterestModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
                 {
-                    typeof(Models.Publisher.CampaignsAdvanceSetting.TumblrModel),
+                    typeof(TumblrModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
                 {
-                    typeof(Models.Publisher.CampaignsAdvanceSetting.TwitterModel),
+                    typeof(TwitterModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
                 {
                     typeof(object),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetIndexAccountFile)
-                }
-                ,
+                },
                 {
                     typeof(ConfigFacebookModel),
-                    Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherFacebookSettingsFile)
-                } 
-
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetOtherFacebookSettingsFile)
+                }
             };
 
         /// <summary>
-        /// Do something while locking the file that is the repository for the corresponding class
+        ///     Do something while locking the file that is the repository for the corresponding class
         /// </summary>
         /// <typeparam name="T">subject</typeparam>
         /// <typeparam name="R">return type</typeparam>
@@ -120,19 +125,16 @@ namespace DominatorHouseCore.Utility
         /// <returns>repeats the action returned value</returns>
         public R WithFile<T, R>(Func<string, R> act)
         {
-            Tuple<object, Func<string>> typeConfig;
             // first, try the actual type
-            if (!__lockAndFileByType.TryGetValue(typeof(T), out typeConfig))
+            if (!__lockAndFileByType.TryGetValue(typeof(T), out var typeConfig))
             {
                 // second, try to see if it's an assignable type
-                var presentBaseClass = __lockAndFileByType.Keys.Except(new[] { typeof(object) }).FirstOrDefault(
+                var presentBaseClass = __lockAndFileByType.Keys.Except(new[] {typeof(object)}).FirstOrDefault(
                     candidateBase => candidateBase.IsAssignableFrom(typeof(T)));
-                if (presentBaseClass == default(Type))
-                {
-                    presentBaseClass = typeof(object);
-                }
+                if (presentBaseClass == default(Type)) presentBaseClass = typeof(object);
                 typeConfig = __lockAndFileByType[presentBaseClass];
             }
+
             lock (typeConfig.Item1)
             {
                 return act(typeConfig.Item2());

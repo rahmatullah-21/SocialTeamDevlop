@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models;
@@ -9,32 +8,26 @@ using DominatorHouseCore.ViewModel;
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for EditProfile.xaml
+    ///     Interaction logic for EditProfile.xaml
     /// </summary>
-    public partial class EditProfile : UserControl,INotifyPropertyChanged
+    public partial class EditProfile : INotifyPropertyChanged
     {
+        private EditProfileViewModel _editProfileViewModel = new EditProfileViewModel();
+
         public EditProfile()
         {
             InitializeComponent();
         }
-        public EditProfile(EditProfileModel editProfileModel) :this()
+
+        public EditProfile(EditProfileModel editProfileModel) : this()
         {
             EditProfileViewModel.EditProfileModel = editProfileModel;
             DataContext = EditProfileViewModel;
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                btnSubmit.IsDefault = true;
-            }
-        }
-        private EditProfileViewModel _editProfileViewModel=new EditProfileViewModel();
-
         public EditProfileViewModel EditProfileViewModel
         {
-            get { return _editProfileViewModel; }
+            get => _editProfileViewModel;
             set
             {
                 _editProfileViewModel = value;
@@ -43,6 +36,11 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) btnSubmit.IsDefault = true;
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

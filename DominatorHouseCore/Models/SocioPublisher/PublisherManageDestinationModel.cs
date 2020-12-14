@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,6 +9,8 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -27,10 +31,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(1)]
         public string DestinationId
         {
-            get
-            {
-                return _destinationId;
-            }
+            get => _destinationId;
             set
             {
                 if (_destinationId == value)
@@ -43,10 +44,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(2)]
         public string DestinationName
         {
-            get
-            {
-                return _destinationName;
-            }
+            get => _destinationName;
             set
             {
                 if (_destinationName == value)
@@ -59,10 +57,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(3)]
         public int AccountCount
         {
-            get
-            {
-                return _accountCount;
-            }
+            get => _accountCount;
             set
             {
                 if (_accountCount == value)
@@ -75,10 +70,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(4)]
         public int PagesOrBoardsCount
         {
-            get
-            {
-                return _pagesOrBoardsCount;
-            }
+            get => _pagesOrBoardsCount;
             set
             {
                 if (_pagesOrBoardsCount == value)
@@ -91,10 +83,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(5)]
         public int GroupsCount
         {
-            get
-            {
-                return _groupsCount;
-            }
+            get => _groupsCount;
             set
             {
                 if (_groupsCount == value)
@@ -107,10 +96,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(6)]
         public int WallsOrProfilesCount
         {
-            get
-            {
-                return _wallsOrProfilesCount;
-            }
+            get => _wallsOrProfilesCount;
             set
             {
                 if (_wallsOrProfilesCount == value)
@@ -123,10 +109,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(7)]
         public int CampaignsCount
         {
-            get
-            {
-                return _campaignsCount;
-            }
+            get => _campaignsCount;
             set
             {
                 if (_campaignsCount == value)
@@ -136,16 +119,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        [ProtoMember(8)]
-        public DateTime CreatedDate { get; set; }
+        [ProtoMember(8)] public DateTime CreatedDate { get; set; }
 
         [ProtoMember(9)]
         public bool IsSelected
         {
-            get
-            {
-                return _isSelected;
-            }
+            get => _isSelected;
             set
             {
                 if (_isSelected == value)
@@ -159,10 +138,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(10)]
         public int CustomDestinationsCount
         {
-            get
-            {
-                return _customDestinationCount;
-            }
+            get => _customDestinationCount;
             set
             {
                 if (_customDestinationCount == value)
@@ -176,10 +152,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(11)]
         public List<string> AddUsedCampaignId
         {
-            get
-            {
-                return _addUsedcampaignId;
-            }
+            get => _addUsedcampaignId;
             set
             {
                 if (_addUsedcampaignId == value)
@@ -195,12 +168,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(12)]
         public bool IsAddNewGroups
         {
-            get
-            {
-                return _isAddNewGroups;
-            }
+            get => _isAddNewGroups;
             set
-            {                
+            {
                 if (_isAddNewGroups == value)
                     return;
                 _isAddNewGroups = value;
@@ -213,10 +183,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(13)]
         public bool IsRemoveGroupsRequiresValidation
         {
-            get
-            {
-                return _isRemoveGroupsRequiresValidation;
-            }
+            get => _isRemoveGroupsRequiresValidation;
             set
             {
                 if (_isRemoveGroupsRequiresValidation == value)
@@ -278,7 +245,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return;
 
             var index = allDestinations.IndexOf(currentDestination);
-            
+
             currentDestination.GroupsCount = groupCount;
 
             allDestinations[index] = currentDestination;
@@ -307,6 +274,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             #endregion
         }
-
     }
 }

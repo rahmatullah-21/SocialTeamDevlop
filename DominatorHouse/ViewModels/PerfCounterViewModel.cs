@@ -2,7 +2,6 @@
 using Prism.Commands;
 using System;
 using System.Globalization;
-using System.Timers;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -59,7 +58,7 @@ namespace DominatorHouse.ViewModels
             LoadedMemory = _perfCounterService.LoadedMemoryDescrption;
             LogViewHeight = new GridLength(3, GridUnitType.Star);
             ShowHideLogCmd = new DelegateCommand(ShowHideLog);
-            _timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(1000) };
+            _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1000) };
             _timer.Tick += OnElapsed;
             _timer.Start();
         }

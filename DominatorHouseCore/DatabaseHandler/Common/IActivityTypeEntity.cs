@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common
 {

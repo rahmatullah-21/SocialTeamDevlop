@@ -1,17 +1,19 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
 using System.Collections.ObjectModel;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
     public class FbMultiMediaModel : BindableBase
     {
         private bool _isAddImageVisibile = true;
+
         public bool IsAddImageVisibile
         {
-            get
-            {
-                return _isAddImageVisibile;
-            }
+            get => _isAddImageVisibile;
             set
             {
                 if (value == _isAddImageVisibile)
@@ -22,10 +24,10 @@ namespace DominatorHouseCore.Models.FacebookModels
 
         private ObservableCollection<MultiMediaValueModel>
             _mediaPaths = new ObservableCollection<MultiMediaValueModel>();
+
         public ObservableCollection<MultiMediaValueModel> MediaPaths
         {
-            get
-            { return _mediaPaths; }
+            get => _mediaPaths;
             set
             {
                 if (value == _mediaPaths)
@@ -35,12 +37,10 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
         private bool _isMultiselect = true;
+
         public bool IsMultiselect
         {
-            get
-            {
-                return _isMultiselect;
-            }
+            get => _isMultiselect;
             set
             {
                 if (value == _isMultiselect)
@@ -48,6 +48,5 @@ namespace DominatorHouseCore.Models.FacebookModels
                 SetProperty(ref _isMultiselect, value);
             }
         }
-
     }
 }

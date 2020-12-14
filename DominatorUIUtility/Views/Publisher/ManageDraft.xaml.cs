@@ -3,7 +3,7 @@
 namespace DominatorUIUtility.Views.Publisher
 {
     /// <summary>
-    /// Interaction logic for ManageDraft.xaml
+    ///     Interaction logic for ManageDraft.xaml
     /// </summary>
     public partial class ManageDraft : UserControl
     {

@@ -5,7 +5,7 @@
                     xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
                     xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore">
     <ControlTemplate x:Key="TablifiedContentControlControlTemplate">
-        
+
         <ControlTemplate.Resources>
             <converters:StringToResourceConverter x:Key="StringToResourceConverter"/>
         </ControlTemplate.Resources>

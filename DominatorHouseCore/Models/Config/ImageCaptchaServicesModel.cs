@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.Config
 {
@@ -7,26 +11,30 @@ namespace DominatorHouseCore.Models.Config
     public class ImageCaptchaServicesModel : BindableBase
     {
         private string _userName;
+
         [ProtoMember(1)]
         public string UserName
         {
-            get { return _userName; }
-            set { SetProperty(ref _userName, value); }
+            get => _userName;
+            set => SetProperty(ref _userName, value);
         }
+
         private string _password;
+
         [ProtoMember(2)]
         public string Password
         {
-            get { return _password; }
-            set { SetProperty(ref _password, value); }
+            get => _password;
+            set => SetProperty(ref _password, value);
         }
 
         private string _token;
+
         [ProtoMember(3)]
         public string Token
         {
-            get { return _token; }
-            set { SetProperty(ref _token, value); }
+            get => _token;
+            set => SetProperty(ref _token, value);
         }
     }
 }

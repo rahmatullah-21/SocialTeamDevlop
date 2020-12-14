@@ -15,5 +15,16 @@ namespace Dominator.Tests.Utils
                 return reader.ReadToEnd();
             }
         }
+        public static byte[] ReadFileFromResourcesAsBytes(string resourceName, Assembly assembly = null)
+        {
+            assembly = assembly ?? Assembly.GetExecutingAssembly();
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (MemoryStream ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                return ms.ToArray();
+            }
+        }
     }
 }

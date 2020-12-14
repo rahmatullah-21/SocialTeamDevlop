@@ -1,35 +1,35 @@
-﻿using System.Collections.ObjectModel;
+﻿#region
+
+using System.Collections.ObjectModel;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    public class MultiMessagesModel :BindableBase
+    public class MultiMessagesModel : BindableBase
     {
-        private ObservableCollection<string> _lstMessages=new ObservableCollection<string>();
+        private ObservableCollection<string> _lstMessages = new ObservableCollection<string>();
 
         [ProtoMember(1)]
         public ObservableCollection<string> LstMessages
         {
-            get
-            {
-                return _lstMessages;
-            }
+            get => _lstMessages;
             set
             {
-                if(_lstMessages!=null )
+                if (_lstMessages != null)
                     return;
                 SetProperty(ref _lstMessages, value);
             }
         }
-        private int _noOfmessage =2;
+
+        private int _noOfmessage = 2;
+
         public int NoOfMessages
         {
-            get
-            {
-                return _noOfmessage;
-            }
+            get => _noOfmessage;
             set
             {
                 if (_noOfmessage == value)

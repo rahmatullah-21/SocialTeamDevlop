@@ -1,25 +1,26 @@
-﻿using DominatorHouseCore.Utility;
-using ProtoBuf;
+﻿#region
+
 using System.Collections.ObjectModel;
+using DominatorHouseCore.Utility;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
     public class ManageCommentModel : BindableBase
     {
-
         public ManageCommentModel()
         {
             CommentId = Utilities.GetGuid();
         }
+
         private string _commentId;
 
         public string CommentId
         {
-            get
-            {
-                return _commentId;
-            }
+            get => _commentId;
             set
             {
                 if (value == _commentId)
@@ -27,14 +28,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _commentId, value);
             }
         }
+
         private string _commentText;
 
         public string CommentText
         {
-            get
-            {
-                return _commentText;
-            }
+            get => _commentText;
             set
             {
                 if (value == _commentText)
@@ -42,14 +41,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _commentText, value);
             }
         }
+
         private string _filterText;
 
         public string FilterText
         {
-            get
-            {
-                return _filterText;
-            }
+            get => _filterText;
             set
             {
                 if (value == _filterText)
@@ -62,56 +59,49 @@ namespace DominatorHouseCore.Models
 
         public ObservableCollection<QueryContent> SelectedQuery
         {
-            get { return _selectedQuery; }
-            set { SetProperty(ref _selectedQuery, value); }
+            get => _selectedQuery;
+            set => SetProperty(ref _selectedQuery, value);
         }
+
         private ObservableCollection<QueryContent> _lstQueries = new ObservableCollection<QueryContent>();
 
         public ObservableCollection<QueryContent> LstQueries
         {
-            get { return _lstQueries; }
-            set { SetProperty(ref _lstQueries, value); }
+            get => _lstQueries;
+            set => SetProperty(ref _lstQueries, value);
         }
-        
-
     }
 
     [ProtoContract]
     public class QueryContent : BindableBase
     {
-
         private QueryInfo _content;
+
         /// <summary>
-        /// Provide the content
+        ///     Provide the content
         /// </summary>
         [ProtoMember(1)]
         public QueryInfo Content
         {
-            get
-            {
-                return _content;
-            }
+            get => _content;
             set
             {
                 if (_content != null && value == _content)
                     return;
                 SetProperty(ref _content, value);
-
             }
         }
 
 
         private bool _isContentSelected;
+
         /// <summary>
-        /// IsContentSelected is used to give the status whether the content is selected or not
+        ///     IsContentSelected is used to give the status whether the content is selected or not
         /// </summary>
         [ProtoMember(2)]
         public bool IsContentSelected
         {
-            get
-            {
-                return _isContentSelected;
-            }
+            get => _isContentSelected;
             set
             {
                 if (value == _isContentSelected)
@@ -119,7 +109,5 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isContentSelected, value);
             }
         }
-
     }
-
 }

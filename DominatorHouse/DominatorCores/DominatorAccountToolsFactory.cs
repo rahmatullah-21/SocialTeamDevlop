@@ -4,6 +4,7 @@ using DominatorHouseCore.Interfaces;
 using System.Collections.Generic;
 using System.Windows.Controls;
 
+// ReSharper disable once IdentifierTypo
 namespace Socinator.DominatorCores
 {
     public class DominatorAccountToolsFactory : IAccountToolsFactory

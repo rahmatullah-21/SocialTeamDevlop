@@ -1,17 +1,17 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-  
     public interface IGroupCreatorViewModel
     {
     }
+
     public class GroupCreatorViewModel : StartupBaseViewModel, IGroupCreatorViewModel
     {
         public GroupCreatorViewModel(IRegionManager region) : base(region)

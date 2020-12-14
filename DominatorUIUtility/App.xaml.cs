@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace DominatorUIUtility
+﻿namespace DominatorUIUtility
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
     }
 }

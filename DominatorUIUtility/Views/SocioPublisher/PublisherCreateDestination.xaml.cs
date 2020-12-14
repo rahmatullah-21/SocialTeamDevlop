@@ -3,22 +3,28 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
-using DominatorUIUtility.ViewModel.SocioPublisher;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherCreateDestination.xaml
+    ///     Interaction logic for PublisherCreateDestination.xaml
     /// </summary>
     public partial class PublisherCreateDestination : UserControl, INotifyPropertyChanged
     {
+        private static PublisherCreateDestination _indexPage;
+
+        private PublisherCreateDestinationsViewModel _publisherCreateDestinationsViewModel =
+            new PublisherCreateDestinationsViewModel();
+
         private PublisherCreateDestination()
         {
             InitializeComponent();
             PublisherCreateDestinationsViewModel.IsNeedToNavigate = false;
             CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
         }
+
         public PublisherCreateDestination(bool isNeedToNevigate) : this()
         {
             PublisherCreateDestinationsViewModel.IsNeedToNavigate = isNeedToNevigate;
@@ -26,21 +32,16 @@ namespace DominatorUIUtility.Views.SocioPublisher
             if (isNeedToNevigate)
                 BtnBackToCampaign.Visibility = Visibility.Collapsed;
         }
+
         public PublisherCreateDestinationsViewModel PublisherCreateDestinationsViewModel
         {
-            get
-            {
-                return _publisherCreateDestinationsViewModel;
-            }
+            get => _publisherCreateDestinationsViewModel;
             set
             {
                 _publisherCreateDestinationsViewModel = value;
                 OnPropertyChanged(nameof(PublisherCreateDestinationsViewModel));
             }
         }
-
-        private static PublisherCreateDestination _indexPage;
-        private PublisherCreateDestinationsViewModel _publisherCreateDestinationsViewModel = new PublisherCreateDestinationsViewModel();
 
         public static PublisherCreateDestination Instance { get; set; }
             = _indexPage ?? (_indexPage = new PublisherCreateDestination());

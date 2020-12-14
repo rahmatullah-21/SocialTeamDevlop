@@ -3,12 +3,14 @@
 namespace EmbeddedBrowser.BrowserHelper
 {
     /// <summary>
-    /// Implemented class for disabling Browser Window Pop-up
+    ///     Implemented class for disabling Browser Window Pop-up
     /// </summary>
     public class BrowserLifeSpanHandler : ILifeSpanHandler
     {
-        public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName,
-            WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo,
+        public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl,
+            string targetFrameName,
+            WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures,
+            IWindowInfo windowInfo,
             IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
             browserControl.Load(targetUrl);

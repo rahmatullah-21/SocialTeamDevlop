@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using System.Collections.Generic;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -13,10 +17,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(1)]
         public List<ModuleConfiguration> LstModuleConfiguration
         {
-            get
-            {
-                return _lstModuleConfiguration;
-            }
+            get => _lstModuleConfiguration;
             set
             {
                 if (_lstModuleConfiguration == value) return;
@@ -24,30 +25,21 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        [ProtoMember(2)]
-        public List<RunningTimes> RunningTime { get; set; } = new List<RunningTimes>();
+        [ProtoMember(2)] public List<RunningTimes> RunningTime { get; set; } = new List<RunningTimes>();
 
         public void AddOrUpdateModuleConfig(ModuleConfiguration moduleConfiguration)
         {
             var index = FindIndexByActivityType(moduleConfiguration.ActivityType);
             if (index >= 0)
-            {
                 _lstModuleConfiguration[index] = moduleConfiguration;
-            }
             else
-            {
                 _lstModuleConfiguration.Add(moduleConfiguration);
-            }
-
         }
 
         public void DeleteModuleConfig(ActivityType activityType)
         {
             var index = FindIndexByActivityType(activityType);
-            if (index >= 0)
-            {
-                _lstModuleConfiguration.RemoveAt(index);
-            }
+            if (index >= 0) _lstModuleConfiguration.RemoveAt(index);
         }
 
         private int FindIndexByActivityType(ActivityType activityType)

@@ -3,6 +3,5 @@
     public interface INetworkCollectionFactory
     {
         INetworkCoreFactory GetNetworkCoreFactory();
-        
     }
 }

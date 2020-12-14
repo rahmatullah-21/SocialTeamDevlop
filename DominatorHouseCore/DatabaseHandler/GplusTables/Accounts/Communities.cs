@@ -1,4 +1,8 @@
-﻿using SQLite;
+﻿#region
+
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
@@ -14,14 +18,11 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public string Query { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public string ActivityType
-        { get; set; }
+        public string ActivityType { get; set; }
 
-        
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         // ReSharper disable once UnusedMember.Global
@@ -36,35 +37,31 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         // ReSharper disable once UnusedMember.Global
         // need to keep it to support existing data model
-        public string CommunityName
-        { get; set; }
+        public string CommunityName { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public JoinType joinType
-        { get; set; }
+        public JoinType joinType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public int MemberCounts
-        { get; set; }
+        public int MemberCounts { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public int InteractionDate { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public int MuteStatus
-        { get; set; }
+        public int MuteStatus { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
-        public string OwnerName
-        { get; set; }
+        public string OwnerName { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
-        public string OwnerId
-        { get; set; }
+        public string OwnerId { get; set; }
 
         public enum JoinType
         {
-            Joined, NotJoined, UnJoined
+            Joined,
+            NotJoined,
+            UnJoined
         }
     }
 }

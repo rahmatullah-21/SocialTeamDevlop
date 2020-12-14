@@ -1,11 +1,15 @@
-﻿using System;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
     public class PublisherCampaignDetailsModel
     {
         public int CampaignId { get; set; }
-        
+
         public string CampaignName { get; set; }
 
         public string Status { get; set; }
@@ -23,6 +27,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
     }
 }

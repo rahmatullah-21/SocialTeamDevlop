@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Models;
+﻿#region
+
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces.StartUp
 {

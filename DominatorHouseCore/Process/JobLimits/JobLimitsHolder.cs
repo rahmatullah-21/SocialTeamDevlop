@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Interfaces;
+﻿#region
+
 using System.Collections.Generic;
+using DominatorHouseCore.Interfaces;
+
+#endregion
 
 namespace DominatorHouseCore.Process.JobLimits
 {
@@ -44,13 +48,9 @@ namespace DominatorHouseCore.Process.JobLimits
             lock (_syncObject)
             {
                 if (_jobLimits.ContainsKey(jobKey))
-                {
                     _jobLimits[jobKey] = limits;
-                }
                 else
-                {
                     _jobLimits.Add(jobKey, limits);
-                }
             }
         }
     }

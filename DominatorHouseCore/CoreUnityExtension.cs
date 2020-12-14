@@ -1,4 +1,6 @@
-﻿using DominatorHouse.ThreadUtils;
+﻿#region
+
+using DominatorHouse.ThreadUtils;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
@@ -18,6 +20,8 @@ using DominatorHouseCore.ViewModel;
 using Unity;
 using Unity.Extension;
 using Unity.Injection;
+
+#endregion
 
 namespace DominatorHouseCore
 {
@@ -46,6 +50,7 @@ namespace DominatorHouseCore
 
             Container.RegisterSingleton<IWebService, WebService>();
             Container.RegisterSingleton<IDateProvider, DateProvider>();
+            Container.RegisterSingleton<IDispatcherUtility, DispatcherUtility>();
             Container.RegisterSingleton<IFileSystemProvider, FileSystemProvider>();
             Container.RegisterSingleton<IJobActivityConfigurationManager, JobActivityConfigurationManager>();
             Container.RegisterSingleton<ICampaignsFileManager, CampaignsFileManager>();
@@ -63,21 +68,19 @@ namespace DominatorHouseCore
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();
             Container.AddNewExtension<ProxyManagmentUnityExtension>();
-
             Container.RegisterSingleton<IQueryScraperFactory, DominatorScraperFactory>(SocialNetworks.Admin.ToString());
             Container.RegisterSingleton<IJobProcessFactory, DominatorJobProcessFactory>(SocialNetworks.Admin.ToString());
             Container.RegisterSingleton<IDominatorScheduler, DominatorScheduler>();
             Container.RegisterSingleton<ISchedulerProxy, SchedulerProxy>();
 
-            Container.RegisterType<IDbOperations, DbOperations>(new InjectionConstructor(typeof(string), typeof(SocialNetworks), typeof(string)));
+            Container.RegisterType<IDbOperations, DbOperations>(new InjectionConstructor(typeof(string),
+                typeof(SocialNetworks), typeof(string)));
 
-            
 
             Container.AddNewExtension<JobProcessUnityExtension>();
             Container.AddNewExtension<EntityCounterUnityExtension>();
 
             Container.RegisterSingleton<IDelayService, DelayService>();
-
         }
     }
 }

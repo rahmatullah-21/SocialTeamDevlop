@@ -1,18 +1,20 @@
+#region
 
-using CommonServiceLocator;
-using DominatorHouseCore.Models;
 using System;
 using System.Linq;
+using CommonServiceLocator;
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
-
     public static class DateTimeUtilities
     {
         private static readonly DateTime DateUtc1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
-        /// GetCurrentEpochTime is used to get the epoch value for given date time
+        ///     GetCurrentEpochTime is used to get the epoch value for given date time
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
@@ -31,10 +33,11 @@ namespace DominatorHouseCore.Utility
             return DateUtc1970.AddSeconds(epoch);
         }
 
-        public static DateTime EpochToDateTimeUtc(this Int64 epoch)
+        public static DateTime EpochToDateTimeUtc(this long epoch)
         {
             return DateUtc1970.AddMilliseconds(epoch);
         }
+
         public static DateTime EpochToDateTimeUtc(this double epoch)
         {
             return DateUtc1970.AddSeconds(epoch);
@@ -48,7 +51,7 @@ namespace DominatorHouseCore.Utility
         public static int GetEpochTime()
         {
             var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
-            return (int)(dateProvider.UtcNow() - DateUtc1970).TotalSeconds;
+            return (int) (dateProvider.UtcNow() - DateUtc1970).TotalSeconds;
         }
 
         public static double GetEpochTimeMicroSecs()
@@ -65,7 +68,7 @@ namespace DominatorHouseCore.Utility
 
         public static DateTime GetStartOfWeek(this DateTime date)
         {
-            int num = date.DayOfWeek - DayOfWeek.Sunday;
+            var num = date.DayOfWeek - DayOfWeek.Sunday;
             if (num < 0)
                 num += 7;
             return date.AddDays(-1 * num).Date;
@@ -73,10 +76,10 @@ namespace DominatorHouseCore.Utility
 
         public static DateTime GetStartTimeOfNextWeek(ModuleConfiguration moduleConfiguration)
         {
-            int num = DateTime.Today.DayOfWeek - DayOfWeek.Sunday;
+            var num = DateTime.Today.DayOfWeek - DayOfWeek.Sunday;
             if (num < 0)
                 num += 7;
-            var nextWeekStartDate = (DateTime.Today.AddDays(-1 * num).Date).AddDays(7);
+            var nextWeekStartDate = DateTime.Today.AddDays(-1 * num).Date.AddDays(7);
             foreach (var runningTime in moduleConfiguration.LstRunningTimes)
             {
                 if (!runningTime.IsEnabled)
@@ -91,6 +94,7 @@ namespace DominatorHouseCore.Utility
                 nextWeekStartDate = startTime.Add(timings[0].StartTime);
                 return nextWeekStartDate;
             }
+
             return nextWeekStartDate;
         }
 
@@ -98,10 +102,10 @@ namespace DominatorHouseCore.Utility
         {
             var startTimeOfTomorrow = DateTime.Today.AddDays(1);
 
-            for (int i = 1; i < 8; i++)
+            for (var i = 1; i < 8; i++)
             {
                 var Day = DateTime.Today.AddDays(i).DayOfWeek;
-                var runningTimes = moduleConfiguration.LstRunningTimes[(int)Day];
+                var runningTimes = moduleConfiguration.LstRunningTimes[(int) Day];
                 if (!runningTimes.IsEnabled)
                     continue;
 
@@ -109,21 +113,24 @@ namespace DominatorHouseCore.Utility
                     continue;
                 //var startTime = startTimeOfTomorrow.GetDateOfDateTime(runningTimes.DayOfWeek);
                 var timings = runningTimes.Timings.ToList();
-                timings.Sort(new RunningTimeComparer()); //Sort the date time based on Start time, so that it picks the nearest Start time.
+                timings.Sort(
+                    new RunningTimeComparer()); //Sort the date time based on Start time, so that it picks the nearest Start time.
                 startTimeOfTomorrow = DateTime.Today.AddDays(i);
                 startTimeOfTomorrow = startTimeOfTomorrow.Add(timings[0].StartTime);
                 return startTimeOfTomorrow;
             }
+
             return startTimeOfTomorrow;
         }
 
-        public static DateTime GetStartTimeOfNextJob(ModuleConfiguration moduleConfiguration, int? delayBetweenJob = null)
+        public static DateTime GetStartTimeOfNextJob(ModuleConfiguration moduleConfiguration,
+            int? delayBetweenJob = null)
         {
             try
             {
                 var delay = 0;
                 if (delayBetweenJob != null)
-                    delay = (int)delayBetweenJob;
+                    delay = (int) delayBetweenJob;
 
                 //Calculate the start time of next job normally
                 var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
@@ -131,13 +138,16 @@ namespace DominatorHouseCore.Utility
 
                 //Get the available running time for today
                 var today = DateTime.Today.DayOfWeek;
-                var todayIndex = (int)today;
+                var todayIndex = (int) today;
                 var runningTimes = moduleConfiguration.LstRunningTimes[todayIndex];
                 var timings = runningTimes.Timings.ToList();
-                timings.Sort(new RunningTimeComparer()); //Sort the date time based on Start time, so that it picks time in proper order for further foreach calculation
+                timings.Sort(
+                    new RunningTimeComparer()); //Sort the date time based on Start time, so that it picks time in proper order for further foreach calculation
 
                 //Get the remaining time slots available for the day
-                var availableTimingRanges = timings.Where(x => DateTime.Today.Date.Add(x.EndTime) > startTimeOfNextJob || DateTime.Today.Date.Add(x.StartTime) > startTimeOfNextJob).ToList();
+                var availableTimingRanges = timings.Where(x =>
+                    DateTime.Today.Date.Add(x.EndTime) > startTimeOfNextJob ||
+                    DateTime.Today.Date.Add(x.StartTime) > startTimeOfNextJob).ToList();
                 if (availableTimingRanges.Count > 0)
                 {
                     availableTimingRanges.Sort(new RunningTimeComparer());
@@ -150,6 +160,7 @@ namespace DominatorHouseCore.Utility
                     // commented the next line temporarily and returning startTimeOfNextJob instead. if there is next job time crossing today's time then let it to take nextday according to its jobConfig. if the selected time will not be between the time of the next day then it will select next run by executing next scheduling login wtitten in line no. 364 in method 'ScheduleActivityForNextJob' in class 'DominatorScheduler' 
                     //return GetStartTimeOfTomorrow(moduleConfiguration);//If no time slot is available for the day, calculate the start time for tomorrow
                 }
+
                 return startTimeOfNextJob;
             }
             catch (Exception ex)
@@ -159,7 +170,8 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static DateTime GetStartTimeForHourly(ModuleConfiguration moduleConfiguration, int? delayBetweenJob = null)
+        public static DateTime GetStartTimeForHourly(ModuleConfiguration moduleConfiguration,
+            int? delayBetweenJob = null)
         {
             var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
             var minutes = 60 - dateProvider.Now().Minute; //To get the remaining minutes for completion of current hour.
@@ -168,16 +180,17 @@ namespace DominatorHouseCore.Utility
 
         public static DateTime GetDateOfDateTime(this DateTime startDate, DayOfWeek requiredDay)
         {
-            for (int countIndex = 0; countIndex < 7; countIndex++)
+            for (var countIndex = 0; countIndex < 7; countIndex++)
             {
                 var currentDate = startDate.AddDays(countIndex);
                 if (currentDate.DayOfWeek == requiredDay)
                     return currentDate;
             }
+
             return startDate;
         }
 
-        public static Int64 GetCurrentEpochTimeMilliSeconds(this DateTime date)
+        public static long GetCurrentEpochTimeMilliSeconds(this DateTime date)
         {
             return Convert.ToInt64(Math.Floor((date.ToUniversalTime() - DateUtc1970).TotalMilliseconds));
         }
@@ -197,14 +210,14 @@ namespace DominatorHouseCore.Utility
                     return GetStartTimeForHourly(moduleConfiguration);
                 case ReachedLimitType.Job:
                     return GetStartTimeOfNextJob(moduleConfiguration, delayBetweenJob);
-
+                case ReachedLimitType.NoLimit:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reachedLimitType), reachedLimitType, null);
             }
-
-            return nextStartTime;
         }
 
         /// <summary>
-        /// Get Next Start time for stop time reached
+        ///     Get Next Start time for stop time reached
         /// </summary>
         /// <param name="moduleConfiguration"></param>
         /// <returns></returns>
@@ -216,27 +229,30 @@ namespace DominatorHouseCore.Utility
 
             try
             {
-                var currentDayTimings = moduleConfiguration.LstRunningTimes.Where(x => x.DayOfWeek == nextStartTime.DayOfWeek)
-                        .FirstOrDefault().Timings;
+                var currentDayTimings = moduleConfiguration.LstRunningTimes
+                    .Where(x => x.DayOfWeek == nextStartTime.DayOfWeek)
+                    .FirstOrDefault()
+                    ?.Timings;
 
-                var nextRunningTimeForToday = currentDayTimings.FirstOrDefault(x => x.StartTime >= nextStartTime.TimeOfDay);
+                var nextRunningTimeForToday =
+                    currentDayTimings.FirstOrDefault(x => x.StartTime >= nextStartTime.TimeOfDay);
 
-                var nextDayRunTimes = moduleConfiguration.LstRunningTimes.FirstOrDefault(x => x.DayOfWeek > nextStartTime.DayOfWeek && x.Timings.Count > 0) ??
-                    moduleConfiguration.LstRunningTimes.FirstOrDefault(x => x.DayOfWeek < nextStartTime.DayOfWeek && x.Timings.Count > 0);
+                var nextDayRunTimes =
+                    moduleConfiguration.LstRunningTimes.FirstOrDefault(x =>
+                        x.DayOfWeek > nextStartTime.DayOfWeek && x.Timings.Count > 0) ??
+                    moduleConfiguration.LstRunningTimes.FirstOrDefault(x =>
+                        x.DayOfWeek < nextStartTime.DayOfWeek && x.Timings.Count > 0);
 
                 if (nextRunningTimeForToday != null)
                     nextStartTime = nextRunningDate.Add(nextRunningTimeForToday.StartTime);
                 else if (nextDayRunTimes != null)
-                {
-                    nextStartTime = GetNextWeekday(nextRunningDate, nextDayRunTimes.DayOfWeek).Add(nextDayRunTimes.Timings.FirstOrDefault().StartTime);
-                }
+                    nextStartTime = GetNextWeekday(nextRunningDate, nextDayRunTimes.DayOfWeek)
+                        .Add(nextDayRunTimes.Timings.FirstOrDefault().StartTime);
                 else if (nextDayRunTimes == null && nextRunningTimeForToday == null)
-                {
-                    nextStartTime = GetNextWeekday(nextRunningDate.AddDays(1), nextRunningDate.DayOfWeek).Add(currentDayTimings.FirstOrDefault().StartTime);
-                }
-
+                    nextStartTime = GetNextWeekday(nextRunningDate.AddDays(1), nextRunningDate.DayOfWeek)
+                        .Add(currentDayTimings.FirstOrDefault().StartTime);
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 ex.DebugLog();
             }
@@ -244,14 +260,14 @@ namespace DominatorHouseCore.Utility
             {
                 ex.DebugLog();
             }
-            
+
             return nextStartTime;
         }
 
 
         public static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
         {
-            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            var daysToAdd = ((int) day - (int) start.DayOfWeek + 7) % 7;
             return start.AddDays(daysToAdd);
         }
 
@@ -259,8 +275,8 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                int totalSeconds = (int)((end - start).TotalSeconds);
-                int nextSeconds = random.Next(totalSeconds);
+                var totalSeconds = (int) (end - start).TotalSeconds;
+                var nextSeconds = random.Next(totalSeconds);
                 return start.Add(TimeSpan.FromSeconds(nextSeconds));
             }
             catch (Exception ex)
@@ -276,17 +292,15 @@ namespace DominatorHouseCore.Utility
             return EpochToDateTimeUtc(epoch) + (dateProvider.Now() - dateProvider.UtcNow());
         }
 
-        public static DateTime EpochToDateTimeLocal(this Int64 epoch)
+        public static DateTime EpochToDateTimeLocal(this long epoch)
         {
             var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
             return EpochToDateTimeUtc(epoch) + (dateProvider.Now() - dateProvider.UtcNow());
         }
 
-        public static Int64 GetCurrentEpochTimeSeconds(this DateTime date)
+        public static long GetCurrentEpochTimeSeconds(this DateTime date)
         {
             return Convert.ToInt64(Math.Floor((date.ToUniversalTime() - DateUtc1970).TotalSeconds));
         }
     }
-
-
 }

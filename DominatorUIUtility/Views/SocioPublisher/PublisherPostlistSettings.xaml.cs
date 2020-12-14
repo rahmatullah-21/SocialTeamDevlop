@@ -7,30 +7,27 @@ using DominatorHouseCore.Models.SocioPublisher;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherPostlistSettings.xaml
+    ///     Interaction logic for PublisherPostlistSettings.xaml
     /// </summary>
-    public partial class PublisherPostlistSettings : UserControl , INotifyPropertyChanged
+    public partial class PublisherPostlistSettings : UserControl, INotifyPropertyChanged
     {
+        private PublisherPostlistSettingsModel _publisherPostlistSettingsModel = new PublisherPostlistSettingsModel();
+
         public PublisherPostlistSettings()
         {
-            InitializeComponent();           
+            InitializeComponent();
         }
 
-        public PublisherPostlistSettings(PublisherPostlistSettingsModel publisherPostlistSettingsModel) 
+        public PublisherPostlistSettings(PublisherPostlistSettingsModel publisherPostlistSettingsModel)
         {
             InitializeComponent();
             PublisherPostlistSettingsModel = publisherPostlistSettingsModel;
-            PostlistSettings.DataContext = PublisherPostlistSettingsModel;        
+            PostlistSettings.DataContext = PublisherPostlistSettingsModel;
         }
-
-        private PublisherPostlistSettingsModel _publisherPostlistSettingsModel = new PublisherPostlistSettingsModel();
 
         public PublisherPostlistSettingsModel PublisherPostlistSettingsModel
         {
-            get
-            {
-                return _publisherPostlistSettingsModel;
-            }
+            get => _publisherPostlistSettingsModel;
             set
             {
                 _publisherPostlistSettingsModel = value;

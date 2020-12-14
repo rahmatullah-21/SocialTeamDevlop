@@ -1,27 +1,31 @@
-﻿using DominatorHouseCore;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public class BoardInfo : BindableBase
     {
+        private string _boardDescription;
         private string _boardName;
+
+
+        private string _category;
+
+        private int _selectedIndex;
 
         public string BoardName
         {
-            get
-            {
-                return _boardName;
-            }
+            get => _boardName;
             set
             {
                 if (_boardName != null && _boardName == value)
@@ -30,14 +34,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private string _boardDescription;
-
         public string BoardDescription
         {
-            get
-            {
-                return _boardDescription;
-            }
+            get => _boardDescription;
             set
             {
                 if (_boardDescription != null && _boardDescription == value)
@@ -46,15 +45,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-
-        private string _category;
-
         public string Category
         {
-            get
-            {
-                return _category;
-            }
+            get => _category;
             set
             {
                 if (_category != null && _category == value)
@@ -63,14 +56,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private int _selectedIndex;
-
         public int SelectedIndex
         {
-            get
-            {
-                return _selectedIndex;
-            }
+            get => _selectedIndex;
             set
             {
                 if (_selectedIndex != 0 && _selectedIndex == value)
@@ -89,14 +77,22 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             return MemberwiseClone();
         }
     }
+
     public interface ICreateBoardViewModel
     {
     }
+
     public class CreateBoardViewModel : StartupBaseViewModel, ICreateBoardViewModel
     {
+        private BoardInfo _currentBoard = new BoardInfo();
+
+        private ObservableCollectionBase<BoardInfo> _listBoardInfo = new ObservableCollectionBase<BoardInfo>();
+
+        private ObservableCollection<string> _listCategory = new ObservableCollection<string>();
+
         public CreateBoardViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.CreateBoard });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.CreateBoard});
             IsNonQuery = true;
             NextCommand = new DelegateCommand(ValidateAndNevigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -112,9 +108,45 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             AssignNewCategory();
-            AddBoardCommand = new BaseCommand<object>((sender) => true, AddBoard);
-            DeleteBoardCommand = new BaseCommand<object>((sender) => true, DeleteBoard);
+            AddBoardCommand = new BaseCommand<object>(sender => true, AddBoard);
+            DeleteBoardCommand = new BaseCommand<object>(sender => true, DeleteBoard);
             ListQueryType.Clear();
+        }
+
+        public ICommand AddBoardCommand { get; set; }
+        public ICommand DeleteBoardCommand { get; set; }
+
+        public ObservableCollection<string> ListCategory
+        {
+            get => _listCategory;
+            set
+            {
+                if (_listCategory != null && _listCategory == value)
+                    return;
+                SetProperty(ref _listCategory, value);
+            }
+        }
+
+        public BoardInfo CurrentBoard
+        {
+            get => _currentBoard;
+            set
+            {
+                if (_currentBoard != null && _currentBoard == value)
+                    return;
+                SetProperty(ref _currentBoard, value);
+            }
+        }
+
+        public ObservableCollectionBase<BoardInfo> BoardDetails
+        {
+            get => _listBoardInfo;
+            set
+            {
+                if (_listBoardInfo != null && _listBoardInfo == value)
+                    return;
+                SetProperty(ref _listBoardInfo, value);
+            }
         }
 
         private void ValidateAndNevigate()
@@ -124,11 +156,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Dialog.ShowDialog("Error", "Please add at least one board.");
                 return;
             }
+
             NavigateNext();
         }
-
-        public ICommand AddBoardCommand { get; set; }
-        public ICommand DeleteBoardCommand { get; set; }
 
         private void AddBoard(object sender)
         {
@@ -142,14 +172,16 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 {
                     if (string.IsNullOrEmpty(createBoardControl.BoardDescription))
                         createBoardControl.BoardDescription = string.Empty;
-                    string[] boardNames = createBoardControl.BoardName.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-                    string[] boardDescriptions = createBoardControl.BoardDescription.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+                    var boardNames = createBoardControl.BoardName.Split('|').Where(x => !string.IsNullOrWhiteSpace(x))
+                        .ToArray();
+                    var boardDescriptions = createBoardControl.BoardDescription.Split('|')
+                        .Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
 
                     if (boardNames.Length == 1 && boardDescriptions.Length == 1)
                     {
                         if (createBoardControl.BoardName.Any(char.IsLetterOrDigit))
                         {
-                            BoardDetails.Add(new BoardInfo()
+                            BoardDetails.Add(new BoardInfo
                             {
                                 BoardName = createBoardControl.BoardName,
                                 BoardDescription = createBoardControl.BoardDescription,
@@ -158,26 +190,25 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         }
                         else
                         {
-                            DominatorHouseCore.LogHelper.GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, "", ActivityType.CreateBoard,
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, "",
+                                ActivityType.CreateBoard,
                                 "You are required to have at least one letter or number in a board name");
                             return;
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < boardNames.Length; i++)
+                        for (var i = 0; i < boardNames.Length; i++)
                         {
-                            var currentBoard = new BoardInfo()
+                            var currentBoard = new BoardInfo
                             {
                                 BoardName = boardNames[i].Trim(),
-                                BoardDescription = boardDescriptions.Length >= i + 1 ?
-                                Utilities.GetBetween(boardDescriptions[i], "{", "}").Trim() : string.Empty,
+                                BoardDescription = boardDescriptions.Length >= i + 1
+                                    ? Utilities.GetBetween(boardDescriptions[i], "{", "}").Trim()
+                                    : string.Empty,
                                 Category = createBoardControl.Category
                             };
-                            if (boardNames[i].Trim().Any(char.IsLetterOrDigit))
-                            {
-                                BoardDetails.Add(currentBoard);
-                            }
+                            if (boardNames[i].Trim().Any(char.IsLetterOrDigit)) BoardDetails.Add(currentBoard);
                         }
                     }
 
@@ -207,22 +238,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             catch (Exception ex)
             {
                 ex.DebugLog();
-            }
-        }
-
-        private ObservableCollection<string> _listCategory = new ObservableCollection<string>();
-
-        public ObservableCollection<string> ListCategory
-        {
-            get
-            {
-                return _listCategory;
-            }
-            set
-            {
-                if (_listCategory != null && _listCategory == value)
-                    return;
-                SetProperty(ref _listCategory, value);
             }
         }
 
@@ -261,37 +276,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListCategory.Add("Weddings");
             ListCategory.Add("Women's fashion");
             ListCategory.Add("Other");
-        }
-
-        private BoardInfo _currentBoard = new BoardInfo();
-        public BoardInfo CurrentBoard
-        {
-            get
-            {
-                return _currentBoard;
-            }
-            set
-            {
-                if (_currentBoard != null && _currentBoard == value)
-                    return;
-                SetProperty(ref _currentBoard, value);
-            }
-        }
-
-        private ObservableCollectionBase<BoardInfo> _listBoardInfo = new ObservableCollectionBase<BoardInfo>();
-
-        public ObservableCollectionBase<BoardInfo> BoardDetails
-        {
-            get
-            {
-                return _listBoardInfo;
-            }
-            set
-            {
-                if (_listBoardInfo != null && _listBoardInfo == value)
-                    return;
-                SetProperty(ref _listBoardInfo, value);
-            }
         }
     }
 }

@@ -109,7 +109,7 @@ namespace DominatorUIUtility.Behaviours
                 return false;
             }
         }
-        public static Func<object, bool> UpdateCollapse;
+        public static Func<object, bool> UpdateCollapse { get; set; }
         public static Action UpdateToggleButtonInCampaignMode;
         public static Action UpdateToggleButtonInAccountActivityMode;
         public static Action UpdateToggleForQuery;

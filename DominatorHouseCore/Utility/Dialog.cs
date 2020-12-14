@@ -1,9 +1,13 @@
-﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
+﻿#region
+
 using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -33,17 +37,19 @@ namespace DominatorHouseCore.Utility
             {
                 dialogWindow.GlowBrush = dialogWindow.FindResource("AccentColorBrush") as SolidColorBrush;
             }
-            catch (Exception)
+            catch (Exception exc)
             {
-
+                exc.DebugLog();
             }
+
             dialogWindow.MinHeight = SystemParameters.PrimaryScreenHeight / 4.0;
             dialogWindow.MinWidth = SystemParameters.PrimaryScreenHeight / 1.3;
             dialogWindow.SizeToContent = SizeToContent.WidthAndHeight;
             dialogWindow.Content = dialog;
             return dialogWindow;
         }
-        public Window GetMetroWindowWithOutClose(Object window, string title)
+
+        public Window GetMetroWindowWithOutClose(object window, string title)
         {
             var MetroWindow = new MetroWindow
             {
@@ -60,7 +66,6 @@ namespace DominatorHouseCore.Utility
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
                 WindowTitleBrush  = Brushes.Black
-
             };
 
             try
@@ -71,7 +76,8 @@ namespace DominatorHouseCore.Utility
             {
                 ex.DebugLog();
             }
-            MetroWindow.MinHeight = (SystemParameters.PrimaryScreenHeight / 4.0) - 80;
+
+            MetroWindow.MinHeight = SystemParameters.PrimaryScreenHeight / 4.0 - 80;
             MetroWindow.MinWidth = SystemParameters.PrimaryScreenHeight / 1.3;
             MetroWindow.SizeToContent = SizeToContent.WidthAndHeight;
             MetroWindow.Content = window;
@@ -80,7 +86,7 @@ namespace DominatorHouseCore.Utility
             return MetroWindow;
         }
 
-        public Window GetMetroWindow(Object window, string title)
+        public Window GetMetroWindow(object window, string title)
         {
             var MetroWindow = new MetroWindow
             {
@@ -110,7 +116,8 @@ namespace DominatorHouseCore.Utility
             {
                 ex.DebugLog();
             }
-            MetroWindow.MinHeight = (SystemParameters.PrimaryScreenHeight / 4.0) - 80;
+
+            MetroWindow.MinHeight = SystemParameters.PrimaryScreenHeight / 4.0 - 80;
             MetroWindow.MinWidth = SystemParameters.PrimaryScreenHeight / 1.3;
             MetroWindow.SizeToContent = SizeToContent.WidthAndHeight;
             MetroWindow.Content = window;
@@ -121,13 +128,13 @@ namespace DominatorHouseCore.Utility
 
         public static MetroDialogSettings SetMetroDialogButton(string affirmativeText, string negativeText)
         {
-            var metroDialogButton = new MetroDialogSettings()
+            var metroDialogButton = new MetroDialogSettings
             {
                 AffirmativeButtonText = affirmativeText,
                 NegativeButtonText = negativeText,
                 AnimateShow = true,
                 AnimateHide = false,
-                DefaultButtonFocus = MessageDialogResult.Affirmative,
+                DefaultButtonFocus = MessageDialogResult.Affirmative
             };
             return metroDialogButton;
         }
@@ -137,42 +144,45 @@ namespace DominatorHouseCore.Utility
         {
             return DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, title, message);
         }
-        public static MessageDialogResult ShowCustomDialog(string title, string message, string affirmativeText, string negativeText)
+
+        public static MessageDialogResult ShowCustomDialog(string title, string message, string affirmativeText,
+            string negativeText)
         {
-            return DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, title, message, MessageDialogStyle.AffirmativeAndNegative, SetMetroDialogButton(affirmativeText, negativeText));
+            return DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, title, message,
+                MessageDialogStyle.AffirmativeAndNegative, SetMetroDialogButton(affirmativeText, negativeText));
         }
 
         public static void CloseDialog(object sender)
         {
             try
             {
-                Window parentWindow = Window.GetWindow((DependencyObject)sender);
-                if (parentWindow != null)
-                {
-                    parentWindow.Close();
-                }
+                var parentWindow = Window.GetWindow((DependencyObject) sender);
+                parentWindow?.Close();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
         }
-        public static string GetInputDialog(string title, string message, string defaultText, string firstButtonContent, string secondButtonContent)
+
+        public static string GetInputDialog(string title, string message, string defaultText, string firstButtonContent,
+            string secondButtonContent)
         {
             try
             {
-                var settings = new MetroDialogSettings()
+                var settings = new MetroDialogSettings
                 {
                     DefaultText = defaultText,
                     AffirmativeButtonText = firstButtonContent,
                     NegativeButtonText = secondButtonContent
                 };
-                return DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow, title, message, settings);
+                return DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow, title, message,
+                    settings);
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
-                return String.Empty;
+                return string.Empty;
             }
         }
     }

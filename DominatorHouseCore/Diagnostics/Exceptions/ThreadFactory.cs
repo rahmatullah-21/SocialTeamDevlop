@@ -1,11 +1,15 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+#endregion
 
 namespace DominatorHouseCore.Diagnostics
 {
     /// <summary>
-    /// Class uses to create tasks with exception handlers
+    ///     Class uses to create tasks with exception handlers
     /// </summary>
     public class ThreadFactory
     {
@@ -17,8 +21,8 @@ namespace DominatorHouseCore.Diagnostics
         {
             Error += (t, e) =>
             {
-               //GlobusExceptionHandler.HandleGlobalException(e, t.ToString()); 
-               e.DebugLog();                
+                //GlobusExceptionHandler.HandleGlobalException(e, t.ToString()); 
+                e.DebugLog();
             };
         }
 
@@ -26,8 +30,8 @@ namespace DominatorHouseCore.Diagnostics
 
         private void InvokeError(Task task, Exception error)
         {
-			Error?.Invoke(task, error);
-		}
+            Error?.Invoke(task, error);
+        }
 
         public Task Start(Action action)
         {
@@ -36,7 +40,8 @@ namespace DominatorHouseCore.Diagnostics
             return task;
         }
 
-        public Task Start(Action action, CancellationToken token, TaskCreationOptions options = TaskCreationOptions.LongRunning)
+        public Task Start(Action action, CancellationToken token,
+            TaskCreationOptions options = TaskCreationOptions.LongRunning)
         {
             var task = new Task(action, token, options);
             Start(task);
@@ -47,9 +52,9 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
-                task.ContinueWith(t => InvokeError(t, t.Exception.InnerException),
-                                       TaskContinuationOptions.OnlyOnFaulted |
-                                       TaskContinuationOptions.ExecuteSynchronously);
+                task.ContinueWith(t => InvokeError(t, t.Exception?.InnerException),
+                    TaskContinuationOptions.OnlyOnFaulted |
+                    TaskContinuationOptions.ExecuteSynchronously);
                 task.Start();
             }
             catch (InvalidOperationException ex)
@@ -59,7 +64,7 @@ namespace DominatorHouseCore.Diagnostics
             catch (Exception ex)
             {
                 ex.DebugLog();
-            }           
+            }
         }
 
         //public Task<T> Start<T>(Func<T> action, TaskCreationOptions options)

@@ -1,15 +1,15 @@
-﻿using CommonServiceLocator;
+﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Windows.Input;
+using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
-using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -33,7 +33,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Export
 
-        private bool ExportCanExecute(object sender) => true;
+        private bool ExportCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void ExportExecute(object sender)
         {
@@ -45,14 +48,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Get the export path of the post
                 var exportPath = FileUtilities.GetExportPath();
                 var filename = $"{exportPath}\\Export-{ConstantVariable.GetDateTime()}.csv";
-                var header = "Account Name,Campaign Name,Destination,Destination Url,Description,Published,Successful,Published Date,Link";
+                var header =
+                    "Account Name,Campaign Name,Destination,Destination Url,Description,Published,Successful,Published Date,Link";
 
                 FileUtilities.AddHeaderToCsv(filename, header);
 
-                foreach (var post in selectedPost)
-                {
-                    ExportPosts(post, filename);
-                }
+                foreach (var post in selectedPost) ExportPosts(post, filename);
 
                 #region Commenting Sections
 
@@ -60,7 +61,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 //{
                 //    //var header =
                 //    //    "Post Description,MediaList,ShareUrl,ExpiredTime,Published,Running Status";
-
 
 
                 //    //  FileUtilities.AddHeaderToCsv(filename, header);
@@ -123,7 +123,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             else
             {
-                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectPostToExport".FromResourceDictionary());
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(),
+                    "LangKeySelectPostToExport".FromResourceDictionary());
             }
         }
 
@@ -132,7 +133,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region  PublishedDetails
 
-        private bool PublishedDetailsCanExecute(object sender) => true;
+        private bool PublishedDetailsCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void PublishedDetailsExecute(object sender)
         {
@@ -144,12 +148,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     var dialog = new Dialog();
                     var publishedPostDetails = new PublishedPostDetails(currentData);
-                    var window = dialog.GetMetroWindow(publishedPostDetails, "LangKeyPublishedDetails".FromResourceDictionary());
+                    var window = dialog.GetMetroWindow(publishedPostDetails,
+                        "LangKeyPublishedDetails".FromResourceDictionary());
                     window.ShowDialog();
                 }
                 else
                 {
-                    Dialog.ShowDialog("LangKeyPublishedDetails".FromResourceDictionary(), "LangKeyNoDetailsAvailable".FromResourceDictionary());
+                    Dialog.ShowDialog("LangKeyPublishedDetails".FromResourceDictionary(),
+                        "LangKeyNoDetailsAvailable".FromResourceDictionary());
                 }
             }
             catch (Exception ex)
@@ -162,7 +168,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Report
 
-        private bool ReportCanExecute(object sender) => true;
+        private bool ReportCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void ReportExecute(object sender)
         {
@@ -176,7 +185,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (!string.IsNullOrEmpty(exportPath))
                     {
                         var header =
-                                      "Account Name,Campaign Name,Destination,Destination Url,Description,Published,Successful,Published Date,Link";
+                            "Account Name,Campaign Name,Destination,Destination Url,Description,Published,Successful,Published Date,Link";
 
                         var filename = $"{exportPath}\\{currentData?.PostId}.csv";
 
@@ -184,13 +193,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         currentData?.LstPublishedPostDetailsModels.ForEach(post =>
                         {
-
                             var newpostDescription = "\"" + post.Description.Replace("\"", "\"\"") + "\"";
 
 
-                            var csvData = post.AccountName + "," + post.CampaignName + "," + post.Destination + "," + post.DestinationUrl + "," +
+                            var csvData = post.AccountName + "," + post.CampaignName + "," + post.Destination + "," +
+                                          post.DestinationUrl + "," +
                                           newpostDescription + ","
-                                          + post.IsPublished + "," + post.Successful + "," + post.PublishedDate.ToString(CultureInfo.InvariantCulture) + "," +
+                                          + post.IsPublished + "," + post.Successful + "," +
+                                          post.PublishedDate.ToString(CultureInfo.InvariantCulture) + "," +
                                           post.Link;
 
                             //var csvData = post.AccountName + "," + post.CampaignName + "," + post.Destination + "," + post.DestinationUrl + "," +
@@ -205,10 +215,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                     else
                     {
-                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectPathToExport".FromResourceDictionary());
+                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(),
+                            "LangKeySelectPathToExport".FromResourceDictionary());
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -221,25 +231,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 if (currentData?.LstPublishedPostDetailsModels.Count != 0)
-                {
                     currentData?.LstPublishedPostDetailsModels.ForEach(post =>
                     {
                         var newpostDescription = "\"" + post.Description.Replace("\"", "\"\"") + "\"";
 
-                        var csvData = post.AccountName + "," + post.CampaignName + "," + post.Destination + "," + post.DestinationUrl + "," +
+                        var csvData = post.AccountName + "," + post.CampaignName + "," + post.Destination + "," +
+                                      post.DestinationUrl + "," +
                                       newpostDescription + ","
-                                      + post.IsPublished + "," + post.Successful + "," + post.PublishedDate.ToString(CultureInfo.InvariantCulture) + "," +
+                                      + post.IsPublished + "," + post.Successful + "," +
+                                      post.PublishedDate.ToString(CultureInfo.InvariantCulture) + "," +
                                       post.Link;
                         using (var streamWriter = new StreamWriter(filename, true))
                         {
                             streamWriter.WriteLine(csvData);
                         }
                     });
-                }
                 else
-                {
-                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectPathToExport".FromResourceDictionary());
-                }
+                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(),
+                        "LangKeySelectPathToExport".FromResourceDictionary());
             }
             catch (Exception ex)
             {
@@ -247,12 +256,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-
         #endregion
-
-
-
-
     }
 
     public class PublishedPostDetailsViewModel : BindableBase
@@ -275,13 +279,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public PublisherPostlistModel PublisherPostlist
         {
-            get
-            {
-                return _publisherPostlist;
-            }
+            get => _publisherPostlist;
             set
             {
-
                 if (value == _publisherPostlist)
                     return;
                 SetProperty(ref _publisherPostlist, value);
@@ -294,10 +294,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void ViewInBrowserExecute(object sender)
         {
-            var currentPost = (PublishedPostDetailsModel)sender;
+            var currentPost = (PublishedPostDetailsModel) sender;
             var dominatorAccountModel = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync()
                 .FirstOrDefault(x => x.AccountId == currentPost.AccountId);
-            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link, true);
+            var browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link, true);
             if (dominatorAccountModel.BrowserCookies?.Count > 0)
                 browserWindow.BrowserSetCookie();
             else
@@ -305,10 +305,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             browserWindow.Show();
         }
 
-        private bool ViewInBrowserCanExecute(object sender) => true;
-
+        private bool ViewInBrowserCanExecute(object sender)
+        {
+            return true;
+        }
 
         #endregion
-
     }
 }

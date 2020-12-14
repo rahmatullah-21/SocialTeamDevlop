@@ -1,12 +1,14 @@
-﻿using DominatorHouseCore.Dal.DbMigrations;
+﻿#region
+
+using DominatorHouseCore.Dal.DbMigrations;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.Dal
 {
     public abstract class VersionedDbConnection : DbConnection
     {
-
-
         private readonly object _syncObject = new object();
         protected readonly IDbMigration DbMigration;
 

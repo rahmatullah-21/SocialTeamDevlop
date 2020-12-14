@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Utility;
-using ProtoBuf;
+﻿#region
+
 using System;
+using DominatorHouseCore.Utility;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -8,10 +12,11 @@ namespace DominatorHouseCore.Models
     public class CookieHelper : BindableBase
     {
         private string _name = string.Empty;
+
         [ProtoMember(1)]
         public string Name
         {
-            get { return _name; }
+            get => _name;
             set
             {
                 if (_name == value)
@@ -21,10 +26,11 @@ namespace DominatorHouseCore.Models
         }
 
         private string _value = string.Empty;
+
         [ProtoMember(2)]
         public string Value
         {
-            get { return _value; }
+            get => _value;
             set
             {
                 if (_value == value)
@@ -33,15 +39,15 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        [ProtoMember(3)]
-        public string Domain { get; set; }
+        [ProtoMember(3)] public string Domain { get; set; }
 
 
         private DateTime _Expires;
+
         [ProtoMember(4)]
         public DateTime Expires
         {
-            get { return _Expires; }
+            get => _Expires;
             set
             {
                 if (_Expires == value)
@@ -51,10 +57,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _HttpOnly;
+
         [ProtoMember(5)]
         public bool HttpOnly
         {
-            get { return _HttpOnly; }
+            get => _HttpOnly;
             set
             {
                 if (_HttpOnly == value)
@@ -64,10 +71,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _Secure = true;
+
         [ProtoMember(6)]
         public bool Secure
         {
-            get { return _Secure; }
+            get => _Secure;
             set
             {
                 if (_Secure == value)

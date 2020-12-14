@@ -1,19 +1,21 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    class TwitterModel : BindableBase
+    internal class TwitterModel : BindableBase
     {
         private bool _isEnableFollowDifferentUsersAcrossTwitterAccountsChecked;
+
         [ProtoMember(1)]
         public bool IsEnableFollowDifferentUsersAcrossTwitterAccountsChecked
         {
-            get
-            {
-                return _isEnableFollowDifferentUsersAcrossTwitterAccountsChecked;
-            }
+            get => _isEnableFollowDifferentUsersAcrossTwitterAccountsChecked;
             set
             {
                 if (value == _isEnableFollowDifferentUsersAcrossTwitterAccountsChecked)
@@ -21,14 +23,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isEnableFollowDifferentUsersAcrossTwitterAccountsChecked, value);
             }
         }
+
         private bool _isEnableFollowDifferentUsersAcrossTwitterAccountsWithSameTagnameChecked;
+
         [ProtoMember(2)]
         public bool IsEnableFollowDifferentUsersAcrossTwitterAccountsWithSameTagnameChecked
         {
-            get
-            {
-                return _isEnableFollowDifferentUsersAcrossTwitterAccountsWithSameTagnameChecked;
-            }
+            get => _isEnableFollowDifferentUsersAcrossTwitterAccountsWithSameTagnameChecked;
             set
             {
                 if (value == _isEnableFollowDifferentUsersAcrossTwitterAccountsWithSameTagnameChecked)

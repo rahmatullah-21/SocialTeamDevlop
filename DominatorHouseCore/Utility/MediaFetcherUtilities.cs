@@ -1,29 +1,35 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums.SocioPublisher;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.SocioPublisher;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using CommonServiceLocator;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.SocioPublisher;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
     public class MediaFetcherUtilities
     {
-        ISocialBrowserManager BrowserManager { get; set; }
+        private ISocialBrowserManager BrowserManager { get; }
 
         public MediaFetcherUtilities()
         {
             BrowserManager = ServiceLocator.Current.GetInstance<ISocialBrowserManager>();
         }
 
-        public void FetchDetailsFromLink(ScrapePostModel postDetailsModel, string campaignId, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
+        public void FetchDetailsFromLink(ScrapePostModel postDetailsModel, string campaignId,
+            CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
             try
             {
@@ -34,16 +40,17 @@ namespace DominatorHouseCore.Utility
                 foreach (var imageUrl in imageUrlList)
                 {
                     if (imageUrl.Contains("[G]"))
-                        FetchMediaFromGoogle(imageUrl, postDetailsModel, campaignId, cancellationTokenSource, maximumPostLimitToStore, campaignName);
+                        FetchMediaFromGoogle(imageUrl, postDetailsModel, campaignId, cancellationTokenSource,
+                            maximumPostLimitToStore, campaignName);
                     cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     if (imageUrl.Contains("[U]"))
-                        FetchMediaFromLink(imageUrl, postDetailsModel, campaignId, cancellationTokenSource, maximumPostLimitToStore, campaignName);
+                        FetchMediaFromLink(imageUrl, postDetailsModel, campaignId, cancellationTokenSource,
+                            maximumPostLimitToStore, campaignName);
                 }
-
             }
-            catch (OperationCanceledException ex)
+            catch (OperationCanceledException )
             {
-                throw new OperationCanceledException();
+                throw;
             }
             catch (Exception ex)
             {
@@ -51,22 +58,24 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public void FetchMediaFromGoogle(string googleImageLink, ScrapePostModel postDetailsModel, string campaignId, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
+        public void FetchMediaFromGoogle(string googleImageLink, ScrapePostModel postDetailsModel, string campaignId,
+            CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
             try
             {
                 int totalCount;
-                int descriptionCount = 1;
+                var descriptionCount = 1;
                 var pageTitle = string.Empty;
                 DateTime? expireDate = DateTime.Now.AddYears(2);
-                List<PublisherPostlistModel> postCollection = new List<PublisherPostlistModel>();
+                var postCollection = new List<PublisherPostlistModel>();
                 var imageUrl = Regex.Split(googleImageLink, "\\[G\\]").LastOrDefault();
 
                 var campaignDetails = PostlistFileManager.GetAll(campaignId);
 
                 if (campaignDetails.Count > 0 && campaignDetails.Any(x => x.PostSource == PostSource.ScrapeImages))
                     int.TryParse(campaignDetails.LastOrDefault(x => x.PostSource == PostSource.ScrapeImages
-                            && x.PostDescription.Contains("_")).PostDescription.Split('_').LastOrDefault(), out descriptionCount);
+                                                                    && x.PostDescription.Contains("_")).PostDescription
+                        .Split('_').LastOrDefault(), out descriptionCount);
 
                 totalCount = campaignDetails.Count;
 
@@ -74,16 +83,12 @@ namespace DominatorHouseCore.Utility
 
                 try
                 {
-                    
-                    var account = new DominatorAccountModel()
+                    var account = new DominatorAccountModel
                     {
-                        AccountBaseModel = new DominatorAccountBaseModel()
+                        AccountBaseModel = new DominatorAccountBaseModel
                         {
                             AccountNetwork = Enums.SocialNetworks.Admin,
                             AccountProxy = new Proxy()
-                            {
-
-                            }
                         }
                     };
 
@@ -94,8 +99,7 @@ namespace DominatorHouseCore.Utility
                     var publisherInitialize = PublisherInitialize.GetInstance;
 
                     while (postCollection.Count < postDetailsModel.ScrapeCountPerUrl
-                        && totalCount < postCount)
-                    {
+                           && totalCount < postCount)
                         try
                         {
                             Thread.Sleep(2000);
@@ -107,15 +111,18 @@ namespace DominatorHouseCore.Utility
                             if (!BrowserManager.HasMoreResults())
                                 break;
 
-                            if (!image.Contains("http") || (!image.ToLower().Contains(".jpg") &&
-                                 !image.ToLower().Contains(".png") && !image.ToLower().Contains(".jpeg")
-                                 && !image.ToLower().Contains("format=jpeg") && !image.ToLower().Contains("googleusercontent.com"))
-                                 || campaignDetails.FirstOrDefault(x => x.MediaList.Contains(image)) != null)
+                            if (!image.Contains("http") || !image.ToLower().Contains(".jpg") &&
+                                                        !image.ToLower().Contains(".png") &&
+                                                        !image.ToLower().Contains(".jpeg")
+                                                        && !image.ToLower().Contains("format=jpeg") &&
+                                                        !image.ToLower().Contains("googleusercontent.com")
+                                                        || campaignDetails.FirstOrDefault(x =>
+                                                            x.MediaList.Contains(image)) != null)
                                 continue;
 
                             var postFetcherList = new PublisherPostlistModel
                             {
-                                MediaList = new ObservableCollection<string>() { image },
+                                MediaList = new ObservableCollection<string> {image},
                                 CampaignId = campaignId,
                                 CreatedTime = DateTime.Now,
                                 ExpiredTime = expireDate,
@@ -125,8 +132,9 @@ namespace DominatorHouseCore.Utility
                                 PostRunningStatus = PostRunningStatus.Active,
                                 PostSource = PostSource.ScrapeImages,
                                 PostDescription = postDetailsModel.IsUseFileNameAsDescription ||
-                                    postDetailsModel.LstUploadPostDescription.Count < descriptionCount ? $"{pageTitle}_{descriptionCount}" :
-                                    postDetailsModel.LstUploadPostDescription[descriptionCount]
+                                                  postDetailsModel.LstUploadPostDescription.Count < descriptionCount
+                                    ? $"{pageTitle}_{descriptionCount}"
+                                    : postDetailsModel.LstUploadPostDescription[descriptionCount]
                                 //PdSourceUrl = postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", newLink),
                                 //PublisherInstagramTitle = 
                             };
@@ -135,11 +143,11 @@ namespace DominatorHouseCore.Utility
                             PostlistFileManager.Add(campaignId, postFetcherList);
                             publisherInitialize.UpdatePostCounts(campaignId);
 
-                          
+
                             totalCount++;
                             descriptionCount++;
                         }
-                        catch (OperationCanceledException ex)
+                        catch (OperationCanceledException)
                         {
                             throw new OperationCanceledException();
                         }
@@ -147,8 +155,6 @@ namespace DominatorHouseCore.Utility
                         {
                             ex.DebugLog();
                         }
-
-                    }
 
                     BrowserManager.CloseBrowser(account);
 
@@ -161,7 +167,9 @@ namespace DominatorHouseCore.Utility
                     else
                     {
                         // Inform the maximum post has reached via Toaster notification
-                        ToasterNotification.ShowInfomation(String.Format("LangKeyPostlistReachedToMax".FromResourceDictionary(), campaignName, maximumPostLimitToStore));
+                        ToasterNotification.ShowInfomation(string.Format(
+                            "LangKeyPostlistReachedToMax".FromResourceDictionary(), campaignName,
+                            maximumPostLimitToStore));
                         return;
                     }
 
@@ -170,14 +178,14 @@ namespace DominatorHouseCore.Utility
                     if (totalCount >= postDetailsModel.ScrapeCount)
                         return;
                 }
-                catch (OperationCanceledException ex)
+                catch (OperationCanceledException)
                 {
                     throw new OperationCanceledException();
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -185,42 +193,46 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public void FetchMediaFromLink(string imageLink, ScrapePostModel postDetailsModel, string campaignId, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
+        public void FetchMediaFromLink(string imageLink, ScrapePostModel postDetailsModel, string campaignId,
+            CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
             try
             {
-                int totalCount = 1;
-                int descriptionCount = 1;
+                var totalCount = 1;
+                var descriptionCount = 1;
                 var pageTitle = string.Empty;
                 var description = string.Empty;
                 DateTime? expireDate = DateTime.Now.AddYears(2);
-                List<PublisherPostlistModel> postCollection = new List<PublisherPostlistModel>();
+                var postCollection = new List<PublisherPostlistModel>();
                 var imageUrlList = Regex.Split(imageLink, "\\[U\\]").ToList();
 
                 var campaignDetails = PostlistFileManager.GetAll(campaignId);
 
                 if (campaignDetails.Count > 0 && campaignDetails.Any(x => x.PostSource == PostSource.ScrapeImages))
                     int.TryParse(campaignDetails.LastOrDefault(x => x.PostSource == PostSource.ScrapeImages
-                            && x.PostDescription.Contains("_"))?.PostDescription?.Split('_').LastOrDefault(), out descriptionCount);
+                                                                    && x.PostDescription.Contains("_"))?.PostDescription
+                        ?.Split('_').LastOrDefault(), out descriptionCount);
 
                 var postCount = maximumPostLimitToStore - campaignDetails.Count;
 
                 imageUrlList.RemoveAll(x => string.IsNullOrEmpty(x) || x.Contains("\r\n"));
 
                 foreach (var imageUrl in imageUrlList)
-                {
                     try
                     {
                         var failedCount = 0;
 
                         cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                        var imagelist = ImageExtracter.ExtractLinkDetails(imageUrl, ref pageTitle, ref description).ToList();
+                        var imagelist = ImageExtracter.ExtractLinkDetails(imageUrl, ref pageTitle, ref description)
+                            .ToList();
 
-                        while (imagelist.Any(x => !x.Contains("https://") && !x.Contains("http://")) && failedCount++ < 4)
+                        while (imagelist.Any(x => !x.Contains("https://") && !x.Contains("http://")) &&
+                               failedCount++ < 4)
                         {
                             Thread.Sleep(1000);
-                            imagelist = ImageExtracter.ExtractLinkDetails(imageUrl, ref pageTitle, ref description).ToList();
+                            imagelist = ImageExtracter.ExtractLinkDetails(imageUrl, ref pageTitle, ref description)
+                                .ToList();
                         }
 
                         imagelist.RemoveAll(x => !x.Contains("https://") && !x.Contains("http://"));
@@ -231,7 +243,7 @@ namespace DominatorHouseCore.Utility
                         {
                             var postFetcherList = new PublisherPostlistModel
                             {
-                                MediaList = new ObservableCollection<string>() { image },
+                                MediaList = new ObservableCollection<string> {image},
                                 CampaignId = campaignId,
                                 CreatedTime = DateTime.Now,
                                 ExpiredTime = expireDate,
@@ -241,8 +253,9 @@ namespace DominatorHouseCore.Utility
                                 PostRunningStatus = PostRunningStatus.Active,
                                 PostSource = PostSource.ScrapeImages,
                                 PostDescription = postDetailsModel.IsUseFileNameAsDescription ||
-                                    postDetailsModel.LstUploadPostDescription.Count < descriptionCount ? description :
-                                    postDetailsModel.LstUploadPostDescription[descriptionCount],
+                                                  postDetailsModel.LstUploadPostDescription.Count < descriptionCount
+                                    ? description
+                                    : postDetailsModel.LstUploadPostDescription[descriptionCount],
                                 PdSourceUrl = imageUrl,
                                 PublisherInstagramTitle = pageTitle
                             };
@@ -268,7 +281,9 @@ namespace DominatorHouseCore.Utility
                         else
                         {
                             // Inform the maximum post has reached via Toaster notification
-                            ToasterNotification.ShowInfomation(String.Format("LangKeyPostlistReachedToMax".FromResourceDictionary(), campaignName, maximumPostLimitToStore));
+                            ToasterNotification.ShowInfomation(string.Format(
+                                "LangKeyPostlistReachedToMax".FromResourceDictionary(), campaignName,
+                                maximumPostLimitToStore));
                             break;
                         }
 
@@ -279,7 +294,7 @@ namespace DominatorHouseCore.Utility
                         if (totalCount >= postDetailsModel.ScrapeCount)
                             break;
                     }
-                    catch (OperationCanceledException ex)
+                    catch (OperationCanceledException)
                     {
                         throw new OperationCanceledException();
                     }
@@ -287,8 +302,6 @@ namespace DominatorHouseCore.Utility
                     {
                         ex.DebugLog();
                     }
-                }
-
             }
             catch (Exception ex)
             {

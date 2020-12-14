@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.Utility;
-using ProtoBuf;
+﻿#region
+
 using System.Collections.Generic;
+using DominatorHouseCore.Utility;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
@@ -15,7 +19,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(1)]
         public bool IsRandomPosts
         {
-            get { return _isRandomPost; }
+            get => _isRandomPost;
             set
             {
                 if (value == _isRandomPost)
@@ -30,7 +34,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(2)]
         public bool IsSpecificPosts
         {
-            get { return _isSpecificPosts; }
+            get => _isSpecificPosts;
             set
             {
                 if (value == _isSpecificPosts)
@@ -45,7 +49,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(3)]
         public List<string> ListPostUrl
         {
-            get { return _listPostUrl; }
+            get => _listPostUrl;
             set
             {
                 if (value == _listPostUrl)
@@ -60,7 +64,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(4)]
         public List<string> ListEventUrl
         {
-            get { return _listEventUrl; }
+            get => _listEventUrl;
             set
             {
                 if (value == _listEventUrl)
@@ -75,7 +79,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(5)]
         public bool IsProfileUrl
         {
-            get { return _isProfileUrl; }
+            get => _isProfileUrl;
             set
             {
                 if (value == _isProfileUrl)
@@ -84,12 +88,12 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
         }
 
-        private bool _isPostUrl=true;
+        private bool _isPostUrl = true;
 
         [ProtoMember(6)]
         public bool IsPostUrl
         {
-            get { return _isPostUrl; }
+            get => _isPostUrl;
             set
             {
                 if (value == _isPostUrl)
@@ -103,7 +107,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(7)]
         public string EventUrls
         {
-            get { return _eventUrls; }
+            get => _eventUrls;
             set
             {
                 if (value == _eventUrls)
@@ -117,7 +121,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(8)]
         public List<string> ListWatchPartyUrls
         {
-            get { return _listEventUrls; }
+            get => _listEventUrls;
             set
             {
                 if (value == _listEventUrls)
@@ -131,7 +135,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(9)]
         public string WatchPartyUrls
         {
-            get { return _watchPartyUrls; }
+            get => _watchPartyUrls;
             set
             {
                 if (value == _watchPartyUrls)
@@ -145,7 +149,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         [ProtoMember(10)]
         public bool IsGroupMember
         {
-            get { return _isGroupMember; }
+            get => _isGroupMember;
             set
             {
                 if (value == _isGroupMember)
@@ -155,13 +159,12 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
 
-
         private string _postUrlText = string.Empty;
 
         [ProtoMember(11)]
         public string PostUrlText
         {
-            get { return _postUrlText; }
+            get => _postUrlText;
             set
             {
                 if (value == _postUrlText)

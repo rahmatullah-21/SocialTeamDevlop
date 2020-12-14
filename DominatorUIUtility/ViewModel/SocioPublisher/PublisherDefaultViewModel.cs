@@ -1,4 +1,16 @@
-﻿using CommonServiceLocator;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
@@ -13,17 +25,6 @@ using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using Prism.Commands;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
@@ -31,6 +32,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
     public class PublisherDefaultViewModel : BindableBase
     {
         private readonly IGenericFileManager _genericFileManager;
+
         public PublisherDefaultViewModel(IGenericFileManager genericFileManager)
         {
             _genericFileManager = genericFileManager;
@@ -39,166 +41,28 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
             CampaignCloneCommand = new BaseCommand<object>(CampaignCloneCanExecute, CampaignCloneExecute);
             DeleteCampaignCommand = new BaseCommand<object>(DeleteCampaignCanExecute, DeleteCampaignExecute);
-            ActiveSelectedCampaignCommand = new BaseCommand<object>(ActiveSelectedCampaignCanExecute, ActiveSelectedCampaignExecute);
-            PauseSelectedCampaignCommand = new BaseCommand<object>(PauseSelectedCampaignCanExecute, PauseSelectedCampaignExecute);
-            PublishNowSelectedCampaignCommand = new BaseCommand<object>(PublishNowSelectedCampaignCanExecute, PublishNowSelectedCampaignExecute);
+            ActiveSelectedCampaignCommand =
+                new BaseCommand<object>(ActiveSelectedCampaignCanExecute, ActiveSelectedCampaignExecute);
+            PauseSelectedCampaignCommand =
+                new BaseCommand<object>(PauseSelectedCampaignCanExecute, PauseSelectedCampaignExecute);
+            PublishNowSelectedCampaignCommand = new BaseCommand<object>(PublishNowSelectedCampaignCanExecute,
+                PublishNowSelectedCampaignExecute);
             CopyCampaignId = new BaseCommand<object>(CopyCampaignIdCanExecute, CopyCampaignIdExecute);
             TutorialsCommand = new DelegateCommand(() => IsTutorialsOpen = true);
-            WatchTutorialCommand = new DelegateCommand<string>((url) => Process.Start(url));
+            WatchTutorialCommand = new DelegateCommand<string>(url => Process.Start(url));
             InitializeDefaultCampaignStatus();
         }
 
-        #region Command
 
-        /// <summary>
-        /// Copy Campaign Id is used to get the campaign Id 
-        /// </summary>
-        public ICommand CopyCampaignId { get; set; }
-
-        /// <summary>
-        /// To Navigate the user control to manage destination, Manage posts, Create campaign, and Edit Campaign
-        /// </summary>
-        public ICommand NavigationCommand { get; set; }
-
-        /// <summary>
-        /// To Enable the button's context menu on left click also
-        /// </summary>
-        public ICommand OpenContextMenuCommand { get; set; }
-
-        /// <summary>
-        /// To Select the campaign's details
-        /// </summary>
-        public ICommand SelectionCommand { get; set; }
-
-        /// <summary>
-        /// To make the clone of the campaigns
-        /// </summary>
-        public ICommand CampaignCloneCommand { get; set; }
-
-        /// <summary>
-        /// To Delete the campaign from publisher
-        /// </summary>
-        public ICommand DeleteCampaignCommand { get; set; }
-
-        /// <summary>
-        /// To make the campaign to active state
-        /// </summary>
-        public ICommand ActiveSelectedCampaignCommand { get; set; }
-
-        /// <summary>
-        /// To make the campaign to pause state
-        /// </summary>
-        public ICommand PauseSelectedCampaignCommand { get; set; }
-
-        /// <summary>
-        /// To publish the campaign's functions now without any time specific
-        /// </summary>
-        public ICommand PublishNowSelectedCampaignCommand { get; set; }
-
-        public ICommand TutorialsCommand { get; set; }
-        public ICommand WatchTutorialCommand { get; set; }
-
-        #endregion
-
-        #region Properties
-        private bool _isTutorialsOpen;
-
-        public bool IsTutorialsOpen
+        private bool PublishNowSelectedCampaignCanExecute(object sender)
         {
-            get { return _isTutorialsOpen; }
-            set { SetProperty(ref _isTutorialsOpen, value); }
+            return true;
         }
-
-
-        /// <summary>
-        /// To holds the default pages details
-        /// </summary>
-        public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels
-        {
-            get
-            {
-                return _listPublisherCampaignStatusModels;
-            }
-            set
-            {
-                _listPublisherCampaignStatusModels = value;
-                OnPropertyChanged(nameof(ListPublisherCampaignStatusModels));
-                if (IsAllCampaignSelected)
-                    ListPublisherCampaignStatusModels.Select(x =>
-                    {
-                        x.IsSelected = true;
-                        return x;
-                    }).ToList();
-
-            }
-        }
-
-        private ICollectionView _publisherCampaignStatusModelView;
-
-        /// <summary>
-        /// To specify the collection view for binding
-        /// </summary>
-        public ICollectionView PublisherCampaignStatusModelView
-        {
-            get
-            {
-                return _publisherCampaignStatusModelView;
-            }
-            set
-            {
-                if (_publisherCampaignStatusModelView != null && _publisherCampaignStatusModelView == value)
-                    return;
-                SetProperty(ref _publisherCampaignStatusModelView, value);
-            }
-        }
-
-        private bool _isAllCampaignSelected;
-        private ObservableCollection<PublisherCampaignStatusModel> _listPublisherCampaignStatusModels = new ObservableCollection<PublisherCampaignStatusModel>();
-
-        /// <summary>
-        /// To specify all campaign is selected or not
-        /// </summary>
-        public bool IsAllCampaignSelected
-        {
-            get
-            {
-                return _isAllCampaignSelected;
-            }
-            set
-            {
-                if (_isAllCampaignSelected == value)
-                    return;
-                SetProperty(ref _isAllCampaignSelected, value);
-
-                SelectAll(_isAllCampaignSelected);
-                _isUncheckedFromList = false;
-            }
-        }
-        private bool _isUncheckedFromList { get; set; }
-
-        /// <summary>
-        /// To change the selection status of the campaign
-        /// </summary>
-        /// <param name="isAllSelected"></param>
-        public void SelectAll(bool isAllSelected)
-        {
-            if (_isUncheckedFromList)
-                return;
-            ListPublisherCampaignStatusModels.Select(x =>
-            {
-                x.IsSelected = isAllSelected; return x;
-            }).ToList();
-        }
-        #endregion
-
-
-        private bool PublishNowSelectedCampaignCanExecute(object sender) => true;
 
         private void PublishNowSelectedCampaignExecute(object sender)
         {
             ThreadFactory.Instance.Start(() =>
             {
-
                 var selectedCampaigns = GetSelectedCampaigns();
                 // Call to publish now options
                 selectedCampaigns.ForEach(x =>
@@ -208,11 +72,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
                     // Set the default settings
                     InitializeDefaultCampaignStatus();
-
                 });
             });
             // Get all selected campaigns
-            
         }
 
         public void UpdateCampaignStatus(string campaignId, PublisherCampaignStatus status)
@@ -248,7 +110,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             //Save into bin file 
             _genericFileManager.UpdateModuleDetails(allCampaign, ConstantVariable.GetPublisherCampaignFile());
         }
-        private bool PauseSelectedCampaignCanExecute(object sender) => true;
+
+        private bool PauseSelectedCampaignCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void PauseSelectedCampaignExecute(object sender)
         {
@@ -264,7 +130,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Call to set the default settings
                 InitializeDefaultCampaignStatus();
 
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 //GlobusLogHelper.log.Info(Log.PublisherCampaignPaused, x.CampaignName);
             });
 
@@ -273,7 +139,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
 
-        private bool ActiveSelectedCampaignCanExecute(object sender) => true;
+        private bool ActiveSelectedCampaignCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void ActiveSelectedCampaignExecute(object sender)
         {
@@ -296,7 +165,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 GlobusLogHelper.log.Info("LangKeyCampaignStatusChangedActive".FromResourceDictionary());
         }
 
-        private bool CopyCampaignIdCanExecute(object sender) => true;
+        private bool CopyCampaignIdCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void CopyCampaignIdExecute(object sender)
         {
@@ -339,24 +211,28 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                     else
                     {
-                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectPathToExport".FromResourceDictionary());
+                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(),
+                            "LangKeySelectPathToExport".FromResourceDictionary());
                     }
                 }
                 else
                 {
-                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectCampaignToExport".FromResourceDictionary());
+                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(),
+                        "LangKeySelectCampaignToExport".FromResourceDictionary());
                 }
             }
         }
 
 
-        private bool NavigationCanExecute(object sender) => true;
+        private bool NavigationCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void NavigationExecute(object sender)
         {
             // switch to edit campaign
             if (sender is PublisherCampaignStatusModel)
-            {
                 try
                 {
                     // Get the campaign details object
@@ -375,16 +251,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     createCampign.PublisherCreateCampaignViewModel.SelectedItem = currentCampaign?.CampaignName;
 
                     // Navigate to campaign UI
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = createCampign;
-
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
+                        createCampign;
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
                 }
-            }
             else
-            {
                 try
                 {
                     var moduleName = sender.ToString();
@@ -412,21 +286,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 catch (Exception ex)
                 {
-
                     ex.DebugLog();
                 }
-            }
         }
 
-        private bool OpenContextMenuCanExecute(object sender) => true;
+        private bool OpenContextMenuCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void OpenContextMenuExecute(object sender)
         {
             try
             {
-                var contextMenu = ((Button)sender).ContextMenu;
+                var contextMenu = ((Button) sender).ContextMenu;
                 if (contextMenu == null) return;
-                contextMenu.DataContext = ((Button)sender).DataContext;
+                contextMenu.DataContext = ((Button) sender).DataContext;
                 contextMenu.IsOpen = true;
             }
             catch (Exception ex)
@@ -435,7 +310,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private bool SelectionCanExecute(object sender) => true;
+        private bool SelectionCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void SelectionExecute(object sender)
         {
@@ -458,18 +336,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "SelectManually":
 
                     if (ListPublisherCampaignStatusModels.All(x => x.IsSelected))
+                    {
                         IsAllCampaignSelected = true;
+                    }
                     else
                     {
                         if (IsAllCampaignSelected)
                             _isUncheckedFromList = true;
                         IsAllCampaignSelected = false;
                     }
+
                     break;
             }
         }
 
-        private bool CampaignCloneCanExecute(object sender) => true;
+        private bool CampaignCloneCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void CampaignCloneExecute(object sender)
         {
@@ -481,7 +365,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (isSingleDuplicate)
                 {
                     // selected campaign
-                    var campaignStatus = (PublisherCampaignStatusModel)sender;
+                    var campaignStatus = (PublisherCampaignStatusModel) sender;
 
                     // Get the deep clone
                     var clonedCampaignStatus = GetCampaginDeepClone(campaignStatus);
@@ -494,7 +378,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (campaignStatus.IsSelected)
                         clonedCampaignStatus.IsSelected = true;
 
-                    GlobusLogHelper.log.Info(campaignStatus.CampaignName + $" {"LangKeySuccessfullyDuplicated".FromResourceDictionary()}");
+                    GlobusLogHelper.log.Info(campaignStatus.CampaignName +
+                                             $" {"LangKeySuccessfullyDuplicated".FromResourceDictionary()}");
 
                     // Update in default page
                     PublisherInitialize.GetInstance.AddCampaignDetails(clonedCampaignStatus);
@@ -511,7 +396,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         x.CampaignId = clonedCampaignStatus.CampaignId;
 
                         // Move all published posts to pending posts while cloning
-                        x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published ? PostQueuedStatus.Pending : x.PostQueuedStatus;
+                        x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published
+                            ? PostQueuedStatus.Pending
+                            : x.PostQueuedStatus;
                         x.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
                         x.PostRunningStatus = PostRunningStatus.Active;
                         // Add to clone options
@@ -525,10 +412,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherInitialize.GetInstance.UpdatePostStatus(clonedCampaignStatus.CampaignId);
 
                     // Save advanced setting of all network
-                    #region Saving Advance setting
 
+                    #region Saving Advance setting
+                    
                     var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Admin);
                     var generalModels = _genericFileManager.GetModuleDetails<GeneralModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+
                     if (generalModels != null)
                     {
                         generalModels.CampaignId = clonedCampaignStatus.CampaignId;
@@ -536,7 +425,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook);
-                    var facebookModel = _genericFileManager.GetModuleDetails<FacebookModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var facebookModel = _genericFileManager.GetModuleDetails<FacebookModel>(file)
+                        .FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (facebookModel != null)
                     {
                         facebookModel.CampaignId = clonedCampaignStatus.CampaignId;
@@ -554,7 +444,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
-                    var instagramModel = _genericFileManager.GetModuleDetails<InstagramModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var instagramModel = _genericFileManager.GetModuleDetails<InstagramModel>(file)
+                        .FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (instagramModel != null)
                     {
                         instagramModel.CampaignId = clonedCampaignStatus.CampaignId;
@@ -563,7 +454,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
-                    var pinterestModel = _genericFileManager.GetModuleDetails<PinterestModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var pinterestModel = _genericFileManager.GetModuleDetails<PinterestModel>(file)
+                        .FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (pinterestModel != null)
                     {
                         pinterestModel.CampaignId = clonedCampaignStatus.CampaignId;
@@ -572,7 +464,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
-                    var tumblrModel = _genericFileManager.GetModuleDetails<TumblrModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var tumblrModel = _genericFileManager.GetModuleDetails<TumblrModel>(file)
+                        .FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (tumblrModel != null)
                     {
                         tumblrModel.CampaignId = clonedCampaignStatus.CampaignId;
@@ -580,7 +473,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
-                    var twitterModel = _genericFileManager.GetModuleDetails<TwitterModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var twitterModel = _genericFileManager.GetModuleDetails<TwitterModel>(file)
+                        .FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (twitterModel != null)
                     {
                         twitterModel.CampaignId = clonedCampaignStatus.CampaignId;
@@ -589,14 +483,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
-                    var redditModel = _genericFileManager.GetModuleDetails<RedditModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var redditModel = _genericFileManager.GetModuleDetails<RedditModel>(file)
+                        .FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (redditModel != null)
                     {
                         redditModel.CampaignId = clonedCampaignStatus.CampaignId;
                         _genericFileManager.AddModule(redditModel, file);
                     }
-
-
 
                     #endregion
 
@@ -606,7 +499,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
 
                     // Save all manage destinations
-                    PublisherManageDestinationModel.AddCampaignToDestinationList(publisherPostFetchModel?.SelectedDestinations, clonedCampaignStatus.CampaignId);
+                    PublisherManageDestinationModel.AddCampaignToDestinationList(
+                        publisherPostFetchModel?.SelectedDestinations, clonedCampaignStatus.CampaignId);
 
                     // Enable the post fetcher options
                     var allFetchDetails = _genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
@@ -622,7 +516,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     });
 
                     // Add to bin file for post fetcher
-                    _genericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
+                    _genericFileManager.AddRangeModule(currentCampaignsFetchDetails,
+                        ConstantVariable.GetPublisherPostFetchFile);
 
                     var publisherPostFetcher = new PublisherPostFetcher();
                     publisherPostFetcher.FetchPostsForCampaign(clonedCampaignStatus.CampaignId);
@@ -630,7 +525,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     // Schedule the today job process if campaign is active
                     if (clonedCampaignStatus.Status == PublisherCampaignStatus.Active)
                         PublishScheduler.ScheduleTodaysPublisherByCampaign(clonedCampaignStatus.CampaignId);
-
                 }
                 else
                 {
@@ -659,7 +553,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             x.GenerateClonePostId();
                             x.CampaignId = clonedCampaignStatus.CampaignId;
                             // Move all published posts to pending posts while cloning
-                            x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published ? PostQueuedStatus.Pending : x.PostQueuedStatus;
+                            x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published
+                                ? PostQueuedStatus.Pending
+                                : x.PostQueuedStatus;
                             x.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
                             x.PostRunningStatus = PostRunningStatus.Active;
                             // Add to clone options
@@ -679,8 +575,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             publisherPostFetchModel?.SelectedDestinations, clonedCampaignStatus.CampaignId);
 
                         // get post fetcher model
-                        var allFetchDetails = _genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
-                            .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaign.CampaignId);
+                        var allFetchDetails = _genericFileManager.GetModuleDetails<PublisherPostFetchModel>(
+                            ConstantVariable
+                                .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaign.CampaignId);
 
                         var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
 
@@ -693,7 +590,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         });
 
                         // Add to bin file for post fetcher
-                        _genericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
+                        _genericFileManager.AddRangeModule(currentCampaignsFetchDetails,
+                            ConstantVariable.GetPublisherPostFetchFile);
 
                         var publisherPostFetcher = new PublisherPostFetcher();
 
@@ -719,8 +617,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Get the saved campaign detail
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 var duplicatedCampaign = genericFileManager
-                       .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile())
-                       .FirstOrDefault(campaign => campaign.CampaignId == campaignId);
+                    .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile())
+                    .FirstOrDefault(campaign => campaign.CampaignId == campaignId);
 
                 if (duplicatedCampaign == null)
                     return;
@@ -743,7 +641,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 ex.DebugLog();
             }
-
         }
 
         public void SelectAllCampaign()
@@ -751,7 +648,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // select all campaign
             ListPublisherCampaignStatusModels.Select(x =>
             {
-                x.IsSelected = true; return x;
+                x.IsSelected = true;
+                return x;
             }).ToList();
         }
 
@@ -760,23 +658,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // deselect all campaign
             ListPublisherCampaignStatusModels.Select(x =>
             {
-                x.IsSelected = false; return x;
+                x.IsSelected = false;
+                return x;
             }).ToList();
         }
 
-        public bool DeleteCampaignCanExecute(object sender) => true;
+        public bool DeleteCampaignCanExecute(object sender)
+        {
+            return true;
+        }
 
         public void DeleteCampaignExecute(object sender)
         {
-
             var isIndividualDelete = sender is PublisherCampaignStatusModel;
             var campaignList = PublisherManagePosts.Instance.PublisherManagePostsViewModel.CampaignList;
             // Single delete campaign
             if (isIndividualDelete)
             {
-                var campaign = (PublisherCampaignStatusModel)sender;
+                var campaign = (PublisherCampaignStatusModel) sender;
 
-                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmOnIfDeletedCantRecoverBack".FromResourceDictionary(),
+                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(),
+                    "LangKeyConfirmOnIfDeletedCantRecoverBack".FromResourceDictionary(),
                     "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
 
                 if (dialogResult != MessageDialogResult.Affirmative)
@@ -787,9 +689,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     ConstantVariable.GetPublisherCampaignFile());
 
                 // remove from campaign Ui
-                PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel.CampaignList.Remove(campaign.CampaignName);
+                PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .CampaignList.Remove(campaign.CampaignName);
                 ListPublisherCampaignStatusModels.Remove(campaign);
-                
+
                 // Stop publishing the post
                 PublishScheduler.StopPublishingPosts(campaign.CampaignId);
 
@@ -797,7 +700,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherManageDestinationModel.RemoveDestinationFromCampaign(campaign.CampaignId);
 
                 // Stop publishing delete model
-                _genericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetDeletePublisherPostModel);
+                _genericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId,
+                    ConstantVariable.GetDeletePublisherPostModel);
 
                 // stop fetching posts for a campaign
                 PublisherPostFetcher.StopFetchingPostsByCampaignId(campaign.CampaignId);
@@ -805,6 +709,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Delete the post list bin file for the campaign
                 _genericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{campaign.CampaignId}.bin");
                 GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Admin, campaign.CampaignName, "Publisher Campaign", $"{campaign.CampaignName} {"LangKeyDeletedSuccessfully".FromResourceDictionary()}");
+
 
                 //update campaign list in managepost
                 campaignList.Remove(campaignList.FirstOrDefault(x => x.Id == campaign.CampaignId));
@@ -816,24 +721,28 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (publisherCampaignStatusModels.Count == 0)
                 {
-                    Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAtleastOneCampaign".FromResourceDictionary());
+                    Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(),
+                        "LangKeySelectAtleastOneCampaign".FromResourceDictionary());
                     return;
                 }
 
-                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmOnIfDeletedWillDeleteAllSelectedCampaign".FromResourceDictionary(),
+                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(),
+                    "LangKeyConfirmOnIfDeletedWillDeleteAllSelectedCampaign".FromResourceDictionary(),
                     "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
-                _genericFileManager.Delete<PublisherCreateCampaignModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
+                _genericFileManager.Delete<PublisherCreateCampaignModel>(
+                    x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherCampaignFile());
 
                 publisherCampaignStatusModels.ForEach(x =>
                 {
                     // remove from campaign Ui
                     ListPublisherCampaignStatusModels.Remove(x);
-                    PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel.CampaignList.Remove(x.CampaignName);
+                    PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                        .CampaignList.Remove(x.CampaignName);
 
                     // Stop publishing the post
                     PublishScheduler.StopPublishingPosts(x.CampaignId);
@@ -842,34 +751,41 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherManageDestinationModel.RemoveDestinationFromCampaign(x.CampaignId);
 
                     // Stop publishing delete model
-                    _genericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId, ConstantVariable.GetDeletePublisherPostModel);
+                    _genericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId,
+                        ConstantVariable.GetDeletePublisherPostModel);
 
                     // stop fetching posts for a campaign
                     PublisherPostFetcher.StopFetchingPostsByCampaignId(x.CampaignId);
 
                     // Delete the post list bin file for the campaign
-                    _genericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{x.CampaignId}.bin");
+                    _genericFileManager.DeleteBinFiles(
+                        $"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{x.CampaignId}.bin");
 
                     //update campaign list in managepost
                     campaignList.Remove(campaignList.FirstOrDefault(y => y.Id == x.CampaignId));
                 });
 
-                _genericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
+                _genericFileManager.Delete<PublisherPostFetchModel>(
+                    x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);
                 GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Admin, "", "Publisher Campaign", "LangKeyCampaignDeletionCompleted".FromResourceDictionary());
 
+
             }
+
             if (ListPublisherCampaignStatusModels.Count == 0 ||
                 !ListPublisherCampaignStatusModels.Any(x => x.IsSelected))
                 IsAllCampaignSelected = false;
         }
 
         /// <summary>
-        /// Get all selected campaign
+        ///     Get all selected campaign
         /// </summary>
         /// <returns></returns>
         private List<PublisherCampaignStatusModel> GetSelectedCampaigns()
-            => ListPublisherCampaignStatusModels.Where(x => x.IsSelected).ToList();
+        {
+            return ListPublisherCampaignStatusModels.Where(x => x.IsSelected).ToList();
+        }
 
         public void InitializeDefaultCampaignStatus()
         {
@@ -879,7 +795,149 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
         // Get the deep clone
-        public PublisherCampaignStatusModel GetCampaginDeepClone(PublisherCampaignStatusModel publisherCampaignStatusModel)
-            => publisherCampaignStatusModel.DeepClone();
+        public PublisherCampaignStatusModel GetCampaginDeepClone(
+            PublisherCampaignStatusModel publisherCampaignStatusModel)
+        {
+            return publisherCampaignStatusModel.DeepClone();
+        }
+
+        #region Command
+
+        /// <summary>
+        ///     Copy Campaign Id is used to get the campaign Id
+        /// </summary>
+        public ICommand CopyCampaignId { get; set; }
+
+        /// <summary>
+        ///     To Navigate the user control to manage destination, Manage posts, Create campaign, and Edit Campaign
+        /// </summary>
+        public ICommand NavigationCommand { get; set; }
+
+        /// <summary>
+        ///     To Enable the button's context menu on left click also
+        /// </summary>
+        public ICommand OpenContextMenuCommand { get; set; }
+
+        /// <summary>
+        ///     To Select the campaign's details
+        /// </summary>
+        public ICommand SelectionCommand { get; set; }
+
+        /// <summary>
+        ///     To make the clone of the campaigns
+        /// </summary>
+        public ICommand CampaignCloneCommand { get; set; }
+
+        /// <summary>
+        ///     To Delete the campaign from publisher
+        /// </summary>
+        public ICommand DeleteCampaignCommand { get; set; }
+
+        /// <summary>
+        ///     To make the campaign to active state
+        /// </summary>
+        public ICommand ActiveSelectedCampaignCommand { get; set; }
+
+        /// <summary>
+        ///     To make the campaign to pause state
+        /// </summary>
+        public ICommand PauseSelectedCampaignCommand { get; set; }
+
+        /// <summary>
+        ///     To publish the campaign's functions now without any time specific
+        /// </summary>
+        public ICommand PublishNowSelectedCampaignCommand { get; set; }
+
+        public ICommand TutorialsCommand { get; set; }
+        public ICommand WatchTutorialCommand { get; set; }
+
+        #endregion
+
+        #region Properties
+
+        private bool _isTutorialsOpen;
+
+        public bool IsTutorialsOpen
+        {
+            get => _isTutorialsOpen;
+            set => SetProperty(ref _isTutorialsOpen, value);
+        }
+
+
+        /// <summary>
+        ///     To holds the default pages details
+        /// </summary>
+        public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels
+        {
+            get => _listPublisherCampaignStatusModels;
+            set
+            {
+                _listPublisherCampaignStatusModels = value;
+                OnPropertyChanged(nameof(ListPublisherCampaignStatusModels));
+                if (IsAllCampaignSelected)
+                    ListPublisherCampaignStatusModels.Select(x =>
+                    {
+                        x.IsSelected = true;
+                        return x;
+                    }).ToList();
+            }
+        }
+
+        private ICollectionView _publisherCampaignStatusModelView;
+
+        /// <summary>
+        ///     To specify the collection view for binding
+        /// </summary>
+        public ICollectionView PublisherCampaignStatusModelView
+        {
+            get => _publisherCampaignStatusModelView;
+            set
+            {
+                if (_publisherCampaignStatusModelView != null && _publisherCampaignStatusModelView == value)
+                    return;
+                SetProperty(ref _publisherCampaignStatusModelView, value);
+            }
+        }
+
+        private bool _isAllCampaignSelected;
+
+        private ObservableCollection<PublisherCampaignStatusModel> _listPublisherCampaignStatusModels =
+            new ObservableCollection<PublisherCampaignStatusModel>();
+
+        /// <summary>
+        ///     To specify all campaign is selected or not
+        /// </summary>
+        public bool IsAllCampaignSelected
+        {
+            get => _isAllCampaignSelected;
+            set
+            {
+                if (_isAllCampaignSelected == value)
+                    return;
+                SetProperty(ref _isAllCampaignSelected, value);
+
+                SelectAll(_isAllCampaignSelected);
+                _isUncheckedFromList = false;
+            }
+        }
+
+        private bool _isUncheckedFromList { get; set; }
+
+        /// <summary>
+        ///     To change the selection status of the campaign
+        /// </summary>
+        /// <param name="isAllSelected"></param>
+        public void SelectAll(bool isAllSelected)
+        {
+            if (_isUncheckedFromList)
+                return;
+            ListPublisherCampaignStatusModels.Select(x =>
+            {
+                x.IsSelected = isAllSelected;
+                return x;
+            }).ToList();
+        }
+
+        #endregion
     }
 }

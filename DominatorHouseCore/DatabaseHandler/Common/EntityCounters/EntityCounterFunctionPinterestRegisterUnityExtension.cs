@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.DatabaseHandler.PdTables.Accounts;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.PdTables.Accounts;
 using DominatorHouseCore.Enums;
 using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
@@ -32,7 +36,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedBoards>(SocialNetworks.Pinterest, true));
 
             Container
-               .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
+                .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
                         new DateEpochFilterPredicate<InteractedPosts>(
                             a => a.InteractionDate),

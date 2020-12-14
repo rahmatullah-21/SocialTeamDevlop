@@ -9,6 +9,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using CommonServiceLocator;
+using DominatorHouse.ThreadUtils;
 using CoreUtilities = DominatorHouseCore.Utility.Utilities;
 
 namespace DominatorHouse.Social
@@ -16,14 +18,20 @@ namespace DominatorHouse.Social
 
     public class SocialBrowserManager : ISocialBrowserManager
     {
-        private CancellationToken cancellationToken;
+        private CancellationToken _cancellationToken;
+        private IDelayService _delayService;
 
         public BrowserWindow BrowserWindow { get; set; }
+
+        public SocialBrowserManager()
+        {
+            _delayService = ServiceLocator.Current.GetInstance<IDelayService>();
+        }
 
 
         private void AssignCancellationToken(CancellationToken cancellationToken)
         {
-            this.cancellationToken = cancellationToken;
+            this._cancellationToken = cancellationToken;
         }
 
         public bool BrowserLogin(DominatorAccountModel account, CancellationToken cancellationToken, LoginType loginType = LoginType.AutomationLogin, VerificationType verificationType = 0)
@@ -39,7 +47,7 @@ namespace DominatorHouse.Social
                     if (loginType == LoginType.AutomationLogin || loginType == LoginType.BrowserLogin
                           || loginType == LoginType.InitialiseBrowser || (loginType == LoginType.CheckLogin && BrowserWindow.IsDisposed))
                         BrowserWindow = new BrowserWindow(account) //, userAgent:"Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko"
-                        { Visibility = Visibility.Hidden, _isLoggedIn = false };
+                        { Visibility = Visibility.Hidden, IsLoggedIn = false };
 
                     if (loginType == LoginType.BrowserLogin)
                         BrowserWindow.Visibility = Visibility.Visible;
@@ -49,7 +57,7 @@ namespace DominatorHouse.Social
 #endif
 
                     BrowserWindow.Show();
-                    await Task.Delay(3000, cancellationToken);
+                    await _delayService.DelayAsync(3000, cancellationToken);
 
                     var pageSource = await BrowserWindow.GetPageSourceAsync();
 
@@ -59,7 +67,7 @@ namespace DominatorHouse.Social
                                 && (DateTime.Now - currentTime).TotalSeconds < 60)
                     {
                         BrowserWindow.Refresh();
-                        await Task.Delay(5000, cancellationToken);
+                        await _delayService.DelayAsync(5000, cancellationToken);
                     }
 
                     AssignCancellationToken(cancellationToken);
@@ -74,7 +82,7 @@ namespace DominatorHouse.Social
             });
 
             while (isRunning)
-                Task.Delay(1000).Wait();
+                _delayService.DelayAsync(1000, cancellationToken).Wait(cancellationToken);
 
             return account.IsUserLoggedIn;
         }
@@ -91,22 +99,22 @@ namespace DominatorHouse.Social
                     {
                         BrowserWindow.Close();
                         BrowserWindow.Dispose();
-                        await Task.Delay(1000);
+                        await _delayService.DelayAsync(1000, _cancellationToken);
                         isRunning = false;
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
-
+                        exc.DebugLog();
                     }
                 });
             }
-            catch (Exception)
+            catch (Exception exc)
             {
-
+                exc.DebugLog();
             }
 
             while (isRunning)
-                Task.Delay(500).Wait();
+                _delayService.DelayAsync(500, _cancellationToken).Wait(_cancellationToken);
         }
 
         public void ExpandGoogleImagesFromLink(string url, ref string title)
@@ -131,7 +139,7 @@ namespace DominatorHouse.Social
                         while ((string.IsNullOrEmpty(imageTagCount) || int.Parse(imageTagCount) < 50) && (DateTime.Now - currentTime).TotalSeconds < 60)
                         {
                             await BrowserWindow.GoToCustomUrl(url, delayAfter: 5);
-                            await Task.Delay(5000, cancellationToken);
+                            await _delayService.DelayAsync(5000, _cancellationToken);
                             imageTagCount = await BrowserWindow.GetElementValueAsync(ActType.GetLength, AttributeType.TagName,
                             "img");
                         }
@@ -162,7 +170,7 @@ namespace DominatorHouse.Social
             }
 
             while (isRunning)
-                Task.Delay(500).Wait(cancellationToken);
+                _delayService.DelayAsync(500, _cancellationToken).Wait(_cancellationToken);
 
             title = currentTitle;
         }
@@ -188,7 +196,7 @@ namespace DominatorHouse.Social
 
                         while (!imageUrl.StartsWith("http") && (DateTime.Now - currentTime).TotalSeconds < 10)
                         {
-                            await Task.Delay(200, cancellationToken);
+                            await _delayService.DelayAsync(200, _cancellationToken);
                             pageSource = await BrowserWindow.GetPageSourceAsync();
                             pageSource = Regex.Split(pageSource, "polygon>").Length > 1 ? Regex.Split(pageSource, "polygon>")[1]
                               : string.Empty;
@@ -213,7 +221,7 @@ namespace DominatorHouse.Social
             }
 
             while (isRunning)
-                Task.Delay(500).Wait(cancellationToken);
+                _delayService.DelayAsync(500, _cancellationToken).Wait(_cancellationToken);
 
             return imageUrl ?? string.Empty;
         }
@@ -253,7 +261,7 @@ namespace DominatorHouse.Social
             }
 
             while (isRunning)
-                Task.Delay(500).Wait(cancellationToken);
+                _delayService.DelayAsync(500, _cancellationToken).Wait(_cancellationToken);
 
             return hasMoreResults;
         }

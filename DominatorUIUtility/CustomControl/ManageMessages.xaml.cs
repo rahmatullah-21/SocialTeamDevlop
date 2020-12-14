@@ -10,35 +10,37 @@ using DominatorHouseCore.Utility;
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for ManageMessages.xaml
+    ///     Interaction logic for ManageMessages.xaml
     /// </summary>
-    public partial class ManageMessages : UserControl
+    public partial class ManageMessages
     {
+        // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LstManageMessagesModelProperty =
+            DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>),
+                typeof(ManageMessages), new PropertyMetadata());
+
         public ManageMessages()
         {
             InitializeComponent();
             MainGrid.DataContext = this;
         }
+
         public ObservableCollection<ManageMessagesModel> LstManageMessagesModel
         {
-            get { return (ObservableCollection<ManageMessagesModel>)GetValue(LstManageMessagesModelProperty); }
-            set { SetValue(LstManageMessagesModelProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LstManageMessagesModelProperty =
-            DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(ManageMessages), new PropertyMetadata(OnAvailableItemsChanged));
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
+            get => (ObservableCollection<ManageMessagesModel>) GetValue(LstManageMessagesModelProperty);
+            set => SetValue(LstManageMessagesModelProperty, value);
         }
 
         private void BtnAction_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                ((Button)sender).ContextMenu.DataContext = ((Button)sender).DataContext;
-                ((Button)sender).ContextMenu.IsOpen = true;
+                var contextMenu = ((Button) sender).ContextMenu;
+                if (contextMenu != null)
+                {
+                    contextMenu.DataContext = ((Button) sender).DataContext;
+                    contextMenu.IsOpen = true;
+                }
             }
             catch (Exception ex)
             {
@@ -50,29 +52,30 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var currentItem = ((FrameworkElement)sender).DataContext as ManageMessagesModel;
+                var currentItem = ((FrameworkElement) sender).DataContext as ManageMessagesModel;
                 if (currentItem == null)
                     return;
                 var editMessage = new MessagesControl
                 {
-                    btnAddMessagesToList = { Content = "Update Message" },
+                    btnAddMessagesToList = {Content = "Update Message"},
                     Messages = new ManageMessagesModel
                     {
                         MessagesText = currentItem.MessagesText,
                         LstQueries = new ObservableCollection<QueryContent>(currentItem.LstQueries),
                         MessageId = currentItem.MessageId,
-                        SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery),
+                        SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery)
                     },
                     LstManageMessagesModel = LstManageMessagesModel
                 };
                 editMessage.Messages.LstQueries.ToList().ForEach(x =>
                 {
-                    x.IsContentSelected = editMessage.Messages.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType);
+                    x.IsContentSelected = editMessage.Messages.SelectedQuery.Any(y =>
+                        y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType);
                 });
 
                 editMessage.MainGrid.Margin = new Thickness(20);
-                Dialog dialog = new Dialog();
-                Window window = dialog.GetMetroWindow(editMessage, "Edit Message");
+                var dialog = new Dialog();
+                var window = dialog.GetMetroWindow(editMessage, "Edit Message");
                 window.Closed += (s, evnt) =>
                 {
                     if (editMessage.Isupdated)
@@ -80,7 +83,8 @@ namespace DominatorUIUtility.CustomControl
                         var indexToUpdate = LstManageMessagesModel.IndexOf(currentItem);
                         LstManageMessagesModel[indexToUpdate] = editMessage.Messages;
                     }
-                    currentItem.LstQueries.Select(query => query.IsContentSelected = false).ToList();
+
+                    currentItem.LstQueries.ForEach(query => query.IsContentSelected = false);
                 };
                 window.ShowDialog();
             }
@@ -92,7 +96,7 @@ namespace DominatorUIUtility.CustomControl
 
         private void DeleteSingleMessage_OnClick(object sender, RoutedEventArgs e)
         {
-            var currentItem = ((FrameworkElement)sender).DataContext as ManageMessagesModel;
+            var currentItem = ((FrameworkElement) sender).DataContext as ManageMessagesModel;
             LstManageMessagesModel.Remove(currentItem);
         }
     }

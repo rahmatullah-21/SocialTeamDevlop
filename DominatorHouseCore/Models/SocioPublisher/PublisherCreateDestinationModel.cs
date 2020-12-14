@@ -1,21 +1,25 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces.SocioPublisher;
-using DominatorHouseCore.Utility;
-using ProtoBuf;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using CommonServiceLocator;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces.SocioPublisher;
+using DominatorHouseCore.Utility;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
     /// <summary>
-    /// To hold the all neccessary data for creating destination 
+    ///     To hold the all neccessary data for creating destination
     /// </summary>
     [ProtoContract]
     public class PublisherCreateDestinationModel : INotifyPropertyChanged
@@ -30,15 +34,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private string _destinationName;
 
         /// <summary>
-        /// To specify the destination Id 
+        ///     To specify the destination Id
         /// </summary>
         [ProtoMember(1)]
         public string DestinationId
         {
-            get
-            {
-                return _destinationId;
-            }
+            get => _destinationId;
             set
             {
                 if (_destinationId == value)
@@ -50,15 +51,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         /// <summary>
-        /// To specify the destination name
+        ///     To specify the destination name
         /// </summary>
         [ProtoMember(2)]
         public string DestinationName
         {
-            get
-            {
-                return _destinationName;
-            }
+            get => _destinationName;
             set
             {
                 if (_destinationName == value)
@@ -69,15 +67,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify the groups should be remove if its requires admin verification
+        ///     To specify the groups should be remove if its requires admin verification
         /// </summary>
         [ProtoMember(3)]
         public bool IsRemoveGroupsRequiresApproval
         {
-            get
-            {
-                return _isRemoveGroupsRequiresApproval;
-            }
+            get => _isRemoveGroupsRequiresApproval;
             set
             {
                 if (_isRemoveGroupsRequiresApproval == value)
@@ -89,15 +84,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         /// <summary>
-        /// To specify whether need to consider newly added groups to destination list 
+        ///     To specify whether need to consider newly added groups to destination list
         /// </summary>
         [ProtoMember(4)]
         public bool IsAddedNewGroups
         {
-            get
-            {
-                return _isAddedNewGroups;
-            }
+            get => _isAddedNewGroups;
             set
             {
                 if (_isAddedNewGroups == value)
@@ -108,16 +100,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To hold all selected pages or boards along with account Id
-        /// Key should be account Id and value should be page or board Url
+        ///     To hold all selected pages or boards along with account Id
+        ///     Key should be account Id and value should be page or board Url
         /// </summary>
         [ProtoMember(5)]
         public List<KeyValuePair<string, string>> AccountPagesBoardsPair
         {
-            get
-            {
-                return _accountPagesBoardsPair;
-            }
+            get => _accountPagesBoardsPair;
             set
             {
                 if (_accountPagesBoardsPair == value)
@@ -128,16 +117,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To hold all selected groups along with account Id
-        /// Key should be account Id and value should be group Url
+        ///     To hold all selected groups along with account Id
+        ///     Key should be account Id and value should be group Url
         /// </summary>
         [ProtoMember(6)]
         public List<KeyValuePair<string, string>> AccountGroupPair
         {
-            get
-            {
-                return _accountGroupPair;
-            }
+            get => _accountGroupPair;
             set
             {
                 if (_accountGroupPair == value)
@@ -148,15 +134,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To hold all selected account Id
+        ///     To hold all selected account Id
         /// </summary>
         [ProtoMember(7)]
         public List<string> SelectedAccountIds
         {
-            get
-            {
-                return _selectedAccountIds;
-            }
+            get => _selectedAccountIds;
             set
             {
                 if (_selectedAccountIds == value)
@@ -167,15 +150,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To hold account Id which should post on own wall
+        ///     To hold account Id which should post on own wall
         /// </summary>
         [ProtoMember(8)]
         public List<string> PublishOwnWallAccount
         {
-            get
-            {
-                return _publishOwnWallAccount;
-            }
+            get => _publishOwnWallAccount;
             set
             {
                 if (_publishOwnWallAccount == value)
@@ -187,24 +167,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         /// <summary>
-        /// To specify the date when destination created
+        ///     To specify the date when destination created
         /// </summary>
         [ProtoMember(9)]
         public DateTime CreatedDate { get; set; }
 
 
-        private ObservableCollection<PublisherCreateDestinationSelectModel> _listSelectDestination = new ObservableCollection<PublisherCreateDestinationSelectModel>();
+        private ObservableCollection<PublisherCreateDestinationSelectModel> _listSelectDestination =
+            new ObservableCollection<PublisherCreateDestinationSelectModel>();
 
         /// <summary>
-        /// To hold all destination list which holds all group,page count both selected and total
-        /// </summary>     
+        ///     To hold all destination list which holds all group,page count both selected and total
+        /// </summary>
         [ProtoMember(10)]
         public ObservableCollection<PublisherCreateDestinationSelectModel> ListSelectDestination
         {
-            get
-            {
-                return _listSelectDestination;
-            }
+            get => _listSelectDestination;
             set
             {
                 if (_listSelectDestination == value)
@@ -215,14 +193,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private List<KeyValuePair<SocialNetworks, string>> _accountsWithNetwork = new List<KeyValuePair<SocialNetworks, string>>();
+        private List<KeyValuePair<SocialNetworks, string>> _accountsWithNetwork =
+            new List<KeyValuePair<SocialNetworks, string>>();
+
         [ProtoMember(11)]
         public List<KeyValuePair<SocialNetworks, string>> AccountsWithNetwork
         {
-            get
-            {
-                return _accountsWithNetwork;
-            }
+            get => _accountsWithNetwork;
             set
             {
                 if (_accountsWithNetwork == value)
@@ -233,15 +210,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private List<KeyValuePair<string, PublisherCustomDestinationModel>> _customDestinations = new List<KeyValuePair<string, PublisherCustomDestinationModel>>();
+        private List<KeyValuePair<string, PublisherCustomDestinationModel>> _customDestinations =
+            new List<KeyValuePair<string, PublisherCustomDestinationModel>>();
 
         [ProtoMember(12)]
         public List<KeyValuePair<string, PublisherCustomDestinationModel>> CustomDestinations
         {
-            get
-            {
-                return _customDestinations;
-            }
+            get => _customDestinations;
             set
             {
                 if (_customDestinations == value)
@@ -251,14 +226,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private List<PublisherDestinationDetailsModel> _destinationDetailsModels = new List<PublisherDestinationDetailsModel>();
+        private List<PublisherDestinationDetailsModel> _destinationDetailsModels =
+            new List<PublisherDestinationDetailsModel>();
+
         [ProtoMember(13)]
         public List<PublisherDestinationDetailsModel> DestinationDetailsModels
         {
-            get
-            {
-                return _destinationDetailsModels;
-            }
+            get => _destinationDetailsModels;
             set
             {
                 if (_destinationDetailsModels == value)
@@ -278,11 +252,15 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To assign the default for the destination
+        ///     To assign the default for the destination
         /// </summary>
-        /// <returns>returns as filled default value of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></returns>
+        /// <returns>
+        ///     returns as filled default value of
+        ///     <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel" />
+        /// </returns>
         public static PublisherCreateDestinationModel DestinationDefaultBuilder()
-            => new PublisherCreateDestinationModel
+        {
+            return new PublisherCreateDestinationModel
             {
                 DestinationName = $"Default-{ConstantVariable.GetDateTime()}",
                 DestinationId = Utilities.GetGuid(),
@@ -295,6 +273,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 CreatedDate = DateTime.Now,
                 DestinationDetailsModels = new List<PublisherDestinationDetailsModel>()
             };
+        }
 
         private readonly IBinFileHelper _binFileHelper;
 
@@ -304,26 +283,39 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To add the given destination to bin file
+        ///     To add the given destination to bin file
         /// </summary>
-        /// <param name="publisherCreateDestinationModel">pass parameter as filled default value of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></param>
+        /// <param name="publisherCreateDestinationModel">
+        ///     pass parameter as filled default value of
+        ///     <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel" />
+        /// </param>
         /// <returns></returns>
         public bool AddDestination(PublisherCreateDestinationModel publisherCreateDestinationModel)
-            => _binFileHelper.AddDestination(publisherCreateDestinationModel);
+        {
+            return _binFileHelper.AddDestination(publisherCreateDestinationModel);
+        }
 
         /// <summary>
-        /// To update the given destination to list
+        ///     To update the given destination to list
         /// </summary>
-        /// <param name="publisherCreateDestinationModel">pass parameter as update value of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></param>
+        /// <param name="publisherCreateDestinationModel">
+        ///     pass parameter as update value of
+        ///     <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel" />
+        /// </param>
         /// <returns></returns>
         public bool UpdateDestination(PublisherCreateDestinationModel publisherCreateDestinationModel)
-            => _binFileHelper.UpdateDestination(publisherCreateDestinationModel);
+        {
+            return _binFileHelper.UpdateDestination(publisherCreateDestinationModel);
+        }
 
         /// <summary>
-        /// To get the destination details
+        ///     To get the destination details
         /// </summary>
         /// <param name="destinationId">Id of the destination</param>
-        /// <returns>returns as matched condition of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></returns>
+        /// <returns>
+        ///     returns as matched condition of
+        ///     <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel" />
+        /// </returns>
         public PublisherCreateDestinationModel GetDestination(string destinationId)
         {
             var publisherCreateDestinationModel = _binFileHelper.GetDestination(destinationId);
@@ -339,7 +331,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             var publisherCreateDestinationModel = GetDestination(destinationId);
 
             if (publisherCreateDestinationModel.IsAddedNewGroups)
-            {
                 publisherCreateDestinationModel.AccountsWithNetwork.ForEach(async x =>
                 {
                     try
@@ -351,26 +342,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
                                 .GetNetworkCoreFactory().AccountDetailsSelectors;
 
                             if (accountsDetailsSelector != null && accountsDetailsSelector.IsGroupsAvailables)
-                            {
                                 try
                                 {
-                                    var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
+                                    var groups = await accountsDetailsSelector.GetGroupUrls(x.Value,
+                                        publisherCreateDestinationModel.CreatedDate);
                                     var alreadyPresentedGroups =
                                         publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
                                     foreach (var group in groups)
-                                    {
                                         if (!alreadyPresentedGroups.Contains(group))
-                                        {
-                                            publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
-                                        }
-                                    }
+                                            publisherCreateDestinationModel.AccountGroupPair.Add(
+                                                new KeyValuePair<string, string>(x.Value, group));
                                 }
                                 catch (Exception ex)
                                 {
-
                                     ex.DebugLog();
                                 }
-                            }
+
                             PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId,
                                 publisherCreateDestinationModel.AccountGroupPair.Count);
                         }
@@ -380,12 +367,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
                         ex.DebugLog();
                     }
                 });
-            }
         }
 
-        public void RemoveGroupsFromDestination(string destinationId, string accountId, SocialNetworks network, string groupUrl)
+        public void RemoveGroupsFromDestination(string destinationId, string accountId, SocialNetworks network,
+            string groupUrl)
         {
-
             var updateCreateDestinationModel = GetDestination(destinationId);
 
             if (!updateCreateDestinationModel.IsRemoveGroupsRequiresApproval)
@@ -397,46 +383,33 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             updateCreateDestinationModel.AccountGroupPair.Remove(removeDestination);
 
-            PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId, updateCreateDestinationModel.AccountGroupPair.Count);
+            PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId,
+                updateCreateDestinationModel.AccountGroupPair.Count);
 
             UpdateDestination(updateCreateDestinationModel);
         }
-
-
-
     }
-
 
 
     [ProtoContract]
     public class PublisherDestinationDetailsModel : IPublisherDestinationDetailsModel
     {
+        [ProtoMember(1)] public string DestinationUrl { get; set; } = string.Empty;
 
-        [ProtoMember(1)]
-        public string DestinationUrl { get; set; } = string.Empty;
+        [ProtoMember(2)] public string DestinationType { get; set; } = string.Empty;
 
-        [ProtoMember(2)]
-        public string DestinationType { get; set; } = string.Empty;
+        [ProtoMember(3)] public string AccountId { get; set; } = string.Empty;
 
-        [ProtoMember(3)]
-        public string AccountId { get; set; } = string.Empty;
+        [ProtoMember(4)] public SocialNetworks SocialNetworks { get; set; }
 
-        [ProtoMember(4)]
-        public SocialNetworks SocialNetworks { get; set; }
+        [ProtoIgnore] public PublisherPostlistModel PublisherPostlistModel { get; set; } = new PublisherPostlistModel();
 
-        [ProtoIgnore]
-        public PublisherPostlistModel PublisherPostlistModel { get; set; } = new PublisherPostlistModel();
+        [ProtoMember(5)] public bool IsCustomDestintions { get; set; }
 
-        [ProtoMember(5)]
-        public bool IsCustomDestintions { get; set; }
+        [ProtoMember(6)] public string DestinationGuid { get; set; } = string.Empty;
 
-        [ProtoMember(6)]
-        public string DestinationGuid { get; set; } = string.Empty;
+        [ProtoMember(7)] public string AccountName { get; set; } = string.Empty;
 
-        [ProtoMember(7)]
-        public string AccountName { get; set; } = string.Empty;
-
-        [ProtoMember(8)]
-        public string AccountGroupName { get; set; } = string.Empty;
+        [ProtoMember(8)] public string AccountGroupName { get; set; } = string.Empty;
     }
 }

@@ -1,20 +1,17 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface ICompanyScraperViewModel
     {
     }
+
     public class CompanyScraperViewModel : StartupBaseViewModel, ICompanyScraperViewModel
     {
         public CompanyScraperViewModel(IRegionManager region) : base(region)
@@ -37,6 +34,4 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListQueryType.Clear();
         }
     }
-
-
 }

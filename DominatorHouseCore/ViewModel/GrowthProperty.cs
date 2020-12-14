@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -10,32 +14,20 @@ namespace DominatorHouseCore.ViewModel
 
         public string PropertyName
         {
-            get
-            {
-                return _propertyName;
-            }
-            set
-            {
-                SetProperty(ref _propertyName, value);
-            }
+            get => _propertyName;
+            set => SetProperty(ref _propertyName, value);
         }
 
         public int PropertyValue
         {
-            get
-            {
-                return _propertyValue;
-            }
-            set
-            {
-                SetProperty(ref _propertyValue, value);
-            }
+            get => _propertyValue;
+            set => SetProperty(ref _propertyValue, value);
         }
 
         public bool IsChecked
         {
-            get { return _isChecked; }
-            set { SetProperty(ref _isChecked, value); }
+            get => _isChecked;
+            set => SetProperty(ref _isChecked, value);
         }
     }
 }

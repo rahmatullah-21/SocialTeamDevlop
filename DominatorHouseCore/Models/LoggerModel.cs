@@ -1,16 +1,19 @@
-﻿using System;
+﻿#region
+
+using System;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     public class LoggerModel : BindableBase
     {
-       
         private DateTime _dateTime;
 
         public DateTime DateTime
         {
-            get { return _dateTime; }
+            get => _dateTime;
             set
             {
                 if (value == _dateTime)
@@ -18,11 +21,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _dateTime, value);
             }
         }
+
         private string _network;
 
         public string Network
         {
-            get { return _network; }
+            get => _network;
             set
             {
                 if (_network != null && value == _network)
@@ -30,11 +34,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _network, value);
             }
         }
+
         private string _activityType;
 
         public string ActivityType
         {
-            get { return _activityType; }
+            get => _activityType;
             set
             {
                 if (_activityType != null && value == _activityType)
@@ -42,11 +47,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _activityType, value);
             }
         }
+
         private string _accountCampaign;
 
         public string AccountCampaign
         {
-            get { return _accountCampaign; }
+            get => _accountCampaign;
             set
             {
                 if (_accountCampaign != null && value == _accountCampaign)
@@ -54,11 +60,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _accountCampaign, value);
             }
         }
+
         private string _message;
 
         public string Message
         {
-            get { return _message; }
+            get => _message;
             set
             {
                 if (_message != null && value == _message)
@@ -66,11 +73,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _message, value);
             }
         }
+
         private string _logType = "Info";
 
         public string LogType
         {
-            get { return _logType; }
+            get => _logType;
             set
             {
                 if (_logType != null && value == _logType)
@@ -78,11 +86,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _logType, value);
             }
         }
-        private string _messageCode ;
+
+        private string _messageCode;
 
         public string MessageCode
         {
-            get { return _messageCode; }
+            get => _messageCode;
             set
             {
                 if (_messageCode != null && value == _messageCode)

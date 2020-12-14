@@ -1,6 +1,9 @@
-﻿using DominatorHouseCore.Enums;
-using System;
+﻿#region
 
+using System;
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {

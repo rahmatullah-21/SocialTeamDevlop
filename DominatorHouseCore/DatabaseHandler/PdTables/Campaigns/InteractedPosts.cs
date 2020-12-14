@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 {
@@ -18,10 +22,10 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         //ID/Path of the media file
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string MediaString { get; set; }
+
         /// <summary>
-        /// Message/Description of the tweet
+        ///     Message/Description of the tweet
         /// </summary>
-        /// 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string PinDescription { get; set; }
@@ -43,13 +47,11 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
         //Duration of the video tweets
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public double VideoDuration
-        { get; set; }
+        public double VideoDuration { get; set; }
 
         //View Count of the video tweets
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public int ViewCount
-        { get; set; }
+        public int ViewCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string PinWebUrl { get; set; }
@@ -76,8 +78,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public string Query { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string SourceBoard { get; set; }
@@ -90,18 +91,25 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
         public string CommentId { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
         public string BoardLabel { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
         public string DestinationBoard { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
         public string Comment { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
         public string PublishedDate { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string PinTitle { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
         public string GeneratedPinId { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 29)]
         public string Status { get; set; }
     }

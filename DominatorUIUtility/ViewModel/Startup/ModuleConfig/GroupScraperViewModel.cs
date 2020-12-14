@@ -1,17 +1,17 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-   
     public interface IGroupScraperViewModel
     {
     }
+
     public class GroupScraperViewModel : StartupBaseViewModel, IGroupScraperViewModel
     {
         public GroupScraperViewModel(IRegionManager region) : base(region)
@@ -23,7 +23,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
-
                 ActivitiesPerJobDisplayName = "LangKeyScrapNumberOfGroupsPerJob".FromResourceDictionary(),
                 ActivitiesPerHourDisplayName = "LangKeyScrapNumberOfGroupsPerHour".FromResourceDictionary(),
                 ActivitiesPerDayDisplayName = "LangKeyScrapNumberOfGroupsPerDay".FromResourceDictionary(),

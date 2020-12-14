@@ -1,17 +1,15 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces.StartUp;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using CommonServiceLocator;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig;
 using Prism.Commands;
 using Prism.Regions;
 using ProtoBuf;
-using System.Collections.Generic;
-using System.Windows;
-using System;
-using System.Linq;
-using CommonServiceLocator;
-using DominatorUIUtility.Behaviours;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -32,124 +30,96 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         [ProtoMember(3)]
         public bool IsChkPeopleFollowedBySoftwareCheecked
         {
-            get { return _isChkPeopleFollowedBySoftwareCheecked; }
-            set
-            {
-                SetProperty(ref _isChkPeopleFollowedBySoftwareCheecked, value);
-            }
+            get => _isChkPeopleFollowedBySoftwareCheecked;
+            set => SetProperty(ref _isChkPeopleFollowedBySoftwareCheecked, value);
         }
 
 
         [ProtoMember(4)]
         public bool IsChkPeopleFollowedOutsideSoftwareChecked
         {
-            get { return _isChkPeopleFollowedOutsideSoftwareChecked; }
-            set
-            {
-                SetProperty(ref _isChkPeopleFollowedOutsideSoftwareChecked, value);
-            }
+            get => _isChkPeopleFollowedOutsideSoftwareChecked;
+            set => SetProperty(ref _isChkPeopleFollowedOutsideSoftwareChecked, value);
         }
 
 
         [ProtoMember(5)]
         public bool IsChkCustomUsersListChecked
         {
-            get { return _isChkCustomUsersListChecked; }
-            set
-            {
-                SetProperty(ref _isChkCustomUsersListChecked, value);
-            }
+            get => _isChkCustomUsersListChecked;
+            set => SetProperty(ref _isChkCustomUsersListChecked, value);
         }
 
 
         [ProtoMember(6)]
         public bool IsWhoDoNotFollowBackChecked
         {
-            get { return _isWhoDoNotFollowBackChecked; }
-            set
-            {
-
-                SetProperty(ref _isWhoDoNotFollowBackChecked, value);
-            }
+            get => _isWhoDoNotFollowBackChecked;
+            set => SetProperty(ref _isWhoDoNotFollowBackChecked, value);
         }
 
 
         [ProtoMember(7)]
         public bool IsWhoFollowBackChecked
         {
-            get { return _isWhoFollowBackChecked; }
-            set
-            {
-
-                SetProperty(ref _isWhoFollowBackChecked, value);
-            }
+            get => _isWhoFollowBackChecked;
+            set => SetProperty(ref _isWhoFollowBackChecked, value);
         }
 
         [ProtoMember(8)]
         public bool IsUserFollowedBeforeChecked
         {
-            get { return _isUserFollowedBeforeChecked; }
-            set
-            {
-                SetProperty(ref _isUserFollowedBeforeChecked, value);
-            }
+            get => _isUserFollowedBeforeChecked;
+            set => SetProperty(ref _isUserFollowedBeforeChecked, value);
         }
 
 
         [ProtoMember(9)]
         public int FollowedBeforeDay
         {
-            get { return _followedBeforeDay; }
-            set
-            {
-                SetProperty(ref _followedBeforeDay, value);
-            }
+            get => _followedBeforeDay;
+            set => SetProperty(ref _followedBeforeDay, value);
         }
 
 
         [ProtoMember(10)]
         public int FollowedBeforeHour
         {
-            get { return _followedBeforeHour; }
-            set
-            {
-                SetProperty(ref _followedBeforeHour, value);
-            }
+            get => _followedBeforeHour;
+            set => SetProperty(ref _followedBeforeHour, value);
         }
 
 
         [ProtoMember(11)]
         public string CustomUsers
         {
-            get { return _customUsers; }
-            set { SetProperty(ref _customUsers, value); }
+            get => _customUsers;
+            set => SetProperty(ref _customUsers, value);
         }
 
 
         [ProtoMember(12)]
         public List<string> ListCustomUsers
         {
-            get { return _listOfCustomUsers; }
-            set
-            {
-                SetProperty(ref _listOfCustomUsers, value);
-            }
+            get => _listOfCustomUsers;
+            set => SetProperty(ref _listOfCustomUsers, value);
         }
 
         [ProtoMember(13)]
         public bool IsRdWhoDoNotFollowBackChecked
         {
-            get { return _isWhoDoNotFollowBackChecked; }
+            get => _isWhoDoNotFollowBackChecked;
             set
             {
                 SetProperty(ref _isWhoDoNotFollowBackChecked, value);
                 IsWhoDoNotFollowBackChecked = value;
             }
         }
+
         [ProtoMember(14)]
         public bool IsRdWhoFollowBackChecked
         {
-            get { return _isWhoFollowBackChecked; }
+            get => _isWhoFollowBackChecked;
             set
             {
                 SetProperty(ref _isWhoFollowBackChecked, value);
@@ -157,6 +127,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
     }
+
     public interface IUnFollowerViewModel : ITwitterVisibilityModel
     {
         bool IsChkPeopleFollowedBySoftwareChecked { get; set; }
@@ -170,20 +141,27 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         int FollowedBeforeHour { get; set; }
 
         UnFollower UnFollower { get; set; }
-
     }
 
     public class UnFollowerViewModel : StartupBaseViewModel, IUnFollowerViewModel
     {
+        private string _customUsersList;
+        private int _followedBeforeDay;
+
+        private int _followedBeforeHour;
+        private bool _isChkCustomUsersListChecked;
+        private bool _isChkPeopleFollowedBySoftwareChecked;
+        private bool _isChkPeopleFollowedOutsideSoftwareChecked;
+
+        private bool _isUserFollowedBeforeChecked;
+        private bool _isWhoDoNotFollowBackChecked;
+        private bool _isWhoFollowBackChecked;
         private UnFollower _UnFollower = new UnFollower();
-        public Visibility TwitterElementsVisibility { get; set; } = Visibility.Collapsed;
-        public Visibility InstagramElementsVisibility { get; set; } = Visibility.Collapsed;
-        public Visibility AllVisibility { get; set; } = Visibility.Visible;
-        public bool IsVisible { get; set; }
-        SocialNetworks network;
+        private readonly SocialNetworks network;
+
         public UnFollowerViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Unfollow });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.Unfollow});
             IsNonQuery = true;
             NextCommand = new DelegateCommand(NextValidation);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -193,7 +171,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             if (InstagramElementsVisibility == Visibility.Visible)
                 AllVisibility = Visibility.Collapsed;
-            network = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount.AccountBaseModel.AccountNetwork;
+            network = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount.AccountBaseModel
+                .AccountNetwork;
             if (network == SocialNetworks.Reddit || network == SocialNetworks.Instagram)
                 IsVisible = true;
             JobConfiguration = new JobConfiguration
@@ -207,10 +186,135 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
-       
+
+        public Visibility InstagramElementsVisibility { get; set; } = Visibility.Collapsed;
+        public Visibility AllVisibility { get; set; } = Visibility.Visible;
+        public bool IsVisible { get; set; }
+
+        [ProtoMember(13)]
+        public bool IsRdWhoDoNotFollowBackChecked
+        {
+            get => _isWhoDoNotFollowBackChecked;
+            set
+            {
+                SetProperty(ref _isWhoDoNotFollowBackChecked, value);
+                IsWhoDoNotFollowBackChecked = value;
+            }
+        }
+
+        [ProtoMember(14)]
+        public bool IsRdWhoFollowBackChecked
+        {
+            get => _isWhoFollowBackChecked;
+            set
+            {
+                SetProperty(ref _isWhoFollowBackChecked, value);
+                IsWhoFollowBackChecked = value;
+            }
+        }
+
+        public Visibility TwitterElementsVisibility { get; set; } = Visibility.Collapsed;
+
+        public UnFollower UnFollower
+        {
+            get => _UnFollower;
+            set => SetProperty(ref _UnFollower, value);
+        }
+
+        public string CustomUsersList
+        {
+            get => _customUsersList;
+            set
+            {
+                SetProperty(ref _customUsersList, value);
+                UnFollower.CustomUsers = value;
+            }
+        }
+
+        public int FollowedBeforeDay
+        {
+            get => _followedBeforeDay;
+            set
+            {
+                SetProperty(ref _followedBeforeDay, value);
+                UnFollower.FollowedBeforeDay = value;
+            }
+        }
+
+        public int FollowedBeforeHour
+        {
+            get => _followedBeforeHour;
+            set
+            {
+                SetProperty(ref _followedBeforeHour, value);
+                UnFollower.FollowedBeforeHour = value;
+            }
+        }
+
+        public bool IsChkCustomUsersListChecked
+        {
+            get => _isChkCustomUsersListChecked;
+            set
+            {
+                SetProperty(ref _isChkCustomUsersListChecked, value);
+                UnFollower.IsChkCustomUsersListChecked = value;
+            }
+        }
+
+        public bool IsChkPeopleFollowedBySoftwareChecked
+        {
+            get => _isChkPeopleFollowedBySoftwareChecked;
+            set
+            {
+                SetProperty(ref _isChkPeopleFollowedBySoftwareChecked, value);
+                UnFollower.IsChkPeopleFollowedBySoftwareCheecked = value;
+            }
+        }
+
+        public bool IsChkPeopleFollowedOutsideSoftwareChecked
+        {
+            get => _isChkPeopleFollowedOutsideSoftwareChecked;
+            set
+            {
+                SetProperty(ref _isChkPeopleFollowedOutsideSoftwareChecked, value);
+                UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked = value;
+            }
+        }
+
+        public bool IsUserFollowedBeforeChecked
+        {
+            get => _isUserFollowedBeforeChecked;
+            set
+            {
+                SetProperty(ref _isUserFollowedBeforeChecked, value);
+                UnFollower.IsUserFollowedBeforeChecked = value;
+            }
+        }
+
+        public bool IsWhoDoNotFollowBackChecked
+        {
+            get => _isWhoDoNotFollowBackChecked;
+            set
+            {
+                SetProperty(ref _isWhoDoNotFollowBackChecked, value);
+                UnFollower.IsWhoDoNotFollowBackChecked = value;
+            }
+        }
+
+        public bool IsWhoFollowBackChecked
+        {
+            get => _isWhoFollowBackChecked;
+            set
+            {
+                SetProperty(ref _isWhoFollowBackChecked, value);
+                UnFollower.IsWhoFollowBackChecked = value;
+            }
+        }
+
         private void NextValidation()
         {
-            if (_UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked || _UnFollower.IsChkPeopleFollowedBySoftwareCheecked || _UnFollower.IsChkCustomUsersListChecked)
+            if (_UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked ||
+                _UnFollower.IsChkPeopleFollowedBySoftwareCheecked || _UnFollower.IsChkCustomUsersListChecked)
             {
                 if (network != SocialNetworks.Reddit)
                 {
@@ -220,176 +324,32 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                             NavigateNext();
                     }
                     else
+                    {
                         Dialog.ShowDialog("Error", "Please select Unfollow source type.");
+                    }
                 }
                 else if (CheckCustomUser())
+                {
                     NavigateNext();
+                }
             }
             else
             {
                 Dialog.ShowDialog("Error", "Please select Unfollow source.");
-                return;
             }
         }
-        bool CheckCustomUser()
+
+        private bool CheckCustomUser()
         {
-            if (!_UnFollower.IsChkCustomUsersListChecked)
+            if (!_UnFollower.IsChkCustomUsersListChecked) return true;
+
+            if (!string.IsNullOrEmpty(_UnFollower.CustomUsers))
+            {
                 return true;
-            else
-            {
-                if (!string.IsNullOrEmpty(_UnFollower.CustomUsers))
-                    return true;
-                else
-                {
-                    Dialog.ShowDialog("Error", "Please enter user list.");
-                    return false;
-                }
             }
-        }
-        public UnFollower UnFollower
-        {
-            get { return _UnFollower; }
-            set { SetProperty(ref _UnFollower, value); }
-        }
 
-        private string _customUsersList;
-        public string CustomUsersList
-        {
-            get
-            {
-                return _customUsersList;
-            }
-            set
-            {
-                SetProperty(ref _customUsersList, value);
-                UnFollower.CustomUsers = value;
-            }
-        }
-        int _followedBeforeDay;
-        public int FollowedBeforeDay
-        {
-            get
-            {
-                return _followedBeforeDay;
-            }
-            set
-            {
-                SetProperty(ref _followedBeforeDay, value);
-                UnFollower.FollowedBeforeDay = value;
-            }
-        }
-
-        private int _followedBeforeHour;
-        public int FollowedBeforeHour
-        {
-            get
-            {
-                return _followedBeforeHour;
-            }
-            set
-            {
-                SetProperty(ref _followedBeforeHour, value);
-                UnFollower.FollowedBeforeHour = value;
-            }
-        }
-        private bool _isChkCustomUsersListChecked;
-        public bool IsChkCustomUsersListChecked
-        {
-            get
-            {
-                return _isChkCustomUsersListChecked;
-            }
-            set
-            {
-                SetProperty(ref _isChkCustomUsersListChecked, value);
-                UnFollower.IsChkCustomUsersListChecked = value;
-            }
-        }
-        private bool _isChkPeopleFollowedBySoftwareChecked;
-        public bool IsChkPeopleFollowedBySoftwareChecked
-        {
-            get
-            {
-                return _isChkPeopleFollowedBySoftwareChecked;
-            }
-            set
-            {
-                SetProperty(ref _isChkPeopleFollowedBySoftwareChecked, value);
-                UnFollower.IsChkPeopleFollowedBySoftwareCheecked = value;
-            }
-        }
-        private bool _isChkPeopleFollowedOutsideSoftwareChecked;
-        public bool IsChkPeopleFollowedOutsideSoftwareChecked
-        {
-            get
-            {
-                return _isChkPeopleFollowedOutsideSoftwareChecked;
-            }
-            set
-            {
-                SetProperty(ref _isChkPeopleFollowedOutsideSoftwareChecked, value);
-                UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked = value;
-            }
-        }
-
-        private bool _isUserFollowedBeforeChecked;
-        public bool IsUserFollowedBeforeChecked
-        {
-            get
-            {
-                return _isUserFollowedBeforeChecked;
-            }
-            set
-            {
-                SetProperty(ref _isUserFollowedBeforeChecked, value);
-                UnFollower.IsUserFollowedBeforeChecked = value;
-            }
-        }
-        private bool _isWhoDoNotFollowBackChecked;
-        public bool IsWhoDoNotFollowBackChecked
-        {
-            get
-            {
-                return _isWhoDoNotFollowBackChecked;
-            }
-            set
-            {
-                SetProperty(ref _isWhoDoNotFollowBackChecked, value);
-                UnFollower.IsWhoDoNotFollowBackChecked = value;
-            }
-        }
-        private bool _isWhoFollowBackChecked;
-        public bool IsWhoFollowBackChecked
-        {
-            get
-            {
-                return _isWhoFollowBackChecked;
-            }
-            set
-            {
-                SetProperty(ref _isWhoFollowBackChecked, value);
-                UnFollower.IsWhoFollowBackChecked = value;
-            }
-        }
-        [ProtoMember(13)]
-        public bool IsRdWhoDoNotFollowBackChecked
-        {
-            get { return _isWhoDoNotFollowBackChecked; }
-            set
-            {
-                SetProperty(ref _isWhoDoNotFollowBackChecked, value);
-                IsWhoDoNotFollowBackChecked = value;
-            }
-        }
-        [ProtoMember(14)]
-        public bool IsRdWhoFollowBackChecked
-        {
-            get { return _isWhoFollowBackChecked; }
-            set
-            {
-                SetProperty(ref _isWhoFollowBackChecked, value);
-                IsWhoFollowBackChecked = value;
-            }
+            Dialog.ShowDialog("Error", "Please enter user list.");
+            return false;
         }
     }
 }

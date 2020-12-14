@@ -1,16 +1,17 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IMarketPlaceScraperViewModel
     {
     }
+
     public class MarketPlaceScraperViewModel : StartupBaseViewModel, IMarketPlaceScraperViewModel
     {
         public MarketPlaceScraperViewModel(IRegionManager region) : base(region)
