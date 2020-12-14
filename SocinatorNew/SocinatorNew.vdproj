@@ -1053,6 +1053,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5F191D6F3A86C0FD6504442BF6504807"
+        "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5F191D6F3A86C0FD6504442BF6504807"
+        "OwnerKey" = "8:_F67440357ED84642C61AB0615FB7BE7D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5F8B05E39AA18E919FA5B00C37BD69E1"
         "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
         "MsmSig" = "8:_UNDEFINED"
@@ -2296,7 +2308,7 @@
         "Entry"
         {
         "MsmKey" = "8:_D87E56BE7835B6E97D4ABC4565354693"
-        "OwnerKey" = "8:_FCE5C12EE6B096D412999439226495E9"
+        "OwnerKey" = "8:_5F191D6F3A86C0FD6504442BF6504807"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2734,6 +2746,12 @@
         "Entry"
         {
         "MsmKey" = "8:_EDE91BA1E410F3DF660D9B4835EC704D"
+        "OwnerKey" = "8:_8FDBF2A22E51CA493E9B6929F57294F9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EDE91BA1E410F3DF660D9B4835EC704D"
         "OwnerKey" = "8:_DDD44C6450E0E0FBB922CBE6E69E5654"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2747,6 +2765,12 @@
         {
         "MsmKey" = "8:_EDE91BA1E410F3DF660D9B4835EC704D"
         "OwnerKey" = "8:_7E635606844A8AA3A5D972DAE3F6CB42"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EDE91BA1E410F3DF660D9B4835EC704D"
+        "OwnerKey" = "8:_010AABB2F3595E13D684DE1B06B1DEEE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2825,6 +2849,12 @@
         {
         "MsmKey" = "8:_F411B8558A0DA7F04E162ED83CB87E31"
         "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F411B8558A0DA7F04E162ED83CB87E31"
+        "OwnerKey" = "8:_BE4122B7A761695099F62340BE0FBA2A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3015,30 +3045,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FCE5C12EE6B096D412999439226495E9"
-        "OwnerKey" = "8:_010AABB2F3595E13D684DE1B06B1DEEE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FCE5C12EE6B096D412999439226495E9"
-        "OwnerKey" = "8:_8FDBF2A22E51CA493E9B6929F57294F9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FCE5C12EE6B096D412999439226495E9"
-        "OwnerKey" = "8:_F67440357ED84642C61AB0615FB7BE7D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FCE5C12EE6B096D412999439226495E9"
-        "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_FD4B7EE42C51435385A5D964D796F39A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -3178,6 +3184,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5F191D6F3A86C0FD6504442BF6504807"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_1E78D9AA3F560DAC221C0CC8A841A39F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -3203,12 +3215,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_010AABB2F3595E13D684DE1B06B1DEEE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FCE5C12EE6B096D412999439226495E9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3917,6 +3923,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_BDD7208EBA48B6E7138F2D68318BEEBA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CB34D20D1A632EE78FE0EAE3821B15BE"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -5637,6 +5649,37 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5F191D6F3A86C0FD6504442BF6504807"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Prism, Version=8.0.0.1909, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_5F191D6F3A86C0FD6504442BF6504807"
+                    {
+                    "Name" = "8:Prism.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Prism.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_700B19654AF749FA895365FE0BFB2982"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -8854,37 +8897,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FCE5C12EE6B096D412999439226495E9"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Prism, Version=8.0.0.1909, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_FCE5C12EE6B096D412999439226495E9"
-                    {
-                    "Name" = "8:Prism.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Prism.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_700B19654AF749FA895365FE0BFB2982"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FD4B7EE42C51435385A5D964D796F39A"
             {
             "SourcePath" = "8:..\\DominatorHouse\\d3dcompiler_47.dll"
@@ -9034,19 +9046,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
-        "ProductCode" = "8:{D91FE168-2692-4AA8-AD49-EC14112C4968}"
-        "PackageCode" = "8:{CD9B74AD-95D3-4431-9049-1E4FAF7E8A5F}"
+        "ProductCode" = "8:{BAB02A96-C7A0-4374-909D-84380271C112}"
+        "PackageCode" = "8:{4FB18CA2-3D54-4F9D-B47D-C00EBB1FAFB3}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.98"
+        "ProductVersion" = "8:1.0.373"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://socinator.com/contact-us/"
-        "Title" = "8:Socinator 1.0.0.98"
+        "Title" = "8:Socinator 1.0.0.373"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Socinator"
         "Keywords" = "8:"
