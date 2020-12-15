@@ -12,7 +12,7 @@ namespace DominatorHouseCore.Utility
         public static string ApiUrl => $"{(object) INSTAGRAM_BASE_URL}api/v1/";
         public static string Api_B_Url => $"{(object) INSTAGRAM_B_BASE_URL}api/v1/";
 
-        public static string ApplicationName => "Socinator";
+        public static string ApplicationName => "Cricial Engagement";
 
         //public static string Web_Mob_Api_Url =>$"Mozilla/5.0 (Linux; Android 10; RMX2027 Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.83 Mobile Safari/537.36 Instagram 144.0.0.25.119 Android (29/10; 320dpi; 720x1456; realme; RMX2027; RMX2027; mt6768; en_US; 217948964)";
         public static string ContentTypeDefault => "application/x-www-form-urlencoded; charset=UTF-8";
