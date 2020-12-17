@@ -1,19 +1,18 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     public class WhitelistUserModel : BindableBase
     {
-      
-
         private string _whitelistUser;
 
         public string WhitelistUser
         {
-            get
-            {
-                return _whitelistUser;
-            }
+            get => _whitelistUser;
             set
             {
                 if (value == _whitelistUser)
@@ -21,11 +20,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _whitelistUser, value);
             }
         }
+
         private bool _isWhiteListUserChecked;
 
         public bool IsWhiteListUserChecked
         {
-            get { return _isWhiteListUserChecked; }
+            get => _isWhiteListUserChecked;
             set
             {
                 if (value == _isWhiteListUserChecked)
@@ -33,6 +33,5 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isWhiteListUserChecked, value);
             }
         }
-       
     }
 }

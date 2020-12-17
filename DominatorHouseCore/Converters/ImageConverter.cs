@@ -1,10 +1,14 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -17,7 +21,9 @@ namespace DominatorHouseCore.Converters
             try
             {
                 if (File.Exists(value?.ToString()) || ImageExtracter.IsValidUrl(value?.ToString()))
-                    return string.IsNullOrEmpty(value?.ToString()) ? new BitmapImage() : new BitmapImage(new Uri(value.ToString()));
+                    return string.IsNullOrEmpty(value?.ToString())
+                        ? new BitmapImage()
+                        : new BitmapImage(new Uri(value.ToString()));
 
                 if (!File.Exists(filePath))
                     Utilities.DownloadNotFound();
@@ -28,6 +34,7 @@ namespace DominatorHouseCore.Converters
                     File.Delete(filePath);
                     Utilities.DownloadNotFound();
                 }
+
                 return new BitmapImage(new Uri(filePath));
             }
             catch (Exception ex)
@@ -35,7 +42,6 @@ namespace DominatorHouseCore.Converters
                 ex.DebugLog();
                 return new BitmapImage(new Uri(filePath));
             }
-
         }
 
         [ExcludeFromCodeCoverage]
@@ -44,7 +50,5 @@ namespace DominatorHouseCore.Converters
         {
             throw new NotSupportedException();
         }
-
     }
-
 }

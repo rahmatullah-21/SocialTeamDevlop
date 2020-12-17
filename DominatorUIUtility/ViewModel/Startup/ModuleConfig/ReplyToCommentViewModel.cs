@@ -1,4 +1,9 @@
-﻿using DominatorHouseCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using DominatorHouseCore;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -6,35 +11,27 @@ using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.AccountSetting.CustomControl;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-
-using Dialog = DominatorHouseCore.Utility.Dialog;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IReplyToCommentViewModel
     {
     }
+
     public class ReplyToCommentViewModel : StartupBaseViewModel, IReplyToCommentViewModel
     {
-        public ICommand DeleteQueryCommand { get; set; }
-        public ICommand AddCommentsCommand { get; set; }
-        public ICommand DeleteMulipleCommand { get; set; }
-        public ICommand AddQueryCommentCommand { get; set; }
+        public bool _isActionasOwnAccountChecked = true;
+
+        public bool _isActionasPageChecked;
 
         public ReplyToCommentViewModel(IRegionManager region) : base(region)
         {
-
             AddQueryCommentCommand = new DelegateCommand<object>(AddQueryComments);
             DeleteQueryCommand = new DelegateCommand<object>(DeleteQuery);
             AddCommentsCommand = new DelegateCommand<object>(AddComments);
             DeleteMulipleCommand = new DelegateCommand<object>(DeleteMuliple);
 
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.ReplyToComment });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.ReplyToComment});
             NextCommand = new DelegateCommand(ReplyToCommentValidation);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -51,6 +48,42 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
         }
 
+        public ICommand DeleteQueryCommand { get; set; }
+        public ICommand AddCommentsCommand { get; set; }
+        public ICommand DeleteMulipleCommand { get; set; }
+        public ICommand AddQueryCommentCommand { get; set; }
+
+        public bool IsActionasPageChecked
+        {
+            get => _isActionasPageChecked;
+            set
+            {
+                if (value == _isActionasPageChecked)
+                    return;
+                SetProperty(ref _isActionasPageChecked, value);
+            }
+        }
+
+        public bool IsActionasOwnAccountChecked
+        {
+            get => _isActionasOwnAccountChecked;
+            set
+            {
+                if (value == _isActionasOwnAccountChecked)
+                    return;
+                SetProperty(ref _isActionasOwnAccountChecked, value);
+            }
+        }
+
+        public string OwnPageUrl { get; set; }
+
+        public List<string> ListOwnPageUrl { get; set; } = new List<string>();
+
+        public ObservableCollection<ManageCommentModel> LstManageCommentModel { get; set; } =
+            new ObservableCollection<ManageCommentModel>();
+
+        public ManageCommentModel ManageCommentsModel { get; set; } = new ManageCommentModel();
+
         private void ReplyToCommentValidation()
         {
             if (!IsActionasPageChecked && !IsActionasOwnAccountChecked)
@@ -59,7 +92,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            if (IsActionasPageChecked && ListOwnPageUrl.Count==0)
+            if (IsActionasPageChecked && ListOwnPageUrl.Count == 0)
             {
                 Dialog.ShowDialog("Warning", "Please Select PageUrls");
                 return;
@@ -74,39 +107,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             NavigateNext();
         }
 
-        public bool _isActionasPageChecked;
-        public bool IsActionasPageChecked
-        {
-            get { return _isActionasPageChecked; }
-            set
-            {
-                if (value == _isActionasPageChecked)
-                    return;
-                SetProperty(ref _isActionasPageChecked, value);
-            }
-        }
-
-        public bool _isActionasOwnAccountChecked = true;
-        public bool IsActionasOwnAccountChecked
-        {
-            get { return _isActionasOwnAccountChecked; }
-            set
-            {
-                if (value == _isActionasOwnAccountChecked)
-                    return;
-                SetProperty(ref _isActionasOwnAccountChecked, value);
-            }
-        }
-
-        public string OwnPageUrl { get; set; }
-
-        public List<string> ListOwnPageUrl { get; set; }=new List<string>();
-
-        public ObservableCollection<ManageCommentModel> LstManageCommentModel { get; set; } =
-            new ObservableCollection<ManageCommentModel>();
-
-        public ManageCommentModel ManageCommentsModel { get; set; } = new ManageCommentModel();
-
         private void DeleteQuery(object sender)
         {
             try
@@ -114,8 +114,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 var currentQuery = sender as QueryInfo;
 
                 var queryToDelete = ManageCommentsModel.LstQueries.FirstOrDefault(x =>
-                    currentQuery != null && (x.Content.QueryValue == currentQuery.QueryValue
-                                             && x.Content.QueryType == currentQuery.QueryType));
+                    currentQuery != null && x.Content.QueryValue == currentQuery.QueryValue &&
+                    x.Content.QueryType == currentQuery.QueryType);
 
 
                 if (SavedQueries.Any(x => currentQuery != null && x.Id == currentQuery.Id))
@@ -125,18 +125,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ManageCommentsModel.LstQueries.Remove(queryToDelete);
                 foreach (var message in LstManageCommentModel.ToList())
                 {
-                    var selectedQuery = message.SelectedQuery.FirstOrDefault(x => queryToDelete != null && x.Content.Id == queryToDelete.Content.Id);
+                    var selectedQuery = message.SelectedQuery.FirstOrDefault(x =>
+                        queryToDelete != null && x.Content.Id == queryToDelete.Content.Id);
                     message.SelectedQuery.Remove(selectedQuery);
                     if (message.SelectedQuery.Count == 0)
                         LstManageCommentModel.Remove(message);
                 }
-
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
         }
 
         private void AddComments(object sender)
@@ -194,10 +193,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             try
             {
                 foreach (var currentQuery in selectedQuery)
-                {
                     try
                     {
-
                         var queryToDelete = ManageCommentsModel.LstQueries.FirstOrDefault(x =>
                             x.Content.QueryValue == currentQuery.QueryValue
                             && x.Content.QueryType == currentQuery.QueryType);
@@ -219,7 +216,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     {
                         ex.DebugLog();
                     }
-                }
             }
             catch (Exception ex)
             {
@@ -233,15 +229,18 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             {
                 var activitySetting = sender as ActivitySettingWithoutButton;
 
-                if (activitySetting == null || string.IsNullOrEmpty(activitySetting.QueryControl.CurrentQuery.QueryValue.Trim()) && !activitySetting.QueryControl.QueryCollection.Any())
+                if (activitySetting == null ||
+                    string.IsNullOrEmpty(activitySetting.QueryControl.CurrentQuery.QueryValue.Trim()) &&
+                    !activitySetting.QueryControl.QueryCollection.Any())
                     return;
 
                 var splittedQueries = activitySetting.QueryControl.CurrentQuery.QueryValue.Contains(",")
-                    ? activitySetting.QueryControl.CurrentQuery.QueryValue.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).ToList()
-                    : new List<string> { activitySetting.QueryControl.CurrentQuery.QueryValue };
+                    ? activitySetting.QueryControl.CurrentQuery.QueryValue.Split(',')
+                        .Where(x => !string.IsNullOrEmpty(x.Trim())).ToList()
+                    : new List<string> {activitySetting.QueryControl.CurrentQuery.QueryValue};
 
-                if (string.IsNullOrEmpty(activitySetting.QueryControl.CurrentQuery.QueryValue) && activitySetting.QueryControl.QueryCollection.Count != 0)
-                {
+                if (string.IsNullOrEmpty(activitySetting.QueryControl.CurrentQuery.QueryValue) &&
+                    activitySetting.QueryControl.QueryCollection.Count != 0)
                     foreach (var queryValue in activitySetting.QueryControl.QueryCollection)
                     {
                         if (ManageCommentsModel.LstQueries.Any(x =>
@@ -260,15 +259,14 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                             ManageCommentsModel.LstQueries.Add(addNew);
                             LstManageCommentModel.ForEach(x =>
                             {
-                                if (!x.LstQueries.Any(y => addNew.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
-                                                           y.Content.QueryValue == addNew.Content.QueryValue))
+                                if (!x.LstQueries.Any(y =>
+                                    addNew.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
+                                    y.Content.QueryValue == addNew.Content.QueryValue))
                                     x.LstQueries.Add(addNew);
                             });
                         }
                     }
-                }
                 else
-                {
                     foreach (var queryValue in splittedQueries)
                     {
                         if (ManageCommentsModel.LstQueries.Any(x =>
@@ -287,14 +285,13 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
                             LstManageCommentModel.ForEach(x =>
                             {
-                                if (!x.LstQueries.Any(y => addNew.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
-                                                           y.Content.QueryValue == addNew.Content.QueryValue))
+                                if (!x.LstQueries.Any(y =>
+                                    addNew.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
+                                    y.Content.QueryValue == addNew.Content.QueryValue))
                                     x.LstQueries.Add(addNew);
                             });
                         }
                     }
-
-                }
 
                 AddQueryAll();
 
@@ -311,7 +308,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             if (ManageCommentsModel.LstQueries.Count > 1 &&
                 !ManageCommentsModel.LstQueries.Any(x =>
                     x.Content.QueryValue == "All" && x.Content.QueryType == "All"))
-            {
                 ManageCommentsModel.LstQueries.Insert(0, new QueryContent
                 {
                     Content = new QueryInfo
@@ -320,9 +316,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         QueryValue = "All"
                     }
                 });
-
-            }
         }
-
     }
 }

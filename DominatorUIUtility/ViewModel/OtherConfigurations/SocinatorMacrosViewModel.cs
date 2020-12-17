@@ -1,23 +1,39 @@
-﻿using DominatorHouseCore.FileManagers;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using Prism.Commands;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {
     public class SocinatorMacrosViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {
         private readonly IGenericFileManager _genericFileManager;
+
+        private SocinatorIntellisenseModel _inputMacro = new SocinatorIntellisenseModel();
+
         private ObservableCollection<SocinatorIntellisenseModel> _macrosCollection =
             new ObservableCollection<SocinatorIntellisenseModel>();
 
-        private SocinatorIntellisenseModel _inputMacro = new SocinatorIntellisenseModel();
+        #region Constructor
+
+        public SocinatorMacrosViewModel(IGenericFileManager genericFileManager) : base("LangKeyMacroS",
+            "SocinatorMacrosControlTemplate")
+        {
+            _genericFileManager = genericFileManager;
+            SaveMacrosCommand = new DelegateCommand<SocinatorMacrosViewModel>(SaveMacrosExecute);
+            DeleteCommand = new DelegateCommand<SocinatorIntellisenseModel>(DeleteMacrosExecute);
+            ImportMacrosCammand = new DelegateCommand(ImportMacrosExecute);
+            MacrosCollection = new ObservableCollection<SocinatorIntellisenseModel>(
+                _genericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails));
+        }
+
+        #endregion
 
         public ICommand SaveMacrosCommand { get; set; }
 
@@ -28,27 +44,15 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
         public SocinatorIntellisenseModel InputMacro
         {
-            get { return _inputMacro; }
-            set { SetProperty(ref _inputMacro, value); }
+            get => _inputMacro;
+            set => SetProperty(ref _inputMacro, value);
         }
 
         public ObservableCollection<SocinatorIntellisenseModel> MacrosCollection
         {
-            get { return _macrosCollection; }
-            set { SetProperty(ref _macrosCollection, value); }
+            get => _macrosCollection;
+            set => SetProperty(ref _macrosCollection, value);
         }
-
-        #region Constructor
-
-        public SocinatorMacrosViewModel(IGenericFileManager genericFileManager) : base("LangKeyMacroS", "SocinatorMacrosControlTemplate")
-        {
-            _genericFileManager = genericFileManager;
-            SaveMacrosCommand = new DelegateCommand<SocinatorMacrosViewModel>(SaveMacrosExecute);
-            DeleteCommand = new DelegateCommand<SocinatorIntellisenseModel>(DeleteMacrosExecute);
-            ImportMacrosCammand = new DelegateCommand(ImportMacrosExecute);
-            MacrosCollection = new ObservableCollection<SocinatorIntellisenseModel>(_genericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails));
-        }
-        #endregion
 
         #region Methods
 
@@ -61,13 +65,14 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
             if (MacrosCollection.Any(x => x.Key == socinatorIntellisenseModel.InputMacro.Key))
             {
-                ToasterNotification.ShowWarning($"{"LangKeyMacroKey".FromResourceDictionary()} : {socinatorIntellisenseModel.InputMacro.Key} {"LangKeyAlreadyPresent".FromResourceDictionary()}");
+                ToasterNotification.ShowWarning(
+                    $"{"LangKeyMacroKey".FromResourceDictionary()} : {socinatorIntellisenseModel.InputMacro.Key} {"LangKeyAlreadyPresent".FromResourceDictionary()}");
                 return;
             }
 
             MacrosCollection.Add(socinatorIntellisenseModel.InputMacro);
             _genericFileManager.AddModule(socinatorIntellisenseModel.InputMacro, ConstantVariable.GetMacroDetails);
-            
+
             InputMacro = new SocinatorIntellisenseModel();
         }
 
@@ -77,7 +82,9 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
             MacrosCollection.Remove(socinatorIntellisenseModel);
 
-            _genericFileManager.Delete<SocinatorIntellisenseModel>(x => socinatorIntellisenseModel != null && x.Key == socinatorIntellisenseModel.Key, ConstantVariable.GetMacroDetails);
+            _genericFileManager.Delete<SocinatorIntellisenseModel>(
+                x => socinatorIntellisenseModel != null && x.Key == socinatorIntellisenseModel.Key,
+                ConstantVariable.GetMacroDetails);
         }
 
         public void ImportMacrosExecute()
@@ -95,9 +102,11 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                 {
                     var isPresent = MacrosCollection.Any(x => x.Key == splitMacros[0]);
                     if (isPresent)
-                        GlobusLogHelper.log.Info($"{"LangKeyMacroKey".FromResourceDictionary()} : {splitMacros[0]} {"LangKeyAlreadyPresent".FromResourceDictionary()}");
+                        GlobusLogHelper.log.Info(
+                            $"{"LangKeyMacroKey".FromResourceDictionary()} : {splitMacros[0]} {"LangKeyAlreadyPresent".FromResourceDictionary()}");
                     else
-                        MacrosCollection.Add(new SocinatorIntellisenseModel { Key = splitMacros[0], Value = splitMacros[1] });
+                        MacrosCollection.Add(new SocinatorIntellisenseModel
+                            {Key = splitMacros[0], Value = splitMacros[1]});
                 }
             });
 

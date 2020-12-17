@@ -1,10 +1,10 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -14,11 +14,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         bool IsCancelReceivedRequest { get; set; }
         bool IsAcceptRequest { get; set; }
     }
+
     public class IncommingFriendRequestViewModel : StartupBaseViewModel, IIncommingFriendRequestViewModel
     {
+        private int _count;
+        private bool _isAcceptRequest;
+
+        private bool _isCancelReceivedRequest;
+
         public IncommingFriendRequestViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.IncommingFriendRequest });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.IncommingFriendRequest});
             NextCommand = new DelegateCommand(NavigateNext);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -34,13 +40,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
-        private int _count;
+
         public int Count
         {
-            get
-            {
-                return _count;
-            }
+            get => _count;
             set
             {
                 if (value == _count)
@@ -48,13 +51,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 SetProperty(ref _count, value);
             }
         }
-        private bool _isAcceptRequest;
+
         public bool IsAcceptRequest
         {
-            get
-            {
-                return _isAcceptRequest;
-            }
+            get => _isAcceptRequest;
             set
             {
                 if (value == _isAcceptRequest)
@@ -63,14 +63,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private bool _isCancelReceivedRequest;
-
         public bool IsCancelReceivedRequest
         {
-            get
-            {
-                return _isCancelReceivedRequest;
-            }
+            get => _isCancelReceivedRequest;
             set
             {
                 if (value == _isCancelReceivedRequest)

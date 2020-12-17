@@ -1,32 +1,36 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface IEventCreatorViewModel
     {
     }
+
     public class EventCreatorViewModel : StartupBaseViewModel, IEventCreatorViewModel
     {
-        public ICommand AddEventCommand { get; set; }
-        public ICommand TypeSelectionChangedCommand { get; set; }
+        private EventCreaterManagerModel _eventCreaterManagerModel
+            = new EventCreaterManagerModel();
+
+        private ObservableCollection<EventCreaterManagerModel> _lstManageEventModel =
+            new ObservableCollection<EventCreaterManagerModel>();
+
         public EventCreatorViewModel(IRegionManager region) : base(region)
         {
             EventCreaterManagerModel.FbMultiMediaModel.IsMultiselect = false;
             EventCreaterManagerModel.IsPrivatePostingVisibile = true;
 
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.EventCreator });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.EventCreator});
             IsNonQuery = true;
             NextCommand = new DelegateCommand(EventCreaterValidate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -49,28 +53,26 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListQueryType.Clear();
         }
 
-        private EventCreaterManagerModel _eventCreaterManagerModel
-            = new EventCreaterManagerModel();
+        public ICommand AddEventCommand { get; set; }
+        public ICommand TypeSelectionChangedCommand { get; set; }
+
         public EventCreaterManagerModel EventCreaterManagerModel
         {
-            get { return _eventCreaterManagerModel; }
+            get => _eventCreaterManagerModel;
             set
             {
                 if (_eventCreaterManagerModel == value)
                     return;
                 SetProperty(ref _eventCreaterManagerModel, value);
-
             }
         }
 
-        private ObservableCollection<EventCreaterManagerModel> _lstManageEventModel =
-            new ObservableCollection<EventCreaterManagerModel>();
         public ObservableCollection<EventCreaterManagerModel> LstManageEventModel
         {
-            get { return _lstManageEventModel; }
+            get => _lstManageEventModel;
             set
             {
-                if (_lstManageEventModel == null & _lstManageEventModel == value)
+                if ((_lstManageEventModel == null) & (_lstManageEventModel == value))
                     return;
                 SetProperty(ref _lstManageEventModel, value);
             }
@@ -79,7 +81,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         private void AddEventExecute(object sender)
         {
-
             if (string.IsNullOrEmpty(EventCreaterManagerModel.EventName?.Trim()))
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
@@ -112,9 +113,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             EventCreaterManagerModel.MediaPath = EventCreaterManagerModel.FbMultiMediaModel.MediaPaths
                 .FirstOrDefault().MediaPath;
             LstManageEventModel.Add(EventCreaterManagerModel);
-            EventCreaterManagerModel = new EventCreaterManagerModel()
+            EventCreaterManagerModel = new EventCreaterManagerModel
             {
-                FbMultiMediaModel = new FbMultiMediaModel()
+                FbMultiMediaModel = new FbMultiMediaModel
                 {
                     IsMultiselect = false,
                     IsAddImageVisibile = true,
@@ -136,7 +137,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 EventCreaterManagerModel.IsPrivatePostingVisibile = false;
                 EventCreaterManagerModel.IsPublicPostingVisibile = true;
             }
-
         }
 
         private void EventCreaterValidate()
@@ -149,7 +149,5 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             NavigateNext();
         }
-
-
     }
 }

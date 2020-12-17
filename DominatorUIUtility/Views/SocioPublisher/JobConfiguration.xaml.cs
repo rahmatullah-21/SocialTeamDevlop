@@ -1,47 +1,31 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using DominatorHouseCore;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Windows.Data;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for JobConfiguration.xaml
+    ///     Interaction logic for JobConfiguration.xaml
     /// </summary>
     public partial class JobConfiguration : UserControl
     {
+        private static JobConfiguration _jobConfiguration;
+
         public JobConfiguration()
         {
             InitializeComponent();
             MainGrid.DataContext = this;
             JobConfigurations = new JobConfigurationModel();
-
-        }
-
-        private static JobConfiguration _jobConfiguration;
-        private bool _isEditMode { get; set; }
-        public static JobConfiguration GetInstance(JobConfigurationModel jobConfigurationModel, bool isEditMode)
-        {
-
-            if (_jobConfiguration == null)
-                _jobConfiguration = new JobConfiguration(jobConfigurationModel);
-            _jobConfiguration._isEditMode = isEditMode;
-            _jobConfiguration.CancelToken();
-            // _jobConfiguration.LastPostCount = 0;
-            _jobConfiguration.LastPostCount = jobConfigurationModel.LstTimer.Count;
-            _jobConfiguration.JobConfigurations = jobConfigurationModel;
-            _jobConfiguration.MainGrid.DataContext = _jobConfiguration.JobConfigurations;
-
-            return _jobConfiguration;
         }
 
 
@@ -54,9 +38,63 @@ namespace DominatorUIUtility.Views.SocioPublisher
             BindingOperations.EnableCollectionSynchronization(JobConfigurations.LstTimer, _lock);
         }
 
+        private bool _isEditMode { get; set; }
+
+        public static JobConfiguration GetInstance(JobConfigurationModel jobConfigurationModel, bool isEditMode)
+        {
+            if (_jobConfiguration == null)
+                _jobConfiguration = new JobConfiguration(jobConfigurationModel);
+            _jobConfiguration._isEditMode = isEditMode;
+            _jobConfiguration.CancelToken();
+            // _jobConfiguration.LastPostCount = 0;
+            _jobConfiguration.LastPostCount = jobConfigurationModel.LstTimer.Count;
+            _jobConfiguration.JobConfigurations = jobConfigurationModel;
+            _jobConfiguration.MainGrid.DataContext = _jobConfiguration.JobConfigurations;
+
+            return _jobConfiguration;
+        }
+
+        private void OnSelectedTimeChanged(object sender, TimePickerBaseSelectionChangedEventArgs<TimeSpan?> e)
+        {
+            //if (IsAllowEdit)
+            //{
+            //    if (JobConfigurations == null)
+            //        return;
+
+            //    if (JobConfigurations.IsSpecifyPostingIntervalChecked)
+            //        SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
+
+            //    if (JobConfigurations.IsRandomizePublishingTimerChecked)
+            //    {
+            //        GenerateRandomIntervals(JobConfigurations.MaxPost);
+            //    }
+            //} 
+        }
+
+        private void CancelToken()
+        {
+            cancellectionToken?.Cancel();
+            cancellectionToken?.Dispose();
+            cancellectionToken = new CancellationTokenSource();
+        }
+
+        private void PostCountChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+            if (_isEditMode)
+            {
+                _isEditMode = false;
+                return;
+            }
+
+            CancelToken();
+            JobConfigurations.LstTimer.Clear();
+            if (numericMaxPost.Value != null && JobConfigurations.MaxPost != 0)
+                SpecificPostGenerateIntervals(JobConfigurations.MaxPost, cancellectionToken, true);
+        }
+
         #region Properties
 
-        readonly object _lock = new object();
+        private readonly object _lock = new object();
         public JobConfigurationModel JobConfigurations { get; set; }
         private CancellationTokenSource cancellectionToken { get; set; }
         public int LastPostCount { get; set; }
@@ -67,7 +105,6 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void NumericMaxPost_OnValueDecremented(object sender, NumericUpDownChangedRoutedEventArgs args)
         {
-
             try
             {
                 if (LastPostCount != JobConfigurations.MaxPost)
@@ -75,19 +112,20 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                 if (LastPostCount < JobConfigurations.MaxPost - 1)
                 {
-                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1 - LastPostCount, cancellectionToken, true);
+                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1 - LastPostCount, cancellectionToken,
+                        true);
                 }
                 else
                 {
                     if (JobConfigurations.LstTimer.Count < JobConfigurations.MaxPost)
-                        SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1 - JobConfigurations.LstTimer.Count, cancellectionToken, true);
+                        SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1 - JobConfigurations.LstTimer.Count,
+                            cancellectionToken, true);
 
                     else
                         SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1, cancellectionToken, false);
                 }
 
                 LastPostCount = JobConfigurations.MaxPost - 1;
-
             }
             catch (Exception ex)
             {
@@ -103,15 +141,16 @@ namespace DominatorUIUtility.Views.SocioPublisher
             try
             {
                 if (LastPostCount < JobConfigurations.MaxPost + 1)
-                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1 - LastPostCount, cancellectionToken, true);
+                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1 - LastPostCount, cancellectionToken,
+                        true);
                 else if (JobConfigurations.LstTimer.Count < JobConfigurations.MaxPost + 1)
-                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1 - JobConfigurations.LstTimer.Count, cancellectionToken, true);
+                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1 - JobConfigurations.LstTimer.Count,
+                        cancellectionToken, true);
 
                 else
                     SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1, cancellectionToken, false);
 
                 LastPostCount = JobConfigurations.MaxPost + 1;
-
             }
             catch (Exception ex)
             {
@@ -119,12 +158,12 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
         }
 
-
         #endregion
 
         #region Specific Post Interval Generations
 
-        private void SpecificPostGenerateIntervals(int maxCount, CancellationTokenSource cancellectionToken, bool isNeedToAdd)
+        private void SpecificPostGenerateIntervals(int maxCount, CancellationTokenSource cancellectionToken,
+            bool isNeedToAdd)
         {
             var random = new Random();
 
@@ -138,7 +177,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                 return;
             }
 
-            var totalSeconds = (int)((endTime - startTime).TotalSeconds);
+            var totalSeconds = (int) (endTime - startTime).TotalSeconds;
 
             try
             {
@@ -148,30 +187,27 @@ namespace DominatorUIUtility.Views.SocioPublisher
                     AddTimeRange(maxCount, cancellectionToken, random, startTime, endTime, timeToAddToStartTime);
                 else
                     RemoveTimeRange(maxCount, cancellectionToken);
-
             }
             catch (Exception ex)
             {
                 if (ex.Message == "Attempted to divide by zero.")
                     RemoveTimeRange(0, cancellectionToken);
-
             }
-
         }
 
-        private void AddTimeRange(int maxCount, CancellationTokenSource cancellectionToken, Random random, TimeSpan startTime, TimeSpan endTime, TimeSpan timeToAddToStartTime)
+        private void AddTimeRange(int maxCount, CancellationTokenSource cancellectionToken, Random random,
+            TimeSpan startTime, TimeSpan endTime, TimeSpan timeToAddToStartTime)
         {
             Task.Factory.StartNew(() =>
             {
-
-                for (int noOfPost = 0; noOfPost < maxCount; noOfPost++)
+                for (var noOfPost = 0; noOfPost < maxCount; noOfPost++)
                 {
                     cancellectionToken.Token.ThrowIfCancellationRequested();
                     endTime = startTime + timeToAddToStartTime;
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         cancellectionToken.Token.ThrowIfCancellationRequested();
-                        JobConfigurations.LstTimer.Add(new TimeSpanHelper()
+                        JobConfigurations.LstTimer.Add(new TimeSpanHelper
                         {
                             StartTime = startTime,
                             MidTime = DateTimeUtilities.GetRandomTime(startTime, endTime, random),
@@ -187,10 +223,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void RemoveTimeRange(int maxCount, CancellationTokenSource cancellectionToken)
         {
-
             Task.Factory.StartNew(() =>
             {
-
                 while (JobConfigurations.LstTimer.Count > maxCount)
                 {
                     cancellectionToken.Token.ThrowIfCancellationRequested();
@@ -215,32 +249,9 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         #endregion
 
-        private void OnSelectedTimeChanged(object sender, TimePickerBaseSelectionChangedEventArgs<TimeSpan?> e)
-        {
-            //if (IsAllowEdit)
-            //{
-            //    if (JobConfigurations == null)
-            //        return;
-
-            //    if (JobConfigurations.IsSpecifyPostingIntervalChecked)
-            //        SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
-
-            //    if (JobConfigurations.IsRandomizePublishingTimerChecked)
-            //    {
-            //        GenerateRandomIntervals(JobConfigurations.MaxPost);
-            //    }
-            //} 
-        }
-
-        void CancelToken()
-        {
-            cancellectionToken?.Cancel();
-            cancellectionToken?.Dispose();
-            cancellectionToken = new CancellationTokenSource();
-        }
-
 
         #region Commented code
+
         #region Random Post Interval Generation
 
         //private void GenerateRandomIntervals(int maxCount, CancellationTokenSource cancellectionToken)
@@ -317,20 +328,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
 
         //} 
+
         #endregion
-
-        private void PostCountChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
-        {
-            if (_isEditMode)
-            {
-                _isEditMode = false;
-                return;
-            }
-            CancelToken();
-            JobConfigurations.LstTimer.Clear();
-            if (numericMaxPost.Value != null && JobConfigurations.MaxPost != 0)
-                SpecificPostGenerateIntervals(JobConfigurations.MaxPost, cancellectionToken, true);
-
-        }
     }
 }

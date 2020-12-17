@@ -1,5 +1,9 @@
-﻿using SQLite;
+﻿#region
+
 using System;
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
 {
@@ -12,52 +16,51 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         public int Id { get; set; }
 
         /// <summary>
-        /// Contains QueryType For Interaction
+        ///     Contains QueryType For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         /// <summary>
-        /// Contains QueryValue For Interaction
+        ///     Contains QueryValue For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryValue { get; set; }
 
         /// <summary>
-        /// Describes Activity 
+        ///     Describes Activity
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string ActivityType { get; set; }
 
         /// <summary>
-        /// Contains Name of the Group being interacted
+        ///     Contains Name of the Group being interacted
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string PageName { get; set; }
 
         /// <summary>
-        /// Contains Url of the Group being interacted
+        ///     Contains Url of the Group being interacted
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string PageUrl { get; set; }
 
         /// <summary>
-        /// Contains TotalMembers in the Group being interacted
+        ///     Contains TotalMembers in the Group being interacted
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string FollowerCount { get; set; }
 
         /// <summary>
-        /// Describes CommunityType of the Group being interacted
+        ///     Describes CommunityType of the Group being interacted
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public string PageId { get; set; }
 
         /// <summary>
-        /// Describes Membership Status For this Account in the Group being interacted
+        ///     Describes Membership Status For this Account in the Group being interacted
         /// </summary>
         //[System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         //public string MembershipStatus { get; set; }
@@ -68,10 +71,9 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         public string TotalEmployees { get; set; }
 
         /// <summary>
-        /// TimeStamp when interacted with the Group
+        ///     TimeStamp when interacted with the Group
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public DateTime InteractionDatetime { get; set; }
-        
     }
 }

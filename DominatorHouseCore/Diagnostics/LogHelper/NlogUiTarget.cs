@@ -1,7 +1,11 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using CommonServiceLocator;
 using DominatorHouseCore.ViewModel;
 using NLog;
 using NLog.Targets;
+
+#endregion
 
 namespace DominatorHouseCore.Diagnostics.LogHelper
 {

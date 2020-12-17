@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.DatabaseHandler.GdTables.Accounts;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.GdTables.Accounts;
 using DominatorHouseCore.Enums;
 using Unity;
 using Unity.Extension;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
 {
@@ -21,21 +25,21 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedUsers>(SocialNetworks.Instagram, true));
 
             Container
-              .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
-                  new EntityCounterFunction<InteractedPosts>(
-                      new DateEpochFilterPredicate<InteractedPosts>(
-                          a => a.InteractionDate),
-                      new ActivityTypeFilterPredicate<InteractedPosts>(
-                          a => a.ActivityType)));
+                .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
+                    new EntityCounterFunction<InteractedPosts>(
+                        new DateEpochFilterPredicate<InteractedPosts>(
+                            a => a.InteractionDate),
+                        new ActivityTypeFilterPredicate<InteractedPosts>(
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
                     new CounterKeyFactory<InteractedPosts>(SocialNetworks.Instagram, true));
 
             Container
-              .RegisterInstance<IEntityCounterFunction<UnfollowedUsers>>(
-                  new EntityCounterFunction<UnfollowedUsers>(
-                      new DateEpochFilterPredicate<UnfollowedUsers>(
-                          a => a.InteractionDate)));
+                .RegisterInstance<IEntityCounterFunction<UnfollowedUsers>>(
+                    new EntityCounterFunction<UnfollowedUsers>(
+                        new DateEpochFilterPredicate<UnfollowedUsers>(
+                            a => a.InteractionDate)));
             Container
                 .RegisterInstance<ICounterKeyFactory<UnfollowedUsers>>(
                     new CounterKeyFactory<UnfollowedUsers>(SocialNetworks.Instagram, false));
@@ -51,9 +55,8 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<HashtagScrape>(SocialNetworks.Instagram, false));
 
             Container
-               .RegisterInstance<ICounterKeyFactory<UserConversation>>(
-                   new CounterKeyFactory<UserConversation>(SocialNetworks.Instagram, false));
-
+                .RegisterInstance<ICounterKeyFactory<UserConversation>>(
+                    new CounterKeyFactory<UserConversation>(SocialNetworks.Instagram, false));
         }
     }
 }

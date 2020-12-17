@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
+
+#endregion
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -11,10 +15,5 @@ namespace DominatorHouseCore.ViewModel
         public SocialNetworks AccountNetwork { get; set; }
 
         public DestinationSelectionList GroupsCollection { get; set; }
-
-        public DestinationSelectionList PagesOrBoardsCollections { get; set; }
-
-        public bool IsWallOrProfileSelected { get; set; }
-
     }
 }

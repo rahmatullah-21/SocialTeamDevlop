@@ -74,7 +74,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             {
                 new PublisherPostlistModel() {CampaignId="123",PostId="1" },
            };
-            var postToupdate = new PublisherPostlistModel() { CampaignId = "123", PostId = "2", FdSellPrice = 100 };
+            var postToupdate = new PublisherPostlistModel() { CampaignId = "123", PostId = Guid.NewGuid().ToString(), FdSellPrice = 100 };
 
             _binFileHelper.GetPublisherPostListModels(_campaignId).ReturnsForAnyArgs(postlist);
             _binFileHelper.UpdateAllPostlists(_campaignId, postlist).ReturnsForAnyArgs(true);

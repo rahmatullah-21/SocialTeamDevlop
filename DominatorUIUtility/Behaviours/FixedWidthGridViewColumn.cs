@@ -5,37 +5,35 @@ namespace DominatorUIUtility.Behaviours
 {
     public class FixedWidthGridViewColumn : GridViewColumn
     {
+        public static readonly DependencyProperty FixedWidthProperty = DependencyProperty.Register("FixedWidth",
+            typeof(double), typeof(FixedWidthGridViewColumn),
+            new FrameworkPropertyMetadata(double.NaN, OnFixedWidthChanged));
+
         static FixedWidthGridViewColumn()
         {
-            WidthProperty.OverrideMetadata(typeof(FixedWidthGridViewColumn), new FrameworkPropertyMetadata(null, OnCoerceWidth));
+            WidthProperty.OverrideMetadata(typeof(FixedWidthGridViewColumn),
+                new FrameworkPropertyMetadata(null, OnCoerceWidth));
+        }
+
+        public double FixedWidth
+        {
+            get => (double) GetValue(FixedWidthProperty);
+
+            set => SetValue(FixedWidthProperty, value);
         }
 
         private static object OnCoerceWidth(DependencyObject o, object baseValue)
         {
-            FixedWidthGridViewColumn fixedWidthGridViewColumn = o as FixedWidthGridViewColumn;
-            if (fixedWidthGridViewColumn != null)
+            if (o is FixedWidthGridViewColumn fixedWidthGridViewColumn)
                 return fixedWidthGridViewColumn.FixedWidth;
 
             return baseValue;
         }
 
-        public double FixedWidth
-        {
-            get { return (double)GetValue(FixedWidthProperty); }
-
-            set { SetValue(FixedWidthProperty, value); }
-        }
-
-        public static readonly DependencyProperty FixedWidthProperty = DependencyProperty.Register("FixedWidth", typeof(double), typeof(FixedWidthGridViewColumn),
-            new FrameworkPropertyMetadata(double.NaN, OnFixedWidthChanged));
-
         private static void OnFixedWidthChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            FixedWidthGridViewColumn fixedWidthGridViewColumn = o as FixedWidthGridViewColumn;
-
-            if (fixedWidthGridViewColumn != null)
+            if (o is FixedWidthGridViewColumn fixedWidthGridViewColumn)
                 fixedWidthGridViewColumn.CoerceValue(WidthProperty);
         }
-
     }
 }

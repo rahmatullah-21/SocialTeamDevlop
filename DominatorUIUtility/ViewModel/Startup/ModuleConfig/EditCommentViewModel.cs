@@ -1,4 +1,9 @@
-﻿using CommonServiceLocator;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
@@ -9,52 +14,61 @@ using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public class EditCommentInfo : BindableBase
     {
+        private string _accounts;
         private string _editCommentUrl;
-        public string EditCommentUrl
-        {
-            get { return _editCommentUrl; }
-            set { SetProperty(ref _editCommentUrl, value); }
-        }
 
         private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set { SetProperty(ref _message, value); }
-        }
-
-        private string _accounts;
-        public string Accounts
-        {
-            get { return _accounts; }
-            set { SetProperty(ref _accounts, value); }
-        }
 
         private int _selectedIndex;
+
+        public string EditCommentUrl
+        {
+            get => _editCommentUrl;
+            set => SetProperty(ref _editCommentUrl, value);
+        }
+
+        public string Message
+        {
+            get => _message;
+            set => SetProperty(ref _message, value);
+        }
+
+        public string Accounts
+        {
+            get => _accounts;
+            set => SetProperty(ref _accounts, value);
+        }
+
         public int SelectedIndex
         {
-            get { return _selectedIndex; }
-            set { SetProperty(ref _selectedIndex, value); }
+            get => _selectedIndex;
+            set => SetProperty(ref _selectedIndex, value);
         }
     }
+
     public interface IEditCommentViewModel
     {
     }
+
     public class EditCommentViewModel : StartupBaseViewModel, IEditCommentViewModel
     {
+        private ObservableCollectionBase<EditCommentInfo> _commentDetails =
+            new ObservableCollectionBase<EditCommentInfo>();
+
+        private EditCommentInfo _editCommentInfo = new EditCommentInfo();
+
+        private List<EditCommentInfo> _lstCommentDetails = new List<EditCommentInfo>();
+
+        private List<string> _lstImportComment = new List<string>();
+
         public EditCommentViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.EditComment });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.EditComment});
             IsNonQuery = true;
             NextCommand = new DelegateCommand(ValidateAndNavigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -76,6 +90,40 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ImportFromCsvCommand = new BaseCommand<object>(sender => true, ImportFromCsv);
         }
 
+        public ObservableCollectionBase<EditCommentInfo> CommentDetails
+        {
+            get => _commentDetails;
+            set => SetProperty(ref _commentDetails, value);
+        }
+
+        public EditCommentInfo EditCommentInfo
+        {
+            get => _editCommentInfo;
+            set
+            {
+                if (_editCommentInfo != null && _editCommentInfo == value)
+                    return;
+                SetProperty(ref _editCommentInfo, value);
+            }
+        }
+
+        public List<EditCommentInfo> LstCommentDetails
+        {
+            get => _lstCommentDetails;
+            set
+            {
+                if (_lstCommentDetails != null && _lstCommentDetails == value)
+                    return;
+                SetProperty(ref _lstCommentDetails, value);
+            }
+        }
+
+        public List<string> LstImportComment
+        {
+            get => _lstImportComment;
+            set => SetProperty(ref _lstImportComment, value);
+        }
+
         private void ValidateAndNavigate()
         {
             if (CommentDetails.Count == 0)
@@ -83,6 +131,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Dialog.ShowDialog("Input Error", "Please Add Comments Details");
                 return;
             }
+
             NavigateNext();
         }
 
@@ -93,47 +142,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public ICommand ImportFromCsvCommand { get; set; }
 
         #endregion
-
-        private ObservableCollectionBase<EditCommentInfo> _commentDetails = new ObservableCollectionBase<EditCommentInfo>();
-        public ObservableCollectionBase<EditCommentInfo> CommentDetails
-        {
-            get { return _commentDetails; }
-            set { SetProperty(ref _commentDetails, value); }
-        }
-
-        private EditCommentInfo _editCommentInfo = new EditCommentInfo();
-        public EditCommentInfo EditCommentInfo
-        {
-            get
-            {
-                return _editCommentInfo;
-            }
-            set
-            {
-                if (_editCommentInfo != null && _editCommentInfo == value)
-                    return;
-                SetProperty(ref _editCommentInfo, value);
-            }
-        }
-
-        private List<EditCommentInfo> _lstCommentDetails = new List<EditCommentInfo>();
-        public List<EditCommentInfo> LstCommentDetails
-        {
-            get { return _lstCommentDetails; }
-            set
-            {
-                if (_lstCommentDetails != null && _lstCommentDetails == value)
-                    return;
-                SetProperty(ref _lstCommentDetails, value);
-            }
-        }
-
-        private List<string> _lstImportComment = new List<string>();
-        public List<string> LstImportComment
-        {
-            get { return _lstImportComment; }
-            set { SetProperty(ref _lstImportComment, value); }
-        }
 
         #region Methods
 
@@ -152,40 +160,36 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 editCommentControl.Accounts = viewModel.SelectAccount.AccountBaseModel.UserName;
 
                 if (LstCommentDetails.Count == 0 && (string.IsNullOrEmpty(editCommentControl.Accounts) ||
-                    string.IsNullOrEmpty(editCommentControl.Message?.Trim()) || string.IsNullOrEmpty(editCommentControl.EditCommentUrl?.Trim())))
+                                                     string.IsNullOrEmpty(editCommentControl.Message?.Trim()) ||
+                                                     string.IsNullOrEmpty(editCommentControl.EditCommentUrl?.Trim())))
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Error",
-                       "Please add atleast one CommentDetails.");
+                        "Please add atleast one CommentDetails.");
                     return;
                 }
+
                 //CommentDetails will strored here by import
                 if (LstCommentDetails.Count > 0)
-                {
                     LstCommentDetails.ForEach(x =>
                     {
                         if (LstCommentDetails.Any(y => y.Accounts == x.Accounts &&
-                        y.EditCommentUrl.Contains(x.EditCommentUrl)))
-                        {
-                            CommentDetails.Add(new EditCommentInfo()
+                                                       y.EditCommentUrl.Contains(x.EditCommentUrl)))
+                            CommentDetails.Add(new EditCommentInfo
                             {
                                 EditCommentUrl = x.EditCommentUrl,
                                 Message = x.Message,
                                 Accounts = x.Accounts
                             });
-                        }
                     });
-                }
                 //CommentDetails will strored here by user i/p
                 else if (!CommentDetails.Any(x => x.Accounts == editCommentControl.Accounts
-                && x.EditCommentUrl.Contains(editCommentControl.EditCommentUrl)))
-                {
-                    CommentDetails.Add(new EditCommentInfo()
+                                                  && x.EditCommentUrl.Contains(editCommentControl.EditCommentUrl)))
+                    CommentDetails.Add(new EditCommentInfo
                     {
                         EditCommentUrl = editCommentControl.EditCommentUrl,
                         Message = editCommentControl.Message,
                         Accounts = editCommentControl.Accounts
                     });
-                }
                 else
                     return;
 
@@ -221,13 +225,13 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 LstImportComment.Clear();
                 LstImportComment.AddRange(FileUtilities.FileBrowseAndReader());
                 var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-                var accounts = accountFileManager.GetAll(SocialNetworks.Reddit).Where(x => x.AccountBaseModel.Status == AccountStatus.Success).
-                   Select(x => x.AccountBaseModel.UserName).ToList();
+                var accounts = accountFileManager.GetAll(SocialNetworks.Reddit)
+                    .Where(x => x.AccountBaseModel.Status == AccountStatus.Success)
+                    .Select(x => x.AccountBaseModel.UserName).ToList();
 
                 if (LstImportComment.Count != 0)
                 {
                     foreach (var commentFromFile in LstImportComment)
-                    {
                         try
                         {
                             var commentDetails = commentFromFile.Split('\t').ToList();
@@ -248,20 +252,21 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         {
                             ex.DebugLog();
                         }
-                    }
+
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
                         "Comment Details are ready to add !!");
                     GlobusLogHelper.log.Info("Comment Details Sucessfully Uploaded !!");
                 }
                 else
+                {
                     GlobusLogHelper.log.Info("You did not upload any Comment Details !!");
+                }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
                 GlobusLogHelper.log.Info("There is error in uploading Comment Details !!");
             }
-
         }
 
         #endregion

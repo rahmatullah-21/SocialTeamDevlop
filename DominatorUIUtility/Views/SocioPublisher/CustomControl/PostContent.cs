@@ -14,37 +14,27 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
     /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
+    ///     Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
+    ///     Step 1a) Using this custom control in a XAML file that exists in the current project.
+    ///     Add this XmlNamespace attribute to the root element of the markup file where it is
+    ///     to be used:
     ///     xmlns:MyNamespace="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
+    ///     Step 1b) Using this custom control in a XAML file that exists in a different project.
+    ///     Add this XmlNamespace attribute to the root element of the markup file where it is
+    ///     to be used:
     ///     xmlns:MyNamespace="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl;assembly=DominatorUIUtility.Views.SocioPublisher.CustomControl"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
+    ///     You will also need to add a project reference from the project where the XAML file lives
+    ///     to this project and Rebuild to avoid compilation errors:
     ///     Right click on the target project in the Solution Explorer and
     ///     "Add Reference"->"Projects"->[Browse to and select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:PostContent/>
-    ///
+    ///     Step 2)
+    ///     Go ahead and use your control in the XAML file.
+    ///     <MyNamespace:PostContent />
     /// </summary>
     [TemplatePart(Type = typeof(Button), Name = ButtonImportImage)]
     [TemplatePart(Type = typeof(Button), Name = ButtonSettings)]
@@ -53,7 +43,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     {
         static PostContent()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PostContent), new FrameworkPropertyMetadata(typeof(PostContent)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PostContent),
+                new FrameworkPropertyMetadata(typeof(PostContent)));
         }
 
         #region Properties
@@ -66,86 +57,90 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public string PostDescription
         {
-            get { return (string)GetValue(PostDescriptionProperty); }
-            set { SetValue(PostDescriptionProperty, value); }
+            get => (string) GetValue(PostDescriptionProperty);
+            set => SetValue(PostDescriptionProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for PostDescription.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PostDescriptionProperty =
-            DependencyProperty.Register("PostDescription", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("PostDescription", typeof(string), typeof(PostContent),
+                new PropertyMetadata(string.Empty));
 
         public string PublisherInstagramTitle
         {
-            get { return (string)GetValue(PublisherInstagramTitleProperty); }
-            set { SetValue(PublisherInstagramTitleProperty, value); }
+            get => (string) GetValue(PublisherInstagramTitleProperty);
+            set => SetValue(PublisherInstagramTitleProperty, value);
         }
 
         public static readonly DependencyProperty PublisherInstagramTitleProperty =
-             DependencyProperty.Register("PublisherInstagramTitle", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("PublisherInstagramTitle", typeof(string), typeof(PostContent),
+                new PropertyMetadata(string.Empty));
 
 
         public string FdSellProductTitle
         {
-            get { return (string)GetValue(FdSellProductTitleProperty); }
-            set { SetValue(FdSellProductTitleProperty, value); }
+            get => (string) GetValue(FdSellProductTitleProperty);
+            set => SetValue(FdSellProductTitleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for FdSellProductTitle.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FdSellProductTitleProperty =
-            DependencyProperty.Register("FdSellProductTitle", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("FdSellProductTitle", typeof(string), typeof(PostContent),
+                new PropertyMetadata(string.Empty));
 
 
         public double FdSellPrice
         {
-            get { return (double)GetValue(FdSellPriceProperty); }
-            set { SetValue(FdSellPriceProperty, value); }
+            get => (double) GetValue(FdSellPriceProperty);
+            set => SetValue(FdSellPriceProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for FdSellPrice.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FdSellPriceProperty =
-            DependencyProperty.Register("FdSellPrice", typeof(double), typeof(PostContent), new PropertyMetadata(double.MinValue));
-
+            DependencyProperty.Register("FdSellPrice", typeof(double), typeof(PostContent),
+                new PropertyMetadata(double.MinValue));
 
 
         public string FdSellLocation
         {
-            get { return (string)GetValue(FdSellLocationProperty); }
-            set { SetValue(FdSellLocationProperty, value); }
+            get => (string) GetValue(FdSellLocationProperty);
+            set => SetValue(FdSellLocationProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for FdSellLocation.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FdSellLocationProperty =
-            DependencyProperty.Register("FdSellLocation", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
-
+            DependencyProperty.Register("FdSellLocation", typeof(string), typeof(PostContent),
+                new PropertyMetadata(string.Empty));
 
 
         public string PdSourceUrl
         {
-            get { return (string)GetValue(PdSourceUrlProperty); }
-            set { SetValue(PdSourceUrlProperty, value); }
+            get => (string) GetValue(PdSourceUrlProperty);
+            set => SetValue(PdSourceUrlProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for PdSourceUrl.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PdSourceUrlProperty =
-            DependencyProperty.Register("PdSourceUrl", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
-
+            DependencyProperty.Register("PdSourceUrl", typeof(string), typeof(PostContent),
+                new PropertyMetadata(string.Empty));
 
 
         public Visibility IsImportOptionsVisibility
         {
-            get { return (Visibility)GetValue(IsImportOptionsVisibilityProperty); }
-            set { SetValue(IsImportOptionsVisibilityProperty, value); }
+            get => (Visibility) GetValue(IsImportOptionsVisibilityProperty);
+            set => SetValue(IsImportOptionsVisibilityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsImportOptionsVisibilityProperty =
-            DependencyProperty.Register("IsImportOptionsVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Visible));
+            DependencyProperty.Register("IsImportOptionsVisibility", typeof(Visibility), typeof(PostContent),
+                new PropertyMetadata(Visibility.Visible));
 
 
         public bool IsFdSellPost
         {
-            get { return (bool)GetValue(IsFdSellPostProperty); }
-            set { SetValue(IsFdSellPostProperty, value); }
+            get => (bool) GetValue(IsFdSellPostProperty);
+            set => SetValue(IsFdSellPostProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsFdSellPost.  This enables animation, styling, binding, etc...
@@ -154,17 +149,17 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public bool IsChangeHashOfMedia
         {
-            get { return (bool)GetValue(IsChangeHashOfMediaProperty); }
-            set { SetValue(IsChangeHashOfMediaProperty, value); }
+            get => (bool) GetValue(IsChangeHashOfMediaProperty);
+            set => SetValue(IsChangeHashOfMediaProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsChangeHashOfMedia.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsChangeHashOfMediaProperty =
-            DependencyProperty.Register("IsChangeHashOfMedia", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+            DependencyProperty.Register("IsChangeHashOfMedia", typeof(bool), typeof(PostContent),
+                new PropertyMetadata(false));
 
 
-
-        Button _selectMedia = new Button();
+        private Button _selectMedia = new Button();
         private Button _buttonSettings = new Button();
         private Button _buttonImportPostTitle = new Button();
         private Button _buttonClearPostTitle = new Button();
@@ -172,99 +167,110 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public PublisherPostSettings PublisherPostSettings
         {
-            get { return (PublisherPostSettings)GetValue(PublisherPostSettingsProperty); }
-            set { SetValue(PublisherPostSettingsProperty, value); }
+            get => (PublisherPostSettings) GetValue(PublisherPostSettingsProperty);
+            set => SetValue(PublisherPostSettingsProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for PublisherPostSettings.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PublisherPostSettingsProperty =
-            DependencyProperty.Register("PublisherPostSettings", typeof(PublisherPostSettings), typeof(PostContent), new PropertyMetadata(new PublisherPostSettings()));
+            DependencyProperty.Register("PublisherPostSettings", typeof(PublisherPostSettings), typeof(PostContent),
+                new PropertyMetadata(new PublisherPostSettings()));
 
         public bool IsRandomlyPickTitleFromList
         {
-            get { return (bool)GetValue(IsRandomlyPickTitleFromListProperty); }
-            set { SetValue(IsRandomlyPickTitleFromListProperty, value); }
+            get => (bool) GetValue(IsRandomlyPickTitleFromListProperty);
+            set => SetValue(IsRandomlyPickTitleFromListProperty, value);
         }
 
         public static readonly DependencyProperty IsRandomlyPickTitleFromListProperty =
-            DependencyProperty.Register("IsRandomlyPickTitleFromList", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+            DependencyProperty.Register("IsRandomlyPickTitleFromList", typeof(bool), typeof(PostContent),
+                new PropertyMetadata(false));
+
         public bool IsRemoveTitleOnceUsed
         {
-            get { return (bool)GetValue(IsRemoveTitleOnceUsedProperty); }
-            set { SetValue(IsRemoveTitleOnceUsedProperty, value); }
+            get => (bool) GetValue(IsRemoveTitleOnceUsedProperty);
+            set => SetValue(IsRemoveTitleOnceUsedProperty, value);
         }
 
         public static readonly DependencyProperty IsRemoveTitleOnceUsedProperty =
-            DependencyProperty.Register("IsRemoveTitleOnceUsed", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+            DependencyProperty.Register("IsRemoveTitleOnceUsed", typeof(bool), typeof(PostContent),
+                new PropertyMetadata(false));
 
         public Visibility IsPostTitleOptionVisibility
         {
-            get { return (Visibility)GetValue(IsPostTitleOptionVisibilityProperty); }
-            set { SetValue(IsPostTitleOptionVisibilityProperty, value); }
+            get => (Visibility) GetValue(IsPostTitleOptionVisibilityProperty);
+            set => SetValue(IsPostTitleOptionVisibilityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsPostTitleOptionVisibilityProperty =
-            DependencyProperty.Register("IsPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Collapsed));
+            DependencyProperty.Register("IsPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent),
+                new PropertyMetadata(Visibility.Collapsed));
+
         public double PostTitleHeight
         {
-            get { return (double)GetValue(PostTitleHeightProperty); }
-            set { SetValue(PostTitleHeightProperty, value); }
+            get => (double) GetValue(PostTitleHeightProperty);
+            set => SetValue(PostTitleHeightProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PostTitleHeightProperty =
-            DependencyProperty.Register("PostTitleHeight", typeof(double), typeof(PostContent), new PropertyMetadata(30.0));
+            DependencyProperty.Register("PostTitleHeight", typeof(double), typeof(PostContent),
+                new PropertyMetadata(30.0));
+
         public Visibility IsImportPostTitleOptionVisibility
         {
-            get { return (Visibility)GetValue(IsImportPostTitleOptionVisibilityProperty); }
-            set { SetValue(IsImportPostTitleOptionVisibilityProperty, value); }
+            get => (Visibility) GetValue(IsImportPostTitleOptionVisibilityProperty);
+            set => SetValue(IsImportPostTitleOptionVisibilityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsImportPostTitleOptionVisibilityProperty =
-            DependencyProperty.Register("IsImportPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Collapsed));
+            DependencyProperty.Register("IsImportPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent),
+                new PropertyMetadata(Visibility.Collapsed));
+
         public Visibility IsClearPostTitleOptionVisibility
         {
-            get { return (Visibility)GetValue(IsClearPostTitleOptionVisibilityProperty); }
-            set { SetValue(IsClearPostTitleOptionVisibilityProperty, value); }
+            get => (Visibility) GetValue(IsClearPostTitleOptionVisibilityProperty);
+            set => SetValue(IsClearPostTitleOptionVisibilityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsClearPostTitleOptionVisibilityProperty =
-            DependencyProperty.Register("IsClearPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Collapsed));
+            DependencyProperty.Register("IsClearPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent),
+                new PropertyMetadata(Visibility.Collapsed));
 
         public Visibility IsMediaVisibility
         {
-            get { return (Visibility)GetValue(IsMediaVisibilityProperty); }
-            set { SetValue(IsMediaVisibilityProperty, value); }
+            get => (Visibility) GetValue(IsMediaVisibilityProperty);
+            set => SetValue(IsMediaVisibilityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsMediaVisibilityProperty =
-            DependencyProperty.Register("IsMediaVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Visible));
+            DependencyProperty.Register("IsMediaVisibility", typeof(Visibility), typeof(PostContent),
+                new PropertyMetadata(Visibility.Visible));
 
         public Visibility IsSourceUrlAndFdSellPostVisible
         {
-            get { return (Visibility)GetValue(IsSourceUrlAndFdSellPostVisibleProperty); }
-            set { SetValue(IsSourceUrlAndFdSellPostVisibleProperty, value); }
+            get => (Visibility) GetValue(IsSourceUrlAndFdSellPostVisibleProperty);
+            set => SetValue(IsSourceUrlAndFdSellPostVisibleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsSourceUrlAndFdSellPostVisibleProperty =
-            DependencyProperty.Register("IsSourceUrlAndFdSellPostVisible", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Visible));
+            DependencyProperty.Register("IsSourceUrlAndFdSellPostVisible", typeof(Visibility), typeof(PostContent),
+                new PropertyMetadata(Visibility.Visible));
 
         public bool IsSpinTax
         {
-            get { return (bool)GetValue(IsSpinTaxProperty); }
-            set { SetValue(IsSpinTaxProperty, value); }
+            get => (bool) GetValue(IsSpinTaxProperty);
+            set => SetValue(IsSpinTaxProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsFdSellPost.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsSpinTaxProperty =
             DependencyProperty.Register("IsSpinTax", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
-
-
 
         #endregion
 
@@ -331,15 +337,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
             if (!_buttonSettings.Equals(buttonSettingChanges))
             {
-                if (buttonSettingChanges != null)
-                {
-                    buttonSettingChanges.Click -= PostSettingsChangeClick;
-                }
+                if (buttonSettingChanges != null) buttonSettingChanges.Click -= PostSettingsChangeClick;
                 _buttonSettings = buttonSettingChanges;
-                if (buttonSettingChanges != null)
-                {
-                    buttonSettingChanges.Click += PostSettingsChangeClick;
-                }
+                if (buttonSettingChanges != null) buttonSettingChanges.Click += PostSettingsChangeClick;
             }
 
             #endregion
@@ -349,11 +349,12 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         private void clearPostTitleClick(object sender, RoutedEventArgs e)
         {
-            PublisherInstagramTitle = String.Empty;
+            PublisherInstagramTitle = string.Empty;
             tempList = new List<string>();
         }
 
         private List<string> tempList = new List<string>();
+
         private void ImportPostTitleClick(object sender, RoutedEventArgs e)
         {
             try
@@ -369,7 +370,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                     PublisherInstagramTitle = string.Join("\n", tempList.ToArray());
                     tempList.Clear();
                 }
-
             }
             catch (Exception ex)
             {
@@ -394,13 +394,13 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public event RoutedEventHandler SelectMediaHandler
         {
-            add { AddHandler(SelectMediaEvent, value); }
-            remove { RemoveHandler(SelectMediaEvent, value); }
+            add => AddHandler(SelectMediaEvent, value);
+            remove => RemoveHandler(SelectMediaEvent, value);
         }
 
         private void SelectMedia()
         {
-            RoutedEventArgs args = new RoutedEventArgs(SelectMediaEvent);
+            var args = new RoutedEventArgs(SelectMediaEvent);
             RaiseEvent(args);
         }
 
@@ -410,8 +410,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public event RoutedEventHandler PostSettingHandler
         {
-            add { AddHandler(PostSettings, value); }
-            remove { RemoveHandler(PostSettings, value); }
+            add => AddHandler(PostSettings, value);
+            remove => RemoveHandler(PostSettings, value);
         }
 
         private void PostSettingEvent()
@@ -460,7 +460,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 var availableNetworks = SocinatorInitialize.AvailableNetworks;
 
                 foreach (var network in availableNetworks)
-                {
                     switch (network)
                     {
                         case SocialNetworks.Facebook:
@@ -490,7 +489,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                         default:
                             break;
                     }
-                }
+
                 PublisherPostSettings = postSettingsDeepClone;
                 dialogWindow.Close();
             };
@@ -502,11 +501,12 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public void SelectMediaClick(object sender, RoutedEventArgs args)
         {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            var openFileDialog = new OpenFileDialog
             {
                 Multiselect = true,
-                Filter = "Image Files |*.jpg;*.jpeg;*.png;*.gif|Videos Files |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso; *.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; " +
-                         " *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4; *.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm"
+                Filter =
+                    "Image Files |*.jpg;*.jpeg;*.png;*.gif|Videos Files |*.dat; *.wmv; *.3g2; *.3gp; *.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso; *.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; " +
+                    " *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4; *.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm"
             };
             var openFileDialogResult = openFileDialog.ShowDialog();
             if (openFileDialogResult != true)
@@ -545,9 +545,13 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                     var dataContext = mediaViewer.DataContext;
                     mediaViewer.MediaList = (dataContext as PostDetailsModel)?.MediaViewer.MediaList;
                     if (dataContext is PublisherRssFeedViewModel)
-                        mediaViewer.MediaList = mediaViewer.MediaList ?? (mediaViewer.DataContext as PublisherRssFeedViewModel)?.PublisherRssFeedModel.PostDetailsModel.MediaList;
+                        mediaViewer.MediaList = mediaViewer.MediaList ??
+                                                (mediaViewer.DataContext as PublisherRssFeedViewModel)
+                                                ?.PublisherRssFeedModel.PostDetailsModel.MediaList;
                     else if (dataContext is PublisherDirectPostsViewModel)
-                        mediaViewer.MediaList = mediaViewer.MediaList ?? (mediaViewer.DataContext as PublisherDirectPostsViewModel)?.PostDetailsModel.MediaViewer.MediaList;
+                        mediaViewer.MediaList = mediaViewer.MediaList ??
+                                                (mediaViewer.DataContext as PublisherDirectPostsViewModel)
+                                                ?.PostDetailsModel.MediaViewer.MediaList;
                     else if (dataContext is PublisherPostlistModel)
                         mediaViewer.MediaList = (dataContext as PublisherPostlistModel)?.MediaList;
                     if (mediaViewer.MediaList == null)
@@ -560,7 +564,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 if (mediaViewer != null)
                     mediaViewer.Initialize();
             }
-
         }
 
         #endregion

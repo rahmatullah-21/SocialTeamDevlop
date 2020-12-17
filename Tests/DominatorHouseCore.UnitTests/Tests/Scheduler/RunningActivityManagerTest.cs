@@ -41,9 +41,11 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             _runningActivityManager = new RunningActivityManager();
 
             _dominatorScheduler = Substitute.For<IDominatorScheduler>();
+            Container.RegisterInstance(_dominatorScheduler);
             softwareFileManager = Substitute.For<ISoftwareSettingsFileManager>();
             Container.RegisterInstance(softwareFileManager);
-            Container.RegisterInstance(_dominatorScheduler);
+            var campaignsFileManager = Substitute.For<ICampaignsFileManager>();
+            Container.RegisterInstance(campaignsFileManager);
 
             _schedulerProxy = Substitute.For<ISchedulerProxy>();
             _jobLimitsHolder = Substitute.For<IJobLimitsHolder>();
@@ -108,7 +110,6 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
                                      }
                                 };
             _jobActivityConfigurationManager[lstAccount[0].AccountId].Where(x => x.IsEnabled).ReturnsForAnyArgs(moduleConfig);
-
 
             _runningActivityManager.StartNextRound(lstAccount[0]);
             _dominatorScheduler.Received(1).ScheduleActivityForNextJob(lstAccount[0], moduleConfig[0].ActivityType);

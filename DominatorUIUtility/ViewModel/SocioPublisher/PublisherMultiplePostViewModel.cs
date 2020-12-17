@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -19,14 +18,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherMultiplePostViewModel : BindableBase
     {
-
         public PublisherMultiplePostViewModel()
         {
             //LstPostDetailsModel = new ObservableCollection<PostDetailsModel>();
             CreateNewPost = new BaseCommand<object>(CanExecuteCreateNewPost, ExecuteCreateNewPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             DeletePostCommand = new BaseCommand<object>(DeletePostCanExecute, DeletePostExecute);
-            StopLoadingPostCommand = new BaseCommand<object>((sender) => true, StopLoadingPost);
+            StopLoadingPostCommand = new BaseCommand<object>(sender => true, StopLoadingPost);
 
             //BindingOperations.EnableCollectionSynchronization(LstPostDetailsModel, lockObject);
         }
@@ -54,24 +52,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public bool IsProgressActive
         {
-            get { return _isProgressActive; }
-            set { SetProperty(ref _isProgressActive, value); }
+            get => _isProgressActive;
+            set => SetProperty(ref _isProgressActive, value);
         }
 
         private bool _isStopLoadingPost;
 
         public bool IsStopLoadingPost
         {
-            get { return _isStopLoadingPost; }
-            set { SetProperty(ref _isStopLoadingPost, value); }
+            get => _isStopLoadingPost;
+            set => SetProperty(ref _isStopLoadingPost, value);
         }
 
         private Visibility _isProgressVisibile = Visibility.Collapsed;
 
         public Visibility IsProgressVisibile
         {
-            get { return _isProgressVisibile; }
-            set { SetProperty(ref _isProgressVisibile, value); }
+            get => _isProgressVisibile;
+            set => SetProperty(ref _isProgressVisibile, value);
         }
 
         //private ObservableCollection<PostDetailsModel> _lstPostDetailsModel = new ObservableCollection<PostDetailsModel>();
@@ -94,10 +92,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICollectionView PostListsCollectionView
         {
-            get
-            {
-                return _postListsCollectionView;
-            }
+            get => _postListsCollectionView;
             set
             {
                 if (_postListsCollectionView == value)
@@ -106,16 +101,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-
         #endregion
 
         #region Create New Post
 
-        public bool CanExecuteCreateNewPost(object sender) => true;
+        public bool CanExecuteCreateNewPost(object sender)
+        {
+            return true;
+        }
 
         public void ExecuteCreateNewPost(object sender)
         {
-            PostDetailsModel postDetailsModel = new PostDetailsModel
+            var postDetailsModel = new PostDetailsModel
             {
                 CreatedDateTime = DateTime.Now,
                 PostDetailsId = Utilities.GetGuid()
@@ -126,19 +123,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                     .PublisherCreateCampaignModel.LstPostDetailsModels.Add(postDetailsModel);
-                PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels/*LstPostDetailsModel*/);
+                PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateCampaigns
+                    .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels /*LstPostDetailsModel*/);
                 //PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                 //    .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
             });
-
         }
-
 
         #endregion
 
         #region Import From Csv
-        private bool ImportFromCsvCanExecute(object sender) => true;
+
+        private bool ImportFromCsvCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void ImportFromCsvExecute(object sender)
         {
@@ -149,94 +149,97 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var separator = ConstantVariable.Separator;
 
             if (listPostDetailsModel.Count != 0)
-            {
                 ThreadFactory.Instance.Start(() =>
-                  {
-                      IsProgressVisibile = Visibility.Visible;
-                      IsProgressActive = true;
-                      Thread.Sleep(1000);
-                      // Iterate selected file name
-                      listPostDetailsModel.ForEach(x =>
+                {
+                    IsProgressVisibile = Visibility.Visible;
+                    IsProgressActive = true;
+                    Thread.Sleep(1000);
+                    // Iterate selected file name
+                    listPostDetailsModel.ForEach(x =>
+                    {
+                        if (IsStopLoadingPost)
+                            return;
+                        var postDetailsModel = new PostDetailsModel();
+                        try
+                        {
+                            // Split the file details
+                            var allData = x.Split('\t');
+
+                            postDetailsModel.PostDescription = allData[0];
+
+                            // Media list
+
+                            #region Medialist
+
+                            var mediaDetails = allData.Length > 1 ? allData[1] : string.Empty;
+
+                            var mediaUrl = Regex.Split(mediaDetails, separator).ToList();
+                            mediaUrl.ForEach(media =>
                             {
-                                if (IsStopLoadingPost)
-                                    return;
-                                PostDetailsModel postDetailsModel = new PostDetailsModel();
-                                try
-                                {
-                                    // Split the file details
-                                    var allData = x.Split('\t');
-
-                                    postDetailsModel.PostDescription = allData[0];
-
-                                    // Media list
-
-                                    #region Medialist
-
-                                    var mediaDetails = allData.Length > 1 ? allData[1] : string.Empty;
-
-                                    var mediaUrl = Regex.Split(mediaDetails, separator).ToList();
-                                    mediaUrl.ForEach(media =>
-                                    {
-                                        if (File.Exists(media))
-                                            postDetailsModel.MediaViewer.MediaList.Add(media);
-                                    });
-
-                                    #endregion
-
-                                    // Title
-                                    postDetailsModel.PublisherInstagramTitle = allData.Length > 2 ? allData[2] : string.Empty;
-
-                                    // Source url
-                                    postDetailsModel.PdSourceUrl = allData.Length > 3 ? allData[3] : string.Empty;
-
-                                    // Facebook Sell post details
-
-                                    #region FdSell
-
-                                    var FdSellDetails = allData.Length > 4 ? allData[4] : string.Empty;
-
-                                    var Fdsell = Regex.Split(FdSellDetails, separator);
-
-                                    if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
-                                        string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
-                                        string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
-                                    {
-                                        postDetailsModel.IsFdSellPost = true;
-                                        postDetailsModel.FdSellProductTitle = Fdsell[1];
-                                        postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
-                                        postDetailsModel.FdSellLocation = Fdsell[3];
-                                    }
-
-                                    #endregion
-                                    // Created date
-                                    postDetailsModel.CreatedDateTime = DateTime.Now;
-
-                                    // Post id
-                                    postDetailsModel.PostDetailsId = Utilities.GetGuid();
-
-                                    // Add to Collections
-                                    //postDetails.Add(postDetailsModel);
-                                    Application.Current.Dispatcher.Invoke(() => PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels.Add(postDetailsModel));
-                                    Thread.Sleep(50);
-                                }
-                                catch (Exception ex)
-                                {
-                                    ex.DebugLog();
-                                }
-
+                                if (File.Exists(media))
+                                    postDetailsModel.MediaViewer.MediaList.Add(media);
                             });
-                      IsProgressVisibile = Visibility.Collapsed;
-                      IsProgressActive = false;
-                      IsStopLoadingPost = false;
-                  });
-            }
+
+                            #endregion
+
+                            // Title
+                            postDetailsModel.PublisherInstagramTitle = allData.Length > 2 ? allData[2] : string.Empty;
+
+                            // Source url
+                            postDetailsModel.PdSourceUrl = allData.Length > 3 ? allData[3] : string.Empty;
+
+                            // Facebook Sell post details
+
+                            #region FdSell
+
+                            var FdSellDetails = allData.Length > 4 ? allData[4] : string.Empty;
+
+                            var Fdsell = Regex.Split(FdSellDetails, separator);
+
+                            if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                                string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                                string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
+                            {
+                                postDetailsModel.IsFdSellPost = true;
+                                postDetailsModel.FdSellProductTitle = Fdsell[1];
+                                postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
+                                postDetailsModel.FdSellLocation = Fdsell[3];
+                            }
+
+                            #endregion
+
+                            // Created date
+                            postDetailsModel.CreatedDateTime = DateTime.Now;
+
+                            // Post id
+                            postDetailsModel.PostDetailsId = Utilities.GetGuid();
+
+                            // Add to Collections
+                            //postDetails.Add(postDetailsModel);
+                            Application.Current.Dispatcher.Invoke(() => PublisherCreateCampaigns
+                                .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                                .PublisherCreateCampaignModel.LstPostDetailsModels.Add(postDetailsModel));
+                            Thread.Sleep(50);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    });
+                    IsProgressVisibile = Visibility.Collapsed;
+                    IsProgressActive = false;
+                    IsStopLoadingPost = false;
+                });
         }
+
         #endregion
 
         #region Delete Post
 
-        private bool DeletePostCanExecute(object sender) => true;
+        private bool DeletePostCanExecute(object sender)
+        {
+            return true;
+        }
 
         private void DeletePostExecute(object sender)
         {
@@ -246,10 +249,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (content == "DeleteAll")
                 {
                     IsStopLoadingPost = true;
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() => 
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
                         PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels.Clear();
+                            .PublisherCreateCampaignModel.LstPostDetailsModels.Clear();
                         IsStopLoadingPost = false;
                     }));
                 }
@@ -259,23 +262,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     {
                         var postToDelete = sender as PostDetailsModel;
                         PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels.Remove(postToDelete);
+                            .PublisherCreateCampaignModel.LstPostDetailsModels.Remove(postToDelete);
                     }
                     catch (Exception ex)
                     {
                         ex.DebugLog();
                     }
                 }
+
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                        PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels)));
+                    PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateCampaigns
+                        .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                        .PublisherCreateCampaignModel.LstPostDetailsModels)));
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
         }
+
         #endregion
     }
-
 }

@@ -1,19 +1,36 @@
-﻿using DominatorHouseCore.Models.SocioPublisher;
+﻿using System;
+using System.Windows.Input;
+using DominatorHouseCore;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
-using System.Windows.Input;
-using System;
-using DominatorHouseCore;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherScrapePostViewModel : BindableBase
     {
+        private ScrapePostModel _scrapePostModel = new ScrapePostModel();
+
         public PublisherScrapePostViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl)
         {
             ScrapePostModel = tabItemsControl.ScrapePostModel;
             UploadPostDetailsCommand = new DelegateCommand(UploadPostDetails);
             UploadPostDescriptionCommand = new DelegateCommand(UploadPostDescriptionExecute);
+        }
+
+
+        public ICommand UploadPostDetailsCommand { get; }
+        public ICommand UploadPostDescriptionCommand { get; }
+
+        public ScrapePostModel ScrapePostModel
+        {
+            get => _scrapePostModel;
+            set
+            {
+                if (value == _scrapePostModel)
+                    return;
+                SetProperty(ref _scrapePostModel, value);
+            }
         }
 
         private void UploadPostDescriptionExecute()
@@ -25,25 +42,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             catch (Exception ex)
             {
                 ex.DebugLog();
-            }
-        }
-
-        
-        public ICommand UploadPostDetailsCommand { get; }
-        public ICommand UploadPostDescriptionCommand { get; }
-        private ScrapePostModel _scrapePostModel = new ScrapePostModel();
-
-        public ScrapePostModel ScrapePostModel
-        {
-            get
-            {
-                return _scrapePostModel;
-            }
-            set
-            {
-                if (value == _scrapePostModel)
-                    return;
-                SetProperty(ref _scrapePostModel, value);
             }
         }
 

@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -7,7 +11,6 @@ namespace DominatorHouseCore.Models
     {
         public IncreaseActivityRange()
         {
-
         }
 
         public IncreaseActivityRange(int increaseActivityCount, int untilMaxCountReached, bool isIncreaseCount) : this()
@@ -22,10 +25,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(1)]
         public int IncreaseActivityCount
         {
-            get
-            {
-                return _increaseActivityCount;
-            }
+            get => _increaseActivityCount;
             set
             {
                 if (value == _increaseActivityCount)
@@ -39,10 +39,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(2)]
         public int UntilMaxCountReached
         {
-            get
-            {
-                return _untilMaxCountReached;
-            }
+            get => _untilMaxCountReached;
             set
             {
                 if (value == _untilMaxCountReached)
@@ -53,13 +50,11 @@ namespace DominatorHouseCore.Models
 
 
         private bool _isIncreaseCountChecked;
+
         [ProtoMember(3)]
         public bool IsIncreaseCountChecked
         {
-            get
-            {
-                return _isIncreaseCountChecked;
-            }
+            get => _isIncreaseCountChecked;
             set
             {
                 if (value == _isIncreaseCountChecked)
@@ -67,6 +62,5 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isIncreaseCountChecked, value);
             }
         }
-
     }
 }

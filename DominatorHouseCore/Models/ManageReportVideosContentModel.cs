@@ -1,4 +1,8 @@
-﻿using ProtoBuf;
+﻿#region
+
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {

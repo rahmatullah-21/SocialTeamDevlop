@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {

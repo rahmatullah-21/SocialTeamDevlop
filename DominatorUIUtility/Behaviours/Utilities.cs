@@ -10,14 +10,14 @@ namespace DominatorUIUtility.Behaviours
         {
             try
             {
-                var contextMenu = ((Button)sender).ContextMenu;
+                var contextMenu = ((Button) sender).ContextMenu;
                 if (contextMenu == null) return;
-                contextMenu.DataContext = ((Button)sender).DataContext;
+                contextMenu.DataContext = ((Button) sender).DataContext;
                 contextMenu.IsOpen = true;
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
             }
         }
     }

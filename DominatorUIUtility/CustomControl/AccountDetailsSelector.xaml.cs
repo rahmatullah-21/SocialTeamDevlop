@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -11,19 +10,25 @@ using DominatorUIUtility.ViewModel.SocioPublisher;
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for AccountDetailsSelector.xaml
+    ///     Interaction logic for AccountDetailsSelector.xaml
     /// </summary>
-    public partial class AccountDetailsSelector : UserControl, INotifyPropertyChanged
+    public partial class AccountDetailsSelector : INotifyPropertyChanged
     {
-        public AccountDetailsSelector(Func<string, string, AccountDetailsSelector, Task> updateUiData,
-              string accountId, string accountName, bool isPageOptionVisible = false)
+        private readonly Action<AccountDetailsSelector> _updateAllDetails;
+
+        private readonly Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel, Task> _updateSinlgeDetails;
+
+        private AccountDetailsSelectorViewModel
+            _accountDetailsSelectorViewModel = new AccountDetailsSelectorViewModel();
+
+        private readonly PublisherCreateDestinationSelectModel _publisherCreateDestinationSelectModel =
+            new PublisherCreateDestinationSelectModel();
+
+        public AccountDetailsSelector(bool isPageOptionVisible = false)
         {
             InitializeComponent();
             AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;
             AccountDetailsSelectorViewModel.IsPageOptionVisible = isPageOptionVisible;
-            _accountId = accountId;
-            _accountName = accountName;
-            _updateUiDetails = updateUiData;
         }
 
 
@@ -38,7 +43,8 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        public AccountDetailsSelector(Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel, Task> updateSingleData,
+        public AccountDetailsSelector(
+            Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel, Task> updateSingleData,
             PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel, string detailsType = "")
         {
             InitializeComponent();
@@ -48,24 +54,10 @@ namespace DominatorUIUtility.CustomControl
             _updateSinlgeDetails = updateSingleData;
             _publisherCreateDestinationSelectModel = publisherCreateDestinationSelectModel;
         }
-        private readonly string _accountId;
-        private readonly string _accountName;
-        private PublisherCreateDestinationSelectModel _publisherCreateDestinationSelectModel = new PublisherCreateDestinationSelectModel();
-
-        private readonly Func<string, string, AccountDetailsSelector,Task> _updateUiDetails;
-
-        private readonly Action<AccountDetailsSelector> _updateAllDetails;
-
-        private readonly Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel, Task> _updateSinlgeDetails;
-
-        private AccountDetailsSelectorViewModel _accountDetailsSelectorViewModel = new AccountDetailsSelectorViewModel();
 
         public AccountDetailsSelectorViewModel AccountDetailsSelectorViewModel
         {
-            get
-            {
-                return _accountDetailsSelectorViewModel;
-            }
+            get => _accountDetailsSelectorViewModel;
             set
             {
                 if (AccountDetailsSelectorViewModel == value)
@@ -83,20 +75,17 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void UpdateUi() => ThreadFactory.Instance.Start(() =>
+        public void UpdateUiAllData()
         {
-            _updateUiDetails.Invoke(_accountId, _accountName, this);           
-        });
+            ThreadFactory.Instance.Start(() => { _updateAllDetails.Invoke(this); });
+        }
 
-
-        public void UpdateUiAllData() => ThreadFactory.Instance.Start(() =>
+        public void UpdateUiSingleData()
         {
-            _updateAllDetails.Invoke(this);
-        });
-
-        public void UpdateUiSingleData() => ThreadFactory.Instance.Start(() =>
-        {
-            _updateSinlgeDetails.Invoke(this, _publisherCreateDestinationSelectModel);
-        });
+            ThreadFactory.Instance.Start(() =>
+            {
+                _updateSinlgeDetails.Invoke(this, _publisherCreateDestinationSelectModel);
+            });
+        }
     }
 }

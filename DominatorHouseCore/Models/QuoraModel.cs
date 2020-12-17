@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -7,13 +11,11 @@ namespace DominatorHouseCore.Models
     public class QuoraModel : BindableBase
     {
         private bool _isEnableFollowDifferentUserChecked;
+
         [ProtoMember(1)]
         public bool IsEnableFollowDifferentUserChecked
         {
-            get
-            {
-                return _isEnableFollowDifferentUserChecked;
-            }
+            get => _isEnableFollowDifferentUserChecked;
             set
             {
                 if (value == _isEnableFollowDifferentUserChecked)
@@ -22,17 +24,16 @@ namespace DominatorHouseCore.Models
             }
         }
     }
+
     [ProtoContract]
     public class LinkedInModel : BindableBase
     {
         private bool _isEnableExportingHTMLOfDifferentConnections;
+
         [ProtoMember(1)]
         public bool IsEnableExportingHTMLOfDifferentConnections
         {
-            get
-            {
-                return _isEnableExportingHTMLOfDifferentConnections;
-            }
+            get => _isEnableExportingHTMLOfDifferentConnections;
             set
             {
                 if (value == _isEnableExportingHTMLOfDifferentConnections)
@@ -42,13 +43,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isFilterDuplicateMessageByCheckingConversationsHistory;
+
         [ProtoMember(2)]
         public bool IsFilterDuplicateMessageByCheckingConversationsHistory
         {
-            get
-            {
-                return _isFilterDuplicateMessageByCheckingConversationsHistory;
-            }
+            get => _isFilterDuplicateMessageByCheckingConversationsHistory;
             set
             {
                 if (value == _isFilterDuplicateMessageByCheckingConversationsHistory)
@@ -56,11 +55,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isFilterDuplicateMessageByCheckingConversationsHistory, value);
             }
         }
+
         private bool _IsEnableSendConnectionRequestToDifferentUsers;
+
         [ProtoMember(3)]
         public bool IsEnableSendConnectionRequestToDifferentUsers
         {
-            get { return _IsEnableSendConnectionRequestToDifferentUsers; }
+            get => _IsEnableSendConnectionRequestToDifferentUsers;
             set
             {
                 if (value == _IsEnableSendConnectionRequestToDifferentUsers)
@@ -68,19 +69,17 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _IsEnableSendConnectionRequestToDifferentUsers, value);
             }
         }
-
     }
+
     [ProtoContract]
     public class InstagramUserModel : BindableBase
     {
         private bool _isEnableScrapeDiffrentUserChecked;
+
         [ProtoMember(1)]
         public bool IsEnableScrapeDiffrentUserChecked
         {
-            get
-            {
-                return _isEnableScrapeDiffrentUserChecked;
-            }
+            get => _isEnableScrapeDiffrentUserChecked;
             set
             {
                 if (value == _isEnableScrapeDiffrentUserChecked)
@@ -89,5 +88,4 @@ namespace DominatorHouseCore.Models
             }
         }
     }
-
 }

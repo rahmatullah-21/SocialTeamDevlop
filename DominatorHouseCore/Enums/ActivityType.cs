@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿#region
+
+using System.ComponentModel;
+
+#endregion
 
 namespace DominatorHouseCore.Enums
 {
@@ -20,17 +24,17 @@ namespace DominatorHouseCore.Enums
         Comment = 5,
 
         //,Instagram,Reddit
-       // [Description("Twitter")]
+        // [Description("Twitter")]
         DeleteComment = 6,
-    
+
 
         //[Description("Instagram")]
         Post = 7,
 
         // INFO : Ambiguous between Repost(8) and Reposter(13), so dont use, if any one used please with Reposter(13)
-       // [Description("Twitter")]
-       // Repost = 8,
-
+        // [Description("Twitter")]
+        // Repost = 8,
+        
         //[Description("Instagram")]
         DeletePost = 9,
 
@@ -39,7 +43,7 @@ namespace DominatorHouseCore.Enums
 
         [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit,Tumblr,Quora,TikTok")]
         UserNiching = 11,
-
+        
         [Description("Facebook")]
          DownloadNiching= 12,
 
@@ -57,7 +61,7 @@ namespace DominatorHouseCore.Enums
 
         //[Description("Quora")]
         //VoteAnswers = 17,
-
+        
         //[Description("Quora")]
         DownvoteAnswers = 18,
 
@@ -114,7 +118,7 @@ namespace DominatorHouseCore.Enums
 
         //[Description("Facebook")]
         //GroupCreator = 37,
-
+        
         //[Description("Facebook")]
         EventCreator = 38,
 
@@ -129,27 +133,23 @@ namespace DominatorHouseCore.Enums
 
         //[Description("Quora")]
         UpvoteAnswers = 42,
-
         //[Description("Gplus")]
         //Join = 43,
 
         //[Description("Gplus")]
         //Unjoin = 44,
 
-       // [Description("Facebook")]
+        // [Description("Facebook")]
         PostLikerCommentor = 45,
 
         //[Description("Facebook")]
         FanpageLiker = 46,
-
         //[Description("Facebook")]
         WebpageLikerCommentor = 47,
 
         [Description("Twitter")]
         TweetNiching = 48,
-
-        [Description("Facebook")]
-        MakeAdmin = 49,
+        [Description("Facebook")] MakeAdmin = 49,
 
         //[Description("LinkedIn")]
         ConnectionRequest = 50,
@@ -188,9 +188,8 @@ namespace DominatorHouseCore.Enums
 
         //[Description("Twitter")]
         Mute = 62,
-
         //[Description("Gplus")]
-       // CommunityScraper = 63,
+        // CommunityScraper = 63,
 
         [Description("LinkedIn")]
         JobNiching = 64,
@@ -206,8 +205,7 @@ namespace DominatorHouseCore.Enums
 
         [Description("Youtube,Reddit")]
         ChannelNiching = 68,
-
-       // [Description("Youtube")]
+        // [Description("Youtube")]
         Unsubscribe = 69,
 
        // [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
@@ -227,7 +225,6 @@ namespace DominatorHouseCore.Enums
 
         //[Description("LinkedIn")]
         ProfileEndorsement = 75,
-
         //[Description("Youtube")]
         //LikeToComment = 76,
 
@@ -266,7 +263,6 @@ namespace DominatorHouseCore.Enums
 
         //[Description("Reddit")]
         Upvote = 88,
-
         //[Description("Reddit")]
         //SubredditScraper = 89,
 
@@ -283,7 +279,6 @@ namespace DominatorHouseCore.Enums
         RemoveVote = 93,
        // [Description("LinkedIn")]
         ExportConnection = 94,
-
         //[Description("Facebook,LangKeyPostLikers")]
         PostLiker = 95,
 

@@ -1,6 +1,10 @@
-﻿using DominatorHouseCore.DatabaseHandler.Common;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.Common;
 using DominatorHouseCore.Enums;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
@@ -18,10 +22,10 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         //ID/Path of the media file
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string MediaString { get; set; }
+
         /// <summary>
-        /// Message/Description of the Pin
+        ///     Message/Description of the Pin
         /// </summary>
-        /// 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string PinDescription { get; set; }
@@ -43,8 +47,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         //Duration of the video Pins
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public double VideoDuration
-        { get; set; }
+        public double VideoDuration { get; set; }
 
         //ID of the Board
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
@@ -81,19 +84,20 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string QueryValue { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string DestinationBoard { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
-        public bool? Filtered
-        { get; set; }
+        public bool? Filtered { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
-        public bool? FullDetailsScraped
-        { get; set; }
+        public bool? FullDetailsScraped { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
         public string PublishedDate { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
         public string PinTitle { get; set; }
     }

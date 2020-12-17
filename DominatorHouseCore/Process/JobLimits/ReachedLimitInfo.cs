@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Process.JobLimits
 {

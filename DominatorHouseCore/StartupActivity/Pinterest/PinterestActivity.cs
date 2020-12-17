@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Interfaces.StartUp;
+﻿#region
+
+using DominatorHouseCore.Interfaces.StartUp;
+
+#endregion
 
 namespace DominatorHouseCore.StartupActivity.Pinterest
 {
@@ -17,6 +21,5 @@ namespace DominatorHouseCore.StartupActivity.Pinterest
                     return new PinterestPinActivity();
             }
         }
-
     }
 }

@@ -1,30 +1,35 @@
-﻿using CommonServiceLocator;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
-
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
-    /// Interaction logic for AccountCustomControl.xaml
+    ///     Interaction logic for AccountCustomControl.xaml
     /// </summary>
-    public partial class AccountCustomControl : UserControl, INotifyPropertyChanged
+    public partial class AccountCustomControl : INotifyPropertyChanged
     {
+        private static AccountCustomControl _accountCustomInstance;
         private DominatorAccountViewModel _dominatorAccountViewModel;
+
+        private AccountCustomControl()
+        {
+            _accountCustomInstance = this;
+            _dominatorAccountViewModel =
+                (DominatorAccountViewModel) ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>();
+            InitializeComponent();
+            AccountModule.DataContext = DominatorAccountViewModel;
+        }
 
         #region Property
 
         public DominatorAccountViewModel DominatorAccountViewModel
         {
-            get
-            {
-                return _dominatorAccountViewModel;
-            }
+            get => _dominatorAccountViewModel;
             set
             {
                 _dominatorAccountViewModel = value;
@@ -34,17 +39,10 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
-        private AccountCustomControl()
-        {
-            _accountCustomInstance = this;
-            _dominatorAccountViewModel = (DominatorAccountViewModel)ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>();
-            InitializeComponent();
-            AccountModule.DataContext = DominatorAccountViewModel;
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private static AccountCustomControl _accountCustomInstance;
-
-        public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks, AccessorStrategies strategies)
+        public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks,
+            AccessorStrategies strategies)
         {
             if (_accountCustomInstance == null)
                 _accountCustomInstance = new AccountCustomControl();
@@ -59,8 +57,6 @@ namespace DominatorUIUtility.CustomControl
             return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -74,6 +70,5 @@ namespace DominatorUIUtility.CustomControl
                 x.IsAccountManagerAccountSelected = false;
             });
         }
-
     }
 }

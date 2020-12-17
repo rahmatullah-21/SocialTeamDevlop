@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
@@ -11,23 +12,25 @@ using DominatorHouseCore.Utility;
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
     /// <summary>
-    /// Interaction logic for PublisherEditPost.xaml
+    ///     Interaction logic for PublisherEditPost.xaml
     /// </summary>
     public partial class PublisherEditPost : UserControl
     {
-        private PublisherPostlistModel PostlistModel { get; set; }
-        private ObservableCollection<PublisherPostlistModel> LstPostListModel { get; set; }
         public PublisherEditPost()
         {
             InitializeComponent();
         }
 
-        public PublisherEditPost(PublisherPostlistModel publisherPostlistModel, ObservableCollection<PublisherPostlistModel> LstPostListModel) : this()
+        public PublisherEditPost(PublisherPostlistModel publisherPostlistModel,
+            ObservableCollection<PublisherPostlistModel> LstPostListModel) : this()
         {
             this.LstPostListModel = LstPostListModel;
             PostlistModel = publisherPostlistModel.DeepClone();
             DataContext = PostlistModel;
         }
+
+        private PublisherPostlistModel PostlistModel { get; }
+        private ObservableCollection<PublisherPostlistModel> LstPostListModel { get; }
 
         private void PublisherEditPost_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -52,12 +55,11 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
                 var readdCount = PostlistModel.PublisherPostSettings.GeneralPostSettings.ReaddCount -
                                  postDetails.PublisherPostSettings.GeneralPostSettings.ReaddCount;
-                System.Threading.Thread.Sleep(10);
+                Thread.Sleep(10);
                 PostlistModel.InitializePostData();
 
                 if (PostlistModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount && readdCount > 0)
-                {
-                    for (int readdInitial = 0; readdInitial < readdCount; readdInitial++)
+                    for (var readdInitial = 0; readdInitial < readdCount; readdInitial++)
                     {
                         var deepClonePost = PostlistModel.DeepClone();
                         deepClonePost.GenerateClonePostId();
@@ -65,7 +67,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                         deepClonePost.PublisherPostSettings.GeneralPostSettings.IsReaddCount = false;
                         LstPostListModel.Add(deepClonePost);
                     }
-                }
 
                 PostlistModel.PublisherPostSettings.GeneralPostSettings.ReaddCount = 1;
                 PostlistModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount = false;
@@ -79,6 +80,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 ex.DebugLog();
             }
+
             Dialog.CloseDialog(sender);
         }
 
@@ -86,7 +88,5 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         {
             Dialog.CloseDialog(sender);
         }
-
-
     }
 }

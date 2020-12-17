@@ -1,20 +1,24 @@
-﻿using DominatorHouseCore.EmailService;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Utility;
-using Newtonsoft.Json.Linq;
-using ProtoBuf;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using DominatorHouseCore.EmailService;
+using DominatorHouseCore.Utility;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
     /// <summary>
-    /// Reprents each account loaded from %localappdata%/.../AccountDetails.bin
-    /// Contains ActivityManager with Jobs/Activites for this account.
+    ///     Reprents each account loaded from %localappdata%/.../AccountDetails.bin
+    ///     Contains ActivityManager with Jobs/Activites for this account.
     /// </summary>
     [ProtoContract]
     public sealed class DominatorAccountModel : BindableBase
@@ -22,12 +26,12 @@ namespace DominatorHouseCore.Models
         private DominatorAccountBaseModel _accountBaseModel;
 
         /// <summary>
-        /// AccountBaseModel contains the base information of the account
+        ///     AccountBaseModel contains the base information of the account
         /// </summary>
         [ProtoMember(1)]
         public DominatorAccountBaseModel AccountBaseModel
         {
-            get { return _accountBaseModel; }
+            get => _accountBaseModel;
             set
             {
                 if (_accountBaseModel != null && _accountBaseModel == value)
@@ -38,8 +42,7 @@ namespace DominatorHouseCore.Models
 
         #region Common Properties
 
-        [ProtoMember(2)]
-        public bool SelectedGroup { get; set; }
+        [ProtoMember(2)] public bool SelectedGroup { get; set; }
 
         // To display the account row position
         private int _rownumber;
@@ -47,7 +50,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(3)]
         public int RowNo
         {
-            get { return _rownumber; }
+            get => _rownumber;
             set
             {
                 if (_rownumber == value)
@@ -58,15 +61,14 @@ namespace DominatorHouseCore.Models
         }
 
         // To define the account is selected or not 
-        [ProtoMember(4)]
-        public bool IsAccountSelected { get; set; }
+        [ProtoMember(4)] public bool IsAccountSelected { get; set; }
 
         private bool _IsAccountManagerAccountSelected;
 
         [ProtoIgnore]
         public bool IsAccountManagerAccountSelected
         {
-            get { return _IsAccountManagerAccountSelected; }
+            get => _IsAccountManagerAccountSelected;
             set
             {
                 if (_IsAccountManagerAccountSelected == value)
@@ -76,7 +78,9 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        [Obsolete("Dont use this property, instead use DominatorHouseCore.Utility.ModuleConfiguration.IsTemplateMadeByCampaignMode property", true)]
+        [Obsolete(
+            "Dont use this property, instead use DominatorHouseCore.Utility.ModuleConfiguration.IsTemplateMadeByCampaignMode property",
+            true)]
         [ProtoMember(6)]
         public bool IsCretedFromNormalMode { get; set; }
 
@@ -85,50 +89,38 @@ namespace DominatorHouseCore.Models
         #region Job Scheduling
 
         // Stores  of the account in day wise
-        [ProtoMember(7)]
-        public JobActivityManager ActivityManager { get; set; } = new JobActivityManager();
+        [ProtoMember(7)] public JobActivityManager ActivityManager { get; set; } = new JobActivityManager();
 
         #endregion
 
         #region Http
 
-        [ProtoIgnore]
-        public bool IsUserLoggedIn { get; set; }
+        [ProtoIgnore] public bool IsUserLoggedIn { get; set; }
 
-        [ProtoMember(9)]
-        public string UserAgentWeb { get; set; } = string.Empty;
+        [ProtoMember(9)] public string UserAgentWeb { get; set; } = string.Empty;
 
-        [ProtoMember(10)]
-        public string UserAgentMobile { get; set; } = string.Empty;
+        [ProtoMember(10)] public string UserAgentMobile { get; set; } = string.Empty;
 
-        [ProtoMember(11)]
-        public bool UseMobileRequestOnly { get; set; }
+        [ProtoMember(11)] public bool UseMobileRequestOnly { get; set; }
 
-        [ProtoIgnore]
-        public bool IsloggedinWithPhone { get; set; }
+        [ProtoIgnore] public bool IsloggedinWithPhone { get; set; }
 
-        [ProtoIgnore]
-        public string SessionId { get; set; } = string.Empty;
+        [ProtoIgnore] public string SessionId { get; set; } = string.Empty;
 
-        [ProtoIgnore]
-        public DeviceGenerator DeviceDetails { get; set; } = new DeviceGenerator();
+        [ProtoIgnore] public DeviceGenerator DeviceDetails { get; set; } = new DeviceGenerator();
 
-        [ProtoIgnore]
-        public TiktokDeviceGenerator TiktokDeviceDetails { get; set; } = new TiktokDeviceGenerator();
+        [ProtoIgnore] public TiktokDeviceGenerator TiktokDeviceDetails { get; set; } = new TiktokDeviceGenerator();
 
-        [ProtoIgnore]
-        public int LastLogin { get; set; }
+        [ProtoIgnore] public int LastLogin { get; set; }
 
-        [ProtoMember(21)]
-        public int LastUpdateTime { get; set; }
+        [ProtoMember(21)] public int LastUpdateTime { get; set; }
 
         #endregion
 
         #region Module Wise Details
 
         //It cont
-        [ProtoMember(12)]
-        public string ModulePrivateDetails { get; set; }
+        [ProtoMember(12)] public string ModulePrivateDetails { get; set; }
 
 
         public string GetModulePrivateDetailsValue([CallerMemberName] string PropertyName = null)
@@ -144,7 +136,6 @@ namespace DominatorHouseCore.Models
                 e.TraceLog();
                 return string.Empty;
             }
-
         }
 
 
@@ -152,7 +143,7 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                ModulePrivateDetails = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+                ModulePrivateDetails = JsonConvert.SerializeObject(model);
             }
             catch (Exception Ex)
             {
@@ -165,7 +156,7 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                JObject jObject = JObject.Parse(ModulePrivateDetails);
+                var jObject = JObject.Parse(ModulePrivateDetails);
                 jObject[PropertyName] = value.ToString();
                 ModulePrivateDetails = jObject.ToString();
             }
@@ -184,90 +175,91 @@ namespace DominatorHouseCore.Models
         [ProtoMember(16)]
         public int? DisplayColumnValue1
         {
-            get { return _displayColumnValue1; }
-            set { SetProperty(ref _displayColumnValue1, value); }
+            get => _displayColumnValue1;
+            set => SetProperty(ref _displayColumnValue1, value);
         }
 
         [ProtoMember(17)]
         public int? DisplayColumnValue2
         {
-            get { return _displayColumnValue2; }
-            set { SetProperty(ref _displayColumnValue2, value); }
+            get => _displayColumnValue2;
+            set => SetProperty(ref _displayColumnValue2, value);
         }
 
         [ProtoMember(18)]
         public int? DisplayColumnValue3
         {
-            get { return _displayColumnValue3; }
-            set { SetProperty(ref _displayColumnValue3, value); }
+            get => _displayColumnValue3;
+            set => SetProperty(ref _displayColumnValue3, value);
         }
 
         [ProtoMember(19)]
         public int? DisplayColumnValue4
         {
-            get { return _displayColumnValue4; }
-            set { SetProperty(ref _displayColumnValue4, value); }
+            get => _displayColumnValue4;
+            set => SetProperty(ref _displayColumnValue4, value);
         }
 
         [ProtoMember(20)]
         public int? DisplayColumnValue5
         {
-            get { return _displayColumnValue5; }
-            set { SetProperty(ref _displayColumnValue5, value); }
+            get => _displayColumnValue5;
+            set => SetProperty(ref _displayColumnValue5, value);
         }
 
-        
 
         [ProtoIgnore]
         public int? DisplayColumnValue6
         {
-            get { return _displayColumnValue6; }
-            set { SetProperty(ref _displayColumnValue6, value); }
+            get => _displayColumnValue6;
+            set => SetProperty(ref _displayColumnValue6, value);
         }
 
         [ProtoIgnore]
         public int? DisplayColumnValue7
         {
-            get { return _displayColumnValue7; }
-            set { SetProperty(ref _displayColumnValue7, value); }
+            get => _displayColumnValue7;
+            set => SetProperty(ref _displayColumnValue7, value);
         }
+
         [ProtoIgnore]
         public int? DisplayColumnValue8
         {
-            get { return _displayColumnValue8; }
-            set { SetProperty(ref _displayColumnValue8, value); }
+            get => _displayColumnValue8;
+            set => SetProperty(ref _displayColumnValue8, value);
         }
+
         [ProtoIgnore]
         public int? DisplayColumnValue9
         {
-            get { return _displayColumnValue9; }
-            set { SetProperty(ref _displayColumnValue9, value); }
+            get => _displayColumnValue9;
+            set => SetProperty(ref _displayColumnValue9, value);
         }
+
         [ProtoIgnore]
         public int? DisplayColumnValue10
         {
-            get { return _displayColumnValue10; }
-            set { SetProperty(ref _displayColumnValue10, value); }
+            get => _displayColumnValue10;
+            set => SetProperty(ref _displayColumnValue10, value);
         }
 
         #endregion
 
         #region Aliases of AccountBaseModel
 
-        [ProtoMember(15)]
-        public string AccountId { get; set; }
+        [ProtoMember(15)] public string AccountId { get; set; }
 
-        [ProtoIgnore]
-        public string UserName => AccountBaseModel?.UserName;
+        [ProtoIgnore] public string UserName => AccountBaseModel?.UserName;
 
         #endregion
 
 
         private HashSet<CookieHelper> _cookieHelperList = new HashSet<CookieHelper>();
+
         [ProtoMember(13)]
         public HashSet<CookieHelper> CookieHelperList
         {
-            get { return _cookieHelperList; }
+            get => _cookieHelperList;
             set
             {
                 if (_cookieHelperList != null && _cookieHelperList == value)
@@ -296,18 +288,16 @@ namespace DominatorHouseCore.Models
                 var cookieCollection = new CookieCollection();
 
                 if (_cookieHelperList != null)
-                {
                     foreach (var cookieHelper in _cookieHelperList)
-                        cookieCollection.Add(new Cookie()
+                        cookieCollection.Add(new Cookie
                         {
                             Domain = cookieHelper.Domain,
                             Name = cookieHelper.Name,
                             Value = cookieHelper.Value,
                             Expires = cookieHelper.Expires,
                             HttpOnly = false,
-                            Secure = true,
+                            Secure = true
                         });
-                }
 
                 return cookieCollection;
             }
@@ -332,13 +322,7 @@ namespace DominatorHouseCore.Models
 
         public CancellationTokenSource CancellationSource = new CancellationTokenSource();
 
-        public CancellationToken Token
-        {
-            get
-            {
-                return CancellationSource.Token;
-            }
-        }
+        public CancellationToken Token => CancellationSource.Token;
 
         public void NotifyCancelled()
         {
@@ -349,10 +333,7 @@ namespace DominatorHouseCore.Models
 
         public string VarificationCode
         {
-            get
-            {
-                return _varificationCode;
-            }
+            get => _varificationCode;
             set
             {
                 if (_varificationCode == value)
@@ -362,13 +343,11 @@ namespace DominatorHouseCore.Models
         }
 
         private MailCredentials _mailCredentials = new MailCredentials();
+
         [ProtoMember(22)]
         public MailCredentials MailCredentials
         {
-            get
-            {
-                return _mailCredentials;
-            }
+            get => _mailCredentials;
             set
             {
                 if (_mailCredentials == value)
@@ -376,17 +355,15 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _mailCredentials, value);
             }
         }
+
         private bool _isAutoVerifyByEmail;
+
         [ProtoMember(23)]
         public bool IsAutoVerifyByEmail
         {
-            get
-            {
-                return _isAutoVerifyByEmail;
-            }
+            get => _isAutoVerifyByEmail;
             set
             {
-
                 if (_isAutoVerifyByEmail == value)
                     return;
                 if (value)
@@ -394,17 +371,18 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isAutoVerifyByEmail, value);
             }
         }
+
         private bool _isUseSSL;
 
         [ProtoMember(24)]
         public bool IsUseSSL
         {
-            get { return _isUseSSL; }
-            set { SetProperty(ref _isUseSSL, value); }
+            get => _isUseSSL;
+            set => SetProperty(ref _isUseSSL, value);
         }
 
         /// <summary>
-        /// Using ActivityType:Querytype:Queryvalue as a key
+        ///     Using ActivityType:Querytype:Queryvalue as a key
         /// </summary>
         [ProtoMember(25)]
         public Dictionary<string, string> PaginationId { get; set; }
@@ -414,39 +392,24 @@ namespace DominatorHouseCore.Models
 
         public string NewPassword
         {
-            get
-            {
-                return _newPassword;
-            }
-            set
-            {
-                SetProperty(ref _newPassword, value);
-            }
+            get => _newPassword;
+            set => SetProperty(ref _newPassword, value);
         }
-
 
 
         private string _resetPasswordLink = string.Empty;
 
         public string ResetPasswordLink
         {
-            get
-            {
-                return _resetPasswordLink;
-            }
-            set
-            {
-                SetProperty(ref _resetPasswordLink, value);
-            }
+            get => _resetPasswordLink;
+            set => SetProperty(ref _resetPasswordLink, value);
         }
 
         private bool _isVerificationCodeSent;
+
         public bool IsVerificationCodeSent
         {
-            get
-            {
-                return _isVerificationCodeSent;
-            }
+            get => _isVerificationCodeSent;
             set
             {
                 if (_isVerificationCodeSent == value)
@@ -459,32 +422,26 @@ namespace DominatorHouseCore.Models
         public string ChallengeUrl { get; set; } = string.Empty;
 
         private bool _isManualVerify;
+
         public bool IsManualVerify
         {
-            get
-            {
-                return _isManualVerify;
-            }
+            get => _isManualVerify;
             set
             {
                 if (value)
                     IsAutoVerifyByEmail = false;
                 SetProperty(ref _isManualVerify, value);
-
             }
         }
 
         private bool _isRunProcessThroughBrowser;
+
         [ProtoMember(28)]
         public bool IsRunProcessThroughBrowser
         {
-            get
-            {
-                return _isRunProcessThroughBrowser;
-            }
+            get => _isRunProcessThroughBrowser;
             set
             {
-
                 if (_isRunProcessThroughBrowser == value)
                     return;
                 SetProperty(ref _isRunProcessThroughBrowser, value);
@@ -493,10 +450,11 @@ namespace DominatorHouseCore.Models
 
 
         private HashSet<CookieHelper> _BrowserCookieHelperList = new HashSet<CookieHelper>();
+
         [ProtoMember(29)]
         public HashSet<CookieHelper> BrowserCookieHelperList
         {
-            get { return _BrowserCookieHelperList; }
+            get => _BrowserCookieHelperList;
             set
             {
                 if (_BrowserCookieHelperList != null && _BrowserCookieHelperList == value)
@@ -509,8 +467,8 @@ namespace DominatorHouseCore.Models
         [ProtoMember(30)]
         public string DisplayColumnValue11
         {
-            get { return _displayColumnValue11; }
-            set { SetProperty(ref _displayColumnValue11, value); }
+            get => _displayColumnValue11;
+            set => SetProperty(ref _displayColumnValue11, value);
         }
 
         [ProtoIgnore]
@@ -521,12 +479,10 @@ namespace DominatorHouseCore.Models
                 var cookieCollection = new CookieCollection();
 
                 if (_BrowserCookieHelperList != null)
-                {
                     foreach (var cookieHelper in _BrowserCookieHelperList)
-                    {
-                        if (cookieHelper.Name.Contains("csrftoken") || cookieHelper.Name.Contains("ds_user_id") || cookieHelper.Name.Contains("mid"))
-                        {
-                            cookieCollection.Add(new Cookie()
+                        if (cookieHelper.Name.Contains("csrftoken") || cookieHelper.Name.Contains("ds_user_id") ||
+                            cookieHelper.Name.Contains("mid"))
+                            cookieCollection.Add(new Cookie
                             {
                                 Domain = cookieHelper.Domain,
                                 Name = cookieHelper.Name,
@@ -534,10 +490,8 @@ namespace DominatorHouseCore.Models
                                 Secure = true,
                                 HttpOnly = false
                             });
-                        }
                         else
-                        {
-                            cookieCollection.Add(new Cookie()
+                            cookieCollection.Add(new Cookie
                             {
                                 Domain = cookieHelper.Domain,
                                 Name = cookieHelper.Name,
@@ -545,10 +499,6 @@ namespace DominatorHouseCore.Models
                                 Secure = true,
                                 HttpOnly = false
                             });
-                        }
-                    }
-
-                }
 
                 return cookieCollection;
             }
@@ -556,7 +506,6 @@ namespace DominatorHouseCore.Models
             {
                 _BrowserCookieHelperList = value?.Cast<Cookie>().Select(cookie => new CookieHelper
                 {
-
                     Domain = cookie.Domain,
                     Name = cookie.Name,
                     Value = cookie.Value,
@@ -565,16 +514,16 @@ namespace DominatorHouseCore.Models
                 }).ToHashSet();
             }
         }
+
         public bool IsNeedToSchedule { get; set; } = true;
 
         public string Challenge_Context { get; set; } = string.Empty;
 
-        [ProtoMember(26)]
-        public string UserAgentMobileWeb { get; set; } = string.Empty;
+        [ProtoMember(26)] public string UserAgentMobileWeb { get; set; } = string.Empty;
 
         public DominatorAccountModel Clone()
         {
-            return (DominatorAccountModel)MemberwiseClone();
+            return (DominatorAccountModel) MemberwiseClone();
         }
 
         internal object Where(Func<object, bool> p)

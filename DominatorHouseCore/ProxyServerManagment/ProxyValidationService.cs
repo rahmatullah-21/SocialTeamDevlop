@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Models;
+﻿#region
+
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.ProxyServerManagment
 {
@@ -13,6 +17,7 @@ namespace DominatorHouseCore.ProxyServerManagment
         {
             return IsValidProxyIp(proxyAddress) && IsValidProxyPort(proxyPort);
         }
+
         private bool IsValidProxyIp(string proxyAddress)
         {
             return !string.IsNullOrWhiteSpace(proxyAddress) && Proxy.IsValidProxyIp(proxyAddress);

@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Models;
+﻿#region
+
+using DominatorHouseCore.Models;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -11,6 +15,5 @@ namespace DominatorHouseCore.Interfaces
         string GetGoogleImages();
 
         bool HasMoreResults();
-
     }
 }

@@ -1,12 +1,16 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 {
     public class HashtagScrape
     {
         [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order =1)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         [Indexed]
         [AutoIncrement]
         public int Id { get; set; }

@@ -1,3 +1,115 @@
+ï»¿Version[1.0.0.99],[14th December 2020] 
+Fixed:-
+ 	Social:
+		Fixed minor issues and improved performace.
+
+Version[1.0.0.98],[8th December 2020] 
+Fixed:-
+ 	Social:
+		Sociopublisher ==> Instagram ==> Fixed issue with Posting Caption
+		Sociopublisher ==> Twitter ==> Post Configuration ==> Advance Settings ==> Fixed issue with delete post.
+
+	Instagram:
+		 Accounts ==> Accounts Manager ==> Fixed issue with Browser Login	
+		
+	Linkedin:
+		Salesnavigator Scraper ==> User scraper ==> Fixed issue with scraping report Profile URL
+
+	Facebook:
+		Grow Friends ==> Fixed issue with Sending Friend Request 
+		Grow Friends ==> Fixed issue with Incoming Friend Request
+		Broadcast Messages ==> Fixed issue with Broadcast Message 
+		Scraper ==> Fixed issue with Profile Scraper
+		Engage ==> Fixed issue with Post like
+
+	Twitter:
+		Accounts ==> Accounts Manager ==> Fixed issue with Login
+ 		Grow Followers ==> Mute ==> Fixed issue with Mute
+
+
+Version[1.0.0.97],[4th November 2020] 
+Fixed:-
+ 	Social:-
+		Sociopublisher ==> Instagram ==> Fixed issue with posting. 
+    		Sociopublisher ==> Twitter ==> Create singlepost ==> Fixed issue with publish on wall.
+	
+	Facebook:-
+		Grow Friends ==> Send Friend Request ==> Fixed issue with Group members. 
+		Engage ==> Comment Likers ==> Fixed issue with Group Post Comment.
+		Engage ==> Fixed issue with post comment.
+		Engage ==> Post Like ==> Fixed issue with TimeLine/NewsFeed.  
+		Broadcast Messages ==> Broadcast Message ==> Fixed issue with Own Friends.
+		Scrapper ==> Comment scrapper ==> Page post comment ==> Fixed issue with report.
+
+Version[1.0.0.96],[24rd October 2020] 
+Fixed:-
+ 	Social :-
+		Sociopublisher ==> Facebook ==> Fixed with Posting In Group.
+	
+	Facebook:
+		Broadcast Messages ==> Fixed issue with Broadcast Message.
+		Scraper ==> Post Scraper ==> Fixed issue with page.
+		
+	Twitter:
+		Twitter ==> Comment ==> Fixed issue with comments.
+		
+	Linkedin:
+  		Messenger ==> Broadcast Messages ==> Fixed issue with Outside software & custom users list.
+		Scraper ==> Company Scraper ==> Fixed issue with Search Url.
+
+	Instagram :
+		Instaposter ==> Reposter ==> Using loction post ==> Fixed issue with Reposter.
+		Broadcast Messages ==> Fixed issue with Broadcast Message
+		Account Manager ==> Fixed issue with Account Login.
+
+Version[1.0.0.95],[09th October 2020] 
+Fixed:-
+ 	Social :-
+		Sociopublisher ==> Facebook ==> Fixed issue with story on facebook. 
+	
+	Facebook:
+		Grow Friends ==> Send Friend Request ==> Fixed issue with sending friend request.
+		Accounts ==> Account Manager ==> Fixed issue with updating account details. 
+		Broadcast Messages ==> Fixed issue with Broadcast Message.
+		
+	Twitter:
+		Engage ==> Comment ==> Manage Blacklisted users ==> Skip blacklisted user issue fixed.
+		
+	Linkedin:
+  		Accounts ==> Account Manager ==> Fixed issue with updating account details. 
+    		Grow Connection ==>  Connection request ==> Fixed Issue with Profile URL.
+     		Grow Connection ==>  Connection request ==> Fixed issue with filters.
+
+
+Version [1.0.0.94],[7th October 2020]		 				
+Fixed:-
+       Fixed minor issues and improved performance.
+		
+Version[1.0.0.93],[15th Septembar 2020] 
+New features:-
+	Pinterest:
+     		Accounts ==> Accounts Manager ==> Now you can create a Pinterest account
+
+Fixed:-
+	Social:
+		Create single post ==> Linkedin ==> Fixed issue in while publishing
+	
+	Facebook:
+		Grow Friends ==> Fixed issue with Incoming Friend Request
+		Grow Friends ==> Send Friend Request ==> Fixed issue with Page Post Likers
+		Grow Friends ==> Send Friend Request ==> Fixed issue with Suggested Friend
+
+	Instagram:
+ 		Accounts ==> Accounts Manager ==> Fixed account login issue
+
+	Pinterest:
+		Accounts ==> Accounts Manager ==> Fixed browser login
+
+	Linkedin:
+		Grow Connection ==> Connection Request ==> Fixed issue with Profile URL 
+		Engage ==> Like ==> Fixed issue with Company URL posts
+
+
 Version[1.0.0.92],[20th August 2020] 
 Fixed:-
 	Facebook:
@@ -622,7 +734,7 @@ Fixed:-
 
 
 	Linkedin:
-		Browser mode » connection » Withdraw connection request==>Fixed issue with Withdraw connection request.
+		Browser mode ï¿½ connection ï¿½ Withdraw connection request==>Fixed issue with Withdraw connection request.
 		Group==>Group Joiner==>Browser mode==>Fixed issue with Group joiner.
 		Broadcast message==>facing issue when sending message with media file==>Fixed issue with Broadcast message.
 		Socialpublisher==>Ownwall==>In Browsermode==>Fixed issue with pubisher ownwall.

@@ -1,7 +1,6 @@
-﻿
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+﻿namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherManagePostPendingViewModel : PublisherPostlistBaseViewModel
-    { }
-    
+    {
+    }
 }

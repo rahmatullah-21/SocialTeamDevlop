@@ -1,14 +1,17 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using DominatorHouseCore.Enums;
 using ProtoBuf;
 
+#endregion
+
 namespace DominatorHouseCore.Models
 {
     /// <summary>
-    /// Gender Filter is used to filter the user by genders
+    ///     Gender Filter is used to filter the user by genders
     /// </summary>
-
     [ProtoContract]
     public class GenderFilter
     {
@@ -30,8 +33,6 @@ namespace DominatorHouseCore.Models
         [ProtoMember(4)]
         // Ignore the other user 
         public bool IgnoreOthersUser { get; set; }
-
-
     }
 
     public static class GenderGuesser
@@ -40,10 +41,12 @@ namespace DominatorHouseCore.Models
         {
             Environment.NewLine
         }, StringSplitOptions.RemoveEmptyEntries));
+
         private static readonly HashSet<string> MaleNames = new HashSet<string>(Resources.maleNames.Split(new[]
         {
             Environment.NewLine
         }, StringSplitOptions.RemoveEmptyEntries));
+
         private static readonly HashSet<string> UnisexNames = new HashSet<string>(Resources.unisexNames.Split(new[]
         {
             Environment.NewLine

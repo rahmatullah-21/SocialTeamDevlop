@@ -9,8 +9,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
     public class QuoraViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {
         private readonly IGenericFileManager _genericFileManager;
-        public QuoraModel QuoraModel { get; }
-        public DelegateCommand SaveCmd { get; }
+
         public QuoraViewModel(IGenericFileManager genericFileManager) : base("LangKeyQuora", "QuoraControlTemplate")
         {
             _genericFileManager = genericFileManager;
@@ -19,10 +18,14 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                          new QuoraModel();
         }
 
+        public QuoraModel QuoraModel { get; }
+        public DelegateCommand SaveCmd { get; }
+
         private void Save()
         {
             if (_genericFileManager.Overrride(QuoraModel, ConstantVariable.GetOtherQuoraSettingsFile()))
-                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeyQuoraConfigurationSaved".FromResourceDictionary());
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(),
+                    "LangKeyQuoraConfigurationSaved".FromResourceDictionary());
         }
     }
 }

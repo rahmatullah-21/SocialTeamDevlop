@@ -1,8 +1,13 @@
-﻿namespace DominatorHouseCore.Dal.DbMigrations
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.DHTables;
+
+#endregion
+
+namespace DominatorHouseCore.Dal.DbMigrations
 {
     public interface IGlobalDatabaseWhiteListMigrations : IDbMigration
     {
-
     }
 
     public class GlobalDatabaseWhiteListMigrations : BaseDbMigrations, IGlobalDatabaseWhiteListMigrations
@@ -11,7 +16,7 @@
         {
             AddMigrations(1, conn =>
             {
-                conn.CreateTable<DatabaseHandler.DHTables.WhiteListUser>();
+                conn.CreateTable<WhiteListUser>();
                 return "Initialization";
             });
         }

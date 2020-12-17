@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
 {
@@ -7,16 +11,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
     public class RedditModel : BindableBase
     {
         private bool _isMarkAsNsfw;
+
         [ProtoMember(1)]
         public bool IsMarkAsNsfw
         {
-            get
-            {
-                return _isMarkAsNsfw;
-            }
+            get => _isMarkAsNsfw;
             set
             {
-              
                 if (_isMarkAsNsfw == value)
                     return;
                 SetProperty(ref _isMarkAsNsfw, value);
@@ -25,64 +26,54 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
 
 
         private bool _isMarkAsOriginalContent;
+
         [ProtoMember(2)]
         public bool IsMarkAsOriginalContent
         {
-            get
-            {
-                return _isMarkAsOriginalContent;
-            }
+            get => _isMarkAsOriginalContent;
             set
-            {                
-               
+            {
                 if (_isMarkAsOriginalContent == value)
                     return;
-              
+
                 SetProperty(ref _isMarkAsOriginalContent, value);
             }
         }
 
 
         private bool _isMarkAsSpoiler;
+
         [ProtoMember(3)]
         public bool IsMarkAsSpoiler
         {
-            get
-            {
-                return _isMarkAsSpoiler;
-            }
+            get => _isMarkAsSpoiler;
             set
-            {              
-               
+            {
                 if (_isMarkAsSpoiler == value)
                     return;
-             
+
                 SetProperty(ref _isMarkAsSpoiler, value);
             }
         }
 
 
         private bool _isDisableSendingReplies;
+
         [ProtoMember(4)]
         public bool IsDisplaySendingReplies
         {
-            get
-            {
-                return _isDisableSendingReplies;
-            }
+            get => _isDisableSendingReplies;
             set
-            {                
-                
+            {
                 if (_isDisableSendingReplies == value)
                     return;
-                
+
                 SetProperty(ref _isDisableSendingReplies, value);
             }
         }
 
 
-        [ProtoMember(5)]
-        public string CampaignId { get; set; }
+        [ProtoMember(5)] public string CampaignId { get; set; }
 
 
         private bool _isNsfwSubOptions;
@@ -93,16 +84,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         [ProtoMember(6)]
         public bool IsNsfwSubOptions
         {
-            get
-            {
-                return _isNsfwSubOptions;
-            }
+            get => _isNsfwSubOptions;
             set
             {
                 if (_isNsfwSubOptions == value)
                     return;
 
-               
+
                 SetProperty(ref _isNsfwSubOptions, value);
             }
         }
@@ -110,16 +98,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         [ProtoMember(7)]
         public bool IsOriginalContentSubOptions
         {
-            get
-            {
-                return _isOriginalContentSubOptions;
-            }
+            get => _isOriginalContentSubOptions;
             set
             {
                 if (_isOriginalContentSubOptions == value)
                     return;
 
-                
+
                 SetProperty(ref _isOriginalContentSubOptions, value);
             }
         }
@@ -127,16 +112,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         [ProtoMember(8)]
         public bool IsSpoilerSubOptions
         {
-            get
-            {
-                return _isSpoilerSubOptions;
-            }
+            get => _isSpoilerSubOptions;
             set
             {
                 if (_isSpoilerSubOptions == value)
                     return;
 
-               
+
                 SetProperty(ref _isSpoilerSubOptions, value);
             }
         }
@@ -145,23 +127,20 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         [ProtoMember(9)]
         public bool IsDisableSendingSubOptions
         {
-            get
-            {
-                return _isDisableSendingSubOptions;
-            }
+            get => _isDisableSendingSubOptions;
             set
             {
                 if (_isDisableSendingSubOptions == value)
                     return;
 
-                
+
                 SetProperty(ref _isDisableSendingSubOptions, value);
             }
         }
 
         public RedditModel Clone()
         {
-            return (RedditModel)MemberwiseClone();
+            return (RedditModel) MemberwiseClone();
         }
     }
 }

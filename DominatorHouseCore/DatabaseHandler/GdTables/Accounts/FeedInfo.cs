@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 {
@@ -9,39 +13,31 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         [Indexed]
         [AutoIncrement]
-        public int Id
-        { get; set; }
+        public int Id { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        public string Caption
-        { get; set; }
+        public string Caption { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public int CommentCount
-        { get; set; }
+        public int CommentCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public bool CommentsDisabled
-        { get; set; }
+        public bool CommentsDisabled { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public string Preview
-        { get; set; }
+        public string Preview { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int TakenAt
-        { get; set; }
+        public int TakenAt { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public double VideoDuration
-        { get; set; }
+        public double VideoDuration { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public int ViewCount
-        { get; set; }
+        public int ViewCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string MediaId { get; set; }
@@ -51,9 +47,8 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string MediaCode { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string PostedBy { get; set; }
-
-
     }
 }

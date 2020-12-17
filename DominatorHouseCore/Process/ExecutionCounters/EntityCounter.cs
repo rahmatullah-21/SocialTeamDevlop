@@ -6,7 +6,8 @@
         public int NoOfActionPerformedCurrentDay { get; private set; }
         public int NoOfActionPerformedCurrentHour { get; private set; }
 
-        public EntityCounter(int noOfActionPerformedCurrentWeek, int noOfActionPerformedCurrentDay, int noOfActionPerformedCurrentHour)
+        public EntityCounter(int noOfActionPerformedCurrentWeek, int noOfActionPerformedCurrentDay,
+            int noOfActionPerformedCurrentHour)
         {
             NoOfActionPerformedCurrentWeek = noOfActionPerformedCurrentWeek;
             NoOfActionPerformedCurrentDay = noOfActionPerformedCurrentDay;

@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -12,6 +16,5 @@ namespace DominatorHouseCore.Models
 
         [ProtoMember(1)]
         public SortedList<string, DateTime> InteractedData { get; set; } = new SortedList<string, DateTime>();
-
     }
 }

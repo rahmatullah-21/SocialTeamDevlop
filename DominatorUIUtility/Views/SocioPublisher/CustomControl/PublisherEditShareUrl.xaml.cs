@@ -11,19 +11,20 @@ using DominatorHouseCore.Utility;
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
     /// <summary>
-    /// Interaction logic for PublisherEditSourceUrl.xaml
+    ///     Interaction logic for PublisherEditSourceUrl.xaml
     /// </summary>
     public partial class PublisherEditShareUrl : UserControl
     {
-        private PublisherPostlistModel currentPostData;
-        private ObservableCollection<PublisherPostlistModel> lstPublisherPostlist;
+        private readonly PublisherPostlistModel currentPostData;
+        private readonly ObservableCollection<PublisherPostlistModel> lstPublisherPostlist;
 
         public PublisherEditShareUrl()
         {
             InitializeComponent();
         }
 
-        public PublisherEditShareUrl(PublisherPostlistModel currentPost, ObservableCollection<PublisherPostlistModel> lstPublisherPostlist):this()
+        public PublisherEditShareUrl(PublisherPostlistModel currentPost,
+            ObservableCollection<PublisherPostlistModel> lstPublisherPostlist) : this()
         {
             currentPostData = currentPost.DeepClone();
             this.lstPublisherPostlist = lstPublisherPostlist;
@@ -49,12 +50,12 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 var indexToUpdate = lstPublisherPostlist.FindIndex(posts => posts.PostId == currentPostData.PostId);
                 lstPublisherPostlist[indexToUpdate] = currentPostData;
                 PostlistFileManager.UpdatePostlists(currentPostData.CampaignId, lstPublisherPostlist);
-               
             }
             catch (Exception ex)
             {
-               ex.DebugLog();
+                ex.DebugLog();
             }
+
             Dialog.CloseDialog(sender);
         }
 

@@ -45,8 +45,8 @@
                     </Setter.Value>
                 </Setter>
                 <Setter Property="IsExpanded" Value="False" />
-                <EventSetter Event="Expanded" Handler="CheckAllforExpand"/>
-                <EventSetter Event="Collapsed" Handler="CheckAllforExpand"/>
+                <EventSetter Event="Expanded" Handler="CheckAllForExpand"/>
+                <EventSetter Event="Collapsed" Handler="CheckAllForExpand"/>
             </Style>
             <Style TargetType="{x:Type CheckBox}">
                 <Setter Property="Template">

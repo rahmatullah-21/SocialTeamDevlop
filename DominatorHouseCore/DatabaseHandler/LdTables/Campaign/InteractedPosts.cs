@@ -1,7 +1,10 @@
-﻿using DominatorHouseCore.DatabaseHandler.LdTables.Account;
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.LdTables.Account;
 using DominatorHouseCore.Enums;
 using SQLite;
-using System;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
 {
@@ -14,41 +17,40 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         public int Id { get; set; }
 
         /// <summary>
-        /// EmailId of the Account from which Interaction has been done
+        ///     EmailId of the Account from which Interaction has been done
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountEmail { get; set; }
 
         /// <summary>
-        /// Contains QueryType For Interaction
+        ///     Contains QueryType For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         /// <summary>
-        /// Contains QueryValue For Interaction
+        ///     Contains QueryValue For Interaction
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string QueryValue { get; set; }
 
         /// <summary>
-        /// Describes Activity 
+        ///     Describes Activity
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string ActivityType { get; set; }
 
         /// <summary>
-        /// Image or Video or Text
+        ///     Image or Video or Text
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public MediaType MediaType { get; set; }
 
         /// <summary>
-        /// Contains ContentId of the Post being interacted
+        ///     Contains ContentId of the Post being interacted
         /// </summary>
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
@@ -56,31 +58,31 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
 
 
         /// <summary>
-        /// Contains PostTitle of the Post being interacted
+        ///     Contains PostTitle of the Post being interacted
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public string PostTitle { get; set; }
 
         /// <summary>
-        /// Contains PostDiscussion of the Post being interacted
+        ///     Contains PostDiscussion of the Post being interacted
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string PostDescription { get; set; }
 
         /// <summary>
-        /// Contains MyComment On the Post being interacted
+        ///     Contains MyComment On the Post being interacted
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string MyComment { get; set; }
 
         /// <summary>
-        /// Contains LikesCount On the Post being interacted
+        ///     Contains LikesCount On the Post being interacted
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string LikeCount { get; set; }
 
         /// <summary>
-        /// Contains Comments Count On the Post being interacted
+        ///     Contains Comments Count On the Post being interacted
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string CommentCount { get; set; }
@@ -89,7 +91,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         public string ShareCount { get; set; }
 
         /// <summary>
-        /// Contains name of the user who created the Post
+        ///     Contains name of the user who created the Post
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public string PostOwnerFullName { get; set; }
@@ -101,10 +103,10 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         public ConnectionType ConnectionType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
-        public Int64 PostedTime { get; set; }
+        public long PostedTime { get; set; }
 
         /// <summary>
-        /// TimeStamp when interacted with the Post
+        ///     TimeStamp when interacted with the Post
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public int InteractionTimeStamp { get; set; }

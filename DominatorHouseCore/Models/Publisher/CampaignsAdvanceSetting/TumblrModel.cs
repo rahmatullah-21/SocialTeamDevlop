@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
 {
@@ -11,10 +15,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         [ProtoMember(1)]
         public bool IsRemoveTagsFromPostText
         {
-            get
-            {
-                return _isRemoveTagsFromPostText;
-            }
+            get => _isRemoveTagsFromPostText;
             set
             {
                 if (_isRemoveTagsFromPostText == value)
@@ -22,16 +23,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isRemoveTagsFromPostText, value);
             }
         }
-        
+
         private bool _isEnableAutomaticHashTags;
 
         [ProtoMember(2)]
         public bool IsEnableAutomaticHashTags
         {
-            get
-            {
-                return _isEnableAutomaticHashTags;
-            }
+            get => _isEnableAutomaticHashTags;
             set
             {
                 if (_isEnableAutomaticHashTags == value)
@@ -40,17 +38,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
             }
         }
 
-       
 
         private int _maxHashtagsPerPost;
 
         [ProtoMember(3)]
         public int MaxHashtagsPerPost
         {
-            get
-            {
-                return _maxHashtagsPerPost;
-            }
+            get => _maxHashtagsPerPost;
             set
             {
                 if (_maxHashtagsPerPost == value)
@@ -58,15 +52,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _maxHashtagsPerPost, value);
             }
         }
+
         private string _hashWords;
 
         [ProtoMember(4)]
         public string HashWords
         {
-            get
-            {
-                return _hashWords;
-            }
+            get => _hashWords;
             set
             {
                 if (_hashWords == value)
@@ -74,15 +66,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _hashWords, value);
             }
         }
+
         private int _minimumWordLength;
 
         [ProtoMember(5)]
         public int MinimumWordLength
         {
-            get
-            {
-                return _minimumWordLength;
-            }
+            get => _minimumWordLength;
             set
             {
                 if (_minimumWordLength == value)
@@ -90,15 +80,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _minimumWordLength, value);
             }
         }
+
         private int _replaceProbability;
 
         [ProtoMember(6)]
         public int ReplaceProbability
         {
-            get
-            {
-                return _replaceProbability;
-            }
+            get => _replaceProbability;
             set
             {
                 if (_replaceProbability == value)
@@ -112,10 +100,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         [ProtoMember(7)]
         public bool IsEnableDynamicHashTags
         {
-            get
-            {
-                return _isEnableDynamicHashTags;
-            }
+            get => _isEnableDynamicHashTags;
             set
             {
                 if (_isEnableDynamicHashTags == value)
@@ -123,15 +108,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isEnableDynamicHashTags, value);
             }
         }
+
         private bool _isAddHashTagEvenIfAlreadyHastags;
 
         [ProtoMember(8)]
         public bool IsAddHashTagEvenIfAlreadyHastags
         {
-            get
-            {
-                return _isAddHashTagEvenIfAlreadyHastags;
-            }
+            get => _isAddHashTagEvenIfAlreadyHastags;
             set
             {
                 if (_isAddHashTagEvenIfAlreadyHastags == value)
@@ -139,15 +122,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isAddHashTagEvenIfAlreadyHastags, value);
             }
         }
+
         private RangeUtilities _maxHashtagsPerPostRange = new RangeUtilities();
 
         [ProtoMember(9)]
         public RangeUtilities MaxHashtagsPerPostRange
         {
-            get
-            {
-                return _maxHashtagsPerPostRange;
-            }
+            get => _maxHashtagsPerPostRange;
             set
             {
                 if (_maxHashtagsPerPostRange == value)
@@ -155,15 +136,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _maxHashtagsPerPostRange, value);
             }
         }
+
         private int _pickPercentHashTag;
 
         [ProtoMember(10)]
         public int PickPercentHashTag
         {
-            get
-            {
-                return _pickPercentHashTag;
-            }
+            get => _pickPercentHashTag;
             set
             {
                 if (_pickPercentHashTag == value)
@@ -171,15 +150,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _pickPercentHashTag, value);
             }
         }
+
         private int _pickPercentFromList;
 
         [ProtoMember(11)]
         public int PickPercentFromList
         {
-            get
-            {
-                return _pickPercentFromList;
-            }
+            get => _pickPercentFromList;
             set
             {
                 if (_pickPercentFromList == value)
@@ -187,17 +164,14 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _pickPercentFromList, value);
             }
         }
-       
-        [ProtoMember(12)]
-        public string CampaignId { get; set; }
+
+        [ProtoMember(12)] public string CampaignId { get; set; }
         private string _hashtagsFromList1;
+
         [ProtoMember(13)]
         public string HashtagsFromList1
         {
-            get
-            {
-                return _hashtagsFromList1;
-            }
+            get => _hashtagsFromList1;
             set
             {
                 if (_hashtagsFromList1 == value)
@@ -211,10 +185,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         [ProtoMember(14)]
         public string HashtagsFromList2
         {
-            get
-            {
-                return _hashtagsFromList2;
-            }
+            get => _hashtagsFromList2;
             set
             {
                 if (_hashtagsFromList2 == value)
@@ -222,10 +193,10 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _hashtagsFromList2, value);
             }
         }
+
         public TumblrModel Clone()
         {
             return (TumblrModel) MemberwiseClone();
         }
     }
-
 }

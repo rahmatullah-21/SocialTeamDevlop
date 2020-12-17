@@ -10,13 +10,13 @@
 
         public int MaxNoOfActionPerJob { get; }
 
-        public JobLimits(int maxNoOfActionPerWeek, int maxNoOfActionPerDay, int maxNoOfActionPerHour, int maxNoOfActionPerJob)
+        public JobLimits(int maxNoOfActionPerWeek, int maxNoOfActionPerDay, int maxNoOfActionPerHour,
+            int maxNoOfActionPerJob)
         {
             MaxNoOfActionPerWeek = maxNoOfActionPerWeek;
             MaxNoOfActionPerDay = maxNoOfActionPerDay;
             MaxNoOfActionPerHour = maxNoOfActionPerHour;
             MaxNoOfActionPerJob = maxNoOfActionPerJob;
         }
-
     }
 }

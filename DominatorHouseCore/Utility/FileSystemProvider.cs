@@ -1,4 +1,8 @@
-﻿using System.IO;
+﻿#region
+
+using System.IO;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -17,6 +21,7 @@ namespace DominatorHouseCore.Utility
         {
             return File.ReadAllBytes(path);
         }
+
         public bool Exists(string path)
         {
             return File.Exists(path);

@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.Utility;
-using ProtoBuf;
+﻿#region
+
 using System;
 using System.Collections.Generic;
+using DominatorHouseCore.Utility;
+using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -14,10 +18,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(1)]
         public string CampaignId
         {
-            get
-            {
-                return _campaignId;
-            }
+            get => _campaignId;
             set
             {
                 if (_campaignId == value)
@@ -31,10 +32,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(2)]
         public List<string> ListTotalDestination
         {
-            get
-            {
-                return _listTotalDestination;
-            }
+            get => _listTotalDestination;
             set
             {
                 if (_listTotalDestination == value)
@@ -48,10 +46,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(3)]
         public List<string> ListProcessedDestination
         {
-            get
-            {
-                return _listProcessedDestination;
-            }
+            get => _listProcessedDestination;
             set
             {
                 if (_listProcessedDestination == value)
@@ -65,10 +60,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(4)]
         public int DestinationCount
         {
-            get
-            {
-                return _destinationCount;
-            }
+            get => _destinationCount;
             set
             {
                 if (_destinationCount == value)
@@ -82,10 +74,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(5)]
         public List<PostDestinationModel> ListSkippedDestination
         {
-            get
-            {
-                return _listSkippedDestination;
-            }
+            get => _listSkippedDestination;
             set
             {
                 if (_listSkippedDestination == value)
@@ -94,7 +83,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
     }
-
 
 
     [Serializable]
@@ -106,10 +94,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(1)]
         public List<string> DestinationGuidList
         {
-            get
-            {
-                return _destinationGuidList;
-            }
+            get => _destinationGuidList;
             set
             {
                 if (_destinationGuidList == value)
@@ -117,6 +102,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _destinationGuidList, value);
             }
         }
-
     }
 }

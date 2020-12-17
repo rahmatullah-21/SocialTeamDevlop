@@ -1,5 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿#region
+
+using System.Collections.Concurrent;
 using Unity;
+
+#endregion
 
 namespace DominatorHouseCore.Utility
 {
@@ -7,6 +11,7 @@ namespace DominatorHouseCore.Utility
     {
         IUnityContainer this[string accountId] { get; }
     }
+
     public class AccountScopeFactory : IAccountScopeFactory
     {
         private readonly IUnityContainer _unityContainer;
@@ -19,10 +24,7 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public IUnityContainer this[string accountId]
-        {
-            get { return _scopes.GetOrAdd(accountId, CreateScope); }
-        }
+        public IUnityContainer this[string accountId] => _scopes.GetOrAdd(accountId, CreateScope);
 
         private IUnityContainer CreateScope(string accountId)
         {

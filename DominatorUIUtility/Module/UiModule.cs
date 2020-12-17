@@ -73,7 +73,7 @@ namespace DominatorUIUtility.Module
             containerRegistry.RegisterForNavigation<CommunityScraper>();
             containerRegistry.RegisterForNavigation<JobScraper>();
 
-         
+
             containerRegistry.RegisterForNavigation<CompanyScraper>();
             containerRegistry.RegisterForNavigation<GroupMemberScraper>();
             containerRegistry.RegisterForNavigation<SalesNavigatorUserScraper>();
@@ -123,7 +123,7 @@ namespace DominatorUIUtility.Module
             containerRegistry.RegisterForNavigation<MessageToFanpages>();
             containerRegistry.RegisterForNavigation<MessageToPlaces>();
             containerRegistry.RegisterForNavigation<PlaceScraper>();
-            containerRegistry.RegisterForNavigation <EditComment>();
+            containerRegistry.RegisterForNavigation<EditComment>();
         }
 
         public void OnInitialized(IContainerProvider containerProvider)

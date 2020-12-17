@@ -1,7 +1,5 @@
-﻿using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.Utility;
-using Newtonsoft.Json.Linq;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -9,75 +7,86 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using Newtonsoft.Json.Linq;
+
+#endregion
 
 namespace DominatorHouseCore.Request
 {
-
     public class RequestParameters : IRequestParameters
     {
         public RequestParameters(string url)
-        { Url = url; }
+        {
+            Url = url;
+        }
 
-        public RequestParameters() { }
+        public RequestParameters()
+        {
+        }
 
         /// <summary>
-        /// To assign the Cookies for request
+        ///     To assign the Cookies for request
         /// </summary>
         public virtual CookieCollection Cookies { get; set; }
 
         /// <summary>
-        /// To assign the Http header
+        ///     To assign the Http header
         /// </summary>
         public WebHeaderCollection Headers { get; set; } = new WebHeaderCollection();
 
         /// <summary>
-        /// To assign proxy for the http request
+        ///     To assign proxy for the http request
         /// </summary>
-        public Models.Proxy Proxy { get; set; }
+        public Proxy Proxy { get; set; }
 
         /// <summary>
-        /// If its true, allows the same tcp connection for upcoming http connections
+        ///     If its true, allows the same tcp connection for upcoming http connections
         /// </summary>
         public bool KeepAlive { get; set; }
 
         /// <summary>
-        /// To specify media types which are acceptable for the response
+        ///     To specify media types which are acceptable for the response
         /// </summary>
         public string Accept { get; set; }
 
         /// <summary>
-        /// To specify the address of the previous pages of the http request
+        ///     To specify the address of the previous pages of the http request
         /// </summary>
         public string Referer { get; set; }
 
         /// <summary>
-        /// To specify the media type of the body of the http request
+        ///     To specify the media type of the body of the http request
         /// </summary>
         public string ContentType { get; set; }
 
         /// <summary>
-        /// To specify the user agent
+        ///     To specify the user agent
         /// </summary>
         public string UserAgent { get; set; }
 
         /// <summary>
-        /// To specify the get or post request url
+        ///     To specify the get or post request url
         /// </summary>
         public string Url { get; set; }
 
         /// <summary>
-        /// To specify the post data in bytes of sequences
+        ///     To specify the post data in bytes of sequences
         /// </summary>
         public byte[] PostData { get; set; }
 
         /// <summary>
-        /// To specify whether request for media type or not, such as images
+        ///     To specify whether request for media type or not, such as images
         /// </summary>
         public bool IsMultiPart { get; set; }
 
         public bool IsMultiPartForBroadCast { get; set; }
+
         /// <summary>
-        /// AddHeader is used to add the header key and values to <see cref="RequestParameters.Headers"/>
+        ///     AddHeader is used to add the header key and values to <see cref="RequestParameters.Headers" />
         /// </summary>
         /// <param name="key">The header to add to the collection</param>
         /// <param name="value">The content of the header</param>
@@ -94,50 +103,57 @@ namespace DominatorHouseCore.Request
         }
 
         /// <summary>
-        /// To add media files with their respective <see cref="DominatorHouseCore.Request.FileData"/> details
+        ///     To add media files with their respective <see cref="DominatorHouseCore.Request.FileData" /> details
         /// </summary>
         public Dictionary<string, FileData> FileList { get; set; } = new Dictionary<string, FileData>();
 
         /// <summary>
-        /// To append the extra parameter to url
-        /// For example : https://webaddress.com/?paramkey1=paramvalue1&paramkey2=paramvalue2
-        /// Here url : https://webaddress.com/
-        /// So UrlParameters contains two items
-        /// UrlParameters  = new Dictionary &lt;string, string &gt;() { { "paramkey1", "paramvalue1" } , { "paramkey2", "paramvalue2" } };
+        ///     To append the extra parameter to url
+        ///     For example : https://webaddress.com/?paramkey1=paramvalue1&paramkey2=paramvalue2
+        ///     Here url : https://webaddress.com/
+        ///     So UrlParameters contains two items
+        ///     UrlParameters  = new Dictionary &lt;string, string &gt;() { { "paramkey1", "paramvalue1" } , { "paramkey2",
+        ///     "paramvalue2" } };
         /// </summary>
         public Dictionary<string, string> UrlParameters { get; set; }
             = new Dictionary<string, string>();
 
         /// <summary>
-        /// To Add the extra parameter to post data
-        /// For Example posturl =  https://webaddress.com/ and 
-        /// postdata = paramkey1=paramvalue1&paramkey2=paramvalue2
-        /// So PostDataParameters contains two items
-        /// PostDataParameters  = new Dictionary &lt;string, string &gt;() { { "paramkey1", "paramvalue1" } , { "paramkey2", "paramvalue3" } };
+        ///     To Add the extra parameter to post data
+        ///     For Example posturl =  https://webaddress.com/ and
+        ///     postdata = paramkey1=paramvalue1&paramkey2=paramvalue2
+        ///     So PostDataParameters contains two items
+        ///     PostDataParameters  = new Dictionary &lt;string, string &gt;() { { "paramkey1", "paramvalue1" } , { "paramkey2",
+        ///     "paramvalue3" } };
         /// </summary>
         public Dictionary<string, string> PostDataParameters { get; set; }
             = new Dictionary<string, string>();
 
 
-
         /// <summary>
-        /// To add the extra parameter along with url.
-        /// The key and values will add in  <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/>
+        ///     To add the extra parameter along with url.
+        ///     The key and values will add in  <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters" />
         /// </summary>
         /// <param name="key">parameter title</param>
         /// <param name="value">parameter value</param>
-        public void AddUrlParameters(string key, string value) => UrlParameters.Add(key, value);
+        public void AddUrlParameters(string key, string value)
+        {
+            UrlParameters.Add(key, value);
+        }
 
         /// <summary>
-        /// To add the extra parameter in post data.
-        /// The key and values will add in  <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters"/>
+        ///     To add the extra parameter in post data.
+        ///     The key and values will add in  <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters" />
         /// </summary>
         /// <param name="key">parameter title</param>
         /// <param name="value">parameter value</param>
-        public void AddPostDataParameters(string key, string value) => PostDataParameters.Add(key, value);
+        public void AddPostDataParameters(string key, string value)
+        {
+            PostDataParameters.Add(key, value);
+        }
 
         /// <summary>
-        /// To add the file description along with title, image byte sequences and file name 
+        ///     To add the file description along with title, image byte sequences and file name
         /// </summary>
         /// <param name="title">File title</param>
         /// <param name="data">image byte sequences</param>
@@ -160,12 +176,14 @@ namespace DominatorHouseCore.Request
                     FileList.Add(title, fileData);
                 }
             }
+
             IsMultiPart = true;
         }
 
         /// <summary>
-        /// To Generate the request url alone with <see cref="DominatorHouseCore.Request.RequestParameters.Url"/> and stored <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/> items
-        /// </summary>      
+        ///     To Generate the request url alone with <see cref="DominatorHouseCore.Request.RequestParameters.Url" /> and stored
+        ///     <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters" /> items
+        /// </summary>
         /// <returns>returns the valid url</returns>
         public string GenerateUrl()
         {
@@ -174,7 +192,8 @@ namespace DominatorHouseCore.Request
         }
 
         /// <summary>
-        /// To Generate the request url alone with given url and stored <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/> items
+        ///     To Generate the request url alone with given url and stored
+        ///     <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters" /> items
         /// </summary>
         /// <param name="url">the actual url</param>
         /// <returns>returns the valid url</returns>
@@ -189,37 +208,40 @@ namespace DominatorHouseCore.Request
         }
 
         /// <summary>
-        /// To retrieve the stored <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/> items as bytes sequences
+        ///     To retrieve the stored <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters" /> items as bytes
+        ///     sequences
         /// </summary>
-        /// <returns>stored items in <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/></returns>
+        /// <returns>stored items in <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters" /></returns>
         private string[] GetUrlParameterValues()
         {
             return UrlParameters.Select(x =>
-                        $"{WebUtility.UrlEncode(x.Key)}={WebUtility.UrlEncode(x.Value)}").ToArray();
+                $"{WebUtility.UrlEncode(x.Key)}={WebUtility.UrlEncode(x.Value)}").ToArray();
         }
 
 
         /// <summary>
-        /// To generate the normal post data from already stored in <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters"/>
-        /// </summary>       
+        ///     To generate the normal post data from already stored in
+        ///     <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters" />
+        /// </summary>
         /// <returns>post data in sequences of bytes</returns>
         public byte[] GeneratePostData()
         {
             var stringBuilder = new StringBuilder();
-            foreach (KeyValuePair<string, string> postItem in PostDataParameters)
+            foreach (var postItem in PostDataParameters)
             {
                 stringBuilder.Append(postItem.Key);
                 stringBuilder.Append("=");
                 stringBuilder.Append(postItem.Value);
                 stringBuilder.Append("&");
             }
+
             --stringBuilder.Length;
             return Encoding.UTF8.GetBytes(stringBuilder.ToString());
         }
 
 
         /// <summary>
-        /// To generate the normal post data from json string
+        ///     To generate the normal post data from json string
         /// </summary>
         /// <param name="jsonString">post data which will pass as bytes</param>
         /// <returns>post data in sequences of bytes</returns>
@@ -227,20 +249,22 @@ namespace DominatorHouseCore.Request
         {
             var jobject = JObject.Parse(jsonString);
             var stringBuilder = new StringBuilder();
-            foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
+            foreach (var keyValuePair in jobject)
             {
                 stringBuilder.Append(keyValuePair.Key);
                 stringBuilder.Append("=");
                 stringBuilder.Append(keyValuePair.Value);
                 stringBuilder.Append("&");
             }
+
             --stringBuilder.Length;
             return Encoding.UTF8.GetBytes(stringBuilder.ToString());
         }
 
 
         /// <summary>
-        /// To generate the normal post data from json and already stored in <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters"/>
+        ///     To generate the normal post data from json and already stored in
+        ///     <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters" />
         /// </summary>
         /// <param name="jsonString">post data which will pass as bytes</param>
         /// <returns>post data in sequences of bytes</returns>
@@ -248,27 +272,29 @@ namespace DominatorHouseCore.Request
         {
             var jobject = JObject.Parse(jsonString);
             var stringBuilder = new StringBuilder();
-            foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
+            foreach (var keyValuePair in jobject)
             {
                 stringBuilder.Append(keyValuePair.Key);
                 stringBuilder.Append("=");
                 stringBuilder.Append(keyValuePair.Value);
                 stringBuilder.Append("&");
             }
-            foreach (KeyValuePair<string, string> postItem in PostDataParameters)
+
+            foreach (var postItem in PostDataParameters)
             {
                 stringBuilder.Append(postItem.Key);
                 stringBuilder.Append("=");
                 stringBuilder.Append(postItem.Value);
                 stringBuilder.Append("&");
             }
+
             --stringBuilder.Length;
             return Encoding.UTF8.GetBytes(stringBuilder.ToString());
         }
 
 
         /// <summary>
-        /// Generate multipart boundary values for multipart initial values 
+        ///     Generate multipart boundary values for multipart initial values
         /// </summary>
         /// <returns></returns>
         private static string GenerateMultipartBoundary()
@@ -276,18 +302,20 @@ namespace DominatorHouseCore.Request
             var stringBuilder = new StringBuilder();
             var max = "-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".Length - 1;
             for (var index = 0; index < 30; ++index)
-                stringBuilder.Append("-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[RandomUtilties.GetRandomNumber(max)]);
+                stringBuilder.Append(
+                    "-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[
+                        RandomUtilties.GetRandomNumber(max)]);
             return stringBuilder.ToString();
         }
 
 
         /// <summary>
-        /// To generate the multi part post data for media files and rest of the post data are generated from stored <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters"/> items
-        /// </summary>       
+        ///     To generate the multi part post data for media files and rest of the post data are generated from stored
+        ///     <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters" /> items
+        /// </summary>
         /// <returns>post data in sequences of bytes</returns>
         public virtual byte[] CreateMultipartBody()
         {
-
             var multipartBoundary = GenerateMultipartBoundary();
 
             var strMultipartBoundary = $"--{multipartBoundary}";
@@ -298,21 +326,22 @@ namespace DominatorHouseCore.Request
             {
                 stringBuilder.AppendLine(strMultipartBoundary);
 
-                foreach (KeyValuePair<string, string> postItem in PostDataParameters)
+                foreach (var postItem in PostDataParameters)
                 {
                     stringBuilder.AppendLine(strMultipartBoundary);
                     stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{postItem.Key as object}\"");
                     stringBuilder.AppendLine();
                     stringBuilder.AppendLine(postItem.Value);
                 }
-                foreach (KeyValuePair<string, FileData> file in FileList)
+
+                foreach (var file in FileList)
                 {
                     stringBuilder.AppendLine(strMultipartBoundary);
                     stringBuilder.AppendLine(
                         $"Content-Disposition: form-data; name=\"{file.Key as object}\"; filename=\"{file.Value.FileName as object}\"");
 
                     foreach (string header in file.Value.Headers)
-                        stringBuilder.AppendLine($"{(object)header}: {file.Value.Headers[header] as object}");
+                        stringBuilder.AppendLine($"{(object) header}: {file.Value.Headers[header] as object}");
 
                     stringBuilder.AppendLine();
                     var bytes = Encoding.UTF8.GetBytes(stringBuilder.ToString());
@@ -321,7 +350,7 @@ namespace DominatorHouseCore.Request
                     memoryStream.Write(file.Value.Contents, 0, file.Value.Contents.Length);
                 }
 
-                byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
+                var bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
                 memoryStream.Write(bytes1, 0, bytes1.Length);
 
                 //AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
@@ -330,7 +359,7 @@ namespace DominatorHouseCore.Request
                 return memoryStream.ToArray();
             }
         }
-        
+
         public virtual byte[] CreateMultipartBodyForBroadCastMessage(string jsonString)
         {
             var jobject = JObject.Parse(jsonString);
@@ -343,7 +372,7 @@ namespace DominatorHouseCore.Request
             using (var memoryStream = new MemoryStream())
             {
                 // stringBuilder.AppendLine(strMultipartBoundary);
-                foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
+                foreach (var keyValuePair in jobject)
                 {
                     stringBuilder.AppendLine(strMultipartBoundary);
                     stringBuilder.AppendLine("Content-Type: text/plain; charset=utf-8");
@@ -351,9 +380,10 @@ namespace DominatorHouseCore.Request
                     stringBuilder.AppendLine();
                     stringBuilder.AppendLine(keyValuePair.Value.ToString());
                 }
+
                 var bytess = Encoding.UTF8.GetBytes(stringBuilder.ToString());
                 memoryStream.Write(bytess, 0, bytess.Length);
-                byte[] bytes1 = Encoding.UTF8.GetBytes(strMultipartBoundary);
+                var bytes1 = Encoding.UTF8.GetBytes(strMultipartBoundary);
                 memoryStream.Write(bytes1, 0, bytes1.Length);
 
                 //AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
@@ -364,7 +394,7 @@ namespace DominatorHouseCore.Request
 
 
         /// <summary>
-        /// To generate the multi part post data for media files and rest of the post data are generated from given Jsonstring 
+        ///     To generate the multi part post data for media files and rest of the post data are generated from given Jsonstring
         /// </summary>
         /// <param name="jsonString">post data which will pass as bytes</param>
         /// <returns>post data in sequences of bytes</returns>
@@ -380,21 +410,22 @@ namespace DominatorHouseCore.Request
             using (var memoryStream = new MemoryStream())
             {
                 stringBuilder.AppendLine(strMultipartBoundary);
-                foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
+                foreach (var keyValuePair in jobject)
                 {
                     stringBuilder.AppendLine(strMultipartBoundary);
                     stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{keyValuePair.Key as object}\"");
                     stringBuilder.AppendLine();
                     stringBuilder.AppendLine(keyValuePair.Value.ToString());
                 }
-                foreach (KeyValuePair<string, FileData> file in FileList)
+
+                foreach (var file in FileList)
                 {
                     stringBuilder.AppendLine(strMultipartBoundary);
                     stringBuilder.AppendLine(
                         $"Content-Disposition: form-data; name=\"{file.Key as object}\"; filename=\"{file.Value.FileName as object}\"");
 
                     foreach (string header in file.Value.Headers)
-                        stringBuilder.AppendLine($"{(object)header}: {file.Value.Headers[header] as object}");
+                        stringBuilder.AppendLine($"{(object) header}: {file.Value.Headers[header] as object}");
 
                     stringBuilder.AppendLine();
                     var bytes = Encoding.UTF8.GetBytes(stringBuilder.ToString());
@@ -403,7 +434,7 @@ namespace DominatorHouseCore.Request
                     memoryStream.Write(file.Value.Contents, 0, file.Value.Contents.Length);
                 }
 
-                byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
+                var bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
                 memoryStream.Write(bytes1, 0, bytes1.Length);
 
                 //   AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
@@ -414,7 +445,8 @@ namespace DominatorHouseCore.Request
 
 
         /// <summary>
-        /// To generate the multi part post data for media files and rest of the post data are generated from given Jsonstring and stored <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters"/> items
+        ///     To generate the multi part post data for media files and rest of the post data are generated from given Jsonstring
+        ///     and stored <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters" /> items
         /// </summary>
         /// <param name="jsonString">post data which will pass as bytes</param>
         /// <returns>post data in sequences of bytes</returns>
@@ -430,28 +462,30 @@ namespace DominatorHouseCore.Request
             using (var memoryStream = new MemoryStream())
             {
                 stringBuilder.AppendLine(strMultipartBoundary);
-                foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
+                foreach (var keyValuePair in jobject)
                 {
                     stringBuilder.AppendLine(strMultipartBoundary);
                     stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{keyValuePair.Key as object}\"");
                     stringBuilder.AppendLine();
                     stringBuilder.AppendLine(keyValuePair.Value.ToString());
                 }
-                foreach (KeyValuePair<string, string> postItem in PostDataParameters)
+
+                foreach (var postItem in PostDataParameters)
                 {
                     stringBuilder.AppendLine(strMultipartBoundary);
                     stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{postItem.Key as object}\"");
                     stringBuilder.AppendLine();
                     stringBuilder.AppendLine(postItem.Value);
                 }
-                foreach (KeyValuePair<string, FileData> file in FileList)
+
+                foreach (var file in FileList)
                 {
                     stringBuilder.AppendLine(strMultipartBoundary);
                     stringBuilder.AppendLine(
                         $"Content-Disposition: form-data; name=\"{file.Key as object}\"; filename=\"{file.Value.FileName as object}\"");
 
                     foreach (string header in file.Value.Headers)
-                        stringBuilder.AppendLine($"{(object)header}: {file.Value.Headers[header] as object}");
+                        stringBuilder.AppendLine($"{(object) header}: {file.Value.Headers[header] as object}");
 
                     stringBuilder.AppendLine();
                     var bytes = Encoding.UTF8.GetBytes(stringBuilder.ToString());
@@ -460,7 +494,7 @@ namespace DominatorHouseCore.Request
                     memoryStream.Write(file.Value.Contents, 0, file.Value.Contents.Length);
                 }
 
-                byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
+                var bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
                 memoryStream.Write(bytes1, 0, bytes1.Length);
 
                 //AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");

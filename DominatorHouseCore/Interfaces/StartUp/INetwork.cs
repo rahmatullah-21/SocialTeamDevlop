@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.StartupActivity;
 using DominatorHouseCore.StartupActivity.Instagram;
 using DominatorHouseCore.StartupActivity.Linkedin;
@@ -8,22 +12,23 @@ using DominatorHouseCore.StartupActivity.Reddit;
 using DominatorHouseCore.StartupActivity.Tumblr;
 using DominatorHouseCore.StartupActivity.Twitter;
 using DominatorHouseCore.StartupActivity.Youtube;
-using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces.StartUp
 {
-    
-    class SocialNetworkActivity
+    internal class SocialNetworkActivity
     {
-        private static Dictionary<string, INetworkActivity> Networks { get; } = new Dictionary<string, INetworkActivity>();
+        private static Dictionary<string, INetworkActivity> Networks { get; } =
+            new Dictionary<string, INetworkActivity>();
+
         public static INetworkActivity GetNetworkActivity(string networks)
         {
             return Networks.ContainsKey(networks) ? Networks[networks] : null;
         }
-     
+
         public static void RegisterNetwork()
         {
-
             try
             {
                 Networks.Add(SocialNetworks.Quora.ToString(), new QuoraActivity());
@@ -36,13 +41,15 @@ namespace DominatorHouseCore.Interfaces.StartUp
                 Networks.Add(SocialNetworks.Twitter.ToString(), new TwitterActivity());
                 Networks.Add(SocialNetworks.Youtube.ToString(), new YoutubeActivity());
             }
-            catch {}
+            catch (Exception exc)
+            {
+                exc.DebugLog();
+            }
         }
     }
-   
+
     public interface INetworkActivity
     {
         BaseActivity GetActivity(string activity);
     }
-
 }

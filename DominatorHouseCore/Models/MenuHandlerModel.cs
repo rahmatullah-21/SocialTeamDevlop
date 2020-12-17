@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -8,16 +12,12 @@ namespace DominatorHouseCore.Models
 
         public bool IsImportMultipleAccountsVisible
         {
-            get
-            {
-                return _isImportAccountsVisible;
-            }
+            get => _isImportAccountsVisible;
             set
             {
                 if (_isImportAccountsVisible == value)
                     return;
                 SetProperty(ref _isImportAccountsVisible, value);
-
             }
         }
 
@@ -25,16 +25,12 @@ namespace DominatorHouseCore.Models
 
         public bool IsSelectAccountsVisible
         {
-            get
-            {
-                return _isSelctAccountsVisible;
-            }
+            get => _isSelctAccountsVisible;
             set
             {
                 if (_isSelctAccountsVisible == value)
                     return;
                 SetProperty(ref _isSelctAccountsVisible, value);
-
             }
         }
 
@@ -42,16 +38,12 @@ namespace DominatorHouseCore.Models
 
         public bool IsUpdateAccountVisible
         {
-            get
-            {
-                return _isUpdateAccountVisible;
-            }
+            get => _isUpdateAccountVisible;
             set
             {
                 if (_isUpdateAccountVisible == value)
                     return;
                 SetProperty(ref _isUpdateAccountVisible, value);
-
             }
         }
 
@@ -59,16 +51,12 @@ namespace DominatorHouseCore.Models
 
         public bool IsExportAccountVisible
         {
-            get
-            {
-                return _isExportAccountVisible;
-            }
+            get => _isExportAccountVisible;
             set
             {
                 if (_isExportAccountVisible == value)
                     return;
                 SetProperty(ref _isExportAccountVisible, value);
-
             }
         }
 
@@ -76,10 +64,7 @@ namespace DominatorHouseCore.Models
 
         public bool IsDeleteAccountVisible
         {
-            get
-            {
-                return _isDeleteAccountVisible;
-            }
+            get => _isDeleteAccountVisible;
             set
             {
                 if (_isDeleteAccountVisible == value)
@@ -92,16 +77,12 @@ namespace DominatorHouseCore.Models
 
         public bool IsBrowserAutomationVisible
         {
-            get
-            {
-                return _isBrowserAutomationVisible;
-            }
+            get => _isBrowserAutomationVisible;
             set
             {
                 if (_isBrowserAutomationVisible == value)
                     return;
                 SetProperty(ref _isBrowserAutomationVisible, value);
-
             }
         }
 
@@ -109,16 +90,12 @@ namespace DominatorHouseCore.Models
 
         public bool IsInfoVisible
         {
-            get
-            {
-                return _isInfoVisible;
-            }
+            get => _isInfoVisible;
             set
             {
                 if (_isInfoVisible == value)
                     return;
                 SetProperty(ref _isInfoVisible, value);
-
             }
         }
 
@@ -126,16 +103,12 @@ namespace DominatorHouseCore.Models
 
         public bool IsMenuHandlerVisible
         {
-            get
-            {
-                return _isMenuHandlerVisible;
-            }
+            get => _isMenuHandlerVisible;
             set
             {
                 if (_isMenuHandlerVisible == value)
                     return;
                 SetProperty(ref _isMenuHandlerVisible, value);
-
             }
         }
 
@@ -143,10 +116,7 @@ namespace DominatorHouseCore.Models
 
         public bool IsMenuHandlerChecked
         {
-            get
-            {
-                return _isMenuHandlerChecked;
-            }
+            get => _isMenuHandlerChecked;
             set
             {
                 if (_isMenuHandlerChecked == value)
@@ -154,6 +124,5 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isMenuHandlerChecked, value);
             }
         }
-
     }
 }

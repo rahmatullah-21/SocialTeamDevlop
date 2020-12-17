@@ -1,17 +1,15 @@
-﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 
 namespace DominatorUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
-    /// Interaction logic for Unfriend.xaml
+    ///     Interaction logic for Unfriend.xaml
     /// </summary>
     public partial class Unfriend : UserControl
     {
-        IUnfriendViewModel _viewModel;
+        private IUnfriendViewModel _viewModel;
+
         public Unfriend(IUnfriendViewModel viewModel)
         {
             InitializeComponent();

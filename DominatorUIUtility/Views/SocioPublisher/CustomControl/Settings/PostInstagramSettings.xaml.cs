@@ -7,23 +7,26 @@ using DominatorHouseCore.Models.SocioPublisher.Settings;
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
     /// <summary>
-    /// Interaction logic for PostInstagramSettings.xaml
+    ///     Interaction logic for PostInstagramSettings.xaml
     /// </summary>
-    public partial class PostInstagramSettings : UserControl,INotifyPropertyChanged
+    public partial class PostInstagramSettings : UserControl, INotifyPropertyChanged
     {
+        private PublisherPostSettings _publisherPostSettings;
+
         public PostInstagramSettings()
         {
             InitializeComponent();
         }
 
-        private PublisherPostSettings _publisherPostSettings;
+        public PostInstagramSettings(PublisherPostSettings publisherPostSettings) : this()
+        {
+            PublisherPostSettings = publisherPostSettings;
+            MainGrid.DataContext = PublisherPostSettings.GdPostSettings;
+        }
 
         public PublisherPostSettings PublisherPostSettings
         {
-            get
-            {
-                return _publisherPostSettings;
-            }
+            get => _publisherPostSettings;
             set
             {
                 _publisherPostSettings = value;
@@ -38,12 +41,5 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public PostInstagramSettings(PublisherPostSettings publisherPostSettings):this()
-        {
-            PublisherPostSettings = publisherPostSettings;
-            MainGrid.DataContext = PublisherPostSettings.GdPostSettings;
-        }
     }
-   
 }

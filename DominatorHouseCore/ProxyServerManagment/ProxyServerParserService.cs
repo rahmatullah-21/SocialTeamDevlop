@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.Models;
-using DominatorHouseCore.ProxyServerManagment.Models;
+﻿#region
+
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.ProxyServerManagment.Models;
+
+#endregion
 
 namespace DominatorHouseCore.ProxyServerManagment
 {
@@ -9,6 +13,7 @@ namespace DominatorHouseCore.ProxyServerManagment
     {
         ProxyParsingResult ParseProxies(IReadOnlyCollection<string> rows);
     }
+
     public class ProxyServerParserService : IProxyServerParserService
     {
         private readonly IProxyValidationService _proxyValidationService;
@@ -51,18 +56,14 @@ namespace DominatorHouseCore.ProxyServerManagment
                     pmm.AccountProxy.ProxyUsername = values[4];
                     pmm.AccountProxy.ProxyPassword = values[5];
                 }
+
                 if (values.Length == 7)
                     pmm.Status = values[6];
 
                 if (_proxyValidationService.IsValidProxy(pmm.AccountProxy.ProxyIp, pmm.AccountProxy.ProxyPort))
-                {
                     proxies.Add(pmm);
-                }
                 else
-                {
                     lstInvalidProxies.Add(row);
-                }
-
             }
 
             return new ProxyParsingResult(lstInvalidProxies, proxies);

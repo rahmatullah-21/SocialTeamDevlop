@@ -1,35 +1,25 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using CommonServiceLocator;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
     public static class ManageDestinationFileManager
     {
-      //  private static List<PublisherManageDestinationModel> _allDestinationsCache = new List<PublisherManageDestinationModel>();
+        //  private static List<PublisherManageDestinationModel> _allDestinationsCache = new List<PublisherManageDestinationModel>();
         private static readonly IBinFileHelper BinFileHelper;
 
         static ManageDestinationFileManager()
         {
             BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
-        }
-
-        // Same as above, but Func must return true if file needs to be overwritten        
-        public static void ApplyFunc(Func<PublisherManageDestinationModel, bool> funcToApply)
-        {
-            bool updated = false;
-            var destinations = BinFileHelper.GetPublisherManageDestinationModels();
-
-            foreach (var a in destinations)
-                updated |= funcToApply(a);
-
-            if (updated)
-                BinFileHelper.UpdateAllManageDestination(destinations);
         }
 
         // Saves all destinations. Have to work Only in Social library. Otherwise use UpdateDestinations() method to update PublisherDestinations.bin
@@ -47,7 +37,7 @@ namespace DominatorHouseCore.FileManagers
             var all = BinFileHelper.GetPublisherManageDestinationModels();
 
             // Update all entries that exists in libraryDestinations, and add that does not exists
-            for (int i = 0; i < libraryDestinations.Count; i++)
+            for (var i = 0; i < libraryDestinations.Count; i++)
             {
                 var acc = libraryDestinations[i];
                 var ix = all.FindIndex(a => acc.DestinationId == a.DestinationId);
@@ -56,10 +46,14 @@ namespace DominatorHouseCore.FileManagers
                 else
                     all[ix] = acc;
             }
+
             BinFileHelper.UpdateAllManageDestination(all);
         }
 
-        public static List<PublisherManageDestinationModel> GetAll() => BinFileHelper.GetPublisherManageDestinationModels();
+        public static List<PublisherManageDestinationModel> GetAll()
+        {
+            return BinFileHelper.GetPublisherManageDestinationModels();
+        }
 
         public static PublisherManageDestinationModel GetByDestinationId(string destinationId)
         {
@@ -85,7 +79,8 @@ namespace DominatorHouseCore.FileManagers
 
         public static void DeleteSelected(List<PublisherManageDestinationModel> accs)
         {
-            var all = GetAll().Where(a => accs.FirstOrDefault(p => p.DestinationId == a.DestinationId) == null).ToList();
+            var all = GetAll().Where(a => accs.FirstOrDefault(p => p.DestinationId == a.DestinationId) == null)
+                .ToList();
             SaveAll(all);
         }
 

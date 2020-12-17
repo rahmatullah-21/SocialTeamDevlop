@@ -1,4 +1,12 @@
-﻿using CommonServiceLocator;
+﻿#region
+
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CommonServiceLocator;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -10,56 +18,57 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace DominatorHouseCore.Process
 {
     public static class PublishScheduler
     {
-
         #region Properties
+
         /// <summary>
-        /// To specify the Campaign Cancellation Token with campaigns
+        ///     To specify the Campaign Cancellation Token with campaigns
         /// </summary>
         public static Dictionary<string, CancellationTokenSource> CampaignsCancellationTokens { get; set; }
-        = new Dictionary<string, CancellationTokenSource>();
+            = new Dictionary<string, CancellationTokenSource>();
 
         /// <summary>
-        /// To specify the campaign with their running count
+        ///     To specify the campaign with their running count
         /// </summary>
-        public static ConcurrentDictionary<string, int> AttachedActionCounts { get; set; } = new ConcurrentDictionary<string, int>();
+        public static ConcurrentDictionary<string, int> AttachedActionCounts { get; set; } =
+            new ConcurrentDictionary<string, int>();
 
         /// <summary>
-        /// To block more running campaign for an actions
+        ///     To block more running campaign for an actions
         /// </summary>
         public static ConcurrentDictionary<string, LinkedList<Action>> PublisherActionList { get; set; }
             = new ConcurrentDictionary<string, LinkedList<Action>>();
 
         /// <summary>
-        /// To Specify the scheduled list id of campaigns
+        ///     To Specify the scheduled list id of campaigns
         /// </summary>
         public static List<string> PublisherScheduledList { get; set; } = new List<string>();
 
         /// <summary>
-        /// To used in <see cref="PublisherJobProcess"/> for updating success or failed post details 
+        ///     To used in <see cref="PublisherJobProcess" /> for updating success or failed post details
         /// </summary>
-        public static ConcurrentDictionary<string, object> UpdatingLock { get; set; } = new ConcurrentDictionary<string, object>();
+        public static ConcurrentDictionary<string, object> UpdatingLock { get; set; } =
+            new ConcurrentDictionary<string, object>();
 
-        public static ConcurrentDictionary<string, object> DownloadLock { get; set; } = new ConcurrentDictionary<string, object>();
+        public static ConcurrentDictionary<string, object> DownloadLock { get; set; } =
+            new ConcurrentDictionary<string, object>();
+
         /// <summary>
-        /// To used in <see cref="PublisherJobProcess"/> getting post model
+        ///     To used in <see cref="PublisherJobProcess" /> getting post model
         /// </summary>
-        public static ConcurrentDictionary<string, object> GetPostsForPublishing { get; set; } = new ConcurrentDictionary<string, object>();
+        public static ConcurrentDictionary<string, object> GetPostsForPublishing { get; set; } =
+            new ConcurrentDictionary<string, object>();
 
         #endregion
 
         /// <summary>
-        /// Increasing running count of the campaign
+        ///     Increasing running count of the campaign
         /// </summary>
         /// <param name="campaignId">Campaign Id</param>
         public static void IncreasePublishingCount(string campaignId)
@@ -67,10 +76,7 @@ namespace DominatorHouseCore.Process
             try
             {
                 // Check whether campaign Id already present or not, If its not present add with zero 
-                if (!AttachedActionCounts.ContainsKey(campaignId))
-                {
-                    AttachedActionCounts.GetOrAdd(campaignId, 0);
-                }
+                if (!AttachedActionCounts.ContainsKey(campaignId)) AttachedActionCounts.GetOrAdd(campaignId, 0);
 
                 // Get the already saved running count
                 var runningCount = AttachedActionCounts[campaignId];
@@ -97,7 +103,7 @@ namespace DominatorHouseCore.Process
         }
 
         /// <summary>
-        /// Decrease the running count for a campaign
+        ///     Decrease the running count for a campaign
         /// </summary>
         /// <param name="campaignId"></param>
         public static void DecreasePublishingCount(string campaignId)
@@ -126,6 +132,7 @@ namespace DominatorHouseCore.Process
                     {
                         ex.DebugLog();
                     }
+
                     return count;
                 });
             }
@@ -140,7 +147,7 @@ namespace DominatorHouseCore.Process
         }
 
         /// <summary>
-        /// To added actions after specific no of actions are already running with a particular account
+        ///     To added actions after specific no of actions are already running with a particular account
         /// </summary>
         /// <param name="campaignAndAccountId">Camapign Id and Account Id</param>
         /// <param name="action">Action which is going to take place</param>
@@ -159,20 +166,21 @@ namespace DominatorHouseCore.Process
 
                     // Update the action list
                     PublisherActionList.AddOrUpdate(campaignAndAccountId, actionCollection, (id, actions) =>
+                    {
+                        try
                         {
-                            try
-                            {
-                                if (actions == null)
-                                    throw new ArgumentNullException(nameof(actions));
-                                actions = actionCollection;
-                                return actions;
-                            }
-                            catch (ArgumentNullException ex)
-                            {
-                                ex.DebugLog();
-                            }
+                            if (actions == null)
+                                throw new ArgumentNullException(nameof(actions));
+                            actions = actionCollection;
                             return actions;
-                        });
+                        }
+                        catch (ArgumentNullException ex)
+                        {
+                            ex.DebugLog();
+                        }
+
+                        return actions;
+                    });
                 }
                 else
                 {
@@ -197,7 +205,7 @@ namespace DominatorHouseCore.Process
         }
 
         /// <summary>
-        /// Execute the action for a campaign with specific account
+        ///     Execute the action for a campaign with specific account
         /// </summary>
         /// <param name="campaignAndAccountId">Campaign Id with account Id</param>
         public static void RunAndRemovePublisherAction(string campaignAndAccountId)
@@ -240,7 +248,7 @@ namespace DominatorHouseCore.Process
         }
 
         /// <summary>
-        /// Start publishing posts 
+        ///     Start publishing posts
         /// </summary>
         /// <param name="campaignStatusModel">Campaign full status model</param>
         public static void StartPublishingPosts(PublisherCampaignStatusModel campaignStatusModel)
@@ -264,7 +272,9 @@ namespace DominatorHouseCore.Process
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
                 // Get the success published details
-                var publishedDetails = genericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == campaignStatusModel.CampaignId).ToList();
+                var publishedDetails = genericFileManager
+                    .GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails)
+                    .Where(x => x.CampaignId == campaignStatusModel.CampaignId).ToList();
 
                 // Filter the success published details with destination url
                 var usedDestination = publishedDetails.Select(x => x.DestinationUrl);
@@ -277,9 +287,7 @@ namespace DominatorHouseCore.Process
 
                 // Attached accounts contains campaign Id, then get the already running count
                 if (AttachedActionCounts.ContainsKey(campaignStatusModel.CampaignId))
-                {
                     runningCount = AttachedActionCounts[campaignStatusModel.CampaignId];
-                }
 
                 // Increase the running count
                 IncreasePublishingCount(campaignStatusModel.CampaignId);
@@ -288,7 +296,8 @@ namespace DominatorHouseCore.Process
 
                 #region Initializations
 
-                var accountsWithDestinations = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
+                var accountsWithDestinations =
+                    new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
 
                 //Get the general settings from bin files
                 var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
@@ -343,18 +352,20 @@ namespace DominatorHouseCore.Process
                         if (!accountsWithNetworks.ContainsKey(x.AccountId))
                             accountsWithNetworks.Add(x.AccountId, x.SocialNetworks);
 
-                        if (!campaignStatusModel.SendOnePostForEachDestination && campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
+                        if (!campaignStatusModel.SendOnePostForEachDestination &&
+                            campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
                         {
                             var currentAccountQueue = accountsWithDestinations.GetOrAdd(x.AccountId,
                                 queue => new Queue<PublisherDestinationDetailsModel>());
                             currentAccountQueue.Enqueue(x);
                         }
                         else
+                        {
                             allDestination.Enqueue(x);
+                        }
                     });
 
                     #endregion
-
                 });
 
                 #endregion
@@ -378,9 +389,13 @@ namespace DominatorHouseCore.Process
                         return;
                     }
 
-                    destinations = postsAccountDestinationLimits > 0 ?
-                        AssignPostsToDestinationWithAccountLimit(accountsWithDestinations, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount, postsAccountDestinationLimits) :
-                        AssignPostsToDestinationWithNoAccountLimit(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount);
+                    destinations = postsAccountDestinationLimits > 0
+                        ? AssignPostsToDestinationWithAccountLimit(accountsWithDestinations, accountIds,
+                            totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName,
+                            postsMaximumDestinationCount, postsAccountDestinationLimits)
+                        : AssignPostsToDestinationWithNoAccountLimit(allDestination, accountIds, totalDestinationCount,
+                            campaignStatusModel.CampaignId, campaignStatusModel.CampaignName,
+                            postsMaximumDestinationCount);
                 }
 
                 #endregion
@@ -388,7 +403,11 @@ namespace DominatorHouseCore.Process
                 #region All Destinations
 
                 else
-                    destinations = AssignPostToSelectAllDestination(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount, campaignStatusModel.SendOnePostForEachDestination);
+                {
+                    destinations = AssignPostToSelectAllDestination(allDestination, accountIds, totalDestinationCount,
+                        campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount,
+                        campaignStatusModel.SendOnePostForEachDestination);
+                }
 
                 #endregion
 
@@ -423,26 +442,25 @@ namespace DominatorHouseCore.Process
                     if (advancedSettings.IsWaitToStartAction)
                     {
                         if (runningCount >= advancedSettings.JobProcessRunningCount)
-                        {
                             AddPublisherAction(
                                 $"{campaignStatusModel.CampaignId}-{destination.Key}", () =>
-                                    publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign));
-                        }
+                                    publisherJobProcess.StartPublishingPosts(!advancedSettings
+                                        .IsRunSingleAccountPerCampaign));
                         else
-                        {
                             // Otherwise start calling
                             publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign);
-                        }
                     }
 
                     #endregion
 
                     #region Without waiting to next action count
+
                     else
                     {
                         // If there is no settings for wait to start, then call directly publishing methods
                         publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign);
                     }
+
                     #endregion
                 }
 
@@ -527,7 +545,6 @@ namespace DominatorHouseCore.Process
                 var accountsWithNetworks = new Dictionary<string, SocialNetworks>();
 
 
-
                 // To specify deleted destination, like suppose while making campaign with 10 destination then after some time 5 destination
                 var deletedDestinationCount = 0;
 
@@ -566,7 +583,6 @@ namespace DominatorHouseCore.Process
                     });
 
                     #endregion
-
                 });
 
                 #endregion
@@ -576,7 +592,8 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Admin, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
                        String.Format("LangKeyNDestinationsDeletedFromCampaign".FromResourceDictionary(), deletedDestinationCount, publisherPostFetchModel?.SelectedDestinations.Count, campaignStatusModel.CampaignName));
 
-                var destinations = UpdatePostDetails(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, allDestination, post, allDestinaionGuid);
+                var destinations = UpdatePostDetails(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName,
+                    allDestination, post, allDestinaionGuid);
 
                 if (destinations == null)
                     return;
@@ -604,13 +621,11 @@ namespace DominatorHouseCore.Process
 
                     // If there is no settings for wait to start, then call directly publishing methods
                     publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign);
-
                 }
 
                 #endregion
 
                 #endregion
-
             }
             catch (OperationCanceledException ex)
             {
@@ -624,18 +639,18 @@ namespace DominatorHouseCore.Process
             {
                 ex.DebugLog();
             }
-
         }
 
         #region Helper functionality : To Assign Posts to Destinations
 
-        public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> AssignPostsToDestinationWithNoAccountLimit(
-         Queue<PublisherDestinationDetailsModel> totalDestinations,
-         SortedSet<string> accountId,
-         int totalDestinationCount,
-         string campaignId,
-         string campaignName,
-         int postsMaximumDestinationCount)
+        public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>
+            AssignPostsToDestinationWithNoAccountLimit(
+                Queue<PublisherDestinationDetailsModel> totalDestinations,
+                SortedSet<string> accountId,
+                int totalDestinationCount,
+                string campaignId,
+                string campaignName,
+                int postsMaximumDestinationCount)
         {
             ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinationWithPosts;
 
@@ -655,6 +670,7 @@ namespace DominatorHouseCore.Process
                 while (true)
                 {
                     #region Commented
+
                     // Split the destination with maximum destinations
                     //var currentPostsDestination = new List<string>();
 
@@ -671,19 +687,20 @@ namespace DominatorHouseCore.Process
                     //    postsDestinations.Add(currentPostsDestination);
                     //else
                     //    break; 
+
                     #endregion
 
                     var currentPostDestination = givenDestinations.Skip(skipCount).Take(postsMaximumDestinationCount)
                         .ToList();
 
-                    if (currentPostDestination.Count == 0)
-                        break;
-                    else if (currentPostDestination.Count < postsMaximumDestinationCount)
+                    if (currentPostDestination.Count == 0) break;
+
+                    if (currentPostDestination.Count < postsMaximumDestinationCount)
                     {
                         givenDestinations.Shuffle();
 
                         currentPostDestination.AddRange(givenDestinations.Except(currentPostDestination).Take
-                           (postsMaximumDestinationCount - currentPostDestination.Count));
+                            (postsMaximumDestinationCount - currentPostDestination.Count));
                     }
 
 
@@ -694,20 +711,22 @@ namespace DominatorHouseCore.Process
 
                 #endregion
 
-                destinationWithPosts = SubstitudePoststoDestinations(campaignId, campaignName, givenDestinations, postsDestinations);
+                destinationWithPosts =
+                    SubstitudePoststoDestinations(campaignId, campaignName, givenDestinations, postsDestinations);
             }
 
             return destinationWithPosts;
         }
 
-        public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> AssignPostsToDestinationWithAccountLimit
+        public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>
+            AssignPostsToDestinationWithAccountLimit
             (ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> totalDestinations,
-            SortedSet<string> accountId,
-            int totalDestinationCount,
-            string campaignId,
-            string campaignName,
-            int postsMaximumDestinationCount,
-            int postsAccountDestinationLimits)
+                SortedSet<string> accountId,
+                int totalDestinationCount,
+                string campaignId,
+                string campaignName,
+                int postsMaximumDestinationCount,
+                int postsAccountDestinationLimits)
         {
             ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinationWithPosts;
 
@@ -753,9 +772,11 @@ namespace DominatorHouseCore.Process
                                 break;
                             var destination = currentAccountQueue.Dequeue();
                             accountsDestinations.Add(destination);
-                            currentPostsDestination.Add(new KeyValuePair<string, string>(account, destination.DestinationGuid));
+                            currentPostsDestination.Add(
+                                new KeyValuePair<string, string>(account, destination.DestinationGuid));
                         }
                     }
+
                     if (currentPostsDestination.Count > 0)
                         postsDestinations.Add(currentPostsDestination.Select(x => x.Value).ToList());
                     // Add the splitted destinations
@@ -768,17 +789,19 @@ namespace DominatorHouseCore.Process
 
                 #endregion
 
-                destinationWithPosts = SubstitudePoststoDestinations(campaignId, campaignName, accountsDestinations, postsDestinations);
+                destinationWithPosts =
+                    SubstitudePoststoDestinations(campaignId, campaignName, accountsDestinations, postsDestinations);
             }
 
             return destinationWithPosts;
         }
 
-        private static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> SubstitudePoststoDestinations(
-           string campaignId,
-           string campaignName,
-           IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
-           List<List<string>> postsDestinations)
+        private static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>
+            SubstitudePoststoDestinations(
+                string campaignId,
+                string campaignName,
+                IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
+                List<List<string>> postsDestinations)
         {
             if (givenDestinations.Count == 0)
             {
@@ -809,12 +832,12 @@ namespace DominatorHouseCore.Process
 
                 // Validate the toaster notifications is needed
                 if (ConstantVariable.IsToasterNotificationNeed)
-                {
                     // If user needs to notify when postlists going lesser than specified post, then trigger a notifications
                     if (pendingPostList.Count < generalSettingsModel.TriggerNotificationCount &&
                         generalSettingsModel.TriggerNotificationCount > 0)
-                        ToasterNotification.ShowInfomation(String.Format("LangKeyCampaignHasNPendingPosts".FromResourceDictionary(), campaignName, pendingPostList.Count));
-                }
+                        ToasterNotification.ShowInfomation(string.Format(
+                            "LangKeyCampaignHasNPendingPosts".FromResourceDictionary(), campaignName,
+                            pendingPostList.Count));
 
                 // Check whether needs to shuffle postlist order
                 if (generalSettingsModel.IsChooseRandomPostsChecked)
@@ -828,6 +851,7 @@ namespace DominatorHouseCore.Process
                 #region Assigning the Posts to Destinations
 
                 #region Commented
+
                 //// Get the posts
                 //var post = pendingPostList[count];
 
@@ -837,16 +861,17 @@ namespace DominatorHouseCore.Process
 
                 //// Get the destination
                 //var destinations = postsDestinations[count]; 
+
                 #endregion
 
                 var post = pendingPostList.First();
 
-                var destinations = GetOrAddProcessedDestination(campaignId, givenDestinations.
-                    Select(x => x.DestinationGuid).ToList(), postsDestinations.
-                    FirstOrDefault().Count, postsDestinations);
+                var destinations = GetOrAddProcessedDestination(campaignId,
+                    givenDestinations.Select(x => x.DestinationGuid).ToList(), postsDestinations.FirstOrDefault().Count,
+                    postsDestinations);
 
-                UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post, destinations);
-
+                UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post,
+                    destinations);
 
                 #endregion
 
@@ -857,17 +882,19 @@ namespace DominatorHouseCore.Process
             {
                 ex.DebugLog();
             }
+
             return destinationWithPosts;
         }
 
-        public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> AssignPostToSelectAllDestination(
-           Queue<PublisherDestinationDetailsModel> totalDestinations,
-           SortedSet<string> accountId,
-           int totalDestinationCount,
-           string campaignId,
-           string campaignName,
-           int postsMaximumDestinationCount,
-           bool isWhenPublishingSendOnePostChecked)
+        public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>
+            AssignPostToSelectAllDestination(
+                Queue<PublisherDestinationDetailsModel> totalDestinations,
+                SortedSet<string> accountId,
+                int totalDestinationCount,
+                string campaignId,
+                string campaignName,
+                int postsMaximumDestinationCount,
+                bool isWhenPublishingSendOnePostChecked)
         {
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             var destinationWithPosts = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
@@ -890,7 +917,7 @@ namespace DominatorHouseCore.Process
 
                 accounts.Shuffle();
 
-                var postsDestinations = new List<List<string>> { alldestinations };
+                var postsDestinations = new List<List<string>> {alldestinations};
 
                 #region Split the destinations for a post
 
@@ -902,7 +929,9 @@ namespace DominatorHouseCore.Process
 
                     // Get the expire post counts
                     var expiredPosts =
-                        pendingPostList.Where(x => x.PublisherPostSettings.GeneralPostSettings.IsExpireDate && x.PublisherPostSettings.GeneralPostSettings.ExpireDate < DateTime.Today).ToList();
+                        pendingPostList.Where(x =>
+                            x.PublisherPostSettings.GeneralPostSettings.IsExpireDate &&
+                            x.PublisherPostSettings.GeneralPostSettings.ExpireDate < DateTime.Today).ToList();
 
                     var expiredPostCount = expiredPosts.Count;
 
@@ -926,12 +955,12 @@ namespace DominatorHouseCore.Process
 
                     // Validate the toaster notifications is needed
                     if (ConstantVariable.IsToasterNotificationNeed)
-                    {
                         // If user needs to notify when postlists going lesser than specified post, then trigger a notifications
                         if (pendingPostList.Count < generalSettingsModel.TriggerNotificationCount &&
                             generalSettingsModel.TriggerNotificationCount > 0)
-                            ToasterNotification.ShowInfomation(String.Format("LangKeyCampaignHasNPendingPosts".FromResourceDictionary(), campaignName, pendingPostList.Count));
-                    }
+                            ToasterNotification.ShowInfomation(string.Format(
+                                "LangKeyCampaignHasNPendingPosts".FromResourceDictionary(), campaignName,
+                                pendingPostList.Count));
 
                     // Check whether needs to shuffle postlist order
                     if (generalSettingsModel.IsChooseRandomPostsChecked)
@@ -967,7 +996,8 @@ namespace DominatorHouseCore.Process
 
                         var destinations = GetOrAddProcessedDestination(campaignId, alldestinations, 1, null);
 
-                        UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post, destinations);
+                        UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post,
+                            destinations);
                     }
                     else
                     {
@@ -975,7 +1005,8 @@ namespace DominatorHouseCore.Process
                         var post = pendingPostList.First();
 
                         // Update a post to all destinations
-                        destinationWithPosts = UpdatePostDetails(campaignId, campaignName, givenDestinations, post, alldestinations);
+                        destinationWithPosts = UpdatePostDetails(campaignId, campaignName, givenDestinations, post,
+                            alldestinations);
                     }
 
                     #endregion
@@ -994,7 +1025,8 @@ namespace DominatorHouseCore.Process
             return destinationWithPosts;
         }
 
-        private static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> UpdatePostDetails(string campaignId,
+        private static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> UpdatePostDetails(
+            string campaignId,
             string campaignName,
             IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
             PublisherPostlistModel post,
@@ -1031,7 +1063,7 @@ namespace DominatorHouseCore.Process
 
                     // get the accounts queue
                     var accountsQueue = destinationWithPosts.GetOrAdd(destinationDetails.AccountId,
-                                queue => new Queue<PublisherDestinationDetailsModel>());
+                        queue => new Queue<PublisherDestinationDetailsModel>());
 
                     // Add to queue
                     accountsQueue.Enqueue(destinationDetails);
@@ -1051,7 +1083,7 @@ namespace DominatorHouseCore.Process
                         CampaignName = campaignName,
                         SocialNetworks = destinationDetails.SocialNetworks,
                         AccountId = destinationDetails.AccountId,
-                        ErrorDetails = ConstantVariable.NotPublished,
+                        ErrorDetails = ConstantVariable.NotPublished
                     });
                 });
 
@@ -1073,11 +1105,9 @@ namespace DominatorHouseCore.Process
                 if (post.ExpiredTime == null)
                     post.PostRunningStatus = PostRunningStatus.Active;
                 else
-                {
                     post.PostRunningStatus = DateTime.Now > post.ExpiredTime
                         ? PostRunningStatus.Completed
                         : PostRunningStatus.Active;
-                }
 
                 // Update to bin file
                 PostlistFileManager.UpdatePost(campaignId, post);
@@ -1086,11 +1116,12 @@ namespace DominatorHouseCore.Process
             {
                 ex.DebugLog();
             }
+
             return destinationWithPosts;
         }
 
         private static List<string> GetOrAddProcessedDestination(string campaignId, List<string> totalDestination,
-                    int destinationCount, List<List<string>> postDestinationList)
+            int destinationCount, List<List<string>> postDestinationList)
         {
             //Get the locking objects
             var updatelock = GetPostsForPublishing.GetOrAdd(campaignId, _lock => new object());
@@ -1105,44 +1136,50 @@ namespace DominatorHouseCore.Process
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
 
                 var processedDestinationModel = genericFileManager
-                    .GetModel<PublisherProcessedDestinationModel>($"{ConstantVariable.GetProcessedDestinationDir()}//{campaignId}.bin");
+                    .GetModel<PublisherProcessedDestinationModel>(
+                        $"{ConstantVariable.GetProcessedDestinationDir()}//{campaignId}.bin");
 
-                if (!(processedDestinationModel.ListTotalDestination.Intersect(totalDestination).ToList().Count == totalDestination.Count
-                    && processedDestinationModel.ListTotalDestination.Count == totalDestination.Count) ||
-                        processedDestinationModel.DestinationCount != destinationCount)
+                if (!(processedDestinationModel.ListTotalDestination.Intersect(totalDestination).ToList().Count ==
+                      totalDestination.Count
+                      && processedDestinationModel.ListTotalDestination.Count == totalDestination.Count) ||
+                    processedDestinationModel.DestinationCount != destinationCount)
                 {
                     processedDestinationModel.CampaignId = campaignId;
                     processedDestinationModel.ListTotalDestination = totalDestination;
                     processedDestinationModel.ListProcessedDestination.Clear();
                     processedDestinationModel.ListSkippedDestination.Clear();
                     processedDestinationModel.DestinationCount = destinationCount;
-
                 }
 
                 var processdDestinaionList = processedDestinationModel.ListProcessedDestination;
 
                 if (postDestinationList == null || postDestinationList.Count == 0)
                 {
-                    unProcessedDestinations = processedDestinationModel.ListTotalDestination.Except(processdDestinaionList).ToList();
+                    unProcessedDestinations = processedDestinationModel.ListTotalDestination
+                        .Except(processdDestinaionList).ToList();
 
                     if (unProcessedDestinations.Count < destinationCount && processdDestinaionList.Count > 0)
                     {
                         if (destinationCount > 1)
                             processdDestinaionList.Shuffle();
 
-                        unProcessedDestinations.AddRange(processdDestinaionList.Take(destinationCount - unProcessedDestinations.Count));
+                        unProcessedDestinations.AddRange(
+                            processdDestinaionList.Take(destinationCount - unProcessedDestinations.Count));
 
                         processedDestinationModel.ListProcessedDestination.Clear();
                     }
 
-                    processedDestinationModel.ListProcessedDestination.AddRange(unProcessedDestinations.Take(destinationCount));
+                    processedDestinationModel.ListProcessedDestination.AddRange(
+                        unProcessedDestinations.Take(destinationCount));
                 }
                 else
                 {
                     if (processedDestinationModel.ListSkippedDestination.Count > 0)
                     {
-                        unProcessedDestinations = processedDestinationModel.ListSkippedDestination.FirstOrDefault().DestinationGuidList;
-                        processedDestinationModel.ListSkippedDestination.Remove(processedDestinationModel.ListSkippedDestination.FirstOrDefault());
+                        unProcessedDestinations = processedDestinationModel.ListSkippedDestination.FirstOrDefault()
+                            .DestinationGuidList;
+                        processedDestinationModel.ListSkippedDestination.Remove(processedDestinationModel
+                            .ListSkippedDestination.FirstOrDefault());
                     }
                     else
                     {
@@ -1150,28 +1187,28 @@ namespace DominatorHouseCore.Process
                         postDestinationList.Remove(unProcessedDestinations);
                         postDestinationList.ForEach(x =>
                         {
-                            processedDestinationModel.ListSkippedDestination.Add(new PostDestinationModel()
+                            processedDestinationModel.ListSkippedDestination.Add(new PostDestinationModel
                             {
                                 DestinationGuidList = x
                             });
                         });
-
                     }
                 }
 
                 genericFileManager
-                    .Save(processedDestinationModel, $"{ConstantVariable.GetProcessedDestinationDir()}//{campaignId}.bin");
+                    .Save(processedDestinationModel,
+                        $"{ConstantVariable.GetProcessedDestinationDir()}//{campaignId}.bin");
 
                 return unProcessedDestinations.Take(destinationCount).ToList();
             }
         }
 
         private static void UpdatePostDetails(string campaignId,
-           string campaignName,
-           IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
-           ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinationWithPosts,
-           PublisherPostlistModel post,
-           List<string> destinations)
+            string campaignName,
+            IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
+            ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinationWithPosts,
+            PublisherPostlistModel post,
+            List<string> destinations)
         {
             try
             {
@@ -1202,7 +1239,7 @@ namespace DominatorHouseCore.Process
 
                     // get the accounts queue
                     var accountsQueue = destinationWithPosts.GetOrAdd(destinationDetails.AccountId,
-                                queue => new Queue<PublisherDestinationDetailsModel>());
+                        queue => new Queue<PublisherDestinationDetailsModel>());
 
                     // Add to queue
                     accountsQueue.Enqueue(destinationDetails);
@@ -1222,7 +1259,7 @@ namespace DominatorHouseCore.Process
                         CampaignName = campaignName,
                         SocialNetworks = destinationDetails.SocialNetworks,
                         AccountId = destinationDetails.AccountId,
-                        ErrorDetails = ConstantVariable.NotPublished,
+                        ErrorDetails = ConstantVariable.NotPublished
                     });
                 });
 
@@ -1244,11 +1281,9 @@ namespace DominatorHouseCore.Process
                 if (post.ExpiredTime == null)
                     post.PostRunningStatus = PostRunningStatus.Active;
                 else
-                {
                     post.PostRunningStatus = DateTime.Now > post.ExpiredTime
                         ? PostRunningStatus.Completed
                         : PostRunningStatus.Active;
-                }
 
                 // Update to bin file
                 PostlistFileManager.UpdatePost(campaignId, post);
@@ -1262,7 +1297,7 @@ namespace DominatorHouseCore.Process
         #endregion
 
         /// <summary>
-        /// Check whether start date is greater than or equal to today and check end date is already expire or not
+        ///     Check whether start date is greater than or equal to today and check end date is already expire or not
         /// </summary>
         /// <param name="specificCampaign">Campaign Status model</param>
         /// <returns></returns>
@@ -1272,24 +1307,19 @@ namespace DominatorHouseCore.Process
 
             // Check start time is equal to null or not
             if (specificCampaign.StartDate != null)
-            {
                 // Compare with today
                 if (!(DateTime.Now >= specificCampaign.StartDate))
                     isStart = false;
-            }
             // Check end time is equal to null or not
-            if (specificCampaign.EndDate != null)
-            {
-                // Compare with today
-                if (!(DateTime.Now <= specificCampaign.EndDate))
-                    isStart = false;
-            }
+            if (specificCampaign.EndDate == null) return isStart;
+            if (!(DateTime.Now <= specificCampaign.EndDate))
+                isStart = false;
 
             return isStart;
         }
 
         /// <summary>
-        /// Stop publishing campaigns
+        ///     Stop publishing campaigns
         /// </summary>
         /// <param name="campaignId">Campaign Id</param>
         public static void StopPublishingPosts(string campaignId)
@@ -1306,26 +1336,25 @@ namespace DominatorHouseCore.Process
                 cancellationToken.Value.Cancel();
 
                 // After cancelling remove the token sources from collections
-                if (CampaignsCancellationTokens.ContainsKey(campaignId))
-                {
-                    CampaignsCancellationTokens.Remove(campaignId);
-                    // ReSharper disable once NotAccessedVariable
-                    var deletedList = new LinkedList<Action>();
-                    PublisherActionList.TryRemove(campaignId, out deletedList);
-                    DecreasePublishingCount(campaignId);
-                }
+                if (!CampaignsCancellationTokens.ContainsKey(campaignId)) return;
+                CampaignsCancellationTokens.Remove(campaignId);
+                // ReSharper disable once NotAccessedVariable
+                var deletedList = new LinkedList<Action>();
+                PublisherActionList.TryRemove(campaignId, out deletedList);
+                DecreasePublishingCount(campaignId);
             }
             catch (Exception ex)
             {
                 // Check whether campaign already started or nor
-                var specificCampaign = PublisherInitialize.GetInstance.GetSavedCampaigns().ToList().FirstOrDefault(x => x.CampaignId == campaignId);
+                var specificCampaign = PublisherInitialize.GetInstance.GetSavedCampaigns().ToList()
+                    .FirstOrDefault(x => x.CampaignId == campaignId);
                 if (specificCampaign != null)
                     ex.DebugLog($"Campaign : {specificCampaign.CampaignName} not started before!");
             }
         }
 
         /// <summary>
-        /// Enable the delete option for published post
+        ///     Enable the delete option for published post
         /// </summary>
         /// <param name="postDeletionModel">Deletion post models</param>
         public static void EnableDeletePost(PostDeletionModel postDeletionModel)
@@ -1340,14 +1369,13 @@ namespace DominatorHouseCore.Process
         }
 
         /// <summary>
-        /// Delete published post at specific time
+        ///     Delete published post at specific time
         /// </summary>
         /// <param name="postDeletionModel"></param>
         public static void DeletePublishedPost(PostDeletionModel postDeletionModel)
         {
             // Check whether network present or not
             if (FeatureFlags.IsNetworkAvailable(postDeletionModel.Networks))
-            {
                 // Add into job process
                 JobManager.AddJob(() =>
                     {
@@ -1359,40 +1387,36 @@ namespace DominatorHouseCore.Process
                                 null, null, false, new CancellationTokenSource());
 
                         // Call is delete options
-                        if (publisherJobProcess?.DeletePost(postDeletionModel.PublishedIdOrUrl)??false)
-                        {
-                            // If successfully deleted , update the details
-                            publisherJobProcess.UpdatePostWithDeletion(postDeletionModel.DestinationUrl,
-                                postDeletionModel.PostId);
+                        if (!(publisherJobProcess?.DeletePost(postDeletionModel.PublishedIdOrUrl) ?? false)) return;
+                        // If successfully deleted , update the details
+                        publisherJobProcess.UpdatePostWithDeletion(postDeletionModel.DestinationUrl,
+                            postDeletionModel.PostId);
 
-                            // Make already deleted true
-                            postDeletionModel.IsDeletedAlready = true;
+                        // Make already deleted true
+                        postDeletionModel.IsDeletedAlready = true;
 
-                            // Get deletion model
-                            var allDeletionList =
-                                genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
-                                    .GetDeletePublisherPostModel);
+                        // Get deletion model
+                        var allDeletionList =
+                            genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                                .GetDeletePublisherPostModel);
 
-                            // Find the index of particular published Id
-                            var index = allDeletionList.FindIndex(x =>
-                                x.PublishedIdOrUrl == postDeletionModel.PublishedIdOrUrl);
+                        // Find the index of particular published Id
+                        var index = allDeletionList.FindIndex(x =>
+                            x.PublishedIdOrUrl == postDeletionModel.PublishedIdOrUrl);
 
-                            // Update bin file objects
-                            allDeletionList[index].IsDeletedAlready = true;
+                        // Update bin file objects
+                        allDeletionList[index].IsDeletedAlready = true;
 
-                            // save the updated details into bin files
-                            genericFileManager.UpdateModuleDetails(allDeletionList,
-                                ConstantVariable.GetDeletePublisherPostModel);
-                        }
-
+                        // save the updated details into bin files
+                        genericFileManager.UpdateModuleDetails(allDeletionList,
+                            ConstantVariable.GetDeletePublisherPostModel);
                     },
                     s => s.WithName($"{postDeletionModel.CampaignId}- Delete Posts -{ConstantVariable.GetDate()}")
                         .ToRunOnceAt(postDeletionModel.DeletionTime));
-            }
         }
 
         /// <summary>
-        /// Publish now by campaign Id
+        ///     Publish now by campaign Id
         /// </summary>
         /// <param name="campaignId">Campaign Id</param>
         public static void SchedulePublishNowByCampaign(string campaignId)
@@ -1408,66 +1432,72 @@ namespace DominatorHouseCore.Process
             var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == campaignId);
 
             // Validate the campaigns Times
-            if (specificCampaign != null && ValidateCampaignsTime(specificCampaign))
+            if (specificCampaign == null || !ValidateCampaignsTime(specificCampaign)) return;
+
+            // Is Rotate day has been selected
+            if (specificCampaign.IsRotateDayChecked)
+                // Call to start publishing
+                // SchedulePublisher(specificCampaign);
             {
-                // Is Rotate day has been selected
-                if (specificCampaign.IsRotateDayChecked)
-                    // Call to start publishing
-                    // SchedulePublisher(specificCampaign);
-                    StartPublishingPosts(specificCampaign);
-                else
-                {
-                    // Check whether today is selected or not
-                    var isCampaignSelected = specificCampaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
-                    if (isCampaignSelected == null)
-                        return;
-                    // Call to start publishing
-                    // SchedulePublisher(specificCampaign);
-                    StartPublishingPosts(specificCampaign);
-                }
+                StartPublishingPosts(specificCampaign);
+            }
+            else
+            {
+                // Check whether today is selected or not
+                var isCampaignSelected = specificCampaign.ScheduledWeekday.FirstOrDefault(x =>
+                    x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                if (isCampaignSelected == null)
+                    return;
+                // Call to start publishing
+                // SchedulePublisher(specificCampaign);
+                StartPublishingPosts(specificCampaign);
             }
         }
 
         /// <summary>
-        /// Todays publishing scheduler
+        ///     Todays publishing scheduler
         /// </summary>
         public static void ScheduleTodaysPublisher()
         {
             // get the all campaigns which should active 
             var campaignDetails =
-                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
+                PublisherInitialize.GetInstance.GetSavedCampaigns()
+                    .Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
             if (campaignDetails.Count > 0)
                 Task.Factory.StartNew(() =>
                 {
-
                     // Iterate campaigns 
                     campaignDetails.ForEach(campaign =>
-                        {
-                            // Validate the start and end time of the campaign
-                            //if (!ValidateCampaignsTime(campaign))
-                            //    return;
+                    {
+                        // Validate the start and end time of the campaign
+                        //if (!ValidateCampaignsTime(campaign))
+                        //    return;
 
-                            // Is Rotate day has been selected
-                            if (campaign.IsRotateDayChecked)
-                                // Call to start publishing
-                                SchedulePublisher(campaign);
-                            else
-                            {
-                                // Check whether today is selected or not
-                                var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
-                                if (isCampaignSelected == null)
-                                    return;
-                                // Call to start publishing
-                                SchedulePublisher(campaign);
-                            }
-                            Thread.Sleep(2);
-                        });
+                        // Is Rotate day has been selected
+                        if (campaign.IsRotateDayChecked)
+                            // Call to start publishing
+                        {
+                            SchedulePublisher(campaign);
+                        }
+                        else
+                        {
+                            // Check whether today is selected or not
+                            var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x =>
+                                x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                            if (isCampaignSelected == null)
+                                return;
+                            // Call to start publishing
+                            SchedulePublisher(campaign);
+                        }
+
+                        Thread.Sleep(2);
+                    });
                 });
         }
 
 
         /// <summary>
-        /// Today Publishing scheduler by Campaign Id
+        ///     Today Publishing scheduler by Campaign Id
         /// </summary>
         /// <param name="campaignId"> Campaign Id</param>
         public static void ScheduleTodaysPublisherByCampaign(string campaignId)
@@ -1482,15 +1512,18 @@ namespace DominatorHouseCore.Process
             var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == campaignId);
 
             // Validate the start and end time of the campaign
-            if (specificCampaign != null/* && ValidateCampaignsTime(specificCampaign)*/)
+            if (specificCampaign == null) return;
             {
                 if (specificCampaign.IsRotateDayChecked)
                     // Call to start publishing
+                {
                     SchedulePublisher(specificCampaign);
+                }
                 else
                 {
                     // Check whether today is selected or not
-                    var isCampaignSelected = specificCampaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                    var isCampaignSelected = specificCampaign.ScheduledWeekday.FirstOrDefault(x =>
+                        x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
                     if (isCampaignSelected == null)
                         return;
                     // Call to start publishing
@@ -1500,7 +1533,7 @@ namespace DominatorHouseCore.Process
         }
 
         /// <summary>
-        /// Schedule publisher
+        ///     Schedule publisher
         /// </summary>
         /// <param name="campaign"></param>
         private static void SchedulePublisher(PublisherCampaignStatusModel campaign)
@@ -1513,8 +1546,9 @@ namespace DominatorHouseCore.Process
             var postDetailsList = PostlistFileManager.GetAll(campaign.CampaignId);
 
             postDetailsList = postDetailsList.Where(x => x.PostQueuedStatus == PostQueuedStatus.Published
-                    && x.LstPublishedPostDetailsModels.FirstOrDefault(y => y.PublishedDate.Date == DateTime.Now.Date
-                    && y.Successful == ConstantVariable.Yes) != null).ToList();
+                                                         && x.LstPublishedPostDetailsModels.FirstOrDefault(y =>
+                                                             y.PublishedDate.Date == DateTime.Now.Date
+                                                             && y.Successful == ConstantVariable.Yes) != null).ToList();
 
             // Get the specific running time of a campaign
             var timeRange = campaign.SpecificRunningTime;
@@ -1524,13 +1558,10 @@ namespace DominatorHouseCore.Process
 
             // Check whether random time for every day has selected
             if (campaign.IsRandomRunningTime)
-            {
                 if (campaign.UpdatedTime.Date != DateTime.Today)
                     // Otherwise fetch random intervals
                     campaign.SpecificRunningTime = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
-                //timeRange = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
-
-            }
+            //timeRange = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
 
             // Iterate running times 
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
@@ -1631,7 +1662,7 @@ namespace DominatorHouseCore.Process
         }
 
         /// <summary>
-        /// Generate random running times
+        ///     Generate random running times
         /// </summary>
         /// <param name="maxCount">max running time count</param>
         /// <param name="timeRange">Time range</param>
@@ -1651,15 +1682,13 @@ namespace DominatorHouseCore.Process
             var endTime = timeRange.EndTime;
 
             // Iterate untill getting required amount of time range
-            for (int countIndex = 0; countIndex < maxCount; countIndex++)
-            {
+            for (var countIndex = 0; countIndex < maxCount; countIndex++)
                 timer.Add(DateTimeUtilities.GetRandomTime(startTime, endTime, random));
-            }
             return timer;
         }
 
         /// <summary>
-        /// Stop Publishing scheduler
+        ///     Stop Publishing scheduler
         /// </summary>
         /// <param name="campaignId"></param>
         private static void StopScheduledPublisher(string campaignId)
@@ -1676,7 +1705,7 @@ namespace DominatorHouseCore.Process
         }
 
         /// <summary>
-        /// Update new groups for a destinations
+        ///     Update new groups for a destinations
         /// </summary>
         public static void UpdateNewGroupList()
         {
@@ -1687,12 +1716,9 @@ namespace DominatorHouseCore.Process
             destinations.ForEach(x =>
             {
                 if (x.IsAddNewGroups)
-                {
                     // Update groups
                     PublisherInitialize.UpdateNewGroups(x.DestinationId);
-                }
             });
         }
-
     }
 }

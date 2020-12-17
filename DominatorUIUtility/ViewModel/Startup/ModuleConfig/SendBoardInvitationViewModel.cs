@@ -1,4 +1,9 @@
-﻿using CommonServiceLocator;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
@@ -9,24 +14,21 @@ using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public class BoardCollaboratorInfo : BindableBase
     {
+        private string _account;
         private string _boardUrl;
+
+        private string _email;
+
+        private int _selectedIndex;
 
         public string BoardUrl
         {
-            get
-            {
-                return _boardUrl;
-            }
+            get => _boardUrl;
             set
             {
                 if (_boardUrl != null && _boardUrl == value)
@@ -35,14 +37,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private string _email;
-
         public string Email
         {
-            get
-            {
-                return _email;
-            }
+            get => _email;
             set
             {
                 if (_email != null && _email == value)
@@ -51,14 +48,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private string _account;
-
         public string Account
         {
-            get
-            {
-                return _account;
-            }
+            get => _account;
             set
             {
                 if (_account != null && _account == value)
@@ -67,14 +59,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private int _selectedIndex;
-
         public int SelectedIndex
         {
-            get
-            {
-                return _selectedIndex;
-            }
+            get => _selectedIndex;
             set
             {
                 if (_selectedIndex != 0 && _selectedIndex == value)
@@ -83,15 +70,29 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
     }
+
     public interface ISendBoardInvitationViewModel
     {
     }
+
     public class SendBoardInvitationViewModel : StartupBaseViewModel, ISendBoardInvitationViewModel
     {
+        private ObservableCollectionBase<BoardCollaboratorInfo> _boardCollaboratorDetails =
+            new ObservableCollectionBase<BoardCollaboratorInfo>();
+
+        private BoardCollaboratorInfo _currentBoardCollaborator = new BoardCollaboratorInfo();
+
+        private List<BoardCollaboratorInfo> _listBoardCollaboratorDetails = new List<BoardCollaboratorInfo>();
+
+        private List<string> _listBoardCollaborators = new List<string>();
+
+        public ObservableCollectionBase<BoardCollaboratorInfo> ListBoardCollaboratorInfo =
+            new ObservableCollectionBase<BoardCollaboratorInfo>();
+
         public SendBoardInvitationViewModel(IRegionManager region) : base(region)
         {
             IsNonQuery = true;
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SendBoardInvitation });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.SendBoardInvitation});
             NextCommand = new DelegateCommand(ValidateAndNevigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -106,9 +107,57 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes,
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
-            AddBoardCollaboratorCommand = new BaseCommand<object>((sender) => true, AddBoardCollaborator);
-            DeleteBoardCollaboratorCommand = new BaseCommand<object>((sender) => true, DeleteBoardCollaborator);
-            ImportFromCsvCommand = new BaseCommand<object>((sender) => true, ImportFromCsv);
+            AddBoardCollaboratorCommand = new BaseCommand<object>(sender => true, AddBoardCollaborator);
+            DeleteBoardCollaboratorCommand = new BaseCommand<object>(sender => true, DeleteBoardCollaborator);
+            ImportFromCsvCommand = new BaseCommand<object>(sender => true, ImportFromCsv);
+        }
+
+        public ICommand AddBoardCollaboratorCommand { get; set; }
+        public ICommand DeleteBoardCollaboratorCommand { get; set; }
+        public ICommand ImportFromCsvCommand { get; set; }
+
+        public ObservableCollectionBase<BoardCollaboratorInfo> BoardCollaboratorDetails
+        {
+            get => _boardCollaboratorDetails;
+            set
+            {
+                if (_boardCollaboratorDetails != null && _boardCollaboratorDetails == value)
+                    return;
+                SetProperty(ref _boardCollaboratorDetails, value);
+            }
+        }
+
+        public List<BoardCollaboratorInfo> ListBoardCollaboratorDetails
+        {
+            get => _listBoardCollaboratorDetails;
+            set
+            {
+                if (_listBoardCollaboratorDetails != null && _listBoardCollaboratorDetails == value)
+                    return;
+                SetProperty(ref _listBoardCollaboratorDetails, value);
+            }
+        }
+
+        public BoardCollaboratorInfo CurrentBoardCollaborator
+        {
+            get => _currentBoardCollaborator;
+            set
+            {
+                if (_currentBoardCollaborator != null && _currentBoardCollaborator == value)
+                    return;
+                SetProperty(ref _currentBoardCollaborator, value);
+            }
+        }
+
+        public List<string> listBoardCollaborators
+        {
+            get => _listBoardCollaborators;
+            set
+            {
+                if (_listBoardCollaborators != null && _listBoardCollaborators == value)
+                    return;
+                SetProperty(ref _listBoardCollaborators, value);
+            }
         }
 
         private void ValidateAndNevigate()
@@ -118,14 +167,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Dialog.ShowDialog("Error", "Please add at least one board Collaborator.");
                 return;
             }
+
             NavigateNext();
         }
-
-        public ObservableCollectionBase<BoardCollaboratorInfo> ListBoardCollaboratorInfo = new ObservableCollectionBase<BoardCollaboratorInfo>();
-
-        public ICommand AddBoardCollaboratorCommand { get; set; }
-        public ICommand DeleteBoardCollaboratorCommand { get; set; }
-        public ICommand ImportFromCsvCommand { get; set; }
 
         private void AddBoardCollaborator(object sender)
         {
@@ -142,8 +186,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     ListBoardCollaboratorDetails.ForEach(board =>
                     {
                         if (!string.IsNullOrEmpty(board.Account) && !string.IsNullOrEmpty(board.BoardUrl) &&
-                          !string.IsNullOrEmpty(board.Email))
-                            BoardCollaboratorDetails.Add(new BoardCollaboratorInfo()
+                            !string.IsNullOrEmpty(board.Email))
+                            BoardCollaboratorDetails.Add(new BoardCollaboratorInfo
                             {
                                 BoardUrl = board.BoardUrl,
                                 Email = board.Email,
@@ -153,8 +197,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(CurrentBoardCollaborator.BoardUrl) && !string.IsNullOrEmpty(CurrentBoardCollaborator.Email))
-                        BoardCollaboratorDetails.Add(new BoardCollaboratorInfo()
+                    if (!string.IsNullOrEmpty(CurrentBoardCollaborator.BoardUrl) &&
+                        !string.IsNullOrEmpty(CurrentBoardCollaborator.Email))
+                        BoardCollaboratorDetails.Add(new BoardCollaboratorInfo
                         {
                             BoardUrl = CurrentBoardCollaborator.BoardUrl,
                             Email = CurrentBoardCollaborator.Email,
@@ -196,17 +241,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 listBoardCollaborators.Clear();
                 listBoardCollaborators.AddRange(FileUtilities.FileBrowseAndReader());
                 var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-                var accounts = accountFileManager.GetAll(SocialNetworks.Pinterest).Where(x => x.AccountBaseModel.Status == AccountStatus.Success).
-                    Select(x => x.AccountBaseModel.UserName).ToList();
+                var accounts = accountFileManager.GetAll(SocialNetworks.Pinterest)
+                    .Where(x => x.AccountBaseModel.Status == AccountStatus.Success)
+                    .Select(x => x.AccountBaseModel.UserName).ToList();
 
                 if (listBoardCollaborators.Count != 0)
                 {
-                    foreach (string board in listBoardCollaborators)
-                    {
+                    foreach (var board in listBoardCollaborators)
                         try
                         {
-                            string[] boardCollaboratorsdetails = board.Split('\t');
-                            BoardCollaboratorInfo boardCollaboratorInfo = new BoardCollaboratorInfo();
+                            var boardCollaboratorsdetails = board.Split('\t');
+                            var boardCollaboratorInfo = new BoardCollaboratorInfo();
                             boardCollaboratorInfo.BoardUrl = boardCollaboratorsdetails[0];
                             boardCollaboratorInfo.Email = boardCollaboratorsdetails[1];
                             boardCollaboratorInfo.Account = boardCollaboratorsdetails[2];
@@ -223,78 +268,20 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         {
                             ex.DebugLog();
                         }
-                    }
+
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
                         "Board Collaborators are ready to add !!");
                     GlobusLogHelper.log.Info("Board Collaborators sucessfully uploaded !!");
                 }
                 else
+                {
                     GlobusLogHelper.log.Info("You did not upload any Board Collaborators !!");
+                }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
                 GlobusLogHelper.log.Info("There is error in uploading Board Collaborators !!");
-            }
-        }
-
-        private ObservableCollectionBase<BoardCollaboratorInfo> _boardCollaboratorDetails = new ObservableCollectionBase<BoardCollaboratorInfo>();
-        public ObservableCollectionBase<BoardCollaboratorInfo> BoardCollaboratorDetails
-        {
-            get
-            {
-                return _boardCollaboratorDetails;
-            }
-            set
-            {
-                if (_boardCollaboratorDetails != null && _boardCollaboratorDetails == value)
-                    return;
-                SetProperty(ref _boardCollaboratorDetails, value);
-            }
-        }
-
-        private List<BoardCollaboratorInfo> _listBoardCollaboratorDetails = new List<BoardCollaboratorInfo>();
-        public List<BoardCollaboratorInfo> ListBoardCollaboratorDetails
-        {
-            get
-            {
-                return _listBoardCollaboratorDetails;
-            }
-            set
-            {
-                if (_listBoardCollaboratorDetails != null && _listBoardCollaboratorDetails == value)
-                    return;
-                SetProperty(ref _listBoardCollaboratorDetails, value);
-            }
-        }
-
-        private BoardCollaboratorInfo _currentBoardCollaborator = new BoardCollaboratorInfo();
-        public BoardCollaboratorInfo CurrentBoardCollaborator
-        {
-            get
-            {
-                return _currentBoardCollaborator;
-            }
-            set
-            {
-                if (_currentBoardCollaborator != null && _currentBoardCollaborator == value)
-                    return;
-                SetProperty(ref _currentBoardCollaborator, value);
-            }
-        }
-
-        private List<string> _listBoardCollaborators = new List<string>();
-        public List<string> listBoardCollaborators
-        {
-            get
-            {
-                return _listBoardCollaborators;
-            }
-            set
-            {
-                if (_listBoardCollaborators != null && _listBoardCollaborators == value)
-                    return;
-                SetProperty(ref _listBoardCollaborators, value);
             }
         }
     }

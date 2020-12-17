@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
@@ -40,8 +44,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string Query { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public int InteractionDate { get; set; }
@@ -54,7 +57,5 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public string BoardUrl { get; set; }
-
-
     }
 }

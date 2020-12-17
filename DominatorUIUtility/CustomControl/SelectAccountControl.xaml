@@ -1,43 +1,44 @@
 ﻿<UserControl x:Class="DominatorUIUtility.CustomControl.SelectAccountControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" MaxHeight="700" MaxWidth="650"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
-        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter" />
         <converters:BooleanToAutomationStatusConverter x:Key="BooleanToAutomationStatusConverter" />
     </UserControl.Resources>
     <Border BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="1" Margin="10">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition  Height="40" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="8*" />
-                <RowDefinition  Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0"  Background="{DynamicResource AccentBaseColorBrush}" >
+            <Grid Grid.Row="0" Background="{DynamicResource AccentBaseColorBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.5*" />
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
 
                 <!--Groups combobox-->
-                <Grid Height="30" VerticalAlignment="Center" >
+                <Grid Height="30" VerticalAlignment="Center">
                     <ComboBox x:Name="cmbAllGroups" Margin="10,0,0,0"
-                      Grid.Column="0" Text="{Binding SelectAccountModel.GroupText}"
-                      Width="200" Height="30"
-                      VerticalAlignment="Center" VerticalContentAlignment="Top"
-                      FontSize="14"
-                      IsEditable="True" DropDownClosed="cmbAllGroups_DropDownClosed"
-                      IsTextSearchEnabled="False" 
-                      ItemsSource="{Binding SelectAccountModel.Groups}">
+                              Grid.Column="0" Text="{Binding SelectAccountModel.GroupText}"
+                              Width="200" Height="30"
+                              VerticalAlignment="Center" VerticalContentAlignment="Top"
+                              FontSize="14"
+                              IsEditable="True" DropDownClosed="cmbAllGroups_DropDownClosed"
+                              IsTextSearchEnabled="False"
+                              ItemsSource="{Binding SelectAccountModel.Groups}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <CheckBox Content="{Binding Content}" x:Name="chkgroup"
-                                          IsChecked="{Binding IsContentSelected}"  Checked="chkgroup_Checked" Unchecked="chkgroup_Unchecked"/>
+                                          IsChecked="{Binding IsContentSelected}" Checked="chkgroup_Checked"
+                                          Unchecked="chkgroup_Unchecked" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -45,14 +46,16 @@
 
                 <!--Filter Section-->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" 
-                              VerticalAlignment="Center" Height="30"  HorizontalAlignment="Left" Width="150"
-                              Style="{StaticResource SearchMetroTextBox}" Name="txtSearch" TextChanged="txtSearch_TextChanged"/>
-                    <ComboBox Margin="10,0"  Controls:TextBoxHelper.ClearTextButton="True" SelectedIndex="0" Width="150" SelectionChanged="Filter"
-                              VerticalAlignment="Center" HorizontalAlignment="Right" Height="30"  Name="cmbSearchFilter" >
-                        <ComboBoxItem Content="{DynamicResource LangKeyByGroupName}"/>
-                        <ComboBoxItem Content="{DynamicResource LangKeyByAccount}"/>
-                        <ComboBoxItem Content="{DynamicResource LangKeyByAccountNikeName}"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}"
+                             VerticalAlignment="Center" Height="30" HorizontalAlignment="Left" Width="150"
+                             Style="{StaticResource SearchMetroTextBox}" Name="txtSearch"
+                             TextChanged="txtSearch_TextChanged" />
+                    <ComboBox Margin="10,0" Controls:TextBoxHelper.ClearTextButton="True" SelectedIndex="0" Width="150"
+                              SelectionChanged="Filter"
+                              VerticalAlignment="Center" HorizontalAlignment="Right" Height="30" Name="cmbSearchFilter">
+                        <ComboBoxItem Content="{DynamicResource LangKeyByGroupName}" />
+                        <ComboBoxItem Content="{DynamicResource LangKeyByAccount}" />
+                        <ComboBoxItem Content="{DynamicResource LangKeyByAccountNikeName}" />
                     </ComboBox>
                 </StackPanel>
             </Grid>
@@ -61,35 +64,44 @@
             <Grid Grid.Row="1" Margin="0,10,0,0">
                 <ListView ItemsSource="{Binding AccountCollectionView}" HorizontalContentAlignment="Stretch"
                           Name="lstviewAccounts" Foreground="{DynamicResource AccentBaseColorBrush}"
-                          Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="False" ItemContainerStyle="{DynamicResource ListViewItems}"
+                          Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="False"
+                          ItemContainerStyle="{DynamicResource ListViewItems}"
                           AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}">
                     <ListView.Resources>
-                        <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Style TargetType="{x:Type GridViewColumnHeader}"
+                               BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
                         </Style>
                     </ListView.Resources>
                     <ListView.View>
                         <GridView AllowsColumnReorder="False">
                             <GridViewColumn Width="100">
-                                <CheckBox x:Name="AllAccount"  Content=" #" IsChecked="{Binding IsAllAccountSelected}"/>
+                                <CheckBox x:Name="AllAccount" Content=" #" IsChecked="{Binding IsAllAccountSelected}" />
                                 <GridViewColumn.CellTemplate>
-                                    <DataTemplate >
+                                    <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <CheckBox IsChecked="{Binding IsAccountSelected}" 
-                                                      x:Name="SingleAccount" Command="{Binding DataContext.SelectSingle,
+                                            <CheckBox IsChecked="{Binding IsAccountSelected}"
+                                                      x:Name="SingleAccount"
+                                                      Command="{Binding DataContext.SelectSingle,
                                                       RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
-                                                      Margin="5,0,0,0" Content="{Binding (ItemsControl.AlternationIndex),
+                                                      Margin="5,0,0,0"
+                                                      Content="{Binding (ItemsControl.AlternationIndex),
                                                       RelativeSource={RelativeSource AncestorType=ListViewItem},
-                                                      Converter={StaticResource IndexToRowNoConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}"/>
+                                                      Converter={StaticResource IndexToRowNoConverter}}"
+                                                      Foreground="{DynamicResource AccentBaseColorBrush}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <!--<GridViewColumn  Header="{DynamicResource LangKeySNo}" DisplayMemberBinding="{Binding RowNo}" />-->
-                            <GridViewColumn  Header="{DynamicResource LangKeyAccountNikeName}" Width="Auto" DisplayMemberBinding="{Binding AccountNikeName}" />
-                            <GridViewColumn  Header="{DynamicResource LangKeyAccounts}" DisplayMemberBinding="{Binding UserName}" />
-                            <GridViewColumn  Header="{DynamicResource LangKeyGroupName}" DisplayMemberBinding="{Binding GroupName}"/>
-                            <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding BrowserAutomation, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
+                            <GridViewColumn Header="{DynamicResource LangKeyAccountNikeName}" Width="Auto"
+                                            DisplayMemberBinding="{Binding AccountNikeName}" />
+                            <GridViewColumn Header="{DynamicResource LangKeyAccounts}"
+                                            DisplayMemberBinding="{Binding UserName}" />
+                            <GridViewColumn Header="{DynamicResource LangKeyGroupName}"
+                                            DisplayMemberBinding="{Binding GroupName}" />
+                            <GridViewColumn Header="{DynamicResource LangKeyBrowserAutomation}"
+                                            DisplayMemberBinding="{Binding BrowserAutomation, Converter={StaticResource BooleanToAutomationStatusConverter}}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -98,12 +110,16 @@
             <!--save and cancel button-->
             <Grid Grid.Row="2" Margin="0,10,0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                    <Button  Content="{DynamicResource LangKeySave}" Name="btnSave" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
-                    <Button Content="{DynamicResource LangKeyCancel}" Name="btnCancel" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
+                    <Button Content="{DynamicResource LangKeySave}" Name="btnSave" x:FieldModifier="public"
+                            HorizontalAlignment="Center" Margin="0,0,10,0"
+                            Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
+                    <Button Content="{DynamicResource LangKeyCancel}" Name="btnCancel" x:FieldModifier="public"
+                            HorizontalAlignment="Center" Margin="0,0,10,0"
+                            Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
                 </StackPanel>
             </Grid>
 

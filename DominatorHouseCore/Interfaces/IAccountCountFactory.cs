@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
     /// <summary>
-    /// IAccountCountFactory is used to specify the account count details with their respective visiblity
-    /// such as for instagram - FollowerCount (HeaderColumn1Value) , FollowingCount (HeaderColumn2Value) , PostCount(HeaderColumn3Value)
-    /// NOTE : HeaderColumn1Value is available for all dominator 
+    ///     IAccountCountFactory is used to specify the account count details with their respective visiblity
+    ///     such as for instagram - FollowerCount (HeaderColumn1Value) , FollowingCount (HeaderColumn2Value) ,
+    ///     PostCount(HeaderColumn3Value)
+    ///     NOTE : HeaderColumn1Value is available for all dominator
     /// </summary>
     public interface IAccountCountFactory
     {
@@ -37,16 +42,16 @@ namespace DominatorHouseCore.Interfaces
 
     public static class ColumnSpecificationGetter
     {
-        public static IColumnSpecificationProvider GetColumnSpecificationProvider(this IAccountCountFactory misnamed_factory)
+        public static IColumnSpecificationProvider GetColumnSpecificationProvider(
+            this IAccountCountFactory misnamed_factory)
         {
             if (typeof(IColumnSpecificationProvider).IsAssignableFrom(misnamed_factory.GetType()))
-            {
-                return (IColumnSpecificationProvider)misnamed_factory;
-            }
+                return (IColumnSpecificationProvider) misnamed_factory;
             return new ColumnSpecificationAdapter(misnamed_factory);
         }
 
-        public static IColumnSpecificationProvider Combine(this IColumnSpecificationProvider prov1, IColumnSpecificationProvider prov2)
+        public static IColumnSpecificationProvider Combine(this IColumnSpecificationProvider prov1,
+            IColumnSpecificationProvider prov2)
         {
             return new ColumnSpecificationAdapter(prov1, prov2);
         }

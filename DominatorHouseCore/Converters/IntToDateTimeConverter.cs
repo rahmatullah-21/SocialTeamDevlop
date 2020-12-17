@@ -1,8 +1,12 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Data;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -11,7 +15,9 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value.ToString() == "0" ? "LangKeyNotUpdatedYet".FromResourceDictionary() : System.Convert.ToInt32(value).EpochToDateTimeLocal().ToString("dd MMM yyyy HH:mm:ss tt");
+            return value.ToString() == "0"
+                ? "LangKeyNotUpdatedYet".FromResourceDictionary()
+                : System.Convert.ToInt32(value).EpochToDateTimeLocal().ToString("dd MMM yyyy HH:mm:ss tt");
         }
 
         [ExcludeFromCodeCoverage]

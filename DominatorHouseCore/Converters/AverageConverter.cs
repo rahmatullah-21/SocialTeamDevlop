@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Data;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -9,22 +13,16 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-
             try
             {
                 var sum = 0;
-                foreach (var value in values)
-                {
-                    sum += int.Parse(value.ToString());
-                }
+                foreach (var value in values) sum += int.Parse(value.ToString());
                 return sum / values.Length;
             }
             catch
             {
-              return 0;
+                return 0;
             }
-
-
         }
 
         [ExcludeFromCodeCoverage]
@@ -33,6 +31,7 @@ namespace DominatorHouseCore.Converters
             return null;
         }
     }
+
     public class NumberConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

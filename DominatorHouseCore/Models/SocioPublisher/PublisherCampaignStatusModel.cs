@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -6,6 +8,8 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -25,14 +29,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private DateTime? _endDate;
 
         /// <summary>
-        /// Is campaign Selected
+        ///     Is campaign Selected
         /// </summary>
         public bool IsSelected
         {
-            get
-            {
-                return _isSelected;
-            }
+            get => _isSelected;
             set
             {
                 _isSelected = value;
@@ -41,24 +42,21 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify the campaign Name
+        ///     To specify the campaign Name
         /// </summary>
         public string CampaignName { get; set; } = string.Empty;
 
         /// <summary>
-        /// To Specify the status for campaigns
+        ///     To Specify the status for campaigns
         /// </summary>
         public PublisherCampaignStatus Status { get; set; } = PublisherCampaignStatus.Completed;
 
         /// <summary>
-        /// To Specify the destination count
+        ///     To Specify the destination count
         /// </summary>
         public int DestinationCount
         {
-            get
-            {
-                return _destinationCount;
-            }
+            get => _destinationCount;
             set
             {
                 _destinationCount = value;
@@ -67,14 +65,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify the draft count of postlists
+        ///     To specify the draft count of postlists
         /// </summary>
         public int DraftCount
         {
-            get
-            {
-                return _draftCount;
-            }
+            get => _draftCount;
             set
             {
                 _draftCount = value;
@@ -83,14 +78,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify the pending count of postlists
+        ///     To specify the pending count of postlists
         /// </summary>
         public int PendingCount
         {
-            get
-            {
-                return _pendingCount;
-            }
+            get => _pendingCount;
             set
             {
                 _pendingCount = value;
@@ -99,14 +91,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify the published count of postlists
+        ///     To specify the published count of postlists
         /// </summary>
         public int PublishedCount
         {
-            get
-            {
-                return _publishedCount;
-            }
+            get => _publishedCount;
             set
             {
                 _publishedCount = value;
@@ -115,14 +104,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify the created date time
+        ///     To specify the created date time
         /// </summary>
         public DateTime CreatedDate
         {
-            get
-            {
-                return _createdDate;
-            }
+            get => _createdDate;
             set
             {
                 _createdDate = value;
@@ -131,15 +117,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private DateTime _updatedTime;
+
         /// <summary>
-        /// To specifty the last modified date time
+        ///     To specifty the last modified date time
         /// </summary>
         public DateTime UpdatedTime
         {
-            get
-            {
-                return _updatedTime;
-            }
+            get => _updatedTime;
             set
             {
                 _updatedTime = value;
@@ -148,14 +132,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify the start date of the campaign
+        ///     To specify the start date of the campaign
         /// </summary>
         public DateTime? StartDate
         {
-            get
-            {
-                return _startDate;
-            }
+            get => _startDate;
             set
             {
                 _startDate = value;
@@ -164,25 +145,24 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// To specify the end date of the campaign
+        ///     To specify the end date of the campaign
         /// </summary>
         public DateTime? EndDate
         {
-            get
-            {
-                return _endDate;
-            }
+            get => _endDate;
             set
             {
                 _endDate = value;
                 OnPropertyChanged(nameof(EndDate));
             }
         }
+
         private bool _isDelayPostChecked;
+
         [ProtoMember(35)]
         public bool IsDelayPostChecked
         {
-            get { return _isDelayPostChecked; }
+            get => _isDelayPostChecked;
             set
             {
                 _isDelayPostChecked = value;
@@ -193,59 +173,59 @@ namespace DominatorHouseCore.Models.SocioPublisher
         #region Job Scheduling
 
         /// <summary>
-        /// To specify the selected day for a campaign
+        ///     To specify the selected day for a campaign
         /// </summary>
         public List<ContentSelectGroup> ScheduledWeekday { get; set; } = new List<ContentSelectGroup>();
 
         /// <summary>
-        /// To specify whether campaign is start running with rotate day 
+        ///     To specify whether campaign is start running with rotate day
         /// </summary>
         public bool IsRotateDayChecked { get; set; }
 
         /// <summary>
-        /// To specify the running time for a campaign
+        ///     To specify the running time for a campaign
         /// </summary>
         public List<TimeSpan> SpecificRunningTime { get; set; } = new List<TimeSpan>();
 
         /// <summary>
-        /// To specify whether campaign is running with randomize the time everyday
+        ///     To specify whether campaign is running with randomize the time everyday
         /// </summary>
         public bool IsRandomRunningTime { get; set; }
 
         /// <summary>
-        /// To specify how minutes publishing operation will take place 
+        ///     To specify how minutes publishing operation will take place
         /// </summary>
         public int MaximumTime { get; set; }
 
         /// <summary>
-        /// To specify the running time range of a campaign
+        ///     To specify the running time range of a campaign
         /// </summary>
         public TimeRange TimeRange { get; set; }
 
         /// <summary>
-        /// To specify whether take randon destinations
+        ///     To specify whether take randon destinations
         /// </summary>
         public bool IsTakeRandomDestination { get; set; }
 
         /// <summary>
-        /// To specify While publihsing Send One Post For Each Destination
+        ///     To specify While publihsing Send One Post For Each Destination
         /// </summary>
         public bool SendOnePostForEachDestination { get; set; }
 
         /// <summary>
-        /// To specify the total random destinations
+        ///     To specify the total random destinations
         /// </summary>
         public int TotalRandomDestination { get; set; }
 
         /// <summary>
-        /// To specify the minimum destination per account
+        ///     To specify the minimum destination per account
         /// </summary>
         public int MinRandomDestinationPerAccount { get; set; }
 
         #endregion
 
         /// <summary>
-        /// Generate campaign details with default values
+        ///     Generate campaign details with default values
         /// </summary>
         public void GenerateCampaign()
         {
@@ -257,7 +237,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// Generate campaign details with default values, but its uses default campaign name
+        ///     Generate campaign details with default values, but its uses default campaign name
         /// </summary>
         public void GenerateCloneCampaign(string name)
         {
@@ -269,7 +249,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         /// <summary>
-        /// Validate the start and end date time
+        ///     Validate the start and end date time
         /// </summary>
         /// <returns></returns>
         public bool ValidDateTime()
@@ -280,8 +260,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             return StartDate <= EndDate;
         }
 
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
+        [field: NonSerialized] public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -289,6 +268,4 @@ namespace DominatorHouseCore.Models.SocioPublisher
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-
 }

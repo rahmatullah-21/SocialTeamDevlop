@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Globalization;
 using System.Windows.Data;
+
+#endregion
 
 namespace DominatorHouseCore.Converters
 {
@@ -16,7 +20,7 @@ namespace DominatorHouseCore.Converters
         {
             try
             {
-                var valu = (bool)value;
+                var valu = (bool) value;
                 return valu ? "Active" : "Paused";
             }
             catch (Exception ex)

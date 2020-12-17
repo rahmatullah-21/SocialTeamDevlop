@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouse", "DominatorHouse\DominatorHouse.csproj", "{C7B598E7-4B31-4A92-9B53-022A25E50002}"
 EndProject
@@ -88,6 +88,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikTokDominatorUI", "..\tiktokdominator-library\TikTokDominatorUI\TikTokDominatorUI.csproj", "{4BA1344E-047E-4430-B271-771EC4990A3D}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SocinatorNew", "SocinatorNew\SocinatorNew.vdproj", "{40412489-898A-474A-93C9-554242BC3ABF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorUIUtility.Tests", "Tests\DominatorUIUtility.Tests\DominatorUIUtility.Tests.csproj", "{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -837,6 +839,24 @@ Global
 		{40412489-898A-474A-93C9-554242BC3ABF}.Release|x64.Build.0 = Release
 		{40412489-898A-474A-93C9-554242BC3ABF}.Release|x86.ActiveCfg = Release
 		{40412489-898A-474A-93C9-554242BC3ABF}.Release|x86.Build.0 = Release
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug|x64.Build.0 = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug|x86.Build.0 = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Release|x64.ActiveCfg = Release|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Release|x64.Build.0 = Release|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Release|x86.ActiveCfg = Release|Any CPU
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -858,6 +878,7 @@ Global
 		{BF7C1B82-9A26-42D5-AB92-9B63884F50F2} = {680B3E48-8A7D-4AED-B504-CDC22E56ED20}
 		{D30735DA-1A69-430C-96DA-CD6EA2BB7415} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{B431F1E4-CC2C-41F5-8D8A-17F05F92043F} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
+		{79BE5191-22A0-479A-9BE5-933FCD3C3A4F} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}

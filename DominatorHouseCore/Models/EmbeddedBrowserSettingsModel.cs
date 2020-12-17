@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -7,13 +11,11 @@ namespace DominatorHouseCore.Models
     public class EmbeddedBrowserSettingsModel : BindableBase
     {
         private int _maxSemultaneousConnections;
+
         [ProtoMember(1)]
         public int MaxSemultaneousConnections
         {
-            get
-            {
-                return _maxSemultaneousConnections;
-            }
+            get => _maxSemultaneousConnections;
             set
             {
                 if (value == _maxSemultaneousConnections)
@@ -21,14 +23,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _maxSemultaneousConnections, value);
             }
         }
+
         private bool _isMaximizeEmbaddedBrowserChecked;
+
         [ProtoMember(2)]
         public bool IsMaximizeEmbaddedBrowserChecked
         {
-            get
-            {
-                return _isMaximizeEmbaddedBrowserChecked;
-            }
+            get => _isMaximizeEmbaddedBrowserChecked;
             set
             {
                 if (value == _isMaximizeEmbaddedBrowserChecked)
@@ -36,14 +37,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isMaximizeEmbaddedBrowserChecked, value);
             }
         }
+
         private bool _isWaitMinOfChecked;
+
         [ProtoMember(3)]
         public bool IsWaitMinOfChecked
         {
-            get
-            {
-                return _isWaitMinOfChecked;
-            }
+            get => _isWaitMinOfChecked;
             set
             {
                 if (value == _isWaitMinOfChecked)
@@ -51,14 +51,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isWaitMinOfChecked, value);
             }
         }
+
         private int _waitMinOf;
+
         [ProtoMember(4)]
         public int WaitMinOf
         {
-            get
-            {
-                return _waitMinOf;
-            }
+            get => _waitMinOf;
             set
             {
                 if (value == _waitMinOf)
@@ -66,14 +65,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _waitMinOf, value);
             }
         }
+
         private bool _isForceKillEmbeddedBrowserChecked;
+
         [ProtoMember(5)]
         public bool IsForceKillEmbeddedBrowserChecked
         {
-            get
-            {
-                return _isForceKillEmbeddedBrowserChecked;
-            }
+            get => _isForceKillEmbeddedBrowserChecked;
             set
             {
                 if (value == _isForceKillEmbeddedBrowserChecked)
@@ -81,14 +79,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isForceKillEmbeddedBrowserChecked, value);
             }
         }
+
         private bool _isAllowEmbeddedBrowserToDownloadFilesChecked;
+
         [ProtoMember(6)]
         public bool IsAllowEmbeddedBrowserToDownloadFilesChecked
         {
-            get
-            {
-                return _isAllowEmbeddedBrowserToDownloadFilesChecked;
-            }
+            get => _isAllowEmbeddedBrowserToDownloadFilesChecked;
             set
             {
                 if (value == _isAllowEmbeddedBrowserToDownloadFilesChecked)
@@ -96,14 +93,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isAllowEmbeddedBrowserToDownloadFilesChecked, value);
             }
         }
+
         private bool _isPreventEmbeddedBrowserFromOpeningPopupChecked;
+
         [ProtoMember(7)]
         public bool IsPreventEmbeddedBrowserFromOpeningPopupChecked
         {
-            get
-            {
-                return _isPreventEmbeddedBrowserFromOpeningPopupChecked;
-            }
+            get => _isPreventEmbeddedBrowserFromOpeningPopupChecked;
             set
             {
                 if (value == _isPreventEmbeddedBrowserFromOpeningPopupChecked)
@@ -113,13 +109,11 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isUseNewTextWritingSystemForFacebookChecked;
+
         [ProtoMember(8)]
         public bool IsUseNewTextWritingSystemForFacebookChecked
         {
-            get
-            {
-                return _isUseNewTextWritingSystemForFacebookChecked;
-            }
+            get => _isUseNewTextWritingSystemForFacebookChecked;
             set
             {
                 if (value == _isUseNewTextWritingSystemForFacebookChecked)
@@ -127,14 +121,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isUseNewTextWritingSystemForFacebookChecked, value);
             }
         }
+
         private bool _isStopSavingEmbeddedBrowserSSChecked;
+
         [ProtoMember(9)]
         public bool IsStopSavingEmbeddedBrowserSSChecked
         {
-            get
-            {
-                return _isStopSavingEmbeddedBrowserSSChecked;
-            }
+            get => _isStopSavingEmbeddedBrowserSSChecked;
             set
             {
                 if (value == _isStopSavingEmbeddedBrowserSSChecked)
@@ -142,14 +135,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isStopSavingEmbeddedBrowserSSChecked, value);
             }
         }
+
         private bool _isDisableGPUAccelerationChecked;
+
         [ProtoMember(10)]
         public bool IsDisableGPUAccelerationChecked
         {
-            get
-            {
-                return _isDisableGPUAccelerationChecked;
-            }
+            get => _isDisableGPUAccelerationChecked;
             set
             {
                 if (value == _isDisableGPUAccelerationChecked)
@@ -157,14 +149,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isDisableGPUAccelerationChecked, value);
             }
         }
+
         private bool _isKeepLowFramerateChecked;
+
         [ProtoMember(11)]
         public bool IsKeepLowFramerateChecked
         {
-            get
-            {
-                return _isKeepLowFramerateChecked;
-            }
+            get => _isKeepLowFramerateChecked;
             set
             {
                 if (value == _isKeepLowFramerateChecked)
@@ -172,14 +163,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isKeepLowFramerateChecked, value);
             }
         }
+
         private bool _isStartEmbeddedBrowserProcessesChecked;
+
         [ProtoMember(12)]
         public bool IsStartEmbeddedBrowserProcessesChecked
         {
-            get
-            {
-                return _isStartEmbeddedBrowserProcessesChecked;
-            }
+            get => _isStartEmbeddedBrowserProcessesChecked;
             set
             {
                 if (value == _isStartEmbeddedBrowserProcessesChecked)
@@ -187,14 +177,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isStartEmbeddedBrowserProcessesChecked, value);
             }
         }
+
         private bool _isOpenMaxOfChecked;
+
         [ProtoMember(13)]
         public bool IsOpenMaxOfChecked
         {
-            get
-            {
-                return _isOpenMaxOfChecked;
-            }
+            get => _isOpenMaxOfChecked;
             set
             {
                 if (value == _isOpenMaxOfChecked)
@@ -202,14 +191,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isOpenMaxOfChecked, value);
             }
         }
+
         private int _openMaxOf;
+
         [ProtoMember(14)]
         public int OpenMaxOf
         {
-            get
-            {
-                return _openMaxOf;
-            }
+            get => _openMaxOf;
             set
             {
                 if (value == _openMaxOf)
@@ -217,14 +205,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _openMaxOf, value);
             }
         }
+
         private int _deleteupTo;
+
         [ProtoMember(15)]
         public int DeleteupTo
         {
-            get
-            {
-                return _deleteupTo;
-            }
+            get => _deleteupTo;
             set
             {
                 if (value == _deleteupTo)

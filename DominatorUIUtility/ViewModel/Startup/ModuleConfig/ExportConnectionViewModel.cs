@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
+using DominatorHouseCore;
+using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using DominatorHouseCore.Command;
-using System.Text.RegularExpressions;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface IExportConnectionViewModel
     {
         bool IsCheckedBySoftware { get; set; }
@@ -27,6 +26,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         int Days { get; set; }
         int Hours { get; set; }
     }
+
     public class ExportConnectionViewModel : StartupBaseViewModel, IExportConnectionViewModel
     {
         private int _days;
@@ -40,16 +40,15 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public ExportConnectionViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.ExportConnection });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.ExportConnection});
             NextCommand = new DelegateCommand(ValidateAndNevigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
 
-            SaveCustomUserListCommand = new BaseCommand<object>((sender) => true, SaveCustomUsers);
+            SaveCustomUserListCommand = new BaseCommand<object>(sender => true, SaveCustomUsers);
             IsNonQuery = true;
             JobConfiguration = new JobConfiguration
             {
-
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfConnectionsToExportPerJob".FromResourceDictionary(),
                 ActivitiesPerHourDisplayName = "LangKeyNumberOfConnectionsToExportPerHour".FromResourceDictionary(),
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfConnectionsToExportPerDay".FromResourceDictionary(),
@@ -60,6 +59,57 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
         }
 
+
+        public int Days
+        {
+            get => _days;
+            set => SetProperty(ref _days, value);
+        }
+
+        public int Hours
+        {
+            get => _hours;
+            set => SetProperty(ref _hours, value);
+        }
+
+        public bool IsCheckedBySoftware
+        {
+            get => _IsCheckedBySoftware;
+            set => SetProperty(ref _IsCheckedBySoftware, value);
+        }
+
+        public bool IsCheckedConnectedBefore
+        {
+            get => _IsCheckedConnectedBefore;
+            set => SetProperty(ref _IsCheckedConnectedBefore, value);
+        }
+
+        public bool IsCheckedLangKeyCustomUserList
+        {
+            get => _IsCheckedLangKeyCustomUserList;
+            set => SetProperty(ref _IsCheckedLangKeyCustomUserList, value);
+        }
+
+        public bool IsCheckedOutSideSoftware
+        {
+            get => _IsCheckedOutSideSoftware;
+            set => SetProperty(ref _IsCheckedOutSideSoftware, value);
+        }
+
+        public ICommand SaveCustomUserListCommand { get; set; }
+
+        public string UrlInput
+        {
+            get => _UrlInput;
+            set => SetProperty(ref _UrlInput, value);
+        }
+
+        public List<string> UrlList
+        {
+            get => _UrlList;
+            set => SetProperty(ref _UrlList, value);
+        }
+
         private void ValidateAndNevigate()
         {
             if (!IsCheckedBySoftware && !IsCheckedOutSideSoftware && !IsCheckedLangKeyCustomUserList)
@@ -67,11 +117,13 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Dialog.ShowDialog("Error", "select at least once of the connection sources");
                 return;
             }
+
             if (IsCheckedLangKeyCustomUserList && string.IsNullOrEmpty(UrlInput))
             {
                 Dialog.ShowDialog("Error", "Please enter user list.");
                 return;
             }
+
             NavigateNext();
         }
 
@@ -95,57 +147,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             {
                 ex.DebugLog();
             }
-        }
-
-
-        public int Days
-        {
-            get { return _days; }
-            set { SetProperty(ref _days, value); }
-        }
-
-        public int Hours
-        {
-            get { return _hours; }
-            set { SetProperty(ref _hours, value); }
-        }
-
-        public bool IsCheckedBySoftware
-        {
-            get { return _IsCheckedBySoftware; }
-            set { SetProperty(ref _IsCheckedBySoftware, value); }
-        }
-
-        public bool IsCheckedConnectedBefore
-        {
-            get { return _IsCheckedConnectedBefore; }
-            set { SetProperty(ref _IsCheckedConnectedBefore, value); }
-        }
-
-        public bool IsCheckedLangKeyCustomUserList
-        {
-            get { return _IsCheckedLangKeyCustomUserList; }
-            set { SetProperty(ref _IsCheckedLangKeyCustomUserList, value); }
-        }
-
-        public bool IsCheckedOutSideSoftware
-        {
-            get { return _IsCheckedOutSideSoftware; }
-            set { SetProperty(ref _IsCheckedOutSideSoftware, value); }
-        }
-
-        public ICommand SaveCustomUserListCommand { get; set; }
-
-        public string UrlInput
-        {
-            get { return _UrlInput; }
-            set { SetProperty(ref _UrlInput, value); }
-        }
-
-        public List<string> UrlList
-        {
-            get { return _UrlList; }
-            set { SetProperty(ref _UrlList, value); }
         }
     }
 }

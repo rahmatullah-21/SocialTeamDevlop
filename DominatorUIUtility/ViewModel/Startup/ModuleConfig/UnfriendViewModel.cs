@@ -1,20 +1,15 @@
-﻿using DominatorHouseCore.Command;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface IUnfriendViewModel
     {
         //int Count { get; set; }
@@ -23,60 +18,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         //string FilterText { get; set; }
         UnfriendOption UnfriendOptionModel { get; set; }
     }
+
     public class UnfriendViewModel : StartupBaseViewModel, IUnfriendViewModel
     {
-        public UnfriendViewModel(IRegionManager region) : base(region)
-        {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Unfriend });
-            IsNonQuery = true;
-            NextCommand = new DelegateCommand(UnfriendValidate);
-            PreviousCommand = new DelegateCommand(NavigatePrevious);
-            LoadedCommand = new DelegateCommand<string>(OnLoad);
-
-            UnfriendOptionModel = new UnfriendOption()
-            {
-                SourceDisplayName = Application.Current.FindResource("LangKeyUnfriendSource")?.ToString(),
-                BySoftwareDisplayName = Application.Current.FindResource("LangKeyPeopleAddedBySoftware")?.ToString(),
-                OutsideSoftwareDisplayName = Application.Current.FindResource("LangKeyPeopleAddedOutsideSoftware")?.ToString()
-
-            };
-
-            //LoadTextBoxes();
-
-
-            JobConfiguration = new JobConfiguration
-            {
-                ActivitiesPerJobDisplayName = "LangKeyNumberOfUnfriendPerJob".FromResourceDictionary(),
-                ActivitiesPerHourDisplayName = "LangKeyNumberOfUnfriendPerHour".FromResourceDictionary(),
-                ActivitiesPerDayDisplayName = "LangKeyNumberOfUnfriendPerDay".FromResourceDictionary(),
-                ActivitiesPerWeekDisplayName = "LangKeyNumberOfUnfriendPerWeek".FromResourceDictionary(),
-                IncreaseActivityDisplayName = "LangKeyMaxUnfriendPerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes,
-                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
-            };
-            ListQueryType.Clear();
-        }
-
-        private void UnfriendValidate()
-        {
-            if (!UnfriendOptionModel.IsAddedThroughSoftware && !UnfriendOptionModel.IsAddedOutsideSoftware
-                                                            &&!UnfriendOptionModel.IsCustomUserList 
-                                                            && !UnfriendOptionModel.IsMutualFriends)
-            {
-                Dialog.ShowDialog("Error", "Please select atleast one source.");
-                return;
-            }
-
-            if (UnfriendOptionModel.IsFilterApplied &&
-                (UnfriendOptionModel.DaysBefore == 0 && UnfriendOptionModel.HoursBefore == 0))
-            {
-                Dialog.ShowDialog("Error", "Please select valid source filter.");
-                return;
-            }
-
-            NavigateNext();
-        }
-
         //public ICommand SaveCommandBinding { get; set; }
 
         //public ICommand SelectOptionCommandBinding { get; set; }
@@ -123,13 +67,63 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         //}
 
         private UnfriendOption _unfriendOptionModel;
+
+        public UnfriendViewModel(IRegionManager region) : base(region)
+        {
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.Unfriend});
+            IsNonQuery = true;
+            NextCommand = new DelegateCommand(UnfriendValidate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
+            LoadedCommand = new DelegateCommand<string>(OnLoad);
+
+            UnfriendOptionModel = new UnfriendOption
+            {
+                SourceDisplayName = Application.Current.FindResource("LangKeyUnfriendSource")?.ToString(),
+                BySoftwareDisplayName = Application.Current.FindResource("LangKeyPeopleAddedBySoftware")?.ToString(),
+                OutsideSoftwareDisplayName =
+                    Application.Current.FindResource("LangKeyPeopleAddedOutsideSoftware")?.ToString()
+            };
+
+            //LoadTextBoxes();
+
+
+            JobConfiguration = new JobConfiguration
+            {
+                ActivitiesPerJobDisplayName = "LangKeyNumberOfUnfriendPerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyNumberOfUnfriendPerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyNumberOfUnfriendPerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyNumberOfUnfriendPerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaxUnfriendPerDay".FromResourceDictionary(),
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
+            };
+            ListQueryType.Clear();
+        }
+
         public UnfriendOption UnfriendOptionModel
         {
-            get { return _unfriendOptionModel; }
-            set
+            get => _unfriendOptionModel;
+            set => SetProperty(ref _unfriendOptionModel, value);
+        }
+
+        private void UnfriendValidate()
+        {
+            if (!UnfriendOptionModel.IsAddedThroughSoftware && !UnfriendOptionModel.IsAddedOutsideSoftware
+                                                            && !UnfriendOptionModel.IsCustomUserList
+                                                            && !UnfriendOptionModel.IsMutualFriends)
             {
-                SetProperty(ref _unfriendOptionModel, value);
+                Dialog.ShowDialog("Error", "Please select atleast one source.");
+                return;
             }
+
+            if (UnfriendOptionModel.IsFilterApplied && UnfriendOptionModel.DaysBefore == 0 &&
+                UnfriendOptionModel.HoursBefore == 0)
+            {
+                Dialog.ShowDialog("Error", "Please select valid source filter.");
+                return;
+            }
+
+            NavigateNext();
         }
 
         //private bool _isAddedOutsideSoftware;
@@ -297,7 +291,5 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         //        SetProperty(ref _isMutualFriends, value);
         //    }
         //}
-
-
     }
 }

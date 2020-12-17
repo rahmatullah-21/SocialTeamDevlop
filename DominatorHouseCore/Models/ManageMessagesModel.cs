@@ -1,6 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿#region
+
+using System.Collections.ObjectModel;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -11,14 +15,12 @@ namespace DominatorHouseCore.Models
         {
             MessageId = Utilities.GetGuid();
         }
+
         private string _messageId;
 
         public string MessageId
         {
-            get
-            {
-                return _messageId;
-            }
+            get => _messageId;
             set
             {
                 if (value == _messageId)
@@ -26,14 +28,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _messageId, value);
             }
         }
+
         private string _messagesText;
 
         public string MessagesText
         {
-            get
-            {
-                return _messagesText;
-            }
+            get => _messagesText;
             set
             {
                 if (value == _messagesText)
@@ -41,16 +41,14 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _messagesText, value);
             }
         }
+
         public string _MediaPath = string.Empty;
         private ObservableCollection<QueryContent> _lstQueries = new ObservableCollection<QueryContent>();
         private ObservableCollection<QueryContent> _selectedQuery = new ObservableCollection<QueryContent>();
 
         public string MediaPath
         {
-            get
-            {
-                return _MediaPath;
-            }
+            get => _MediaPath;
             set
             {
                 if (value == _MediaPath)
@@ -61,7 +59,7 @@ namespace DominatorHouseCore.Models
 
         public ObservableCollection<QueryContent> SelectedQuery
         {
-            get { return _selectedQuery; }
+            get => _selectedQuery;
             set
             {
                 if (value == _selectedQuery)
@@ -73,7 +71,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(1)]
         public ObservableCollection<QueryContent> LstQueries
         {
-            get { return _lstQueries; }
+            get => _lstQueries;
             set
             {
                 if (value == _lstQueries)
@@ -82,6 +80,4 @@ namespace DominatorHouseCore.Models
             }
         }
     }
-
-  
 }

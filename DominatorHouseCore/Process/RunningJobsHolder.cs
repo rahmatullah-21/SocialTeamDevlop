@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
+
+#endregion
 
 namespace DominatorHouseCore.Process
 {
@@ -11,7 +15,7 @@ namespace DominatorHouseCore.Process
     }
 
     /// <summary>
-    /// Stores all running job processes. Key - TemplateId
+    ///     Stores all running job processes. Key - TemplateId
     /// </summary>
     public class RunningJobsHolder : IRunningJobsHolder
     {
@@ -31,15 +35,13 @@ namespace DominatorHouseCore.Process
         {
             lock (_syncJobProcess)
             {
-                if (_runningJobProcesses.ContainsKey(id))
-                {
-                    var jobProcess = _runningJobProcesses[id];
-                    _runningJobProcesses.Remove(id);
-                    _runningAccounts.Remove(id.AccountId);
-                    if (!isStopIfAccountLoginFail)
-                        jobProcess.Stop();
-                    return true;
-                }
+                if (!_runningJobProcesses.ContainsKey(id)) return false;
+                var jobProcess = _runningJobProcesses[id];
+                _runningJobProcesses.Remove(id);
+                _runningAccounts.Remove(id.AccountId);
+                if (!isStopIfAccountLoginFail)
+                    jobProcess.Stop();
+                return true;
             }
 
 

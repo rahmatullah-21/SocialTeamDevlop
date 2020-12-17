@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Process;
+﻿#region
+
+using DominatorHouseCore.Process;
+
+#endregion
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {

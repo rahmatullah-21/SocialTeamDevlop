@@ -1,22 +1,23 @@
-﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 
 namespace DominatorUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
-    /// Interaction logic for IncommingFriendRequest.xaml
+    ///     Interaction logic for IncommingFriendRequest.xaml
     /// </summary>
     public partial class IncommingFriendRequest : UserControl
     {
-        IIncommingFriendRequestViewModel _viewModel;
+        private readonly IIncommingFriendRequestViewModel _viewModel;
+
         public IncommingFriendRequest(IIncommingFriendRequestViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;
             DataContext = viewModel;
         }
-      
+
         private void Postoptions_Checked(object sender, RoutedEventArgs e)
         {
             if (_viewModel.Count < 2)

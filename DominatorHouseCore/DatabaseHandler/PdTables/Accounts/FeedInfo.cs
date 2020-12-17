@@ -1,4 +1,8 @@
-﻿using SQLite;
+﻿#region
+
+using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
@@ -12,7 +16,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         //Row ID
         public int Id { get; set; }
-        
+
         //ID of the tweet
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string PinId { get; set; }
@@ -20,10 +24,10 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         //ID/Path of the media file
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string MediaString { get; set; }
+
         /// <summary>
-        /// Message/Description of the tweet
+        ///     Message/Description of the tweet
         /// </summary>
-        /// 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string PinDescription { get; set; }
@@ -31,12 +35,11 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         //Try Count Of The Tweet
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public int TryCount { get; set; }
-      
+
 
         //Comment Count Of The Tweet
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int CommentCount { get; set; }
-
 
 
         //Time when the Pin has been posted in TimeStamp
@@ -47,8 +50,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         //Duration of the video Pins
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public double VideoDuration
-        { get; set; }
+        public double VideoDuration { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string BoardId { get; set; }
@@ -60,6 +62,5 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string BoardName { get; set; }
-
     }
 }

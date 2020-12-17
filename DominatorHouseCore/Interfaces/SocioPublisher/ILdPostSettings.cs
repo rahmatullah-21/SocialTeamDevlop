@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Enums.SocioPublisher;
+﻿#region
+
+using DominatorHouseCore.Enums.SocioPublisher;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces.SocioPublisher
 {

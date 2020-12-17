@@ -7,23 +7,26 @@ using DominatorHouseCore.Models.SocioPublisher.Settings;
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
     /// <summary>
-    /// Interaction logic for PostFacebookSettings.xaml
+    ///     Interaction logic for PostFacebookSettings.xaml
     /// </summary>
-    public partial class PostFacebookSettings : UserControl,INotifyPropertyChanged
+    public partial class PostFacebookSettings : UserControl, INotifyPropertyChanged
     {
+        private PublisherPostSettings _publisherPostSettings;
+
         public PostFacebookSettings()
         {
             InitializeComponent();
         }
 
-        private PublisherPostSettings _publisherPostSettings;
+        public PostFacebookSettings(PublisherPostSettings publisherPostSettings) : this()
+        {
+            PublisherPostSettings = publisherPostSettings;
+            MainGrid.DataContext = PublisherPostSettings.FdPostSettings;
+        }
 
         public PublisherPostSettings PublisherPostSettings
         {
-            get
-            {
-                return _publisherPostSettings;
-            }
+            get => _publisherPostSettings;
             set
             {
                 _publisherPostSettings = value;
@@ -38,13 +41,5 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public PostFacebookSettings(PublisherPostSettings publisherPostSettings):this()
-        {
-            PublisherPostSettings = publisherPostSettings;
-            MainGrid.DataContext = PublisherPostSettings.FdPostSettings;
-        }
-
-     
     }
 }

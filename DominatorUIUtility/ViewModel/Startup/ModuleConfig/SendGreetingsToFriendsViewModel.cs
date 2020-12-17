@@ -1,4 +1,9 @@
-﻿using DominatorHouseCore.Command;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -6,15 +11,9 @@ using DominatorUIUtility.CustomControl;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface ISendGreetingsToFriendsViewModel
     {
         ManageMessagesModel ManageMessagesModel { get; set; }
@@ -22,22 +21,47 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         bool IsSpintaxChecked { get; set; }
         bool IsTagChecked { get; set; }
     }
+
     public class SendGreetingsToFriendsViewModel : StartupBaseViewModel, ISendGreetingsToFriendsViewModel
     {
-        public ICommand AddMessagesCommand { get; set; }
+        private RangeUtilities _daysBefore = new RangeUtilities(1, 2);
+
+        private bool _isFilterByAge = true;
+
+
+        private bool _isFilterByDays = true;
+
+        private bool _isMessageAsPreview;
+
+        private bool _isSendBirthDayGreetings = true;
+
+
+        private bool _isSpintaxChecked;
+
+        private bool _isTagChecked;
+
+        public ObservableCollection<ManageMessagesModel> _lstManageMessagesModel =
+            new ObservableCollection<ManageMessagesModel>();
+
+        private readonly ManageMessagesModel _manageMessagesModel = new ManageMessagesModel();
+
+
+        private RangeUtilities _userAge = new RangeUtilities(20, 60);
+
         public SendGreetingsToFriendsViewModel(IRegionManager region) : base(region)
         {
             IsNonQuery = true;
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SendGreetingsToFriends });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.SendGreetingsToFriends});
             NextCommand = new DelegateCommand(SendGreetingsToFriendsValidate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
-            AddMessagesCommand = new BaseCommand<object>((sender) => true, AddMessages);
+            AddMessagesCommand = new BaseCommand<object>(sender => true, AddMessages);
 
-            ManageMessagesModel.LstQueries.Add(new QueryContent { Content = new QueryInfo() { QueryType = "All", QueryValue = "All" } });
+            ManageMessagesModel.LstQueries.Add(new QueryContent
+                {Content = new QueryInfo {QueryType = "All", QueryValue = "All"}});
             ManageMessagesModel.LstQueries.Add(new QueryContent
             {
-                Content = new QueryInfo()
+                Content = new QueryInfo
                 {
                     QueryType = Application.Current.FindResource("LangKeyGreetingOptions")?.ToString(),
                     QueryValue = Application.Current.FindResource("LangKeyTodaysBirthdays")?.ToString()
@@ -46,7 +70,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             ManageMessagesModel.LstQueries.Add(new QueryContent
             {
-                Content = new QueryInfo()
+                Content = new QueryInfo
                 {
                     QueryType = Application.Current.FindResource("LangKeyGreetingOptions")?.ToString(),
                     QueryValue = Application.Current.FindResource("LangKeyUpcomingBirthdays")?.ToString()
@@ -65,49 +89,21 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
         }
 
-        private void SendGreetingsToFriendsValidate()
-        {
-            if (LstManageMessagesModel.Count == 0)
-            {
-                Dialog.ShowDialog("Error", "Please add at least one message.");
-                return;
-            }
-            if (IsFilterByDays && DaysBefore.StartValue == 0 && DaysBefore.EndValue == 0)
-            {
-                Dialog.ShowDialog("Error", "Please select valid days filter.");
-                return;
-            }
+        public ICommand AddMessagesCommand { get; set; }
 
-            NavigateNext();
-        }
-
-        public ObservableCollection<ManageMessagesModel> _lstManageMessagesModel =
-            new ObservableCollection<ManageMessagesModel>();
         public ObservableCollection<ManageMessagesModel> LstManageMessagesModel
         {
-            get { return _lstManageMessagesModel; }
+            get => _lstManageMessagesModel;
             set
             {
-                if (_lstManageMessagesModel == null & _lstManageMessagesModel == value)
+                if ((_lstManageMessagesModel == null) & (_lstManageMessagesModel == value))
                     return;
             }
         }
 
-        private ManageMessagesModel _manageMessagesModel = new ManageMessagesModel();
-        public ManageMessagesModel ManageMessagesModel
-        {
-            get { return _manageMessagesModel; }
-            set
-            {
-                if (_manageMessagesModel == null & _manageMessagesModel == value)
-                    return;
-            }
-        }
-
-        private bool _isSendBirthDayGreetings = true;
         public bool IsSendBirthDayGreetings
         {
-            get { return _isSendBirthDayGreetings; }
+            get => _isSendBirthDayGreetings;
 
             set
             {
@@ -117,47 +113,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private bool _isMessageAsPreview;
-        public bool IsMessageAsPreview
-        {
-            get { return _isMessageAsPreview; }
-            set
-            {
-                if (value == _isMessageAsPreview)
-                    return;
-                SetProperty(ref _isMessageAsPreview, value);
-            }
-        }
-
-
-        private bool _isSpintaxChecked;
-        public bool IsSpintaxChecked
-        {
-            get { return _isSpintaxChecked; }
-            set
-            {
-                if (value == _isSpintaxChecked)
-                    return;
-                SetProperty(ref _isSpintaxChecked, value);
-            }
-        }
-
-        private bool _isTagChecked;
-        public bool IsTagChecked
-        {
-            get { return _isTagChecked; }
-            set
-            {
-                if (value == _isTagChecked)
-                    return;
-                SetProperty(ref _isTagChecked, value);
-            }
-        }
-
-        private RangeUtilities _daysBefore = new RangeUtilities(1, 2);
         public RangeUtilities DaysBefore
         {
-            get { return _daysBefore; }
+            get => _daysBefore;
 
             set
             {
@@ -167,11 +125,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-
-        private RangeUtilities _userAge = new RangeUtilities(20, 60);
         public RangeUtilities UserAge
         {
-            get { return _userAge; }
+            get => _userAge;
 
             set
             {
@@ -181,10 +137,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private bool _isFilterByAge = true;
         public bool IsFilterByAge
         {
-            get { return _isFilterByAge; }
+            get => _isFilterByAge;
 
             set
             {
@@ -194,11 +149,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-
-        private bool _isFilterByDays = true;
         public bool IsFilterByDays
         {
-            get { return _isFilterByDays; }
+            get => _isFilterByDays;
 
             set
             {
@@ -206,6 +159,66 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     return;
                 SetProperty(ref _isFilterByDays, value);
             }
+        }
+
+        public ManageMessagesModel ManageMessagesModel
+        {
+            get => _manageMessagesModel;
+            set
+            {
+                if ((_manageMessagesModel == null) & (_manageMessagesModel == value))
+                    return;
+            }
+        }
+
+        public bool IsMessageAsPreview
+        {
+            get => _isMessageAsPreview;
+            set
+            {
+                if (value == _isMessageAsPreview)
+                    return;
+                SetProperty(ref _isMessageAsPreview, value);
+            }
+        }
+
+        public bool IsSpintaxChecked
+        {
+            get => _isSpintaxChecked;
+            set
+            {
+                if (value == _isSpintaxChecked)
+                    return;
+                SetProperty(ref _isSpintaxChecked, value);
+            }
+        }
+
+        public bool IsTagChecked
+        {
+            get => _isTagChecked;
+            set
+            {
+                if (value == _isTagChecked)
+                    return;
+                SetProperty(ref _isTagChecked, value);
+            }
+        }
+
+        private void SendGreetingsToFriendsValidate()
+        {
+            if (LstManageMessagesModel.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "Please add at least one message.");
+                return;
+            }
+
+            if (IsFilterByDays && DaysBefore.StartValue == 0 && DaysBefore.EndValue == 0)
+            {
+                Dialog.ShowDialog("Error", "Please select valid days filter.");
+                return;
+            }
+
+            NavigateNext();
         }
 
         private void AddMessages(object sender)
@@ -229,7 +242,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            messageData.Messages.SelectedQuery.Remove(messageData.Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+            messageData.Messages.SelectedQuery.Remove(
+                messageData.Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
             LstManageMessagesModel.Add(messageData.Messages);
             messageData.Messages = new ManageMessagesModel
             {
@@ -237,10 +251,13 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
 
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            messageData.Messages.LstQueries.Select(query => { query.IsContentSelected = false; return query; }).ToList();
+            messageData.Messages.LstQueries.Select(query =>
+            {
+                query.IsContentSelected = false;
+                return query;
+            }).ToList();
             ManageMessagesModel = messageData.Messages;
             messageData.ComboBoxQueries.ItemsSource = ManageMessagesModel.LstQueries;
-
         }
     }
 }

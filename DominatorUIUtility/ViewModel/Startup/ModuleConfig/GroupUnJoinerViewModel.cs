@@ -1,23 +1,25 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-    
     public interface IGroupUnJoinerViewModel
     {
     }
+
     public class GroupUnJoinerViewModel : StartupBaseViewModel, IGroupUnJoinerViewModel
     {
+        private UnfriendOption _unfriendOption = new UnfriendOption();
+
         public GroupUnJoinerViewModel(IRegionManager region) : base(region)
         {
-            UnfriendOptionModel = new UnfriendOption()
+            UnfriendOptionModel = new UnfriendOption
             {
                 SourceDisplayName = "LangKeyGroupUnjoinerSource".FromResourceDictionary(),
                 BySoftwareDisplayName = "LangKeyGroupAddedBySoftware".FromResourceDictionary(),
@@ -25,7 +27,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
 
             IsNonQuery = true;
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.GroupUnJoiner });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.GroupUnJoiner});
 
             NextCommand = new DelegateCommand(GroupUnJoinerValidate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -43,6 +45,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListQueryType.Clear();
         }
 
+        public UnfriendOption UnfriendOptionModel
+        {
+            get => _unfriendOption;
+            set
+            {
+                if ((_unfriendOption == value) & (_unfriendOption == null))
+                    return;
+                SetProperty(ref _unfriendOption, value);
+            }
+        }
+
         private void GroupUnJoinerValidate()
         {
             if (!UnfriendOptionModel.IsAddedThroughSoftware && !UnfriendOptionModel.IsAddedOutsideSoftware)
@@ -51,8 +64,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            if (UnfriendOptionModel.IsFilterApplied && (UnfriendOptionModel.DaysBefore == 0 
-                                                              && UnfriendOptionModel.HoursBefore == 0))
+            if (UnfriendOptionModel.IsFilterApplied && UnfriendOptionModel.DaysBefore == 0 &&
+                UnfriendOptionModel.HoursBefore == 0)
             {
                 Dialog.ShowDialog("Error", "Please select valid source filter.");
                 return;
@@ -60,18 +73,5 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             NavigateNext();
         }
-
-        private UnfriendOption _unfriendOption=new UnfriendOption();
-        public UnfriendOption UnfriendOptionModel
-        {
-            get { return _unfriendOption; }
-            set
-            {
-                if (_unfriendOption == value & _unfriendOption == null)
-                    return;
-                SetProperty(ref _unfriendOption, value);
-            }
-        } 
-
     }
 }

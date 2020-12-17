@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Net;
+
+#endregion
 
 namespace DominatorHouseCore.Requests
 {
@@ -100,6 +104,7 @@ namespace DominatorHouseCore.Requests
                                     "Make sure there is an internet connection. If the issue persists, contact support."
                             };
                     }
+
                 case WebExceptionStatus.ConnectionClosed:
                     return new WebExceptionIssue
                     {

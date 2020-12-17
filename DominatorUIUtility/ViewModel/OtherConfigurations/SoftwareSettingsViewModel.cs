@@ -1,14 +1,4 @@
-﻿using DominatorHouseCore;
-using DominatorHouseCore.DatabaseHandler.Utility;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Settings;
-using DominatorHouseCore.Utility;
-using DominatorHouseCore.ViewModel;
-using MahApps.Metro.Controls.Dialogs;
-using Prism.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -16,22 +6,31 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using DominatorHouseCore;
+using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.DatabaseHandler.Utility;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
+using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel;
+using MahApps.Metro.Controls.Dialogs;
+using Prism.Commands;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {
     public class SoftwareSettingsViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {
         private readonly ISoftwareSettings _softwareSettings;
+        private bool _progressRing;
 
-        public SoftwareSettingsModel SoftwareSettingsModel { get; }
+        private string _searchText;
 
-        public DelegateCommand SaveCmd { get; }
-
-        public DelegateCommand ExportCommand { get; }
-
-        public SoftwareSettingsViewModel(ISoftwareSettings softwareSettings) : base("LangKeySoftwareSettings", "SoftwareSettingsControlTemplate")
+        public SoftwareSettingsViewModel(ISoftwareSettings softwareSettings) : base("LangKeySoftwareSettings",
+            "SoftwareSettingsControlTemplate")
         {
             _softwareSettings = softwareSettings;
             SaveCmd = new DelegateCommand(Save);
@@ -39,22 +38,25 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
             ExportCommand = new DelegateCommand(Export);
 
             //Assign LocationDetails
-            SoftwareSettingsModel.ListLocationModelTemp = SoftwareSettingsModel.ListLocationModel = softwareSettings.AssignLocationList();
+            SoftwareSettingsModel.ListLocationModelTemp =
+                SoftwareSettingsModel.ListLocationModel = softwareSettings.AssignLocationList();
 
             SoftwareSettingsModel.DebugVisibility = Visibility.Collapsed;
 
-            #if DEBUG
-                SoftwareSettingsModel.DebugVisibility = Visibility.Visible;
-            #endif
+#if DEBUG
+            SoftwareSettingsModel.DebugVisibility = Visibility.Visible;
+#endif
         }
 
-        private string _searchText;
+        public SoftwareSettingsModel SoftwareSettingsModel { get; }
+
+        public DelegateCommand SaveCmd { get; }
+
+        public DelegateCommand ExportCommand { get; }
+
         public string SearchText
         {
-            get
-            {
-                return _searchText;
-            }
+            get => _searchText;
             set
             {
                 if (value == _searchText)
@@ -63,53 +65,55 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                 SetListLocationModel(value);
             }
         }
-        public void SetListLocationModel(string input)
-        {
-            SoftwareSettingsModel.ListLocationModel.ForEach
-                (x => x = SoftwareSettingsModel.ListLocationModelTemp.FirstOrDefault(y => y.CountryName == x.CountryName));
 
-            SoftwareSettingsModel.ListLocationModelTemp = new ObservableCollection<LocationModel>
-            (SoftwareSettingsModel.ListLocationModel.ToList().Where(x => x.CountryName.StartsWith(input, StringComparison.InvariantCultureIgnoreCase)));
-        }
-
-        private void Export()
-        {
-            SoftwareSettingsModel.ExportPath = FileUtilities.GetExportPath(true);
-        }
-        private bool _progressRing = false;
         public bool ProgressRing
         {
-            get { return _progressRing; }
+            get => _progressRing;
             set
             {
                 if (_progressRing == value) return;
                 SetProperty(ref _progressRing, value);
             }
         }
+
+        public void SetListLocationModel(string input)
+        {
+            SoftwareSettingsModel.ListLocationModel.ForEach
+            (x => x = SoftwareSettingsModel.ListLocationModelTemp.FirstOrDefault(
+                y => y.CountryName == x.CountryName));
+
+            SoftwareSettingsModel.ListLocationModelTemp = new ObservableCollection<LocationModel>
+            (SoftwareSettingsModel.ListLocationModel.ToList().Where(x =>
+                x.CountryName.StartsWith(input, StringComparison.InvariantCultureIgnoreCase)));
+        }
+
+        private void Export()
+        {
+            SoftwareSettingsModel.ExportPath = FileUtilities.GetExportPath(true);
+        }
+
         private void Save()
         {
             if (SoftwareSettingsModel.IsSelectCountriesFilter)
             {
                 ProgressRing = true;
-                ThreadFactory.Instance.Start(() =>
-                {
-                    DownloadLocations();
-                });
+                ThreadFactory.Instance.Start(() => { DownloadLocations(); });
             }
 
             if (SoftwareSettingsModel.IsDefaultExportPathSelected)
             {
-                if (!string.IsNullOrEmpty(SoftwareSettingsModel.ExportPath) && Directory.Exists(SoftwareSettingsModel.ExportPath))
+                if (!string.IsNullOrEmpty(SoftwareSettingsModel.ExportPath) &&
+                    Directory.Exists(SoftwareSettingsModel.ExportPath))
                     SaveSetting();
                 else
-                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyEnterValidFolderPath".FromResourceDictionary());
+                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(),
+                        "LangKeyEnterValidFolderPath".FromResourceDictionary());
             }
             else
             {
                 SoftwareSettingsModel.ExportPath = string.Empty;
                 SaveSetting();
             }
-
         }
 
         private void SaveSetting()
@@ -120,12 +124,12 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                     Thread.Sleep(500);
 
                 if (_softwareSettings.Save())
-                {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         var result = Dialog.ShowCustomDialog("LangKeySuccess".FromResourceDictionary(),
-                                     "LangKeyConfirmToRestartAfterSoftwareSettingSaved".FromResourceDictionary(),
-                                     "LangKeyRestartNow".FromResourceDictionary(), "LangKeyRestartLater".FromResourceDictionary());
+                            "LangKeyConfirmToRestartAfterSoftwareSettingSaved".FromResourceDictionary(),
+                            "LangKeyRestartNow".FromResourceDictionary(),
+                            "LangKeyRestartLater".FromResourceDictionary());
                         if (result == MessageDialogResult.Affirmative)
                         {
                             Application.Current.Shutdown();
@@ -134,8 +138,6 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                             Environment.Exit(0);
                         }
                     });
-
-                }
             });
         }
 
@@ -144,22 +146,21 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         {
             try
             {
-                IGlobalDatabaseConnection dataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+                var dataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
                 var dbGlobalContext = dataBaseConnectionGlb.GetSqlConnection();
                 var _dbGlobalListOperations = new DbOperations(dbGlobalContext);
 
-                var ListCountry = _dbGlobalListOperations.Get<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
-                var dt = new List<DominatorHouseCore.DatabaseHandler.DHTables.LocationList>();
+                var ListCountry = _dbGlobalListOperations.Get<LocationList>();
+                var dt = new List<LocationList>();
                 foreach (var locationModel in SoftwareSettingsModel.ListLocationModel.Where(x => x.IsSelected))
-                {
                     try
                     {
                         if (ListCountry.Any(x => x.CountryName.Equals(locationModel.CountryName)))
                             continue;
 
-                        var request = (HttpWebRequest)WebRequest.Create($"http://209.250.252.53/DownloadForSocinator/CityListByCountries/{locationModel.CountryName}.txt");
+                        var request = (HttpWebRequest)WebRequest.Create($"http://18.133.153.168/DownloadForSocinator/CityListByCountries/{locationModel.CountryName}.txt");
                         var response = request.GetResponse();
-                        string cityResponse = string.Empty;
+                        var cityResponse = string.Empty;
                         using (var responseStream = response.GetResponseStream())
                         {
                             if (responseStream != null)
@@ -169,10 +170,10 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                             }
                         }
 
-                        List<string> cityList = System.Text.RegularExpressions.Regex.Split(cityResponse, "\r\n").ToList();
+                        var cityList = Regex.Split(cityResponse, "\r\n").ToList();
                         cityList.ForEach(x =>
                         {
-                            var lst = new DominatorHouseCore.DatabaseHandler.DHTables.LocationList()
+                            var lst = new LocationList
                             {
                                 CountryName = locationModel.CountryName,
                                 CityName = x,
@@ -185,7 +186,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                     {
                         ex.DebugLog();
                     }
-                }
+
                 _dbGlobalListOperations.AddRange(dt);
                 ToasterNotification.ShowSuccess("Location Details Downloaded Successfully");
             }
@@ -200,6 +201,5 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
             ProgressRing = false;
         }
-
     }
 }

@@ -1,5 +1,9 @@
-﻿using DominatorHouseCore.Enums;
+﻿#region
+
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -13,10 +17,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public int CurrentIndex
         {
-            get
-            {
-                return _currentIndex;
-            }
+            get => _currentIndex;
             set
             {
                 if (_currentIndex == value)
@@ -31,10 +32,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public bool IsSelected
         {
-            get
-            {
-                return _isSelected;
-            }
+            get => _isSelected;
             set
             {
                 if (_isSelected == value)
@@ -48,10 +46,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public string DetailName
         {
-            get
-            {
-                return _detailName;
-            }
+            get => _detailName;
             set
             {
                 if (_detailName == value)
@@ -66,10 +61,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public string DetailUrl
         {
-            get
-            {
-                return _detailUrl;
-            }
+            get => _detailUrl;
             set
             {
                 if (_detailUrl == value)
@@ -78,14 +70,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(DetailUrl));
             }
         }
+
         private bool _isOwnPage;
 
         public bool IsOwnPage
         {
-            get
-            {
-                return _isOwnPage;
-            }
+            get => _isOwnPage;
             set
             {
                 if (_isOwnPage == value)
@@ -96,15 +86,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-
         private bool _isLikePage;
 
         public bool IsLikePage
         {
-            get
-            {
-                return _isLikePage;
-            }
+            get => _isLikePage;
             set
             {
                 if (_isLikePage == value)
@@ -119,10 +105,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public bool IsFanpage
         {
-            get
-            {
-                return _isFanpage;
-            }
+            get => _isFanpage;
             set
             {
                 if (_isFanpage == value)
@@ -136,10 +119,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public bool IsGroup
         {
-            get
-            {
-                return _isGroup;
-            }
+            get => _isGroup;
             set
             {
                 if (_isGroup == value)
@@ -153,10 +133,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public bool IsOwnGroup
         {
-            get
-            {
-                return _isOwnGroup;
-            }
+            get => _isOwnGroup;
             set
             {
                 if (_isOwnGroup == value)
@@ -167,15 +144,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-
         private bool _isJoinedGroup;
 
         public bool IsJoinedGroup
         {
-            get
-            {
-                return _isJoinedGroup;
-            }
+            get => _isJoinedGroup;
             set
             {
                 if (_isJoinedGroup == value)

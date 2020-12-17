@@ -1,23 +1,27 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-
     public interface IEventInviterViewModel
     {
     }
+
     public class EventInviterViewModel : StartupBaseViewModel, IEventInviterViewModel
     {
+        private InviterDetails _inviterDetailsModel = new InviterDetails();
+
+        private InviterOptions _inviterOptionsModel = new InviterOptions();
+
         public EventInviterViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.EventInviter });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.EventInviter});
             IsNonQuery = true;
             NextCommand = new DelegateCommand(EventInviterValidate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
@@ -30,9 +34,31 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerWeekDisplayName = "LangKeyInviteToNumberOfProfilesPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyInviteMaxProfilesPerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes,
-                Speeds=Enum.GetNames(typeof(ActivitySpeed)).ToList()
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             ListQueryType.Clear();
+        }
+
+        public InviterDetails InviterDetailsModel
+        {
+            get => _inviterDetailsModel;
+            set
+            {
+                if ((_inviterDetailsModel == value) & (_inviterDetailsModel == null))
+                    return;
+                SetProperty(ref _inviterDetailsModel, value);
+            }
+        }
+
+        public InviterOptions InviterOptionsModel
+        {
+            get => _inviterOptionsModel;
+            set
+            {
+                if ((_inviterOptionsModel == value) & (_inviterOptionsModel == null))
+                    return;
+                SetProperty(ref _inviterOptionsModel, value);
+            }
         }
 
         private void EventInviterValidate()
@@ -45,31 +71,5 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             NavigateNext();
         }
-
-        private InviterDetails _inviterDetailsModel=new InviterDetails();
-        public InviterDetails InviterDetailsModel
-        {
-            get { return _inviterDetailsModel; }
-            set
-            {
-                if (_inviterDetailsModel == value & _inviterDetailsModel == null)
-                    return;
-                SetProperty(ref _inviterDetailsModel, value);
-            }
-        }
-
-        private InviterOptions _inviterOptionsModel=new InviterOptions();
-
-        public InviterOptions InviterOptionsModel
-        {
-            get { return _inviterOptionsModel; }
-            set
-            {
-                if (_inviterOptionsModel == value & _inviterOptionsModel == null)
-                    return;
-                SetProperty(ref _inviterOptionsModel, value);
-            }
-        }
-
     }
 }

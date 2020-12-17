@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using SQLite;
+
+#endregion
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
 {
@@ -15,8 +19,7 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
         public string SinAccUsername { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string QueryValue { get; set; }
@@ -36,10 +39,8 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
         public string Message { get; set; }
 
 
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
-        public int FollowBackStatus
-        { get; set; }
+        public int FollowBackStatus { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]

@@ -1,14 +1,16 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
-
     public interface ICampaignsFileManager : IEnumerable<CampaignDetails>
     {
         void DeleteSelectedAccount(string templateId, string accountName);
@@ -76,7 +78,7 @@ namespace DominatorHouseCore.FileManagers
         // finds by id and delete
         public void Delete(CampaignDetails campaign)
         {
-            CampaignDetails toDelete = _campaignDetailses.Value.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
+            var toDelete = _campaignDetailses.Value.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
             if (toDelete != null)
             {
                 _campaignDetailses.Value.Remove(toDelete);

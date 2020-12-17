@@ -9,7 +9,7 @@ using DominatorHouseCore.Models.SocioPublisher.Settings;
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
     /// <summary>
-    /// Interaction logic for PostAdvancedSettings.xaml
+    ///     Interaction logic for PostAdvancedSettings.xaml
     /// </summary>
     public partial class PostAdvancedSettings : UserControl
     {
@@ -18,8 +18,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
             InitializeComponent();
         }
 
-        public PostAdvancedSettings(PublisherPostSettings publisherPostSettings):this()
-        {         
+        public PostAdvancedSettings(PublisherPostSettings publisherPostSettings) : this()
+        {
             Initialize(publisherPostSettings);
         }
 
@@ -46,15 +46,14 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
             {
                 new TabItemTemplates
                 {
-                    Title=FindResource("LangKeyGeneralSettings").ToString(),
+                    Title = FindResource("LangKeyGeneralSettings").ToString(),
                     Content = new Lazy<UserControl>(() => PostGeneralSettings)
-                }              
+                }
             };
 
 
             var availableNetworks = SocinatorInitialize.AvailableNetworks;
             foreach (var network in availableNetworks)
-            {
                 switch (network)
                 {
                     case SocialNetworks.Facebook:
@@ -98,8 +97,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                             Content = new Lazy<UserControl>(() => PostTumblrSettings)
                         });
                         break;
-                  case SocialNetworks.Reddit:
-                      PostRedditSettings = new PostRedditSettings(publisherPostSettings);
+                    case SocialNetworks.Reddit:
+                        PostRedditSettings = new PostRedditSettings(publisherPostSettings);
                         items.Add(new TabItemTemplates
                         {
                             Title = FindResource("LangKeyReddit").ToString(),
@@ -112,7 +111,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                     case SocialNetworks.Youtube:
                         break;
                 }
-            }
 
             AdvancedPostSettings.ItemsSource = items;
         }

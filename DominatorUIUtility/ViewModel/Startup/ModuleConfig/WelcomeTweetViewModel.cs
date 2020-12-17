@@ -1,21 +1,22 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Linq;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IWelcomeTweetViewModel
     {
     }
+
     public class WelcomeTweetViewModel : StartupBaseViewModel, IWelcomeTweetViewModel
     {
         public WelcomeTweetViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.WelcomeTweet });
+            ViewModelToSave.Add(new ActivityConfig {Model = this, ActivityType = ActivityType.WelcomeTweet});
             NextCommand = new DelegateCommand(ValidateAndNevigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -33,6 +34,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
         }
 
+        public string WelcomeMessageText { get; set; }
+
         private void ValidateAndNevigate()
         {
             if (string.IsNullOrEmpty(WelcomeMessageText?.Trim()))
@@ -40,16 +43,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Dialog.ShowDialog("Error", "Please enter atleast one message");
                 return;
             }
+
             NavigateNext();
         }
-
-        private string _welcomeMessageText;
-
-        public string WelcomeMessageText
-        {
-            get { return _welcomeMessageText; }
-            set { _welcomeMessageText = value; }
-        }
-
     }
 }

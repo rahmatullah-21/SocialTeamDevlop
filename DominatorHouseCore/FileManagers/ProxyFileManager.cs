@@ -1,14 +1,18 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using CommonServiceLocator;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -48,14 +52,22 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }
         }
+
         public List<ProxyManagerModel> GetAllProxy()
         {
             return _binFileHelper.GetProxyDetails();
         }
 
 
-        public void EditProxy(ProxyManagerModel proxy) => _binFileHelper.UpdateProxy(proxy);
-        public void EditAllProxy(List<ProxyManagerModel> proxy) => _binFileHelper.UpdateAllProxy(proxy);
+        public void EditProxy(ProxyManagerModel proxy)
+        {
+            _binFileHelper.UpdateProxy(proxy);
+        }
+
+        public void EditAllProxy(List<ProxyManagerModel> proxy)
+        {
+            _binFileHelper.UpdateAllProxy(proxy);
+        }
 
 
         public void Delete(Predicate<ProxyManagerModel> match)
@@ -76,7 +88,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+                var request = (HttpWebRequest) WebRequest.Create(new Uri(url));
                 request.Timeout = 5000;
 
                 if (currentProxy != null)
@@ -87,18 +99,16 @@ namespace DominatorHouseCore.FileManagers
                     };
                     if (!string.IsNullOrEmpty(currentProxy.ProxyUsername)
                         && !string.IsNullOrEmpty(currentProxy.ProxyPassword))
-                    {
-                        request.Proxy.Credentials = new NetworkCredential(currentProxy.ProxyUsername, currentProxy.ProxyPassword);
-                    }
+                        request.Proxy.Credentials =
+                            new NetworkCredential(currentProxy.ProxyUsername, currentProxy.ProxyPassword);
 
                     GlobusLogHelper.log.Info(Log.ProxyVerificationStarted, SocialNetworks.Admin, currentProxy.ProxyIp + ":" + currentProxy.ProxyPort);
 
-                    using (var response = (HttpWebResponse)request.GetResponse())
+                    using (var response = (HttpWebResponse) request.GetResponse())
                     {
                         if (response.StatusCode.ToString() == "OK")
                             return true;
-                        else
-                            return false;
+                        return false;
                     }
                 }
             }
@@ -109,7 +119,6 @@ namespace DominatorHouseCore.FileManagers
             }
 
             return false;
-
         }
 
 
@@ -124,31 +133,33 @@ namespace DominatorHouseCore.FileManagers
                     GlobusLogHelper.log.Info("LangKeyEnterURLInInputFieldToVerifyProxy".FromResourceDictionary());
                     return;
                 }
-                var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+
+                var request = (HttpWebRequest) WebRequest.Create(new Uri(url));
                 request.Timeout = 5000;
 
                 if (currentProxyManager != null)
                 {
-                    request.Proxy = new WebProxy(currentProxyManager.AccountProxy.ProxyIp, int.Parse(currentProxyManager.AccountProxy.ProxyPort))
+                    request.Proxy = new WebProxy(currentProxyManager.AccountProxy.ProxyIp,
+                        int.Parse(currentProxyManager.AccountProxy.ProxyPort))
                     {
                         BypassProxyOnLocal = true
                     };
                     if (!string.IsNullOrEmpty(currentProxyManager.AccountProxy.ProxyUsername)
                         && !string.IsNullOrEmpty(currentProxyManager.AccountProxy.ProxyPassword))
-                    {
-                        request.Proxy.Credentials = new NetworkCredential(currentProxyManager.AccountProxy.ProxyUsername, currentProxyManager.AccountProxy.ProxyPassword);
-                    }
+                        request.Proxy.Credentials = new NetworkCredential(
+                            currentProxyManager.AccountProxy.ProxyUsername,
+                            currentProxyManager.AccountProxy.ProxyPassword);
 
                     stopWatch.Start();
                     GlobusLogHelper.log.Info(Log.ProxyVerificationStarted, SocialNetworks.Admin, currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort);
 
-                    using (var response = (HttpWebResponse)await request.GetResponseAsync())
+                    using (var response = (HttpWebResponse) await request.GetResponseAsync())
                     {
                         currentProxyManager.Status = response.StatusCode.ToString() == "OK" ? "Working" : "Not Working";
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 if (currentProxyManager != null)
                 {
@@ -158,13 +169,14 @@ namespace DominatorHouseCore.FileManagers
             }
             finally
             {
-                if (currentProxyManager.Status == "Working")
+                if (currentProxyManager != null && currentProxyManager.Status == "Working")
                     currentProxyManager.Failures = 0;
 
                 stopWatch.Stop();
                 var ts = stopWatch.Elapsed;
                 currentProxyManager.ResponseTime = $"{ts.Milliseconds} milli seconds";
             }
+
             EditProxy(currentProxyManager);
         }
 
@@ -177,6 +189,5 @@ namespace DominatorHouseCore.FileManagers
         {
             return _binFileHelper.GetProxyManagerSettings();
         }
-
     }
 }

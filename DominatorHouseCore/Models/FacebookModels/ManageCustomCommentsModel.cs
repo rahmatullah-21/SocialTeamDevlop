@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models.FacebookModels
 {
@@ -23,10 +27,7 @@ namespace DominatorHouseCore.Models.FacebookModels
 
         public string CommentText
         {
-            get
-            {
-                return _commentText;
-            }
+            get => _commentText;
             set
             {
                 if (value == _commentText)
@@ -34,14 +35,12 @@ namespace DominatorHouseCore.Models.FacebookModels
                 SetProperty(ref _commentText, value);
             }
         }
+
         private string _filterText;
 
         public string FilterText
         {
-            get
-            {
-                return _filterText;
-            }
+            get => _filterText;
             set
             {
                 if (value == _filterText)
@@ -49,7 +48,5 @@ namespace DominatorHouseCore.Models.FacebookModels
                 SetProperty(ref _filterText, value);
             }
         }
-
-
     }
 }

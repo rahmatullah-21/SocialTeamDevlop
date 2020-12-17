@@ -1,4 +1,8 @@
-﻿using System.Collections.Specialized;
+﻿#region
+
+using System.Collections.Specialized;
+
+#endregion
 
 namespace DominatorHouseCore.Request
 {

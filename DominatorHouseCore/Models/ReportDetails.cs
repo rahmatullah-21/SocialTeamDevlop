@@ -1,4 +1,8 @@
-﻿using DominatorHouseCore.Utility;
+﻿#region
+
+using DominatorHouseCore.Utility;
+
+#endregion
 
 namespace DominatorHouseCore.Models
 {
@@ -8,10 +12,7 @@ namespace DominatorHouseCore.Models
 
         public string ActionFrom
         {
-            get
-            {
-                return _ActionFrom;
-            }
+            get => _ActionFrom;
             set
             {
                 if (value == _ActionFrom)
@@ -21,12 +22,10 @@ namespace DominatorHouseCore.Models
         }
 
         private string _Followed;
+
         public string Followed
         {
-            get
-            {
-                return _Followed;
-            }
+            get => _Followed;
             set
             {
                 if (value == _Followed)
@@ -36,12 +35,10 @@ namespace DominatorHouseCore.Models
         }
 
         public int _daterequested;
+
         public int DateRequested
         {
-            get
-            {
-                return _daterequested;
-            }
+            get => _daterequested;
             set
             {
                 if (value == _daterequested)
@@ -51,12 +48,10 @@ namespace DominatorHouseCore.Models
         }
 
         private string _status;
+
         public string Status
         {
-            get
-            {
-                return _status;
-            }
+            get => _status;
             set
             {
                 if (value == _status)

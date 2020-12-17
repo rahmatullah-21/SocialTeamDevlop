@@ -1,10 +1,13 @@
-﻿using System.Windows;
+﻿#region
+
+using System.Windows;
+
+#endregion
 
 namespace DominatorHouseCore.Interfaces
 {
     public interface IHeaderControl
     {
-
         // To specify the campaign name
         string CampaignName { get; set; }
 

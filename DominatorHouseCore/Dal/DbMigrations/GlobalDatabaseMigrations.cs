@@ -1,8 +1,13 @@
-﻿namespace DominatorHouseCore.Dal.DbMigrations
+﻿#region
+
+using DominatorHouseCore.DatabaseHandler.DHTables;
+
+#endregion
+
+namespace DominatorHouseCore.Dal.DbMigrations
 {
     public interface IGlobalDatabaseMigrations : IDbMigration
     {
-
     }
 
     public class GlobalDatabaseMigrations : BaseDbMigrations, IGlobalDatabaseMigrations
@@ -11,10 +16,10 @@
         {
             AddMigrations(7, conn =>
             {
-                conn.CreateTable<DatabaseHandler.DHTables.AccountDetails>();
-                conn.CreateTable<DatabaseHandler.DHTables.BlackWhiteListUser>();
-                conn.CreateTable<DatabaseHandler.DHTables.LocationList>();
-                conn.CreateTable<DatabaseHandler.DHTables.InstaAccountBackup>();
+                conn.CreateTable<AccountDetails>();
+                conn.CreateTable<BlackWhiteListUser>();
+                conn.CreateTable<LocationList>();
+                conn.CreateTable<InstaAccountBackup>();
                 return "Initialization";
             });
         }
