@@ -454,11 +454,11 @@
                             </Button>
 
                             <Controls:DropDownButton MaxHeight="55"
-                                                     Visibility="{Binding MenuHandlerModel.IsBrowserAutomationVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                     Visibility="Collapsed"
                                                      Background="Transparent" Margin="10,0,0,0" Cursor="Hand"
                                                      BorderBrush="Transparent" BorderThickness="0"
                                                      Name="btnBrowserAutomationSub">
-                                <Controls:DropDownButton.Content Visibility="Collapsed">
+                                <Controls:DropDownButton.Content>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <StackPanel Orientation="Vertical">
                                             <Rectangle Fill="White" Width="25" Height="20">
@@ -948,7 +948,7 @@
                                       Icon="{DynamicResource DeleteIcon}" />
                             <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"
                                       Icon="{DynamicResource BrowseLoginIcon}"
-                                      Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
+                                      Visibility="Collapsed"
                                       CommandParameter="{Binding}"
                                       Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyGoToTools}"
