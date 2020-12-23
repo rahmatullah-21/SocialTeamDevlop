@@ -45,51 +45,51 @@ namespace Socinator.DominatorCores
                     Title = Application.Current.FindResource("LangKeyAccountsManager") == null? "Account Manager" : Application.Current.FindResource("LangKeyAccountsManager")?.ToString(),
                     Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager",null,SocialNetworks.Social))
                 },
-                new TabItemTemplates
-                {
-                    Title="LangKeyAccountGrowth".FromResourceDictionary(),
-                    Content = new Lazy<UserControl>(() =>  ServiceLocator.Current.GetInstance<AccountGrowthControl>())
-                },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
-                   Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("Dashboard"))
-                },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("LangKeyAccountsActivity") == null? "Accounts Activity" : Application.Current.FindResource("LangKeyAccountsActivity")?.ToString(),
-                    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<DominatorAutoActivity>())
-                },
+                //new TabItemTemplates
+                //{
+                //    Title="LangKeyAccountGrowth".FromResourceDictionary(),
+                //    Content = new Lazy<UserControl>(() =>  ServiceLocator.Current.GetInstance<AccountGrowthControl>())
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
+                //   Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("Dashboard"))
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title = Application.Current.FindResource("LangKeyAccountsActivity") == null? "Accounts Activity" : Application.Current.FindResource("LangKeyAccountsActivity")?.ToString(),
+                //    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<DominatorAutoActivity>())
+                //},
                 //new TabItemTemplates
                 //{
                 //    Title = Application.Current.FindResource("langPublisher") == null? "Publisher" : Application.Current.FindResource("langPublisher")?.ToString(),
                 //    Content = new Lazy<UserControl>(()=> PublisherIndexPage.Instance)
                 //},
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("LangKeySociopublisher") == null? "Socio Publisher" : Application.Current.FindResource("LangKeySociopublisher")?.ToString(),
-                    Content = new Lazy<UserControl>(()=>PublisherHome.Instance)
-                },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("LangKeyProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("LangKeyProxyManager")?.ToString(),
-                    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<ProxyManager>())
-                },
+                //new TabItemTemplates
+                //{
+                //    Title = Application.Current.FindResource("LangKeySociopublisher") == null? "Socio Publisher" : Application.Current.FindResource("LangKeySociopublisher")?.ToString(),
+                //    Content = new Lazy<UserControl>(()=>PublisherHome.Instance)
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title = Application.Current.FindResource("LangKeyProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("LangKeyProxyManager")?.ToString(),
+                //    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<ProxyManager>())
+                //},
                 //new TabItemTemplates
                 //{
                 //    Title = Application.Current.FindResource("LangKeySettings") == null? "Settings" : Application.Current.FindResource("langSettings")?.ToString(),
                 //    Content = new Lazy<UserControl>(() => new Home())
                 //},
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
-                    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherConfiguration"))
-                },
-                new TabItemTemplates
-                {
-                    Title = "LangKeyOtherTools".FromResourceDictionary(),
-                    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherTools"))
-                }
+                //new TabItemTemplates
+                //{
+                //    Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
+                //    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherConfiguration"))
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title = "LangKeyOtherTools".FromResourceDictionary(),
+                //    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherTools"))
+                //}
             };
         }
 
