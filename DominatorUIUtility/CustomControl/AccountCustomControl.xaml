@@ -458,7 +458,7 @@
                                                      Background="Transparent" Margin="10,0,0,0" Cursor="Hand"
                                                      BorderBrush="Transparent" BorderThickness="0"
                                                      Name="btnBrowserAutomationSub">
-                                <Controls:DropDownButton.Content>
+                                <Controls:DropDownButton.Content Visibility="Collapsed">
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <StackPanel Orientation="Vertical">
                                             <Rectangle Fill="White" Width="25" Height="20">
@@ -824,7 +824,7 @@
                         </Button>
 
                         <Controls:DropDownButton Background="Transparent" Margin="10,0,0,0" Cursor="Hand"
-                                                 BorderBrush="Transparent" BorderThickness="0"
+                                                 BorderBrush="Transparent" BorderThickness="0" Visibility="Collapsed"
                                                  Name="btnBrowserAutomation">
                             <Controls:DropDownButton.Content>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -954,7 +954,7 @@
                             <MenuItem Header="{DynamicResource LangKeyGoToTools}"
                                       Icon="{DynamicResource GoToToolsIcon}"
                                       CommandParameter="{Binding}"
-                                      Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
+                                      Visibility="Collapsed"
                                       Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}"
                                       Icon="{DynamicResource CheckStatusIcon}"
@@ -980,7 +980,7 @@
 
                             <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}"
                                       CommandParameter="{Binding}"
-                                      Visibility="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BrowserAutomationConverter},ConverterParameter=Browser }"
+                                      Visibility="Collapsed"
                                       Command="{Binding Data.ActivateBrowserAutomationCommand, Source={StaticResource ContextMenuBinding}}">
                                 <MenuItem.Icon>
                                     <Rectangle Fill="Red" Width="20" Height="20">
@@ -993,7 +993,7 @@
 
                             <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}"
                                       CommandParameter="{Binding}"
-                                      Visibility="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BrowserAutomationConverter},ConverterParameter=http}"
+                                      Visibility="Collapsed"
                                       Command="{Binding Data.DeActivateBrowserAutomationCommand, Source={StaticResource ContextMenuBinding}}">
                                 <MenuItem.Icon>
                                     <Rectangle Fill="Red" Width="20" Height="20">
@@ -1035,7 +1035,7 @@
 
                             <MenuItem Height="30" Header="{DynamicResource LangKeyCustomSetting}"
                                       Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}"
-                                      Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
+                                      Visibility="Collapsed">
                                 <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"
                                           Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}" />
                                 <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
@@ -1294,9 +1294,6 @@
 
 
                             </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource LangKeyBrowserAutomation}"
-                                            DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}" />
 
                             <!--<GridViewColumn  Header="{DynamicResource LangKeyPinterestAccountType}" DisplayMemberBinding="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToStatusConverter}}"/>-->
 
