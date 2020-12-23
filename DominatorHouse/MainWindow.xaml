@@ -10,7 +10,7 @@
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
+        Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR LITE}"
         BorderThickness="1" Icon="SociNator.ico"
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"

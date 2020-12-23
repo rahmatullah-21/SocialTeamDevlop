@@ -185,8 +185,7 @@
                                     Visibility="{Binding MenuHandlerModel.IsImportMultipleAccountsVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
                                     Cursor="Hand" BorderBrush="Transparent" Margin="10,0,0,0" BorderThickness="0"
                                     Name="btnLoadMultipleAccountsSub"
-                                    Command="{Binding LoadMultipleAccountsCommand}"
-                                    ToolTip="{DynamicResource LangKeyImportAccountDescription}">
+                                    Command="{Binding LoadMultipleAccountsCommand}">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center">
