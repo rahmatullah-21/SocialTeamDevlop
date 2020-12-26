@@ -1254,6 +1254,9 @@
                                                         <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.FoundCaptcha}">
                                                             <Setter Property="Text" Value="{DynamicResource LangKeyCaptchFound}" />
                                                         </DataTrigger>
+                                                        <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.AddPhoneAndVerify}">
+                                                            <Setter Property="Text" Value="{DynamicResource LangKeyAddPhoneAndVerify}" />
+                                                        </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </TextBlock.Style>
