@@ -5048,4 +5048,5 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyWannaClearAllCookies">Do you really want to delete all cookies?</system:String>
     <system:String x:Key="LangKeyCaptchFound">Found ImageCaptcha Security Check</system:String>
     <system:String x:Key="LangKeyWhatsApp">WhatsApp</system:String>
+    <system:String x:Key="LangKeyAddPhoneAndVerify">Add Phone Number And Verify</system:String>
 </ResourceDictionary>
