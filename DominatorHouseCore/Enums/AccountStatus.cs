@@ -75,7 +75,9 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyUpdatingDetails")]
         UpdatingDetails,
         [Description("LangKeyCaptchFound")]
-        FoundCaptcha
+        FoundCaptcha,
+        [Description("LangKeyAddPhoneAndVerify")]
+        AddPhoneAndVerify,
     }
 
     public enum PinterestAccountType
