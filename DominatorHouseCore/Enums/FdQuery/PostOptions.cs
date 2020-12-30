@@ -12,6 +12,7 @@
         CustomPostList = 7,
         Albums = 8,
         Keyword = 9,
-        ProfileScraper = 10
+        ProfileScraper = 10,
+        Hashtag = 11
     }
 }
