@@ -1307,7 +1307,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (FeatureFlags.IsNetworkAvailable(SocialNetworks.Facebook) ||
                 FeatureFlags.IsNetworkAvailable(SocialNetworks.Pinterest) ||
-                FeatureFlags.IsNetworkAvailable(SocialNetworks.Twitter))
+                FeatureFlags.IsNetworkAvailable(SocialNetworks.Twitter) ||
+                FeatureFlags.IsNetworkAvailable(SocialNetworks.Reddit))
                 tabItems.Add(new TabItemTemplates
                 {
                     Title = "LangKeyScrapePost".FromResourceDictionary(),
