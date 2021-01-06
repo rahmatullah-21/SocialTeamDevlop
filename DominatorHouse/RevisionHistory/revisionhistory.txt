@@ -1,4 +1,12 @@
-﻿Version[1.0.0.100],[22th December 2020] 
+﻿Version[1.0.0.101],[6th January 2020] 
+Fixed:-
+ 	Social:
+		Publisher ==> Instagram ==> Sociopublisher ==> Fixed issue with posting on wall.
+
+	Instagram:
+		Accounts ==> Accounts Manager ==> Fixed issue with account showing failed.
+
+Version[1.0.0.100],[22th December 2020] 
 Fixed:-
 	Facebook:	
 		Broadcast Message ==> Fixed issue with Send Message to FanPages.
