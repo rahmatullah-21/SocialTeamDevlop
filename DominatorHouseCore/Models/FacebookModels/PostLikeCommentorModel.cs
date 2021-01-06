@@ -133,7 +133,6 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
         }
 
-
         private List<string> _listFriendProfileUrl = new List<string>();
 
         [ProtoMember(8)]
@@ -452,6 +451,51 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
         }
 
+        private string _hashTagUrl = string.Empty;
+
+        [ProtoMember(29)]
+
+        public string HashtagUrl
+        {
+            get => _hashTagUrl;
+            set
+            {
+                if (value == _hashTagUrl)
+                    return;
+                SetProperty(ref _hashTagUrl, value);
+            }
+        }
+
+        private List<string> _listHashtags = new List<string>();
+
+        [ProtoMember(31)]
+
+        public List<string> ListHashtags
+        {
+            get => _listHashtags;
+            set
+            {
+                if (value == _listHashtags)
+                    return;
+                SetProperty(ref _listHashtags, value);
+            }
+        }
+
+        private bool _isHashtagChecked;
+
+        [ProtoMember(30)]
+
+        public bool IsHashtagChecked
+        {
+            get => _isHashtagChecked;
+            set
+            {
+                if (value == _isHashtagChecked)
+                    return;
+                ChangeCountAndAddToList(value, PostOptions.Hashtag);
+                SetProperty(ref _isHashtagChecked, value);
+            }
+        }
 
         public void ChangeCountAndAddToList(bool value, PostOptions postOptions)
         {

@@ -616,5 +616,20 @@ namespace DominatorHouseCore {
             get { return ResourceManager.GetString("Invalid Security Code", resourceCulture); }
         }
 
+        public static string Response_Response_Compromised_Account
+        {
+            get
+            {
+                return ResourceManager.GetString("Response_Response_Compromised_Account", resourceCulture);
+            }
+        }
+
+        public static string Response_Captcha_Solution_Not_Correct
+        {
+            get
+            {
+                return ResourceManager.GetString("The captcha solution was not correct. Please try again", resourceCulture);
+            }
+        }
     }
 }

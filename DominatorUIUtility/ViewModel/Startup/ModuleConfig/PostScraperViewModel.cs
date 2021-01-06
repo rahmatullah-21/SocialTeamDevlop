@@ -111,6 +111,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     Dialog.ShowDialog("Error", "Please add at least one query And save.");
                     return;
                 }
+
+                if (PostLikeCommentorModel.IsHashtagChecked && PostLikeCommentorModel.ListHashtags.Count == 0)
+                {
+                    Dialog.ShowDialog("Error", "Please add atleast one query");
+                }
             }
 
             NavigateNext();

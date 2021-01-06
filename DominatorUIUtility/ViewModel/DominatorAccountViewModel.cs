@@ -2667,7 +2667,8 @@ namespace DominatorUIUtility.ViewModel
                             DisplayColumnValue2 = account.DisplayColumnValue2,
                             DisplayColumnValue3 = account.DisplayColumnValue3,
                             DisplayColumnValue4 = account.DisplayColumnValue4,
-                            DisplayColumnValue11 = account.DisplayColumnValue11
+                            DisplayColumnValue11 = account.DisplayColumnValue11,
+                            IsRunProcessThroughBrowser = network == SocialNetworks.Facebook
                         };
 
                         if (!string.IsNullOrEmpty(account.Cookies))
