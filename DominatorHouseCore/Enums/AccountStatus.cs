@@ -81,6 +81,9 @@ namespace DominatorHouseCore.Enums
 
         [Description("LangKeyAccountCompromised")]
         AccountCompromised,
+
+        [Description("LangKeyCheckProxy")]
+        CheckProxy,
     }
 
     public enum PinterestAccountType

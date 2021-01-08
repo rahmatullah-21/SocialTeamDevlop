@@ -1260,6 +1260,9 @@
                                                         <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.AccountCompromised}">
                                                             <Setter Property="Text" Value="{DynamicResource LangKeyAccountCompromised}" />
                                                         </DataTrigger>
+                                                        <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.CheckProxy}">
+                                                            <Setter Property="Text" Value="{DynamicResource LangKeyCheckProxy}" />
+                                                        </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </TextBlock.Style>
