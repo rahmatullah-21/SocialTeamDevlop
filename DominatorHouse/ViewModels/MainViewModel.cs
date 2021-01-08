@@ -148,7 +148,7 @@ namespace DominatorHouse.ViewModels
                     var mosGet = mos.Get();
                     foreach (var o in mosGet)
                     {
-                        var mo = (ManagementObject) o;
+                        var mo = (ManagementObject)o;
                         if (!mo["Name"].ToString().StartsWith("Microsoft Visual C++")) continue;
                         var version = Convert.ToInt32(mo["Version"].ToString().Substring(0, 2));
                         if (version >= 14)
@@ -253,8 +253,8 @@ namespace DominatorHouse.ViewModels
                                 // ReSharper disable once RedundantJumpStatement
                                 continue;
                             // ReSharper disable once RedundantIfElseBlock
-                            else if (_isStartedfirstTime)
-                                break;
+                            //else if (_isStartedfirstTime)
+                            break;
                         }
                         catch (Exception ex)
                         {
