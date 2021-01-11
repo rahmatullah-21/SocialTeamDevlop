@@ -220,7 +220,7 @@ namespace DominatorHouse.ViewModels
             }
         }
 
-        private bool _isStartedfirstTime;
+        private bool _isStartedfirstTime, _isSameKeyUsed = false;
         private async Task FatalErrorDiagnosis()
         {
             string fatalError;
@@ -336,6 +336,8 @@ namespace DominatorHouse.ViewModels
             }
             if (networks.Count <= 1)
             {
+                if (networks.Count == 0)
+                    _isSameKeyUsed = true;
 
                 await controller.CloseAsync();
                 if (!_isStartedfirstTime)
@@ -343,6 +345,7 @@ namespace DominatorHouse.ViewModels
                 return true;
             }
             _isStartedfirstTime = false;
+            _isSameKeyUsed = false;
             IsCancelFromLicenceValidationState = false;
             var fatalErrorHandler = new FatalErrorHandler
             {
@@ -360,7 +363,11 @@ namespace DominatorHouse.ViewModels
         private async Task<bool> IsProcessFatalError(string fatalError)
         {
             if (!string.IsNullOrEmpty(fatalError) && await DiagnoseFatalError(fatalError))
+            {
+                if (_isSameKeyUsed)
+                    return true;
                 return false;
+            }
             if (fatalError == null)
             {
                 IsCancelFromLicenceValidationState = true;
