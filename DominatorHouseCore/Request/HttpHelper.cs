@@ -658,14 +658,14 @@ namespace DominatorHouseCore.Request
                 {
 
                     var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
-                    var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
+                    var licenseresponse = (HttpWebResponse) request.GetResponse();
                     responseStream = licenseresponse.GetResponseStream();
                     break;
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
-                    Thread.Sleep(1000);
+                    Thread.Sleep(1000); 
                 }
            
             return responseStream;
