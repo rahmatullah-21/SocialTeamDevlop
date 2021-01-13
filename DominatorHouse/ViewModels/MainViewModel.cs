@@ -447,9 +447,11 @@ namespace DominatorHouse.ViewModels
                 {
                     var nextDayTime = DateTime.Now.AddDays(1);
 
+                    //_schedulerProxy.AddJob(InitializeJobCores,
+                    //    x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
+                    //        .AndEvery(1).Days());
                     _schedulerProxy.AddJob(InitializeJobCores,
-                        x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
-                            .AndEvery(1).Days());
+                        x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1)));
                 });
 
                 FeatureFlags.UpdateFeatures();
@@ -546,9 +548,11 @@ namespace DominatorHouse.ViewModels
             {
                 ThreadFactory.Instance.Start(() =>
                 {
+                    //_schedulerProxy.AddJob(async () => await IsCheck(),
+                    //    x => x.ToRunOnceAt(DateTime.Now.AddHours(1))
+                    //        .AndEvery(1).Hours());
                     _schedulerProxy.AddJob(async () => await IsCheck(),
-                        x => x.ToRunOnceAt(DateTime.Now.AddHours(1))
-                            .AndEvery(1).Hours());
+                        x => x.ToRunOnceAt(DateTime.Now.AddDays(1)));
                 });
             }
             catch (OperationCanceledException ex)
