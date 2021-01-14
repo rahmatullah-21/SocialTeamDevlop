@@ -173,6 +173,7 @@ namespace DominatorUIUtility.ViewModel
             ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
             DeleteAccountCommand = new DelegateCommand<DominatorAccountModel>(DeleteAccountByContextMenu);
             BrowserLoginCommand = new DelegateCommand<DominatorAccountModel>(AccountBrowserLogin);
+            GoToCaptchaServiceCommand = new DelegateCommand<DominatorAccountModel>(GoToCaptchaService);
             GotoToolsCommand = new DelegateCommand<DominatorAccountModel>(GotoTools);
             CheckLoginCommand = new DelegateCommand<DominatorAccountModel>(AccountStatusChecker);
             UpdateFriendshipCommand = new DelegateCommand<DominatorAccountModel>(AccountUpdate);
@@ -1084,6 +1085,11 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        public void GoToCaptchaService(DominatorAccountModel account)
+        {
+           //BrowserWindow 
+        }
+
         public void GotoTools(DominatorAccountModel account)
         {
             if (account != null && (account.AccountBaseModel.Status == AccountStatus.Success ||
@@ -1143,6 +1149,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand ProfileDetailsCommand { get; }
         public ICommand DeleteAccountCommand { get; }
         public ICommand BrowserLoginCommand { get; }
+        public ICommand GoToCaptchaServiceCommand { get; }
         public ICommand GotoToolsCommand { get; }
         public ICommand CheckLoginCommand { get; }
         public ICommand UpdateFriendshipCommand { get; }
