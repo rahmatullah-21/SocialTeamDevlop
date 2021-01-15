@@ -1085,9 +1085,53 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        public void GoToCaptchaService(DominatorAccountModel account)
+        public void GoToCaptchaService(DominatorAccountModel dominatorAccountModel)
         {
-           //BrowserWindow 
+            try
+            {
+                if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        dominatorAccountModel.AccountBaseModel.UserName,
+                        "LangKeyLogin".FromResourceDictionary(),
+                        "LangKeyAlreadyCheckingLoginSoWait".FromResourceDictionary());
+                    return;
+                }
+
+                if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        dominatorAccountModel.AccountBaseModel.UserName,
+                        "LangKeyLogin".FromResourceDictionary(),
+                        "LangKeyAlreadyUpdatingDetailsSoWait".FromResourceDictionary());
+                    return;
+                }
+
+                ThreadFactory.Instance.Start(() =>
+                {
+                    var accountUpdateFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+
+                    var lastStatus = dominatorAccountModel.AccountBaseModel.Status;
+                    dominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+
+                    accountUpdateFactory.SolveCaptchaManually(dominatorAccountModel);
+                    if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
+                    {
+                        var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                        runningActivityManager.ScheduleIfAccountGotSucess(dominatorAccountModel);
+                    }
+                    else if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                    {
+                        dominatorAccountModel.AccountBaseModel.Status = lastStatus;
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void GotoTools(DominatorAccountModel account)

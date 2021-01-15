@@ -16,6 +16,8 @@ namespace DominatorHouseCore.Interfaces
     {
         bool CheckStatus(DominatorAccountModel accountModel);
 
+        bool SolveCaptchaManually(DominatorAccountModel accountModel);
+
         void UpdateDetails(DominatorAccountModel accountModel);
 
         DailyStatisticsViewModel GetDailyGrowth(string accuntId, string username, GrowthPeriod period);

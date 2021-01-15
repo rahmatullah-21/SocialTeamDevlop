@@ -27,6 +27,7 @@
         <system:Boolean x:Key="True">True</system:Boolean>
         <system:Boolean x:Key="False">False</system:Boolean>
         <converters:AccountsFilterConverter x:Key="AccountsFilterConverter" />
+        <converters:CaptchaStatusToVisibilityConverter x:Key="CaptchaStatusToVisibilityConverter" />
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsInstagramConverter"
                                             Expected="{x:Static enums:SocialNetworks.Instagram}" />
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsNotInstagramConverter"
@@ -952,9 +953,10 @@
                                       CommandParameter="{Binding}"
                                       Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyCaptchaService}"
+                                      Visibility="{Binding AccountBaseModel.Status, Converter={StaticResource CaptchaStatusToVisibilityConverter}}"
                                       Command="{Binding Data.GoToCaptchaServiceCommand, Source={StaticResource ContextMenuBinding}}">
                                 <MenuItem.Icon>
-                                    <Image Source="/DominatorUIUtility;component/Images/captcha-icon.png" Height="20" Width="17"/>
+                                    <Image Source="/DominatorUIUtility;component/Images/captcha-icon.png" Height="25" Width="17"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="{DynamicResource LangKeyGoToTools}"
