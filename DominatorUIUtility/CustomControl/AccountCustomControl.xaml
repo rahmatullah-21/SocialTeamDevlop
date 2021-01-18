@@ -954,6 +954,7 @@
                                       Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyCaptchaService}"
                                       Visibility="{Binding AccountBaseModel.Status, Converter={StaticResource CaptchaStatusToVisibilityConverter}}"
+                                      CommandParameter="{Binding}"
                                       Command="{Binding Data.GoToCaptchaServiceCommand, Source={StaticResource ContextMenuBinding}}">
                                 <MenuItem.Icon>
                                     <Image Source="/DominatorUIUtility;component/Images/captcha-icon.png" Height="25" Width="17"/>
