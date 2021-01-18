@@ -146,7 +146,7 @@ namespace DominatorHouseCore.Utility
 
                 foreach(var time in timings)
                 {
-                    // if the start time between the timeRange then return the this 'startTimeOfNextJob' to get the job schedulled at
+                    // if the start time between the timeRange then return the this 'startTimeOfNextJob' to get the job scheduled at
                     if (DateTime.Today.Date.Add(time.StartTime) <= startTimeOfNextJob && DateTime.Today.Date.Add(time.EndTime) > startTimeOfNextJob)
                         return startTimeOfNextJob;
                 }
@@ -160,7 +160,7 @@ namespace DominatorHouseCore.Utility
                     var tomorrowIndex = (int)tomorrowDay;
                     var tomorrowRunningTimes = moduleConfiguration.LstRunningTimes[tomorrowIndex];
                     var tomorrowTimings = tomorrowRunningTimes.Timings.ToList();
-                    if (tomorrowTimings.Count == 0) // if any day has no timing set then check for its next day timiting
+                    if (tomorrowTimings.Count == 0) // if any day has no timing set then check for its next day timing
                         continue;
                     tomorrowTimings.Sort(new RunningTimeComparer());
                     return tomorrow.Add(tomorrowTimings.First().StartTime);
