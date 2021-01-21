@@ -104,6 +104,25 @@
                                                                     Margin="35,0"/>
                             </StackPanel>
                         </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="0,4" Visibility="Visible">
+                            <CheckBox Name="ChkHashtag" Margin="10,4" FontWeight="SemiBold"
+                                      IsChecked="{Binding PostLikeCommentorModel.IsHashtagChecked}" FontSize="13"
+                                      Content="{DynamicResource LangKeyHashtag}"
+                                      Command="{Binding PostOptionCheckedChangedCommand}"
+                                      CommandParameter="{Binding IsChecked , RelativeSource={RelativeSource self}}"/>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left"
+                                        Visibility="{Binding PostLikeCommentorModel.IsHashtagChecked , Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <customControl1:SelectOptionControl x:Name="BtnSelectHashtag"
+                                                                    SelectedInputOption="{DynamicResource LangKeySelectHashtag}"
+                                                                    LstSelectedInput="{Binding PostLikeCommentorModel.ListHashtags}"
+                                                                    InputText="{Binding PostLikeCommentorModel.Hashtag}"
+                                                                    IsSelectButtonVisible="False"
+                                                                    SelectedOptionDisplayName="{DynamicResource LangKeySelectFriends}"
+                                                                    Margin="35,0"/>
+
+                            </StackPanel>
+
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
 

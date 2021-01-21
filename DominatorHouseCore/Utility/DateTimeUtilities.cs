@@ -144,22 +144,45 @@ namespace DominatorHouseCore.Utility
                 timings.Sort(
                     new RunningTimeComparer()); //Sort the date time based on Start time, so that it picks time in proper order for further foreach calculation
 
-                //Get the remaining time slots available for the day
-                var availableTimingRanges = timings.Where(x =>
-                    DateTime.Today.Date.Add(x.EndTime) > startTimeOfNextJob ||
-                    DateTime.Today.Date.Add(x.StartTime) > startTimeOfNextJob).ToList();
-                if (availableTimingRanges.Count > 0)
+                foreach(var time in timings)
                 {
-                    availableTimingRanges.Sort(new RunningTimeComparer());
-                    var calculatedStartTime = DateTime.Today.Add(availableTimingRanges[0].StartTime);
-                    if (calculatedStartTime > startTimeOfNextJob) startTimeOfNextJob = calculatedStartTime;
+                    // if the start time between the timeRange then return the this 'startTimeOfNextJob' to get the job schedulled at
+                    if (DateTime.Today.Date.Add(time.StartTime) <= startTimeOfNextJob && DateTime.Today.Date.Add(time.EndTime) > startTimeOfNextJob)
+                        return startTimeOfNextJob;
                 }
-                else
+
+                // if today's any timing didn't match then check for next days first start time
+                for (int i = 1; i < 7; i++)
                 {
-                    return startTimeOfNextJob;
-                    // commented the next line temporarily and returning startTimeOfNextJob instead. if there is next job time crossing today's time then let it to take nextday according to its jobConfig. if the selected time will not be between the time of the next day then it will select next run by executing next scheduling login wtitten in line no. 364 in method 'ScheduleActivityForNextJob' in class 'DominatorScheduler' 
-                    //return GetStartTimeOfTomorrow(moduleConfiguration);//If no time slot is available for the day, calculate the start time for tomorrow
+                    //get Nextday first timing
+                    var tomorrow = DateTime.Today.AddDays(i);
+                    var tomorrowDay = tomorrow.DayOfWeek;
+                    var tomorrowIndex = (int)tomorrowDay;
+                    var tomorrowRunningTimes = moduleConfiguration.LstRunningTimes[tomorrowIndex];
+                    var tomorrowTimings = tomorrowRunningTimes.Timings.ToList();
+                    if (tomorrowTimings.Count == 0) // if any day has no timing set then check for its next day timiting
+                        continue;
+                    tomorrowTimings.Sort(new RunningTimeComparer());
+                    return tomorrow.Add(tomorrowTimings.First().StartTime);
                 }
+                
+                // Old code for getting schedulled time
+                ////Get the remaining time slots available for the day
+                //var availableTimingRanges = timings.Where(x =>
+                //    DateTime.Today.Date.Add(x.EndTime) > startTimeOfNextJob ||
+                //    DateTime.Today.Date.Add(x.StartTime) > startTimeOfNextJob).ToList();
+                //if (availableTimingRanges.Count > 0)
+                //{
+                //    availableTimingRanges.Sort(new RunningTimeComparer());
+                //    var calculatedStartTime = DateTime.Today.Add(availableTimingRanges[0].StartTime);
+                //    if (calculatedStartTime > startTimeOfNextJob) startTimeOfNextJob = calculatedStartTime;
+                //}
+                //else
+                //{
+                //    return startTimeOfNextJob;
+                //    // commented the next line temporarily and returning startTimeOfNextJob instead. if there is next job time crossing today's time then let it to take nextday according to its jobConfig. if the selected time will not be between the time of the next day then it will select next run by executing next scheduling login wtitten in line no. 364 in method 'ScheduleActivityForNextJob' in class 'DominatorScheduler' 
+                //    //return GetStartTimeOfTomorrow(moduleConfiguration);//If no time slot is available for the day, calculate the start time for tomorrow
+                //}
 
                 return startTimeOfNextJob;
             }

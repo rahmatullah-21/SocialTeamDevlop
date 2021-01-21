@@ -23,6 +23,7 @@
     </i:Interaction.Triggers>
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
+        <converters:CaptchaStatusToVisibilityConverter x:Key="CaptchaStatusToVisibilityConverter"/>
         <system:Boolean x:Key="True">True</system:Boolean>
         <system:Boolean x:Key="False">False</system:Boolean>
         <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
@@ -30,8 +31,8 @@
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsNotInstagramConverter" Expected="{x:Static enums:SocialNetworks.Instagram}" Inversed="True"/>
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsNotTikTokConverter" Expected="{x:Static enums:SocialNetworks.TikTok}" Inversed="True"/>
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsTwitterConverter" Expected="{x:Static enums:SocialNetworks.Twitter}"/>
-        <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsSocialConverter" Expected="{x:Static enums:SocialNetworks.Admin}"/>
-        <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
+            <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsSocialConverter" Expected="{x:Static enums:SocialNetworks.Admin}"/>
+            <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
         <converters:BooleanToAutomationStatusConverter x:Key="BooleanToAutomationStatusConverter" />
         <converters:PinterestAccountTypeToStatusConverter x:Key="PinterestAccountTypeToStatusConverter" />
@@ -840,6 +841,14 @@
                                     <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
                                         CommandParameter="{Binding}"
                                         Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
+                                    <MenuItem Header="{DynamicResource LangKeyCaptchaService}"
+                                      Visibility="{Binding AccountBaseModel.Status, Converter={StaticResource CaptchaStatusToVisibilityConverter}}"
+                                      CommandParameter="{Binding}"
+                                      Command="{Binding Data.GoToCaptchaServiceCommand, Source={StaticResource ContextMenuBinding}}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/DominatorUIUtility;component/Images/captcha-icon.png" Height="25" Width="17"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
                                     <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{DynamicResource GoToToolsIcon}"
                                         CommandParameter="{Binding}"
                                         Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
@@ -907,7 +916,6 @@
                                             </Rectangle>
                                         </MenuItem.Icon>
                                     </MenuItem>
-
 
                                     <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
                                         <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>

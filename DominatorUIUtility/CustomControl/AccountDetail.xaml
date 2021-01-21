@@ -315,9 +315,9 @@
                                              Value="{x:Static enums:SocialNetworks.Youtube}">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                                <!--<DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
+                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}" >
                                     <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>-->
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
@@ -471,6 +471,18 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyCaptchFound}" />
                                         <Setter Property="Foreground" Value="#9b111e" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.AddPhoneAndVerify}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyAddPhoneAndVerify}" />
+                                        <Setter Property="Foreground" Value="#9b111e" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.AccountCompromised}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyAccountCompromised}" />
+                                        <Setter Property="Foreground" Value="#9b111e" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.CheckProxy}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyCheckProxy}" />
+                                        <Setter Property="Foreground" Value="#9b111e" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>
@@ -492,6 +504,10 @@
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"
                                                  Value="{x:Static enums:AccountStatus.NeedsVerification}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"
+                                                 Value="{x:Static enums:AccountStatus.AddPhoneAndVerify}">
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -519,6 +535,22 @@
                         </RadioButton.Style>
                     </RadioButton>
 
+                    <RadioButton Content="{DynamicResource LangKeyCaptchFound}" Name="ChkCaptchFound"
+                                 Margin="5" FontWeight="Bold" IsChecked="{Binding IsFoundCaptcha}"
+                                 GroupName="Verification">
+                        <RadioButton.Style>
+                            <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"
+                                                 Value="{x:Static enums:AccountStatus.FoundCaptcha}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RadioButton.Style>
+                    </RadioButton>
+                    
                     <CheckBox Content="{DynamicResource LangKeyManualVerification}" Name="ChkMenual"
                               IsChecked="{Binding DominatorAccountModel.IsManualVerify}"
                               Width="180" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="5">

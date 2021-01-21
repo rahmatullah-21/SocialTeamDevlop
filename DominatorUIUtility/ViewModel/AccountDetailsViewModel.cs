@@ -426,7 +426,7 @@ namespace DominatorUIUtility.ViewModel
                 if (!string.IsNullOrEmpty(DominatorAccountModel.VarificationCode))
                 {
                     var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
-                    var verificationType = IsEmailVerification ? VerificationType.Email : VerificationType.Phone;
+                    var verificationType = IsEmailVerification ? VerificationType.Email : IsFoundCaptcha ? VerificationType.FoundCaptcha : VerificationType.Phone;
                     Task.Factory.StartNew(() =>
                     {
                         if (accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, verificationType,
@@ -459,6 +459,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 IsEmailVerificationCodeSent = false;
                 IsPhoneVerificationCodeSent = false;
+                IsCodeSentOnFoundCaptcha = false;
                 BtnSendVerificationCodeVisibility = Visibility.Collapsed;
 
                 var networkCoreFactory = SocinatorInitialize
@@ -466,7 +467,7 @@ namespace DominatorUIUtility.ViewModel
                     .GetNetworkCoreFactory();
 
                 var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
-                var verificationType = IsEmailVerification ? VerificationType.Email : VerificationType.Phone;
+                var verificationType = IsEmailVerification ? VerificationType.Email : IsFoundCaptcha ? VerificationType.FoundCaptcha : VerificationType.Phone;
                 Task.Factory.StartNew(() =>
                 {
                     if (DominatorAccountModel.IsAutoVerifyByEmail)
@@ -484,6 +485,8 @@ namespace DominatorUIUtility.ViewModel
                                 {
                                     if (IsEmailVerification)
                                         IsEmailVerificationCodeSent = true;
+                                    else if (IsFoundCaptcha)
+                                        IsCodeSentOnFoundCaptcha = true;
                                     else
                                         IsPhoneVerificationCodeSent = true;
                                     CodeSectionVisibility = Visibility.Visible;
@@ -792,6 +795,21 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        private bool _isFoundCaptcha;
+
+        public bool IsFoundCaptcha
+        {
+            get => _isFoundCaptcha;
+            set
+            {
+                if (SetProperty(ref _isFoundCaptcha, value))
+                    if (!IsCodeSentOnFoundCaptcha && IsFoundCaptcha)
+                        SetVerificationCodeVisibility(true);
+                    else if (IsCodeSentOnFoundCaptcha && IsFoundCaptcha)
+                        SetVerificationCodeVisibility(false);
+            }
+        }
+
         private bool _isPhoneVerification;
 
         public bool IsPhoneVerification
@@ -864,6 +882,15 @@ namespace DominatorUIUtility.ViewModel
             get => _isEmailVerificationCodeSent;
             set => SetProperty(ref _isEmailVerificationCodeSent, value);
         }
+
+        private bool _isCodeSentOnFoundCaptcha;
+
+        public bool IsCodeSentOnFoundCaptcha
+        {
+            get => _isCodeSentOnFoundCaptcha;
+            set => SetProperty(ref _isCodeSentOnFoundCaptcha, value);
+        }
+        
 
         private bool _isPhoneVerificationCodeSent;
 

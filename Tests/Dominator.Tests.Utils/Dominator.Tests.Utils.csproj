@@ -55,6 +55,9 @@
     <Reference Include="NSubstitute, Version=4.2.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NSubstitute.4.2.1\lib\net46\NSubstitute.dll</HintPath>
     </Reference>
+    <Reference Include="Prism, Version=7.2.0.1367, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Prism.Core.7.2.0.1367\lib\net45\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleFixture, Version=3.0.6.0, Culture=neutral, PublicKeyToken=3a33a28c2b009bfd, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SimpleFixture.3.0.6\lib\net45\SimpleFixture.dll</HintPath>
     </Reference>

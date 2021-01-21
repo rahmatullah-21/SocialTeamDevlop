@@ -34,10 +34,10 @@ namespace DominatorHouseCore.Utility
         [ProtoMember(18)] public static string UserAgentLocale { get; set; }
 
         public string Useragent =>
-            string.Format(ConstantVariable.UseragentCommonFormat, (object) ConstantVariable.IgVersion,
-                (object) AndroidVersion, (object) AndroidRelease, (object) Dpi, (object) Resolution,
-                (object) ManufacturerBrand, (object) Model, (object) Device, (object) Cpu,
-                (object) ConstantVariable.UseragentLocale + "217948964"); //125398471//155374104//168361627//180322800
+            string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion,
+                (object)AndroidVersion, (object)AndroidRelease, (object)Dpi, (object)Resolution,
+                (object)ManufacturerBrand, (object)Model, (object)Device, (object)Cpu,
+                (object)ConstantVariable.UseragentLocale + "264009023");//217948964 //125398471//155374104//168361627//180322800
 
         public string TikTokUseragent => string.Format(ConstantVariable.TikTokUserAgentCommonFormat,
             ConstantVariable.UserAgentDomain, ConstantVariable.TikTokManifestVersion, AndroidRelease, UserAgentLocale,

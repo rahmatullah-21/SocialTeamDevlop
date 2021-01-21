@@ -205,6 +205,8 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SwitchToSingleBusinessAccountCommand { get; }
         public ICommand SwitchToSingleNormalAccountCommand { get; }
 
+        public ICommand GoToCaptchaServiceCommand { get; }
+
         #endregion
 
 
@@ -282,7 +284,7 @@ namespace DominatorUIUtility.ViewModel
 
             SwitchToBusinessAccountCommand = new BaseCommand<object>(SwitchAccountTypeCommandCanExecute, SwitchAccountTypeCommandExecute);
 
-
+            GoToCaptchaServiceCommand = new DelegateCommand<DominatorAccountModel>(GoToCaptchaService);
 
 
             #region Context Menu Command
@@ -2942,6 +2944,55 @@ namespace DominatorUIUtility.ViewModel
         {
             if (account != null && (account.AccountBaseModel.Status == AccountStatus.Success || account.AccountBaseModel.Status == AccountStatus.UpdatingDetails))
                 TabSwitcher.ChangeTabWithNetwork(2, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
+        }
+
+        public void GoToCaptchaService(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        dominatorAccountModel.AccountBaseModel.UserName,
+                        "LangKeyLogin".FromResourceDictionary(),
+                        "LangKeyAlreadyCheckingLoginSoWait".FromResourceDictionary());
+                    return;
+                }
+
+                if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        dominatorAccountModel.AccountBaseModel.UserName,
+                        "LangKeyLogin".FromResourceDictionary(),
+                        "LangKeyAlreadyUpdatingDetailsSoWait".FromResourceDictionary());
+                    return;
+                }
+
+                ThreadFactory.Instance.Start(() =>
+                {
+                    var accountUpdateFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+
+                    var lastStatus = dominatorAccountModel.AccountBaseModel.Status;
+                    dominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+
+                    accountUpdateFactory.SolveCaptchaManually(dominatorAccountModel);
+                    if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
+                    {
+                        var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                        runningActivityManager.ScheduleIfAccountGotSucess(dominatorAccountModel);
+                    }
+                    else if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                    {
+                        dominatorAccountModel.AccountBaseModel.Status = lastStatus;
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
     }
 
