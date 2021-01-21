@@ -323,6 +323,7 @@
     <system:String x:Key="LangKeyCheckAccountStatus">Check Account Status</system:String>
     <system:String x:Key="LangKeyCheckForNewMessagesAroundEvery">Check For New Messages Around Every</system:String>
     <system:String x:Key="LangKeyCheckIp">Check Ip</system:String>
+    <system:String x:Key="LangKeySendCaptcha">Send Captcha Key</system:String>
     <system:String x:Key="LangKeyCheckMonitorFoldersForNewImages/VideoEvery">Check Monitor Folders For New Images/Video Every</system:String>
     <system:String x:Key="LangKeyCheckRSSFeedsForANewPostsEvery">Check RSS Feeds For A New Posts Every</system:String>
     <system:String x:Key="LangKeyCheckSpinSyntax">Check Spin Syntax</system:String>
@@ -4332,7 +4333,9 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="MoreLimitsErrorMessage">You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation.</system:String>
     <system:String x:Key="NoMoreAllowedErrorMessage">Sorry, but we are unable to reactivate your license key, please contact support.</system:String>
     <system:String x:Key="UnknownErrorMessage">Sorry, some unknown error occured, please contact support.</system:String>
+    <system:String x:Key="CaptchaErrorMessage">Please complete the captcha to continue</system:String>
     <system:String x:Key="LangKeyLicenseError">License Error</system:String>
+    <system:String x:Key="LangKeyCaptchaError">Captcha Error</system:String>
     <system:String x:Key="LangKeyNote">Note</system:String>
     <system:String x:Key="LangIGWontRunWithBrowserAutoTryWithHttp">Instagram accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
     <system:String x:Key="LangKeyFriendsBasicDetails">Friends Basic Details</system:String>
@@ -4344,6 +4347,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyChinese">Chinese</system:String>
 
     <system:String x:Key="LangKeyDeleteProfile">Delete Profile</system:String>
+    <system:String x:Key="LangKeyCaptchaService">Go to Captcha Service</system:String>
     <system:String x:Key="LangKeyBrowserLogin">Browser Login</system:String>
     <system:String x:Key="LangKeyGoToTools">Go to Tools</system:String>
     <system:String x:Key="LangKeyUpdateFriendship">Update Friendship</system:String>
@@ -5051,4 +5055,6 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyAddPhoneAndVerify">Add Phone Number And Verify</system:String>
     <system:String x:Key="LangKeySelectHashtag">Select Hashtag</system:String>
     <system:String x:Key="LangKeyAccountCompromised">Account Compromised</system:String>
+    <system:String x:Key="LangKeyCheckProxy">Check Proxy</system:String>
+    <system:String x:Key="LangKeyPostDetailsDeleted">Post details successfully Deleted.</system:String>
 </ResourceDictionary>

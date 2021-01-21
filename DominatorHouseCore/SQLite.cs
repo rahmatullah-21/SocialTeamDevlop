@@ -2442,7 +2442,13 @@ namespace SQLite
                     else
                     {
                         var text = SQLite3.ColumnString(stmt, index).Replace('.',':');
-                        return DateTime.Parse(text);
+                        try
+                        {
+                            //could not parse when getting the string format (yyyy-mm-dd hh:mm:ss:millisecond), So in catch block removing milliseconds from the string to get it parsed successfully
+                            return DateTime.Parse(text);
+                        }
+                        catch
+                        { return DateTime.Parse(text.Substring(0,19)); }
                     }
                 }
                 else if (clrType == typeof(DateTimeOffset))

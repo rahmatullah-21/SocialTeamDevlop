@@ -1,4 +1,20 @@
-﻿Version[1.0.0.101],[6th January 2020] 
+﻿Version[1.0.0.102],[20th January 2021]
+New features:-
+		Accounts Manager ==> Implemented Captcha Service 
+Fixed:-
+	Facebook:
+		Fb Inviter ==> Group inviter ==> Fixed issue with Showing Own Groups
+
+ 	linkedin:
+		Grow Connection ==> Connection Request ==> Fixed issue with deduct the characters from a personal note 
+		Scraper ==> User Scraper ==> Fixed issue with delete all queries.
+
+	Twitter:
+		Messenger ==> Message To New Followers ==> Fixed issue with Messages to new followers.
+		Grow Followers ==> Follower ==> After follow action Fixed issue with mute user
+		Grow Followers ==> Mute ==> Fixed issue with Mute.
+
+Version[1.0.0.101],[6th January 2021] 
 Fixed:-
  	Social:
 		Publisher ==> Instagram ==> Sociopublisher ==> Fixed issue with posting on wall.

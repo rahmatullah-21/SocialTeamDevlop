@@ -479,6 +479,10 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyAccountCompromised}" />
                                         <Setter Property="Foreground" Value="#9b111e" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.CheckProxy}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyCheckProxy}" />
+                                        <Setter Property="Foreground" Value="#9b111e" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>

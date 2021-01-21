@@ -148,7 +148,7 @@ namespace DominatorHouse.ViewModels
                     var mosGet = mos.Get();
                     foreach (var o in mosGet)
                     {
-                        var mo = (ManagementObject) o;
+                        var mo = (ManagementObject)o;
                         if (!mo["Name"].ToString().StartsWith("Microsoft Visual C++")) continue;
                         var version = Convert.ToInt32(mo["Version"].ToString().Substring(0, 2));
                         if (version >= 14)
@@ -220,7 +220,7 @@ namespace DominatorHouse.ViewModels
             }
         }
 
-        private bool _isStartedfirstTime;
+        private bool _isStartedfirstTime, _isSameKeyUsed = false;
         private async Task FatalErrorDiagnosis()
         {
             string fatalError;
@@ -253,8 +253,8 @@ namespace DominatorHouse.ViewModels
                                 // ReSharper disable once RedundantJumpStatement
                                 continue;
                             // ReSharper disable once RedundantIfElseBlock
-                            else if (_isStartedfirstTime)
-                                break;
+                            //else if (_isStartedfirstTime)
+                            break;
                         }
                         catch (Exception ex)
                         {
@@ -336,6 +336,8 @@ namespace DominatorHouse.ViewModels
             }
             if (networks.Count <= 1)
             {
+                if (networks.Count == 0)
+                    _isSameKeyUsed = true;
 
                 await controller.CloseAsync();
                 if (!_isStartedfirstTime)
@@ -343,6 +345,7 @@ namespace DominatorHouse.ViewModels
                 return true;
             }
             _isStartedfirstTime = false;
+            _isSameKeyUsed = false;
             IsCancelFromLicenceValidationState = false;
             var fatalErrorHandler = new FatalErrorHandler
             {
@@ -360,7 +363,11 @@ namespace DominatorHouse.ViewModels
         private async Task<bool> IsProcessFatalError(string fatalError)
         {
             if (!string.IsNullOrEmpty(fatalError) && await DiagnoseFatalError(fatalError))
+            {
+                if (_isSameKeyUsed)
+                    return true;
                 return false;
+            }
             if (fatalError == null)
             {
                 IsCancelFromLicenceValidationState = true;
@@ -440,9 +447,11 @@ namespace DominatorHouse.ViewModels
                 {
                     var nextDayTime = DateTime.Now.AddDays(1);
 
+                    //_schedulerProxy.AddJob(InitializeJobCores,
+                    //    x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
+                    //        .AndEvery(1).Days());
                     _schedulerProxy.AddJob(InitializeJobCores,
-                        x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
-                            .AndEvery(1).Days());
+                        x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1)));
                 });
 
                 FeatureFlags.UpdateFeatures();
@@ -539,9 +548,11 @@ namespace DominatorHouse.ViewModels
             {
                 ThreadFactory.Instance.Start(() =>
                 {
+                    //_schedulerProxy.AddJob(async () => await IsCheck(),
+                    //    x => x.ToRunOnceAt(DateTime.Now.AddHours(1))
+                    //        .AndEvery(1).Hours());
                     _schedulerProxy.AddJob(async () => await IsCheck(),
-                        x => x.ToRunOnceAt(DateTime.Now.AddHours(1))
-                            .AndEvery(1).Hours());
+                        x => x.ToRunOnceAt(DateTime.Now.AddDays(1)));
                 });
             }
             catch (OperationCanceledException ex)
