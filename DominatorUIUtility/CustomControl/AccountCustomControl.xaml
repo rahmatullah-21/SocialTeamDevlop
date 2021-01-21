@@ -824,7 +824,7 @@
                             </i:Interaction.Triggers>
                         </Button>
 
-                        <Controls:DropDownButton Background="Transparent" Margin="10,0,0,0" Cursor="Hand"
+                        <!--<Controls:DropDownButton Background="Transparent" Margin="10,0,0,0" Cursor="Hand"
                                                  BorderBrush="Transparent" BorderThickness="0"
                                                  Name="btnBrowserAutomation">
                             <Controls:DropDownButton.Content>
@@ -907,7 +907,7 @@
                                                            CommandParameter="{Binding ElementName=btnInfo}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                        </Button>
+                        </Button>-->
                     </WrapPanel>
                 </Grid>
 
@@ -987,7 +987,7 @@
                                       CommandParameter="{Binding}"
                                       Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
-                            <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}"
+                            <!--<MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}"
                                       CommandParameter="{Binding}"
                                       Visibility="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BrowserAutomationConverter},ConverterParameter=Browser }"
                                       Command="{Binding Data.ActivateBrowserAutomationCommand, Source={StaticResource ContextMenuBinding}}">
@@ -998,7 +998,7 @@
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                 </MenuItem.Icon>
-                            </MenuItem>
+                            </MenuItem>-->
 
                             <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}"
                                       CommandParameter="{Binding}"
@@ -1042,15 +1042,15 @@
                             </MenuItem>
 
 
-                            <MenuItem Height="30" Header="{DynamicResource LangKeyCustomSetting}"
+                            <!--<MenuItem Height="30" Header="{DynamicResource LangKeyCustomSetting}"
                                       Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}"
                                       Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
                                 <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"
                                           Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}" />
-                                <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
+                                --><!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>
-                            <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>-->
-                            </MenuItem>
+                            <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>--><!--
+                            </MenuItem>-->
                         </ContextMenu>
                     </ListView.Resources>
 
@@ -1313,8 +1313,8 @@
 
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{DynamicResource LangKeyBrowserAutomation}"
-                                            DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}" />
+                            <!--<GridViewColumn Header="{DynamicResource LangKeyBrowserAutomation}"
+                                            DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}" />-->
 
                             <!--<GridViewColumn  Header="{DynamicResource LangKeyPinterestAccountType}" DisplayMemberBinding="{Binding AccountBaseModel.PinterestAccountType, Converter={StaticResource PinterestAccountTypeToStatusConverter}}"/>-->
 

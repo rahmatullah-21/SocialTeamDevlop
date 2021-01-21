@@ -417,7 +417,7 @@ namespace DominatorHouse.ViewModels
                          Task.Delay(5);
                      }
 
-                     SetActiveNetwork(SocialNetworks.Social);
+                     SetActiveNetwork(SocialNetworks.LinkedIn);
                  });
                 ThreadFactory.Instance.Start(() =>
                 {
