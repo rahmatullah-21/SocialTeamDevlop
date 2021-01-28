@@ -127,8 +127,7 @@ namespace DominatorHouse.ViewModels
                 var newtemplateDetails = newtemplateFileManger.Get();
                 newtemplateDetails.ForEach(x =>
                 {
-                    x.ActivitySettings = System.Text.RegularExpressions.Regex.Replace(x.ActivitySettings, ",\"ListLocationModel\":\\[(.*?)\\]", string.Empty)
-                    ;
+                    x.ActivitySettings = System.Text.RegularExpressions.Regex.Replace(x.ActivitySettings, ",\"ListLocationModel\":\\[(.*?)\\]", string.Empty);
                 });
                 newtemplateFileManger.Save(newtemplateDetails);
             }
@@ -201,7 +200,7 @@ namespace DominatorHouse.ViewModels
                 {
                     if (!Application.Current.Dispatcher.CheckAccess())
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
+                        Application.Current.Dispatcher.Invoke(() => 
                         {
                             Application.Current.Shutdown();
                             Process.GetCurrentProcess().Kill();
@@ -340,7 +339,6 @@ namespace DominatorHouse.ViewModels
                 }
                 if (networks.Count <= 1)
                 {
-
                     await controller.CloseAsync();
                     if (!_isStartedfirstTime)
                         await FatalErrorDiagnosis();

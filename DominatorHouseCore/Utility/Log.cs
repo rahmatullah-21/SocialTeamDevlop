@@ -466,7 +466,7 @@
         ///     3 = destination Value
         /// </summary>
         public static string NoPost { get; set; } =
-            "{0}\t {1}\t " + "LangkeyNoMorePostAvailable".FromResourceDictionary() + " {2}[{3}].";
+            "{0}\t {1}\t " + "LangKeyNoMorePostAvailable".FromResourceDictionary() + " {2}[{3}].";
 
         /// <summary>
         ///     0 = Account's SocialNetwork

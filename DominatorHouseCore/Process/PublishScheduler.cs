@@ -269,7 +269,7 @@ namespace DominatorHouseCore.Process
                 // added delay so that source file path could be added into the bin before this publishing execution
                 Task.Delay(TimeSpan.FromSeconds(10)).Wait(currentCampaignsCancallationToken.Token);
 
-                // Get he post fetcher details
+                // Get the post fetcher details
                 var publisherPostFetchModel =
                     genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);

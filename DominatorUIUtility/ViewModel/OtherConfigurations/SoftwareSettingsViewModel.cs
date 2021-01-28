@@ -34,7 +34,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         {
             _softwareSettings = softwareSettings;
             SaveCmd = new DelegateCommand(Save);
-            SoftwareSettingsModel = softwareSettings.Settings;
+            SoftwareSettingsModel = softwareSettings.Settings??new SoftwareSettingsModel() { IsDoNotAutoLoginAccountsWhileAddingToSoftware = true, IsThreadLimitChecked = true, MaxThreadCount = 5, RunQueriesRandomly = true, SortByUsername = true };
             ExportCommand = new DelegateCommand(Export);
 
             //Assign LocationDetails
