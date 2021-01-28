@@ -131,6 +131,9 @@ namespace EmbeddedBrowser
 
         private DominatorAccountModel _dominatorAccountModel;
 
+        public bool IsCaptchaSolved { get; set; }
+        public string CaptchaResponse { get; set; }
+
         public DominatorAccountModel DominatorAccountModel
         {
             get => _dominatorAccountModel;
@@ -229,7 +232,7 @@ namespace EmbeddedBrowser
                         }
                         else
                         {
-                            var dictProxyIpPort = new Dictionary<string, object> {{"mode", "direct"}};
+                            var dictProxyIpPort = new Dictionary<string, object> { { "mode", "direct" } };
 
                             string error;
                             var success = requestContext.SetPreference("proxy", dictProxyIpPort, out error);
@@ -356,7 +359,7 @@ namespace EmbeddedBrowser
 
                 foreach (var accCookie in cookies)
                 {
-                    var cook = (System.Net.Cookie) accCookie;
+                    var cook = (System.Net.Cookie)accCookie;
 
                     var cefCookie = new Cookie
                     {
@@ -416,7 +419,7 @@ namespace EmbeddedBrowser
 
                 foreach (var accCookie in DominatorAccountModel.BrowserCookies)
                 {
-                    var cook = (System.Net.Cookie) accCookie;
+                    var cook = (System.Net.Cookie)accCookie;
 
                     var cefCookie = new Cookie
                     {
@@ -555,7 +558,7 @@ namespace EmbeddedBrowser
                             Secure = item.Secure
                         };
                         if (item.Expires != null)
-                            cookie.Expires = (DateTime) item.Expires;
+                            cookie.Expires = (DateTime)item.Expires;
 
                         cookieCollection.Add(cookie);
                     }
@@ -586,6 +589,25 @@ namespace EmbeddedBrowser
         private void ButtonCheckIp_OnClick(object sender, RoutedEventArgs e)
         {
             Browser.Load("https://app.multiloginapp.com/WhatIsMyIP");
+        }
+
+        private void ButtonSendCaptcha_OnClick(object sender, RoutedEventArgs e)
+        {
+            string script = "(function() {return document.getElementById('g-recaptcha-response').value;})();";
+
+            var javascriptResponse = Browser.GetMainFrame().EvaluateScriptAsync(script);
+            Thread.Sleep(2000);
+            var response = javascriptResponse.Result;
+            if (response.Success && !string.IsNullOrEmpty(response.Result.ToString()))
+            {
+                CaptchaResponse = response.Result.ToString();
+                IsCaptchaSolved = response.Success;
+            }
+            else
+            {
+                var message = "CaptchaErrorMessage".FromResourceDictionary();
+                Dialog.ShowDialog("LangKeyCaptchaError".FromResourceDictionary(), message);
+            }
         }
 
         private void ButtonLogin_OnClick(object sender, RoutedEventArgs e)
@@ -782,7 +804,7 @@ namespace EmbeddedBrowser
             if (delayBefore > 0)
                 Sleep(delayBefore);
 
-            var ke = new KeyEvent {FocusOnEditableField = true, IsSystemKey = false, Type = KeyEventType.Char};
+            var ke = new KeyEvent { FocusOnEditableField = true, IsSystemKey = false, Type = KeyEventType.Char };
 
             if (Browser.IsDisposed) return;
 
@@ -893,7 +915,7 @@ namespace EmbeddedBrowser
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore), _token);
 
-            var ke = new KeyEvent {FocusOnEditableField = true, IsSystemKey = false, Type = KeyEventType.Char};
+            var ke = new KeyEvent { FocusOnEditableField = true, IsSystemKey = false, Type = KeyEventType.Char };
 
             if (Browser.IsDisposed) return;
 

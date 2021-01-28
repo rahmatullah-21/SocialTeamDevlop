@@ -171,7 +171,20 @@
                             </Button.Template>
                         </Button>
                     </StackPanel>
-                    
+
+                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="5,0,0,0">
+                        <Button Background="Transparent" Width="120" Height="30" Margin="2" Cursor="Hand"
+                                Foreground="White" BorderBrush="Transparent" BorderThickness="0" Name="SendCaptcha"
+                                Click="ButtonSendCaptcha_OnClick">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Label Content="{DynamicResource LangKeySendCaptcha}" Margin="0,0,0,0"
+                                                   Foreground="White" FontSize="13" FontWeight="SemiBold"
+                                                   VerticalContentAlignment="Center" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Grid>

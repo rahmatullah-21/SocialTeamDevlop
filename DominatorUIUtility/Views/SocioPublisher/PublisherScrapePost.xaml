@@ -37,6 +37,14 @@
                         Foreground="Black"
                         Margin="5"  Height="30" Width="150" Command="{Binding UploadPostDetailsCommand}"/>
                     </mah:Badged>
+                    <mah:Badged Margin="10,15,0,0"
+                        Visibility="{Binding ScrapePostModel.IsOwnPostDetails,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Button VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Content="{DynamicResource LangKeyDeleteAllPosts}"
+                                Background="{DynamicResource AccentBaseColorBrush}"
+                                Foreground="White"
+                                Margin="10" Height="30" Width="150" Command="{Binding DeleteUploadedPostCommand}" />
+                    </mah:Badged>
 
                 </StackPanel>
             </StackPanel>

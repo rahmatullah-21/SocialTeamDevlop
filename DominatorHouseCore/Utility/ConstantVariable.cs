@@ -19,7 +19,8 @@ namespace DominatorHouseCore.Utility
         public static string UseragentLocale { get; } = "en_US;";
 
         // public static string IgVersion { get; } = "40.33.0";
-        public static string IgVersion { get; } = "144.0.0.25.119";//"117.0.0.28.123";//"107.0.0.27.121 ";//"94.0.0.22.116";
+        public static string IgVersion { get; } =
+            "169.3.0.30.135";//"144.0.0.25.119"; //"117.0.0.28.123";//"107.0.0.27.121 ";//"94.0.0.22.116";
 
         public static string ApiUrl => $"{(object)InstagramBaseUrl}api/v1/";
 
@@ -69,10 +70,13 @@ namespace DominatorHouseCore.Utility
 
             return basePath;
         }
-
-        public static string GetDesktopSocNetDirectory(SocialNetworks net = SocialNetworks.Admin)
-        => CreateDirIfNot($"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\\{ApplicationName}{(net == SocialNetworks.Admin ? "" : "\\" + net.ToString())}");
         
+        public static string GetDesktopSocNetDirectory(SocialNetworks net = SocialNetworks.Admin)
+        {
+            return CreateDirIfNot(
+                $"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\\{ApplicationName}{(net == SocialNetworks.Admin ? "" : "\\" + net)}");
+        }
+            
         public static string GetDebugResponseFile(SocialNetworks net, string username)
         => CreateDirIfNot($"{GetDesktopSocNetDirectory(net)}\\{username}\\DebugResponses") + $"\\{DateTime.Now.Date.GetCurrentEpochTime()}.txt"; 
 
@@ -132,8 +136,11 @@ namespace DominatorHouseCore.Utility
         public static string GetDate() => DateTime.Now.ToString("ddMMyyyy");
 
         public static string GetDateTime() => DateTime.Now.ToString("ddMMyyyyHmmss");
-
-        public static string GetHourDateTime() => DateTime.Now.ToString("Hmmss.ff");
+        
+        public static string GetHourDateTime()
+        {
+            return DateTime.Now.ToString("Hmmss.ff");
+        }
 
         public static string GoogleLink { get; set; } = "https://www.google.com";
 

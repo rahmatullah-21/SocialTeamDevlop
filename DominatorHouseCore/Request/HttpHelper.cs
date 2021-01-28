@@ -651,10 +651,23 @@ namespace DominatorHouseCore.Request
 
         public static async Task<Stream> GetResponseStreamAsync(string url)
         {
-            var request = (HttpWebRequest) WebRequest.Create(new Uri(url));
-            var licenseresponse = (HttpWebResponse) await request.GetResponseAsync();
+            Stream responseStream = null;
+            // Check for 3 times if it throws exception while getting response
+            for (int i = 0; i < 3; i++)
+                try
+                {
 
-            var responseStream = licenseresponse.GetResponseStream();
+                    var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+                    var licenseresponse = (HttpWebResponse) request.GetResponse();
+                    responseStream = licenseresponse.GetResponseStream();
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                    Thread.Sleep(1000); 
+                }
+           
             return responseStream;
         }
 

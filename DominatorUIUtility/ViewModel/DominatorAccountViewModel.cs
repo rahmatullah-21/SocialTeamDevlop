@@ -186,6 +186,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand ProfileDetailsCommand { get; }
         public ICommand DeleteAccountCommand { get; }
         public ICommand BrowserLoginCommand { get; }
+        public ICommand GoToCaptchaServiceCommand { get; }
         public ICommand GotoToolsCommand { get; }
         public ICommand CheckLoginCommand { get; }
         public ICommand UpdateFriendshipCommand { get; }
@@ -290,6 +291,7 @@ namespace DominatorUIUtility.ViewModel
             ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
             DeleteAccountCommand = new DelegateCommand<DominatorAccountModel>(DeleteAccountByContextMenu);
             BrowserLoginCommand = new DelegateCommand<DominatorAccountModel>(AccountBrowserLogin);
+            GoToCaptchaServiceCommand = new DelegateCommand<DominatorAccountModel>(GoToCaptchaService);
             GotoToolsCommand = new DelegateCommand<DominatorAccountModel>(GotoTools);
             CheckLoginCommand = new DelegateCommand<DominatorAccountModel>(AccountStatusChecker);
             UpdateFriendshipCommand = new DelegateCommand<DominatorAccountModel>(AccountUpdate);
@@ -397,6 +399,55 @@ namespace DominatorUIUtility.ViewModel
 
                 SwitchAccountType(selectedAccount, accountType);
 
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        public void GoToCaptchaService(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        dominatorAccountModel.AccountBaseModel.UserName,
+                        "LangKeyLogin".FromResourceDictionary(),
+                        "LangKeyAlreadyCheckingLoginSoWait".FromResourceDictionary());
+                    return;
+                }
+
+                if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        dominatorAccountModel.AccountBaseModel.UserName,
+                        "LangKeyLogin".FromResourceDictionary(),
+                        "LangKeyAlreadyUpdatingDetailsSoWait".FromResourceDictionary());
+                    return;
+                }
+
+                ThreadFactory.Instance.Start(() =>
+                {
+                    var accountUpdateFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+
+                    var lastStatus = dominatorAccountModel.AccountBaseModel.Status;
+                    dominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+
+                    accountUpdateFactory.SolveCaptchaManually(dominatorAccountModel);
+                    if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
+                    {
+                        var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                        runningActivityManager.ScheduleIfAccountGotSucess(dominatorAccountModel);
+                    }
+                    else if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                    {
+                        dominatorAccountModel.AccountBaseModel.Status = lastStatus;
+                    }
+                });
             }
             catch (Exception ex)
             {

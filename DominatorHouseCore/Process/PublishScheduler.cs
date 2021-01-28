@@ -266,7 +266,10 @@ namespace DominatorHouseCore.Process
                     // If its already present fetch that cancellation token
                     currentCampaignsCancallationToken = CampaignsCancellationTokens[campaignStatusModel.CampaignId];
 
-                // Get he post fetcher details
+                // added delay so that source file path could be added into the bin before this publishing execution
+                Task.Delay(TimeSpan.FromSeconds(10)).Wait(currentCampaignsCancallationToken.Token);
+
+                // Get the post fetcher details
                 var publisherPostFetchModel =
                     genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
@@ -1554,7 +1557,13 @@ namespace DominatorHouseCore.Process
             var timeRange = campaign.SpecificRunningTime;
 
             if (timeRange.Count > postDetailsList.Count)
-                timeRange = timeRange.Take(timeRange.Count - postDetailsList.Count).ToList();
+            {
+                // reverse timings so the last one be remained in the list
+                var reverseTime = timeRange.DeepCloneObject();
+                reverseTime.Reverse();
+                // taking only those timings which was not taken yet
+                timeRange = reverseTime.Take(timeRange.Count - postDetailsList.Count).ToList(); 
+            }
 
             // Check whether random time for every day has selected
             if (campaign.IsRandomRunningTime)
