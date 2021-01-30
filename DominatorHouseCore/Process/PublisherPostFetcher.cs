@@ -55,11 +55,12 @@ namespace DominatorHouseCore.Process
             var deletedCampaignFetcherList = getFetchDetails.Where(x =>
                 allCampaign.Any(y => y.CampaignId == x.CampaignId)).ToList();
 
-            deletedCampaignFetcherList.ForEach(x =>
-            {
-                genericFileManager.Delete<PublisherPostFetchModel>(y => y.CampaignId == x.CampaignId, ConstantVariable
-                    .GetPublisherPostFetchFile);
-            });
+            // Commented to fix bug 53 (Social bug sheet) - commented for not letting it to delete the postdestination information from the bin file, because we need it to publish existing active publisher campaign
+            //deletedCampaignFetcherList.ForEach(x =>
+            //{
+            //    genericFileManager.Delete<PublisherPostFetchModel>(y => y.CampaignId == x.CampaignId, ConstantVariable
+            //        .GetPublisherPostFetchFile);
+            //});
 
             getFetchDetails.RemoveAll(x => deletedCampaignFetcherList.Any(y => y.CampaignId == x.CampaignId));
 
