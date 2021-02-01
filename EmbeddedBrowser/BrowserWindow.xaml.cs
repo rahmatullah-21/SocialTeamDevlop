@@ -1757,8 +1757,7 @@ namespace EmbeddedBrowser
 
             return false;
         }
-
-
+       
         //Get json data list for pagination(for pinterest)
         public async Task<List<string>> GetPaginationDataList(string startSearchText, bool isContains = false)
         {
@@ -1766,14 +1765,12 @@ namespace EmbeddedBrowser
             var lstJsonData = new List<string>();
             try
             {
-                await Task.Delay(100, _token);
+                await Task.Delay(10, _token);
                 var lstResponseStream = new List<MemoryStreamResponseFilter>();
 
                 var isSuccess = false;
 
-                int chkCount = 0;
-
-                while (!isSuccess && chkCount < 25)
+                while (!isSuccess)
                 {
                     _token.ThrowIfCancellationRequested();
                     try
@@ -1787,14 +1784,6 @@ namespace EmbeddedBrowser
                     {
                         // ignored
                     }
-                    chkCount++;
-                }
-
-                if (lstResponseStream.Count == 0)
-                {
-                    lstResponseStream = ProxyRequestHandler == null
-                        ? RequestHandlerCustom.ResourceRequestHandler.ResponseList
-                        : ProxyRequestHandler.ResourceRequestHandler.ResponseList;
                 }
 
                 lstResponseStream.RemoveAll(x => x.Data == null);
@@ -1809,10 +1798,6 @@ namespace EmbeddedBrowser
             catch
             {
                 // ignored
-            }
-            finally
-            {
-                RequestHandlerCustom.ResourceRequestHandler.ResponseList = new List<MemoryStreamResponseFilter>();
             }
 
             _token.ThrowIfCancellationRequested();
