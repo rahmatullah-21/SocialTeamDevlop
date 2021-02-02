@@ -81,68 +81,68 @@ namespace DominatorHouseCore.Utility
                     #region Http Response
 
                     postlists = (from node in postItems
-                        let innerHtml = node.InnerHtml
-                        let title = RemoveCdata(node.Element("title").InnerHtml)
-                        let content = WebUtility.HtmlDecode(RemoveCdata(node.Element("content").InnerHtml))
-                        let descriptionDetails =
-                            Regex.Matches(content, "(<p|<p>)(.*?)(<h2|<div)", RegexOptions.Singleline)
-                        let descriptionDetailsNew = descriptionDetails == null || descriptionDetails.Count == 0
-                            ? null
-                            : Regex.Matches(content, "(<p|<p>)(.*)(</p>)", RegexOptions.Singleline)
-                        let description = descriptionDetailsNew == null || descriptionDetailsNew.Count == 0
-                            ? string.Empty
-                            : descriptionDetailsNew[0].Groups[0].ToString()
-                        let link = RemoveCdata(node.Element("link").InnerText)
-                        let newLink = string.IsNullOrEmpty(link)
-                            ? Utilities.GetBetween(node.Element("link").OuterHtml, "href=\"", "\"")
-                            : link
-                        let pubDate = RemoveCdata(node.Element("published").InnerHtml)
-                        let descriptionUrl = RemoveCdata(node.Element("description").InnerHtml)
-                        let Imageurl = !descriptionUrl.Contains("src")
-                            ? ""
-                            : Utilities.GetBetween(descriptionUrl, "src=\"", "\"")
-                        where !postdetails.Contains(link)
-                        select new PublisherPostlistModel
-                        {
-                            MediaList = new ObservableCollection<string>(postDetailsModel.MediaViewer.MediaList),
-                            CampaignId = campaignId,
-                            CreatedTime = DateTime.Now,
-                            ExpiredTime = expireDate,
-                            PostId = Utilities.GetGuid(),
-                            PostCategory = PostCategory.OrdinaryPost,
-                            PostQueuedStatus = PostQueuedStatus.Pending,
-                            PostRunningStatus = PostRunningStatus.Active,
-                            PostSource = PostSource.RssFeedPost,
-                            PostDescription = WebUtility.HtmlDecode(feedTemplate.Replace("[FeedTitle]", title)
-                                .Replace("[FeedDescription]", HtmlParseUtility.GetAllInnerTextFromTags(description))
-                                .Replace("[FeedUrl]", newLink)
-                                .Replace("[FeedPublishedDate]", pubDate)),
-                            ShareUrl = newLink,
-                            PdSourceUrl = postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", newLink),
-                            PublisherInstagramTitle =
-                                postDetailsModel.PublisherInstagramTitle.Replace("[FeedTitle]", title),
-                            GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
-                            FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
-                            GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
-                            TdPostSettings = new TdPostSettings
-                            {
-                                IsDeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings
-                                    .IsDeletePostAfterHours,
-                                IsMentionUser = postDetailsModel.PublisherPostSettings.TdPostSettings.IsMentionUser,
-                                DeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings
-                                    .DeletePostAfterHours,
-                                MentionUserList = postDetailsModel.PublisherPostSettings.TdPostSettings.MentionUserList,
-                                RssImageList = new List<string> {Imageurl}
-                            },
-                            LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
-                            TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
-                            RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
-                            FdSellLocation = postDetailsModel.FdSellLocation,
-                            FdSellPrice = postDetailsModel.FdSellPrice,
-                            FdSellProductTitle = postDetailsModel.FdSellProductTitle,
-                            IsFdSellPost = postDetailsModel.IsFdSellPost,
-                            PublisherPostSettings = postDetailsModel.PublisherPostSettings
-                        }).ToList();
+                                 let innerHtml = node.InnerHtml
+                                 let title = RemoveCdata(node.Element("title").InnerHtml)
+                                 let content = WebUtility.HtmlDecode(RemoveCdata(node.Element("content").InnerHtml))
+                                 let descriptionDetails =
+                                     Regex.Matches(content, "(<p|<p>)(.*?)(<h2|<div)", RegexOptions.Singleline)
+                                 let descriptionDetailsNew = descriptionDetails == null || descriptionDetails.Count == 0
+                                     ? null
+                                     : Regex.Matches(content, "(<p|<p>)(.*)(</p>)", RegexOptions.Singleline)
+                                 let description = descriptionDetailsNew == null || descriptionDetailsNew.Count == 0
+                                     ? string.Empty
+                                     : descriptionDetailsNew[0].Groups[0].ToString()
+                                 let link = RemoveCdata(node.Element("link").InnerText)
+                                 let newLink = string.IsNullOrEmpty(link)
+                                     ? Utilities.GetBetween(node.Element("link").OuterHtml, "href=\"", "\"")
+                                     : link
+                                 let pubDate = RemoveCdata(node.Element("published").InnerHtml)
+                                 let descriptionUrl = RemoveCdata(node.Element("description").InnerHtml)
+                                 let Imageurl = !descriptionUrl.Contains("src")
+                                     ? ""
+                                     : Utilities.GetBetween(descriptionUrl, "src=\"", "\"")
+                                 where !postdetails.Contains(link)
+                                 select new PublisherPostlistModel
+                                 {
+                                     MediaList = new ObservableCollection<string>(postDetailsModel.MediaViewer.MediaList),
+                                     CampaignId = campaignId,
+                                     CreatedTime = DateTime.Now,
+                                     ExpiredTime = expireDate,
+                                     PostId = Utilities.GetGuid(),
+                                     PostCategory = PostCategory.OrdinaryPost,
+                                     PostQueuedStatus = PostQueuedStatus.Pending,
+                                     PostRunningStatus = PostRunningStatus.Active,
+                                     PostSource = PostSource.RssFeedPost,
+                                     PostDescription = WebUtility.HtmlDecode(feedTemplate.Replace("[FeedTitle]", title)
+                                         .Replace("[FeedDescription]", HtmlParseUtility.GetAllInnerTextFromTags(description))
+                                         .Replace("[FeedUrl]", newLink)
+                                         .Replace("[FeedPublishedDate]", pubDate)),
+                                     ShareUrl = newLink,
+                                     PdSourceUrl = string.IsNullOrWhiteSpace(postDetailsModel.PdSourceUrl) ? link : postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", link),
+                                     PublisherInstagramTitle =
+                                         string.IsNullOrWhiteSpace(postDetailsModel.PublisherInstagramTitle) ? title : postDetailsModel.PublisherInstagramTitle.Replace("[FeedTitle]", title),
+                                     GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
+                                     FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
+                                     GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
+                                     TdPostSettings = new TdPostSettings
+                                     {
+                                         IsDeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings
+                                             .IsDeletePostAfterHours,
+                                         IsMentionUser = postDetailsModel.PublisherPostSettings.TdPostSettings.IsMentionUser,
+                                         DeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings
+                                             .DeletePostAfterHours,
+                                         MentionUserList = postDetailsModel.PublisherPostSettings.TdPostSettings.MentionUserList,
+                                         RssImageList = new List<string> { Imageurl }
+                                     },
+                                     LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
+                                     TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
+                                     RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
+                                     FdSellLocation = postDetailsModel.FdSellLocation,
+                                     FdSellPrice = postDetailsModel.FdSellPrice,
+                                     FdSellProductTitle = postDetailsModel.FdSellProductTitle,
+                                     IsFdSellPost = postDetailsModel.IsFdSellPost,
+                                     PublisherPostSettings = postDetailsModel.PublisherPostSettings
+                                 }).ToList();
 
                     #endregion
                 }
@@ -153,61 +153,61 @@ namespace DominatorHouseCore.Utility
                     #region Http Response
 
                     postlists = (from node in postItems
-                        let innerHtml = node.InnerHtml
-                        let title = RemoveCdata(node.Element("title").InnerHtml)
-                        let description = RemoveCdata(node?.Element("description")?.InnerText ?? "")
-                            .Replace("(notitle)", "")
-                        let link = RemoveCdata(node?.Element("link")?.NextSibling?.InnerText ?? "")
-                        let pubDate = RemoveCdata(node?.Element("pubdate")?.InnerHtml ?? "")
-                        let descriptionUrl = RemoveCdata(node?.Element("description")?.InnerHtml ?? "")
-                        let Imageurl = !descriptionUrl?.Contains("src") ?? false
-                            ? !node.InnerHtml?.Contains("src") ?? false ? "" :
-                            Utilities.GetBetween(node.InnerHtml, "src=\"", "\"")
-                            : Utilities.GetBetween(descriptionUrl, "src=\"", "\"")
-                        let url = RemoveCdata(node?.Element("url")?.InnerHtml ?? "")
-                        where !postdetails.Contains(link)
-                        select new PublisherPostlistModel
-                        {
-                            MediaList = new ObservableCollection<string>(postDetailsModel.MediaViewer.MediaList)
+                                 let innerHtml = node.InnerHtml
+                                 let title = RemoveCdata(node.Element("title").InnerHtml)
+                                 let description = RemoveCdata(node?.Element("description")?.InnerText ?? "")
+                                     .Replace("(notitle)", "")
+                                 let link = RemoveCdata(node?.Element("link")?.NextSibling?.InnerText ?? "")
+                                 let pubDate = RemoveCdata(node?.Element("pubdate")?.InnerHtml ?? "")
+                                 let descriptionUrl = RemoveCdata(node?.Element("description")?.InnerHtml ?? "")
+                                 let Imageurl = !descriptionUrl?.Contains("src") ?? false
+                                     ? !node.InnerHtml?.Contains("src") ?? false ? "" :
+                                     Utilities.GetBetween(node.InnerHtml, "src=\"", "\"")
+                                     : Utilities.GetBetween(descriptionUrl, "src=\"", "\"")
+                                 let url = RemoveCdata(node?.Element("url")?.InnerHtml ?? "")
+                                 where !postdetails.Contains(link)
+                                 select new PublisherPostlistModel
+                                 {
+                                     MediaList = new ObservableCollection<string>(postDetailsModel.MediaViewer.MediaList)
                                 {Imageurl},
-                            CampaignId = campaignId,
-                            CreatedTime = DateTime.Now,
-                            ExpiredTime = expireDate,
-                            PostId = Utilities.GetGuid(),
-                            PostCategory = PostCategory.OrdinaryPost,
-                            PostQueuedStatus = PostQueuedStatus.Pending,
-                            PostRunningStatus = PostRunningStatus.Active,
-                            PostSource = PostSource.RssFeedPost,
-                            PostDescription = WebUtility.HtmlDecode(feedTemplate.Replace("[FeedTitle]", title)
-                                .Replace("[FeedDescription]", description)
-                                .Replace("[FeedUrl]", link)
-                                .Replace("[FeedPublishedDate]", pubDate)),
-                            ShareUrl = link,
-                            PdSourceUrl = postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", link),
-                            PublisherInstagramTitle =
-                                postDetailsModel.PublisherInstagramTitle.Replace("[FeedTitle]", title),
-                            GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
-                            FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
-                            GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
-                            TdPostSettings = new TdPostSettings
-                            {
-                                IsDeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings
-                                    .IsDeletePostAfterHours,
-                                IsMentionUser = postDetailsModel.PublisherPostSettings.TdPostSettings.IsMentionUser,
-                                DeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings
-                                    .DeletePostAfterHours,
-                                MentionUserList = postDetailsModel.PublisherPostSettings.TdPostSettings.MentionUserList,
-                                RssImageList = new List<string> {Imageurl}
-                            },
-                            LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
-                            TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
-                            RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
-                            FdSellLocation = postDetailsModel.FdSellLocation,
-                            FdSellPrice = postDetailsModel.FdSellPrice,
-                            FdSellProductTitle = postDetailsModel.FdSellProductTitle,
-                            IsFdSellPost = postDetailsModel.IsFdSellPost,
-                            PublisherPostSettings = postDetailsModel.PublisherPostSettings
-                        }).ToList();
+                                     CampaignId = campaignId,
+                                     CreatedTime = DateTime.Now,
+                                     ExpiredTime = expireDate,
+                                     PostId = Utilities.GetGuid(),
+                                     PostCategory = PostCategory.OrdinaryPost,
+                                     PostQueuedStatus = PostQueuedStatus.Pending,
+                                     PostRunningStatus = PostRunningStatus.Active,
+                                     PostSource = PostSource.RssFeedPost,
+                                     PostDescription = WebUtility.HtmlDecode(feedTemplate.Replace("[FeedTitle]", title)
+                                         .Replace("[FeedDescription]", description)
+                                         .Replace("[FeedUrl]", link)
+                                         .Replace("[FeedPublishedDate]", pubDate)),
+                                     ShareUrl = link,
+                                     PdSourceUrl = string.IsNullOrWhiteSpace(postDetailsModel.PdSourceUrl) ? link : postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", link),
+                                     PublisherInstagramTitle =
+                                         string.IsNullOrWhiteSpace(postDetailsModel.PublisherInstagramTitle) ? title : postDetailsModel.PublisherInstagramTitle.Replace("[FeedTitle]", title),
+                                     GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
+                                     FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
+                                     GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
+                                     TdPostSettings = new TdPostSettings
+                                     {
+                                         IsDeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings
+                                             .IsDeletePostAfterHours,
+                                         IsMentionUser = postDetailsModel.PublisherPostSettings.TdPostSettings.IsMentionUser,
+                                         DeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings
+                                             .DeletePostAfterHours,
+                                         MentionUserList = postDetailsModel.PublisherPostSettings.TdPostSettings.MentionUserList,
+                                         RssImageList = new List<string> { Imageurl }
+                                     },
+                                     LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
+                                     TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
+                                     RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
+                                     FdSellLocation = postDetailsModel.FdSellLocation,
+                                     FdSellPrice = postDetailsModel.FdSellPrice,
+                                     FdSellProductTitle = postDetailsModel.FdSellProductTitle,
+                                     IsFdSellPost = postDetailsModel.IsFdSellPost,
+                                     PublisherPostSettings = postDetailsModel.PublisherPostSettings
+                                 }).ToList();
 
                     #endregion
                 }

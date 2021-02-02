@@ -368,6 +368,11 @@
                                         Value="{x:Static enums:SocialNetworks.Facebook}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                     </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}"
+                                        Value="{x:Static enums:SocialNetworks.Youtube}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </CheckBox.Style>

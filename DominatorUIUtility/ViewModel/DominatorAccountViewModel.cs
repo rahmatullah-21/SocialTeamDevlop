@@ -260,7 +260,7 @@ namespace DominatorUIUtility.ViewModel
 
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    StopAllActivity(new List<DominatorAccountModel> {dominatorAccountModel}, true);
+                    StopAllActivity(new List<DominatorAccountModel> { dominatorAccountModel }, true);
 
                     ThreadFactory.Instance.Start(() =>
                     {
@@ -269,7 +269,7 @@ namespace DominatorUIUtility.ViewModel
                             .GetNetworkCoreFactory().AccountUpdateFactory;
                         if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
                         {
-                            var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync) accountFactory;
+                            var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
                             asyncAccount.SwitchToBusinessAccount(dominatorAccountModel, new CancellationToken(), false);
                         }
                     });
@@ -293,7 +293,7 @@ namespace DominatorUIUtility.ViewModel
 
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    StopAllActivity(new List<DominatorAccountModel> {dominatorAccountModel}, true);
+                    StopAllActivity(new List<DominatorAccountModel> { dominatorAccountModel }, true);
 
                     ThreadFactory.Instance.Start(() =>
                     {
@@ -302,7 +302,7 @@ namespace DominatorUIUtility.ViewModel
                             .GetNetworkCoreFactory().AccountUpdateFactory;
                         if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
                         {
-                            var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync) accountFactory;
+                            var asyncAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
                             asyncAccount.SwitchToBusinessAccount(dominatorAccountModel, new CancellationToken());
                         }
                     });
@@ -401,7 +401,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void InfoButtonSizeChnagedCommandExecute(object Sender)
         {
-            if (((Button) Sender).ActualHeight == 40)
+            if (((Button)Sender).ActualHeight == 40)
             {
                 MenuHandlerModel.IsInfoVisible = false;
             }
@@ -421,7 +421,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void BrowserButtonSizeChangedCommandExecute(object Sender)
         {
-            if (((DropDownButton) Sender).ActualHeight == 40)
+            if (((DropDownButton)Sender).ActualHeight == 40)
                 MenuHandlerModel.IsBrowserAutomationVisible = false;
             else
                 MenuHandlerModel.IsBrowserAutomationVisible = true;
@@ -454,7 +454,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void DeleteButtonSizeChangedCommandExecute(object Sender)
         {
-            if (((Button) Sender).ActualHeight == 40)
+            if (((Button)Sender).ActualHeight == 40)
                 MenuHandlerModel.IsDeleteAccountVisible = false;
             else
                 MenuHandlerModel.IsDeleteAccountVisible = true;
@@ -476,7 +476,7 @@ namespace DominatorUIUtility.ViewModel
                 MenuHandlerModel.IsInfoVisible = true;
             }
 
-            if (((Button) Sender).ActualHeight == 40)
+            if (((Button)Sender).ActualHeight == 40)
                 MenuHandlerModel.IsExportAccountVisible = false;
             else
                 MenuHandlerModel.IsExportAccountVisible = true;
@@ -491,7 +491,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void UpdateButtonSizeChangedCommandExecute(object Sender)
         {
-            if (((DropDownButton) Sender).ActualHeight == 40)
+            if (((DropDownButton)Sender).ActualHeight == 40)
                 MenuHandlerModel.IsUpdateAccountVisible = false;
             else
                 MenuHandlerModel.IsUpdateAccountVisible = true;
@@ -506,7 +506,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void SelectButtonSizeChangedCommandExecute(object Sender)
         {
-            if (((DropDownButton) Sender).ActualHeight == 40)
+            if (((DropDownButton)Sender).ActualHeight == 40)
                 MenuHandlerModel.IsSelectAccountsVisible = false;
             else
                 MenuHandlerModel.IsSelectAccountsVisible = true;
@@ -521,7 +521,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void ImportButtonSizeChangedCommandExecute(object Sender)
         {
-            if (((Button) Sender).ActualHeight == 40)
+            if (((Button)Sender).ActualHeight == 40)
                 MenuHandlerModel.IsImportMultipleAccountsVisible = false;
             else
                 MenuHandlerModel.IsImportMultipleAccountsVisible = true;
@@ -818,7 +818,16 @@ namespace DominatorUIUtility.ViewModel
                     var accountsToProcess = LstDominatorAccountModel.Where(x =>
                         x.IsAccountManagerAccountSelected && x.IsRunProcessThroughBrowser &&
                         x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram &&
-                        x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+                        x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok &&
+                        x.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook &&
+                        x.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube);
+
+                    if (LstDominatorAccountModel.Any(x =>
+                        x.IsAccountManagerAccountSelected &&
+                        (x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ||
+                         x.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)))
+                        Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(),
+                            "LangYtFbWontRunWithHttpTryWithBrowserAuto".FromResourceDictionary());
                     if (accountsToProcess.Count() == 0)
                     {
                         ToasterNotification.ShowInfomation(
@@ -842,10 +851,20 @@ namespace DominatorUIUtility.ViewModel
                             "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                         if (result == MessageDialogResult.Affirmative)
                         {
+
                             var accountsToProcess = LstDominatorAccountModel.Where(x =>
-                                x.AccountId == model.AccountId && x.IsRunProcessThroughBrowser &&
-                                x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram &&
-                                x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+                                                    x.AccountId == model.AccountId && x.IsRunProcessThroughBrowser &&
+                                                    x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram &&
+                                                    x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok &&
+                                                    x.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook &&
+                                                    x.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube);
+
+                            if (LstDominatorAccountModel.Any(x =>
+                                x.AccountId == model.AccountId &&
+                                (x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ||
+                                 x.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)))
+                             Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(),
+                                    "LangYtFbWontRunWithHttpTryWithBrowserAuto".FromResourceDictionary());
                             if (accountsToProcess.Count() == 0)
                             {
                                 ToasterNotification.ShowInfomation(
@@ -1226,7 +1245,7 @@ namespace DominatorUIUtility.ViewModel
                 "LangKeyAddAccount".FromResourceDictionary(), "LangKeySave".FromResourceDictionary(), false,
                 SocinatorInitialize.ActiveSocialNetwork);
 
-            objDominatorAccountBaseModel.AccountNetwork = (SocialNetworks) Enum.Parse(typeof(SocialNetworks),
+            objDominatorAccountBaseModel.AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks),
                 objAddUpdateAccountControl.ComboBoxSocialNetworks.Text);
 
             var isIgOrTik = objDominatorAccountBaseModel.AccountNetwork == SocialNetworks.Instagram ||
@@ -1326,7 +1345,7 @@ namespace DominatorUIUtility.ViewModel
                     {
                         AddAccount(objDominatorAccountBaseModel, httpCookies, act =>
                         {
-                            var th = new Thread(() => act()) {IsBackground = true};
+                            var th = new Thread(() => act()) { IsBackground = true };
                             th.Start();
                             return () => th.Abort();
                         }, browserCookies, browserActivated, pinterestAccountType);
@@ -1414,7 +1433,7 @@ namespace DominatorUIUtility.ViewModel
                                 }
                             }
                         })
-                        {IsBackground = true}.Start();
+                    { IsBackground = true }.Start();
                 }
                 catch (Exception ex)
                 {
@@ -1556,7 +1575,7 @@ namespace DominatorUIUtility.ViewModel
 
                         if (string.IsNullOrWhiteSpace(nickName))
                             nickName = DefaultAccountNameFromModel(LstDominatorAccountModel.GetCopySync(),
-                                ref dictNetLasNum, (SocialNetworks) Enum.Parse(typeof(SocialNetworks), socialNetwork));
+                                ref dictNetLasNum, (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork));
 
                         if (string.IsNullOrWhiteSpace(status))
                             status = "NotChecked";
@@ -1592,10 +1611,10 @@ namespace DominatorUIUtility.ViewModel
                                 ProxyUsername = proxyusername,
                                 ProxyPassword = proxypassword
                             },
-                            AccountNetwork = (SocialNetworks) Enum.Parse(typeof(SocialNetworks), socialNetwork),
+                            AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork),
                             Status = string.IsNullOrWhiteSpace(status)
                                 ? AccountStatus.NotChecked
-                                : (AccountStatus) Enum.Parse(typeof(AccountStatus), status),
+                                : (AccountStatus)Enum.Parse(typeof(AccountStatus), status),
                             AlternateEmail = alternetEmail,
                             Banned = banned,
                             AccountName = nickName
@@ -1622,7 +1641,7 @@ namespace DominatorUIUtility.ViewModel
                                             var oldqueue = _pendingActions;
                                             _pendingActions = ImmutableQueue<Action>.Empty;
                                             oldqueue
-                                                .Except(new[] {action})
+                                                .Except(new[] { action })
                                                 .ForEach(it => _pendingActions = _pendingActions.Enqueue(it));
                                         };
                                     }, browserCookies, browserAutomationStatus, pinterestAccountType));
@@ -1746,9 +1765,9 @@ namespace DominatorUIUtility.ViewModel
 
             var oldproxies = _proxyFileManager.GetAllProxy();
 
-            //facebook accounts getting banned due to httpAutomation, So setting value to IsRunProcessThroughBrowser as true by default for fb accounts only.
+            //facebook accounts getting banned due to httpAutomation, as for now Youtube accounts are not working with http automation, So setting value to IsRunProcessThroughBrowser as true by default for fb and yd accounts only.
             dominatorAccountModel.IsRunProcessThroughBrowser =
-                dominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook
+                dominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook || dominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube
                     ? true
                     : isBrowserAutomationActive;
 
@@ -1828,7 +1847,7 @@ namespace DominatorUIUtility.ViewModel
                     if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
                     {
                         // this account supports async modules
-                        var asyncAccount = (IAccountUpdateFactoryAsync) accountFactory;
+                        var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
 
                         try
                         {
@@ -2409,7 +2428,7 @@ namespace DominatorUIUtility.ViewModel
                     "LangKeyDontDelete".FromResourceDictionary()));
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
-            DeleteAccounts(new[] {selectedAccount});
+            DeleteAccounts(new[] { selectedAccount });
         }
 
         #endregion
@@ -2559,6 +2578,8 @@ namespace DominatorUIUtility.ViewModel
                                         x.AccountBaseModel.UserName == account.UserName &&
                                         x.AccountBaseModel.AccountNetwork == account.AccountBaseModel.AccountNetwork))
                                     {
+                                        var needDbUpdate = false;
+
                                         if (account.AccountBaseModel.Status == AccountStatus.TryingToLogin)
                                         {
                                             if (account.CookieHelperList == null || account.CookieHelperList.Count == 0)
@@ -2567,16 +2588,14 @@ namespace DominatorUIUtility.ViewModel
                                             {
                                                 account.AccountBaseModel.Status = AccountStatus.Success;
                                                 account.IsUserLoggedIn = true;
-                                                _accountsFileManager.Edit(account);
-                                                UpdateToDb(account.AccountBaseModel.AccountId, account.AccountBaseModel.AccountName, globalDbOperation);
+                                                needDbUpdate = true;
                                             }
                                         }
                                         else if (account.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
                                         {
                                             account.AccountBaseModel.Status = AccountStatus.Success;
                                             account.IsUserLoggedIn = true;
-                                            _accountsFileManager.Edit(account);
-                                            UpdateToDb(account.AccountBaseModel.AccountId, account.AccountBaseModel.AccountName, globalDbOperation);
+                                            needDbUpdate = true;
                                         }
 
                                         if (string.IsNullOrEmpty(account.AccountBaseModel.AccountName))
@@ -2584,9 +2603,18 @@ namespace DominatorUIUtility.ViewModel
                                             account.AccountBaseModel.AccountName =
                                                 DefaultAccountNameFromModel(savedAccounts, ref dictNetLasNum,
                                                     account.AccountBaseModel.AccountNetwork);
+                                            needDbUpdate = true;
+                                        }
+                                        if ((account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook || account.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube) && !account.IsRunProcessThroughBrowser)
+                                        {
+                                            account.IsRunProcessThroughBrowser = true;
+                                            needDbUpdate = true;
+                                        }
+
+                                        if (needDbUpdate)
+                                        {
                                             _accountsFileManager.Edit(account);
-                                            UpdateToDb(account.AccountBaseModel.AccountId,
-                                                account.AccountBaseModel.AccountName, globalDbOperation);
+                                            UpdateToDb(account.AccountBaseModel.AccountId, account.AccountBaseModel.AccountName, globalDbOperation);
                                         }
 
                                         if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
@@ -2689,7 +2717,7 @@ namespace DominatorUIUtility.ViewModel
             var dictNetLasNum = new Dictionary<SocialNetworks, int>();
             foreach (var account in accounts)
             {
-                var network = (SocialNetworks) Enum.Parse(typeof(SocialNetworks), account.AccountNetwork);
+                var network = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), account.AccountNetwork);
 
                 if (availablenetworks.Contains(network))
                     if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
@@ -2701,7 +2729,7 @@ namespace DominatorUIUtility.ViewModel
                             {
                                 AccountNetwork = network,
                                 AccountId = account.AccountId,
-                                AccountGroup = new ContentSelectGroup {Content = account.AccountGroup},
+                                AccountGroup = new ContentSelectGroup { Content = account.AccountGroup },
                                 UserName = account.UserName,
                                 Password = account.Password,
                                 UserFullName = account.UserFullName,
@@ -2719,7 +2747,7 @@ namespace DominatorUIUtility.ViewModel
                             DisplayColumnValue3 = account.DisplayColumnValue3,
                             DisplayColumnValue4 = account.DisplayColumnValue4,
                             DisplayColumnValue11 = account.DisplayColumnValue11,
-                            IsRunProcessThroughBrowser = network == SocialNetworks.Facebook
+                            IsRunProcessThroughBrowser = network == SocialNetworks.Facebook || network == SocialNetworks.Youtube
                         };
 
                         if (!string.IsNullOrEmpty(account.Cookies))
@@ -2734,7 +2762,7 @@ namespace DominatorUIUtility.ViewModel
 
                         if (!string.IsNullOrEmpty(account.Status))
                             dominatorAccountModel.AccountBaseModel.Status =
-                                (AccountStatus) Enum.Parse(typeof(AccountStatus), account.Status);
+                                (AccountStatus)Enum.Parse(typeof(AccountStatus), account.Status);
                         if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
                             dominatorAccountModel.AccountBaseModel.Status = AccountStatus.NotChecked;
                         else if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
@@ -2933,9 +2961,9 @@ namespace DominatorUIUtility.ViewModel
             if (accountFactory is IAccountUpdateAccountTypeFactoryAsync)
             {
                 // this account supports async modules
-                var asyncAccount = (IAccountUpdateFactoryAsync) accountFactory;
+                var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
 
-                var asyncBusinessAccount = (IAccountUpdateAccountTypeFactoryAsync) accountFactory;
+                var asyncBusinessAccount = (IAccountUpdateAccountTypeFactoryAsync)accountFactory;
 
                 var businessAccountCancellationTRoken = new CancellationToken();
 
@@ -2980,7 +3008,7 @@ namespace DominatorUIUtility.ViewModel
             if (accountFactory is IAccountUpdateFactoryAsync)
             {
                 // this account supports async modules
-                var asyncAccount = (IAccountUpdateFactoryAsync) accountFactory;
+                var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
                 if (updateMenuItem == "UpdateAllDetail")
                 {
                     if (account.Token.IsCancellationRequested)
