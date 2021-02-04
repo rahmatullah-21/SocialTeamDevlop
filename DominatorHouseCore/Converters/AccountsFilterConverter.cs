@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Data;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 
 #endregion
 
@@ -55,6 +56,11 @@ namespace DominatorHouseCore.Converters
                                 break;
                             case 2:
                                 collection = collection.Where(x => x.AccountBaseModel.AccountName.IndexOf(searchText,
+                                                                       StringComparison.InvariantCultureIgnoreCase) >=
+                                                                   0);
+                                break;
+                            case 3:
+                                collection = collection.Where(x => x.AccountBaseModel.Status.GetDescriptionAttr().FromResourceDictionary().IndexOf(searchText,
                                                                        StringComparison.InvariantCultureIgnoreCase) >=
                                                                    0);
                                 break;

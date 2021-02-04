@@ -4964,6 +4964,7 @@ but you have not given any text inside the box. Please check.</system:String>
     <system:String x:Key="LangKeyMakeCommentAfterRepostAsSpinText">Make a comment after repost (as spin text)</system:String>
     <system:String x:Key="LangKeyReposterComment">Reposter Comment</system:String>
     <system:String x:Key="LangKeyByAccountNikeName">By Account's Nick name</system:String>
+    <system:String x:Key="LangKeyByAccountStatus">By Account Status</system:String>
     <system:String x:Key="LangKeyCreateBoardSpintaxFormat">Use Spintax : Format (a|b)(c|d)</system:String>
     <system:String x:Key="LangKeySkipCommonCategory">Skip Common Category [Have to add one by one]</system:String>
     <system:String x:Key="LangKeyUseRandomCategory">Use Random Category</system:String>

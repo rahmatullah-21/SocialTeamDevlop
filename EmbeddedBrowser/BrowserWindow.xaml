@@ -22,55 +22,57 @@
             <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
         </Grid.Resources>
         <Grid Grid.Row="0" MaxHeight="40" HorizontalAlignment="Center">
-            <StackPanel Orientation="Horizontal" Margin="0,2,5,2">
-                <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
-                        <Button Background="Transparent" Width="30" Height="30" Margin="2" Cursor="Hand"
+            <WrapPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,2,5,2">
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
+                            <Button Background="Transparent" Width="30" Height="30" Margin="2" Cursor="Hand"
                                 BorderBrush="Transparent" BorderThickness="0" Name="ButtonBack"
                                 Click="ButtonBack_OnClick">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Rectangle Width="22" Height="22" Fill="White" Margin="2">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill"
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Rectangle Width="22" Height="22" Fill="White" Margin="2">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill"
                                                                  Visual="{StaticResource appbar_arrow_left}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
 
-                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
-                        <Button Background="Transparent" Width="30" Height="30" Margin="2" Cursor="Hand"
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
+                            <Button Background="Transparent" Width="30" Height="30" Margin="2" Cursor="Hand"
                                 BorderBrush="Transparent" BorderThickness="0" Name="ButtonForward"
                                 Click="ButtonForward_OnClick">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Rectangle Width="22" Height="22" Fill="White" Margin="2">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill"
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Rectangle Width="22" Height="22" Fill="White" Margin="2">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill"
                                                                  Visual="{StaticResource appbar_arrow_right}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
 
-                    <Label FontWeight="SemiBold" Content="Url" VerticalContentAlignment="Center"
+                        <Label FontWeight="SemiBold" Content="Url" VerticalContentAlignment="Center"
                            HorizontalContentAlignment="Center" FontSize="13" Foreground="White"
                            Background="{DynamicResource AccentColorBrush}" Height="34" Width="40" />
 
-                    <TextBox FontSize="13" FontWeight="SemiBold" Width="830" Height="34"
+                        <TextBox FontSize="13" FontWeight="SemiBold" Width="830" Height="34"
                              Style="{StaticResource SearchMetroTextBox}"
                              control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}"
                              control:TextBoxHelper.SelectAllOnFocus="True"
@@ -78,150 +80,151 @@
                              Foreground="{DynamicResource AccentColorBrush}" x:Name="UrlBar"
                              VerticalContentAlignment="Center" Text=""
                              control:TextBoxHelper.Watermark="{Binding SearchUrl}">
-                        <TextBox.InputBindings>
-                            <KeyBinding Command="{Binding SearchCommand}" Key="Enter" />
-                        </TextBox.InputBindings>
-                    </TextBox>
-                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
-                        <Button x:Name="BtnCopyUrl" Background="Transparent" Width="30" Height="30" Margin="2"
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding SearchCommand}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
+                            <Button x:Name="BtnCopyUrl" Background="Transparent" Width="30" Height="30" Margin="2"
                                 Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Foreground="White"
                                 Click="BtnCopyUrl_Click" ToolTip="{DynamicResource LangKeyCopyCurrentPageUrl}"
                                 ToolTipService.ShowDuration="20000" ToolTipService.Placement="Right">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Rectangle Width="22" Height="22" Fill="LightGreen" Margin="2">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill"
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Rectangle Width="22" Height="22" Fill="LightGreen" Margin="2">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill"
                                                                  Visual="{StaticResource appbar_page_copy}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
 
-                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
-                        <Button x:Name="BtnPasteUrl" Background="Transparent" Width="30" Height="30" Margin="2"
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
+                            <Button x:Name="BtnPasteUrl" Background="Transparent" Width="30" Height="30" Margin="2"
                                 Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Foreground="White"
                                 Click="BtnPasteUrl_Click" ToolTip="{DynamicResource LangKeyPasteFromClipboard}"
                                 ToolTipService.ShowDuration="20000" ToolTipService.Placement="Right">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Rectangle Width="22" Height="22" Fill="LightGreen" Margin="2">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Rectangle Width="22" Height="22" Fill="LightGreen" Margin="2">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
 
-                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
-                        <Button Background="Transparent" Width="30" Height="30" Margin="2" Cursor="Hand"
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
+                            <Button Background="Transparent" Width="30" Height="30" Margin="2" Cursor="Hand"
                                 BorderBrush="Transparent" BorderThickness="0" Foreground="White" Name="ButtonRefresh"
                                 Click="ButtonRefresh_OnClick">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Rectangle Width="22" Height="22" Fill="White" Margin="2">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill"
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Rectangle Width="22" Height="22" Fill="White" Margin="2">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill"
                                                                  Visual="{StaticResource appbar_refresh}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
 
-                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="5,0,0,0">
-                        <Button Background="Transparent" Foreground="White" Width="120" Height="30" Margin="2"
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="5,0,0,0">
+                            <Button Background="Transparent" Foreground="White" Width="120" Height="30" Margin="2"
                                 Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonLogin"
                                 Click="ButtonLogin_OnClick">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal">
-                                            <ContentControl HorizontalAlignment="Left">
-                                                <ContentControl.Style>
-                                                    <Style TargetType="{x:Type ContentControl}">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                                        <Setter Property="Content">
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="White" Width="25" Height="25">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal">
+                                                <ContentControl HorizontalAlignment="Left">
+                                                    <ContentControl.Style>
+                                                        <Style TargetType="{x:Type ContentControl}">
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                            <Setter Property="Content">
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="White" Width="25" Height="25">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush
                                                                             Visual="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}"
                                                                             Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </ContentControl.Style>
-                                            </ContentControl>
-                                            <Label Content="{DynamicResource LangKeyLogin}" Margin="5,0,0,0"
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </ContentControl.Style>
+                                                </ContentControl>
+                                                <Label Content="{DynamicResource LangKeyLogin}" Margin="5,0,0,0"
                                                    Foreground="White" FontSize="13" FontWeight="SemiBold"
                                                    VerticalContentAlignment="Center" />
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
 
-                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="5,0,0,0">
-                        <Button Background="Transparent" Width="120" Height="30" Margin="2" Cursor="Hand"
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="5,0,0,0">
+                            <Button Background="Transparent" Width="120" Height="30" Margin="2" Cursor="Hand"
                                 Foreground="White" BorderBrush="Transparent" BorderThickness="0" Name="ButtonCheckIp"
                                 Click="ButtonCheckIp_OnClick">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Rectangle Width="30" Height="28" Fill="White">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill"
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Rectangle Width="30" Height="28" Fill="White">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill"
                                                                  Visual="{StaticResource appbar_home_location_round}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                            <Label Content="{DynamicResource LangKeyCheckIp}" Margin="5,0,0,0"
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <Label Content="{DynamicResource LangKeyCheckIp}" Margin="5,0,0,0"
                                                    Foreground="White" FontSize="13" FontWeight="SemiBold"
                                                    VerticalContentAlignment="Center" />
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
-                    
-                    <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="5,0,0,0">
-                        <Button Background="Transparent" Width="120" Height="30" Margin="2" Cursor="Hand"
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="5,0,0,0">
+                            <Button Background="Transparent" Width="120" Height="30" Margin="2" Cursor="Hand"
                                 Foreground="White" BorderBrush="Transparent" BorderThickness="0" Name="SendCaptcha"
                                 Click="ButtonSendCaptcha_OnClick">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Label Content="{DynamicResource LangKeySendCaptcha}" Margin="0,0,0,0"
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Label Content="{DynamicResource LangKeySendCaptcha}" Margin="0,0,0,0"
                                                    Foreground="White" FontSize="13" FontWeight="SemiBold"
                                                    VerticalContentAlignment="Center" />
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
 
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </WrapPanel>
         </Grid>
         <Grid Margin="0,10,0,0" Grid.Row="1">
             <wpf:ChromiumWebBrowser x:Name="Browser" x:FieldModifier="public" Address="https://www.facebook.com"

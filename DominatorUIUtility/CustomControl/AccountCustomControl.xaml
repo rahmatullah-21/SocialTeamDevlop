@@ -927,6 +927,7 @@
                     <ComboBoxItem Content="{DynamicResource LangKeyByAccount}" />
                     <ComboBoxItem Content="{DynamicResource LangKeyByGroupName}" />
                     <ComboBoxItem Content="{DynamicResource LangKeyByAccountNikeName}" />
+                    <ComboBoxItem Content="{DynamicResource LangKeyByAccountStatus}" />
                 </ComboBox>
             </StackPanel>
 
