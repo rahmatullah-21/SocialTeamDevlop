@@ -656,6 +656,11 @@ namespace DominatorHouseCore.Request
             for (int i = 0; i < 3; i++)
                 try
                 {
+                    ServicePointManager.Expect100Continue = true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                           | SecurityProtocolType.Tls11
+                           | SecurityProtocolType.Tls12
+                           | SecurityProtocolType.Ssl3;
 
                     var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
                     var licenseresponse = (HttpWebResponse) request.GetResponse();
