@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
@@ -41,6 +42,15 @@ namespace EmbeddedBrowser
                 settings.CommandLineArgsDisabled = false;
                 settings.CefCommandLineArgs.Add("--disable-webgl", "1");
                 settings.CefCommandLineArgs.Add("--disable-reading-from-canvas", "1");
+
+                // Set BrowserSubProcessPath based on app bitness at runtime
+                //settings.BrowserSubprocessPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+                //                                       Environment.Is64BitProcess ? "x64" : "x86",
+                //                                       "CefSharp.BrowserSubprocess.exe");
+
+                // Make sure you set performDependencyCheck false
+                //Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
+
                 Cef.Initialize(settings);
             }
 

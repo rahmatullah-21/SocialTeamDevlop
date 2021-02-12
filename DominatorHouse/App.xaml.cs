@@ -12,6 +12,8 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
 using System;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using Unity;
 using Unity.Interception;
@@ -34,6 +36,7 @@ namespace Socinator
         protected override Window CreateShell()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            AppDomain.CurrentDomain.AssemblyResolve += Resolver;
             MahApps.Metro.ThemeManager.AddAccent("PrussianBlue", new Uri("pack://application:,,,/DominatorUIUtility;component/Themes/PrussianBlue.xaml"));
             InitializeAutoMapper();
             var shell = Container.Resolve<MainWindow>();
@@ -45,6 +48,25 @@ namespace Socinator
         {
             var ex = e.ExceptionObject as Exception;
             ex.DebugLog();
+        }
+
+
+        // Will attempt to load missing assembly from either x86 or x64 subdir
+        private static Assembly Resolver(object sender, ResolveEventArgs args)
+        {
+            if (args.Name.StartsWith("CefSharp"))
+            {
+                string assemblyName = args.Name.Split(new[] { ',' }, 2)[0] + ".dll";
+                string archSpecificPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+                                                       Environment.Is64BitProcess ? "x64" : "x86",
+                                                       assemblyName);
+
+                return File.Exists(archSpecificPath)
+                           ? Assembly.LoadFile(archSpecificPath)
+                           : null;
+            }
+
+            return null;
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

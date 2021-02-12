@@ -169,6 +169,12 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
+        public SocinatorAccountBuilder AddOrUpdateUseSslValue(bool useSsl)
+        {
+            DominatorAccountModel.IsUseSSL = useSsl;
+            return this;
+        }
+
         public bool SaveToBinFile()
         {
             return _accountsFileManager.Edit(DominatorAccountModel);

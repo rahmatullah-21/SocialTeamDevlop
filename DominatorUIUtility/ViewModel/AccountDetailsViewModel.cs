@@ -116,6 +116,8 @@ namespace DominatorUIUtility.ViewModel
                         ScheduleActivity();
                         await asyncAccount.UpdateDetailsAsync(DominatorAccountModel, DominatorAccountModel.Token);
                         new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                            .AddOrUpdateIsAutoVerifyByEmail(DominatorAccountModel.IsAutoVerifyByEmail)
+                            .AddOrUpdateUseSslValue(DominatorAccountModel.IsUseSSL)
                             .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
                             .SaveToBinFile();
                     }
@@ -134,6 +136,7 @@ namespace DominatorUIUtility.ViewModel
                             .AddOrUpdateProxy(DominatorAccountModel.AccountBaseModel.AccountProxy)
                             .AddOrUpdateMailCredentials(DominatorAccountModel.MailCredentials)
                             .AddOrUpdateIsAutoVerifyByEmail(DominatorAccountModel.IsAutoVerifyByEmail)
+                            .AddOrUpdateUseSslValue(DominatorAccountModel.IsUseSSL)
                             .SaveToBinFile();
                     }
                 }
@@ -282,6 +285,7 @@ namespace DominatorUIUtility.ViewModel
                     .AddOrUpdateDominatorAccountBase(newAccountBaseModel)
                     .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                     .AddOrUpdateUserAgentWeb(DominatorAccountModel.UserAgentWeb)
+                    .AddOrUpdateUseSslValue(DominatorAccountModel.IsUseSSL)
                     .SaveToBinFile();
 
                 #region Save email creds
@@ -554,6 +558,7 @@ namespace DominatorUIUtility.ViewModel
             };
 
             OldDominatorAccountModel.UserAgentWeb = accountModel.UserAgentWeb;
+            OldDominatorAccountModel.IsUseSSL = accountModel.IsUseSSL;
             accountModel.CookieHelperList.ForEach(x => { OldDominatorAccountModel.CookieHelperList.Add(x); });
             OldDominatorAccountModel.AccountId = accountModel.AccountId;
         }

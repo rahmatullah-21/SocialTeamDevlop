@@ -1,4 +1,23 @@
-﻿Version[1.0.0.102],[20th January 2021]
+﻿Version[1.0.0.103],[09th February 2021] 
+		 
+Fixed:-
+	Social:
+		Publisher ==> Facebook ==> Fixed issue with Sharing Post From Page and Group.
+		
+	Facebook:
+		Accounts Manager ==> Fixed issue with Account details updating.
+		Facebook ==> Broadcast Messages ==> Broadcast message ==> Fixed issue with query type Location.
+		Grow Friends ==> Send Friends Request ==> Fixed issue with query type Keyword and Location. 
+ 
+    Twitter:
+        Account Manager ==> Fixed issue with Browser login.
+        Account Manager ==> Fixed issue with Account details updating.
+           
+    LinkedIn:
+        Messenger ==> Broadcast Message ==> Fixed 
+
+
+Version[1.0.0.102],[20th January 2021]
 New features:-
 		Accounts Manager ==> Implemented Captcha Service 
 Fixed:-

@@ -20,6 +20,7 @@ using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.EmailService;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Extensions;
 using DominatorHouseCore.FileManagers;
@@ -594,19 +595,19 @@ namespace DominatorUIUtility.ViewModel
 
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
                 header =
-                    $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
+                    $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type,MailUsername,MailPassword,MailHostName,MailPort,SslRequired";
 
             else if (!string.IsNullOrEmpty(FourthCountHeader))
                 header =
-                    $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
+                    $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type,MailUsername,MailPassword,MailHostName,MailPort,SslRequired";
 
             else if (!string.IsNullOrEmpty(ThirdCountHeader))
                 header =
-                    $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
+                    $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type,MailUsername,MailPassword,MailHostName,MailPort,SslRequired";
 
             else if (!string.IsNullOrEmpty(SecondCountHeader))
                 header =
-                    $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type";
+                    $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},SocialUser,AccountName(Nick name),Pinterest Account Type,MailUsername,MailPassword,MailHostName,MailPort,SslRequired";
 
 
             var filename =
@@ -625,6 +626,9 @@ namespace DominatorUIUtility.ViewModel
                     var pinterestAccountType = string.IsNullOrEmpty(account.DisplayColumnValue11)
                         ? PinterestAccountType.NotAvailable.ToString()
                         : account.DisplayColumnValue11;
+
+                    var mailcreds = !string.IsNullOrWhiteSpace(account.MailCredentials?.Username) ? $",{account.MailCredentials.Username},{account.MailCredentials.Password},{account.MailCredentials.Hostname},{account.MailCredentials.Port}" : "";
+                     mailcreds = !string.IsNullOrEmpty(mailcreds) ? $"{mailcreds},{(account.IsUseSSL ? "1" : "0")}": "";
 
                     var csvData =
                         account.AccountBaseModel.AccountGroup.Content + ","
@@ -665,7 +669,8 @@ namespace DominatorUIUtility.ViewModel
                                                                           : $",{account.DisplayColumnValue4}")
                                                                       + $",{account.AccountBaseModel.ProfileId}"
                                                                       + $",{account.AccountBaseModel.AccountName}"
-                                                                      + $",{pinterestAccountType}";
+                                                                      + $",{pinterestAccountType}"
+                                                                      +   mailcreds;
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1478,6 +1483,8 @@ namespace DominatorUIUtility.ViewModel
                         var banned = string.Empty;
                         var isBrowserAutomationActive = string.Empty;
                         var pinterestAccountType = PinterestAccountType.NotAvailable.ToString();
+                        var mailCreds = new MailCredentials();
+                        int useSsl = 0;
 
                         switch (splitAccount.Length)
                         {
@@ -1571,6 +1578,26 @@ namespace DominatorUIUtility.ViewModel
                                     ? splitAccount[splitAccount.Length - 1]
                                     : pinterestAccountType;
                                 break;
+                            case 24:
+                            case 25:
+                            case 26:
+                            case 27:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
+                                status = splitAccount[8];
+                                cookies = splitAccount[9].Replace("<>", ",");
+                                alternetEmail = splitAccount[10];
+                                banned = splitAccount[11];
+                                browserCookies = splitAccount[12].Replace("<>", ",");
+                                isBrowserAutomationActive = splitAccount[13];
+                                proxyGroup = splitAccount[14];
+                                nickName = haveNickName ? splitAccount[splitAccount.Length - 7] ?? "" : "";
+                                pinterestAccountType = splitAccount[splitAccount.Length - 6];
+                                mailCreds = SplitedAccMailCreds(splitAccount);
+                                useSsl = splitAccount[splitAccount.Length - 1] == "1" || splitAccount[splitAccount.Length - 1] == "0" ? Convert.ToInt32(splitAccount[splitAccount.Length - 1]) : 0;
+                                break;
                         }
 
                         if (string.IsNullOrWhiteSpace(nickName))
@@ -1617,7 +1644,7 @@ namespace DominatorUIUtility.ViewModel
                                 : (AccountStatus)Enum.Parse(typeof(AccountStatus), status),
                             AlternateEmail = alternetEmail,
                             Banned = banned,
-                            AccountName = nickName
+                            AccountName = nickName,
                         };
 
                         #endregion
@@ -1644,7 +1671,7 @@ namespace DominatorUIUtility.ViewModel
                                                 .Except(new[] { action })
                                                 .ForEach(it => _pendingActions = _pendingActions.Enqueue(it));
                                         };
-                                    }, browserCookies, browserAutomationStatus, pinterestAccountType));
+                                    }, browserCookies, browserAutomationStatus, pinterestAccountType, mailCreds, useSsl==1));
                         }
                         else
                         {
@@ -1676,10 +1703,21 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        MailCredentials SplitedAccMailCreds(string[] splitAccount)
+        {
+            return new MailCredentials
+            {
+                Username = splitAccount[splitAccount.Length - 5],
+                Password = splitAccount[splitAccount.Length - 4],
+                Hostname = splitAccount[splitAccount.Length - 3],
+                Port = Convert.ToInt32(splitAccount[splitAccount.Length - 2]),
+            };
+        }
+
 
         public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, string cookies,
             Func<Action, Action> secondaryTaskStrategyReturningCancellation, string browserCookies
-            , bool isBrowserAutomationActive = false, string pinterestAccountType = "")
+            , bool isBrowserAutomationActive = false, string pinterestAccountType = "", MailCredentials mailCredentials = null, bool useSsl = false)
         {
             #region Check account limits
 
@@ -1743,6 +1781,13 @@ namespace DominatorUIUtility.ViewModel
                 AccountId = dominatorAccountBaseModel.AccountId,
                 DisplayColumnValue11 = pinterestAccountType
             };
+            if (mailCredentials != null)
+            {
+                dominatorAccountModel.IsAutoVerifyByEmail = true;
+                dominatorAccountModel.MailCredentials = mailCredentials;
+                dominatorAccountModel.IsUseSSL = useSsl;
+            }
+
             if (!string.IsNullOrEmpty(cookies))
                 try
                 {

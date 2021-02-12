@@ -865,7 +865,7 @@
                         </StackPanel>
 
                         <CheckBox Content="{DynamicResource LangKeyUseSSL}"
-                                  IsChecked="{Binding DominatorAccountModel.IsUseSSL}" FontWeight="SemiBold" Margin="5" />
+                                  IsChecked="{Binding DominatorAccountModel.IsUseSSL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" FontWeight="SemiBold" Margin="5" />
 
                     </StackPanel>
                 </StackPanel>
