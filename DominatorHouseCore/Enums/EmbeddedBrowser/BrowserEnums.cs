@@ -84,7 +84,7 @@ namespace DominatorHouseCore.Enums.EmbeddedBrowser
     public enum AttributeType
     {
         Null = 0,
-        Id = 1,
+        [Description("id")] Id = 1,
         [Description("name")] Name = 2,
         ClassName = 3,
         TagName = 4,
