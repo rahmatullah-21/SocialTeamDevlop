@@ -1,5 +1,4 @@
 ﻿Version[1.0.0.103],[09th February 2021] 
-		 
 Fixed:-
 	Social:
 		Publisher ==> Facebook ==> Fixed issue with Sharing Post From Page and Group.
@@ -15,7 +14,6 @@ Fixed:-
            
     LinkedIn:
         Messenger ==> Broadcast Message ==> Fixed 
-
 
 Version[1.0.0.102],[20th January 2021]
 New features:-
