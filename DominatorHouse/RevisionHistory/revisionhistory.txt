@@ -1,19 +1,19 @@
 ﻿Version[1.0.0.103],[09th February 2021] 
 Fixed:-
-	Social:
+ 	Social:
 		Publisher ==> Facebook ==> Fixed issue with Sharing Post From Page and Group.
-		
+	
 	Facebook:
 		Accounts Manager ==> Fixed issue with Account details updating.
 		Facebook ==> Broadcast Messages ==> Broadcast message ==> Fixed issue with query type Location.
-		Grow Friends ==> Send Friends Request ==> Fixed issue with query type Keyword and Location. 
- 
-    Twitter:
-        Account Manager ==> Fixed issue with Browser login.
-        Account Manager ==> Fixed issue with Account details updating.
-           
-    LinkedIn:
-        Messenger ==> Broadcast Message ==> Fixed 
+		Grow Friends ==> Send Friends Request ==> Fixed issue with query type Keyword and Location.
+
+	Twitter:
+		Account Manager ==> Fixed issue with Browser login.
+		Account Manager ==> Fixed issue with Account details updating.
+
+	LinkedIn:
+		Messenger ==> Broadcast Message ==> Fixed issue with Failed with error.
 
 Version[1.0.0.102],[20th January 2021]
 New features:-
@@ -39,7 +39,7 @@ Fixed:-
 	Instagram:
 		Accounts ==> Accounts Manager ==> Fixed issue with account showing failed.
 
-Version[1.0.0.100],[22th December 2020] 
+Version[1.0.0.100],[22nd December 2020] 
 Fixed:-
 	Facebook:	
 		Broadcast Message ==> Fixed issue with Send Message to FanPages.
@@ -94,7 +94,7 @@ Fixed:-
 		Broadcast Messages ==> Broadcast Message ==> Fixed issue with Own Friends.
 		Scrapper ==> Comment scrapper ==> Page post comment ==> Fixed issue with report.
 
-Version[1.0.0.96],[24rd October 2020] 
+Version[1.0.0.96],[24th October 2020] 
 Fixed:-
  	Social :-
 		Sociopublisher ==> Facebook ==> Fixed with Posting In Group.
@@ -254,7 +254,7 @@ Fixed:-
 		Answers ==> Answer On Question ==> Fixed issue with Answer On Question.
 		Grow Followe r==> Follow ==> Fixed issue With Follow.
 
-Version[1.0.0.87],[22th June 2020] 
+Version[1.0.0.87],[22nd June 2020] 
 New features:-
 	Social:
 		Socipublisher ==> Pinterest ==> Now you can Upload videos 
@@ -294,7 +294,7 @@ Fixed:-
 	Quora:
 		Answers ==> Answer on question ==> Fixed issue with Answer On Question
 
-Version[1.0.0.86],[5th june 2020]
+Version[1.0.0.86],[5th June 2020]
 New features:-
 	Social:
 		Sociopublisher ==> Pinterest ==> Now you can Publish vidoes on pinterest account
@@ -1117,7 +1117,7 @@ Fixed:-
 		Report ==> Fixed issue with report.
 		Follow ==> Fixed issue with follow Unique Users from each account.
 
-Version[1.0.0.62],[31th July 2019]
+Version[1.0.0.62],[31st July 2019]
 New Features:-
 	Instagram:
 		InstaScraper ==> UserScrapper ==> Other Configuration => Required Data (Scrape User's Bio)
