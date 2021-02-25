@@ -1,4 +1,26 @@
-﻿Version[1.0.0.103],[09th February 2021] 
+﻿Version[1.0.0.104],[25th February 2021] 
+Fixed:-
+	Social:
+		Publisher ==> Facebook ==> Fixed issue with Facebook Sell Post.
+
+	Instagram: 
+		InstaChat ==> Send Message To New Followers ==> Fixed issue in Send Message To New Followers.
+		Instaposter ==> Reposter ==> Fixed issue with Reposter.
+	
+	Linkedin:
+		Grow Connection ==> Connection Request ==> Fixed issue with Profile URL.
+		Grow Connection ==> Connection Request ==> Fixed issue with personal note and export report.
+		Messenger ==> Send Message To New Connection ==> Fixed issue with creating group.
+
+	Twitter:
+		Messenger ==> Broadcast messages ==> Fixed  issue  with failed to Broadcast messages.
+		Messenger ==> Message to new follower ==> Fixed issue with failed to Send messages to follower.
+
+	Youtube:
+		Watchvideo ==> View Increaser ==> Custom url ==> Fixed issue with Repeat watch count filter.
+
+
+Version[1.0.0.103],[09th February 2021] 
 Fixed:-
  	Social:
 		Publisher ==> Facebook ==> Fixed issue with Sharing Post From Page and Group.
