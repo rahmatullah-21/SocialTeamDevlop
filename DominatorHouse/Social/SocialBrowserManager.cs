@@ -200,7 +200,7 @@ namespace DominatorHouse.Social
                             pageSource = await BrowserWindow.GetPageSourceAsync();
                             pageSource = Regex.Split(pageSource, "polygon>").Length > 1 ? Regex.Split(pageSource, "polygon>")[1]
                               : string.Empty;
-                            imageUrl = Regex.Matches(pageSource, "src=\"(.*?)\"")[0].Groups[1].ToString();
+                            imageUrl = Regex.Matches(pageSource, "src=\"(.*?)\"")[1].Groups[1].ToString();
 
                         }
 

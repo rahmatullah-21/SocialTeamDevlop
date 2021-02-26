@@ -267,7 +267,7 @@ namespace DominatorHouseCore.Process
                     currentCampaignsCancallationToken = CampaignsCancellationTokens[campaignStatusModel.CampaignId];
 
                 // added delay so that source file path could be added into the bin before this publishing execution
-                Task.Delay(TimeSpan.FromSeconds(10)).Wait(currentCampaignsCancallationToken.Token);
+                Task.Delay(TimeSpan.FromSeconds(20)).Wait(currentCampaignsCancallationToken.Token);
 
                 // Get the post fetcher details
                 var publisherPostFetchModel =
