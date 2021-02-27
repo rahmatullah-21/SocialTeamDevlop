@@ -146,9 +146,14 @@ namespace DominatorHouseCore.Utility
 
                 foreach(var time in timings)
                 {
+                    var expectedStartTime = DateTime.Today.Date.Add(time.StartTime);
+
                     // if the start time between the timeRange then return the this 'startTimeOfNextJob' to get the job scheduled at
-                    if (DateTime.Today.Date.Add(time.StartTime) <= startTimeOfNextJob && DateTime.Today.Date.Add(time.EndTime) > startTimeOfNextJob)
+                    if (expectedStartTime <= startTimeOfNextJob && DateTime.Today.Date.Add(time.EndTime) > startTimeOfNextJob)
                         return startTimeOfNextJob;
+
+                    else if (expectedStartTime.DayOfWeek == today)
+                        return expectedStartTime;
                 }
 
                 // if today's any timing didn't match then check for next days first start time
