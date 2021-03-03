@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
@@ -101,6 +100,8 @@ namespace EmbeddedBrowser
             if (DominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook)
                 Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
 
+            SetUrlWidth(SystemParameters.PrimaryScreenWidth);
+
             var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksLoginUrl();
             SetUrl(url);
             Browser.IsBrowserInitializedChanged += LoadSettings;
@@ -179,6 +180,20 @@ namespace EmbeddedBrowser
                     return;
                 _searchUrl = value;
                 OnPropertyChanged(nameof(SearchUrl));
+            }
+        }
+
+        private double _searchUrlTextBoxWidth = 830;
+
+        public double SearchUrlTextBoxWidth
+        {
+            get => _searchUrlTextBoxWidth;
+            set
+            {
+                if (_searchUrlTextBoxWidth == value)
+                    return;
+                _searchUrlTextBoxWidth = value;
+                OnPropertyChanged(nameof(SearchUrlTextBoxWidth));
             }
         }
 
@@ -416,6 +431,14 @@ namespace EmbeddedBrowser
             if (SearchUrl == url)
                 return;
             Browser.Address = SearchUrl = url;
+        }
+
+        private void SetUrlWidth( double width)
+        {
+            if (width <= 1280)
+                SearchUrlTextBoxWidth = 630;
+            else if (width > 1280 && width < 1440)
+                SearchUrlTextBoxWidth = 750;
         }
 
         public async Task BrowserSetCookie()

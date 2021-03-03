@@ -22,7 +22,7 @@
             <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
         </Grid.Resources>
         <Grid Grid.Row="0" MaxHeight="40" HorizontalAlignment="Center">
-            <WrapPanel>
+            <StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0,2,5,2">
                     <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
@@ -72,7 +72,7 @@
                            HorizontalContentAlignment="Center" FontSize="13" Foreground="White"
                            Background="{DynamicResource AccentColorBrush}" Height="34" Width="40" />
 
-                        <TextBox FontSize="13" FontWeight="SemiBold" Width="830" Height="34"
+                        <TextBox FontSize="13" FontWeight="SemiBold" Width="{Binding SearchUrlTextBoxWidth}" Height="34"
                              Style="{StaticResource SearchMetroTextBox}"
                              control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}"
                              control:TextBoxHelper.SelectAllOnFocus="True"
@@ -224,7 +224,7 @@
 
                     </StackPanel>
                 </StackPanel>
-            </WrapPanel>
+            </StackPanel>
         </Grid>
         <Grid Margin="0,10,0,0" Grid.Row="1">
             <wpf:ChromiumWebBrowser x:Name="Browser" x:FieldModifier="public" Address="https://www.facebook.com"
