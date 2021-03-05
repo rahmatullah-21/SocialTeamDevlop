@@ -4077,11 +4077,6 @@
             "AssemblyAsmDisplayName" = "8:Interop.Shell32, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_02ECDF69188DCAB77EE98BA2ECBAA3D3"
-                    {
-                    "Name" = "8:Interop.Shell32.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Interop.Shell32.dll"
             "TargetName" = "8:"
@@ -4230,11 +4225,6 @@
             "AssemblyAsmDisplayName" = "8:TwtDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_126CA1016F18ACC339E379B2E35F7DF0"
-                    {
-                    "Name" = "8:TwtDominatorCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:TwtDominatorCore.dll"
             "TargetName" = "8:"
@@ -4354,11 +4344,6 @@
             "AssemblyAsmDisplayName" = "8:WebDriver, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_15E9755D7714AD6F1CEF2A0A5B9914E5"
-                    {
-                    "Name" = "8:WebDriver.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:WebDriver.dll"
             "TargetName" = "8:"
@@ -4447,11 +4432,6 @@
             "AssemblyAsmDisplayName" = "8:NReco.VideoInfo, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8f59ee36d2987295, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_1CBA152F0BBD04C6E2421A28DB4180B2"
-                    {
-                    "Name" = "8:NReco.VideoInfo.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:NReco.VideoInfo.dll"
             "TargetName" = "8:"
@@ -4529,11 +4509,6 @@
             "AssemblyAsmDisplayName" = "8:TumblrDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_20FF18011FB97969F6C01F3FBBC22C8A"
-                    {
-                    "Name" = "8:TumblrDominatorUI.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:TumblrDominatorUI.exe"
             "TargetName" = "8:"
@@ -4622,11 +4597,6 @@
             "AssemblyAsmDisplayName" = "8:TwtDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_24C254641D245F2770B920AEA8E57F0B"
-                    {
-                    "Name" = "8:TwtDominatorUI.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:TwtDominatorUI.exe"
             "TargetName" = "8:"
@@ -4653,11 +4623,6 @@
             "AssemblyAsmDisplayName" = "8:FaceDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_2622B3AB27585063B55B7B6E17738D5A"
-                    {
-                    "Name" = "8:FaceDominatorCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:FaceDominatorCore.dll"
             "TargetName" = "8:"
@@ -4684,11 +4649,6 @@
             "AssemblyAsmDisplayName" = "8:OpenPop, Version=2.0.6.2, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_269D7DC7FDCEA16FB76935A56F261499"
-                    {
-                    "Name" = "8:OpenPop.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:OpenPop.dll"
             "TargetName" = "8:"
@@ -4715,11 +4675,6 @@
             "AssemblyAsmDisplayName" = "8:System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_27A819725D190E66E3B9E73DFC3A4709"
-                    {
-                    "Name" = "8:System.Collections.Immutable.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Collections.Immutable.dll"
             "TargetName" = "8:"
@@ -4746,11 +4701,6 @@
             "AssemblyAsmDisplayName" = "8:LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_27CD0D240E7BB68CFC5FB0886823D1A5"
-                    {
-                    "Name" = "8:LiveCharts.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:LiveCharts.dll"
             "TargetName" = "8:"
@@ -4941,11 +4891,6 @@
             "AssemblyAsmDisplayName" = "8:EmbeddedBrowser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_2F98BE732E91D4102EDFFCF539C8B6A3"
-                    {
-                    "Name" = "8:EmbeddedBrowser.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:EmbeddedBrowser.exe"
             "TargetName" = "8:"
@@ -5065,11 +5010,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_354C6A101D0A410EC15913E862402FD5"
-                    {
-                    "Name" = "8:Microsoft.VisualStudio.TestPlatform.TestFramework.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.VisualStudio.TestPlatform.TestFramework.dll"
             "TargetName" = "8:"
@@ -5158,11 +5098,6 @@
             "AssemblyAsmDisplayName" = "8:FaceDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_3969FEA8DD5DCB2D07ED53D48FF80768"
-                    {
-                    "Name" = "8:FaceDominatorUI.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:FaceDominatorUI.exe"
             "TargetName" = "8:"
@@ -5271,11 +5206,6 @@
             "AssemblyAsmDisplayName" = "8:LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_3FF0A9DE407CB3B97B82D5C2532A36D8"
-                    {
-                    "Name" = "8:LiveCharts.Wpf.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:LiveCharts.Wpf.dll"
             "TargetName" = "8:"
@@ -5302,11 +5232,6 @@
             "AssemblyAsmDisplayName" = "8:LinkedDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_40B75191F5EE7609C8D1EB1E0138E5A5"
-                    {
-                    "Name" = "8:LinkedDominatorCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:LinkedDominatorCore.dll"
             "TargetName" = "8:"
@@ -5435,11 +5360,6 @@
             "AssemblyAsmDisplayName" = "8:ObjectsComparer, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_46AB6C30265348C92EDD6D50BAFF08A8"
-                    {
-                    "Name" = "8:ObjectsComparer.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:ObjectsComparer.dll"
             "TargetName" = "8:"
@@ -5466,11 +5386,6 @@
             "AssemblyAsmDisplayName" = "8:ExcelDataReader, Version=3.4.2.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_47A7E0AD99C19A331A0222E6E6C47429"
-                    {
-                    "Name" = "8:ExcelDataReader.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:ExcelDataReader.dll"
             "TargetName" = "8:"
@@ -5579,11 +5494,6 @@
             "AssemblyAsmDisplayName" = "8:TumblrDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_4F3C38E975B3B701053B60B3367D62E1"
-                    {
-                    "Name" = "8:TumblrDominatorCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:TumblrDominatorCore.dll"
             "TargetName" = "8:"
@@ -5641,11 +5551,6 @@
             "AssemblyAsmDisplayName" = "8:RedditDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5231E621CF42B309F7202892A80B2FD2"
-                    {
-                    "Name" = "8:RedditDominatorCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:RedditDominatorCore.dll"
             "TargetName" = "8:"
@@ -5703,11 +5608,6 @@
             "AssemblyAsmDisplayName" = "8:QuoraDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_52A536F205610306711465A91CDDEF73"
-                    {
-                    "Name" = "8:QuoraDominatorUI.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:QuoraDominatorUI.exe"
             "TargetName" = "8:"
@@ -5765,11 +5665,6 @@
             "AssemblyAsmDisplayName" = "8:CefSharp.Core, Version=79.1.360.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_569C8E22C03302DC18D6791B8165CBDE"
-                    {
-                    "Name" = "8:CefSharp.Core.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:CefSharp.Core.dll"
             "TargetName" = "8:"
@@ -5796,11 +5691,6 @@
             "AssemblyAsmDisplayName" = "8:HtmlAgilityPack, Version=1.8.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_58A1C1A1EC958978764B570FFC96E4F6"
-                    {
-                    "Name" = "8:HtmlAgilityPack.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:HtmlAgilityPack.dll"
             "TargetName" = "8:"
@@ -6095,11 +5985,6 @@
             "AssemblyAsmDisplayName" = "8:RedditDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_6B07F711A9216998EA442572C9C458C2"
-                    {
-                    "Name" = "8:RedditDominatorUI.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:RedditDominatorUI.exe"
             "TargetName" = "8:"
@@ -6281,11 +6166,6 @@
             "AssemblyAsmDisplayName" = "8:DominatorUIUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_6F99B792C26B9211F997FE1E5CEF0A19"
-                    {
-                    "Name" = "8:DominatorUIUtility.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DominatorUIUtility.exe"
             "TargetName" = "8:"
@@ -6600,11 +6480,6 @@
             "AssemblyAsmDisplayName" = "8:DominatorHouseCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_7C7D303ED03C62D03CB985B7FBF35B12"
-                    {
-                    "Name" = "8:DominatorHouseCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DominatorHouseCore.dll"
             "TargetName" = "8:"
@@ -6868,11 +6743,6 @@
             "AssemblyAsmDisplayName" = "8:YoutubeDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_8BECB1BBD9EACB640C9C4FD124DB7460"
-                    {
-                    "Name" = "8:YoutubeDominatorCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:YoutubeDominatorCore.dll"
             "TargetName" = "8:"
@@ -6899,11 +6769,6 @@
             "AssemblyAsmDisplayName" = "8:System.Windows.Controls.DataVisualization.Toolkit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_8D5F6A4352FC45BB9959178D9437CA93"
-                    {
-                    "Name" = "8:System.Windows.Controls.DataVisualization.Toolkit.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Windows.Controls.DataVisualization.Toolkit.dll"
             "TargetName" = "8:"
@@ -6992,11 +6857,6 @@
             "AssemblyAsmDisplayName" = "8:GramDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_93AA2AD6F9FE64740D00EE23AA261615"
-                    {
-                    "Name" = "8:GramDominatorCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:GramDominatorCore.dll"
             "TargetName" = "8:"
@@ -7054,11 +6914,6 @@
             "AssemblyAsmDisplayName" = "8:protobuf-net, Version=2.3.7.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_947C54C75EF92BB9C52DF0C4A0F9CD39"
-                    {
-                    "Name" = "8:protobuf-net.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:protobuf-net.dll"
             "TargetName" = "8:"
@@ -7249,11 +7104,6 @@
             "AssemblyAsmDisplayName" = "8:YoutubeDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_9C273378B0875856D8A89479DA33ED2C"
-                    {
-                    "Name" = "8:YoutubeDominatorUI.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:YoutubeDominatorUI.exe"
             "TargetName" = "8:"
@@ -7373,11 +7223,6 @@
             "AssemblyAsmDisplayName" = "8:CefSharp, Version=79.1.360.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_9E89C64A70C0D02DA080A19BDFE5CCF8"
-                    {
-                    "Name" = "8:CefSharp.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:CefSharp.dll"
             "TargetName" = "8:"
@@ -7435,11 +7280,6 @@
             "AssemblyAsmDisplayName" = "8:LinkedDominatorUI, Version=3.5.0.15, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_A75B4C76EF1930C0552595B1F2774044"
-                    {
-                    "Name" = "8:LinkedDominatorUI.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:LinkedDominatorUI.exe"
             "TargetName" = "8:"
@@ -7907,11 +7747,6 @@
             "AssemblyAsmDisplayName" = "8:imagetyperzapi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_BBC1C4D6E8568E79457D2B63AED5330A"
-                    {
-                    "Name" = "8:imagetyperzapi.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:imagetyperzapi.dll"
             "TargetName" = "8:"
@@ -8020,11 +7855,6 @@
             "AssemblyAsmDisplayName" = "8:CsvHelper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C5631A4622A1EBB9600B33C903E579B4"
-                    {
-                    "Name" = "8:CsvHelper.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:CsvHelper.dll"
             "TargetName" = "8:"
@@ -8175,11 +8005,6 @@
             "AssemblyAsmDisplayName" = "8:CefSharp.Wpf, Version=79.1.360.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_CD80AE1951A508D0EA6E277D628CD8A6"
-                    {
-                    "Name" = "8:CefSharp.Wpf.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:CefSharp.Wpf.dll"
             "TargetName" = "8:"
@@ -8206,11 +8031,6 @@
             "AssemblyAsmDisplayName" = "8:PinDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CE65A5A419B21D938E55CA205ED66BC5"
-                    {
-                    "Name" = "8:PinDominatorCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:PinDominatorCore.dll"
             "TargetName" = "8:"
@@ -8299,11 +8119,6 @@
             "AssemblyAsmDisplayName" = "8:WPFFolderBrowser, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_D29B578F588C622518BCBB9811BE1347"
-                    {
-                    "Name" = "8:WPFFolderBrowser.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:WPFFolderBrowser.dll"
             "TargetName" = "8:"
@@ -8330,11 +8145,6 @@
             "AssemblyAsmDisplayName" = "8:GramDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_D7881402F9DF3A177DA9A580AAAAB1A5"
-                    {
-                    "Name" = "8:GramDominatorUI.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:GramDominatorUI.exe"
             "TargetName" = "8:"
@@ -8474,11 +8284,6 @@
             "AssemblyAsmDisplayName" = "8:QuoraDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_DFE9184ED1DFC5B9F541D73BB4162272"
-                    {
-                    "Name" = "8:QuoraDominatorCore.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:QuoraDominatorCore.exe"
             "TargetName" = "8:"
@@ -8824,11 +8629,6 @@
             "AssemblyAsmDisplayName" = "8:PinDominator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F908C20EED1F718516CF310BBA7DEBF9"
-                    {
-                    "Name" = "8:PinDominator.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:PinDominator.exe"
             "TargetName" = "8:"
@@ -8986,19 +8786,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
-        "ProductCode" = "8:{7C0C15F1-621C-43E2-8A99-7D707E4BD654}"
-        "PackageCode" = "8:{C9D5ABD9-334C-4A01-8B72-F17CA84D6A1E}"
+        "ProductCode" = "8:{3205EBA1-5009-442C-8A0D-3750FA05FDEC}"
+        "PackageCode" = "8:{A9D8FBF4-F7D9-45E7-87A4-38725802B4F4}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.429"
+        "ProductVersion" = "8:1.0.430"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://socinator.com/contact-us/"
-        "Title" = "8:Socinator 1.0.0.429"
+        "Title" = "8:Socinator 1.0.0.430"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Socinator"
         "Keywords" = "8:"
