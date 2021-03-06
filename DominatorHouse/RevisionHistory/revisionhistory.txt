@@ -1,4 +1,19 @@
-﻿Version[1.0.0.104],[25th February 2021] 
+﻿Version[1.0.0.105],[06th March 2021] 
+Fixed:-
+	Social
+		Publisher ==> Facebook ==> Sociopublisher ==> Fixed issue with Share post.
+			
+	Youtube:
+		Engage ==> Comment ==> Fixed issue with all query type in Browser Automation mode.
+		Engage ==> Comment ==> Subscribers count filter.==> Fixed issue with subscribers count .
+		Engage ==> Comment ==> Fixed issue  with different channel.
+		Engage ==> Comment ==> Unique comment filter ==> Fixed issue with unique comment.
+		Subscriber ==> Subscribe ==> YouTube Video commenters==> Fixed issue with subscribers.
+
+	Tumblr
+		Account ==> Account Manager ==> Fixed issue with Account LogIn
+
+Version[1.0.0.104],[25th February 2021] 
 Fixed:-
 	Social:
 		Publisher ==> Facebook ==> Fixed issue with Facebook Sell Post.
