@@ -5060,4 +5060,6 @@ Do you want to continue?</system:String>
     <system:String x:Key="LangKeyPostDetailsDeleted">Post details successfully Deleted.</system:String>
     <system:String x:Key="LangYtFbWontRunWithHttpTryWithBrowserAuto">Facebook and Youtube accounts won't work with Http-Automation feature, Please try with Browser Automation setting.</system:String>
     <system:String x:Key="LangKeyEnterValidEmail">Please enter valid Email.</system:String>
+    <system:String x:Key="LangKeyYourPasswordIstooShort">Password must be more then 6 character.</system:String>
+    <system:String x:Key="LangKeyPasswordMustbeStronger">Password must be stronger.</system:String>
 </ResourceDictionary>

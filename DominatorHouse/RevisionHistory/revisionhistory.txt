@@ -1,4 +1,8 @@
-﻿Version[1.0.0.105],[06th March 2021] 
+﻿Version[1.0.0.106],[09th March 2021]
+Fixed:-
+	Fixed minor issues and improved performance.
+
+Version[1.0.0.105],[06th March 2021] 
 Fixed:-
 	Social
 		Publisher ==> Facebook ==> Sociopublisher ==> Fixed issue with Share post.
@@ -22,7 +26,7 @@ Fixed:-
 		InstaChat ==> Send Message To New Followers ==> Fixed issue in Send Message To New Followers.
 		Instaposter ==> Reposter ==> Fixed issue with Reposter.
 	
-	Linkedin:
+	LinkedIn:
 		Grow Connection ==> Connection Request ==> Fixed issue with Profile URL.
 		Grow Connection ==> Connection Request ==> Fixed issue with personal note and export report.
 		Messenger ==> Send Message To New Connection ==> Fixed issue with creating group.
@@ -59,7 +63,7 @@ Fixed:-
 	Facebook:
 		Fb Inviter ==> Group inviter ==> Fixed issue with Showing Own Groups
 
- 	linkedin:
+ 	LinkedIn:
 		Grow Connection ==> Connection Request ==> Fixed issue with deduct the characters from a personal note 
 		Scraper ==> User Scraper ==> Fixed issue with delete all queries.
 
@@ -83,7 +87,7 @@ Fixed:-
 		Grow Group ==> Fixed issue with Group Joining.
 		Engage ==> Fixed issue with PostComment.	
 		
-	Linkedin:
+	LinkedIn:
 		Accounts ==> Account Manager ==> Fixed issue with account showing failed.
 		Grow Connection ==> Connection Request ==> Fixed issue with Query type keyword showing no more data. 
 		Messenger ==> Boardcast Message ==> Fixed issue with showing no more data.
@@ -102,7 +106,7 @@ Fixed:-
 	Instagram:
 		 Accounts ==> Accounts Manager ==> Fixed issue with Browser Login	
 		
-	Linkedin:
+	LinkedIn:
 		Salesnavigator Scraper ==> User scraper ==> Fixed issue with scraping report Profile URL
 
 	Facebook:
@@ -143,7 +147,7 @@ Fixed:-
 	Twitter:
 		Twitter ==> Comment ==> Fixed issue with comments.
 		
-	Linkedin:
+	LinkedIn:
   		Messenger ==> Broadcast Messages ==> Fixed issue with Outside software & custom users list.
 		Scraper ==> Company Scraper ==> Fixed issue with Search Url.
 
@@ -165,7 +169,7 @@ Fixed:-
 	Twitter:
 		Engage ==> Comment ==> Manage Blacklisted users ==> Skip blacklisted user issue fixed.
 		
-	Linkedin:
+	LinkedIn:
   		Accounts ==> Account Manager ==> Fixed issue with updating account details. 
     		Grow Connection ==>  Connection request ==> Fixed Issue with Profile URL.
      		Grow Connection ==>  Connection request ==> Fixed issue with filters.
@@ -182,7 +186,7 @@ New features:-
 
 Fixed:-
 	Social:
-		Create single post ==> Linkedin ==> Fixed issue in while publishing
+		Create single post ==> LinkedIn ==> Fixed issue in while publishing
 	
 	Facebook:
 		Grow Friends ==> Fixed issue with Incoming Friend Request
@@ -195,7 +199,7 @@ Fixed:-
 	Pinterest:
 		Accounts ==> Accounts Manager ==> Fixed browser login
 
-	Linkedin:
+	LinkedIn:
 		Grow Connection ==> Connection Request ==> Fixed issue with Profile URL 
 		Engage ==> Like ==> Fixed issue with Company URL posts
 
@@ -218,7 +222,7 @@ Fixed:-
 
 Version[1.0.0.91],[5th August 2020] 
 New Features:
-	Linkedin :
+	LinkedIn :
 		Messanger ==> Auto replay to new message ==> Now you can replay to all user massages who don't replay.
 
 Fixed:-
@@ -226,7 +230,7 @@ Fixed:-
  		Publisher=> Facebook ==> Fixed issue with scrape from facebok page and post into wall
 		Publisher ==> Reddit ==> Rss feeds ==> Fixed issue with failed to post.
 
-	Linkedin:
+	LinkedIn:
 		Messager  ==> Send Greeting to connection ==> Fixed issue with no more data.
 		Account ==> Account manager ==> Fixed issue with update account on Http.
 
@@ -246,8 +250,8 @@ Fixed:-
 	Social:
  		Social ==>Reddit ==> Sociopublisher ==> Fixed issue with posting on wall.
 
-	Linkedin :
-		Linkedin ==>Engage ==> Like ==> Fixed issue in failed with error to like in browser mode .
+	LinkedIn :
+		LinkedIn ==>Engage ==> Like ==> Fixed issue in failed with error to like in browser mode .
 
 	Instagram
 		Account Manager ==> Account ==> Fixed issue with account login failed.
@@ -257,18 +261,18 @@ Fixed:-
 Version[1.0.0.89],[11th July 2020] 
 Fixed:-
 	Social:
- 		Social ==>linkedin ==> Sociopublisher ==> Fixed issue with posting on wall.
+ 		Social ==>LinkedIn ==> Sociopublisher ==> Fixed issue with posting on wall.
 
 	Instagram:
 		Account manager ==> Account ==> Fixed issue with account login failed
 	
-	Linkedin :
+	LinkedIn :
 		Messager ==> Broadcast Message ==> Fixed issue in Skip Blaklisted User
 		Messager ==> Send Greeting To Connections ==> Fixed issue with Send old bithday Greeting.
 
 Version[1.0.0.88],[4th July 2020]  
 New features:-
-	Linkedin :
+	LinkedIn :
 		Grow connection ==> Now you can send pageinvitation using admin view url 		
 Fixed:-
 	Social:
@@ -296,7 +300,7 @@ New features:-
 	Social:
 		Socipublisher ==> Pinterest ==> Now you can Upload videos 
    
-	Linkedin :
+	LinkedIn :
 		Grow connection ==> Check box added for sending connection request without visiting profile  		
 
 Fixed:-
@@ -306,7 +310,7 @@ Fixed:-
 	Facebook:
 		Facebook ==> Fixed issue with login with new UI
 
-	Linkedin :
+	LinkedIn :
 		Messenger ==> Fixed issue with send greetings to connection 
 		Engage ==> Fixed issue with Like and comment 
 
@@ -336,7 +340,7 @@ New features:-
 	Social:
 		Sociopublisher ==> Pinterest ==> Now you can Publish vidoes on pinterest account
 
-	Linkedin:
+	LinkedIn:
 		Grow connection ==> Job sraper(Query type) ==> Now you can send connection to job posters through jobscraper campaign id
 		Grow connection ==> personal note ==> Tag ==> Added three more tags(JobPosterFirstName,JobTitle,Joblocation)
 		Attachment scraper ==> check box added to take all attachments to one folder. 
@@ -354,7 +358,7 @@ Fixed:-
 		Grow Friends ==> Fixed issue with incoming friend request 
 		Engage ==> Fixed issue with fanpage liker
 
-	Linkedin:
+	LinkedIn:
 		Messenger ==> Broadcast message ==> Fixed issue with filter to skip user who have already received message from software
 		Engage ==> Fixed issue with Like,Comment,Share 
 		Broadcast message ==> Fixed issue with delete conversation
@@ -380,7 +384,7 @@ Fixed:-
 	Pinterest:
 		Pinposter ==> Repin ==> Fixed issue with custom users/issue fixed with browser mode
 	
-	Linkedin:
+	LinkedIn:
 		Engage ==> like ==> Fixed issue with search url
 		Scraper ==> Fixed issue with jobscraper 
 		Grow connection ==> Connection requrest ==> Fixed issue with search url
@@ -397,7 +401,7 @@ Fixed:-
 		Publisher ==> Pinterest ==> Fixed issue with create post in board
 		Publisher ==> Facebook  ==> Share from FB page/scrape from FB page ==> Fixed issue  with post to groups
 
-	Linkedin:
+	LinkedIn:
 		Grow connection ==> Export connection ==> Fixed issue withfile extension and exported file 
 		Grow connection ==> Send connection ==> Fixed issue with search url
 		Scraper ==> Job Scrapper ==> Fixed issue with sequence 
@@ -419,7 +423,7 @@ New Features:-
 		Pinterest:
 			Accounts ==> Account Manager ==> Now you can Switch to business account.
 					
-		Linkedin:
+		LinkedIn:
 			Engage ==> Like ==> Search query ==> Company page posts/Hastag Posts ==> Now you can like posts of the Page and Hastag posts.	
 				
 Fixed:-
@@ -429,7 +433,7 @@ Fixed:-
 	Twitter:
 		Messenger ==> Fixed issue with sending messages to new followers.
 	
-	Linkedin:
+	LinkedIn:
 		Scraper ==> Fixed issue with Attachment message scraper. 
 		Messanger ==> Fixed issue with Send messages to new connections. 
 		Scraper ==> Message attachment scraper ==> export file ==> Fixed issue extension or file type. 
@@ -484,7 +488,7 @@ Fixed:-
     Twitter:
         Engage ==> Unlike ==> Fixed issue with unlike.
         
-    Linkedin:
+    LinkedIn:
         Browser mode ==> Scraper ==> Message attachment scraper ==> Fixed issue with downloaded file extension. 
         Grow connection ==> Connection request ==> Query type ==> Keyword ==> Browser mode ==> Fixed issue with Grow connection module.
         Accounts ==> Fixed issue with Proxies.
@@ -522,7 +526,7 @@ Fixed:-
 		Sociopublisher ==> Facebook ==> Fixed issue with posting in wall.
 		Sociopublisher ==> Pinterest ==> Fixed issue in publisher
 
-	Linkedin:
+	LinkedIn:
 		Accounts ==> Account Manager ==> Fixed issue with account login
 		Scarper ==> User Scarper ==> scarping data in report issue is fixed.
 		Grow connection ==> Connection Request ==> Fixed issue with showing No more results found.
@@ -553,7 +557,7 @@ New Features:-
 	Pinterest:
  		Export file ==> Now you can see username of your own social accounts in export file.
 			
-	Linkedin: 
+	LinkedIn: 
 		Message conversation scraper ==> All connections ==> It will scrape recent conversatios now.
 		
 	Youtube:
@@ -578,7 +582,7 @@ Fixed:-
 		Grow Friends ==> Unfriend ==> Fixed issue with added by software and outside software.
 		Grow friends ==> Accept friend request ==> Fixed issue with gender filter.
 			
-	Linkedin:
+	LinkedIn:
 		Scarper ==> User Scarper ==> Trying to scarpe using the profile URL ==> Fixed issue with phone number and details.
 		Messenger ==> Send greetings to connections ==> Greetings options ==> Fixed issue Work anniversary Greetings.
 		Grow connection ==> Follow pages ==> Fixed issue with export report. 
@@ -608,7 +612,7 @@ New Features:-
 	Instagram:
  		Instachat ==> Now  you can send Messages with videos
 
-	Linkedin:
+	LinkedIn:
 		Grow connection ==> FollowPages ==> Added feature to follow pages 
 	
 	Youtube:
@@ -623,7 +627,7 @@ Fixed:-
 		Scraper ==> Profile Scraper ==> filters ==> Gender & location ==> Fixed issue with profile Doesn't Match With Gender Filter Condition.
 		Scraper ==> Comment scraper ==> Fixed issue with pagination in comments.
 
-	Linkedin:
+	LinkedIn:
  		Scraper ==> Message conversatio scraper ==> Query Type==> 1st connection ==> Fixed issue with message scraper.
              	Engage ==> Like ==> Query Type ==> Someones post ==> Fixed issue with Like.
 		Messenger ==> Broadcast Messages ==> Fixed issue with broadcast message.
@@ -667,7 +671,7 @@ New features:
 	Social:         
 		Account manager ==> Added feature to sort accounts in alphabetical order
 
-	Linkedin:
+	LinkedIn:
 		Scraper ==> User Scraper ==> Query Type ==> Only 1st connection ==> Added new feature to scrape add date of connection.
 
 	Instagram:
@@ -677,7 +681,7 @@ Fixed:
 	Social:
 		Twitter ==> Media ==> Settings ==> Fixed issue with publishing without media.
 
-	Linkedin
+	LinkedIn
 		Group ==> Group Joiner ==> Query Type==> Keyword ==> Fixed issue with Group Joiner.
 		Engage ==> Like ==> Query Type ==> custom url ==> Fixed issue with Like.
 
@@ -704,7 +708,7 @@ New Features:-
 		Scraper ==> Profile Scraper ==> Added  feature to scrape page  post commentors.
 		Scraper ==> Profile Scraper ==> Added  feature to scrape Group post commenters.
 	
-	Linkedin:
+	LinkedIn:
 		Scrapper ==> Message conversation scraper ==> Added feature for message conversation scraper.
 		Engage ==> Like/comment ==> Added features to like group url post.
 	
@@ -823,7 +827,7 @@ Fixed:-
 		Grow followers ==> follow ==> Location users ==> Issue fixed with showing only serching.
 
 
-	Linkedin:
+	LinkedIn:
 		Browser mode � connection � Withdraw connection request==>Fixed issue with Withdraw connection request.
 		Group==>Group Joiner==>Browser mode==>Fixed issue with Group joiner.
 		Broadcast message==>facing issue when sending message with media file==>Fixed issue with Broadcast message.
@@ -904,7 +908,7 @@ Fixed:-
 	Social:
 		Publisher => Fixed issue with unique image post.
 		Publisher => Fixed issue with post on random destination as per given count.
-		Publisher => Linkedin => Fixed issue with video posting.
+		Publisher => LinkedIn => Fixed issue with video posting.
 		Publisher => Twitter => Fixed issue with publishing when use multiple destination.
 		Proxy Manager => Fixed issue with edit group name.
 
@@ -966,7 +970,7 @@ Fixed:-
 		Poster => Reposter => Custom tweet list => Fixed issue with reposting the text without Media File.
 		Messenger => Message to new followers => Userfilters => user has a profile image => Fixed issue with Logger is showing no more data.
 
-	Linkedin:
+	LinkedIn:
 		Campaign => Fixed issue with automatically start all the campaigns.
 		Engage => Share post => Fixed issue with Share Post is not working for multiple accounts by a single campaign.
 		Engage => Share Post => Query Type => Company page URL => Fixed issue with not able to share company URL post.
@@ -999,7 +1003,7 @@ Fixed:-
 		Poster==>Delete ==> undo ReTweets==>Fixed issue with Logger showing no more data.
 		Poster==>Delete==>Delete comments==>Delete random comments==>Fixed issue with logger is showing failed to delete comment.
 
-	Linkedin:
+	LinkedIn:
 		Messenger==>Broadcast Message==>Query Type==>By software/Outside Software==>Fixed issue with faield to send broadcast message.
 		Scraper==>user scraper==>joined Group URL==> Fixed issue with failed to User Scraper.
 		Scraper==>user scraper(Keyword)==>Fixed issue with failed to user scraper.
@@ -1041,7 +1045,7 @@ Fixed:-
 		Broadcast Message ==> Send greetings to friends ==> tag option not working.
 		fixed Hanging issue on running campaigns using BrowserAutomation
 
-	Linkedin:
+	LinkedIn:
 		Grow Connection ==> Connection ==> Fixed issue with showing different search result.
 		Sales Navigator Scraper ==> Fixed issue with Pagination.
 
@@ -1102,7 +1106,7 @@ New Features:-
 		Like ==> Like user's recent post.
 		Reposter ==> Tag Users ==> Now we can tag number of users as per given count.
 		
-	Linkedin:
+	LinkedIn:
 		Account activity =>  Added feature to delete repoprts.
 		Messenger => Broadcast Messages  => Added feature to skip users already received message from software.
 		Engage => Add feature to like,comment and share  post per user.
@@ -1118,12 +1122,12 @@ Fixed:-
 	Reddit:
 		Account Manager=>Fixed issue in account login
 		
-	Linkedin:
+	LinkedIn:
 		Engage => Fixed issue with like and share the company page.	
 		
 Version[1.0.0.63],[6th August 2019]
 New Features:-
-	Linkedin:
+	LinkedIn:
 		Broadcast Message ==> Added feature will show failed data report.
 		
 	Twitter:
@@ -1146,7 +1150,7 @@ Fixed:-
 	Facebook:
 		Broadcast Message ==> Other configurations => Fixed issue with selecting radio button.
 		
-	Linkedin:
+	LinkedIn:
 		Broadcast Message ==> Fixed issue with sending message to failed users.
 		
 	Twitter:
@@ -1177,7 +1181,7 @@ Fixed:-
 		Accounts ==> Fixed issue with login failed,proxy not working.
 		Follow ==> Unfollow ==> Reposter ==> Fixed issue with failed error message
 
-	Linkedin:
+	LinkedIn:
 		Grow Connection ==> Block User ==> Fixed issue with not blocking users
 		Grow Conenction ==> Connection request ==> salesnavigatorsearch url ==> Fixed issue with not sending conenction request
 
@@ -1219,7 +1223,7 @@ Fixed:-
 
 Version[1.0.0.60],[5th July 2019]
 New Features:-
-	Linkedin :
+	LinkedIn :
 		Profile Endorsement=>Endorsement criteria=>Conencted within x days and y hours
 		Connection => Export connection => Added checkbox to stop the campaign after complete the activit
 Fixed:- 
@@ -1290,7 +1294,7 @@ New Features:
 	Facebook :
 		Engage => Post comment => Add feature split comment by next line.
 	LinkedIn : 
-		Engage => Someone Post => Added feature to share Linkedin company post.
+		Engage => Someone Post => Added feature to share LinkedIn company post.
 	Pinterest :
 		Board => Add Multiple Board By .Csv file 
 	
@@ -1482,7 +1486,7 @@ Fixed:-
 	Facebook:-
 		Grow Groups => Group Joiner => Fixed Issue with graph search url.
 		Grow Friends => Send friend Request => Fixed issue with sending messgae again and agian after activity block.
-	Linkedin:-
+	LinkedIn:-
 		Sociopublisher => create destination => Fixed issue with not showing all groups of account
 		Grow connection =>connection request => sales search url => Report => Fixed issue with not showing proper data in excel file
 
@@ -1495,7 +1499,7 @@ Fixed:-
 	Publisher:-
 		Tumblr:-
 			 Social publisher => Fixed issue with publish in pages.
-		Linkedin:-
+		LinkedIn:-
 			Social publisher => Fixed issue with publishing in group.
 	Facebook:-
 		Broadcast message => Auto reply to Message => Fixed issue with sending diffrent spintax message.
@@ -1573,7 +1577,7 @@ Fixed:-
 		Reddit => Voter => Downvote comments => Fixed issue with downvote the comment.
 		Reddit => voter => upvote comments => Fixed issue with upvote the comment.
 		Reddit => sociopublisher => Fixed issue with posting on groups.
-	Linkedin:-
+	LinkedIn:-
 		Grow connection => Remove connection => Fixed issue with outside software.
 	Pinterest:-
 		Social => Delete Pin => Fixed issue with delete pin.
@@ -1599,7 +1603,7 @@ Version[1.0.0.45],[26th-March-19]
 Fixed:-
 	Social:-
 		Fixed issue with allow to open popup window in socinator facebook browser
-	Linkedin:-
+	LinkedIn:-
 		Engage => Like => Fixed issue with  Blacklist user.
 		Broadcast Message => Fixed issue with showing already sent message in the logger.
 	Twitter:-
@@ -1702,7 +1706,7 @@ Fixed:-
 		PinPoster => Delete => Delete Pins from Borad => Fixed issue with empty board.
 		PinPoster => Repin => Custom users => Fixed issue with failed to error board.
 		Board => Send Board Invitation => Fixed Issue with send board invitation.
-	Linkedin:-
+	LinkedIn:-
 		Grow Connection => Remove connection => Manage Blacklist =>  Fixed issue with add user to blacklist after remove the connection.
 		Salesnavigator Scraper => FIxed issue with scrape profile Using search URL.
 	Quora:-
@@ -1753,7 +1757,7 @@ Fixed:-
 	Twitter:-
 		Engage => Comment => Fixed issue with updating comment in commentlist
 		Querytype Modules => Fixed issue with no more data available
-	Linkedin:-
+	LinkedIn:-
 		Account Manager => Fixed issue with  updating all details of accounts
 		Accounts Activity => Connection Request=>Fixed issue with not expanding details of other activity
 		SalesnavigatorScraper => Fixed issue with showing no more data available
@@ -1797,7 +1801,7 @@ New Features:-
 	Twitter:-
 		Added save pagination feature in unfollower module
 Fixed:-
-	Linkedin:-
+	LinkedIn:-
 		Accounts Activity => Block user => Fixed issue of showing active status even after pausing.
 		Campaign => Block user => Fixed issue with showing export connection section after editing it.
 		Grow connection => connection request => profile url => Fixed issue with showing "email required to connect".
@@ -1848,7 +1852,7 @@ New Features:-
 		Account Activity => For all network added private whitelist users and private blacklist users
 	Pintrest:-
 		Account => Block account replace of set new password showing over account.
-	Linkedin:-
+	LinkedIn:-
 		Grow Connection => Export Connection => Other Configurations => Recent Connection => As soon as the new connection added it will export those connections.
 		Grow Connection => Connection Request => Search Query => Query Type => SalesNavigatorUserScraper campaign => It will send request based on salesnavigator scraper campaign id.
 	Instagram:-
@@ -1863,7 +1867,7 @@ Fixed:-
 		Pin poster => Edit pin => Fixed issue with campaign in showing trying to login.
 		Growfollower => unfollower => Followed by software => Fixed issue with people followed by software. 
 		Account => Update all details => Fixed issue with Upadate all details.
-	Linkedin:-
+	LinkedIn:-
 		Messenger => Send Greetings To Connections => Fixed issue with not sending greetings for job and work anniversary
 		Messenger => Auto Reply to new message => Fixed issue with not working "Add to message List" button
 		Grow Connection => Remove Connection => Fixed issue with not removing connections
@@ -1900,7 +1904,7 @@ Fixed:-
 	Reddit:-
 		Fixed issue with reply to comments.
 		Fixed issue with upvote.
-	Linkedin:-
+	LinkedIn:-
 		Account Manager => Account Details => Fixed issue with showing "proxy not working" as status even after not adding proxy.
 		Grow connection => Withdraw connection request => Fixed issue with not withdrawing request and saying failed.
 		Scraper => User Scraper => Fixed issue with not scraping the details of 1st connections.
@@ -1929,7 +1933,7 @@ Fixed:-
 		Grow Followers => Follower => Fixed issue with following users when select option skip followers.
 		Instachat => Fixed issue with showing no more data found after complete the 1st job or reached per hour limit.
 		Account Activity => Send Message To New Followers => Fixed issue with showing report.
-	Linkedin:-
+	LinkedIn:-
 		Grow Connection => Connection Request => Fixed issue with add personal note.
 		Engage => Share Post => Fixed issue with share post.
 	Facebook:-
@@ -1957,10 +1961,10 @@ Fixed:-
 	Youtube:-
 		Subcriber => unsubcribe  => Custom Channels List => Fixed issue with Custom channel list.
 		Account => Embedded Browser => Fixed issue with auto scrolling.
-	Linkedin:-
-		Grow Connection => Connection Request => Fixed issue with showing different result in software as compared to  linkedin by using search url.
+	LinkedIn:-
+		Grow Connection => Connection Request => Fixed issue with showing different result in software as compared to  LinkedIn by using search url.
 		Grow Connection => Export connection => Fixed issue with  getting stuck while exporting connections.
-		Grow Connection => Export connection => Source Filter => Fixed issue with showing different result in software as compared to linkedin.
+		Grow Connection => Export connection => Source Filter => Fixed issue with showing different result in software as compared to LinkedIn.
 	Instagram:-
 		Account activity => Unfollow => Report => Fixed  issue with delete report.
 		Grow Followers => Unfollow => Fxed issue with unfollow those are followed outside software.
@@ -1975,10 +1979,10 @@ New Features:-
 		Accounts => Accounts manager => Auto verify Retype mail accounts.
 	Youtube:-
 		Accounts => Accounts manager=> Auto verify Retype mail accounts.
-	Linkedin:-
+	LinkedIn:-
 		Salesnavigator Scraper => viewing profile.
 Fixed:-
-	Linkedin:- 
+	LinkedIn:- 
 		Grow Connection => Connectiopn request => Profile URL => Fixed issue with showing email required .
 		Grow Connection => Connectiopn request => Email => Fixed issue with send connection request.
 		Accounts => Account Manager => Fixed issue with updating groups.
@@ -2070,7 +2074,7 @@ Fixed:-
 		Grow follower => follow => keywords => Fixed issue with keyword query type. 
 	Gplus:-
 		Account activity => follow => Fixed issue with  showing blank report.
-	Linkedin :-
+	LinkedIn :-
 		Grow connection => Export Connection => Fixed issue to export connection  with source filter.
 		Grow connection => Export Connection => Fixed issue with to save email and phone number as custom html filename Format.
 	Quora:-
@@ -2131,7 +2135,7 @@ Fixed:-
 		Pinposter => Edit Pin => Fixed issue with activity stauts in edit pin. 
 		Board => Create board => Fixed issue with board description in report.
 		Grow follower => keyword => Fixed issue with jobwise of keywords.
-	Linkedin:-
+	LinkedIn:-
 		Grow Connection => Connection Request => Search URL => Fixed issue with showing exact result as shown in the browser.
 		Grow Connection => Export Connection => By software/Outside software => Fixed issue with showing no more data .
 
@@ -2140,7 +2144,7 @@ New Features:-
 	Instagram:-
 		Instaliker/Instacommenter => Like Comment => Like comment X to Y post of each user.
 		Instaliker/Instacommenter => Like Comment => Like X to Y comment of each post.
-	Linkedin:-
+	LinkedIn:-
 		Grow connection => Fixed issue with showing different search url result in software and browser.
 		Grow connection => Export connection => Fixed issue with export connection
 		Grow Connection => Fixed issue with saving contact info as a html file.
@@ -2166,7 +2170,7 @@ Fixed:-
 		Instachat => Broadcast Message =>  Fixed issue with skip users who already received message.
 		Instachat => Broadcast Message =>  Fixed issue with edit campaign.
 		Instascrape => Post Scraper =>  Fixed issue with delay between each operation.
-	Linkedin:-
+	LinkedIn:-
 		Salesnavigator Scraper => User Scraper => Fixed issue with scraping data from search URL.
 	Pintrest:-
 		Account => Fixed issue with account blocks.
@@ -2176,7 +2180,7 @@ Fixed:-
 
 Version[1.0.0.25],[15th-December-18]
 Fixed:-
-	Linkedin:-
+	LinkedIn:-
 		Fixed issue with Account login.
 
 Version[1.0.0.24],[14th-December-18]
@@ -2209,7 +2213,7 @@ Fixed:-
 		Engage => comment liker => Fixed issue with comment like.
 		Engage => post like => Fixed issue with while ediit own page is visible.
 		Account => Account manager => Fixed issue with account update.
-	Linkedin:-
+	LinkedIn:-
 		Account => Account manager => Fixed issue with disappear connections and group counts after restart the software.
 		Message => Fixed issue with showing query list after edit the camapign.
 	Twitter:-
@@ -2257,7 +2261,7 @@ New Features:-
 			Broadcast Messages => Broadcast message => Added feature to Send Greetings your Friends.
 			Search Query => Added option keyword in Post liker and Post scraper.
 			Search query => Added one query of user follower.
-		Linkedin:-
+		LinkedIn:-
 			Grow connection => Accept connection rquest => Added feature to ignore incoming connection request.
 			Grow connection => Export connection => added feature to save account email as a file name.
 			User Filter => Added must have specific word.
@@ -2281,7 +2285,7 @@ Fixed:-
 		Profile Scraper => Group member Scraper => Fixed issue with group member scraper.
 		Fb inviter => Page inviter => Fixed issue with invite people who liked your own page post.
 		Scraper => Comment Scraper => Fixed issue with not scraping the whole comment of the post.
-	Linkedin:-
+	LinkedIn:-
 		Salesnavigator Scraper => Fixed issue with salesnavigator scraper
 		Broadcast message => Fixed issue with to show query in broadcast message.
 		Broadcast message => Fixed issue with to show query in broadcast message.
@@ -2331,7 +2335,7 @@ New Features:-
 		Engage => Reply To Comments => Added feature to mention friends on each comment.
 		FB Inviter => Added feature to invite friends for WatchParty.
 		FB Inviter => Group Inviter => Added feature to invite custom friend list.
-	Linkedin:-
+	LinkedIn:-
 		Engage => Added submodule share someone or connection's post.
 		Grow Connection => Export Connection => Added feature to save connections in PDF format.
 Fixed:-
@@ -2350,7 +2354,7 @@ Fixed:-
 		Broadcast Message => Fixed issue with sending message to fanpage likers.
 		Scraper => Profile Scraper => Fixed issue with scraping group members with genger as both male and female in the filter condition.
 		Scraper => Profile Scraper => Fixed issue with scraping users through graph search urls.
-	Linkedin:-
+	LinkedIn:-
 		Account => Fixed issue with embeded browser.
 		Salesnavigator Scraper => Company Scraper => Fixed issue with not scraping company data.
 	Pinterest:-
@@ -2412,7 +2416,7 @@ Fixed:-
 	Social:-
 		Accounts Manager => Import Multiple Accounts => Fixed Issue with Importing Multiple Accounts.
 	SocioPublisher:-
-		Linkedin => Fixed issue with => Post on group => It was not posting.
+		LinkedIn => Fixed issue with => Post on group => It was not posting.
 		Facebook => Sociopublisher => Fixed issue with rss feed.
 		Facebook => Sociopublisher => Fixed issue with sharing on friend's timeline.
 		Facebook => Sociopublisher =>Fixed issue with showing details after publishing a post.
@@ -2424,7 +2428,7 @@ Fixed:-
 	Facebook:-
 		Engage =>Fanpage liker => Fixed issue to like fanpages with filter condition which contains likers between X and Y.
 		Grow Group => Group UnJoiner => Fixed issue with unjoining groups followed outside the software.
-	Linkedin:-
+	LinkedIn:-
 		Fixed issue with => connection request => Profile Url => It was not proceeding after sending one request.
 		Fixed issue with => connection request => search url => Software was not showing the actual result as same as the browser result.
 		Fixed issue with => Export connection => cutsom url => No more data available issue.
@@ -2443,7 +2447,7 @@ New Features:-
 		Engage => Event Inviter => Added feature to invite people to events.
 Fixed:-
 	SocioPublisher:-
-		Linkedin => Fixed issue with fetching groups.
+		LinkedIn => Fixed issue with fetching groups.
 		Pinterest => Fixed issue with showing the source url after editing the campaign.
 		Instagram => Account Activity => FIxed issue with closing the software while deleting the report of the campaign.
 		Instagram => Sociopublisher => Fixed issue with duplicating of the same data while loading csv file in create multiple post.
@@ -2484,8 +2488,8 @@ New Features:-
 		Account => Account Manager => Auto-verify account only for gmail and Yahoo.
 		Instascrape => Userscraper => Now we have feature for scraping required data of user.
 		Like/Comment => Custom Photos => Now we can use post Url(s) for like and comment.
-	Linkedin:- 
-		Social => Other configruation => Linkedin => Send connection request to different users across all linkedin accounts.
+	LinkedIn:- 
+		Social => Other configruation => LinkedIn => Send connection request to different users across all LinkedIn accounts.
 		Export connection => Expand see more detail while save profile as a Html.
 	Facebook:-
 		Broadcast Messages => Manage Messages=> Added feature to send message with Friends Name & Own Name.
@@ -2500,7 +2504,7 @@ New Features:-
 Fixed:-
 	SocioPublisher:-
 		Fixed issue with creating random publishing time everyday.
-		Linkedin => create a single post => Fixed issue with video posting on wall.
+		LinkedIn => create a single post => Fixed issue with video posting on wall.
 		Pinterest => Socioppublisher => Post to boards => Fixed issue with posting to boards.
 	Instagram:-
 		Grow Follower => Follower => Fixed issue with Must have atleast one post with a caption containing specific words.
@@ -2518,7 +2522,7 @@ Fixed:-
 		Profile Scraper => Page Post Liker => Fixed Issue with scraping unique users from each account.
 		Send Friend Request => Unfriend => Fixed issue with unfriending people.
 		Send Friend Request => Withdraw Sent Request => Fixed issue with cancelling sent request.
-	Linkedin:- 
+	LinkedIn:- 
 		Fixed issue with sending blank message.
 		Fixed issue with => Grow Connection => Export Connection => while exporting,it was going to home page.
 		Fixed issue with => Grow Connection => Export Connection => Not expanding show more details of the profiles while exporting.
@@ -2544,7 +2548,7 @@ Version[1.0.0.17],[01st-October-18]
 New Features:-
 	Instagram:-
 	Delete post(s) those are reposted by software. 
-	Linkedin:- 
+	LinkedIn:- 
 	Skip users who already received message by checking previous conversation.
 Fixed:-
 	Instagram:- 
@@ -2743,7 +2747,7 @@ Fixed:-
 		Grow Connection => Connection request => Fixed issue with sending connection request using search url.
 		Fixed issue with to show confirmation message afer save the message , in all custom url list option.
 		Fixed issue with to uploading profile url in all custom url list.
-		Linkedin Socinator => Profile endoresement=> Connection source => Fixed issue with to stop endorse the profile skill after pause the campaign."
+		LinkedIn Socinator => Profile endoresement=> Connection source => Fixed issue with to stop endorse the profile skill after pause the campaign."
 		Messenger => Auto Reply to New Message =>Fixed issue with reply to all messages and reply to message that contains specific words
 		Message => Fixed isssue with send message to new connection .
 		Scraper => USer Scraper => Fixed issue with scrape profile data using search URL.
@@ -2769,7 +2773,7 @@ Instagram:-
 LinkedIn:-
 	Scraper => Added feature to scrape after visiting and scrape without visiting for scraping profile details.
 	SalesNavigator Scraper => Added feature to scrape after visiting and scrape without visiting for scraping profile details.
-	Linkedin socinator => Scraper => User scraper => Add feature to scrape Only 1st degree connection.
+	LinkedIn socinator => Scraper => User scraper => Add feature to scrape Only 1st degree connection.
 	Grow Connection => Connection request => Added feature to send request via Email Id.
 Twitter:-
 	Poster => Reposter => QueryType => specific users tweets
@@ -2856,7 +2860,7 @@ Fixed:-
 		Grow Friend => Send friend request => Fixed issue with Next Job Scheduled before process getting started
 		Grow groups => Group Joiner => Fixed issue with exporting data to excel sheets in random order. 
 		Broadcast Messages => Auto reply to messages => Fixed issue with auto reply to messages.
-	Linkedin:-
+	LinkedIn:-
 		Salesnavigator Scraper =>  Fixed issue with showing search URL result in the mid of running campaign in sales navigator scraper module.
 		Grow Connection => Connection Request => Fixed issue with sending connection request by search Url.
 	Twitter:-
@@ -2907,7 +2911,7 @@ Facebook:-
 	Broadcast Messages: Fixed issue with saving the message in auto reply message.
 	Profile Scrape - Group: Fixed issue with scraping the group members as per the given count.
 	Profile Scrape - Group Post Liker: Fixed issue with scraping the likers from loaded group posts.
-Linkedin:-
+LinkedIn:-
 	Minor bug fixed and improvements
 Twitter:-
 	Accounts=>Issue fixed with showing success status for invalid account in account manager section.
