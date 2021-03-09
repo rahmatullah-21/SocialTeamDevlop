@@ -393,6 +393,9 @@
     <Content Include="CefSharp.Wpf.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="main1.2.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="SocinatorIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

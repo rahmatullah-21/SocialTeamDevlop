@@ -438,7 +438,7 @@ namespace EmbeddedBrowser
             if (width <= 1280)
                 SearchUrlTextBoxWidth = 630;
             else if (width > 1280 && width < 1440)
-                SearchUrlTextBoxWidth = 750;
+                SearchUrlTextBoxWidth = 730;
         }
 
         public async Task BrowserSetCookie()
